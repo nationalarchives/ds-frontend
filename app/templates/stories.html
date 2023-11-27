@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ data['title'] }}</h1>
+      {{ data['intro'] | safe }}
+    </div>
+  </div>
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <article class="tna-card tna-!--margin-top-l tna-card--horizontal tna-card--accent">
+        <div class="tna-card__inner">
+          <hgroup class="tna-hgroup-l tna-card__heading">
+            <h3 class="tna-hgroup__title">
+              <!-- <span class="tna-hgroup__supertitle">Record revealed</span> -->
+              <a href="#" class="tna-card__heading-link">{{ data["featured_article"]["title"] }}</a>
+            </h3>
+          </hgroup>
+          <a href="#" class="tna-card__image-container" tabindex="-1">
+            <picture class="tna-card__image">
+              <img src="https://picsum.photos/800/600?1" alt="A placeholder image" width="800" height="600">
+            </picture>
+            <div class="tna-chip tna-card__image-label">
+              New
+            </div>
+          </a>
+          <div class="tna-card__body">
+            <p>????????????????</p>
+          </div>
+          <div class="tna-card__actions">
+            <a href="#" class="tna-card__action" role="button">
+              Read about ??????????????????
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">{{ data['featured_pages'][0]['value']['heading'] }}</h2>
+      <p>{{ data['featured_pages'][0]['value']['description'] }}</p>
+    </div>
+  </div>
+  <div class="tna-container">
+    {% for page in featured_pages %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      <article class="tna-card tna-!--margin-top-l">
+        <div class="tna-card__inner">
+          <hgroup class="tna-hgroup-s tna-card__heading">
+            <h3 class="tna-hgroup__title">
+              <span class="tna-hgroup__supertitle tna-hgroup__supertitle--plain">{{ page['supertitle'] }}</span>
+              <a href="{{ page['url'] }}" class="tna-card__heading-link">{{ page['title'] }}</a>
+            </h3>
+          </hgroup>
+          <a href="{{ page['url'] }}" class="tna-card__image-container" tabindex="-1">
+            <picture class="tna-card__image">
+              <img src="https://picsum.photos/640/360?0" alt="A placeholder image" width="640" height="360">
+            </picture>
+          </a>
+          <div class="tna-card__body">
+            <p>{{ page['intro'] }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1>TODO TODO TODO TODO TODO</h1>
+    </div>
+  </div>
+  <div class="tna-container">
+    {% for child in children %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      <article class="tna-card tna-!--margin-top-l">
+        <div class="tna-card__inner">
+          <h3 class=" tna-heading-s tna-card__heading">
+            <p>{{ child['supertitle'] }}</p>
+            <a href="{{ child['url'] }}" class="tna-card__heading-link">{{ child['title'] }}</a>
+          </h3>
+          <a href="{{ child['url'] }}" class="tna-card__image-container" tabindex="-1">
+            <picture class="tna-card__image">
+              <img src="https://picsum.photos/640/360?0" alt="A placeholder image" width="640" height="360">
+            </picture>
+          </a>
+          <div class="tna-card__body">
+            <p>{{ child['intro'] }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

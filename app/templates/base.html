@@ -1,0 +1,82 @@
+{% from "components/footer.html" import tnaFooter -%}
+{% from "components/header.html" import tnaHeader -%}
+<!doctype html>
+<html lang="en-GB" class="tna-template tna-template--light-theme tna-template--yellow-accent">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Example app</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+      <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+      <link rel="preconnect" href="https://use.typekit.net">
+      <link rel="stylesheet" href="https://use.typekit.net/hkj3kuz.css">
+      <link href="https://cdn.jsdelivr.net/npm/@nationalarchives/frontend@0.1.25-prerelease/nationalarchives/all.css" rel="stylesheet" integrity="sha384-gdYgQYeruZ9U32SBS+VbzCwxhsePXFeFHxVdlccZcehaOKDr15RGsTPTeS6TqWSz" crossorigin="anonymous">
+  </head>
+  <body class="tna-template__body">
+    {% block bodyStart %}
+      {% block cookies %}{% endblock %}
+      {% block skipLink %}{% endblock %}
+    {% endblock %}
+
+    {% block header %}
+      {%- set navigationItems = [] -%}
+      {%- for navigationItem in [
+        {
+          'text': "Explore the collection",
+          'href': "/explore-the-collection"
+        }
+      ] -%}
+        {{ navigationItems.append({
+          'text': navigationItem.text,
+          'href': navigationItem.href,
+          'selected': request.path.startswith(navigationItem.href)
+        }) or "" }}
+      {%- endfor -%}
+      {{ tnaHeader({
+        'logo': {
+          'href': '/'
+        },
+        'navigation': navigationItems,
+        'accent': True
+      }) }}
+    {% endblock %}
+
+    {% block main %}
+      {% block beforeContent %}
+        {% if breadcrumbs and breadcrumbs | length > 0 %}
+        <div class="tna-container">
+          <div class="tna-column tna-column--full">
+            <nav class="tna-breadcrumbs " data-module="tna-breadcrumbs" aria-label="Breadcrumb">
+              <ol class="tna-breadcrumbs__list">
+                {% for item in breadcrumbs %}
+                <li class="tna-breadcrumbs__item">
+                  <a href="{{ item.url }}" class="tna-breadcrumbs__link">
+                    {{ item.title }}
+                  </a>
+                </li>
+                {% endfor %}
+              </ol>
+            </nav>
+          </div>
+        </div>
+        {% endif %}
+      {% endblock %}
+      <main class="tna-main-wrapper {{ mainClasses }}" id="main-content" role="main">
+        {% block content %}{% endblock %}
+      </main>
+      {% block afterContent %}{% endblock %}
+    {% endblock %}
+
+    {% block footer %}
+      {{ tnaFooter({}) }}
+    {% endblock %}
+
+    {% block bodyEnd %}
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@nationalarchives/frontend@0.1.25-prerelease/nationalarchives/all.js" integrity="sha384-EzjnJVygD9aLi7mkmysKfXApThCmiED1q5yN/ieQZZZMcLwPUuwwvd+nqZqaV0cW" crossorigin="anonymous"></script>
+    <script>
+      TNAFrontend.initAll()
+    </script>
+    {% endblock %}
+  </body>
+</html>

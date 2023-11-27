@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ data['title'] }}</h1>
+      {{ data['intro'] | safe }}
+    </div>
+  </div>
+  <nav class="tna-index-grid " aria-label="{{ data['title'] }}">
+    <ul class="tna-index-grid__items tna-container">
+      {% for large_card in large_cards %}
+      <li class="tna-index-grid__item-wrapper tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
+        <a href="{{ large_card['meta']['html_url'] }}" class="tna-index-grid__item" title="{{ large_card['title'] }}">
+          <img src="http://localhost:8000{{ large_card['teaser_image_thumbnail']['url'] }}" class="tna-index-grid__item-image" width="{{ large_card['teaser_image_thumbnail']['width'] }}" height="{{ large_card['teaser_image_thumbnail']['height'] }}" alt="{{ large_card['teaser_image_thumbnail']['alt'] }}" />
+          <span class="tna-index-grid__item-content">
+            <span class="tna-index-grid__item-title">{{ large_card['title'] }}</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</section>
+<section class="tna-section">
+  <div class="tna-container tna-container--centred tna-!--margin-top-l">
+    <div class="tna-column">
+      <a href="/explore-the-collection/stories/" class="tna-button " role="button">Browse all stories</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

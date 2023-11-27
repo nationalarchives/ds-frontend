@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  app:
+    container_name: example-flask-application
+    build: .
+    environment:
+      - ENVIRONMENT=develop
+      - SECRET_KEY=abc123
+      - NPM_DEVELOP_COMMAND=dev
+    ports:
+      - 65535:8080
+    volumes:
+      - ./:/app
+  dev:
+    container_name: example-dev
+    image: ghcr.io/nationalarchives/tna-python-dev:development-container
+    volumes:
+      - ./:/app

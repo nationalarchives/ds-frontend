@@ -1,0 +1,6 @@
+.DS_Store
+/node_modules
+/app/static/*.css
+/app/static/*.css.map
+/app/static/*.js
+/app/static/*.js.map

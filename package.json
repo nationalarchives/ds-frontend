@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "build:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles/app.scss app/static/app.css",
+    "build:js": "webpack",
+    "build": "npm run build:css && npm run build:js",
+    "dev:css": "sass --load-path=node_modules --watch src/styles/app.scss app/static/app.css",
+    "dev:js": "webpack --config webpack.config.js --mode=development --watch",
+    "dev": "npm run dev:css & npm run dev:js &",
+    "lint": "prettier --check '{src/**/*.{js,scss,json},*.{js,json}}' && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'",
+    "lint:fix": "prettier --write '{src/**/*.{js,scss,json},*.{js,json}}' && stylelint --fix 'src/styles/**/*.scss' && eslint --fix 'src/scripts/**/*.js'"
+  },
+  "dependencies": {
+    "@nationalarchives/frontend": "^0.1.18-prerelease"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.11",
+    "@babel/preset-env": "^7.22.10",
+    "babel-loader": "^9.1.3",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
+    "sass": "^1.66.1",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-selector-bem-pattern": "^3.0.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

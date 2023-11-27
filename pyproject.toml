@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "ds-example-flask-application"
+version = "0.1.0"
+description = ""
+authors = ["Andrew Hosgood <andrew.hosgood@nationalarchives.gov.uk>"]
+readme = "README.md"
+packages = [{include = "app"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^2.3.2"
+black = "23.7.0"
+flake8 = "6.1.0"
+isort = "5.12.0"
+gunicorn = "21.2.0"
+markdown = "^3.4.4"
+requests = "^2.31.0"
+flask-caching = "^2.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 80
+include = '\.pyi?$'
