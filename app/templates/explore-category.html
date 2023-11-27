@@ -18,7 +18,7 @@
           </h3>
           <a href="{{ child['url'] }}" class="tna-card__image-container" tabindex="-1">
             <picture class="tna-card__image">
-              <img src="https://picsum.photos/640/360?0" alt="A placeholder image" width="640" height="360">
+              <img src="{{ child['image']['teaser_image_jpg']['full_url'] }}" alt="{{ child['image']['teaser_image_jpg']['alt'] }}" width="{{ child['image']['teaser_image_jpg']['width'] }}" height="{{ child['image']['teaser_image_jpg']['height'] }}">
             </picture>
           </a>
           <div class="tna-card__body">

@@ -13,7 +13,7 @@
       {% for large_card in large_cards %}
       <li class="tna-index-grid__item-wrapper tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
         <a href="{{ large_card['meta']['html_url'] }}" class="tna-index-grid__item" title="{{ large_card['title'] }}">
-          <img src="http://localhost:8000{{ large_card['teaser_image_thumbnail']['url'] }}" class="tna-index-grid__item-image" width="{{ large_card['teaser_image_thumbnail']['width'] }}" height="{{ large_card['teaser_image_thumbnail']['height'] }}" alt="{{ large_card['teaser_image_thumbnail']['alt'] }}" />
+          <img src="http://localhost:8000{{ large_card['teaser_image_jpg']['url'] }}" class="tna-index-grid__item-image" width="{{ large_card['teaser_image_jpg']['width'] }}" height="{{ large_card['teaser_image_jpg']['height'] }}" alt="{{ large_card['teaser_image_jpg']['alt'] }}" />
           <span class="tna-index-grid__item-content">
             <span class="tna-index-grid__item-title">{{ large_card['title'] }}</span>
           </span>

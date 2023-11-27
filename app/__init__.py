@@ -1,3 +1,4 @@
+import requests
 from config import Config
 from flask import Flask
 
@@ -25,8 +26,20 @@ def create_app(config_class=Config):
             .replace("<blockquote>", '<blockquote class="tna-blockquote">')
         )
 
+    @app.context_processor
+    def cms_processor():
+        def get_wagtail_image(image_id):
+            image_data = requests.get(
+                "http://host.docker.internal:8000/api/v2/images/%d/" % image_id
+            ).json()
+            return image_data
+
+        return dict(get_wagtail_image=get_wagtail_image)
+
     from app.site import bp as site_bp
+    from app.explore import bp as explore_bp
 
     app.register_blueprint(site_bp)
+    app.register_blueprint(explore_bp)
 
     return app

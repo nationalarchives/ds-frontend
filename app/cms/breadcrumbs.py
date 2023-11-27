@@ -1,6 +1,5 @@
 import requests
 from app.site import bp
-from app.cms import breadcrumbs
 from flask import render_template, request
 
 
@@ -22,8 +21,3 @@ def breadcrumbs(page_id):
         if ancestors
         else []
     )
-
-
-@bp.route("/")
-def hello_world():
-    return render_template("welcome.html")

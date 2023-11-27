@@ -8,10 +8,57 @@
       {{ data['intro'] | safe }}
     </div>
   </div>
+  {% if 'hero_image_jpg' in data %}
+  <div class="tna-hero">
+    <figure class="tna-hero__figure">
+      <figcaption class="tna-hero__caption">
+        <details class="tna-hero__details">
+          <summary class="tna-hero__details-summary">
+            <span class="tna-hero__details-summary-icon">I</span>mage caption
+          </summary>
+          <div class="tna-hero__information">
+            {{ data['hero_image_caption'] | safe }}
+          </div>
+        </details>
+      </figcaption>
+      <picture class="tna-hero__image">
+        <img class="tna-picture__image" width="{{ data['hero_image_jpg']['width'] }}" height="{{ data['hero_image_jpg']['height'] }}" src="{{ data['hero_image_jpg']['full_url'] }}" alt="">
+      </picture>
+    </figure>
+  </div>
+  {% endif %}
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <p>ARTICLE</p>
-      {{ data }}
+      {% for body_item in data['body'] %}
+      <h2 class="tna-heading-l">{{ body_item['value']['heading'] }}</h2>
+      {% for content_item in body_item['value']['content'] %}
+      {% if content_item['type'] == 'paragraph' %}
+      {{ content_item['value']['text'] | safe }}
+      {% elif content_item['type'] == 'image' %}
+      <figure class="tna-picture " data-module="tna-picture">
+        <div class="tna-picture__image-wrapper">
+          <picture>
+            {% with image=get_wagtail_image(content_item['value']['image']) %}
+            <img class="tna-picture__image" width="{{ image['width'] }}" height="{{ image['height'] }}" src="http://localhost:8000{{ image['meta']['download_url'] }}" alt="{{ content_item['value']['alt_text'] | safe }}">
+            {% endwith %}
+          </picture>
+        </div>
+        <figcaption class="tna-picture__caption">
+          {{ content_item['value']['caption'] | safe }}
+        </figcaption>
+      </figure>
+      {% elif content_item['type'] == 'quote' %}
+      <blockquote class="tna-blockquote">
+        <div class="tna-blockquote__quote">
+          {{ content_item['value']['quote'] | safe }}
+        </div>
+        <p class="tna-blockquote__author">{{ content_item['value']['attribution'] }}</p>
+      </blockquote>
+      {% elif content_item['type'] == 'promoted_list' %}
+      <p>TODO: Promoted list</p>
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
     </div>
   </div>
 </section>
