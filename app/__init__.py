@@ -35,16 +35,12 @@ def create_app(config_class=Config):
 
         return dict(get_wagtail_image=get_wagtail_image)
 
+    from .cms import bp as cms_bp
+    from .explore import bp as explore_bp
     from .main import bp as site_bp
 
     app.register_blueprint(site_bp)
-
-    from .explore import bp as explore_bp
-
     app.register_blueprint(explore_bp, url_prefix="/explore-the-collection")
-
-    from .cms import bp as cms_bp
-
     app.register_blueprint(cms_bp)
 
     return app

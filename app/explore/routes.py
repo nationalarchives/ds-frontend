@@ -1,9 +1,10 @@
 import requests
 from app.cms import breadcrumbs
 from app.explore import bp
-from app.explore.render import render_explore_page
 from app.lib import cache
 from flask import render_template
+
+from .render import render_explore_page
 
 
 @bp.route("/")

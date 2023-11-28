@@ -1,7 +1,6 @@
 import requests
 from app.explore import bp
 from app.explore.render import render_explore_page
-from app.lib import cache
 from flask import request
 
 
