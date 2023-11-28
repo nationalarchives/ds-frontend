@@ -1,5 +1,3 @@
-import time
-
 import requests
 from app.cms import breadcrumbs
 from app.explore import bp
@@ -34,7 +32,6 @@ def explore():
 @bp.route("/<path:path>/")
 @cache.cached()
 def explore_page(path):
-    time.sleep(5)
     page_data = requests.get(
         "http://host.docker.internal:8000/api/v2/pages/find/?html_path=/explore-the-collection/%s/"
         % path
