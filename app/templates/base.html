@@ -6,11 +6,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Example app</title>
-      <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
       <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
       <link rel="preconnect" href="https://use.typekit.net">
       <link rel="stylesheet" href="https://use.typekit.net/hkj3kuz.css">
-      <link href="https://cdn.jsdelivr.net/npm/@nationalarchives/frontend@0.1.25-prerelease/nationalarchives/all.css" rel="stylesheet" integrity="sha384-gdYgQYeruZ9U32SBS+VbzCwxhsePXFeFHxVdlccZcehaOKDr15RGsTPTeS6TqWSz" crossorigin="anonymous">
+      <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
   </head>
   <body class="tna-template__body">
     {% block bodyStart %}
@@ -73,7 +72,6 @@
 
     {% block bodyEnd %}
     <script src="{{ url_for('static', filename='app.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@nationalarchives/frontend@0.1.25-prerelease/nationalarchives/all.js" integrity="sha384-EzjnJVygD9aLi7mkmysKfXApThCmiED1q5yN/ieQZZZMcLwPUuwwvd+nqZqaV0cW" crossorigin="anonymous"></script>
     <script>
       TNAFrontend.initAll()
     </script>

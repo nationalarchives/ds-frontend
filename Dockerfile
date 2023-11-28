@@ -12,4 +12,4 @@ RUN tna-build
 RUN rm -fR /app/src
 
 # Run the application
-CMD ["tna-run", "my-app:app"]
+CMD ["tna-run", "etna:app"]

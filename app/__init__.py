@@ -1,8 +1,7 @@
 import requests
+from app.lib import cache
 from config import Config
 from flask import Flask
-
-# from flask_caching import Cache
 from markdown import markdown
 
 
@@ -11,7 +10,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
-    # cache = Cache(app)
+    cache.init_app(app)
 
     @app.template_filter()
     def md(md):
@@ -36,10 +35,16 @@ def create_app(config_class=Config):
 
         return dict(get_wagtail_image=get_wagtail_image)
 
-    from app.site import bp as site_bp
-    from app.explore import bp as explore_bp
+    from .main import bp as site_bp
 
     app.register_blueprint(site_bp)
-    app.register_blueprint(explore_bp)
+
+    from .explore import bp as explore_bp
+
+    app.register_blueprint(explore_bp, url_prefix="/explore-the-collection")
+
+    from .cms import bp as cms_bp
+
+    app.register_blueprint(cms_bp)
 
     return app

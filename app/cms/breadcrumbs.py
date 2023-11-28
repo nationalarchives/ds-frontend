@@ -1,6 +1,4 @@
 import requests
-from app.site import bp
-from flask import render_template, request
 
 
 def breadcrumbs(page_id):

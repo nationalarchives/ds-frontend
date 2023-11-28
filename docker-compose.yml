@@ -2,18 +2,20 @@ version: '3'
 
 services:
   app:
-    container_name: example-flask-application
+    container_name: etna-frontend
     build: .
     environment:
       - ENVIRONMENT=develop
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
+      - CACHE_DEFAULT_TIMEOUT=1
     ports:
       - 65535:8080
     volumes:
       - ./:/app
+  
   dev:
-    container_name: example-dev
+    container_name: etna-frontend-dev
     image: ghcr.io/nationalarchives/tna-python-dev:development-container
     volumes:
       - ./:/app
