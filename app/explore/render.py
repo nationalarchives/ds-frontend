@@ -2,12 +2,18 @@ import math
 
 import requests
 from app.cms import breadcrumbs
-from app.lib import page_children, pagination_list, teaser_image
-from flask import render_template, request
+from app.lib import (
+    page_children,
+    page_children_paginated,
+    page_details,
+    pagination_list,
+)
+from flask import current_app, render_template, request
 
 
 def render_explore_page(page_data):
     page_type = page_data["meta"]["type"]
+    current_app.logger.debug("Page type %s requested" % page_type)
     if page_type == "articles.ArticleIndexPage":
         return article_index_page(page_data)
     if page_type == "articles.ArticlePage":
@@ -24,23 +30,32 @@ def render_explore_page(page_data):
         return categories_page(page_data)
     if page_type == "articles.RecordArticlePage":
         return record_article_page(page_data)
+    if page_type == "articles.FocusedArticlePage":
+        return focused_article_page(page_data)
+    if page_type == "collections.HighlightGalleryPage":
+        return highlight_gallery_page(page_data)
+    current_app.logger.error("Template for %s not handled" % page_type)
     return render_template("errors/page-not-found.html"), 404
 
 
 def category_index_page(page_data):
     try:
         children_data = page_children(page_data["id"])
-        children = [
-            {
-                "id": child["id"],
-                "title": child["title"],
-                "url": child["meta"]["html_url"],
-                "image": teaser_image(child["id"]),
-            }
-            for child in children_data["items"]
+        all_children = [
+            page_details(child["id"]) for child in children_data["items"]
         ]
     except ConnectionError:
         return render_template("errors/api.html"), 502
+    children = [
+        {
+            "id": child["id"],
+            "title": child["title"],
+            "url": child["meta"]["html_url"],
+            "teaser": child["teaser_text"],
+            "image": child["teaser_image_jpg"],
+        }
+        for child in all_children
+    ]
     return render_template(
         "explore-category-index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
@@ -52,17 +67,21 @@ def category_index_page(page_data):
 def categories_page(page_data):
     try:
         children_data = page_children(page_data["id"])
-        children = [
-            {
-                "id": child["id"],
-                "title": child["title"],
-                "url": child["meta"]["html_url"],
-                "image": teaser_image(child["id"]),
-            }
-            for child in children_data["items"]
+        all_children = [
+            page_details(child["id"]) for child in children_data["items"]
         ]
     except ConnectionError:
         return render_template("errors/api.html"), 502
+    children = [
+        {
+            "id": child["id"],
+            "title": child["title"],
+            "url": child["meta"]["html_url"],
+            "teaser": child["teaser_text"],
+            "image": child["teaser_image_jpg"],
+        }
+        for child in all_children
+    ]
     return render_template(
         "explore-category.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
@@ -74,21 +93,30 @@ def categories_page(page_data):
 def article_index_page(page_data):
     children_per_page = 12
     page = int(request.args.get("page")) if "page" in request.args else 1
-    children_data = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/?child_of=%d&offset=%d&limit=%d"
-        % (page_data["id"], (page - 1) * children_per_page, children_per_page)
-    ).json()
+    try:
+        children_data = page_children_paginated(
+            page_data["id"], page, children_per_page
+        )
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
     max_pages = math.ceil(
         children_data["meta"]["total_count"] / children_per_page
     )
     if page > max_pages:
         return render_template("errors/page-not-found.html"), 404
-    all_children = [
-        requests.get(
-            "http://host.docker.internal:8000/api/v2/pages/%d/" % child["id"]
-        ).json()
-        for child in children_data["items"]
-    ]
+    try:
+        all_children = [
+            page_details(child["id"]) for child in children_data["items"]
+        ]
+        featured_article = page_details(page_data["featured_article"]["id"])
+        all_featured_pages = [
+            page_details(featured_page_id)
+            for featured_page_id in page_data["featured_pages"][0]["value"][
+                "items"
+            ]
+        ]
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
     children = [
         {
             "id": child["id"],
@@ -101,25 +129,6 @@ def article_index_page(page_data):
             "image": child["teaser_image_jpg"],
         }
         for child in all_children
-    ]
-    featured_article = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/%d/"
-        % page_data["featured_article"]["id"]
-    ).json()
-    featured_pages_data = [
-        (
-            requests.get(
-                "http://host.docker.internal:8000/api/v2/pages/%d/"
-                % featured_page_id
-            ).json()
-        )
-        for featured_page_id in page_data["featured_pages"][0]["value"]["items"]
-    ]
-    all_featured_pages = [
-        requests.get(
-            "http://host.docker.internal:8000/api/v2/pages/%d/" % page["id"]
-        ).json()
-        for page in featured_pages_data
     ]
     featured_pages = [
         {
@@ -158,6 +167,22 @@ def article_page(page_data):
 def record_article_page(page_data):
     return render_template(
         "record-article.html",
+        breadcrumbs=breadcrumbs(page_data["id"]),
+        data=page_data,
+    )
+
+
+def focused_article_page(page_data):
+    return render_template(
+        "focused-article.html",
+        breadcrumbs=breadcrumbs(page_data["id"]),
+        data=page_data,
+    )
+
+
+def highlight_gallery_page(page_data):
+    return render_template(
+        "highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
     )

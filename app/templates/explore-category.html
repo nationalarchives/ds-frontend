@@ -16,12 +16,12 @@
       {{ tnaCard({
         'title': child['title'],
         'headingLevel': 3,
-        'body': child['intro'],
+        'body': child['teaser'],
         'href': child['url'],
-        'imageSrc': child['image']['teaser_image_jpg']['full_url'],
-        'imageAlt': child['image']['teaser_image_jpg']['alt'],
-        'imageWidth': child['image']['teaser_image_jpg']['width'],
-        'imageHeight': child['image']['teaser_image_jpg']['height'],
+        'imageSrc': child['image']['full_url'],
+        'imageAlt': child['image']['alt'],
+        'imageWidth': child['image']['width'],
+        'imageHeight': child['image']['height'],
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}

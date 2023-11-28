@@ -1,5 +1,4 @@
-import requests
-from app.lib import cache
+from app.lib import cache, image_details
 from config import Config
 from flask import Flask
 from markdown import markdown
@@ -28,9 +27,7 @@ def create_app(config_class=Config):
     @app.context_processor
     def cms_processor():
         def get_wagtail_image(image_id):
-            image_data = requests.get(
-                "http://host.docker.internal:8000/api/v2/images/%d/" % image_id
-            ).json()
+            image_data = image_details(image_id)
             return image_data
 
         return dict(get_wagtail_image=get_wagtail_image)

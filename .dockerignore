@@ -9,4 +9,3 @@ node_modules
 .flake8
 .gitignore
 .stylelintrc
-docker-compose.yml

@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% from "common/article-blocks.html" import articleBlocks %}
-
 {% block content %}
 <section class="tna-section">
   <div class="tna-container">
@@ -31,9 +29,7 @@
   {% endif %}
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      {{ articleBlocks({
-        'blocks': data['body']
-      }, get_wagtail_image) }}
+      <p>TODO</p>
     </div>
   </div>
 </section>

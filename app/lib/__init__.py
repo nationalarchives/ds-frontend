@@ -1,8 +1,9 @@
 from .cache import cache
 from .pagination_list import pagination_list
 from .wagtail import (
+    image_details,
     page_children,
-    page_deatils,
-    page_deatils_by_uri,
-    teaser_image,
+    page_children_paginated,
+    page_details,
+    page_details_by_uri,
 )

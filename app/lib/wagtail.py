@@ -17,12 +17,12 @@ def wagtail_request_handler(uri):
     raise ConnectionError("Request to API failed")
 
 
-def page_deatils(page_id):
+def page_details(page_id):
     uri = "pages/%d/" % page_id
     return wagtail_request_handler(uri)
 
 
-def page_deatils_by_uri(page_uri):
+def page_details_by_uri(page_uri):
     uri = "pages/find/?html_path=%s" % page_uri
     return wagtail_request_handler(uri)
 
@@ -32,6 +32,15 @@ def page_children(page_id):
     return wagtail_request_handler(uri)
 
 
-def teaser_image(page_id):
-    uri = "pages/%d/?fields=_,teaser_image_jpg" % page_id
+def page_children_paginated(page_id, page, children_per_page):
+    uri = "pages/?child_of=%d&offset=%d&limit=%d" % (
+        page_id,
+        (page - 1) * children_per_page,
+        children_per_page,
+    )
+    return wagtail_request_handler(uri)
+
+
+def image_details(image_id):
+    uri = "images/%d/" % image_id
     return wagtail_request_handler(uri)
