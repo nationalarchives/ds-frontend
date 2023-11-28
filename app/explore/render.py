@@ -2,7 +2,7 @@ import math
 
 import requests
 from app.cms import breadcrumbs
-from app.lib import pagination_list
+from app.lib import page_children, pagination_list, teaser_image
 from flask import render_template, request
 
 
@@ -24,26 +24,23 @@ def render_explore_page(page_data):
         return categories_page(page_data)
     if page_type == "articles.RecordArticlePage":
         return record_article_page(page_data)
-    return render_template("404.html"), 404
+    return render_template("errors/page-not-found.html"), 404
 
 
 def category_index_page(page_data):
-    children_data = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/?child_of=%d"
-        % page_data["id"]
-    ).json()
-    children = [
-        {
-            "id": child["id"],
-            "title": child["title"],
-            "url": child["meta"]["html_url"],
-            "image": requests.get(
-                "http://host.docker.internal:8000/api/v2/pages/%d/?fields=_,teaser_image_jpg"
-                % child["id"]
-            ).json(),
-        }
-        for child in children_data["items"]
-    ]
+    try:
+        children_data = page_children(page_data["id"])
+        children = [
+            {
+                "id": child["id"],
+                "title": child["title"],
+                "url": child["meta"]["html_url"],
+                "image": teaser_image(child["id"]),
+            }
+            for child in children_data["items"]
+        ]
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
     return render_template(
         "explore-category-index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
@@ -53,22 +50,19 @@ def category_index_page(page_data):
 
 
 def categories_page(page_data):
-    children_data = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/?child_of=%d"
-        % page_data["id"]
-    ).json()
-    children = [
-        {
-            "id": child["id"],
-            "title": child["title"],
-            "url": child["meta"]["html_url"],
-            "image": requests.get(
-                "http://host.docker.internal:8000/api/v2/pages/%d/?fields=_,teaser_image_jpg"
-                % child["id"]
-            ).json(),
-        }
-        for child in children_data["items"]
-    ]
+    try:
+        children_data = page_children(page_data["id"])
+        children = [
+            {
+                "id": child["id"],
+                "title": child["title"],
+                "url": child["meta"]["html_url"],
+                "image": teaser_image(child["id"]),
+            }
+            for child in children_data["items"]
+        ]
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
     return render_template(
         "explore-category.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
@@ -88,21 +82,25 @@ def article_index_page(page_data):
         children_data["meta"]["total_count"] / children_per_page
     )
     if page > max_pages:
-        return render_template("404.html"), 404
+        return render_template("errors/page-not-found.html"), 404
+    all_children = [
+        requests.get(
+            "http://host.docker.internal:8000/api/v2/pages/%d/" % child["id"]
+        ).json()
+        for child in children_data["items"]
+    ]
     children = [
         {
             "id": child["id"],
             "title": child["title"],
             "url": child["meta"]["html_url"],
+            "teaser": child["teaser_text"],
             "supertitle": child["verbose_name_public"]
             if "verbose_name_public" in child
             else "",
-            "image": requests.get(
-                "http://host.docker.internal:8000/api/v2/pages/%d/?fields=_,teaser_image_jpg"
-                % child["id"]
-            ).json(),
+            "image": child["teaser_image_jpg"],
         }
-        for child in children_data["items"]
+        for child in all_children
     ]
     featured_article = requests.get(
         "http://host.docker.internal:8000/api/v2/pages/%d/"
@@ -117,20 +115,24 @@ def article_index_page(page_data):
         )
         for featured_page_id in page_data["featured_pages"][0]["value"]["items"]
     ]
+    all_featured_pages = [
+        requests.get(
+            "http://host.docker.internal:8000/api/v2/pages/%d/" % page["id"]
+        ).json()
+        for page in featured_pages_data
+    ]
     featured_pages = [
         {
             "id": page["id"],
             "title": page["title"],
             "url": page["meta"]["html_url"],
+            "teaser": page["teaser_text"],
             "supertitle": page["verbose_name_public"]
             if "verbose_name_public" in page
             else "",
-            "image": requests.get(
-                "http://host.docker.internal:8000/api/v2/pages/%d/?fields=_,teaser_image_jpg"
-                % page["id"]
-            ).json(),
+            "image": page["teaser_image_jpg"],
         }
-        for page in featured_pages_data
+        for page in all_featured_pages
     ]
     return render_template(
         "stories.html",

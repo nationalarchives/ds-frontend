@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% from "components/card.html" import tnaCard %}
+
 {% block content %}
 <section class="tna-section">
   <div class="tna-container">
@@ -11,21 +13,18 @@
   <div class="tna-container">
     {% for child in children %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-      <article class="tna-card tna-!--margin-top-l">
-        <div class="tna-card__inner">
-          <h3 class=" tna-heading-s tna-card__heading">
-            <a href="{{ child['url'] }}" class="tna-card__heading-link">{{ child['title'] }}</a>
-          </h3>
-          <a href="{{ child['url'] }}" class="tna-card__image-container" tabindex="-1">
-            <picture class="tna-card__image">
-              <img src="{{ child['image']['teaser_image_jpg']['full_url'] }}" alt="{{ child['image']['teaser_image_jpg']['alt'] }}" width="{{ child['image']['teaser_image_jpg']['width'] }}" height="{{ child['image']['teaser_image_jpg']['height'] }}">
-            </picture>
-          </a>
-          <div class="tna-card__body">
-            <p>{{ child['intro'] }}</p>
-          </div>
-        </div>
-      </article>
+      {{ tnaCard({
+        'title': child['title'],
+        'headingLevel': 3,
+        'body': child['intro'],
+        'href': child['url'],
+        'imageSrc': child['image']['teaser_image_jpg']['full_url'],
+        'imageAlt': child['image']['teaser_image_jpg']['alt'],
+        'imageWidth': child['image']['teaser_image_jpg']['width'],
+        'imageHeight': child['image']['teaser_image_jpg']['height'],
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-l'
+      }) }}
     </div>
     {% endfor %}
   </div>

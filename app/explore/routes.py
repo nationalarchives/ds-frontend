@@ -1,8 +1,8 @@
 import requests
 from app.cms import breadcrumbs
 from app.explore import bp
-from app.lib import cache
-from flask import render_template
+from app.lib import cache, page_deatils, page_deatils_by_uri
+from flask import render_template, request
 
 from .render import render_explore_page
 
@@ -10,18 +10,15 @@ from .render import render_explore_page
 @bp.route("/")
 @cache.cached()
 def explore():
-    explore_data = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/5/"
-    ).json()
-    large_cards = explore_data["body"][0]["value"]
-    large_card_1 = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/%d/"
-        % (large_cards["page_1"])
-    ).json()
-    large_card_2 = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/%d/"
-        % (large_cards["page_2"])
-    ).json()
+    try:
+        explore_data = page_deatils(5)
+        large_cards_data = explore_data["body"][0]["value"]
+        large_card_1 = page_deatils(large_cards_data["page_1"])
+        large_card_2 = page_deatils(large_cards_data["page_2"])
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/page-not-found.html"), 404
     return render_template(
         "explore.html",
         breadcrumbs=breadcrumbs(explore_data["id"]),
@@ -33,8 +30,10 @@ def explore():
 @bp.route("/<path:path>/")
 @cache.cached()
 def explore_page(path):
-    page_data = requests.get(
-        "http://host.docker.internal:8000/api/v2/pages/find/?html_path=/explore-the-collection/%s/"
-        % path
-    ).json()
+    try:
+        page_data = page_deatils_by_uri(request.path)
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/page-not-found.html"), 404
     return render_explore_page(page_data)

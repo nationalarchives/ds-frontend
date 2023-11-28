@@ -7,6 +7,8 @@ class Config(object):
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
 
 
+config = {"WAGTAIL_API_URL": os.environ.get("WAGTAIL_API_URL")}
+
 cache_config = {
     "CACHE_TYPE": "SimpleCache"
     if os.environ.get("environment") == "production"

@@ -1,3 +1,8 @@
-import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import {
+  initAll,
+  Cookies,
+} from "@nationalarchives/frontend/nationalarchives/all.mjs";
+
+window.TNAFrontend = { Cookies };
 
 initAll();

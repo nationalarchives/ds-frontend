@@ -7,3 +7,8 @@ from flask import render_template
 @cache.cached()
 def hello_world():
     return render_template("welcome.html")
+
+
+@bp.route("/healthcheck/live")
+def healthcheck():
+    return "ok"
