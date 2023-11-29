@@ -10,9 +10,7 @@ class Config(object):
 config = {"WAGTAIL_API_URL": os.environ.get("WAGTAIL_API_URL")}
 
 cache_config = {
-    "CACHE_TYPE": "SimpleCache"
-    if os.environ.get("environment") == "production"
-    else "FileSystemCache",
+    "CACHE_TYPE": "FileSystemCache",
     "CACHE_DEFAULT_TIMEOUT": int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300)),
     "CACHE_IGNORE_ERRORS": True,
     "CACHE_DIR": "/tmp",

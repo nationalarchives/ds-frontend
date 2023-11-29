@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{%- from "components/index-grid/macro.html" import tnaIndexGrid -%}
+
 {% block content %}
 <section class="tna-section">
   <div class="tna-container">
@@ -8,7 +10,7 @@
       {{ data['intro'] | safe }}
     </div>
   </div>
-  <nav class="tna-index-grid " aria-label="{{ data['title'] }}">
+  <nav class="tna-index-grid" aria-label="{{ data['title'] }}">
     <ul class="tna-index-grid__items tna-container">
       {% for large_card in large_cards %}
       <li class="tna-index-grid__item-wrapper tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">

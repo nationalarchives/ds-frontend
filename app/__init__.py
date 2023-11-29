@@ -2,22 +2,31 @@ from app.lib import cache, image_details
 from config import Config
 from flask import Flask
 from markdown import markdown
+from jinja2 import ChoiceLoader, PackageLoader
 
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+
+    cache.init_app(app)
+
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
-    cache.init_app(app)
+    app.jinja_loader = ChoiceLoader(
+        [
+            PackageLoader("app"),
+            PackageLoader("tna_frontend_jinja"),
+        ]
+    )
 
     @app.template_filter()
     def md(md):
         return (
             markdown(md)
-            .replace("<h1>", '<h1 class="tna-heading tna-heading--xl">')
-            .replace("<h2>", '<h2 class="tna-heading tna-heading--l">')
-            .replace("<h3>", '<h3 class="tna-heading tna-heading--m">')
+            .replace("<h1>", '<h1 class="tna-heading-xl">')
+            .replace("<h2>", '<h2 class="tna-heading-l">')
+            .replace("<h3>", '<h3 class="tna-heading-m">')
             .replace("<p>", '<p class="tna-p">')
             .replace("<ul>", '<ul class="tna-ul">')
             .replace("<ol>", '<ol class="tna-ol">')

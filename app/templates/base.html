@@ -1,96 +1,80 @@
-{%- from "components/footer.html" import tnaFooter -%}
-{%- from "components/header.html" import tnaHeader -%}
+{% extends "layouts/base.html" %}
+
+{%- from "components/cookie-banner/macro.html" import tnaCookieBanner -%}
+{%- from "components/header/macro.html" import tnaHeader -%}
+{%- from "components/footer/macro.html" import tnaFooter -%}
 
 {%- set theme = "light" -%}
 {%- set themeAccent = "yellow" -%}
 
-<!DOCTYPE html>
-<html lang="{{ htmlLang | default('en-GB') }}" class="tna-template tna-template--{{ theme | default('system') }}-theme tna-template--{{ themeAccent | default('black') }}-accent {{ htmlClasses }}">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block pageTitle %}The National Archives{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="{{ themeColor | default('#000000') }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% block headIcons %}
+<link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+<link rel="mask-icon" href="{{ url_for('static', filename='images/mask-icon.svg') }}" color="{{ themeColor | default('#000000') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon-180x180.png') }}">
+<link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='images/apple-touch-icon-167x167.png') }}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='images/apple-touch-icon-152x152.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='/images/apple-touch-icon.png') }}">
+{% endblock %}
 
-    {% block headIcons %}
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-    <link rel="mask-icon" href="{{ url_for('static', filename='images/mask-icon.svg') }}" color="{{ themeColor | default('#000000') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon-180x180.png') }}">
-    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='images/apple-touch-icon-167x167.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='images/apple-touch-icon-152x152.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='/images/apple-touch-icon.png') }}">
-    {% endblock %}
+{% block stylesheets %}
+<link rel="preconnect" href="https://use.typekit.net">
+<link rel="stylesheet" href="https://use.typekit.net/hkj3kuz.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+{% endblock %}
 
-    {% block head %}{% endblock %}
+{% block cookies %}
+{{ tnaCookieBanner({
+  'cookiesUrl': '/cookies'
+}) }}
+{% endblock %}
 
-    {% block stylesheets %}
-    <link rel="preconnect" href="https://use.typekit.net">
-    <link rel="stylesheet" href="https://use.typekit.net/hkj3kuz.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
-    {% endblock %}
-  </head>
-  <body class="tna-template__body {{ bodyClasses }}" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
-    {% block bodyStart %}
-      {% block cookies %}{% endblock %}
-      {% block skipLink %}{% endblock %}
-    {% endblock %}
+{% block header %}
+{%- set navigationItems = [] -%}
+{%- for navigationItem in [
+  {
+    'text': "Explore the collection",
+    'href': "/explore-the-collection"
+  }
+] -%}
+  {{ navigationItems.append({
+    'text': navigationItem.text,
+    'href': navigationItem.href,
+    'selected': request.path.startswith(navigationItem.href)
+  }) or "" }}
+{%- endfor -%}
+{{ tnaHeader({
+  'logo': {
+    'href': '/'
+  },
+  'navigation': navigationItems,
+  'accent': True
+}) }}
+{% endblock %}
 
-    {% block header %}
-      {%- set navigationItems = [] -%}
-      {%- for navigationItem in [
-        {
-          'text': "Explore the collection",
-          'href': "/explore-the-collection"
-        }
-      ] -%}
-        {{ navigationItems.append({
-          'text': navigationItem.text,
-          'href': navigationItem.href,
-          'selected': request.path.startswith(navigationItem.href)
-        }) or "" }}
-      {%- endfor -%}
-      {{ tnaHeader({
-        'logo': {
-          'href': '/'
-        },
-        'navigation': navigationItems,
-        'accent': True
-      }) }}
-    {% endblock %}
+{% block beforeContent %}
+{% if breadcrumbs and breadcrumbs | length > 0 %}
+<div class="tna-container">
+  <div class="tna-column tna-column--full">
+    <nav class="tna-breadcrumbs " data-module="tna-breadcrumbs" aria-label="Breadcrumb">
+      <ol class="tna-breadcrumbs__list">
+        {% for item in breadcrumbs %}
+        <li class="tna-breadcrumbs__item">
+          <a href="{{ item.url }}" class="tna-breadcrumbs__link">
+            {{ item.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ol>
+    </nav>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
 
-    {% block main %}
-      {% block beforeContent %}
-        {% if breadcrumbs and breadcrumbs | length > 0 %}
-        <div class="tna-container">
-          <div class="tna-column tna-column--full">
-            <nav class="tna-breadcrumbs " data-module="tna-breadcrumbs" aria-label="Breadcrumb">
-              <ol class="tna-breadcrumbs__list">
-                {% for item in breadcrumbs %}
-                <li class="tna-breadcrumbs__item">
-                  <a href="{{ item.url }}" class="tna-breadcrumbs__link">
-                    {{ item.title }}
-                  </a>
-                </li>
-                {% endfor %}
-              </ol>
-            </nav>
-          </div>
-        </div>
-        {% endif %}
-      {% endblock %}
-      <main class="tna-main-wrapper {{ mainClasses }}" id="main-content" role="main">
-        {% block content %}{% endblock %}
-      </main>
-      {% block afterContent %}{% endblock %}
-    {% endblock %}
+{% block footer %}
+{{ tnaFooter({}) }}
+{% endblock %}
 
-    {% block footer %}
-      {{ tnaFooter({}) }}
-    {% endblock %}
-
-    {% block bodyEnd %}
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
-    {% endblock %}
-  </body>
-</html>
+{% block bodyEnd %}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

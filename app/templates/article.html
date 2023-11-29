@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% from "common/article-blocks.html" import articleBlocks %}
+{%- from "common/article-blocks.html" import articleBlocks -%}
+{%- from "components/hero/macro.html" import tnaHero -%}
 
 {% block content %}
 <section class="tna-section">
@@ -11,23 +12,13 @@
     </div>
   </div>
   {% if 'hero_image_jpg' in data %}
-  <div class="tna-hero">
-    <figure class="tna-hero__figure">
-      <figcaption class="tna-hero__caption">
-        <details class="tna-hero__details">
-          <summary class="tna-hero__details-summary">
-            <span class="tna-hero__details-summary-icon">I</span>mage caption
-          </summary>
-          <div class="tna-hero__information">
-            {{ data['hero_image_caption'] | safe }}
-          </div>
-        </details>
-      </figcaption>
-      <picture class="tna-hero__image">
-        <img class="tna-picture__image" width="{{ data['hero_image_jpg']['width'] }}" height="{{ data['hero_image_jpg']['height'] }}" src="{{ data['hero_image_jpg']['full_url'] }}" alt="">
-      </picture>
-    </figure>
-  </div>
+  {{ tnaHero({
+    'imageSrc': data['hero_image_jpg']['full_url'],
+    'imageAlt': '',
+    'imageWidth': data['hero_image_jpg']['width'],
+    'imageHeight': data['hero_image_jpg']['height'],
+    'imageCaption': data['hero_image_caption']
+  }) }}
   {% endif %}
   <div class="tna-container">
     <div class="tna-column tna-column--full">

@@ -1,5 +1,5 @@
 import requests
-from app.explore import bp
+from app.cms import bp
 from app.explore.render import render_explore_page
 from flask import request
 
