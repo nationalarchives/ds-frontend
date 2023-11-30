@@ -1,8 +1,8 @@
 from app.lib import cache, image_details
 from config import Config
 from flask import Flask
-from markdown import markdown
 from jinja2 import ChoiceLoader, PackageLoader
+from markdown import markdown
 
 
 def create_app(config_class=Config):
