@@ -1,14 +1,15 @@
 import math
 
 import requests
-from app.cms import breadcrumbs
+from flask import current_app, render_template, request
+
 from app.lib import (
     page_children,
     page_children_paginated,
     page_details,
     pagination_list,
 )
-from flask import current_app, render_template, request
+from app.wagtail import breadcrumbs
 
 
 def render_explore_page(page_data):
@@ -65,6 +66,8 @@ def category_index_page(page_data):
 
 
 def categories_page(page_data):
+    # TODO
+
     try:
         children_data = page_children(page_data["id"])
         all_children = [

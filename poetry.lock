@@ -514,13 +514,13 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.1.5"
+version = "0.1.6"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tna-frontend-jinja-0.1.5.tar.gz", hash = "sha256:f56d1178ecec4323272182d5c82988b33a86b47fdeb89d965b1b4d1310366976"},
-    {file = "tna_frontend_jinja-0.1.5-py3-none-any.whl", hash = "sha256:46dcf489bdde890d03c19764c5a2dd41d85d02f5921574ec9c3f02b962131c7b"},
+    {file = "tna-frontend-jinja-0.1.6.tar.gz", hash = "sha256:05004719de0a5feffc4cbb0955ee6472406b9d5ff0b6f302a358e21cf336ed7d"},
+    {file = "tna_frontend_jinja-0.1.6-py3-none-any.whl", hash = "sha256:0d25f8410eaaf9bf060cd58709c4e99c635384ad7f6ebe3b6c12fc76b6ce0eb6"},
 ]
 
 [package.dependencies]

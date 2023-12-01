@@ -1,6 +1,7 @@
 import requests
-from config import config
 from flask import current_app
+
+from config import config
 
 
 def wagtail_request_handler(uri):
@@ -32,6 +33,11 @@ def page_children(page_id):
     return wagtail_request_handler(uri)
 
 
+def page_ancestors(page_id):
+    uri = "pages/?ancestor_of=%d" % page_id
+    return wagtail_request_handler(uri)
+
+
 def page_children_paginated(page_id, page, children_per_page):
     uri = "pages/?child_of=%d&offset=%d&limit=%d" % (
         page_id,
@@ -43,4 +49,12 @@ def page_children_paginated(page_id, page, children_per_page):
 
 def image_details(image_id):
     uri = "images/%d/" % image_id
+    return wagtail_request_handler(uri)
+
+
+def page_preview(content_type, token):
+    uri = "page_preview/1/?content_type=%s&token=%s&format=json" % (
+        content_type,
+        token,
+    )
     return wagtail_request_handler(uri)

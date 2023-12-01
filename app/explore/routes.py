@@ -1,8 +1,9 @@
 import requests
-from app.cms import breadcrumbs
+from flask import render_template, request
+
 from app.explore import bp
 from app.lib import cache, page_details, page_details_by_uri
-from flask import render_template, request
+from app.wagtail import breadcrumbs
 
 from .render import render_explore_page
 
