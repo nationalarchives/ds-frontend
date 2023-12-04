@@ -2,7 +2,6 @@ version: '3'
 
 services:
   app:
-    container_name: etna-frontend
     build: .
     environment:
       - ENVIRONMENT=develop
@@ -15,8 +14,3 @@ services:
     volumes:
       - ./:/app
   
-  dev:
-    container_name: etna-frontend-dev
-    image: ghcr.io/nationalarchives/tna-python-dev:development-container
-    volumes:
-      - ./:/app
