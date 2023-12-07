@@ -1,9 +1,8 @@
+from app.lib import cache, image_details, page_details
+from config import Config
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
 from markdown import markdown
-
-from app.lib import cache, image_details,page_details
-from config import Config
 
 
 def create_app(config_class=Config):
@@ -37,7 +36,10 @@ def create_app(config_class=Config):
             page_data = page_details(page_id)
             return page_data
 
-        return dict(get_wagtail_image=get_wagtail_image, get_wagtail_page=get_wagtail_page)
+        return dict(
+            get_wagtail_image=get_wagtail_image,
+            get_wagtail_page=get_wagtail_page,
+        )
 
     from .explore import bp as explore_bp
     from .main import bp as site_bp

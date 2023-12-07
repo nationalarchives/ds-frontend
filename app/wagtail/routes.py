@@ -1,9 +1,8 @@
 import requests
-from flask import request
-
 from app.explore.render import render_explore_page
 from app.lib import page_preview
 from app.wagtail import bp
+from flask import request
 
 
 @bp.route("/preview/")

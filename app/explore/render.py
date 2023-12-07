@@ -1,8 +1,6 @@
 import math
 
 import requests
-from flask import current_app, render_template, request
-
 from app.lib import (
     page_children,
     page_children_paginated,
@@ -10,6 +8,7 @@ from app.lib import (
     pagination_list,
 )
 from app.wagtail import breadcrumbs
+from flask import current_app, render_template, request
 
 
 def render_explore_page(page_data):

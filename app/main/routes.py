@@ -1,7 +1,6 @@
-from flask import render_template
-
 from app.lib import cache
 from app.main import bp
+from flask import render_template
 
 
 @bp.route("/")

@@ -1,7 +1,6 @@
 import requests
-from flask import current_app
-
 from config import config
+from flask import current_app
 
 
 def wagtail_request_handler(uri):
