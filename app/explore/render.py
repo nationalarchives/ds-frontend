@@ -14,7 +14,7 @@ from app.wagtail import breadcrumbs
 
 def render_explore_page(page_data):
     page_type = page_data["meta"]["type"]
-    current_app.logger.debug("Page type %s requested" % page_type)
+    current_app.logger.debug(f"Page type {page_type} requested")
     if page_type == "articles.ArticleIndexPage":
         return article_index_page(page_data)
     if page_type == "articles.ArticlePage":
@@ -35,7 +35,7 @@ def render_explore_page(page_data):
         return focused_article_page(page_data)
     if page_type == "collections.HighlightGalleryPage":
         return highlight_gallery_page(page_data)
-    current_app.logger.error("Template for %s not handled" % page_type)
+    current_app.logger.error(f"Template for {page_type} not handled")
     return render_template("errors/page-not-found.html"), 404
 
 
@@ -58,7 +58,7 @@ def category_index_page(page_data):
         for child in all_children
     ]
     return render_template(
-        "explore-category-index.html",
+        "explore/category-index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
         children=children,
@@ -86,7 +86,7 @@ def categories_page(page_data):
         for child in all_children
     ]
     return render_template(
-        "explore-category.html",
+        "explore/category.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
         children=children,
@@ -147,7 +147,7 @@ def article_index_page(page_data):
         for page in all_featured_pages
     ]
     return render_template(
-        "stories.html",
+        "explore/stories.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
         children=children,
@@ -161,7 +161,7 @@ def article_index_page(page_data):
 
 def article_page(page_data):
     return render_template(
-        "article.html",
+        "explore/article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
     )
@@ -169,7 +169,7 @@ def article_page(page_data):
 
 def record_article_page(page_data):
     return render_template(
-        "record-article.html",
+        "explore/record-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
     )
@@ -177,7 +177,7 @@ def record_article_page(page_data):
 
 def focused_article_page(page_data):
     return render_template(
-        "focused-article.html",
+        "explore/focused-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
     )
@@ -185,7 +185,7 @@ def focused_article_page(page_data):
 
 def highlight_gallery_page(page_data):
     return render_template(
-        "highlight-gallery.html",
+        "explore/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
     )

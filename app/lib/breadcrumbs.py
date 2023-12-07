@@ -6,10 +6,10 @@ def breadcrumbs(page_id):
     return (
         [
             {
-                "title": "Home"
+                "text": "Home"
                 if ancestor["meta"]["type"] == "home.HomePage"
                 else ancestor["title"],
-                "url": ancestor["meta"]["html_url"],
+                "href": ancestor["meta"]["html_url"],
             }
             for ancestor in ancestors["items"]
         ]

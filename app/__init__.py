@@ -2,7 +2,7 @@ from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
 from markdown import markdown
 
-from app.lib import cache, image_details
+from app.lib import cache, image_details,page_details
 from config import Config
 
 
@@ -21,17 +21,10 @@ def create_app(config_class=Config):
         ]
     )
 
-    @app.template_filter()
-    def md(md):
-        return (
-            markdown(md)
-            .replace("<h1>", '<h1 class="tna-heading-xl">')
-            .replace("<h2>", '<h2 class="tna-heading-l">')
-            .replace("<h3>", '<h3 class="tna-heading-m">')
-            .replace("<p>", '<p class="tna-p">')
-            .replace("<ul>", '<ul class="tna-ul">')
-            .replace("<ol>", '<ol class="tna-ol">')
-            .replace("<blockquote>", '<blockquote class="tna-blockquote">')
+    @app.template_filter("tna_html")
+    def tna_html_filter(s):
+        return s.replace("<ul>", '<ul class="tna-ul">').replace(
+            "<ol>", '<ol class="tna-ol">'
         )
 
     @app.context_processor
@@ -40,7 +33,11 @@ def create_app(config_class=Config):
             image_data = image_details(image_id)
             return image_data
 
-        return dict(get_wagtail_image=get_wagtail_image)
+        def get_wagtail_page(page_id):
+            page_data = page_details(page_id)
+            return page_data
+
+        return dict(get_wagtail_image=get_wagtail_image, get_wagtail_page=get_wagtail_page)
 
     from .explore import bp as explore_bp
     from .main import bp as site_bp

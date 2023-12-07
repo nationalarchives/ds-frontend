@@ -21,7 +21,7 @@ def explore():
     except Exception:
         return render_template("errors/page-not-found.html"), 404
     return render_template(
-        "explore.html",
+        "explore/index.html",
         breadcrumbs=breadcrumbs(explore_data["id"]),
         data=explore_data,
         large_cards=[large_card_1, large_card_2],

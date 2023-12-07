@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 
+{%- from "components/breadcrumbs/macro.html" import tnaBreadcrumbs -%}
 {%- from "components/cookie-banner/macro.html" import tnaCookieBanner -%}
 {%- from "components/header/macro.html" import tnaHeader -%}
 {%- from "components/footer/macro.html" import tnaFooter -%}
@@ -55,17 +56,9 @@
 {% if breadcrumbs and breadcrumbs | length > 0 %}
 <div class="tna-container">
   <div class="tna-column tna-column--full">
-    <nav class="tna-breadcrumbs " data-module="tna-breadcrumbs" aria-label="Breadcrumb">
-      <ol class="tna-breadcrumbs__list">
-        {% for item in breadcrumbs %}
-        <li class="tna-breadcrumbs__item">
-          <a href="{{ item.url }}" class="tna-breadcrumbs__link">
-            {{ item.title }}
-          </a>
-        </li>
-        {% endfor %}
-      </ol>
-    </nav>
+    {{ tnaBreadcrumbs({
+      'items': breadcrumbs
+    }) }}
   </div>
 </div>
 {% endif %}

@@ -1,5 +1,20 @@
 {% extends "base.html" %}
+
+{% block header %}
+{{ tnaHeader({
+  'logo': {
+    'href': '/'
+  },
+  'accent': True
+}) }}
+{% endblock %}
+
 {% block content %}
-<h1>API</h1>
-<p>An error occured</p>
+<div class="tna-container">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-section">
+    <h1 class="tna-heading-xl">An error occured with our system</h1>
+    <p>Try again in a few minutes.</p>
+    <p>If the web address is correct or you selected a link or button, <a href="#">contact us</a> to let us help.</p>
+  </div>
+</div>
 {% endblock %}
