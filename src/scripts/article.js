@@ -28,7 +28,6 @@ $articles.forEach(($article) => {
 
     const showSection = () => {
       $section.classList.remove("etna-article__section--hidden");
-      // $section.setAttribute("tabindex", "0")
       $headingButton.setAttribute("aria-expanded", "true");
       $headingButton.setAttribute(
         "aria-label",
@@ -38,7 +37,6 @@ $articles.forEach(($article) => {
     };
     const hideSection = () => {
       $section.classList.add("etna-article__section--hidden");
-      // $section.setAttribute("tabindex", "-1")
       $headingButton.setAttribute("aria-expanded", "false");
       $headingButton.setAttribute(
         "aria-label",

@@ -3,6 +3,7 @@
 {% from "components/card/macro.html" import tnaCard %}
 
 {% block content %}
+{% if page == 1 %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -64,6 +65,7 @@
     {% endfor %}
   </div>
 </section>
+{% endif %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">

@@ -4,12 +4,13 @@
 {%- from "components/cookie-banner/macro.html" import tnaCookieBanner -%}
 {%- from "components/header/macro.html" import tnaHeader -%}
 {%- from "components/footer/macro.html" import tnaFooter -%}
+{%- from "components/phase-banner/macro.html" import tnaPhaseBanner -%}
 
 {%- set theme = "light" -%}
 {%- set themeAccent = "yellow" -%}
 
 {% block headIcons %}
-<link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
 <link rel="mask-icon" href="{{ url_for('static', filename='images/mask-icon.svg') }}" color="{{ themeColor | default('#000000') }}">
 <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon-180x180.png') }}">
 <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='images/apple-touch-icon-167x167.png') }}">
@@ -30,6 +31,11 @@
 {% endblock %}
 
 {% block header %}
+{{ tnaPhaseBanner({
+  'phase': "prototype",
+  'message': "This is not a real service.",
+  'classes': "tna-background-accent-light"
+}) }}
 {%- set navigationItems = [] -%}
 {%- for navigationItem in [
   {
@@ -46,6 +52,11 @@
 {{ tnaHeader({
   'logo': {
     'href': '/'
+  },
+  'exit': {
+    'text': "Go to the current National Archives website",
+    'href': "#",
+    'target': "_blank"
   },
   'navigation': navigationItems,
   'accent': True
