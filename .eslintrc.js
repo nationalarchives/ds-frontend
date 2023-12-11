@@ -20,5 +20,5 @@ module.exports = {
     sourceType: "module",
   },
   rules: {},
-  ignorePatterns: ["webpack.config.js"],
+  ignorePatterns: ["webpack.config.js", "*.min.js"],
 };

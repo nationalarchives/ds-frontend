@@ -2,10 +2,10 @@
 {%- from "components/featured-records/macro.html" import tnaFeaturedRecords -%}
 
 
-{% macro articleBlocks(params, get_wagtail_image) %}
-  {% for block in params['blocks'] %}
+{% macro articleBlocks(blocks, get_wagtail_image) %}
+  {% for block in blocks %}
   <section class="etna-article__section">
-    <h2 class="tna-heading-l tna-!--padding-top-s">{{ block['value']['heading'] }}</h2>
+    <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ block['value']['heading'] | slugify }}">{{ block['value']['heading'] }}</h2>
     {% for content_item in block['value']['content'] %}
       {% if content_item['type'] == 'paragraph' %}
       {{ content_item['value']['text'] | safe }}

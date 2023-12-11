@@ -1,3 +1,5 @@
+import re
+
 from app.lib import cache, image_details, page_details
 from config import Config
 from flask import Flask
@@ -25,6 +27,14 @@ def create_app(config_class=Config):
         return s.replace("<ul>", '<ul class="tna-ul">').replace(
             "<ol>", '<ol class="tna-ol">'
         )
+
+    @app.template_filter("slugify")
+    def slugify(s):
+        s = s.lower().strip()
+        s = re.sub(r"[^\w\s-]", "", s)
+        s = re.sub(r"[\s_-]+", "-", s)
+        s = re.sub(r"^-+|-+$", "", s)
+        return s
 
     @app.context_processor
     def cms_processor():
