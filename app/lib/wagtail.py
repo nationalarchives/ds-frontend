@@ -3,9 +3,15 @@ from config import config
 from flask import current_app
 
 
-def wagtail_request_handler(uri):
+def wagtail_request_handler(uri, params={}):
     api_url = config["WAGTAIL_API_URL"].strip("/")
-    r = requests.get(f"{api_url}/{uri}")
+    params["format"] = "json"
+    query_string = "&".join(
+        ["=".join((str(key), str(value))) for key, value in params.items()]
+    )
+    print(query_string)
+    print(f"{api_url}/{uri}?{query_string}")
+    r = requests.get(f"{api_url}/{uri}?{query_string}")
     if r.status_code == 404:
         raise Exception("Resource not found")
     if r.status_code == requests.codes.ok:
@@ -24,24 +30,28 @@ def page_details(page_id):
 
 
 def page_details_by_uri(page_uri):
-    uri = f"pages/find/?html_path={page_uri}"
-    return wagtail_request_handler(uri)
+    uri = "pages/find/"
+    params = {"html_path": page_uri}
+    return wagtail_request_handler(uri, params)
 
 
 def page_children(page_id):
-    uri = f"pages/?child_of={page_id}"
-    return wagtail_request_handler(uri)
+    uri = "pages/"
+    params = {"child_of": page_id}
+    return wagtail_request_handler(uri, params)
 
 
 def page_ancestors(page_id):
-    uri = f"pages/?ancestor_of={page_id}"
-    return wagtail_request_handler(uri)
+    uri = "pages/"
+    params = {"ancestor_of": page_id}
+    return wagtail_request_handler(uri, params)
 
 
 def page_children_paginated(page_id, page, children_per_page):
     offset = (page - 1) * children_per_page
-    uri = f"pages/?child_of={page_id}&offset={offset}&limit={children_per_page}"
-    return wagtail_request_handler(uri)
+    uri = "pages/"
+    params = {"child_of": page_id, "offset": offset, "limit": children_per_page}
+    return wagtail_request_handler(uri, params)
 
 
 def image_details(image_id):
@@ -50,7 +60,6 @@ def image_details(image_id):
 
 
 def page_preview(content_type, token):
-    uri = (
-        f"page_preview/1/?content_type={content_type}&token={token}&format=json"
-    )
-    return wagtail_request_handler(uri)
+    uri = "page_preview/1/"
+    params = {"content_type": content_type, "token": token}
+    return wagtail_request_handler(uri, params)

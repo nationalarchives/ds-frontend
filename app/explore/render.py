@@ -101,10 +101,8 @@ def article_index_page(page_data):
         )
     except ConnectionError:
         return render_template("errors/api.html"), 502
-    max_pages = math.ceil(
-        children_data["meta"]["total_count"] / children_per_page
-    )
-    if page > max_pages:
+    pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
+    if page > pages:
         return render_template("errors/page-not-found.html"), 404
     try:
         all_children = [
@@ -152,9 +150,9 @@ def article_index_page(page_data):
         children=children,
         featured_article=featured_article,
         featured_pages=featured_pages,
-        pagination_list=pagination_list(page, max_pages, 1, 1),
+        pagination_list=pagination_list(page, pages, 1, 1),
         page=page,
-        max_pages=max_pages,
+        pages=pages,
     )
 
 

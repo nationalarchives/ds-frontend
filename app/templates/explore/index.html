@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{%- from "components/card/macro.html" import tnaCard -%}
 {%- from "components/index-grid/macro.html" import tnaIndexGrid -%}
 
 {% block content %}
@@ -10,22 +11,64 @@
       {{ data['intro'] | safe }}
     </div>
   </div>
-  <nav class="tna-index-grid" aria-label="{{ data['title'] }}">
-    <ul class="tna-index-grid__items tna-container">
-      {% for large_card in large_cards %}
-      <li class="tna-index-grid__item-wrapper tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
-        <a href="{{ large_card['meta']['html_url'] }}" class="tna-index-grid__item" title="{{ large_card['title'] }}">
-          <img src="http://localhost:8000{{ large_card['teaser_image_jpg']['url'] }}" class="tna-index-grid__item-image" width="{{ large_card['teaser_image_jpg']['width'] }}" height="{{ large_card['teaser_image_jpg']['height'] }}" alt="{{ large_card['teaser_image_jpg']['alt'] }}" />
-          <span class="tna-index-grid__item-content">
-            <span class="tna-index-grid__item-title">{{ large_card['title'] }}</span>
-          </span>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </nav>
+  {{ tnaIndexGrid({
+    'title': data['title'],
+    'items': large_cards,
+    'columns': 2,
+    'columnsTiny': 1
+  }) }}
 </section>
 <section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">{{ data['articles_title'] }}</h2>
+      <p>{{ data['articles_introduction'] }}</p>
+    </div>
+    <div class="tna-column tna-column--full">
+      {{ tnaCard({
+        'supertitle': 'The story of' if featured_article['meta']['type'] == 'articles.ArticlePage' or 'articles.FocusedArticlePage' else 'Record revealed' if featured_article['meta']['type'] == 'articles.RecordArticlePage' else '',
+        'title': featured_article['title'],
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': featured_article['meta']['html_url'],
+        'body': featured_article['teaser_text'],
+        'imageSrc': featured_article['teaser_image_jpg']['full_url'],
+        'imageAlt': featured_article['teaser_image_jpg']['alt'],
+        'imageWidth': featured_article['teaser_image_jpg']['width'],
+        'imageHeight': featured_article['teaser_image_jpg']['height'],
+        'actions': [
+          {
+            'text': 'Read about ' + featured_article['title'],
+            'href': featured_article['meta']['html_url']
+          }
+        ],
+        'plainSupertitle': True,
+        'htmlElement': 'article',
+        'horizontal': True,
+        'style': 'accent',
+        'classes': 'tna-!--margin-top-l'
+      }) }}
+    </div>
+    {% for featured_page in featured_pages %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      {{ tnaCard({
+        'supertitle': 'The story of' if featured_page['meta']['type'] == 'articles.ArticlePage' or 'articles.FocusedArticlePage' else 'Record revealed' if featured_page['meta']['type'] == 'articles.RecordArticlePage' else '',
+        'title': featured_page['title'],
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': featured_page['meta']['html_url'],
+        'body': featured_page['teaser_text'],
+        'imageSrc': featured_page['teaser_image_jpg']['full_url'],
+        'imageAlt': featured_page['teaser_image_jpg']['alt'],
+        'imageWidth': featured_page['teaser_image_jpg']['width'],
+        'imageHeight': featured_page['teaser_image_jpg']['height'],
+        'plainSupertitle': True,
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-l'
+      }) }}
+    </div>
+    {% endfor %}
+  </div>
   <div class="tna-container tna-container--centred tna-!--margin-top-l">
     <div class="tna-column">
       <a href="/explore-the-collection/stories/" class="tna-button " role="button">Browse all stories</a>

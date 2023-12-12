@@ -69,7 +69,12 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1>TODO TODO TODO TODO TODO</h1>
+      {% if page > 1 %}
+      <h2 class="tna-heading-l">Discover all stories &mdash; page {{ page }} of {{ pages }}</h2>
+      {% else %}
+      <h2 class="tna-heading-l">Discover all stories</h2>
+      {% endif %}
+      <p>Browse and explore the human stories behind The National Archives’ collection.</p>
     </div>
   </div>
   <div class="tna-container">
@@ -120,7 +125,7 @@
           {% endif %}
           {% endfor %}
         </ul>
-        {% if page < max_pages %}
+        {% if page < pages %}
         <div class="tna-pagination__next">
           <a class="tna-button tna-pagination__link" href="?page={{ page + 1 }}" role="button" rel="next">
             <span class="tna-pagination__link-title">Next</span>
