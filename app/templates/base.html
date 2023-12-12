@@ -76,7 +76,136 @@
 {% endblock %}
 
 {% block footer %}
-{{ tnaFooter({}) }}
+{{ tnaFooter({
+  'social': [
+    {
+      'text': "Twitter",
+      'href': "https://twitter.com/UKNatArchives",
+      'brandIcon': "twitter"
+    },
+    {
+      'text': "YouTube",
+      'href': "https://www.youtube.com/c/TheNationalArchivesUK",
+      'brandIcon': "youtube"
+    },
+    {
+      'text': "Facebook",
+      'href': "https://www.facebook.com/TheNationalArchives",
+      'brandIcon': "facebook"
+    },
+    {
+      'text': "Flickr",
+      'href': "https://www.flickr.com/photos/nationalarchives",
+      'brandIcon': "flickr"
+    },
+    {
+      'text': "Instagram",
+      'href': "https://www.instagram.com/nationalarchivesuk/",
+      'brandIcon': "instagram"
+    },
+    {
+      'text': "RSS",
+      'href': "https://www.nationalarchives.gov.uk/rss/",
+      'icon': "rss"
+    }
+  ],
+  'navigation': [
+    {
+      'title': "About us",
+      'items': [
+        {
+          'text': "Our role",
+          'href': "https://www.nationalarchives.gov.uk/about/our-role/"
+        },
+        {
+          'text': "Our history",
+          'href': "https://www.nationalarchives.gov.uk/about/our-role/what-we-do/our-history/"
+        },
+        {
+          'text': "Our people",
+          'href': "https://www.nationalarchives.gov.uk/about/jobs/staff-profiles/"
+        },
+        {
+          'text': "News",
+          'href': "https://www.nationalarchives.gov.uk/about/news/"
+        },
+        {
+          'text': "Contact us",
+          'href': "https://www.nationalarchives.gov.uk/contact-us/"
+        },
+        {
+          'text': "Jobs & careers",
+          'href': "https://www.nationalarchives.gov.uk/about/jobs/"
+        },
+        {
+          'text': "Get involved",
+          'href': "https://www.nationalarchives.gov.uk/about/get-involved/"
+        }
+      ]
+    },
+    {
+      'title': "Our websites help",
+      'items': [
+        {
+          'text': "UK Government Web Archive",
+          'href': "https://www.nationalarchives.gov.uk/webarchive/",
+          'newTab': true
+        },
+        {
+          'text': "Legislation.gov.uk",
+          'href': "https://www.legislation.gov.uk/",
+          'newTab': true
+        },
+        {
+          'text': "Find case law",
+          'href': "https://caselaw.nationalarchives.gov.uk/",
+          'newTab': true
+        },
+        {
+          'text': "The Gazette",
+          'href': "https://www.thegazette.co.uk/",
+          'newTab': true
+        }
+      ]
+    },
+    {
+      'title': "Quick links",
+      'items': [
+        {
+          'text': "Press room",
+          'href': "https://www.nationalarchives.gov.uk/about/press-room/"
+        },
+        {
+          'text': "Venue hire",
+          'href': "https://www.nationalarchives.gov.uk/about/visit-us/venue-hire/"
+        }
+      ]
+    }
+  ],
+  'showNewsletter': false,
+  'legal': [
+    {
+      'text': "Accessibility statement",
+      'href': url_for('main.accessibility')
+    },
+    {
+      'text': "Freedom of information",
+      'href': "https://www.nationalarchives.gov.uk/about/freedom-of-information/"
+    },
+    {
+      'text': "Terms and conditions",
+      'href': "https://www.nationalarchives.gov.uk/legal/"
+    },
+    {
+      'text': "Privacy policy",
+      'href': "https://www.nationalarchives.gov.uk/legal/privacy.htm"
+    },
+    {
+      'text': "Cookies",
+      'href': url_for('main.cookies')
+    }
+  ]
+}) }}
 {% endblock %}
 
 {% block bodyEnd %}

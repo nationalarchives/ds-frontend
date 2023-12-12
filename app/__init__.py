@@ -36,6 +36,22 @@ def create_app(config_class=Config):
         s = re.sub(r"^-+|-+$", "", s)
         return s
 
+    @app.template_filter("headings_list")
+    def headings_list(s):
+        headings_raw = re.findall(
+            r'<h([1-6])[^>]*id="([\w\-]+)"[^>]*>\s*([\w\s\.]+)\s*<', s
+        )
+        headings = [
+            {
+                "title": heading[2],
+                "id": heading[1],
+                "level": heading[0],
+                "children": [],
+            }
+            for heading in headings_raw
+        ]
+        return headings
+
     @app.context_processor
     def cms_processor():
         def get_wagtail_image(image_id):

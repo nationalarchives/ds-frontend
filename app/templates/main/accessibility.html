@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{%- from "macros/simple-page-with-sidebar.html" import simplePageWithSidebar -%}
+
+{% block content %}
+{{ simplePageWithSidebar(
+  '
+  <h1 class="tna-heading-xl" id="test-2a">Test 1a</h1>
+  <h2 class="tna-heading-l" id="test-2a">Test 2a</h2>
+  <p>Lorem ipsum</p>
+  <h3 class="tna-heading-m" id="test-3a">Test 3a</h3>
+  <p>Lorem ipsum</p>
+  <h4 class="tna-heading-s" id="test-4a">Test 4a</h4>
+  <p>Lorem ipsum</p>
+  <h2 class="tna-heading-l" id="test-2b">Test 2b</h2>
+  <p>Lorem ipsum</p>
+  <h3 class="tna-heading-m" id="test-3b">Test 3b</h3>
+  <p>Lorem ipsum</p>
+  <h3 class="tna-heading-m" id="test-3c">Test 3c</h3>
+  <p>Lorem ipsum</p>
+  <h2 class="tna-heading-l" id="test-2c">Test 2c</h2>
+  <p>Lorem ipsum</p>
+  <h3 class="tna-heading-m" id="test-3d">Test 3d</h3>
+  <p>Lorem ipsum</p>
+  '
+) }}
+{% endblock %}
+
+{% block bodyEnd %}
+<script src="{{ url_for('static', filename='app.min.js') }}"></script>
+<script src="{{ url_for('static', filename='article.min.js') }}"></script>
+{% endblock %}
