@@ -3,6 +3,7 @@
 {%- from "macros/article-blocks.html" import articleBlocks -%}
 {%- from "components/breadcrumbs/macro.html" import tnaBreadcrumbs -%}
 {%- from "components/hero/macro.html" import tnaHero -%}
+{%- from "components/message/macro.html" import tnaMessage -%}
 {%- from "components/picture/macro.html" import tnaPicture -%}
 
 {% block beforeContent %}{% endblock %}
@@ -24,6 +25,9 @@
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h1 class="tna-heading-xl">{{ data['title'] }}</h1>
+          {% if not data['hero_image_jpg'] %}
+          {{ data['intro'] | safe }}
+          {% endif %}
           {% if author %}
           <p>By <a href="{{ author['meta']['html_url'] }}">{{ author['title'] }}</a></p>
           {% endif %}
@@ -31,7 +35,7 @@
       </div>
     </header>
   </div>
-  {% if 'hero_image_jpg' in data %}
+  {% if data['hero_image_jpg'] %}
   <div class="etna-background-half-top-contrast">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -54,7 +58,6 @@
       </div>
     </div>
   </div>
-  {% endif %}
   <section class="tna-section">
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-5-6 tna-column--full-small tna-column--full-tiny">
@@ -64,9 +67,16 @@
       </div>
     </div>
   </section>
+  {% endif %}
   <section class="tna-section">
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-l etna-article__sections">
+        {% if data['custom_warning_text'] %}
+        {{ tnaMessage({
+          'message': data['custom_warning_text'] | safe,
+          'classes': 'tna-!--margin-bottom-l'
+        }) }}
+        {% endif %}
         {{ articleBlocks(data['body'], get_wagtail_image, get_wagtail_page, get_wagtail_media, WAGTAIL_MEDIA_URL) }}
       </div>
       {% if author %}
