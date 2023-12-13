@@ -8,7 +8,7 @@
 {% block beforeContent %}{% endblock %}
 
 {% block content %}
-{% set author=get_wagtail_page(data['author']['id']) if data['author'] else None %}
+{% set author = get_wagtail_page(data['author']['id']) if data['author'] else None %}
 <article class="etna-article">
   <div class="tna-background-contrast">
     {% if breadcrumbs and breadcrumbs | length > 0 %}

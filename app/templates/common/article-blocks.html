@@ -1,3 +1,5 @@
+{%- from "components/button/macro.html" import tnaButton -%}
+{%- from "components/card/macro.html" import tnaCard -%}
 {%- from "components/picture/macro.html" import tnaPicture -%}
 {%- from "components/featured-records/macro.html" import tnaFeaturedRecords -%}
 
@@ -14,7 +16,8 @@
       <h3 class="tna-heading-m">{{ block['value']['heading'] }}</h3>
 
       {% elif content_item['type'] == 'image' %}
-      {% with image=get_wagtail_image(content_item['value']['image']) %}
+      {# TODO: This is the original image - we need an image rendition #}
+      {% with image = get_wagtail_image(content_item['value']['image']) %}
       {{ tnaPicture({
         'src': "http://localhost:8000" + image['meta']['download_url'],
         'alt': content_item['value']['alt_text'],
@@ -35,12 +38,49 @@
       </blockquote>
 
       {% elif content_item['type'] == 'promoted_list' %}
-      <h2 class="tna-heading-l">=== TODO: Promoted list ===</h2>
+      <aside class="etna-space-above">
+        <ul class="etna-block-list">
+          {% for item in content_item['value']['promoted_items'] %}
+          <li>
+            <h3 class="tna-heading-s">
+              <a href="{{ item['url'] }}">{{ item['title'] }}</a>
+            </h3>
+            {{ item['description'] | safe }}
+          </li>
+          {% endfor %}
+        </ul>
+      </aside>
+
+      {% elif content_item['type'] == 'promoted_item' %}
+      {# TODO: This is the original image - we need an image rendition #}
+      {% with image = get_wagtail_image(content_item['value']['image']['image']) %}
+      <aside class="etna-space-above">
+        {{ tnaCard({
+          'title': content_item['value']['title'],
+          'headingLevel': 3,
+          'headingSize': 'm',
+          'body': content_item['value']['description'],
+          'href': content_item['value']['url'],
+          'imageSrc': 'http://localhost:8000/' + image['meta']['download_url'],
+          'actions': [
+            {
+              'text': content_item['value']['cta_label'],
+              'href': content_item['value']['url']
+            }
+          ],
+          'horizontal': True,
+          'style': 'accent',
+          'htmlElement': 'article',
+          'classes': 'etna-promoted-item'
+        }) }}
+      </aside>
+      {% endwith %}
 
       {% elif content_item['type'] == 'record_links' %}
       {% set items = [] %}
       {% for i in content_item['value']['items'] %}
-        {% with image=get_wagtail_image(i['thumbnail_image']) %}
+        {# TODO: This is the original image - we need an image rendition #}
+        {% with image = get_wagtail_image(i['thumbnail_image']) %}
         {{ items.append({
           'imageSrc': image['file'],
           'width': image['width'],

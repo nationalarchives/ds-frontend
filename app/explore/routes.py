@@ -7,6 +7,11 @@ from flask import render_template, request
 from .render import render_explore_page
 
 
+def make_cache_key_prefix():
+    """Make a key that includes GET parameters."""
+    return request.full_path
+
+
 @bp.route("/")
 @cache.cached()
 def explore():
@@ -48,7 +53,7 @@ def explore():
 
 
 @bp.route("/<path:path>/")
-@cache.cached()
+@cache.cached(key_prefix=make_cache_key_prefix)
 def explore_page(path):
     try:
         page_data = page_details_by_uri(request.path)

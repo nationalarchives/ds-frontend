@@ -10,7 +10,7 @@
     <div class="tna-container">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
         <hgroup class="tna-hgroup-xl">
-          <p class="tna-hgroup__supertitle">The story of</p>
+          <p class="tna-hgroup__supertitle">{{ data['meta']['type'] | article_supertitle }}</p>
           <h1 class="tna-hgroup__title">{{ data['title'] }}</h1>
         </hgroup>
         {{ data['intro'] | safe }}
@@ -20,10 +20,20 @@
   {% if 'hero_image_jpg' in data %}
   {{ tnaHero({
     'imageSrc': data['hero_image_jpg']['full_url'],
-    'imageAlt': '',
+    'imageAlt': data['hero_image_jpg']['alt'],
     'imageWidth': data['hero_image_jpg']['width'],
     'imageHeight': data['hero_image_jpg']['height'],
-    'imageCaption': data['hero_image_caption']
+    'imageCaption': data['hero_image_caption'],
+    'imageSources': [
+      {
+        'src': data['hero_image_webp_small']['full_url'],
+        'width': data['hero_image_webp_small']['width'],
+        'height': data['hero_image_webp_small']['height'],
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      }
+    ],
+    'classes': 'tna-hero--thinner'
   }) }}
   {% endif %}
   <section class="tna-section">

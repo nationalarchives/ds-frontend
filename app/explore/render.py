@@ -1,6 +1,5 @@
 import math
 
-import requests
 from app.lib import (
     page_children,
     page_children_paginated,
@@ -105,11 +104,11 @@ def article_index_page(page_data):
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
     try:
-        all_children = [
+        children = [
             page_details(child["id"]) for child in children_data["items"]
         ]
         featured_article = page_details(page_data["featured_article"]["id"])
-        all_featured_pages = [
+        featured_pages = [
             page_details(featured_page_id)
             for featured_page_id in page_data["featured_pages"][0]["value"][
                 "items"
@@ -117,32 +116,6 @@ def article_index_page(page_data):
         ]
     except ConnectionError:
         return render_template("errors/api.html"), 502
-    children = [
-        {
-            "id": child["id"],
-            "title": child["title"],
-            "url": child["meta"]["html_url"],
-            "teaser": child["teaser_text"],
-            "supertitle": child["verbose_name_public"]
-            if "verbose_name_public" in child
-            else "",
-            "image": child["teaser_image_jpg"],
-        }
-        for child in all_children
-    ]
-    featured_pages = [
-        {
-            "id": page["id"],
-            "title": page["title"],
-            "url": page["meta"]["html_url"],
-            "teaser": page["teaser_text"],
-            "supertitle": page["verbose_name_public"]
-            if "verbose_name_public" in page
-            else "",
-            "image": page["teaser_image_jpg"],
-        }
-        for page in all_featured_pages
-    ]
     return render_template(
         "explore/stories.html",
         breadcrumbs=breadcrumbs(page_data["id"]),

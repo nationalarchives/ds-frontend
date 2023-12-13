@@ -36,6 +36,24 @@ def create_app(config_class=Config):
         s = re.sub(r"^-+|-+$", "", s)
         return s
 
+    @app.template_filter("article_supertitle")
+    def article_supertitle(s):
+        if s == "articles.ArticlePage":
+            return "The story of"
+        if s == "articles.FocusedArticlePage":
+            return "Focus on"
+        if s == "articles.RecordArticlePage":
+            return "Record revealed"
+        return ""
+
+    @app.template_filter("brand_icon_from_url")
+    def brand_icon_from_url(s):
+        if "facebook.com" in s:
+            return "facebook"
+        if "youtube.com" in s:
+            return "youtube"
+        return ""
+
     @app.template_filter("headings_list")
     def headings_list(s):
         headings_raw = re.findall(

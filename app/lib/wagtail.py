@@ -9,11 +9,10 @@ def wagtail_request_handler(uri, params={}):
     query_string = "&".join(
         ["=".join((str(key), str(value))) for key, value in params.items()]
     )
-    print(query_string)
-    print(f"{api_url}/{uri}?{query_string}")
     r = requests.get(f"{api_url}/{uri}?{query_string}")
     if r.status_code == 404:
-        raise Exception("Resource not found")
+        # raise Exception("Resource not found")
+        return {}
     if r.status_code == requests.codes.ok:
         try:
             return r.json()
@@ -50,7 +49,13 @@ def page_ancestors(page_id):
 def page_children_paginated(page_id, page, children_per_page):
     offset = (page - 1) * children_per_page
     uri = "pages/"
-    params = {"child_of": page_id, "offset": offset, "limit": children_per_page}
+    order = "-first_published_at"
+    params = {
+        "child_of": page_id,
+        "offset": offset,
+        "limit": children_per_page,
+        "order": order,
+    }
     return wagtail_request_handler(uri, params)
 
 

@@ -4,7 +4,10 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ data['title'] }}</h1>
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">{{ data['meta']['type'] | article_supertitle }}</p>
+        <h1 class="tna-hgroup__title">{{ data['title'] }}</h1>
+      </hgroup>
       {{ data['intro'] | safe }}
     </div>
   </div>

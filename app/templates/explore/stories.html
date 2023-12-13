@@ -14,6 +14,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       {{ tnaCard({
+        'supertitle': featured_article['meta']['type'] | article_supertitle,
         'title': featured_article['title'],
         'headingLevel': 2,
         'headingSize': 'l',
@@ -31,6 +32,7 @@
         ],
         'horizontal': True,
         'style': 'accent',
+        'plainSupertitle': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}
@@ -48,15 +50,16 @@
     {% for page in featured_pages %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
       {{ tnaCard({
-        'supertitle': page['supertitle'],
+        'supertitle': page['meta']['type'] | article_supertitle,
         'title': page['title'],
         'headingLevel': 3,
-        'body': page['teaser'],
-        'href': page['url'],
-        'imageSrc': page['image']['full_url'],
-        'imageAlt': page['image']['alt'],
-        'imageWidth': page['image']['width'],
-        'imageHeight': page['image']['height'],
+        'headingSize': 's',
+        'href': page['meta']['html_url'],
+        'body': page['teaser_text'],
+        'imageSrc': page['teaser_image_jpg']['full_url'],
+        'imageAlt': page['teaser_image_jpg']['alt'],
+        'imageWidth': page['teaser_image_jpg']['width'],
+        'imageHeight': page['teaser_image_jpg']['height'],
         'plainSupertitle': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
@@ -81,15 +84,16 @@
     {% for child in children %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
       {{ tnaCard({
-        'supertitle': child['supertitle'],
+        'supertitle': child['meta']['type'] | article_supertitle,
         'title': child['title'],
         'headingLevel': 3,
-        'body': child['teaser'],
-        'href': child['url'],
-        'imageSrc': child['image']['full_url'],
-        'imageAlt': child['image']['alt'],
-        'imageWidth': child['image']['width'],
-        'imageHeight': child['image']['height'],
+        'headingSize': 's',
+        'href': child['meta']['html_url'],
+        'body': child['teaser_text'],
+        'imageSrc': child['teaser_image_jpg']['full_url'],
+        'imageAlt': child['teaser_image_jpg']['alt'],
+        'imageWidth': child['teaser_image_jpg']['width'],
+        'imageHeight': child['teaser_image_jpg']['height'],
         'plainSupertitle': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
