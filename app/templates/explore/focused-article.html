@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{%- from "common/article-blocks.html" import articleBlocks -%}
+{%- from "macros/article-blocks.html" import articleBlocks -%}
 {%- from "components/breadcrumbs/macro.html" import tnaBreadcrumbs -%}
 {%- from "components/hero/macro.html" import tnaHero -%}
 {%- from "components/picture/macro.html" import tnaPicture -%}
@@ -67,7 +67,7 @@
   <section class="tna-section">
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-l etna-article__sections">
-        {{ articleBlocks(data['body'], get_wagtail_image) }}
+        {{ articleBlocks(data['body'], get_wagtail_image, get_wagtail_page, get_wagtail_media, WAGTAIL_MEDIA_URL) }}
       </div>
       {% if author %}
       <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny">

@@ -136,6 +136,11 @@
       }
     }
   }
+
+  .tna-featured-records {
+    margin-right: 3rem;
+    margin-left: 3rem;
+  }
 }
 
 .etna-author-list {
@@ -245,8 +250,26 @@
 
     .tna-card__inner {
       @include colour.plain;
+
+      &:not(:has(.tna-card__image-container)) {
+        padding-top: 1rem;
+      }
     }
   }
+}
+
+.tna-background-mask {
+  @include colour.contrast;
+
+  background-color: rgb(0 0 0 / 85%);
+  background-blend-mode: multiply;
+}
+
+.etna-audio {
+  width: 100%;
+  @include spacing.space-above;
+
+  display: block;
 }
 
 .etna-block-list {

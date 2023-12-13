@@ -8,6 +8,7 @@ services:
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
+      - WAGTAIL_MEDIA_URL=http://localhost:8000
       - CACHE_DEFAULT_TIMEOUT=1
     ports:
       - 65535:8080

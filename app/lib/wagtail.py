@@ -64,6 +64,11 @@ def image_details(image_id):
     return wagtail_request_handler(uri)
 
 
+def media_details(media_id):
+    uri = f"media/{media_id}/"
+    return wagtail_request_handler(uri)
+
+
 def page_preview(content_type, token):
     uri = "page_preview/1/"
     params = {"content_type": content_type, "token": token}

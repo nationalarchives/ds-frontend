@@ -1,0 +1,192 @@
+{%- from "components/button/macro.html" import tnaButton -%}
+{%- from "components/card/macro.html" import tnaCard -%}
+{%- from "components/picture/macro.html" import tnaPicture -%}
+{%- from "components/featured-records/macro.html" import tnaFeaturedRecords -%}
+
+{% macro articleBlocks(blocks, get_wagtail_image, get_wagtail_page, get_wagtail_media, WAGTAIL_MEDIA_URL) %}
+  {% for block in blocks %}
+  <section class="etna-article__section">
+    <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ block['value']['heading'] | slugify }}">{{ block['value']['heading'] }}</h2>
+    {% for content_item in block['value']['content'] %}
+      {% if content_item['type'] == 'paragraph' %}
+      {{ content_item['value']['text'] | tna_html | safe }}
+
+      {% elif content_item['type'] == 'sub_heading' %}
+      <h3 class="tna-heading-m">{{ block['value']['heading'] }}</h3>
+
+      {% elif content_item['type'] == 'image' %}
+      {# TODO: This is the original image - we need an image rendition #}
+      {% with image = get_wagtail_image(content_item['value']['image']) %}
+      {{ tnaPicture({
+        'src': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
+        'alt': content_item['value']['alt_text'],
+        'width': image['width'],
+        'height': image['height'],
+        'caption': content_item['value']['caption'],
+        'transcript': image['transcription'] | tna_html,
+        'translation': image['translation']
+      }) }}
+      {% endwith %}
+
+      {% elif content_item['type'] == 'quote' %}
+      <blockquote class="tna-blockquote">
+        <div class="tna-blockquote__quote">
+          {{ content_item['value']['quote'] | safe }}
+        </div>
+        <p class="tna-blockquote__author">{{ content_item['value']['attribution'] }}</p>
+      </blockquote>
+
+      {% elif content_item['type'] == 'promoted_list' %}
+      <aside class="etna-space-above">
+        <ul class="etna-block-list">
+          {% for item in content_item['value']['promoted_items'] %}
+          <li>
+            {% set supertitle = '' %}
+            {% if 'blog.nationalarchives.gov.uk' in item['url'] %}
+              {% set supertitle = 'Blog' %}
+            {% elif 'www.nationalarchives.gov.uk/help-with-your-research/research-guides' in item['url'] %}
+              {% set supertitle = 'Research guide' %}
+            {% elif 'www.nationalarchives.gov.uk/education/resources' in item['url'] %}
+              {% set supertitle = 'Teaching resource' %}
+            {% endif %}
+            {% if supertitle %}
+            <hgroup class="tna-hgroup-s">
+              <p class="tna-hgroup__supertitle">{{ supertitle }}</p>
+              <h2 class="tna-hgroup__title">
+                <a href="{{ item['url'] }}">{{ item['title'] }}</a>
+              </h2>
+            </hgroup>
+            {% else %}
+            <h3 class="tna-heading-s">
+              <a href="{{ item['url'] }}">{{ item['title'] }}</a>
+            </h3>
+            {% endif %}
+            {{ item['description'] | safe }}
+          </li>
+          {% endfor %}
+        </ul>
+      </aside>
+
+      {% elif content_item['type'] == 'promoted_item' %}
+      {# TODO: This is the original image - we need an image rendition #}
+      <aside class="etna-space-above">
+      {% if content_item['value']['image']['image'] %}
+      {% with image = get_wagtail_image(content_item['value']['image']['image']) %}
+      {{ tnaCard({
+        'title': content_item['value']['title'],
+        'headingLevel': 3,
+        'headingSize': 'm',
+        'body': content_item['value']['description'],
+        'href': content_item['value']['url'],
+        'imageSrc': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
+        'actions': [
+          {
+            'text': content_item['value']['cta_label'],
+            'href': content_item['value']['url'],
+            'brandIcon': content_item['value']['url'] | brand_icon_from_url
+          }
+        ],
+        'horizontal': True,
+        'style': 'accent',
+        'htmlElement': 'article',
+        'classes': 'etna-promoted-item'
+      }) }}
+      {% endwith %}
+      {% else %}
+      {{ tnaCard({
+        'title': content_item['value']['title'],
+        'headingLevel': 3,
+        'headingSize': 'm',
+        'body': content_item['value']['description'],
+        'href': content_item['value']['url'],
+        'actions': [
+          {
+            'text': content_item['value']['cta_label'],
+            'href': content_item['value']['url'],
+            'brandIcon': content_item['value']['url'] | brand_icon_from_url
+          }
+        ],
+        'style': 'accent',
+        'htmlElement': 'article',
+        'classes': 'etna-promoted-item'
+      }) }}
+      {% endif %}
+      </aside>
+
+      {% elif content_item['type'] == 'record_links' %}
+      {% set items = [] %}
+      {% for i in content_item['value']['items'] %}
+        {# TODO: This is the original image - we need an image rendition #}
+        {# TODO: Collection #}
+        {% with image = get_wagtail_image(i['thumbnail_image']) %}
+        {{ items.append({
+          'imageSrc': image['file'],
+          'width': image['width'],
+          'height': image['height'],
+          'collection': "TS 11/45/167",
+          'title': i['descriptive_title'],
+          'href': "#",
+          'date': i['record_dates']
+        }) or "" }}
+        {% endwith %}
+      {% endfor %}
+      {{ tnaFeaturedRecords({
+        'items': items
+      }) }}
+
+      {% elif content_item['type'] == 'featured_record_article' %}
+      {# TODO: This is the original image - we need an image rendition #}
+      <aside class="etna-space-above">
+      {% with article = get_wagtail_page(content_item['value']['page']) %}
+      {{ tnaCard({
+        'supertitle': article['meta']['type'] | article_supertitle,
+        'title': article['title'],
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': article['meta']['html_url'],
+        'meta': [
+          {
+            'text': article['date_text'],
+            'icon': 'calendar'
+          }
+        ],
+        'text': article['teaser_text'],
+        'imageSrc': article['teaser_image_jpg']['full_url'],
+        'imageAlt': article['teaser_image_jpg']['alt'],
+        'imageWidth': article['teaser_image_jpg']['width'],
+        'imageHeight': article['teaser_image_jpg']['height'],
+        'plainSupertitle': True,
+        'htmlElement': 'article',
+        'horizontal': True
+      }) }}
+      {% endwith %}
+      </aside>
+
+      {% elif content_item['type'] == 'media' %}
+      {% with media = get_wagtail_media(content_item['value']['media']) %}
+      {% with background_image = get_wagtail_image(content_item['value']['background_image']) %}
+      <aside class="tna-aside tna-background-mask" style="background-image: url({{ WAGTAIL_MEDIA_URL }}{{ background_image['meta']['download_url'] }})">
+        <hgroup class="tna-hgroup-l">
+          <p class="tna-hgroup__supertitle">Listen</p>
+          <h3 class="tna-hgroup__title">
+            {{ content_item['value']['title'] }}
+          </h3>
+        </hgroup>
+        {{ media['description'] | safe }}
+        <audio class="etna-audio" controls="" aria-label="Transcript provided below">
+          <source src="{{ WAGTAIL_MEDIA_URL }}{{ media['url'] }}" type="{{ media['mime'] }}">
+          <p>Your browser doesn't support HTML5 audio. <a href="{{ WAGTAIL_MEDIA_URL }}{{ media['url'] }}">Download the audio file</a>.</p>
+        </audio>
+        {# TODO #}
+        <!-- {{ media['transcript'] | safe }} -->
+      </aside>
+      {% endwith %}
+      {% endwith %}
+
+      {% else %}
+      <h1 class="tna-heading-xl">======= TODO: {{ content_item['type'] }} =======</h1>
+      {% endif %}
+    {% endfor %}
+  </section>
+  {% endfor %}
+{% endmacro %}

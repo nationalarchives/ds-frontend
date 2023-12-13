@@ -3,6 +3,7 @@ from .cache import cache
 from .pagination_list import pagination_list
 from .wagtail import (
     image_details,
+    media_details,
     page_ancestors,
     page_children,
     page_children_paginated,

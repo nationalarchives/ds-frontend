@@ -1,10 +1,9 @@
 import re
 
-from app.lib import cache, image_details, page_details
-from config import Config
+from app.lib import cache, image_details, media_details, page_details
+from config import Config, config
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
-from markdown import markdown
 
 
 def create_app(config_class=Config):
@@ -80,9 +79,15 @@ def create_app(config_class=Config):
             page_data = page_details(page_id)
             return page_data
 
+        def get_wagtail_media(media_id):
+            media_data = media_details(media_id)
+            return media_data
+
         return dict(
             get_wagtail_image=get_wagtail_image,
             get_wagtail_page=get_wagtail_page,
+            get_wagtail_media=get_wagtail_media,
+            WAGTAIL_MEDIA_URL=config["WAGTAIL_MEDIA_URL"],
         )
 
     from .explore import bp as explore_bp
