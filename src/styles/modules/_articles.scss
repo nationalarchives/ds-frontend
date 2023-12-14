@@ -50,14 +50,16 @@
   }
 
   &__sections {
-    &::after {
-      width: 100%;
+    @include media.on-mobile {
+      &::after {
+        width: 100%;
 
-      display: block;
+        display: block;
 
-      @include colour.colour-border("keyline", 1px, solid, bottom);
+        @include colour.colour-border("keyline", 1px, solid, bottom);
 
-      content: "";
+        content: "";
+      }
     }
   }
 
