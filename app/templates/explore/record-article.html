@@ -3,6 +3,7 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/tabs/macro.html' import tnaTabs -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
 <section class="tna-section">
@@ -157,4 +158,5 @@ href="https://discovery.nationalarchives.gov.uk/details/r/{{ data['record'] }}">
     </div>
   </div>
 </section>
+{{ feedback() }}
 {% endblock %}

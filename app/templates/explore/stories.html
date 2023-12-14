@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% from 'components/card/macro.html' import tnaCard %}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
 {% if page == 1 %}
@@ -142,4 +143,5 @@
     </div>
   </div>
 </section>
+{{ feedback() }}
 {% endblock %}

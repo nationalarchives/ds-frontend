@@ -1,0 +1,44 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+
+.tna-hero {
+  &--thinner {
+    .tna-hero__figure {
+      min-height: min(20vw, 480px);
+    }
+  }
+}
+
+.tna-button-group {
+  &--full {
+    justify-content: stretch;
+
+    @include media.on-mobile {
+      flex-direction: column;
+
+      align-items: stretch;
+    }
+
+    .tna-button {
+      margin: 0;
+
+      flex: 1;
+    }
+  }
+}
+
+.tna-card {
+  &.etna-promoted-item {
+    @include colour.colour-background("background-tint");
+
+    @include colour.colour-border("accent-background", 0.25rem, solid, top);
+
+    .tna-card__inner {
+      @include colour.plain;
+
+      &:not(:has(.tna-card__image-container)) {
+        padding-top: 1rem;
+      }
+    }
+  }
+}

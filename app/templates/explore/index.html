@@ -2,6 +2,7 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
 <section class="tna-section">
@@ -75,4 +76,5 @@
     </div>
   </div>
 </section>
+{{ feedback() }}
 {% endblock %}

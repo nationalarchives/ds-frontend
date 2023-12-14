@@ -5,6 +5,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/message/macro.html' import tnaMessage -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {% block beforeContent %}{% endblock %}
 
@@ -100,6 +101,7 @@
     </div>
   </section>
 </article>
+{{ feedback() }}
 {% endblock %}
 
 {% block bodyEnd %}

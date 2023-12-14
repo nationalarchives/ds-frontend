@@ -1,0 +1,65 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+
+.etna-author-list {
+  padding: 1rem 0;
+
+  @include colour.colour-border("keyline", 1px, dashed, top);
+
+  &__heading {
+    // padding-top: 1rem;
+  }
+
+  &__items {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+  &__item {
+    margin-top: 2rem;
+
+    p {
+      margin-top: 0.5rem;
+    }
+  }
+
+  &__image {
+  }
+
+  &__name {
+  }
+
+  &__description {
+  }
+
+  @include media.on-mobile {
+    padding: 2rem 0;
+
+    @include colour.colour-border("keyline", 1px, dashed, bottom);
+  }
+}
+
+.etna-author-header {
+  @include media.on-tiny {
+    text-align: center;
+
+    .etna-author-image {
+      margin: 0 auto 2rem;
+    }
+  }
+}
+
+.etna-author-image {
+  width: 20rem;
+  border-radius: 100%;
+
+  @include media.on-tiny {
+    width: 8rem;
+  }
+
+  &--small {
+    width: 5rem;
+  }
+}

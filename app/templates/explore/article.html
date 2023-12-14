@@ -4,6 +4,7 @@
 {%- from 'macros/article-sidebar.html' import articleSidebar -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {% block pageTitle %}{{ data['title'] }} - {{ super() }}{% endblock %}
 
@@ -110,6 +111,7 @@
     {% endfor %}
   </div>
 </section>
+{{ feedback() }}
 {% endblock %}
 
 {% block bodyEnd %}

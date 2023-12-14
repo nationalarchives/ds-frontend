@@ -92,10 +92,12 @@ def create_app(config_class=Config):
 
     from .explore import bp as explore_bp
     from .main import bp as site_bp
+    from .search import bp as search_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
     app.register_blueprint(explore_bp, url_prefix="/explore-the-collection")
+    app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(wagtail_bp)
 
     return app

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% from 'components/card/macro.html' import tnaCard %}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
 <section class="tna-section">
@@ -29,4 +30,5 @@
     {% endfor %}
   </div>
 </section>
+{{ feedback() }}
 {% endblock %}

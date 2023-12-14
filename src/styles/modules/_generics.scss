@@ -1,0 +1,5 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
+.etna-space-above {
+  @include spacing.space-above;
+}

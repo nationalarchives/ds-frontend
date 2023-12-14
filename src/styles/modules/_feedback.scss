@@ -1,0 +1,9 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+
+.etna-feedback {
+  padding: 2rem;
+
+  text-align: center;
+
+  @include colour.colour-border("keyline", 1px);
+}
