@@ -1,37 +1,158 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/tabs/macro.html' import tnaTabs -%}
 
 {% block content %}
 <section class="tna-section">
   <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
       <hgroup class="tna-hgroup-xl">
         <p class="tna-hgroup__supertitle">{{ data['meta']['type'] | article_supertitle }}</p>
         <h1 class="tna-hgroup__title">{{ data['title'] }}</h1>
       </hgroup>
       {{ data['intro'] | safe }}
     </div>
+    <div class="tna-column tna-column--width-1-3 tna-!--hide-on-small tna-!--hide-on-tiny etna-tilted-image-wrapper">
+      <img src="{{ data['teaser_image_square_jpg']['full_url'] }}" width="{{ data['teaser_image_square_jpg']['width'] }}" height="{{ data['teaser_image_square_jpg']['height'] }}" alt="{{ data['teaser_image_square_jpg']['alt'] }}" class="etna-tilted-image">
+    </div>
   </div>
-  {% if 'hero_image_jpg' in data %}
-  <div class="tna-hero">
-    <figure class="tna-hero__figure">
-      <figcaption class="tna-hero__caption">
-        <details class="tna-hero__details">
-          <summary class="tna-hero__details-summary">
-            <span class="tna-hero__details-summary-icon">I</span>mage caption
-          </summary>
-          <div class="tna-hero__information">
-            {{ data['hero_image_caption'] | safe }}
-          </div>
-        </details>
-      </figcaption>
-      <picture class="tna-hero__image">
-        <img class="tna-picture__image" width="{{ data['hero_image_jpg']['width'] }}" height="{{ data['hero_image_jpg']['height'] }}" src="{{ data['hero_image_jpg']['full_url'] }}" alt="">
-      </picture>
-    </figure>
+</section>
+<section class="tna-gallery" data-module="tna-gallery">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full tna-gallery__header">
+      <h3 class="tna-heading-l">
+        Images
+      </h3>
+    </div>
   </div>
-  {% endif %}
+  <div class="tna-gallery__items">
+
+
+    <div class="tna-gallery__item tna-container">
+      <div class="tna-column tna-column--full tna-gallery__header">
+        <p class="tna-gallery__item-index">Image 1 of 2</p>
+      </div>
+      <figure class="tna-gallery__item-figure tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        <img src="https://picsum.photos/800/600?1" class="tna-gallery__item-image" alt="Photo 1" width="" height="">
+        <figcaption class="tna-gallery__item-description">
+          <p>Photo 1</p>
+        </figcaption>
+      </figure>
+      <div class="tna-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        {{ tnaTabs({
+          'items': [
+            {
+              'id': 'unique-id-a',
+              'title': 'Alpha section',
+              'body': '<h2 class="tna-heading-l">Alpha title</h2><p>Lorem ipsum</p>'
+            },
+            {
+              'id': 'unique-id-b',
+              'title': 'Beta section',
+              'body': '<h2 class="tna-heading-l">Beta title</h2><p>Lorem ipsum</p>'
+            },
+            {
+              'id': 'unique-id-c',
+              'title': 'Gamma section',
+              'body': '<h2 class="tna-heading-l">Gamma title</h2><p>Lorem ipsum</p>'
+            }
+          ]
+        }) }}
+      </div>
+    </div>
+    <div class="tna-gallery__item tna-container">
+      <div class="tna-column tna-column--full tna-gallery__header">
+        <p class="tna-gallery__item-index">Image 1 of 2</p>
+      </div>
+      <figure class="tna-gallery__item-figure tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        <img src="https://picsum.photos/800/600?1" class="tna-gallery__item-image" alt="Photo 1" width="" height="">
+        <figcaption class="tna-gallery__item-description">
+          <p>Photo 1</p>
+        </figcaption>
+      </figure>
+      <div class="tna-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        {{ tnaTabs({
+          'items': [
+            {
+              'id': 'unique-id-a2',
+              'title': 'Alpha section',
+              'body': '<h2 class="tna-heading-l">Alpha title</h2><p>Lorem ipsum</p>'
+            },
+            {
+              'id': 'unique-id-b2',
+              'title': 'Beta section',
+              'body': '<h2 class="tna-heading-l">Beta title</h2><p>Lorem ipsum</p>'
+            },
+            {
+              'id': 'unique-id-c2',
+              'title': 'Gamma section',
+              'body': '<h2 class="tna-heading-l">Gamma title</h2><p>Lorem ipsum</p>'
+            }
+          ]
+        }) }}
+      </div>
+    </div>
+
+
+  </div>
+</section>
+<section class="tna-section">
+  <div class="tna-container tna-container--centred">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">Why this record matters</h2>
+      <dl class="tna-dl tna-dl--plain">
+        <dt>Date</dt>
+        <dd>{{ data['date_text'] }}</dd>
+        <dt>Catalogue reference</dt>
+        <dd>
+            <a class="record-matters__text record-matters__text--bold"
+href="https://discovery.nationalarchives.gov.uk/details/r/{{ data['record'] }}">{{ data['record'] }}</a>
+        </dd>
+      </dl>
+      {{ data['about'] | safe }}
+      <div class="tna-button-group tna-button-group--full">
+        {{ tnaButton({
+          'text': 'View record details',
+          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + data['record'],
+          'accent': True
+        }) }}
+      </div>
+    </div>
+  </div>
+</section>
+<section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">{{ data['promoted_links'][0]['value']['heading'] }}</h2>
+    </div>
+    {% for page in data['promoted_links'][0]['value']['promoted_items'] %}
+    {% with image = get_wagtail_image(page['teaser_image']) %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      {# TODO imageSrc #}
+      {{ tnaCard({
+        'title': page['title'],
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': page['url'],
+        'body': page['description'],
+        'imageSrc': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
+        'imageAlt': image['title'],
+        'imageWidth': image['width'],
+        'imageHeight': image['height'],
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-l'
+      }) }}
+    </div>
+    {% endwith %}
+    {% endfor %}
+  </div>
+</section>
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">You may be interested in</h2>
       <p>TODO</p>
     </div>
   </div>

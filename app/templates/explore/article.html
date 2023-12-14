@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{%- from "macros/article-blocks.html" import articleBlocks -%}
-{%- from "macros/article-sidebar.html" import articleSidebar -%}
-{%- from "components/card/macro.html" import tnaCard -%}
-{%- from "components/hero/macro.html" import tnaHero -%}
+{%- from 'macros/article-blocks.html' import articleBlocks -%}
+{%- from 'macros/article-sidebar.html' import articleSidebar -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
 
 {% block pageTitle %}{{ data['title'] }} - {{ super() }}{% endblock %}
 
