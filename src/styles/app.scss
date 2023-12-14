@@ -266,6 +266,10 @@
     -0.25rem 0.75rem 0.75rem 1rem rgb(0 0 0 / 25%);
 }
 
+.tna-section:has(.etna-tilted-image) {
+  overflow: hidden;
+}
+
 .etna-space-above {
   @include spacing.space-above;
 }
