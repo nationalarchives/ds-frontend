@@ -17,14 +17,28 @@
       {% elif content_item['type'] == 'image' %}
       {# TODO: This is the original image - we need an image rendition #}
       {% with image = get_wagtail_image(content_item['value']['image']) %}
+      {% set picture_information = [] %}
+      {% if image['transcription'] %}
+      {% set picture_information = picture_information + [{
+        'id': 'transcription',
+        'title': image['transcription_heading'] or 'Transcription',
+        'body': image['transcription'] | tna_html
+      }] %}
+      {% endif %}
+      {% if image['translation'] %}
+      {% set picture_information = picture_information + [{
+        'id': 'translation',
+        'title': image['translation_heading'] or 'Translation',
+        'body': image['translation'] | tna_html
+      }] %}
+      {% endif %}
       {{ tnaPicture({
         'src': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
         'alt': content_item['value']['alt_text'],
         'width': image['width'],
         'height': image['height'],
         'caption': content_item['value']['caption'],
-        'transcript': image['transcription'] | tna_html,
-        'translation': image['translation']
+        'information': picture_information
       }) }}
       {% endwith %}
 
