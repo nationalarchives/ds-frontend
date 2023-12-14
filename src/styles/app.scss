@@ -15,6 +15,11 @@
   }
 }
 
+// .tna-header {
+//   @include colour.contrast;
+//   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.88));
+// }
+
 .etna-background-half-top-contrast {
   position: relative;
 
@@ -35,7 +40,7 @@
 .etna-article {
   &__sidebar {
     position: sticky;
-    top: 1rem;
+    top: 0;
   }
 
   &__sidebar-item {

@@ -77,8 +77,16 @@ $articles.forEach(($article) => {
   if ($sidebarItems) {
     let currentSectionId = "";
     const currentSectionFromTop = 0.15;
+    const onMobile = window.matchMedia("(max-width: 48em)");
+
+    // onMobile.addEventListener("change", () => {
+    //   console.log("onMobile", onMobile.matches);
+    // });
 
     const highlightCurrentSection = () => {
+      if (onMobile.matches) {
+        return;
+      }
       const $topSection = Array.from($sections)
         .reverse()
         .find(
