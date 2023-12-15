@@ -48,6 +48,11 @@
       <section class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections">
         {{ articleBlocks(data['body'], get_wagtail_image, get_wagtail_page, get_wagtail_media, WAGTAIL_MEDIA_URL) }}
       </section>
+      <div class="tna-column tna-column--full tna-!--margin-top-m">
+        <p>
+          <small>&quot;{{ data['meta']['type'] | article_supertitle }} {{ data['title'] }}&quot; was first published on <time datetime="{{ data['meta']['first_published_at'] }}">{{ data['meta']['first_published_at'] | pretty_date }}</time>.</small>
+        </p>
+      </div>
     </div>
   </section>
 </article>

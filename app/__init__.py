@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from app.lib import cache, image_details, media_details, page_details
 from config import Config, config
@@ -34,6 +35,12 @@ def create_app(config_class=Config):
         s = re.sub(r"[\s_-]+", "-", s)
         s = re.sub(r"^-+|-+$", "", s)
         return s
+
+    @app.template_filter("pretty_date")
+    def pretty_date(s):
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        new_date = date.strftime("%d %B %y")
+        return new_date
 
     @app.template_filter("article_supertitle")
     def article_supertitle(s):

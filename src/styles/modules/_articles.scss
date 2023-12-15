@@ -71,6 +71,12 @@
         outline: none !important;
       }
     }
+
+    @include media.on-larger-than-mobile {
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
   }
 
   &__section-button {
