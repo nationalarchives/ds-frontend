@@ -40,7 +40,7 @@ def create_app(config_class=Config):
     @app.template_filter("pretty_date")
     def pretty_date(s):
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        new_date = date.strftime("%d %B %y")
+        new_date = date.strftime("%d %B %Y")
         return new_date
 
     @app.template_filter("article_supertitle")
