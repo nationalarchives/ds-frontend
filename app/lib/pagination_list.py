@@ -47,10 +47,3 @@ def pagination_list(current_page, total_pages, boundaries, around):
         + [next_linker]
         + final_chunk_numbers
     )
-    return (
-        " ".join(map(str, initial_chunk_numbers))
-        + prev_linker
-        + " ".join(map(str, middle_chunk_numbers))
-        + next_linker
-        + " ".join(map(str, final_chunk_numbers))
-    ).strip()

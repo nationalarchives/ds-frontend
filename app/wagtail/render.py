@@ -1,18 +1,22 @@
 import math
 
-from app.lib import (
+from app.lib import pagination_list
+from app.wagtail.api import (
+    breadcrumbs,
     page_children,
     page_children_paginated,
     page_details,
-    pagination_list,
 )
-from app.wagtail import breadcrumbs
 from flask import current_app, render_template, request
 
 
-def render_explore_page(page_data):
+def render_content_page(page_data):
+    current_app.logger.debug(
+        f"Page ID {page_data['id']} requested with path '{request.path}'"
+    )
     page_type = page_data["meta"]["type"]
-    current_app.logger.debug(f"Page type {page_type} requested")
+    if page_type == "collections.ExplorerIndexPage":
+        return explore_index_page(page_data)
     if page_type == "articles.ArticleIndexPage":
         return article_index_page(page_data)
     if page_type == "articles.ArticlePage":
@@ -33,8 +37,49 @@ def render_explore_page(page_data):
         return focused_article_page(page_data)
     if page_type == "collections.HighlightGalleryPage":
         return highlight_gallery_page(page_data)
+    if page_type == "authors.AuthorIndexPage":
+        return author_index_page(page_data)
+    if page_type == "authors.AuthorPage":
+        return author_page(page_data)
     current_app.logger.error(f"Template for {page_type} not handled")
     return render_template("errors/page-not-found.html"), 404
+
+
+def explore_index_page(page_data):
+    try:
+        large_cards_data = page_data["body"][0]["value"]
+        large_card_1 = page_details(large_cards_data["page_1"])
+        large_card_2 = page_details(large_cards_data["page_2"])
+        featured_article = page_details(page_data["featured_article"]["id"])
+        featured_pages = [
+            page_details(featured_page_id)
+            for featured_page_id in page_data["featured_articles"][0]["value"][
+                "items"
+            ]
+        ]
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/page-not-found.html"), 404
+    large_cards = [
+        {
+            "href": card["meta"]["html_url"],
+            "src": card["teaser_image_jpg"]["full_url"],
+            "alt": card["teaser_image_jpg"]["alt"],
+            "width": card["teaser_image_jpg"]["width"],
+            "height": card["teaser_image_jpg"]["height"],
+            "title": card["title"],
+        }
+        for card in [large_card_1, large_card_2]
+    ]
+    return render_template(
+        "explore/index.html",
+        breadcrumbs=breadcrumbs(page_data["id"]),
+        data=page_data,
+        large_cards=large_cards,
+        featured_article=featured_article,
+        featured_pages=featured_pages,
+    )
 
 
 def category_index_page(page_data):
@@ -157,10 +202,19 @@ def record_article_page(page_data):
 
 
 def focused_article_page(page_data):
+    try:
+        authors = (
+            [page_details(author["author"]) for author in page_data["authors"]]
+            if page_data["authors"]
+            else []
+        )
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
     return render_template(
         "explore/focused-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
+        authors=authors,
     )
 
 
@@ -169,4 +223,37 @@ def highlight_gallery_page(page_data):
         "explore/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         data=page_data,
+    )
+
+
+def author_index_page(page_data):
+    try:
+        children_data = page_children(page_data["id"])
+        children = [
+            page_details(child["id"]) for child in children_data["items"]
+        ]
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    return render_template(
+        "authors/index.html",
+        breadcrumbs=breadcrumbs(page_data["id"]),
+        children=children,
+        data=page_data,
+    )
+
+
+def author_page(page_data):
+    authored_focused_articles = []
+    try:
+        authored_focused_articles = [
+            page_details(child["id"])
+            for child in page_data["authored_focused_articles"]
+        ]
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    return render_template(
+        "authors/details.html",
+        breadcrumbs=breadcrumbs(page_data["id"]),
+        data=page_data,
+        authored_focused_articles=authored_focused_articles,
     )

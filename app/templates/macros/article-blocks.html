@@ -132,6 +132,7 @@
       {% for i in content_item['value']['items'] %}
         {# TODO: This is the original image - we need an image rendition #}
         {# TODO: Collection #}
+        {% if i['thumbnail_image'] %}
         {% with image = get_wagtail_image(i['thumbnail_image']) %}
         {{ items.append({
           'imageSrc': image['file'],
@@ -143,6 +144,14 @@
           'date': i['record_dates']
         }) or "" }}
         {% endwith %}
+        {% else %}
+        {{ items.append({
+          'collection': "TS 11/45/167",
+          'title': i['descriptive_title'],
+          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + i['record'],
+          'date': i['record_dates']
+        }) or "" }}
+        {% endif %}
       {% endfor %}
       {{ tnaFeaturedRecords({
         'items': items

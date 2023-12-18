@@ -9,18 +9,40 @@ def wagtail_request_handler(uri, params={}):
     query_string = "&".join(
         ["=".join((str(key), str(value))) for key, value in params.items()]
     )
-    r = requests.get(f"{api_url}/{uri}?{query_string}")
+    url = f"{api_url}/{uri}?{query_string}"
+    r = requests.get(url)
     if r.status_code == 404:
-        # raise Exception("Resource not found")
+        # print(url)
+        # print("404")
+        raise Exception("Resource not found")
         return {}
     if r.status_code == requests.codes.ok:
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
+            # print("no JSON")
             current_app.logger.error(e)
             raise ConnectionError("API provided non-JSON response")
     current_app.logger.error(f"API responded with {r.status_code} status")
+    # print("no conn")
     raise ConnectionError("Request to API failed")
+
+
+def breadcrumbs(page_id):
+    ancestors = page_ancestors(page_id)
+    return (
+        [
+            {
+                "text": "Home"
+                if ancestor["meta"]["type"] == "home.HomePage"
+                else ancestor["title"],
+                "href": ancestor["meta"]["html_url"],
+            }
+            for ancestor in ancestors["items"]
+        ]
+        if ancestors
+        else []
+    )
 
 
 def page_details(page_id):

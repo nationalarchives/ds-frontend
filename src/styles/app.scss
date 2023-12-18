@@ -1,3 +1,10 @@
+// @use "@nationalarchives/frontend/nationalarchives/variables/features" with (
+//   $debug-interactable-areas: true
+// );
+// @use "@nationalarchives/frontend/nationalarchives/variables/grid" with (
+//   $largest-container-width: 90rem
+// );
+
 @use "@nationalarchives/frontend/nationalarchives/all";
 
 @use "modules/frontend-overrides";
