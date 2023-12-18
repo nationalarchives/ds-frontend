@@ -1,4 +1,4 @@
-import requests
+from config import Config
 from app.explore import bp
 from app.lib import cache, page_details, page_details_by_uri
 from app.wagtail import breadcrumbs
@@ -16,7 +16,7 @@ def make_cache_key_prefix():
 @cache.cached()
 def explore():
     try:
-        explore_data = page_details(5)
+        explore_data = page_details(Config().EXPLORE_PAGE_ID_ENTRY)
         large_cards_data = explore_data["body"][0]["value"]
         large_card_1 = page_details(large_cards_data["page_1"])
         large_card_2 = page_details(large_cards_data["page_2"])
