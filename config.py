@@ -1,5 +1,5 @@
 import os
-from distutils.util import strtobool
+from app.lib.util import strtobool
 
 
 class Config(object):

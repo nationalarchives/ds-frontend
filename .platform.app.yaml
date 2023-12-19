@@ -1,6 +1,6 @@
 name: app
 
-type: "python:3.11"
+type: "python:3.12"
 
 variables:
   env:
@@ -12,7 +12,6 @@ disk: 2048
 
 hooks:
   build: |
-    apt-get install python3-distutils
     python3 -m venv .venv
     source .venv/bin/activate
     curl -sSL https://install.python-poetry.org | python3 - --version 1.6.1
