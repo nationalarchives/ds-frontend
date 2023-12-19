@@ -48,7 +48,7 @@ web:
 mounts:
   tmp:
     source: local
-    source_path: /tmp
+    source_path: tmp
 
 crons:
   renewcert:
