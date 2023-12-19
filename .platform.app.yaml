@@ -18,8 +18,11 @@ hooks:
     curl -sSL https://install.python-poetry.org | python3 - --version 1.6.1
     export PATH="/app/.local/bin:$PATH"
     export PIP_USER=true
+    poetry show
     poetry install
+    poetry show
     poetry add gunicorn@21.2.0
+    poetry show
     npm install
     npm run build
     mkdir app/static/assets
@@ -29,7 +32,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output"
+    start: "/app/.local/bin/poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output"
   locations:
     "/":
       root: ""
@@ -45,7 +48,7 @@ web:
 mounts:
   tmp:
     source: local
-    source_path: tmp
+    source_path: /tmp
 
 crons:
   renewcert:
