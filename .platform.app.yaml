@@ -5,7 +5,7 @@ type: "python:3.11"
 variables:
   env:
     ENVIRONMENT: production
-    POETRY_VERSION: '1.6.1'
+    POETRY_VERSION: "1.6.1"
     POETRY_VIRTUALENVS_IN_PROJECT: true
     POETRY_VIRTUALENVS_CREATE: true
 
@@ -30,7 +30,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: "/app/.local/bin/poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output"
+    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output"
   locations:
     "/":
       root: ""

@@ -1,3 +1,4 @@
+import json
 import os
 
 import requests
@@ -21,29 +22,33 @@ def wagtail_request_handler(uri, params={}):
     if r.status_code == requests.codes.ok:
         try:
             if os.environ.get("ENVIRONMENT") == "staging":
-                r = r.replace(
+                text = r.text
+                text = text.replace(
                     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
                 )
-                r = r.replace(
+                text = text.replace(
                     "http://localhost:8000/",
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
                 )
-                r = r.replace(
+                text = text.replace(
                     "http://127.0.0.1:8000/",
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
                 )
+                return json.loads(text)
             elif os.environ.get("ENVIRONMENT") == "develop":
-                r = r.replace(
+                text = r.text
+                text = text.replace(
                     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
                     "http://localhost:65535/",
                 )
-                r = r.replace(
+                text = text.replace(
                     "http://localhost:8000/", "http://localhost:65535/"
                 )
-                r = r.replace(
+                text = text.replace(
                     "http://127.0.0.1:8000/", "http://localhost:65535/"
                 )
+                return json.loads(text)
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
             # print("no JSON")
