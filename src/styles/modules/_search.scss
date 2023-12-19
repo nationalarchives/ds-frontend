@@ -126,6 +126,8 @@ html.tna-template
     display: block;
     box-sizing: border-box;
 
+    text-align: center;
+
     border-top: 0.25rem transparent solid;
 
     &:not(#{&}--plain) {
