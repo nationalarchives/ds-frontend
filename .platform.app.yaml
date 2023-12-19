@@ -39,7 +39,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: poetry run gunicorn etna:app --bind unix:$SOCKET --log-level warn --timeout 30 --keep-alive 30 --access-logfile - --capture-output
+    start: poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output
   locations:
     "/":
       root: ""

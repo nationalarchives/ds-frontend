@@ -11,6 +11,6 @@
             - Accept
             - Vary
 
-"https://www.{default}/":
+"https://{default}/":
     type: redirect
-    to: "https://{default}/"
+    to: "https://www.{default}/"

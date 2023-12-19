@@ -1,3 +1,4 @@
+import os
 import requests
 from config import Config
 from flask import current_app
@@ -18,6 +19,10 @@ def wagtail_request_handler(uri, params={}):
         return {}
     if r.status_code == requests.codes.ok:
         try:
+            if os.environ.get("ENVIRONMENT") == "develop" or os.environ.get("ENVIRONMENT") == "staging":
+                r = r.replace("https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/", "http://localhost:65535/")
+                r = r.replace("http://localhost:8000/", "http://localhost:65535/")
+                r = r.replace("http://127.0.0.1:8000/", "http://localhost:65535/")
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
             # print("no JSON")
