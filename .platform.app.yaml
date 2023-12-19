@@ -15,16 +15,15 @@ disk: 2048
 
 hooks:
   build: |
-    python3.12 -m pip install --upgrade pip
-
+    python3 -m pip install --upgrade pip
     export PIP_USER=false
     curl -sSL https://install.python-poetry.org | python3 - --version 1.6.1
     export PATH="/app/.local/bin:$PATH"
     export PIP_USER=true
+    poetry --version
+    poetry add gunicorn@21.2.0
+    poetry install --sync --no-root
 
-    poetry install --only main
-
-    unset NPM_CONFIG_PREFIX
     export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
