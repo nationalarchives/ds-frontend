@@ -15,5 +15,5 @@ cache_config = {
     "CACHE_TYPE": "FileSystemCache",
     "CACHE_DEFAULT_TIMEOUT": int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300)),
     "CACHE_IGNORE_ERRORS": True,
-    "CACHE_DIR": "/tmp",
+    "CACHE_DIR": os.environ.get("CACHE_DIR", "/tmp"),
 }

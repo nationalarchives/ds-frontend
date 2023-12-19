@@ -75,6 +75,7 @@ html.tna-template
   &__name {
     @include typography.main-font-weight-bold;
     text-decoration: underline;
+    line-height: 1.5;
   }
 
   &__link:hover &__name {

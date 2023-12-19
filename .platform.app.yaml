@@ -1,0 +1,66 @@
+name: app
+
+type: 'python:3.12'
+
+variables:
+  env:
+    ENVIRONMENT: production
+    WAGTAIL_API_URL: https://feature-headless-4batnpq-rasrzs7pi6sd4.uk-1.platformsh.site/api/v2
+    WAGTAIL_MEDIA_URL: https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site
+    CACHE_DEFAULT_TIMEOUT: 60
+    EXPLORE_PAGE_ID_ENTRY: 5
+    AUTHORS_PAGE_ID_ENTRY: 295
+
+disk: 2048
+
+hooks:
+  build: |
+    python3.12 -m pip install --upgrade pip
+
+    export PIP_USER=false
+    curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION
+    export PATH="/app/.local/bin:$PATH"
+    export PIP_USER=true
+
+    poetry install --only main
+
+    unset NPM_CONFIG_PREFIX
+    export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    
+    nvm install
+    npm install
+    npm run build
+    mkdir app/static/assets
+    cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
+
+web:
+  upstream:
+    socket_family: unix
+  commands:
+    start: poetry run gunicorn etna:app --bind unix:$SOCKET --log-level warn --timeout 30 --keep-alive 30 --access-logfile - --capture-output
+  locations:
+    "/":
+      root: ""
+      passthru: true
+      allow: false
+    "/static":
+      headers:
+        Access-Control-Allow-Origin: '*'
+      root: static
+      expires: 1y
+      allow: true
+
+mounts:
+  tmp:
+    source: local
+    source_path: tmp
+
+crons:
+  renewcert:
+    spec: '0 4 1,15 * *'
+    cmd: |
+      if [ "$PLATFORM_BRANCH" = main ]; then
+        platform redeploy --yes --no-wait
+      fi

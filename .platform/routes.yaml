@@ -1,0 +1,16 @@
+"https://{default}/":
+    type: upstream
+    upstream: "app:http"
+    cache:
+        enabled: false
+        default_ttl: 300
+        cookies:
+            - cookies_policy
+            - cookie_preferences_set
+        headers:
+            - Accept
+            - Vary
+
+"https://www.{default}/":
+    type: redirect
+    to: "https://{default}/"
