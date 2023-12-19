@@ -1,6 +1,6 @@
 name: app
 
-type: 'python:3.12'
+type: "python:3.12"
 
 variables:
   env:
@@ -28,7 +28,7 @@ hooks:
     export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    
+
     nvm install
     npm install
     npm run build
@@ -47,7 +47,7 @@ web:
       allow: false
     "/static":
       headers:
-        Access-Control-Allow-Origin: '*'
+        Access-Control-Allow-Origin: "*"
       root: static
       expires: 1y
       allow: true
@@ -59,7 +59,7 @@ mounts:
 
 crons:
   renewcert:
-    spec: '0 4 1,15 * *'
+    spec: "0 4 1,15 * *"
     cmd: |
       if [ "$PLATFORM_BRANCH" = main ]; then
         platform redeploy --yes --no-wait
