@@ -22,7 +22,8 @@ hooks:
     curl -sSL https://install.python-poetry.org | python3 - --version 1.6.1
     export PATH="/app/.local/bin:$PATH"
     export PIP_USER=true
-    poetry install --only main
+    ls -alh
+    poetry install --sync --no-root
     poetry add gunicorn@21.2.0
     npm install
     npm run build
