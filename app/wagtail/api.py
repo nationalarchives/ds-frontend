@@ -20,10 +20,19 @@ def wagtail_request_handler(uri, params={}):
         return {}
     if r.status_code == requests.codes.ok:
         try:
-            if (
-                os.environ.get("ENVIRONMENT") == "develop"
-                or os.environ.get("ENVIRONMENT") == "staging"
+            if ( os.environ.get("ENVIRONMENT") == "staging"
             ):
+                r = r.replace(
+                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
+                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                )
+                r = r.replace(
+                    "http://localhost:8000/", "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/"
+                )
+                r = r.replace(
+                    "http://127.0.0.1:8000/", "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/"
+                )
+            elif os.environ.get("ENVIRONMENT") == "develop":
                 r = r.replace(
                     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
                     "http://localhost:65535/",
