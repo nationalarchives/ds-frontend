@@ -5,11 +5,19 @@
 {%- set bodyClasses = 'tna-template__body--search' -%}
 
 {% block content %}
+{% set show_tabs = True %}
 {% include 'search/elements/header.html' %}
 <section class="tna-section tna-container">
   <div class="tna-column tna-column--full">
-    <h2 class="tna-heading-l tna-!--padding-bottom-s" id="search-buckets-title">See all records from the catalogue</h2>
+    <p>Catalogue results for records held at The National Archives that match your search term.</p>
     {% include 'search/elements/buckets.html' %}
+  </div>
+</section>
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">TODO - catalogue</h2>
+    </div>
   </div>
 </section>
 {{ feedback() }}

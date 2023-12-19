@@ -31,11 +31,11 @@
 {% endblock %}
 
 {% block header %}
-{{ tnaPhaseBanner({
+<!-- {{ tnaPhaseBanner({
   'phase': 'prototype',
   'message': 'This is not a real service.',
   'classes': 'tna-background-accent-light'
-}) }}
+}) }} -->
 {%- set navigationItems = [] -%}
 {%- for navigationItem in [
   {
@@ -62,8 +62,7 @@
     'href': '#',
     'target': '_blank'
   },
-  'navigation': navigationItems,
-  'accent': True
+  'navigation': navigationItems
 }) }}
 {% endblock %}
 

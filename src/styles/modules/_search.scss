@@ -1,8 +1,23 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
+html.tna-template
+  .tna-template__body--search
+  .tna-header__navigation-item-link--selected {
+  &,
+  &:hover {
+    @include colour.tint;
+    @include colour.colour-font("font-base");
+  }
+}
+
 .etna-featured-search {
+  height: 100%;
+
+  box-sizing: border-box;
+
   @include colour.colour-border("accent-background", 0.125rem);
 
   &__list {
@@ -18,9 +33,82 @@
   }
 }
 
-.etna-search-tabs {
+.etna-search-buckets {
   @include spacing.space-above;
 
+  display: flex;
+  gap: 1rem;
+
+  list-style: none;
+
+  &__item {
+    flex: 1;
+
+    &--current {
+      @include colour.accent;
+    }
+  }
+
+  &__link {
+    height: 100%;
+    padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: stretch;
+    justify-content: center;
+
+    text-align: center;
+
+    @include colour.colour-border("keyline-dark", 1px);
+
+    &,
+    &:link,
+    &:visited {
+      @include colour.colour-font("link");
+
+      text-decoration: none;
+    }
+  }
+
+  &__name {
+    @include typography.main-font-weight-bold;
+    text-decoration: underline;
+  }
+
+  &__link:hover &__name {
+    @include typography.interacted-text-decoration;
+  }
+
+  &__meta {
+    display: block;
+
+    @include typography.relative-font-size(14);
+  }
+
+  @include media.on-mobile {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &__link {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+
+      flex-direction: row;
+      align-items: center;
+      gap: 2rem;
+
+      text-align: left;
+    }
+
+    &__name {
+      flex: 1;
+    }
+  }
+}
+
+.etna-search-tabs {
   display: flex;
   gap: 1rem;
   flex-wrap: nowrap;
@@ -31,9 +119,11 @@
   }
 
   &__item-link {
+    height: 100%;
     padding: 0.5rem 1rem;
 
     display: block;
+    box-sizing: border-box;
 
     border-top: 0.25rem transparent solid;
 
@@ -42,12 +132,22 @@
       @include typography.main-font-weight-bold;
       text-decoration: none;
 
-      background-color: rgb(255 255 255 / 25%);
-
       &,
       &:link,
       &:visited {
         @include colour.colour-font("font-base");
+      }
+    }
+
+    &:not(#{&}--plain):not(#{&}--current) {
+      background-color: rgb(255 255 255 / 25%);
+
+      @include colour.colour-border("keyline");
+
+      &:hover {
+        @include typography.interacted-text-decoration;
+
+        // @include colour.colour-background("page-background");
       }
     }
 

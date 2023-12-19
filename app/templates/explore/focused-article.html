@@ -7,10 +7,11 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
+{%- set bodyClasses = 'tna-template__body--focused-article' -%}
+
 {% block beforeContent %}{% endblock %}
 
 {% block content %}
-{% set author = get_wagtail_page(data['author']['id']) if data['author'] else None %}
 <article class="etna-article">
   <div class="tna-background-contrast">
     {% if breadcrumbs and breadcrumbs | length > 0 %}

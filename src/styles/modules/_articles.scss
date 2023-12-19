@@ -5,6 +5,16 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
+html.tna-template
+  .tna-template__body--focused-article
+  .tna-header__navigation-item-link--selected {
+  &,
+  &:hover {
+    @include colour.contrast;
+    @include colour.colour-font("font-base");
+  }
+}
+
 .etna-background-half-top-contrast {
   position: relative;
 

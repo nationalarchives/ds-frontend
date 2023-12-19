@@ -1,0 +1,35 @@
+{%- from 'components/search-field/macro.html' import tnaSearchField -%}
+
+<section class="tna-background-tint tna-!--padding-top-m">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <form action="{{ search_path or '/search/featured/' }}" method="get" class="tna-!--margin-bottom-m">
+        {{ tnaSearchField({
+          'label': 'All search results',
+          'headingLevel': 1,
+          'headingSize': 'l',
+          'hint': 'Search by keyword, place, person, or catalogue reference',
+          'id': 'search',
+          'name': 'q',
+          'value': query or ''
+        }) }}
+      </form>
+      {% if show_tabs %}
+      <ul class="etna-search-tabs">
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.featured', q=query) if query else url_for('search.featured') }}" class="etna-search-tabs__item-link{{ ' etna-search-tabs__item-link--current' if url_for('search.featured') == request.path }}">All results</a>
+        </li>
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.catalogue', q=query) if query else url_for('search.catalogue') }}" class="etna-search-tabs__item-link{{ ' etna-search-tabs__item-link--current' if url_for('search.catalogue') == request.path }}">Catalogue results</a>
+        </li>
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.website', q=query) if query else url_for('search.website') }}" class="etna-search-tabs__item-link{{ ' etna-search-tabs__item-link--current' if url_for('search.website') == request.path }}">Our website results</a>
+        </li>
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.index') }}" class="etna-search-tabs__item-link etna-search-tabs__item-link--plain tna-link--no-visited-state">Start new search</a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</section>
