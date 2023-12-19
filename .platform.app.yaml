@@ -15,7 +15,7 @@ hooks:
     set -eu
     python3.12 -m pip install --upgrade pip
     export PIP_USER=false
-    curl -sSL https://install.python-poetry.org | python3 -
+    curl -sSL https://install.python-poetry.org | python3 - --version 1.6.1
     export PATH="/app/.local/bin:$PATH"
     export PIP_USER=true
     poetry install
