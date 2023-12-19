@@ -5,11 +5,6 @@ type: "python:3.12"
 variables:
   env:
     ENVIRONMENT: production
-    WAGTAIL_API_URL: https://feature-headless-4batnpq-rasrzs7pi6sd4.uk-1.platformsh.site/api/v2
-    WAGTAIL_MEDIA_URL: https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site
-    CACHE_DEFAULT_TIMEOUT: 60
-    EXPLORE_PAGE_ID_ENTRY: 5
-    AUTHORS_PAGE_ID_ENTRY: 295
     POETRY_VIRTUALENVS_IN_PROJECT: true
     POETRY_VIRTUALENVS_CREATE: true
 
@@ -22,7 +17,6 @@ hooks:
     curl -sSL https://install.python-poetry.org | python3 - --version 1.6.1
     export PATH="/app/.local/bin:$PATH"
     export PIP_USER=true
-    ls -alh
     poetry install --sync --no-root
     poetry add gunicorn@21.2.0
     npm install
@@ -34,7 +28,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: /app/.local/bin/poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output
+    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output"
   locations:
     "/":
       root: ""
