@@ -21,14 +21,8 @@ hooks:
     export PATH="/app/.local/bin:$PATH"
     export PIP_USER=true
     poetry --version
+    poetry install --only main
     poetry add gunicorn@21.2.0
-    poetry install --sync --no-root
-
-    export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-    nvm install
     npm install
     npm run build
     mkdir app/static/assets
@@ -38,7 +32,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output
+    start: /app/.local/bin/poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output
   locations:
     "/":
       root: ""
