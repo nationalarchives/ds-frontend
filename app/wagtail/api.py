@@ -7,33 +7,23 @@ from flask import current_app
 
 
 def wagtail_request_handler(uri, params={}):
-    current_app.logger.warning("wagtail_request_handler")
     api_url = Config().WAGTAIL_API_URL
-    current_app.logger.warning(api_url)
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
     api_url = api_url.strip("/")
-    current_app.logger.warning(api_url)
     params["format"] = "json"
-    current_app.logger.warning(params)
     query_string = "&".join(
         ["=".join((str(key), str(value))) for key, value in params.items()]
     )
-    current_app.logger.warning(query_string)
     url = f"{api_url}/{uri}?{query_string}"
-    current_app.logger.warning(url)
     r = requests.get(url)
-    current_app.logger.warning(r)
     if r.status_code == 404:
-        current_app.logger.error("Resource not found")
-        current_app.logger.error(url)
+        current_app.logger.error(f"Resource not found: {url}")
         raise Exception("Resource not found")
         return {}
     if r.status_code == requests.codes.ok:
-        current_app.logger.error("ok")
         try:
-            current_app.logger.error("try")
             if Config().ENVIRONMENT == "develop":
                 text = r.text
                 text = text.replace(
@@ -41,14 +31,11 @@ def wagtail_request_handler(uri, params={}):
                     "http://localhost:65535/",
                 )
                 return json.loads(text)
-            current_app.logger.info("THIS WORKS")
             return r.json()
-        except requests.exceptions.JSONDecodeError as e:
-            print("no JSON")
-            current_app.logger.error("NO JSON")
-            current_app.logger.error(e)
+        except requests.exceptions.JSONDecodeError:
+            current_app.logger.error("API provided non-JSON response")
             raise ConnectionError("API provided non-JSON response")
-    current_app.logger.error(f"API responded with {r.status_code} status")
+    current_app.logger.error(f"API responded with {r.status_code} status for {url}")
     print("no conn")
     raise ConnectionError("Request to API failed")
 

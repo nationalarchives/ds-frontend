@@ -12,8 +12,6 @@ services:
       # - WAGTAIL_MEDIA_URL=http://localhost:8000
       - WAGTAIL_MEDIA_URL=https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site
       - CACHE_DEFAULT_TIMEOUT=1
-      - EXPLORE_PAGE_ID_ENTRY=5
-      - AUTHORS_PAGE_ID_ENTRY=295
     ports:
       - 65535:8080
     volumes:
