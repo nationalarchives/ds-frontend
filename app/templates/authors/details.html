@@ -11,20 +11,20 @@
 <article>
   <header class="tna-container tna-section etna-author-header">
     <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-tiny tna-column--order-3 tna-column--order-1-tiny">
-      <img src="{{ data['teaser_image_square_jpg']['full_url'] }}" alt="{{ data['teaser_image_square_jpg']['alt'] }}" width="{{ data['teaser_image_square_jpg']['width'] }}" height="{{ data['teaser_image_square_jpg']['height'] }}" class="etna-author-image">
+      <img src="{{ page_data['teaser_image_square_jpg']['full_url'] }}" alt="{{ page_data['teaser_image_square_jpg']['alt'] }}" width="{{ page_data['teaser_image_square_jpg']['width'] }}" height="{{ page_data['teaser_image_square_jpg']['height'] }}" class="etna-author-image">
     </div>
     <div class="tna-column tna-column--flex-1 tna-column--full-tiny tna-column--order-2 tna-column--align-centre">
       <h1 class="tna-heading-xl">
-        {{ data['title'] }}
+        {{ page_data['title'] }}
       </h1>
-      <p>{{ data['role'] | safe }}</p>
+      <p>{{ page_data['role'] | safe }}</p>
     </div>
   </header>
   <hr>
   <section class="tna-container tna-container--centred tna-section tna-!--margin-bottom-m">
     <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
         <h2 class="tna-heading-l">About the author</h2>
-        {{ data['summary'] | safe }}
+        {{ page_data['summary'] | safe }}
     </div>
   </section>
   <aside class="tna-background-tint tna-section">

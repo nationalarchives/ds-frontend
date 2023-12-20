@@ -6,11 +6,11 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ data['title'] }}</h1>
-      {{ data['intro'] | safe }}
+      <h1 class="tna-heading-xl">{{ page_data['title'] }}</h1>
+      {{ page_data['intro'] | safe }}
     </div>
   </div>
-  {% if 'hero_image_jpg' in data %}
+  {% if 'hero_image_jpg' in page_data %}
   <p>TODO</p>
   <div class="tna-hero">
     <figure class="tna-hero__figure">
@@ -20,12 +20,12 @@
             <span class="tna-hero__details-summary-icon">I</span>mage caption
           </summary>
           <div class="tna-hero__information">
-            {{ data['hero_image_caption'] | safe }}
+            {{ page_data['hero_image_caption'] | safe }}
           </div>
         </details>
       </figcaption>
       <picture class="tna-hero__image">
-        <img class="tna-picture__image" width="{{ data['hero_image_jpg']['width'] }}" height="{{ data['hero_image_jpg']['height'] }}" src="{{ data['hero_image_jpg']['full_url'] }}" alt="">
+        <img class="tna-picture__image" width="{{ page_data['hero_image_jpg']['width'] }}" height="{{ page_data['hero_image_jpg']['height'] }}" src="{{ page_data['hero_image_jpg']['full_url'] }}" alt="">
       </picture>
     </figure>
   </div>

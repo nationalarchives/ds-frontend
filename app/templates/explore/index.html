@@ -8,12 +8,12 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ data['title'] }}</h1>
-      {{ data['intro'] | safe }}
+      <h1 class="tna-heading-xl">{{ page_data['title'] }}</h1>
+      {{ page_data['intro'] | safe }}
     </div>
   </div>
   {{ tnaIndexGrid({
-    'title': data['title'],
+    'title': page_data['title'],
     'items': large_cards,
     'columns': 2,
     'columnsTiny': 1
@@ -22,8 +22,8 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">{{ data['articles_title'] }}</h2>
-      <p>{{ data['articles_introduction'] }}</p>
+      <h2 class="tna-heading-l">{{ page_data['articles_title'] }}</h2>
+      <p>{{ page_data['articles_introduction'] }}</p>
     </div>
     <div class="tna-column tna-column--full">
       {{ tnaCard({

@@ -12,6 +12,8 @@ from flask import current_app, render_template, request
 
 def render_content_page(page_data):
     page_type = page_data["meta"]["type"]
+    if page_type == "home.HomePage":
+        return home_page(page_data)
     if page_type == "collections.ExplorerIndexPage":
         return explore_index_page(page_data)
     if page_type == "articles.ArticleIndexPage":
@@ -40,6 +42,13 @@ def render_content_page(page_data):
         return author_page(page_data)
     current_app.logger.error(f"Template for {page_type} not handled")
     return render_template("errors/page-not-found.html"), 404
+
+
+def home_page(page_data):
+    return render_template(
+        "main/home.html",
+        page_data=page_data,
+    )
 
 
 def explore_index_page(page_data):
@@ -72,7 +81,7 @@ def explore_index_page(page_data):
     return render_template(
         "explore/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         large_cards=large_cards,
         featured_article=featured_article,
         featured_pages=featured_pages,
@@ -100,7 +109,7 @@ def category_index_page(page_data):
     return render_template(
         "explore/category-index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         children=children,
     )
 
@@ -128,7 +137,7 @@ def categories_page(page_data):
     return render_template(
         "explore/category.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         children=children,
     )
 
@@ -161,7 +170,7 @@ def article_index_page(page_data):
     return render_template(
         "explore/stories.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         children=children,
         featured_article=featured_article,
         featured_pages=featured_pages,
@@ -184,7 +193,7 @@ def article_page(page_data):
     return render_template(
         "explore/article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         similar_items=similar_items,
         latest_items=latest_items,
     )
@@ -194,7 +203,7 @@ def record_article_page(page_data):
     return render_template(
         "explore/record-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
     )
 
 
@@ -210,7 +219,7 @@ def focused_article_page(page_data):
     return render_template(
         "explore/focused-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         authors=authors,
     )
 
@@ -219,7 +228,7 @@ def highlight_gallery_page(page_data):
     return render_template(
         "explore/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
     )
 
 
@@ -235,7 +244,7 @@ def author_index_page(page_data):
         "authors/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         children=children,
-        data=page_data,
+        page_data=page_data,
     )
 
 
@@ -251,6 +260,6 @@ def author_page(page_data):
     return render_template(
         "authors/details.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        data=page_data,
+        page_data=page_data,
         authored_focused_articles=authored_focused_articles,
     )

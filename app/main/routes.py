@@ -3,12 +3,6 @@ from app.main import bp
 from flask import render_template
 
 
-@bp.route("/")
-@cache.cached()
-def home():
-    return render_template("main/home.html")
-
-
 @bp.route("/accessibility/")
 @cache.cached()
 def accessibility():

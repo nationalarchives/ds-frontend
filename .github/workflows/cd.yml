@@ -1,0 +1,18 @@
+name: CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - proof-of-concept
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: axelerant/platformsh-deploy-action@v1
+        with:
+          project-id: ${{ secrets.PLATFORM_PROJECT_ID }}
+          cli-token: ${{ secrets.PLATFORM_CLI_TOKEN }}
+          environment-name: main

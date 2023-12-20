@@ -14,6 +14,20 @@ def preview_page(key_prefix=cache_key_prefix):
     return render_content_page(page_data)
 
 
+@bp.route("/")
+@cache.cached(key_prefix=cache_key_prefix)
+def index():
+    try:
+        page_data = page_details_by_uri("/")
+    except ConnectionError:
+        current_app.logger.error("ConnectionError for home page")
+        return render_template("errors/api.html"), 502
+    except Exception:
+        current_app.logger.error("An exception occurred on home page")
+        return render_template("errors/page-not-found.html"), 404
+    return render_content_page(page_data)
+
+
 @bp.route("/<path:path>/")
 @cache.cached(key_prefix=cache_key_prefix)
 def explore_page(path):

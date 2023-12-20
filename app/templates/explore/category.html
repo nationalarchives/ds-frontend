@@ -6,12 +6,12 @@
 
 {% block content %}
 {{ tnaHero({
-  'heading': data['title'],
-  'body': data['intro'] | safe,
-  'imageSrc': data['teaser_image_large_jpg']['full_url'],
-  'imageAlt': data['teaser_image_large_jpg']['alt'],
-  'imageWidth': data['teaser_image_large_jpg']['width'],
-  'imageHeight': data['teaser_image_large_jpg']['height']
+  'heading': page_data['title'],
+  'body': page_data['intro'] | safe,
+  'imageSrc': page_data['teaser_image_large_jpg']['full_url'],
+  'imageAlt': page_data['teaser_image_large_jpg']['alt'],
+  'imageWidth': page_data['teaser_image_large_jpg']['width'],
+  'imageHeight': page_data['teaser_image_large_jpg']['height']
 }) }}
 <section class="tna-section">
   <div class="tna-container">
