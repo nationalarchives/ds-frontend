@@ -7,7 +7,7 @@ from flask import current_app
 
 
 def wagtail_request_handler(uri, params={}):
-    api_url = Config().WAGTAIL_API_URL
+    api_url = Config().WAGTAIL_API_URL.strip("/")
     params["format"] = "json"
     query_string = "&".join(
         ["=".join((str(key), str(value))) for key, value in params.items()]
