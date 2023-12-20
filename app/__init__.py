@@ -95,7 +95,8 @@ def create_app(config_class=Config):
             get_wagtail_image=get_wagtail_image,
             get_wagtail_page=get_wagtail_page,
             get_wagtail_media=get_wagtail_media,
-            WAGTAIL_MEDIA_URL=Config().WAGTAIL_MEDIA_URL.strip("/"),
+            # WAGTAIL_MEDIA_URL=Config().WAGTAIL_MEDIA_URL.strip("/"),
+            WAGTAIL_MEDIA_URL=Config().WAGTAIL_MEDIA_URL,
         )
 
     from .main import bp as site_bp

@@ -7,7 +7,10 @@ from flask import current_app
 
 
 def wagtail_request_handler(uri, params={}):
-    api_url = Config().WAGTAIL_API_URL.strip("/")
+    api_url = Config().WAGTAIL_API_URL
+    if not api_url:
+        raise Exception("WAGTAIL_API_URL not set")
+    api_url = api_url.strip("/")
     params["format"] = "json"
     query_string = "&".join(
         ["=".join((str(key), str(value))) for key, value in params.items()]
@@ -24,24 +27,30 @@ def wagtail_request_handler(uri, params={}):
         return {}
     if r.status_code == requests.codes.ok:
         try:
-            # if os.environ.get("ENVIRONMENT") == "staging":
+            if os.environ.get("ENVIRONMENT") == "develop":
+                text = r.text
+                # Headless env
+                text = text.replace(
+                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                    "http://localhost:65535/",
+                )
+                # Dev env
+                text = text.replace(
+                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
+                    "http://localhost:65535/",
+                )
+                # text = text.replace(
+                #     "http://localhost:8000/", "http://localhost:65535/"
+                # )
+                # text = text.replace(
+                #     "http://127.0.0.1:8000/", "http://localhost:65535/"
+                # )
+                return json.loads(text)
+            # elif os.environ.get("ENVIRONMENT") == "staging":
             #     text = r.text
             #     text = text.replace(
             #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
             #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #     )
-            #     return json.loads(text)
-            # elif os.environ.get("ENVIRONMENT") == "develop":
-            #     text = r.text
-            #     text = text.replace(
-            #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-            #         "http://localhost:65535/",
-            #     )
-            #     text = text.replace(
-            #         "http://localhost:8000/", "http://localhost:65535/"
-            #     )
-            #     text = text.replace(
-            #         "http://127.0.0.1:8000/", "http://localhost:65535/"
             #     )
             #     return json.loads(text)
             return r.json()
