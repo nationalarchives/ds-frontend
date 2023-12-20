@@ -24,6 +24,8 @@ hooks:
     poetry add gunicorn@21.2.0
     npm install
     npm run build
+    touch /var/log/gunicorn.log
+    chmod 777 /var/log/gunicorn.log
     mkdir app/static/assets
     cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
 
