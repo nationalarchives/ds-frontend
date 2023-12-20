@@ -20,13 +20,16 @@ def preview_page(key_prefix=make_cache_key_prefix):
 
 
 @bp.route("/<path:path>/")
-@cache.cached(key_prefix=make_cache_key_prefix)
+# @cache.cached(key_prefix=make_cache_key_prefix)
 def explore_page(path):
+    current_app.logger.warning("explore page")
     current_app.logger.warning(path)
     try:
         page_data = page_details_by_uri(path)
     except ConnectionError:
+        current_app.logger.error("ConnectionError")
         return render_template("errors/api.html"), 502
     except Exception:
+        current_app.logger.error("Exception")
         return render_template("errors/page-not-found.html"), 404
     return render_content_page(page_data)
