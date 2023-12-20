@@ -1,4 +1,5 @@
 import re
+import logging
 from datetime import datetime
 
 from app.lib import cache
@@ -11,6 +12,16 @@ from jinja2 import ChoiceLoader, PackageLoader
 def create_app(config_class=Config):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
+
+    app.logger.debug('this is a DEBUG message')
+    app.logger.info('this is an INFO message')
+    app.logger.warning('this is a WARNING message')
+    app.logger.error('this is an ERROR message')
+    app.logger.critical('this is a CRITICAL message')
 
     cache.init_app(app)
 

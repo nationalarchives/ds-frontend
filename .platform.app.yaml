@@ -8,6 +8,7 @@ variables:
     POETRY_VERSION: "1.6.1"
     POETRY_VIRTUALENVS_IN_PROJECT: true
     POETRY_VIRTUALENVS_CREATE: true
+    PIP_DISABLE_PIP_VERSION_CHECK: true
 
 disk: 2048
 
@@ -30,7 +31,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output"
+    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output  --log-level debug"
   locations:
     "/":
       root: ""
