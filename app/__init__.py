@@ -13,10 +13,10 @@ def create_app(config_class=Config):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
 
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
-    
+    gunicorn_error_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers.extend(gunicorn_error_logger.handlers)
+    app.logger.setLevel(gunicorn_error_logger.level)
+
     cache.init_app(app)
 
     app.jinja_env.trim_blocks = True

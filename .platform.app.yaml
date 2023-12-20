@@ -31,7 +31,7 @@ web:
   upstream:
     socket_family: unix
   commands:
-    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output  --log-level debug"
+    start: "poetry run gunicorn etna:app --bind unix:$SOCKET --capture-output --log-file /var/log/gunicorn.log --log-level debug"
   locations:
     "/":
       root: ""
