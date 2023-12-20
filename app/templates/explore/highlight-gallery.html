@@ -3,38 +3,48 @@
 {%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
-<section class="tna-section">
-  <div class="tna-container">
+<article>
+  <header class="tna-section tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">{{ page_data['title'] }}</h1>
       {{ page_data['intro'] | safe }}
     </div>
-  </div>
-  {% if 'hero_image_jpg' in page_data %}
-  <p>TODO</p>
-  <div class="tna-hero">
-    <figure class="tna-hero__figure">
-      <figcaption class="tna-hero__caption">
-        <details class="tna-hero__details">
-          <summary class="tna-hero__details-summary">
-            <span class="tna-hero__details-summary-icon">I</span>mage caption
-          </summary>
-          <div class="tna-hero__information">
-            {{ page_data['hero_image_caption'] | safe }}
-          </div>
-        </details>
-      </figcaption>
-      <picture class="tna-hero__image">
-        <img class="tna-picture__image" width="{{ page_data['hero_image_jpg']['width'] }}" height="{{ page_data['hero_image_jpg']['height'] }}" src="{{ page_data['hero_image_jpg']['full_url'] }}" alt="">
-      </picture>
-    </figure>
-  </div>
-  {% endif %}
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <p>TODO</p>
+  </header>
+  <section class="tna-background-contrast">
+    {% for highlight in page_data['page_highlights'] %}
+    {% if not loop.first %}
+    <hr>
+    {% endif %}
+    {% with image = get_wagtail_image(highlight['image']) %}
+    <div class="tna-section tna-container tna-!--padding-top-s">
+      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-column--order-3 tna-column--order-1-small tna-column--order-1-tiny tna-!--padding-top-m">
+        <img src="{{ WAGTAIL_MEDIA_URL }}{{ image['meta']['download_url'] }}" width="{{ image['width'] }}" height="{{ image['height'] }}" alt="{{ highlight['alt_text'] }}">
+      </div>
+      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
+        <h2 class="tna-heading-l">{{ image['title'] }}</h2>
+        <dl class="tna-dl tna-dl--plain">
+          <dt>Date</dt>
+          <dd>{{ image['record_dates'] }}</dd>
+          <dt>Catalogue reference</dt>
+          <dd>{{ image['record'] }} [TODO]</dd>
+        </dl>
+        {{ image['description'] | safe }}
+        <div class="tna-button-group">
+          <a href="#" class="tna-button tna-button--plain">View record details [TODO]</a>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+    {% endwith %}
+    {% endfor %}
+  </section>
+  <aside>
+    <div class="tna-section tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <h2 class="tna-heading-l">More to explore</h2>
+        <p>[TODO]</p>
+      </div>
+    </div>
+  </aside>
+</article>
 {{ feedback() }}
 {% endblock %}
