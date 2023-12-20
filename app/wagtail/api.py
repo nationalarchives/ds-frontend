@@ -30,15 +30,25 @@ def wagtail_request_handler(uri, params={}):
             if os.environ.get("ENVIRONMENT") == "develop":
                 text = r.text
                 # Headless env
-                text = text.replace(
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                    "http://localhost:65535/",
-                )
+                # text = text.replace(
+                #     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/media/",
+                #     "http://localhost:8000/media/",
+                # )
                 # Dev env
-                text = text.replace(
-                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-                    "http://localhost:65535/",
-                )
+                # text = text.replace(
+                #     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/media/",
+                #     "http://localhost:8000/media/",
+                # )
+                # Headless env
+                # text = text.replace(
+                #     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                #     "http://localhost:65535/",
+                # )
+                # Dev env
+                # text = text.replace(
+                #     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
+                #     "http://localhost:65535/",
+                # )
                 # text = text.replace(
                 #     "http://localhost:8000/", "http://localhost:65535/"
                 # )
