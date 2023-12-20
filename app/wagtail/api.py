@@ -16,9 +16,8 @@ def wagtail_request_handler(uri, params={}):
         ["=".join((str(key), str(value))) for key, value in params.items()]
     )
     url = f"{api_url}/{uri}?{query_string}"
-    print(url)
     r = requests.get(url)
-    current_app.logger.debug(url)
+    current_app.logger.warning(url)
     if r.status_code == 404:
         print("404")
         current_app.logger.error("404")
@@ -29,44 +28,11 @@ def wagtail_request_handler(uri, params={}):
         try:
             if os.environ.get("ENVIRONMENT") == "develop":
                 text = r.text
-                # Headless env
-                text = text.replace(
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/media/",
-                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/media/",
-                )
                 text = text.replace(
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
                     "http://localhost:65535/",
                 )
-                # Dev env
-                # text = text.replace(
-                #     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/media/",
-                #     "http://localhost:8000/media/",
-                # )
-                # Headless env
-                # text = text.replace(
-                #     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                #     "http://localhost:65535/",
-                # )
-                # Dev env
-                # text = text.replace(
-                #     "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-                #     "http://localhost:65535/",
-                # )
-                # text = text.replace(
-                #     "http://localhost:8000/", "http://localhost:65535/"
-                # )
-                # text = text.replace(
-                #     "http://127.0.0.1:8000/", "http://localhost:65535/"
-                # )
                 return json.loads(text)
-            # elif os.environ.get("ENVIRONMENT") == "staging":
-            #     text = r.text
-            #     text = text.replace(
-            #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #     )
-            #     return json.loads(text)
             current_app.logger.iofo("THIS WORKS")
             return r.json()
         except requests.exceptions.JSONDecodeError as e:

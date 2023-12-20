@@ -11,10 +11,12 @@ from flask import current_app, render_template, request
 
 
 def render_content_page(page_data):
+    current_app.logger.warning("render_content_page")
     current_app.logger.debug(
         f"Page ID {page_data['id']} requested with path '{request.path}'"
     )
     page_type = page_data["meta"]["type"]
+    current_app.logger.warning(page_type)
     if page_type == "collections.ExplorerIndexPage":
         return explore_index_page(page_data)
     if page_type == "articles.ArticleIndexPage":

@@ -16,13 +16,7 @@ def create_app(config_class=Config):
     gunicorn_logger = logging.getLogger('gunicorn.error')
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
-
-    app.logger.debug('this is a DEBUG message')
-    app.logger.info('this is an INFO message')
-    app.logger.warning('this is a WARNING message')
-    app.logger.error('this is an ERROR message')
-    app.logger.critical('this is a CRITICAL message')
-
+    
     cache.init_app(app)
 
     app.jinja_env.trim_blocks = True

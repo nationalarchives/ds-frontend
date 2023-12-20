@@ -1,7 +1,7 @@
 from app.lib import cache
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
-from flask import render_template, request
+from flask import render_template, request, current_app
 
 from .api import page_details_by_uri, page_preview
 
@@ -22,6 +22,7 @@ def preview_page(key_prefix=make_cache_key_prefix):
 @bp.route("/<path:path>/")
 @cache.cached(key_prefix=make_cache_key_prefix)
 def explore_page(path):
+    current_app.logger.warning(path)
     try:
         page_data = page_details_by_uri(path)
     except ConnectionError:
