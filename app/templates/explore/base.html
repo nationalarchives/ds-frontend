@@ -8,6 +8,7 @@
 {{ meta({
   'title': page_data['meta']['seo_title'] or page_data['title'],
   'description': page_data['meta']['search_description'],
+  'url': page_data['meta']['html_url'],
   'image': {
     'src': page_data['teaser_image_jpg']['full_url'],
     'width': page_data['teaser_image_jpg']['width'],
