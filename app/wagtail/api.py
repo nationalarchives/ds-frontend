@@ -8,8 +8,9 @@ from flask import current_app
 
 def wagtail_request_handler(uri, params={}):
     api_url = Config().WAGTAIL_API_URL
-    if not api_url:
-        raise Exception("WAGTAIL_API_URL not set")
+    # if not api_url:
+    #     current_app.logger.error("WAGTAIL_API_URL not set")
+    #     raise Exception("WAGTAIL_API_URL not set")
     api_url = api_url.strip("/")
     params["format"] = "json"
     query_string = "&".join(
@@ -20,7 +21,7 @@ def wagtail_request_handler(uri, params={}):
     current_app.logger.warning(url)
     if r.status_code == 404:
         print("404")
-        current_app.logger.error("404")
+        current_app.logger.error("Resource not found")
         current_app.logger.error(url)
         raise Exception("Resource not found")
         return {}
