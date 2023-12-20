@@ -63,6 +63,7 @@ def wagtail_request_handler(uri, params={}):
             #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
             #     )
             #     return json.loads(text)
+            current_app.logger.iofo("THIS WORKS")
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
             print("no JSON")
