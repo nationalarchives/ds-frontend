@@ -34,14 +34,14 @@ def wagtail_request_handler(uri, params={}):
         current_app.logger.error("ok")
         try:
             current_app.logger.error("try")
-            # if Config().ENVIRONMENT == "develop":
-            #     text = r.text
-            #     text = text.replace(
-            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #         "http://localhost:65535/",
-            #     )
-            #     return json.loads(text)
-            # current_app.logger.iofo("THIS WORKS")
+            if Config().ENVIRONMENT == "develop":
+                text = r.text
+                text = text.replace(
+                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                    "http://localhost:65535/",
+                )
+                return json.loads(text)
+            current_app.logger.info("THIS WORKS")
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
             print("no JSON")
