@@ -10,9 +10,9 @@ def wagtail_request_handler(uri, params={}):
     current_app.logger.warning("wagtail_request_handler")
     api_url = Config().WAGTAIL_API_URL
     current_app.logger.warning(api_url)
-    # if not api_url:
-    #     current_app.logger.error("WAGTAIL_API_URL not set")
-    #     raise Exception("WAGTAIL_API_URL not set")
+    if not api_url:
+        current_app.logger.critical("WAGTAIL_API_URL not set")
+        raise Exception("WAGTAIL_API_URL not set")
     api_url = api_url.strip("/")
     current_app.logger.warning(api_url)
     params["format"] = "json"
@@ -34,14 +34,14 @@ def wagtail_request_handler(uri, params={}):
         current_app.logger.error("ok")
         try:
             current_app.logger.error("try")
-            if os.environ.get("ENVIRONMENT") == "develop":
-                text = r.text
-                text = text.replace(
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                    "http://localhost:65535/",
-                )
-                return json.loads(text)
-            current_app.logger.iofo("THIS WORKS")
+            # if Config().ENVIRONMENT == "develop":
+            #     text = r.text
+            #     text = text.replace(
+            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+            #         "http://localhost:65535/",
+            #     )
+            #     return json.loads(text)
+            # current_app.logger.iofo("THIS WORKS")
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
             print("no JSON")

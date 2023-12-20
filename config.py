@@ -4,6 +4,7 @@ from app.lib.util import strtobool
 
 
 class Config(object):
+    ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
     SECRET_KEY = os.environ.get("SECRET_KEY")
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL")
