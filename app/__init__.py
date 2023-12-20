@@ -1,5 +1,5 @@
-import re
 import logging
+import re
 from datetime import datetime
 
 from app.lib import cache
@@ -13,7 +13,7 @@ def create_app(config_class=Config):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
 
-    gunicorn_error_logger = logging.getLogger('gunicorn.error')
+    gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
     app.logger.setLevel(gunicorn_error_logger.level)
 

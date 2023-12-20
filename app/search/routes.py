@@ -1,15 +1,10 @@
-from app.lib import cache
+from app.lib import cache, cache_key_prefix
 from app.search import bp
 from flask import render_template, request
 
 
-def make_cache_key_prefix():
-    """Make a key that includes GET parameters."""
-    return request.full_path
-
-
 @bp.route("/")
-@cache.cached(key_prefix=make_cache_key_prefix)
+@cache.cached(key_prefix=cache_key_prefix)
 def index():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -19,7 +14,7 @@ def index():
 
 
 @bp.route("/featured/")
-@cache.cached(key_prefix=make_cache_key_prefix)
+@cache.cached(key_prefix=cache_key_prefix)
 def featured():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -29,7 +24,7 @@ def featured():
 
 
 @bp.route("/catalogue/")
-@cache.cached(key_prefix=make_cache_key_prefix)
+@cache.cached(key_prefix=cache_key_prefix)
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -38,7 +33,7 @@ def catalogue():
 
 
 @bp.route("/website/")
-@cache.cached(key_prefix=make_cache_key_prefix)
+@cache.cached(key_prefix=cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(

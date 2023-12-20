@@ -35,7 +35,9 @@ def wagtail_request_handler(uri, params={}):
         except requests.exceptions.JSONDecodeError:
             current_app.logger.error("API provided non-JSON response")
             raise ConnectionError("API provided non-JSON response")
-    current_app.logger.error(f"API responded with {r.status_code} status for {url}")
+    current_app.logger.error(
+        f"API responded with {r.status_code} status for {url}"
+    )
     print("no conn")
     raise ConnectionError("Request to API failed")
 
