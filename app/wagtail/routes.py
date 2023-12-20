@@ -20,7 +20,7 @@ def preview_page(key_prefix=make_cache_key_prefix):
 
 
 @bp.route("/<path:path>/")
-# @cache.cached(key_prefix=make_cache_key_prefix)
+@cache.cached(key_prefix=make_cache_key_prefix)
 def explore_page(path):
     try:
         page_data = page_details_by_uri(path)

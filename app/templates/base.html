@@ -55,11 +55,12 @@
 {%- endfor -%}
 {{ tnaHeader({
   'logo': {
-    'href': '/'
+    'href': '/',
+    'strapline': 'Headless'
   },
   'exit': {
-    'text': 'Go to the current National Archives website',
-    'href': '#',
+    'text': 'See this page on the Wagtail site',
+    'href': 'https://feature-headless-4batnpq-rasrzs7pi6sd4.uk-1.platformsh.site' + request.path,
     'target': '_blank'
   },
   'navigation': navigationItems
