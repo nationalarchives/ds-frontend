@@ -12,7 +12,7 @@ def make_cache_key_prefix():
 
 
 @bp.route("/preview/")
-def preview_page():
+def preview_page(key_prefix=make_cache_key_prefix):
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     page_data = page_preview(content_type, token)

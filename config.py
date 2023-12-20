@@ -6,8 +6,8 @@ from app.lib.util import strtobool
 class Config(object):
     SECRET_KEY = os.environ.get("SECRET_KEY")
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
-    WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL")
-    WAGTAIL_MEDIA_URL = os.environ.get("WAGTAIL_MEDIA_URL")
+    WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL").strip("/")
+    WAGTAIL_MEDIA_URL = os.environ.get("WAGTAIL_MEDIA_URL").strip("/")
     EXPLORE_PAGE_ID_ENTRY = os.environ.get("EXPLORE_PAGE_ID_ENTRY")
     AUTHORS_PAGE_ID_ENTRY = os.environ.get("AUTHORS_PAGE_ID_ENTRY")
 

@@ -9,7 +9,7 @@ def make_cache_key_prefix():
 
 
 @bp.route("/")
-@cache.cached()
+@cache.cached(key_prefix=make_cache_key_prefix)
 def index():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -19,7 +19,7 @@ def index():
 
 
 @bp.route("/featured/")
-@cache.cached()
+@cache.cached(key_prefix=make_cache_key_prefix)
 def featured():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -29,7 +29,7 @@ def featured():
 
 
 @bp.route("/catalogue/")
-@cache.cached()
+@cache.cached(key_prefix=make_cache_key_prefix)
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -38,7 +38,7 @@ def catalogue():
 
 
 @bp.route("/website/")
-@cache.cached()
+@cache.cached(key_prefix=make_cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(

@@ -1,12 +1,7 @@
 "https://{default}/":
   type: upstream
-  upstream: "app:http"
-  cache:
-    enabled: false
-    default_ttl: 300
-    cookies:
-      - cookies_policy
-      - cookie_preferences_set
-    headers:
-      - Accept
-      - Vary
+  upstream: app:http
+
+"https://{default}/media":
+    type: redirect
+    to: "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/media"

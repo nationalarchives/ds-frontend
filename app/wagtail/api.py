@@ -7,16 +7,19 @@ from flask import current_app
 
 
 def wagtail_request_handler(uri, params={}):
-    api_url = Config().WAGTAIL_API_URL.strip("/")
+    api_url = Config().WAGTAIL_API_URL
     params["format"] = "json"
     query_string = "&".join(
         ["=".join((str(key), str(value))) for key, value in params.items()]
     )
     url = f"{api_url}/{uri}?{query_string}"
+    print(url)
     r = requests.get(url)
+    current_app.logger.debug(url)
     if r.status_code == 404:
-        # print(url)
-        # print("404")
+        print("404")
+        current_app.logger.error("404")
+        current_app.logger.error(url)
         raise Exception("Resource not found")
         return {}
     if r.status_code == requests.codes.ok:
@@ -43,11 +46,11 @@ def wagtail_request_handler(uri, params={}):
             #     return json.loads(text)
             return r.json()
         except requests.exceptions.JSONDecodeError as e:
-            # print("no JSON")
+            print("no JSON")
             current_app.logger.error(e)
             raise ConnectionError("API provided non-JSON response")
     current_app.logger.error(f"API responded with {r.status_code} status")
-    # print("no conn")
+    print("no conn")
     raise ConnectionError("Request to API failed")
 
 
