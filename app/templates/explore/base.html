@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/meta.html' import meta -%}
+
+{% block pageTitle %}{{ page_data['title'] }} - {{ super() }}{% endblock %}
+
+{% block head %}
+{{ meta({
+  'title': page_data['meta']['seo_title'] or page_data['title'],
+  'description': page_data['meta']['search_description'],
+  'image': {
+    'src': page_data['teaser_image_jpg']['full_url'],
+    'width': page_data['teaser_image_jpg']['width'],
+    'height': page_data['teaser_image_jpg']['height'],
+    'type': 'image/jpeg'
+  }
+}) }}
+{% endblock %}

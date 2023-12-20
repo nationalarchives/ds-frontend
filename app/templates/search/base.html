@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/meta.html' import meta -%}
+
+{%- set bodyClasses = 'tna-template__body--search' -%}
+
+{% block pageTitle %}Search - {{ super() }}{% endblock %}
+
+{% block head %}
+{{ meta({
+  'title': 'Search for ' + request.args['q'] if 'q' in request.args else 'Search',
+  'description': 'Search results for ' + request.args['q'] if 'q' in request.args else ''
+}) }}
+{% endblock %}

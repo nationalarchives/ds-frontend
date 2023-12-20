@@ -1,12 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'explore/base.html' %}
 
 {%- from 'macros/article-blocks.html' import articleBlocks -%}
 {%- from 'macros/article-sidebar.html' import articleSidebar -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/feedback.html' import feedback -%}
-
-{% block pageTitle %}{{ page_data['title'] }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <article class="etna-article">
