@@ -143,6 +143,33 @@
     </div>
     <div class="tna-aside tna-aside--tight tna-background-tint">
       {{ tnaCheckboxes({
+        'label': 'Digitised records',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': 'digitised',
+        'name': 'digitised',
+        'items': [
+          {
+            'text': 'Digitised records',
+            'value': 'true'
+          }
+        ],
+        'small': True
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      {{ tnaCheckboxes({
         'label': 'Collections',
         'headingLevel': 3,
         'headingSize': 's',
@@ -352,45 +379,45 @@
     </article>
     <hr class="tna-!--margin-vertical-s">
     {% endfor %}
-  </div>
-  <div class="tna-column tna-column--full tna-section">
-    {{ tnaPagination({
-      'previous': {
-        'href': "#"
-      },
-      'items': [
-        {
-          'number': 1,
+    <div class="tna-section">
+      {{ tnaPagination({
+        'previous': {
           'href': "#"
         },
-        {
-          'ellipsis': True
-        },
-        {
-          'number': 6,
-          'href': "#"
-        },
-        {
-          'number': 7,
-          'current': True,
-          'href': "#"
-        },
-        {
-          'number': 8,
-          'href': "#"
-        },
-        {
-          'ellipsis': True
-        },
-        {
-          'number': 42,
+        'items': [
+          {
+            'number': 1,
+            'href': "#"
+          },
+          {
+            'ellipsis': True
+          },
+          {
+            'number': 6,
+            'href': "#"
+          },
+          {
+            'number': 7,
+            'current': True,
+            'href': "#"
+          },
+          {
+            'number': 8,
+            'href': "#"
+          },
+          {
+            'ellipsis': True
+          },
+          {
+            'number': 42,
+            'href': "#"
+          }
+        ],
+        'next': {
           'href': "#"
         }
-      ],
-      'next': {
-        'href': "#"
-      }
-    }) }}
+      }) }}
+    </div>
   </div>
 </section>
 {{ feedback() }}
