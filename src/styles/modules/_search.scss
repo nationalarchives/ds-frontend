@@ -214,6 +214,8 @@ html.tna-template
   }
 
   .tna-aside {
+    margin-top: 1rem;
+    
     @include colour.colour-border("keyline", 1px);
   }
 }
