@@ -7,6 +7,21 @@ on:
       - proof-of-concept
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get tag
+        id: version-tag
+        uses: ./.github/actions/get-version-tag
+      - name: Build Docker image
+        uses: ./.github/actions/docker-build
+        with:
+          version: ${{ steps.version-tag.outputs.version-tag }}
+          latest: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+
   deploy:
     runs-on: ubuntu-latest
     steps:
