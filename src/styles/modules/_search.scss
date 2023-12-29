@@ -164,3 +164,56 @@ html.tna-template
     }
   }
 }
+
+.etna-search-sort-view {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+
+  .tna-form__group-contents {
+    flex: 1;
+  }
+
+  .tna-form__group--inline,
+  .tna-button-group {
+    flex-direction: row;
+  }
+
+  .tna-button-group {
+    margin-left: 0.5rem;
+    margin-top: 0;
+
+    gap: 0.25rem;
+
+    + .tna-button-group {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.etna-search-sidebar {
+  &__expand-button {
+    width: 100%;
+
+    display: none;
+  }
+
+  @include media.on-mobile {
+    &__expand-button {
+      display: block;
+    }
+
+    &__content {
+      display: none;
+
+      &--expanded {
+        display: block;
+      }
+    }
+  }
+
+  .tna-aside {
+    @include colour.colour-border("keyline", 1px);
+  }
+}

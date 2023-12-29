@@ -1,7 +1,11 @@
 const path = require("path");
 
 module.exports = {
-  entry: { app: "./src/scripts/app.js", article: "./src/scripts/article.js" },
+  entry: {
+    app: "./src/scripts/app.js",
+    article: "./src/scripts/article.js",
+    search: "./src/scripts/search.js"
+  },
   mode: "production",
   module: {
     rules: [

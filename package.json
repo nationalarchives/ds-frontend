@@ -10,7 +10,7 @@
     "lint:fix": "prettier --write src && stylelint --fix 'src/styles/**/*.scss' && eslint --fix 'src/scripts/**/*.js'"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.1.32"
+    "@nationalarchives/frontend": "0.1.33"
   },
   "devDependencies": {
     "@babel/core": "^7.22.11",
