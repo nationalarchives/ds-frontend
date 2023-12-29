@@ -6,9 +6,15 @@ on:
     branches:
       - proof-of-concept
 
+concurrency:
+  group: cd
+  
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - uses: actions/checkout@v3
       - name: Get tag
