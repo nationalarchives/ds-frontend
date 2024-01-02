@@ -17,8 +17,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | Variable                | Purpose                                                       | Default |
 | ----------------------- | ------------------------------------------------------------- | ------- |
 | `DEBUG`                 | If true, allow debugging[^1]                                  | `False` |
-| `WAGTAIL_API_URL`       | The base URL of the content API, including the `/api/v2` path | *none*  |
-| `WAGTAIL_MEDIA_URL`     | The URL responsible for serving assets                        | *none*  |
+| `WAGTAIL_API_URL`       | The base URL of the content API, including the `/api/v2` path | _none_  |
+| `WAGTAIL_MEDIA_URL`     | The URL responsible for serving assets                        | _none_  |
 | `CACHE_DEFAULT_TIMEOUT` | The number of seconds to cache pages for                      | `300`   |
 | `CACHE_DIR`             | Directory for storing cached responses                        | `/tmp`  |
 

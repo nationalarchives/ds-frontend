@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: cd
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
