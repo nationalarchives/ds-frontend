@@ -240,3 +240,56 @@ html.tna-template
     @include colour.colour-border("keyline", 1px);
   }
 }
+
+.etna-ul-hierarchy {
+  $hierarchy-keyline-width: 1.5px;
+
+  list-style: none;
+
+  ul {
+    margin-left: 0.5rem;
+
+    list-style: none;
+
+    li {
+      padding-left: 1rem;
+
+      position: relative;
+
+      &::before,
+      &::after {
+        display: block;
+
+        position: absolute;
+
+        @include colour.colour-background("keyline");
+
+        content: "";
+      }
+
+      &::before {
+        width: $hierarchy-keyline-width;
+
+        top: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      &::after {
+        width: 0.5rem;
+        height: $hierarchy-keyline-width;
+
+        top: 1rem;
+        left: $hierarchy-keyline-width;
+      }
+
+      &:last-child {
+        &::before {
+          height: calc(1rem + $hierarchy-keyline-width);
+
+          bottom: auto;
+        }
+      }
+    }
+  }
+}

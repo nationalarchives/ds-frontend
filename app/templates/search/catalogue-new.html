@@ -1,0 +1,408 @@
+{% extends 'search/base.html' %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
+{%- from 'components/date-input/macro.html' import tnaDateInput -%}
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
+{%- from 'components/select/macro.html' import tnaSelect -%}
+{%- from 'components/text-input/macro.html' import tnaTextInput -%}
+{%- from 'macros/feedback.html' import feedback -%}
+
+{% block pageTitle %}Search our catalogue - {{ super() }}{% endblock %}
+
+{% block skipLink %}
+{{ tnaSkipLink({
+  'href': 'search-results',
+  'text': 'Skip to search results'
+}) }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+{% set show_tabs = False %}
+{% include 'search/elements/header.html' %}
+<section class="tna-container">
+  {% include 'search/elements/sort-view.html' %}
+</section>
+<section class="tna-container">
+  <div id="search-filters" class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny etna-search-sidebar tna-!--padding-top-l">
+    <h2 class="tna-visually-hidden">Search filters</h2>
+    <div class="tna-aside tna-aside--tight tna-background-tint tna-!--no-margin-top">
+      <h3 class="tna-heading-s">Type</h3>
+      <ul class="etna-ul-hierarchy">
+        <li>
+          <a href="#">All results</a>
+          <ul>
+            <li>
+              <a href="#">Records</a>
+              <ul>
+                <li>
+                  <a href="#">Digitised records</a>
+                </li>
+                <li>
+                  <a href="#">Records at other UK archives</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Record creators</a>
+            </li>
+            <li>
+              <a href="#">Articles</a>
+              <ul>
+                <li>
+                  <a href="#">Archived articles</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Archives</a>
+            </li>
+            <li>
+              <a href="#">Events</a>
+              <ul>
+                <li>
+                  <a href="#">Online events</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      {{ tnaTextInput({
+        'label': 'Refine results',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'hint': 'Search within results'
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      <h3 class="tna-heading-s">Covering date</h3>
+      {{ tnaDateInput({
+        'label': 'From',
+        'headingLevel': 4,
+        'headingSize': 'xs',
+        'id': 'date-from',
+        'name': 'date-from',
+        'hint': 'For example, 27 3 2007 or 2007',
+        'classes': 'tna-!--no-margin-top'
+      }) }}
+      {{ tnaDateInput({
+        'label': 'To',
+        'headingLevel': 4,
+        'headingSize': 'xs',
+        'id': 'date-to',
+        'name': 'date-to',
+        'classes': 'tna-!--margin-top-s'
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      {{ tnaCheckboxes({
+        'label': 'Digitised records',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': 'digitised',
+        'name': 'digitised',
+        'items': [
+          {
+            'text': 'Digitised records',
+            'value': 'true'
+          }
+        ],
+        'small': True
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      {{ tnaCheckboxes({
+        'label': 'Collections',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': 'collections',
+        'name': 'collections',
+        'items': [
+          {
+            'text': 'Admiralty, Navy, Royal Marines, and Coastguard',
+            'value': 'ADM'
+          },
+          {
+            'text': 'Air Ministry and Royal Air Force records',
+            'value': 'AIR'
+          },
+          {
+            'text': 'Board of Trade and successors',
+            'value': 'BT'
+          },
+          {
+            'text': 'Chancery, the Wardrobe, Royal Household, Exchequer and various commissions',
+            'value': 'C'
+          },
+          {
+            'text': 'Colonial Office, Commonwealth and Foreign and Commonwealth Offices',
+            'value': 'CO'
+          },
+          {
+            'text': 'Exchequer, Office of First Fruits and Tenths, and the Court of Augmentations',
+            'value': 'E'
+          },
+          {
+            'text': 'Foreign Office',
+            'value': 'FO'
+          },
+          {
+            'text': 'Home Office',
+            'value': 'HO'
+          },
+          {
+            'text': 'Prerogative Court of Canterbury',
+            'value': 'PROB'
+          },
+          {
+            'text': 'War Office, Armed Forces, Judge Advocate General, and related bodies',
+            'value': 'WO'
+          }
+        ],
+        'small': True
+      }) }}
+      <p><a href="#">More collections&hellip;</a></p>
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      {{ tnaCheckboxes({
+        'label': 'Level',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': 'level',
+        'name': 'level',
+        'items': [
+          {
+            'text': 'Division',
+            'value': 'a'
+          },
+          {
+            'text': 'Item',
+            'value': 'b'
+          },
+          {
+            'text': 'Lettercode',
+            'value': 'c'
+          },
+          {
+            'text': 'Piece',
+            'value': 'd'
+          },
+          {
+            'text': 'Series',
+            'value': 'e'
+          },
+          {
+            'text': 'Sub-series',
+            'value': 'f'
+          },
+          {
+            'text': 'Sub-sub-series',
+            'value': 'g'
+          }
+        ],
+        'small': True
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      {{ tnaCheckboxes({
+        'label': 'Closure Status',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': 'closure-status',
+        'name': 'closure-status',
+        'items': [
+          {
+            'text': 'Closed Or Retained Document, Closed Description',
+            'value': 'a'
+          },
+          {
+            'text': 'Closed Or Retained Document, Open Description',
+            'value': 'b'
+          },
+          {
+            'text': 'Open Document, Open Description',
+            'value': 'c'
+          }
+        ],
+        'small': True
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    <div class="tna-aside tna-aside--tight tna-background-tint">
+      <h3 class="tna-heading-s">Record opening date</h3>
+      {{ tnaDateInput({
+        'label': 'From',
+        'headingLevel': 4,
+        'headingSize': 'xs',
+        'id': 'opening-date-from',
+        'name': 'opening-date-from',
+        'hint': 'For example, 27 3 2007 or 2007',
+        'classes': 'tna-!--no-margin-top'
+      }) }}
+      {{ tnaDateInput({
+        'label': 'To',
+        'headingLevel': 4,
+        'headingSize': 'xs',
+        'id': 'opening-date-to',
+        'name': 'opening-date-to',
+        'classes': 'tna-!--margin-top-s'
+      }) }}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+  </div>
+  <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
+    <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m">Search results</h2>
+    <hr class="tna-!--margin-bottom-s">
+    {% for i in range(10) %}
+    <article>
+      <h3 class="tna-heading-m">
+        <a href="#">Divorce Court File: 4284. Appellant: Florence Emily Fenn. Respondent: Ernest William&hellip;</a>
+      </h3>
+      <p>Divorce Court File: 4284. Appellant: Florence Emily Fenn. Respondent: Ernest William Fenn. Type: Wife's petition for divorce [wd].</p>
+      <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
+        <dt>
+          <i class="fa-solid fa-landmark"></i>
+          Held by
+        </dt>
+        <dd>The National Archives, Kew</dd>
+        <dt>
+          <i class="fa-solid fa-calendar"></i>
+          Date
+        </dt>
+        <dd>1972&ndash;1979</dd>
+        <dt>
+          <i class="fa-solid fa-database"></i>
+          Reference
+        </dt>
+        <dd>LC 4</dd>
+      </dl>
+    </article>
+    <hr class="tna-!--margin-vertical-s">
+    {% endfor %}
+    <div class="tna-section">
+      {{ tnaPagination({
+        'previous': {
+          'href': "#"
+        },
+        'items': [
+          {
+            'number': 1,
+            'href': "#"
+          },
+          {
+            'ellipsis': True
+          },
+          {
+            'number': 6,
+            'href': "#"
+          },
+          {
+            'number': 7,
+            'current': True,
+            'href': "#"
+          },
+          {
+            'number': 8,
+            'href': "#"
+          },
+          {
+            'ellipsis': True
+          },
+          {
+            'number': 42,
+            'href': "#"
+          }
+        ],
+        'next': {
+          'href': "#"
+        }
+      }) }}
+    </div>
+  </div>
+</section>
+{{ feedback() }}
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+<script src="{{ url_for('static', filename='search.min.js') }}"></script>
+{% endblock %}
