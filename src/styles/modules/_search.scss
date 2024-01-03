@@ -70,6 +70,10 @@ html.tna-template
 
       text-decoration: none;
     }
+
+    @include media.on-mobile {
+      @include typography.relative-font-size(16);
+    }
   }
 
   &__name {
@@ -163,6 +167,25 @@ html.tna-template
     &--plain {
     }
   }
+
+  @include media.on-mobile {
+    gap: 0.5rem;
+
+    @include typography.relative-font-size(16);
+
+    &__item-link {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  @include media.on-tiny {
+    @include typography.relative-font-size(14);
+
+    &__item-link {
+      padding-right: 0.25rem;
+      padding-left: 0.25rem;
+    }
+  }
 }
 
 .etna-search-sort-view {
@@ -181,14 +204,12 @@ html.tna-template
   }
 
   .tna-button-group {
+    gap: 0.25rem;
+  }
+
+  .tna-form__group--inline + .tna-button-group {
     margin-left: 0.5rem;
     margin-top: 0;
-
-    gap: 0.25rem;
-
-    + .tna-button-group {
-      margin-left: 1rem;
-    }
   }
 }
 

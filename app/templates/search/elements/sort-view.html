@@ -1,0 +1,66 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/select/macro.html' import tnaSelect -%}
+
+<div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+  <p>Showing 1-20 (of 10,000) results for &quot;{{ query or '' }}&quot; in &quot;Records at the National Archives&quot;</p>
+</div>
+<div class="tna-column tna-column--flex-1-small tna-column--full-tiny etna-search-sort-view tna-!--margin-top-m">
+  {{ tnaSelect({
+    'label': 'Sort by',
+    'headingLevel': 2,
+    'headingSize': 'xs',
+    'id': 'sort',
+    'name': 'sort',
+    'items': [
+      {
+        'text': 'Relevance',
+        'value': 'relevance'
+      },
+      {
+        'text': 'Date',
+        'value': 'date'
+      },
+      {
+        'text': 'Title',
+        'value': 'title'
+      }
+    ],
+    'inline': True
+  }) }}
+  <div class="tna-button-group">
+    {{ tnaButton({
+      'text': 'Update',
+      'small': True,
+      'buttonElement': True,
+      'buttonType': 'submit',
+      'attributes': {
+        'form': 'search-form'
+      }
+    }) }}
+  </div>
+</div>
+<div class="tna-column tna-column--full-tiny etna-search-sort-view tna-!--margin-top-m">
+  <div class="tna-button-group">
+    {{ tnaButton({
+      'text': 'View in list format',
+      'href': '#',
+      'icon': 'list',
+      'small': True,
+      'iconOnly': True,
+      'accent': True,
+      'attributes': {
+        'form': 'search-form'
+      }
+    }) }}
+    {{ tnaButton({
+      'text': 'View in grid format',
+      'href': '#',
+      'icon': 'table-cells-large',
+      'small': True,
+      'iconOnly': True,
+      'attributes': {
+        'form': 'search-form'
+      }
+    }) }}
+  </div>
+</div>
