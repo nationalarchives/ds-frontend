@@ -58,6 +58,20 @@ def create_app(config_class=Config):
             return "Record revealed"
         return ""
 
+    @app.template_filter("article_type")
+    def article_type(s):
+        if s == "articles.ArticlePage" or s == "articles.FocusedArticlePage":
+            return "Article"
+        if s == "articles.RecordArticlePage":
+            return "Record revealed"
+        if s == "collections.HighlightGalleryPage":
+            return "Record revealed"
+        if s == "collections.TimePeriodExplorerPage":
+            return "Time period"
+        if s == "collections.TopicExplorerPage":
+            return "Topic"
+        return "UNKNOWN"
+
     @app.template_filter("brand_icon_from_url")
     def brand_icon_from_url(s):
         if "facebook.com" in s:

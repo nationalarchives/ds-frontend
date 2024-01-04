@@ -2,6 +2,8 @@ from app.lib import cache, cache_key_prefix
 from app.search import bp
 from flask import render_template, request
 
+from .api import ArticleFiltersAPI, ArticlesAPI, RecordsAPI
+
 
 @bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
@@ -27,8 +29,14 @@ def featured():
 @cache.cached(key_prefix=cache_key_prefix)
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
+    records_api = RecordsAPI()
+    records_api.query(query)
+    results = records_api.get_results()
     return render_template(
-        "search/catalogue.html", query=query, search_path="/search/catalogue/"
+        "search/catalogue.html",
+        query=query,
+        search_path="/search/catalogue/",
+        results=results,
     )
 
 
@@ -47,6 +55,28 @@ def catalogue_new():
 @cache.cached(key_prefix=cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
+
+    article_filters_api = ArticleFiltersAPI()
+    article_filters_api.params = {}
+    filters = [
+        {
+            "title": filter["title"],
+            "options": [
+                {"text": option["name"], "value": option["value"]}
+                for option in filter["options"]
+            ],
+        }
+        for filter in article_filters_api.get_results()
+    ]
+
+    articles_api = ArticlesAPI()
+    articles_api.query(query)
+    results = articles_api.get_results()
+
     return render_template(
-        "search/website.html", query=query, search_path="/search/website/"
+        "search/website.html",
+        query=query,
+        search_path="/search/website/",
+        results=results,
+        filters=filters,
     )

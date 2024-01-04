@@ -115,8 +115,6 @@ def category_index_page(page_data):
 
 
 def categories_page(page_data):
-    # TODO
-
     try:
         children_data = page_children(page_data["id"])
         all_children = [
@@ -134,11 +132,26 @@ def categories_page(page_data):
         }
         for child in all_children
     ]
+    children_index_grid = [
+        {
+            "id": child["id"],
+            "title": child["title"],
+            "subtitle": f"{len(child["page_highlights"])} images",
+            "href": child["meta"]["html_url"],
+            "teaser": child["teaser_text"],
+            "src": child["teaser_image_jpg"]['full_url'],
+            "alt": child["teaser_image_jpg"]['alt'],
+            "width": child["teaser_image_jpg"]['width'],
+            "height": child["teaser_image_jpg"]['height'],
+        }
+        for child in all_children
+    ]
     return render_template(
         "explore/category.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children,
+        children_index_grid=children_index_grid,
     )
 
 

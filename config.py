@@ -9,6 +9,7 @@ class Config(object):
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL")
     WAGTAIL_MEDIA_URL = os.environ.get("WAGTAIL_MEDIA_URL")
+    SEARCH_API_URL = os.environ.get("SEARCH_API_URL")
 
 
 cache_config = {

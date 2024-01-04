@@ -13,10 +13,15 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("WAGTAIL_API_URL not set")
     api_url = api_url.strip("/")
     params["format"] = "json"
-    query_string = "&".join(
-        ["=".join((str(key), str(value))) for key, value in params.items()]
+    query_string = (
+        "?"
+        + "&".join(
+            ["=".join((key, str(value))) for key, value in params.items()]
+        )
+        if len(params)
+        else ""
     )
-    url = f"{api_url}/{uri}?{query_string}"
+    url = f"{api_url}/{uri}{query_string}"
     r = requests.get(url)
     if r.status_code == 404:
         current_app.logger.error(f"Resource not found: {url}")
@@ -28,6 +33,9 @@ def wagtail_request_handler(uri, params={}):
                 text = r.text
                 text = text.replace(
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                    "http://localhost:65535/",
+                ).replace(
+                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
                     "http://localhost:65535/",
                 )
                 return json.loads(text)

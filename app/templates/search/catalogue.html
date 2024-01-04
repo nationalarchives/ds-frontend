@@ -293,28 +293,30 @@
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
     <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m">Search results</h2>
     <hr class="tna-!--margin-bottom-s">
-    {% for i in range(10) %}
+    {% for result in results.results %}
     <article>
       <h3 class="tna-heading-m">
-        <a href="#">Divorce Court File: 4284. Appellant: Florence Emily Fenn. Respondent: Ernest William&hellip;</a>
+        <a href="#">{{ result.title }}</a>
       </h3>
-      <p>Divorce Court File: 4284. Appellant: Florence Emily Fenn. Respondent: Ernest William Fenn. Type: Wife's petition for divorce [wd].</p>
+      <p>???</p>
+      <p>ID: {{ result.id }}</p>
+      <p>Ref: {{ result.ref }}</p>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
         <dt>
           <i class="fa-solid fa-landmark"></i>
           Held by
         </dt>
-        <dd>The National Archives, Kew</dd>
+        <dd>???</dd>
         <dt>
           <i class="fa-solid fa-calendar"></i>
           Date
         </dt>
-        <dd>1972&ndash;1979</dd>
+        <dd>???</dd>
         <dt>
           <i class="fa-solid fa-database"></i>
           Reference
         </dt>
-        <dd>LC 4</dd>
+        <dd>???</dd>
       </dl>
     </article>
     <hr class="tna-!--margin-vertical-s">

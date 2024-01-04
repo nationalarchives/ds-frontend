@@ -16,24 +16,29 @@
 <section class="tna-container">
   <div id="search-filters" class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny etna-search-sidebar tna-!--padding-top-l">
     <h2 class="tna-visually-hidden">Search filters</h2>
-    <div class="tna-aside tna-aside--tight tna-background-tint tna-!--no-margin-top">
+    {% for filter in filters %}
+    <div class="tna-aside tna-aside--tight tna-background-tint{{ ' tna-!--no-margin-top' if loop.index == 0 }}">
+      {% set items = [] %}
+      {% set slug = filter['title'] | slugify %}
+      {% set selectedItems = request.args.to_dict(flat=False)[slug + "[]"] %}
+      {%- for item in filter['options'] -%}
+        {{ items.append({
+          'text': item.text,
+          'value': item.value,
+          'checked': item.value | string in selectedItems
+        }) or '' }}
+      {%- endfor -%}
       {{ tnaCheckboxes({
-        'label': 'Time period',
+        'label': filter['title'],
         'headingLevel': 3,
         'headingSize': 's',
-        'id': 'time-period',
-        'name': 'time-period',
-        'items': [
-          {
-            'text': 'Medieval (947–1485)',
-            'value': 'medieval'
-          },
-          {
-            'text': 'Early modern (1485–1714)',
-            'value': 'early-modern'
-          }
-        ],
-        'small': True
+        'id': slug,
+        'name': slug + '[]',
+        'items': items,
+        'small': True,
+        'attributes': {
+          'form': 'search-form'
+        }
       }) }}
       <div class="tna-button-group tna-!--margin-top-s">
         {{ tnaButton({
@@ -47,40 +52,28 @@
         }) }}
       </div>
     </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      {{ tnaCheckboxes({
-        'label': 'Topic',
-        'headingLevel': 3,
-        'headingSize': 's',
-        'id': 'topic',
-        'name': 'topic',
-        'items': [
-          {
-            'text': 'Agriculture and environment',
-            'value': 'agriculture-and-environment'
-          },
-          {
-            'text': 'Arts and culture',
-            'value': 'arts-and-culture'
-          }
-        ],
-        'small': True
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
-    <h2 class="tna-heading-l">TODO - website</h2>
+    <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m">Search results</h2>
+    <hr class="tna-!--margin-bottom-s">
+    {% for result in results.results %}
+    <article class="tna-container tna-container--no-padding">
+      <div class="tna-column tna-column--width-7-12 tna-column--width-1-2-medium tna-column--width-2-3-small tna-column--full-tiny">
+        <hgroup class="tna-hgroup-m">
+          <p class="tna-hgroup__supertitle tna-hgroup__supertitle--plain-">{{ result.type | article_type }}</p>
+          <h1 class="tna-hgroup__title">
+            <a href="{{ result.url }}">{{ result.title }}</a>
+          </h1>
+        </hgroup>
+        <p>{{ result.description }}</p>
+      </div>
+      <div class="tna-column tna-column--width-5-12 tna-column--width-1-2-medium tna-column--width-1-3-small tna-column--full-tiny">
+        <img src="{{ result.image.full_url }}" width="{{ result.image.width }}" height="{{ result.image.height }}" alt="{{ result.image.alt }}">
+      </div>
+    </article>
+    <hr class="tna-!--margin-vertical-s">
+    {% endfor %}
   </div>
 </section>
 {{ feedback() }}
