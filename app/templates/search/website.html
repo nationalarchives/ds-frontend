@@ -1,6 +1,7 @@
 {% extends 'search/base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
 {%- from 'components/select/macro.html' import tnaSelect -%}
 {%- from 'macros/feedback.html' import feedback -%}
@@ -54,9 +55,37 @@
     </div>
     {% endfor %}
   </div>
+
+  {% if request.args['view'] == 'grid' %}
+  <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
+    <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m tna-column">Search results</h2>
+    <!-- TODO: Make into ul -->
+    <div class="tna-container tna-container--no-padding">
+      {% for result in results.results %}
+      <div class="tna-column tna-column--width-1-2 tna-column--full-tiny">
+        {{ tnaCard({
+          'supertitle': result.type | article_type,
+          'title': result.title,
+          'headingLevel': 3,
+          'headingSize': 's',
+          'href': result.url,
+          'body': result.description,
+          'imageSrc': result.image.full_url,
+          'imageAlt': result.image.title,
+          'imageWidth': result.image.width,
+          'imageHeight': result.image.height,
+          'htmlElement': 'article',
+          'classes': 'tna-!--margin-top-l'
+        }) }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
     <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m">Search results</h2>
     <hr class="tna-!--margin-bottom-s">
+    <!-- TODO: Make into ul -->
     {% for result in results.results %}
     <article class="tna-container tna-container--no-padding">
       <div class="tna-column tna-column--width-7-12 tna-column--width-1-2-medium tna-column--width-2-3-small tna-column--full-tiny">
@@ -75,6 +104,7 @@
     <hr class="tna-!--margin-vertical-s">
     {% endfor %}
   </div>
+  {% endif %}
 </section>
 {{ feedback() }}
 {% endblock %}

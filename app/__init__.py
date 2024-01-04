@@ -63,14 +63,14 @@ def create_app(config_class=Config):
         if s == "articles.ArticlePage" or s == "articles.FocusedArticlePage":
             return "Article"
         if s == "articles.RecordArticlePage":
-            return "Record revealed"
+            return "Records revealed"
         if s == "collections.HighlightGalleryPage":
-            return "Record revealed"
+            return "Gallery"
         if s == "collections.TimePeriodExplorerPage":
             return "Time period"
         if s == "collections.TopicExplorerPage":
             return "Topic"
-        return "UNKNOWN"
+        return ""
 
     @app.template_filter("brand_icon_from_url")
     def brand_icon_from_url(s):

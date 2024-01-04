@@ -46,9 +46,13 @@
       'href': '#',
       'icon': 'list',
       'small': True,
+      'buttonElement': True,
+      'buttonType': 'submit',
       'iconOnly': True,
-      'accent': True,
+      'accent': request.args['view'] != 'grid',
       'attributes': {
+        'name': 'view',
+        'value': 'list',
         'form': 'search-form'
       }
     }) }}
@@ -57,8 +61,13 @@
       'href': '#',
       'icon': 'table-cells-large',
       'small': True,
+      'buttonElement': True,
+      'buttonType': 'submit',
       'iconOnly': True,
+      'accent': request.args['view'] == 'grid',
       'attributes': {
+        'name': 'view',
+        'value': 'grid',
         'form': 'search-form'
       }
     }) }}

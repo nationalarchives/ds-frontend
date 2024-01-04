@@ -14,7 +14,6 @@ class BaseSearchAPI:
         self.add_parameter("q", value)
 
     def add_parameter(self, key, value):
-        print("param added ", self)
         self.params[key] = value
 
     def build_query_string(self):
@@ -35,7 +34,6 @@ class BaseSearchAPI:
             self.add_parameter("page", page)
         url = f"{self.api_url}{self.api_path}{self.build_query_string()}"
         response = requests.get(url)
-        print(url)
         if response.status_code == 404:
             raise Exception("Resource not found")
         if response.status_code == requests.codes.ok:

@@ -57,7 +57,9 @@ def website():
     query = request.args["q"] if "q" in request.args else ""
 
     article_filters_api = ArticleFiltersAPI()
-    article_filters_api.params = {}
+    article_filters_api.params = (
+        {}
+    )  # TODO: Why do I need to do this? Things are persisting...
     filters = [
         {
             "title": filter["title"],
@@ -70,7 +72,14 @@ def website():
     ]
 
     articles_api = ArticlesAPI()
-    articles_api.query(query)
+    articles_api.params = (
+        {}
+    )  # TODO: Why do I need to do this? Things are persisting...
+    if query:
+        articles_api.query(query)
+    if "type[]" in request.args:
+        types = request.args.to_dict(flat=False)["type[]"]
+        articles_api.add_parameter("type", ",".join(types))
     results = articles_api.get_results()
 
     return render_template(
