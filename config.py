@@ -7,9 +7,9 @@ class Config(object):
     ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
     SECRET_KEY = os.environ.get("SECRET_KEY")
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
-    WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL")
-    WAGTAIL_MEDIA_URL = os.environ.get("WAGTAIL_MEDIA_URL")
-    SEARCH_API_URL = os.environ.get("SEARCH_API_URL")
+    WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL").rstrip("/")
+    WAGTAIL_MEDIA_URL = os.environ.get("WAGTAIL_MEDIA_URL").rstrip("/")
+    SEARCH_API_URL = os.environ.get("SEARCH_API_URL").rstrip("/")
 
 
 cache_config = {

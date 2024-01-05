@@ -11,7 +11,6 @@ def wagtail_request_handler(uri, params={}):
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
-    api_url = api_url.strip("/")
     params["format"] = "json"
     query_string = (
         "?"
