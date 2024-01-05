@@ -109,7 +109,7 @@ def create_app(config_class=Config):
         def get_wagtail_media(media_id):
             media_data = media_details(media_id)
             return media_data
-        
+
         def now():
             now = datetime.now()
             now_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")

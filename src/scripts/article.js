@@ -78,11 +78,6 @@ $articles.forEach(($article) => {
     let currentSectionId = "";
     const currentSectionFromTop = 0.15;
     const onMobile = window.matchMedia("(max-width: 48em)");
-
-    // onMobile.addEventListener("change", () => {
-    //   console.log("onMobile", onMobile.matches);
-    // });
-
     const highlightCurrentSection = () => {
       if (onMobile.matches) {
         return;
@@ -96,22 +91,29 @@ $articles.forEach(($article) => {
         );
       const topSectionId =
         $topSection && $topSection.getAttribute("data-section-id");
-      if (topSectionId && topSectionId !== currentSectionId) {
-        currentSectionId = topSectionId;
-        if ($topSection) {
-          $sidebarItems.forEach(($sidebarItem) =>
-            $sidebarItem.getAttribute("href") === `#${currentSectionId}`
-              ? $sidebarItem.classList.add(
-                  "etna-article__sidebar-item--current",
-                )
-              : $sidebarItem.classList.remove(
-                  "etna-article__sidebar-item--current",
-                ),
-          );
-          if (history.replaceState) {
-            history.replaceState(null, null, `#${currentSectionId}`);
+      if (topSectionId) {
+        if (topSectionId !== currentSectionId) {
+          currentSectionId = topSectionId;
+          if ($topSection) {
+            $sidebarItems.forEach(($sidebarItem) =>
+              $sidebarItem.getAttribute("href") === `#${currentSectionId}`
+                ? $sidebarItem.classList.add(
+                    "etna-article__sidebar-item--current",
+                  )
+                : $sidebarItem.classList.remove(
+                    "etna-article__sidebar-item--current",
+                  ),
+            );
+            if (history.replaceState) {
+              history.replaceState(null, null, `#${currentSectionId}`);
+            }
           }
         }
+      } else {
+        currentSectionId = "";
+        $sidebarItems.forEach(($sidebarItem) =>
+          $sidebarItem.classList.remove("etna-article__sidebar-item--current"),
+        );
       }
     };
 
