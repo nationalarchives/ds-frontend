@@ -8,9 +8,7 @@ services:
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
-      # - WAGTAIL_API_URL=https://feature-headless-4batnpq-rasrzs7pi6sd4.uk-1.platformsh.site/api/v2
       - WAGTAIL_MEDIA_URL=http://localhost:8000
-      # - WAGTAIL_MEDIA_URL=https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site
       - SEARCH_API_URL=http://host.docker.internal:65534
       - CACHE_DEFAULT_TIMEOUT=1
     ports:
