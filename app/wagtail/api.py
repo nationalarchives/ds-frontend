@@ -29,6 +29,16 @@ def wagtail_request_handler(uri, params={}):
         return {}
     if r.status_code == requests.codes.ok:
         try:
+            if Config().ENVIRONMENT == "staging":
+                text = r.text
+                text = text.replace(
+                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                ).replace(
+                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
+                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+                )
+                return json.loads(text)
             if Config().ENVIRONMENT == "develop":
                 text = r.text
                 text = text.replace(
