@@ -114,6 +114,9 @@ $articles.forEach(($article) => {
         $sidebarItems.forEach(($sidebarItem) =>
           $sidebarItem.classList.remove("etna-article__sidebar-item--current"),
         );
+        if (history.replaceState) {
+          history.replaceState(null, null, "#");
+        }
       }
     };
 
