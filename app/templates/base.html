@@ -8,8 +8,7 @@
 
 {%- set theme = 'light' -%}
 {%- set themeAccent = 'yellow' -%}
-
-{%- set siteTitle = 'TNA' -%}
+{%- set htmlAttributes = {'data-generated': now()} -%}
 
 {% block headIcons %}
 <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
