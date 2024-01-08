@@ -16,11 +16,11 @@
     <hr>
     {% endif %}
     {% with image = get_wagtail_image(highlight['image']) %}
-    <div class="tna-section tna-container tna-!--padding-top-s">
-      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-column--order-3 tna-column--order-1-small tna-column--order-1-tiny tna-!--padding-top-m">
+    <div class="tna-section tna-container tna-container--centred tna-!--padding-top-s">
+      <div class="tna-column tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-column--order-3 tna-column--order-1-medium tna-column--order-1-small tna-column--order-1-tiny tna-!--padding-top-m">
         <img src="{{ WAGTAIL_MEDIA_URL }}{{ image['meta']['download_url'] }}" width="{{ image['width'] }}" height="{{ image['height'] }}" alt="{{ highlight['alt_text'] }}">
       </div>
-      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
+      <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
         <h2 class="tna-heading-l">{{ image['title'] }}</h2>
         <dl class="tna-dl tna-dl--plain">
           <dt>Date</dt>
