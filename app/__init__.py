@@ -1,8 +1,16 @@
 import logging
-import re
 from datetime import datetime
 
 from app.lib import cache
+from app.lib.template_filters import (
+    article_supertitle,
+    article_type,
+    brand_icon_from_url,
+    headings_list,
+    pretty_date,
+    slugify,
+    tna_html,
+)
 from app.wagtail.api import image_details, media_details, page_details
 from config import Config
 from flask import Flask
@@ -28,73 +36,15 @@ def create_app(config_class=Config):
         ]
     )
 
-    @app.template_filter("tna_html")
-    def tna_html_filter(s):
-        return s.replace("<ul>", '<ul class="tna-ul">').replace(
-            "<ol>", '<ol class="tna-ol">'
-        )
+    app.add_template_filter(tna_html)
+    app.add_template_filter(slugify)
+    app.add_template_filter(pretty_date)
+    app.add_template_filter(article_supertitle)
+    app.add_template_filter(article_type)
+    app.add_template_filter(brand_icon_from_url)
+    app.add_template_filter(headings_list)
 
-    @app.template_filter("slugify")
-    def slugify(s):
-        s = s.lower().strip()
-        s = re.sub(r"[^\w\s-]", "", s)
-        s = re.sub(r"[\s_-]+", "-", s)
-        s = re.sub(r"^-+|-+$", "", s)
-        return s
-
-    @app.template_filter("pretty_date")
-    def pretty_date(s):
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        new_date = date.strftime("%d %B %Y")
-        return new_date
-
-    @app.template_filter("article_supertitle")
-    def article_supertitle(s):
-        if s == "articles.ArticlePage":
-            return "The story of"
-        if s == "articles.FocusedArticlePage":
-            return "Focus on"
-        if s == "articles.RecordArticlePage":
-            return "Record revealed"
-        return ""
-
-    @app.template_filter("article_type")
-    def article_type(s):
-        if s == "articles.ArticlePage" or s == "articles.FocusedArticlePage":
-            return "Article"
-        if s == "articles.RecordArticlePage":
-            return "Records revealed"
-        if s == "collections.HighlightGalleryPage":
-            return "Gallery"
-        if s == "collections.TimePeriodExplorerPage":
-            return "Time period"
-        if s == "collections.TopicExplorerPage":
-            return "Topic"
-        return ""
-
-    @app.template_filter("brand_icon_from_url")
-    def brand_icon_from_url(s):
-        if "facebook.com" in s:
-            return "facebook"
-        if "youtube.com" in s:
-            return "youtube"
-        return ""
-
-    @app.template_filter("headings_list")
-    def headings_list(s):
-        headings_raw = re.findall(
-            r'<h([1-6])[^>]*id="([\w\-]+)"[^>]*>\s*([\w\s\.]+)\s*<', s
-        )
-        headings = [
-            {
-                "title": heading[2],
-                "id": heading[1],
-                "level": heading[0],
-                "children": [],
-            }
-            for heading in headings_raw
-        ]
-        return headings
+    # app.add_cms_processor(headings_list)
 
     @app.context_processor
     def cms_processor():
@@ -110,7 +60,7 @@ def create_app(config_class=Config):
             media_data = media_details(media_id)
             return media_data
 
-        def now():
+        def now_iso_8601():
             now = datetime.now()
             now_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
             return now_date
@@ -119,7 +69,7 @@ def create_app(config_class=Config):
             get_wagtail_image=get_wagtail_image,
             get_wagtail_page=get_wagtail_page,
             get_wagtail_media=get_wagtail_media,
-            now=now,
+            now_iso_8601=now_iso_8601,
             WAGTAIL_MEDIA_URL=Config().WAGTAIL_MEDIA_URL,
         )
 

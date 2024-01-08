@@ -136,7 +136,7 @@ def categories_page(page_data):
         {
             "id": child["id"],
             "title": child["title"],
-            "subtitle": len(child["page_highlights"]) + " images",
+            "subtitle": str(len(child["page_highlights"])) + " images",
             "href": child["meta"]["html_url"],
             "teaser": child["teaser_text"],
             "src": child["teaser_image_jpg"]["full_url"],
