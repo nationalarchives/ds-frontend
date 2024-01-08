@@ -1,7 +1,9 @@
 from app.lib import cache, cache_key_prefix
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
-from flask import current_app, render_template, request
+from config import cache_config
+from flask import current_app, make_response, render_template, request
+from flask_caching import CachedResponse
 
 from .api import page_details_by_uri, page_preview
 
@@ -21,11 +23,22 @@ def index():
         page_data = page_details_by_uri("/")
     except ConnectionError:
         current_app.logger.error("ConnectionError for home page")
-        return render_template("errors/api.html"), 502
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
     except Exception:
         current_app.logger.error("An exception occurred on home page")
-        return render_template("errors/page-not-found.html"), 404
-    return render_content_page(page_data)
+        return CachedResponse(
+            response=make_response(
+                render_template("errors/page-not-found.html"), 404
+            ),
+            timeout=1,
+        )
+    return CachedResponse(
+        response=make_response(render_content_page(page_data)),
+        timeout=cache_config["CACHE_DEFAULT_TIMEOUT"],
+    )
 
 
 @bp.route("/<path:path>/")
@@ -35,8 +48,19 @@ def explore_page(path):
         page_data = page_details_by_uri(path)
     except ConnectionError:
         current_app.logger.error(f"ConnectionError for {path}")
-        return render_template("errors/api.html"), 502
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
     except Exception:
         current_app.logger.error(f"An exception occurred on {path}")
-        return render_template("errors/page-not-found.html"), 404
-    return render_content_page(page_data)
+        return CachedResponse(
+            response=make_response(
+                render_template("errors/page-not-found.html"), 404
+            ),
+            timeout=1,
+        )
+    return CachedResponse(
+        response=make_response(render_content_page(page_data)),
+        timeout=cache_config["CACHE_DEFAULT_TIMEOUT"],
+    )

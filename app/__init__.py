@@ -1,7 +1,13 @@
 import logging
-from datetime import datetime
 
 from app.lib import cache
+from app.lib.context_processor import (
+    get_wagtail_image,
+    get_wagtail_media,
+    get_wagtail_page,
+    is_standalone,
+    now_iso_8601,
+)
 from app.lib.template_filters import (
     article_supertitle,
     article_type,
@@ -11,7 +17,6 @@ from app.lib.template_filters import (
     slugify,
     tna_html,
 )
-from app.wagtail.api import image_details, media_details, page_details
 from config import Config
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
@@ -44,28 +49,10 @@ def create_app(config_class=Config):
     app.add_template_filter(brand_icon_from_url)
     app.add_template_filter(headings_list)
 
-    # app.add_cms_processor(headings_list)
-
     @app.context_processor
-    def cms_processor():
-        def get_wagtail_image(image_id):
-            image_data = image_details(image_id)
-            return image_data
-
-        def get_wagtail_page(page_id):
-            page_data = page_details(page_id)
-            return page_data
-
-        def get_wagtail_media(media_id):
-            media_data = media_details(media_id)
-            return media_data
-
-        def now_iso_8601():
-            now = datetime.now()
-            now_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-            return now_date
-
+    def context_processor():
         return dict(
+            is_standalone=is_standalone,
             get_wagtail_image=get_wagtail_image,
             get_wagtail_page=get_wagtail_page,
             get_wagtail_media=get_wagtail_media,
