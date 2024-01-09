@@ -1,4 +1,6 @@
 from app.lib import cache, cache_key_prefix
+from app.lib.query import parse_args, remove_arg
+from app.lib.template_filters import slugify
 from app.search import bp
 from flask import render_template, request
 
@@ -55,7 +57,7 @@ def catalogue_new():
 @cache.cached(key_prefix=cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
-
+    args = parse_args(request.args)
     article_filters_api = ArticleFiltersAPI()
     article_filters_api.params = (
         {}
@@ -63,8 +65,20 @@ def website():
     filters = [
         {
             "title": filter["title"],
+            "slug": slugify(filter["title"]),
             "options": [
-                {"text": option["name"], "value": option["value"]}
+                {
+                    "text": option["name"],
+                    "value": option["value"],
+                    "checked": (
+                        str(option["value"]) in args[slugify(filter["title"])]
+                    )
+                    if slugify(filter["title"]) in args
+                    else False,
+                    "remove_url": remove_arg(
+                        request.args, slugify(filter["title"]), option["value"]
+                    ),
+                }
                 for option in filter["options"]
             ],
         }

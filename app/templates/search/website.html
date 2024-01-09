@@ -13,29 +13,53 @@
 {% include 'search/elements/header.html' %}
 <section class="tna-container">
   {% include 'search/elements/sort-view.html' %}
+
+  {% set selected_filters = [] %}
+  <div class="tna-column tna-column--full">
+    {% for filter in filters %}
+    {% for option in filter['options'] %}
+    {% if option['checked'] %}
+    {{ selected_filters.append({
+      'group': filter['title'],
+      'filter': option['text'],
+      'remove_url': option['remove_url']
+    }) or "" }}
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+    {% if selected_filters %}
+    <ul class="tna-compound-filters tna-ul tna-ul--plain tna-!--margin-top-s">
+      {% for filter in selected_filters %}
+      <li class="tna-compound-filters__item">
+        <span class="tna-compound-filters__label">{{ filter['group'] }}: {{ filter['filter'] }}</span>
+        <a href="{{ filter.remove_url }}" class="tna-compound-filters__link">Remove &quot;{{ filter['group'] }}: {{ filter['filter'] }}&quot; filter</a>
+      </li>
+      {% endfor %}
+      <li class="tna-compound-filters__item tna-compound-filters__item--remove">
+        {% if 'q' in request.args and request.args['q'] %}
+        <a href="?q={{ request.args['q'] }}">
+          {% else %}
+          <a href="?">
+        {% endif %}
+          Remove all filters
+        </a>
+      </li>
+    </ul>
+    {% endif %}
+  </div>
 </section>
 <section class="tna-container">
-  <div id="search-filters" class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny etna-search-sidebar tna-!--padding-top-l">
+  <div id="search-filters" class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny etna-search-sidebar tna-!--padding-top-l" data-selectedfilters="{{ selected_filters | length }}">
     <h2 class="tna-visually-hidden">Search filters</h2>
     {% for filter in filters %}
-    <div class="tna-aside tna-aside--tight tna-background-tint{{ ' tna-!--no-margin-top' if loop.index == 0 }}">
-      {% set items = [] %}
-      {% set slug = filter['title'] | slugify %}
-      {% set selectedItems = request.args.to_dict(flat=False)[slug + "[]"] %}
-      {%- for item in filter['options'] -%}
-        {{ items.append({
-          'text': item.text,
-          'value': item.value,
-          'checked': item.value | string in selectedItems
-        }) or '' }}
-      {%- endfor -%}
+    <div class="tna-aside tna-aside--tight tna-background-tint{{ ' tna-!--no-margin-top' if loop.index == 1 }}">
       {{ tnaCheckboxes({
         'label': filter['title'],
         'headingLevel': 3,
         'headingSize': 's',
-        'id': slug,
-        'name': slug + '[]',
-        'items': items,
+        'id': filter['slug'],
+        'name': filter['slug'] + '[]',
+        'items': filter['options'],
         'small': True,
         'attributes': {
           'form': 'search-form'
