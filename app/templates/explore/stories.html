@@ -17,6 +17,7 @@
       {{ tnaCard({
         'supertitle': featured_article['meta']['type'] | article_supertitle,
         'title': featured_article['title'],
+        'href': featured_article['meta']['html_url'],
         'headingLevel': 2,
         'headingSize': 'l',
         'body': featured_article['teaser_text'],
@@ -24,12 +25,6 @@
         'imageAlt': featured_article['teaser_image_jpg']['alt'],
         'imageWidth': featured_article['teaser_image_jpg']['width'],
         'imageHeight': featured_article['teaser_image_jpg']['height'],
-        'actions': [
-          {
-            'text': 'Read about ' + page_data["featured_article"]["title"],
-            'href': featured_article['meta']['html_url']
-          }
-        ],
         'horizontal': True,
         'style': 'accent',
         'plainSupertitle': True,
