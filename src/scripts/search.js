@@ -15,9 +15,9 @@ if ($searchFiltersContent) {
   };
 
   let expandedFilters = false;
-  const filtersSelected = $searchFiltersContent.getAttribute(
+  const filtersSelected = parseInt($searchFiltersContent.getAttribute(
     "data-selectedfilters",
-  );
+  ) ?? "0");
   const $searchFiltersWrapper = document.createElement("div");
   $searchFiltersContent.parentNode.insertBefore(
     $searchFiltersWrapper,
