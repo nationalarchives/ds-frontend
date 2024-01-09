@@ -9,23 +9,36 @@
     'label': 'Sort by',
     'headingLevel': 2,
     'headingSize': 'xs',
-    'id': 'sort',
-    'name': 'sort',
+    'id': 'order',
+    'name': 'order',
     'items': [
       {
         'text': 'Relevance',
         'value': 'relevance'
       },
       {
-        'text': 'Date',
+        'text': 'Date (newest first)',
         'value': 'date'
       },
       {
         'text': 'Title',
-        'value': 'title'
+        'value': 'alphabetical'
+      }
+    ] if 'q' in request.args and request.args['q'] else [
+      {
+        'text': 'Date (newest first)',
+        'value': 'date'
+      },
+      {
+        'text': 'Title',
+        'value': 'alphabetical'
       }
     ],
-    'inline': True
+    'selected': request.args['order'] if 'order' in request.args else '',
+    'inline': True,
+    'attributes': {
+      'form': 'search-form'
+    }
   }) }}
   <div class="tna-button-group">
     {{ tnaButton({

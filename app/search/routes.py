@@ -94,6 +94,8 @@ def website():
     if "type[]" in request.args:
         types = request.args.to_dict(flat=False)["type[]"]
         articles_api.add_parameter("type", ",".join(types))
+    if "order" in request.args:
+        articles_api.add_parameter("order", request.args['order'])
     results = articles_api.get_results()
 
     return render_template(
