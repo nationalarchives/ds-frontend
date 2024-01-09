@@ -76,34 +76,34 @@ def breadcrumbs(page_id):
     )
 
 
-def page_details(page_id):
+def page_details(page_id, params={}):
     uri = f"pages/{page_id}/"
-    return wagtail_request_handler(uri)
+    return wagtail_request_handler(uri, params)
 
 
-def page_details_by_uri(page_uri):
+def page_details_by_uri(page_uri, params={}):
     uri = "pages/find/"
-    params = {"html_path": page_uri}
+    params = params | {"html_path": page_uri}
     return wagtail_request_handler(uri, params)
 
 
-def page_children(page_id):
+def page_children(page_id, params={}):
     uri = "pages/"
-    params = {"child_of": page_id}
+    params = params | {"child_of": page_id}
     return wagtail_request_handler(uri, params)
 
 
-def page_ancestors(page_id):
+def page_ancestors(page_id, params={}):
     uri = "pages/"
-    params = {"ancestor_of": page_id}
+    params = params | {"ancestor_of": page_id}
     return wagtail_request_handler(uri, params)
 
 
-def page_children_paginated(page_id, page, children_per_page):
+def page_children_paginated(page_id, page, children_per_page, params={}):
     offset = (page - 1) * children_per_page
     uri = "pages/"
     order = "-first_published_at"
-    params = {
+    params = params | {
         "child_of": page_id,
         "offset": offset,
         "limit": children_per_page,
@@ -112,17 +112,17 @@ def page_children_paginated(page_id, page, children_per_page):
     return wagtail_request_handler(uri, params)
 
 
-def image_details(image_id):
+def image_details(image_id, params={}):
     uri = f"images/{image_id}/"
-    return wagtail_request_handler(uri)
+    return wagtail_request_handler(uri, params)
 
 
-def media_details(media_id):
+def media_details(media_id, params={}):
     uri = f"media/{media_id}/"
-    return wagtail_request_handler(uri)
+    return wagtail_request_handler(uri, params)
 
 
-def page_preview(content_type, token):
+def page_preview(content_type, token, params={}):
     uri = "page_preview/1/"
-    params = {"content_type": content_type, "token": token}
+    params = params | {"content_type": content_type, "token": token}
     return wagtail_request_handler(uri, params)

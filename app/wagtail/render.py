@@ -247,7 +247,8 @@ def highlight_gallery_page(page_data):
 
 def author_index_page(page_data):
     try:
-        children_data = page_children(page_data["id"])
+        # children_data = page_children(page_data["id"], {"fields": "_,title,teaser_image_jpg,role"})
+        children_data = page_children(page_data["id"], {"order": "title"})
         children = [
             page_details(child["id"]) for child in children_data["items"]
         ]
