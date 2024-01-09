@@ -1,4 +1,7 @@
-def pagination_list(current_page, total_pages, boundaries, around):
+import urllib.parse
+
+
+def pagination_list(current_page, total_pages, boundaries=1, around=1):
     assert current_page >= 0, "current_page is less than zero"
     assert total_pages >= 0, "total_pages is less than zero"
     assert boundaries >= 0, " boundaries is less than zero"
@@ -40,10 +43,48 @@ def pagination_list(current_page, total_pages, boundaries, around):
         else ""
     )
 
-    return (
+    pagination_items = (
         initial_chunk_numbers
         + [prev_linker]
         + middle_chunk_numbers
         + [next_linker]
         + final_chunk_numbers
     )
+
+    return [item for item in pagination_items if item]
+
+
+def generate_new_page_query_string(args, page):
+    return f"?{urllib.parse.urlencode(args | {'page': page}, doseq=True)}"
+
+
+def pagination_object(
+    current_page, total_pages, current_args, boundaries=1, around=1
+):
+    current_page = int(current_page)
+    pagination_object = {}
+    pagination_object["items"] = [
+        {"ellipsis": True}
+        if item == "..."
+        else {
+            "number": item,
+            "href": generate_new_page_query_string(current_args, item),
+            "current": item == current_page,
+        }
+        for item in pagination_list(
+            current_page, total_pages, boundaries, around
+        )
+    ]
+    if current_page > 1:
+        pagination_object["previous"] = {
+            "href": generate_new_page_query_string(
+                current_args, current_page - 1
+            )
+        }
+    if current_page < total_pages:
+        pagination_object["next"] = {
+            "href": generate_new_page_query_string(
+                current_args, current_page + 1
+            )
+        }
+    return pagination_object

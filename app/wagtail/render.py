@@ -187,7 +187,7 @@ def article_index_page(page_data):
         children=children,
         featured_article=featured_article,
         featured_pages=featured_pages,
-        pagination_list=pagination_list(page, pages, 1, 1),
+        pagination_list=pagination_list(page, pages),
         page=page,
         pages=pages,
     )

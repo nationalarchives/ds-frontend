@@ -3,8 +3,10 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'components/select/macro.html' import tnaSelect -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'search/elements/sort-view.html' import sortView -%}
 
 {% block pageTitle %}Search our website - {{ super() }}{% endblock %}
 
@@ -12,7 +14,7 @@
 {% set show_tabs = True %}
 {% include 'search/elements/header.html' %}
 <section class="tna-container">
-  {% include 'search/elements/sort-view.html' %}
+  {{ sortView(query, results.count, results.result_range_min, results.result_range_max, 'our website') }}
 
   {% set selected_filters = [] %}
   <div class="tna-column tna-column--full">
@@ -138,6 +140,16 @@
     {% endfor %}
   </div>
   {% endif %}
+
+
+  {% if pages > 1 %}
+  <div class="tna-column tna-column--full tna-section">
+    {{ tnaPagination(pagination) }}
+  </div>
+  <input type="hidden" value="{{ page }}" name="page" form="search-form">
+  {% endif %}
+
+
 </section>
 {{ feedback() }}
 {% endblock %}
