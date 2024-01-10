@@ -36,9 +36,8 @@ def catalogue():
     page = int(request.args["page"]) if "page" in request.args else 1
     records_api = RecordsAPI()
     records_api.query(query)
-    records_api.add_parameter("page", page)
     try:
-        results = records_api.get_results()
+        results = records_api.get_results(page)
     except ConnectionError:
         return render_template("errors/api.html"), 502
     except Exception:
@@ -83,9 +82,8 @@ def website():
         articles_api.add_parameter("type", ",".join(types))
     if "order" in request.args:
         articles_api.add_parameter("order", request.args["order"])
-    articles_api.add_parameter("page", page)
     try:
-        results = articles_api.get_results()
+        results = articles_api.get_results(page)
     except ConnectionError:
         return render_template("errors/api.html"), 502
     except Exception:
