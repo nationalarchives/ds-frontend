@@ -15,7 +15,6 @@
 {% include 'search/elements/header.html' %}
 <section class="tna-container">
   {{ sortView(query, results.count, results.result_range_min, results.result_range_max, 'our website') }}
-
   {% set selected_filters = [] %}
   <div class="tna-column tna-column--full">
     {% for filter in filters %}
@@ -140,16 +139,12 @@
     {% endfor %}
   </div>
   {% endif %}
-
-
   {% if pages > 1 %}
   <div class="tna-column tna-column--full tna-section">
     {{ tnaPagination(pagination) }}
   </div>
   <input type="hidden" value="{{ page }}" name="page" form="search-form">
   {% endif %}
-
-
 </section>
 {{ feedback() }}
 {% endblock %}

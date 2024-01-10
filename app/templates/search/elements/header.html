@@ -3,7 +3,7 @@
 <section class="tna-background-tint tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <form action="{{ search_path or '/search/featured/' }}" id="search-form" method="get" class="tna-!--margin-bottom-m">
+      <form action="{{ search_path or '/search/featured/' }}" method="get" class="tna-!--margin-bottom-m">
         {{ tnaSearchField({
           'label': 'All search results',
           'headingLevel': 1,
@@ -13,6 +13,9 @@
           'name': 'q',
           'value': query or ''
         }) }}
+      </form>
+      <form action="{{ search_path or '/search/featured/' }}" id="search-form" method="get">
+        <input type="hidden" value="{{ query or '' }}" name="q">
       </form>
       {% if show_tabs %}
       <ul class="etna-search-tabs">

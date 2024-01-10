@@ -25,7 +25,6 @@ def wagtail_request_handler(uri, params={}):
     if r.status_code == 404:
         current_app.logger.error(f"Resource not found: {url}")
         raise Exception("Resource not found")
-        return {}
     if r.status_code == requests.codes.ok:
         try:
             if Config().ENVIRONMENT == "staging":

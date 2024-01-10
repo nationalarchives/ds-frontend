@@ -33,14 +33,24 @@ def featured():
 @cache.cached(key_prefix=cache_key_prefix)
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
+    page = int(request.args["page"]) if "page" in request.args else 1
     records_api = RecordsAPI()
     records_api.query(query)
-    results = records_api.get_results()
+    try:
+        results = records_api.get_results()
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/page-not-found.html"), 404
     return render_template(
         "search/catalogue.html",
         query=query,
         search_path="/search/catalogue/",
         results=results,
+        # filters=filters,
+        page=page,
+        pages=results["pages"],
+        pagination=pagination_object(page, results["pages"], request.args),
     )
 
 
@@ -59,8 +69,26 @@ def catalogue_new():
 @cache.cached(key_prefix=cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
-    page = request.args["page"] if "page" in request.args else 1
+    page = int(request.args["page"]) if "page" in request.args else 1
     args = parse_args(request.args)
+    articles_api = ArticlesAPI()
+    articles_api.params = (
+        {}
+    )  # TODO: Why do I need to do this? Things are persisting...
+    if query:
+        articles_api.query(query)
+    if "type[]" in request.args:
+        types = request.args.to_dict(flat=False)["type[]"]
+        articles_api.add_parameter("type", ",".join(types))
+    if "order" in request.args:
+        articles_api.add_parameter("order", request.args["order"])
+    articles_api.add_parameter("page", page)
+    try:
+        results = articles_api.get_results()
+    except ConnectionError:
+        return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/page-not-found.html"), 404
     article_filters_api = ArticleFiltersAPI()
     article_filters_api.params = (
         {}
@@ -87,21 +115,6 @@ def website():
         }
         for filter in article_filters_api.get_results()
     ]
-
-    articles_api = ArticlesAPI()
-    articles_api.params = (
-        {}
-    )  # TODO: Why do I need to do this? Things are persisting...
-    if query:
-        articles_api.query(query)
-    if "type[]" in request.args:
-        types = request.args.to_dict(flat=False)["type[]"]
-        articles_api.add_parameter("type", ",".join(types))
-    if "order" in request.args:
-        articles_api.add_parameter("order", request.args["order"])
-    articles_api.add_parameter("page", page)
-    results = articles_api.get_results()
-
     return render_template(
         "search/website.html",
         query=query,
