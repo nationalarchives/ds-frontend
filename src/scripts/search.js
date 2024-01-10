@@ -63,3 +63,16 @@ if ($searchFiltersContent) {
     $searchFiltersContent,
   );
 }
+
+const $sortView = document.querySelector(".etna-search-sort-view");
+const $orderSelect = document.getElementById("tna-form__order");
+const $searchForm = document.getElementById("search-form");
+if ($sortView && $orderSelect && $searchForm) {
+  const $sortViewButtonGroup = $sortView.querySelector(".tna-button-group");
+  if ($sortViewButtonGroup) {
+    $sortViewButtonGroup.remove();
+    $orderSelect.addEventListener("change", () => {
+      $searchForm.submit();
+    });
+  }
+}

@@ -29,17 +29,8 @@
         'text': 'Title (A to Z)',
         'value': 'alphabetical'
       }
-    ] if 'q' in request.args and request.args['q'] else [
-      {
-        'text': 'Date',
-        'value': 'date'
-      },
-      {
-        'text': 'Title (A to Z)',
-        'value': 'alphabetical'
-      }
     ],
-    'selected': request.args['order'] if 'order' in request.args else '',
+    'selected': request.args['order'] if 'order' in request.args else 'relevance',
     'inline': True,
     'attributes': {
       'form': 'search-form'
