@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{% block beforeContent %}
+{% if request.referrer %}
+<div class="tna-container">
+  <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': 'Back',
+        'href': request.referrer,
+        'icon': 'arrow-left',
+        'plain': True,
+        'small': True
+      }) }}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="tna-container tna-section tna-!--padding-top-s">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">Record</p>
+      <h1 class="tna-hgroup__title">{{ id }}</h1>
+    </hgroup>
+    <h2 class="tna-heading-l">Description and record details</h2>
+    <dl class="tna-dl">
+      <dt>Reference</dt>
+      <dd>???</dd>
+      <dt>Date</dt>
+      <dd>???</dd>
+      <dt>Description</dt>
+      <dd>???</dd>
+      <dt>Held by</dt>
+      <dd>???</dd>
+      <dt>Legal status</dt>
+      <dd>???</dd>
+      <dt>Closure status</dt>
+      <dd>???</dd>
+    </dl>
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+    <aside class="tna-aside tna-background-accent">
+      <h2 class="tna-heading-l">How to order or download this record</h2>
+      <ol class="tna-ol">
+        <li>View this record page in Discovery &ndash; our catalogue</li>
+        <li>Check viewing options</li>
+        <li>Select an option and follow instructions</li>
+      </ol>
+      <p class="tna-!--margin-top-s">
+        <small>Note: Not all documents are available and options will vary.</small>
+      </p>
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'View this record in Discovery',
+          'title': 'View this record in Discovery (opens in a new window)',
+          'href': '#',
+          'iconRight': True
+        }) }}
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

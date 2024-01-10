@@ -7,9 +7,18 @@
 
 @use "@nationalarchives/frontend/nationalarchives/all";
 
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+
 @use "modules/frontend-overrides";
 @use "modules/generics";
 @use "modules/articles";
 @use "modules/authors";
 @use "modules/feedback";
 @use "modules/search";
+
+.tna-template--yellow-accent {
+  .tna-ul li::marker, .tna-ol li::marker {
+    @include colour.colour-font("font-base");
+  }
+}
+

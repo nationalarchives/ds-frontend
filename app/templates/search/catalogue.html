@@ -297,7 +297,7 @@
     {% for result in results.results %}
     <article>
       <h3 class="tna-heading-m">
-        <a href="#">{{ result.title }}</a>
+        <a href="{{ url_for('catalogue.record', id=result.id) }}">{{ result.title }}</a>
       </h3>
       <p>???</p>
       <p>ID: {{ result.id }}</p>
