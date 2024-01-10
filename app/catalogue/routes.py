@@ -7,7 +7,7 @@ from flask import render_template
 from .api import RecordsAPI
 
 
-@bp.route("/id/<string:id>")
+@bp.route("/id/<id>")
 @cache.cached(key_prefix=cache_key_prefix)
 def record(id):
     records_api = RecordsAPI()
