@@ -9,7 +9,7 @@ from .api import page_details_by_uri, page_preview
 
 
 @bp.route("/preview/")
-def preview_page(key_prefix=cache_key_prefix):
+def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     page_data = page_preview(content_type, token)
