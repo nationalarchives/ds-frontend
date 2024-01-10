@@ -62,6 +62,8 @@ def generate_new_page_query_string(args, page):
 def pagination_object(
     current_page, total_pages, current_args, boundaries=1, around=1
 ):
+    if total_pages == 0:
+        return {}
     current_page = int(current_page)
     pagination_object = {}
     pagination_object["items"] = [

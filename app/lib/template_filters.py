@@ -22,6 +22,10 @@ def pretty_date(s):
     return new_date
 
 
+def pretty_number(s):
+    return f"{s:,}"
+
+
 def article_supertitle(s):
     if s == "articles.ArticlePage":
         return "The story of"

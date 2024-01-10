@@ -14,6 +14,7 @@ from app.lib.template_filters import (
     brand_icon_from_url,
     headings_list,
     pretty_date,
+    pretty_number,
     slugify,
     tna_html,
 )
@@ -44,6 +45,7 @@ def create_app(config_class=Config):
     app.add_template_filter(tna_html)
     app.add_template_filter(slugify)
     app.add_template_filter(pretty_date)
+    app.add_template_filter(pretty_number)
     app.add_template_filter(article_supertitle)
     app.add_template_filter(article_type)
     app.add_template_filter(brand_icon_from_url)

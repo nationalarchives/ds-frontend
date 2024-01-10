@@ -8,11 +8,12 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'search/elements/sort-view.html' import sortView -%}
 
-{% block pageTitle %}Search our website - {{ super() }}{% endblock %}
+{% block pageTitle %}{% if results %}{{ results.count }} results - {% endif %}{{ super() }}{% endblock %}
 
 {% block content %}
 {% set show_tabs = True %}
 {% include 'search/elements/header.html' %}
+{% if results.count %}
 <section class="tna-container">
   {{ sortView(query, results.count, results.result_range_min, results.result_range_max, 'our website') }}
   {% set selected_filters = [] %}
@@ -146,6 +147,14 @@
   <input type="hidden" value="{{ page }}" name="page" form="search-form">
   {% endif %}
 </section>
+{% else %}
+<section class="tna-section tna-container tna-!--no-padding-bottom">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <h2 class="tna-heading-l">We did not find any results for your search</h2>
+    <p>Try again with different spellings or search terms or view <a href="{{ url_for('search.website') }}">all website results</a>.</p>
+  </div>
+</section>
+{% endif %}
 {{ feedback() }}
 {% endblock %}
 
