@@ -25,22 +25,22 @@
   <div class="tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Record</p>
-      <h1 class="tna-hgroup__title">{{ id }}</h1>
+      <h1 class="tna-hgroup__title">{{ data.summaryTitle }}</h1>
     </hgroup>
     <h2 class="tna-heading-l">Description and record details</h2>
     <dl class="tna-dl">
       <dt>Reference</dt>
-      <dd>???</dd>
+      <dd>{{ data.detail['@template'].details.referenceNumber }}</dd>
       <dt>Date</dt>
-      <dd>???</dd>
+      <dd>{{ data.detail['@template'].details.dateCovering }}</dd>
       <dt>Description</dt>
-      <dd>???</dd>
+      <dd>{{ data.detail['@template'].details.description }}</dd>
       <dt>Held by</dt>
-      <dd>???</dd>
+      <dd>{{ data.detail['@template'].details.heldBy }}</dd>
       <dt>Legal status</dt>
-      <dd>???</dd>
+      <dd>{{ data.detail['@template'].details.legalStatus }}</dd>
       <dt>Closure status</dt>
-      <dd>???</dd>
+      <dd>{{ data.detail['@template'].details.closureStatus }}</dd>
     </dl>
   </div>
   <div class="tna-column tna-column--width-1-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
@@ -57,9 +57,7 @@
       <div class="tna-button-group">
         {{ tnaButton({
           'text': 'View this record in Discovery',
-          'title': 'View this record in Discovery (opens in a new window)',
-          'href': '#',
-          'iconRight': True
+          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + data.id
         }) }}
       </div>
     </aside>

@@ -60,9 +60,9 @@ def create_app(config_class=Config):
             WAGTAIL_MEDIA_URL=Config().WAGTAIL_MEDIA_URL,
         )
 
+    from .catalogue import bp as catalogue_bp
     from .main import bp as site_bp
     from .search import bp as search_bp
-    from .catalogue import bp as catalogue_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)

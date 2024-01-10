@@ -17,8 +17,8 @@
 @use "modules/search";
 
 .tna-template--yellow-accent {
-  .tna-ul li::marker, .tna-ol li::marker {
+  .tna-ul li::marker,
+  .tna-ol li::marker {
     @include colour.colour-font("font-base");
   }
 }
-

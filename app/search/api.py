@@ -1,50 +1,17 @@
 import json
 
 import requests
+from app.lib import BaseAPI
 from config import Config
 from flask import current_app
 
 
-class BaseSearchAPI:
-    api_url = Config().SEARCH_API_URL
-    api_path = "/"
-    params = {}
+class BaseSearchAPI(BaseAPI):
+    def __init__(self):
+        super().__init__(Config().SEARCH_API_URL)
 
     def query(self, value):
         self.add_parameter("q", value)
-
-    def add_parameter(self, key, value):
-        self.params[key] = value
-
-    def build_query_string(self):
-        return (
-            "?"
-            + "&".join(
-                [
-                    "=".join((key, str(value)))
-                    for key, value in self.params.items()
-                ]
-            )
-            if len(self.params)
-            else ""
-        )
-
-    def get_results(self, page=None):
-        if page:
-            self.add_parameter("page", page)
-        url = f"{self.api_url}{self.api_path}{self.build_query_string()}"
-        response = requests.get(url)
-        if response.status_code == 404:
-            raise Exception("Resource not found")
-        if response.status_code == requests.codes.ok:
-            return self.parse_response(response)
-        raise ConnectionError("Request to API failed")
-
-    def parse_response(self, response):
-        try:
-            return response.json()
-        except requests.exceptions.JSONDecodeError:
-            raise ConnectionError("API provided non-JSON response")
 
 
 class RecordsAPI(BaseSearchAPI):
