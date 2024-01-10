@@ -299,25 +299,22 @@
       <h3 class="tna-heading-m">
         <a href="{{ url_for('catalogue.record', id=result.id) }}">{{ result.title }}</a>
       </h3>
-      <p>???</p>
-      <p>ID: {{ result.id }}</p>
-      <p>Ref: {{ result.ref }}</p>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
         <dt>
           <i class="fa-solid fa-landmark"></i>
           Held by
         </dt>
-        <dd>???</dd>
+        <dd>{{ result.held_by }}</dd>
         <dt>
           <i class="fa-solid fa-calendar"></i>
           Date
         </dt>
-        <dd>???</dd>
+        <dd>{{ result.covering_date }}</dd>
         <dt>
           <i class="fa-solid fa-database"></i>
           Reference
         </dt>
-        <dd>???</dd>
+        <dd>{{ result.ref }}</dd>
       </dl>
     </article>
     <hr class="tna-!--margin-vertical-s">
