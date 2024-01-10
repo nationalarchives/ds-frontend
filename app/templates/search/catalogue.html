@@ -9,7 +9,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'search/elements/sort-view.html' import sortView -%}
 
-{% block pageTitle %}{% if results %}{{ results.count }} results - {% endif %}{{ super() }}{% endblock %}
+{% block pageTitle %}{% if results %}{{ results.count | pretty_number }} results{% if query %} for &quot;{{ query }}&quot;{% endif %} - {% endif %}{{ super() }}{% endblock %}
 
 {% block skipLink %}
 {{ tnaSkipLink({
