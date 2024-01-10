@@ -34,7 +34,7 @@
       <dt>Date</dt>
       <dd>{{ data.detail['@template'].details.dateCovering }}</dd>
       <dt>Description</dt>
-      <dd>{{ data.detail['@template'].details.description }}</dd>
+      <dd>{{ data.detail['@template'].details.description | safe }}</dd>
       <dt>Held by</dt>
       <dd>{{ data.detail['@template'].details.heldBy }}</dd>
       <dt>Legal status</dt>
