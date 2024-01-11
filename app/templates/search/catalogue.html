@@ -1,6 +1,7 @@
 {% extends 'search/base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
 {%- from 'components/date-input/macro.html' import tnaDateInput -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
@@ -292,6 +293,39 @@
       </div>
     </div>
   </div>
+  {% if request.args['view'] == 'grid' %}
+  <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
+    <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m tna-column">Search results</h2>
+    <!-- TODO: Make into ul -->
+    <div class="tna-container tna-container--no-padding">
+      {% for result in results.results %}
+      <div class="tna-column tna-column--width-1-2 tna-column--full-tiny">
+        {{ tnaCard({
+          'title': result.title,
+          'headingLevel': 3,
+          'headingSize': 's',
+          'href': url_for('catalogue.record', id=result.id),
+          'body': '<p>' + result.description + '</p>' if result.description else '',
+          'meta': [
+            {
+              'text': result.held_by
+            } if result.held_by else None,
+            {
+              'text': result.covering_date,
+              'icon': 'calendar'
+            } if result.covering_date else None,
+            {
+              'text': 'Reference ' + result.ref
+            } if result.ref else None
+          ],
+          'htmlElement': 'article',
+          'classes': 'tna-!--margin-top-l'
+        }) }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
     <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m">Search results</h2>
     <hr class="tna-!--margin-bottom-s">
@@ -301,26 +335,33 @@
         <a href="{{ url_for('catalogue.record', id=result.id) }}">{{ result.title }}</a>
       </h3>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
+        {% if result.held_by %}
         <dt>
           <i class="fa-solid fa-landmark"></i>
           Held by
         </dt>
         <dd>{{ result.held_by }}</dd>
+        {% endif %}
+        {% if result.covering_date %}
         <dt>
           <i class="fa-solid fa-calendar"></i>
           Date
         </dt>
         <dd>{{ result.covering_date }}</dd>
+        {% endif %}
+        {% if result.ref %}
         <dt>
           <i class="fa-solid fa-database"></i>
           Reference
         </dt>
         <dd>{{ result.ref }}</dd>
+        {% endif %}
       </dl>
     </article>
     <hr class="tna-!--margin-vertical-s">
     {% endfor %}
   </div>
+  {% endif %}
   {% if pages > 1 %}
   <div class="tna-column tna-column--full tna-section">
     {{ tnaPagination(pagination) }}

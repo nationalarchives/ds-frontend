@@ -13,6 +13,12 @@ html.tna-template
   }
 }
 
+mark {
+  @include colour.colour-font("accent-font-base");
+
+  @include colour.colour-background("accent-background");
+}
+
 .etna-featured-search {
   height: 100%;
 

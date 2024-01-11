@@ -6,7 +6,7 @@
 {% if request.referrer %}
 <div class="tna-container">
   <div class="tna-column tna-column--full tna-!--padding-vertical-s">
-    <div class="tna-button-group">
+    <div class="tna-button-group tna-button-group--back">
       {{ tnaButton({
         'text': 'Back',
         'href': request.referrer,
@@ -30,17 +30,19 @@
     <h2 class="tna-heading-l">Description and record details</h2>
     <dl class="tna-dl">
       <dt>Reference</dt>
-      <dd>{{ data.detail['@template'].details.referenceNumber }}</dd>
+      <dd>{{ data.referenceNumber }}</dd>
       <dt>Date</dt>
-      <dd>{{ data.detail['@template'].details.dateCovering }}</dd>
+      <dd>{{ data.dateCovering }}</dd>
       <dt>Description</dt>
-      <dd>{{ data.detail['@template'].details.description | safe }}</dd>
+      <dd>{{ data.description | safe }}</dd>
       <dt>Held by</dt>
-      <dd>{{ data.detail['@template'].details.heldBy }}</dd>
+      <dd>
+        <a href="{{ url_for('catalogue.record', id=data.heldById) }}">{{ data.heldBy }}</a>
+      </dd>
       <dt>Legal status</dt>
-      <dd>{{ data.detail['@template'].details.legalStatus }}</dd>
+      <dd>{{ data.legalStatus }}</dd>
       <dt>Closure status</dt>
-      <dd>{{ data.detail['@template'].details.closureStatus }}</dd>
+      <dd>{{ data.closureStatus }}</dd>
     </dl>
   </div>
   <div class="tna-column tna-column--width-1-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
@@ -57,7 +59,7 @@
       <div class="tna-button-group">
         {{ tnaButton({
           'text': 'View this record in Discovery',
-          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + data.id
+          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + data.primaryIdentifier
         }) }}
       </div>
     </aside>

@@ -1,0 +1,7 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+
+.tna-button-group--back {
+@include media.on-tiny {
+  align-items: flex-start;
+}
+}

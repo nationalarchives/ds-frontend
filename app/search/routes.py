@@ -36,6 +36,7 @@ def catalogue():
     page = int(request.args["page"]) if "page" in request.args else 1
     records_api = RecordsAPI()
     records_api.query(query)
+    records_api.add_parameter("highlight", True)
     try:
         results = records_api.get_results(page)
     except ConnectionError:

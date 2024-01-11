@@ -1,3 +1,5 @@
+import urllib.parse
+
 import requests
 
 
@@ -12,15 +14,9 @@ class BaseAPI:
     def add_parameter(self, key, value):
         self.params[key] = value
 
-    def build_query_string(self):
+    def build_query_string(self) -> str:
         return (
-            "?"
-            + "&".join(
-                [
-                    "=".join((key, str(value)))
-                    for key, value in self.params.items()
-                ]
-            )
+            "?" + urllib.parse.urlencode(self.params)
             if len(self.params)
             else ""
         )

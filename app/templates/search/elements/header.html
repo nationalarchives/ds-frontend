@@ -15,7 +15,7 @@
         }) }}
       </form>
       <form action="{{ search_path or '/search/featured/' }}" id="search-form" method="get">
-        <input type="hidden" value="{{ query or '' }}" name="q">
+        <input type="hidden" name="q" value="{{ query or '' }}">
       </form>
       {% if show_tabs %}
       <ul class="etna-search-tabs">
