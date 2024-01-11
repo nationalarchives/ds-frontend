@@ -29,13 +29,16 @@
     </hgroup>
     <aside class="tna-aside tna-background-tint">
       <h2 class="tna-heading-l">Contact information</h2>
+      {{ contact_info }}
       <dl class="tna-dl tna-dl--plain">
         <dt>Address</dt>
         <dd>
           <address>???</address>
         </dd>
+        {% if contact_info.url %}
         <dt>Website</dt>
-        <dd>???</dd>
+        <dd><a href="{{ contact_info.url }}" rel="noopener noreferrer">{{ contact_info.url }}</a></dd>
+        {% endif %}
         <dt>Opening times</dt>
         <dd>???</dd>
       </dl>
@@ -45,42 +48,22 @@
       <dt>ARCHON code</dt>
       <dd>{{ data.referenceNumber }}</dd>
     </dl>
-    <p>{{ place.description.label.value | safe }}</p>
+    <p>{{ places }}</p>
   </div>
 </section>
+{% if agents %}
 <section class="tna-section tna-!--padding-top-s">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">Collections information</h2>
     </div>
-    {% for group in [
-      {
-        'title': 'Businesses',
-        'items': businesses
-      },
-      {
-        'title': 'Organisations',
-        'items': organisations
-      },
-      {
-        'title': 'Persons',
-        'items': persons
-      },
-      {
-        'title': 'Diaries',
-        'items': diaries
-      },
-      {
-        'title': 'Families',
-        'items': families
-      }
-    ] %}
-    {% if group['items'] | length %}
+    {% for agent in agents %}
+    {% if agents[agent] | length %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
-      <h3 class="tna-heading-m">{{ group.title }} ({{ group['items'] | length }})</h3>
+      <h3 class="tna-heading-m">{{ agent }} ({{ agents[agent] | length }})</h3>
       <div class="tna-aside tna-aside--tight tna-background-tint tna-border-keyline etna-archive-collections-list">
         <ul class="tna-ul">
-          {% for item in group['items'] %}
+          {% for item in agents[agent] %}
           <li>
             <a href="{{ url_for('catalogue.info', id=item['@admin'].id) }}">{{ item.name.value }}</a>
           </li>
@@ -92,9 +75,11 @@
     {% endfor %}
   </div>
 </section>
+{% endif %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {% if manifestations %}
       <h3 class="tna-heading-m">Paper catalogues available to view at The National Archives ({{ manifestations | length }})</h3>
       <div class="tna-aside tna-aside--tight tna-background-tint tna-border-keyline etna-archive-collections-list">
         <ul class="tna-ul">
@@ -107,8 +92,9 @@
           {% endfor %}
         </ul>
       </div>
+      {% endif %}
       <h2 class="tna-heading-l">Other finding aids</h2>
-      <ul>
+      <ul class="tna-ul">
         <li>
           <a href="https://discovery.nationalarchives.gov.uk/browse/r/h/{{ id }}">Browse records in Discovery</a>
         </li>

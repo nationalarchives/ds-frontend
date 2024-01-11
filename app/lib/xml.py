@@ -1,9 +1,6 @@
 from pyquery import PyQuery
 
 
-def parse_cdata(val):
-    document = PyQuery(val)
-    for tag in ("foa", "function"):
-        if doc_value := document(tag).text():
-            return doc_value
-    return val
+def strip_scope_and_content(markup):
+    document = PyQuery(markup)
+    return str(document("span.scopecontent").contents().eq(0))

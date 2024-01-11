@@ -32,34 +32,18 @@ def render_record(id, record_data):
 def render_archive(id, record_data):
     data = record_data["metadata"][0]["detail"]["@template"]["details"]
     source = record_data["metadata"][0]["_source"]
-    place = source["place"][0]
-    agents = source["agent"]
-    businesses = [
-        agent for agent in agents if agent["identifier"][0]["value"] == "B"
-    ]
-    diaries = [
-        agent for agent in agents if agent["identifier"][0]["value"] == "D"
-    ]
-    families = [
-        agent for agent in agents if agent["identifier"][0]["value"] == "F"
-    ]
-    organisations = [
-        agent for agent in agents if agent["identifier"][0]["value"] == "O"
-    ]
-    persons = [
-        agent for agent in agents if agent["identifier"][0]["value"] == "P"
-    ]
-    manifestations = source["manifestations"]
+    record = RecordParser(record_data)
+    manifestations = (
+        source["manifestations"] if "manifestations" in source else []
+    )
     return render_template(
         "catalogue/archive.html",
         id=id,
         data=data,
-        place=place,
-        businesses=businesses,
-        diaries=diaries,
-        families=families,
-        organisations=organisations,
-        persons=persons,
+        places=record.places(),
+        contact_info=record.contact_info(),
+        agents=record.agents(),
+        descriptions=record.descriptions(),
         manifestations=manifestations,
     )
 

@@ -1,9 +1,8 @@
-import json
-
 import requests
-from app.lib import BaseAPI, parse_cdata
+from app.lib import BaseAPI
+from app.lib.xml import strip_scope_and_content
 from config import Config
-from flask import current_app
+from pyquery import PyQuery
 
 
 class BaseCatalogueAPI(BaseAPI):
@@ -38,8 +37,10 @@ class RecordParser:
             | self.date()
             | self.places()
             | self.gender()
+            | self.contact_info()
             | self.descriptions()
             | self.identifiers()
+            | self.agents()
         )
 
     def names(self):
@@ -99,7 +100,8 @@ class RecordParser:
         places = {}
         if "place" in self.source:
             places["Places"] = "<br>".join(
-                place["name"][0]["value"] for place in self.source["place"]
+                # place["name"][0]["value"] for place in self.source["place"]  # Fine for people, not for archives
+                []
             )
         return places
 
@@ -115,9 +117,57 @@ class RecordParser:
             )
         return gender
 
+    def contact_info(self):
+        contact_info = {}
+        if "description" in self.source:
+            ephemera = next(
+                (
+                    item["ephemera"]["value"]
+                    for item in self.source["description"]
+                    if "primary" in item and item["primary"]
+                ),
+                None,
+            )
+            if ephemera:
+                document = PyQuery(ephemera)
+                contact_info["address_line1"] = document("addressline1").text()
+                contact_info["address_town"] = document("addresstown").text()
+                contact_info["postcode"] = document("postcode").text()
+                contact_info["address_country"] = document(
+                    "addresscountry"
+                ).text()
+                contact_info["map_url"] = document("mapurl").text()
+                contact_info["url"] = document("url").text()
+                contact_info["telephone"] = document("telephone").text()
+                contact_info["fax"] = document("fax").text()
+                contact_info["email"] = document("email").text()
+                contact_info["corresp_addr"] = document("correspaddr").text()
+                contact_info["contact_job_title"] = document("jobtitle").text()
+                contact_info["contact_title"] = document("title").text()
+                contact_info["contact_first_name"] = document(
+                    "firstname"
+                ).text()
+                contact_info["contact_last_name"] = document("lastname").text()
+        return contact_info
+
     def descriptions(self):
         descriptions = {}
         if "description" in self.source:
+            description = next(
+                (
+                    item["ephemera"]["value"]
+                    for item in self.source["description"]
+                    if "primary" in item and item["primary"]
+                ),
+                None,
+            )
+            if description:
+                descriptions["Description"] = description
+                document = PyQuery(description)
+                for tag in ("address", "function"):
+                    if doc_value := document(tag).text():
+                        descriptions["Description"] = doc_value
+
             functions = next(
                 (
                     item["value"]
@@ -130,7 +180,13 @@ class RecordParser:
             if functions:
                 descriptions[
                     "Functions, occupations and activities"
-                ] = parse_cdata(functions)
+                ] = functions
+                document = PyQuery(functions)
+                for tag in ("foa", "function"):
+                    if doc_value := document(tag).text():
+                        descriptions[
+                            "Functions, occupations and activities"
+                        ] = doc_value
 
             history = next(
                 (
@@ -185,3 +241,46 @@ class RecordParser:
                 else primary_identifier
             )
         return identifiers
+
+    def agents(self):
+        agents = {}
+        if "agent" in self.source:
+            print("here")
+            businesses = [
+                agent
+                for agent in self.source["agent"]
+                if agent["identifier"][0]["value"] == "B"
+            ]
+            print(len(businesses))
+            if len(businesses):
+                print("here2")
+                agents["Businesses"] = businesses
+            diaries = [
+                agent
+                for agent in self.source["agent"]
+                if agent["identifier"][0]["value"] == "D"
+            ]
+            if len(diaries):
+                agents["Diaries"] = diaries
+            families = [
+                agent
+                for agent in self.source["agent"]
+                if agent["identifier"][0]["value"] == "F"
+            ]
+            if len(families):
+                agents["Families"] = families
+            organisations = [
+                agent
+                for agent in self.source["agent"]
+                if agent["identifier"][0]["value"] == "O"
+            ]
+            if len(organisations):
+                agents["Organisations"] = organisations
+            persons = [
+                agent
+                for agent in self.source["agent"]
+                if agent["identifier"][0]["value"] == "P"
+            ]
+            if len(persons):
+                agents["Persons"] = persons
+        return agents

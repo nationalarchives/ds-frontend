@@ -1,29 +1,34 @@
 <nav aria-label="Result locations" class="etna-space-above">
   <ul class="etna-search-buckets">
-    <li class="etna-search-buckets__item etna-search-buckets__item--current">
-      <a href="#" class="etna-search-buckets__link">
+    <li class="etna-search-buckets__item">
+      <button type="submit" name="group" value="tna" form="search-form" class="etna-search-buckets__button{% if group == 'tna' %} etna-search-buckets__button--current{% endif %}">
         <span class="etna-search-buckets__name">Records at The National Archives</span>
-        <span class="etna-search-buckets__meta">(24,521,421)</span></a>
+        <span class="etna-search-buckets__meta">(24,521,421)</span>
+      </button>
     </li>
     <li class="etna-search-buckets__item">
-      <a href="#" class="etna-search-buckets__link">
+      <button type="submit" name="group" value="digitised" form="search-form" class="etna-search-buckets__button{% if group == 'digitised' %} etna-search-buckets__button--current{% endif %}">
         <span class="etna-search-buckets__name">Online records at The National Archives</span>
-        <span class="etna-search-buckets__meta">(9,041,961)</span></a>
+        <span class="etna-search-buckets__meta">(9,041,961)</span>
+      </button>
     </li>
     <li class="etna-search-buckets__item">
-      <a href="#" class="etna-search-buckets__link">
+      <button type="submit" name="group" value="nonTna" form="search-form" class="etna-search-buckets__button{% if group == 'nonTna' %} etna-search-buckets__button--current{% endif %}">
         <span class="etna-search-buckets__name">Records at other UK archives</span>
-        <span class="etna-search-buckets__meta">(10,758,426)</span></a>
+        <span class="etna-search-buckets__meta">(10,758,426)</span>
+      </button>
     </li>
     <li class="etna-search-buckets__item">
-      <a href="#" class="etna-search-buckets__link">
+      <button type="submit" name="group" value="creator" form="search-form" class="etna-search-buckets__button{% if group == 'creator' %} etna-search-buckets__button--current{% endif %}">
         <span class="etna-search-buckets__name">Record creators</span>
-        <span class="etna-search-buckets__meta">(270,146)</span></a>
+        <span class="etna-search-buckets__meta">(270,146)</span>
+      </button>
     </li>
     <li class="etna-search-buckets__item">
-      <a href="#" class="etna-search-buckets__link">
+      <button type="submit" name="group" value="archive" form="search-form" class="etna-search-buckets__button{% if group == 'archive' %} etna-search-buckets__button--current{% endif %}">
         <span class="etna-search-buckets__name">Find an archive</span>
-        <span class="etna-search-buckets__meta">(3,477)</span></a>
+        <span class="etna-search-buckets__meta">(3,477)</span>
+      </button>
     </li>
   </ul>
 </nav>

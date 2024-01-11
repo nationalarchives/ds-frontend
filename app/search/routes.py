@@ -34,9 +34,11 @@ def featured():
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
     page = int(request.args["page"]) if "page" in request.args else 1
+    group = request.args["group"] if "group" in request.args else "tna"
     args = parse_args(request.args)
     records_api = RecordsAPI()
     records_api.query(query)
+    records_api.add_parameter("groups", group)
     records_api.add_parameter("highlight", True)
     try:
         results = records_api.get_results(page)
@@ -49,6 +51,7 @@ def catalogue():
     return render_template(
         "search/catalogue.html",
         query=query,
+        group=group,
         search_path="/search/catalogue/",
         results=results,
         filters=filters,

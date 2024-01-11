@@ -9,7 +9,7 @@ services:
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
       - WAGTAIL_MEDIA_URL=http://localhost:8000
-      - SEARCH_API_URL=http://host.docker.internal:65534
+      - SEARCH_API_URL=http://host.docker.internal:65534/api/v1
       - ROSETTA_API_URL=http://afa13a7c0067b4f01991b0bad9e003a4-edf0e30af2b95f5f.elb.eu-west-2.amazonaws.com/api/v1
       - CACHE_DEFAULT_TIMEOUT=1
     ports:
