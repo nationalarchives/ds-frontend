@@ -37,7 +37,7 @@
       <dd>{{ data.description | safe }}</dd>
       <dt>Held by</dt>
       <dd>
-        <a href="{{ url_for('catalogue.record', id=data.heldById) }}">{{ data.heldBy }}</a>
+        <a href="{{ url_for('catalogue.info', id=data.heldById) }}">{{ data.heldBy }}</a>
       </dd>
       <dt>Legal status</dt>
       <dd>{{ data.legalStatus }}</dd>

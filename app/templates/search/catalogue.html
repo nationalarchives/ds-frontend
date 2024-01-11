@@ -30,11 +30,105 @@
     {% include 'search/elements/buckets.html' %}
   </div>
   {{ sortView(query, results.count, results.result_range_min, results.result_range_max, 'our records') }}
+  {% if selected_filters %}
+  <div class="tna-column tna-column--full">
+    <ul class="tna-compound-filters tna-ul tna-ul--plain tna-!--margin-top-s">
+      {% for filter in selected_filters %}
+      <li class="tna-compound-filters__item">
+        <span class="tna-compound-filters__label">{{ filter['group'] }}: {{ filter['filter'] }}</span>
+        <a href="{{ filter.remove_url }}" class="tna-compound-filters__link">Remove &quot;{{ filter['group'] }}: {{ filter['filter'] }}&quot; filter</a>
+      </li>
+      {% endfor %}
+      <li class="tna-compound-filters__item tna-compound-filters__item--remove">
+        {% if 'q' in request.args and request.args['q'] %}
+        <a href="?q={{ request.args['q'] }}">
+          {% else %}
+          <a href="?">
+        {% endif %}
+          Remove all filters
+        </a>
+      </li>
+    </ul>
+  </div>
+  {% endif %}
 </section>
 <section class="tna-container">
   <div id="search-filters" class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny etna-search-sidebar tna-!--padding-top-l">
     <h2 class="tna-visually-hidden">Search filters</h2>
-    <div class="tna-aside tna-aside--tight tna-background-tint tna-!--no-margin-top">
+
+
+    {% for filter in filters %}
+    <div class="tna-aside tna-aside--tight tna-background-tint{{ ' tna-!--no-margin-top' if loop.index == 1 }}">
+      {% if filter.type == 'multiple' %}
+      {{ tnaCheckboxes({
+        'label': filter.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': filter.slug,
+        'name': filter.slug + '[]',
+        'items': filter.options,
+        'small': True,
+        'attributes': {
+          'form': 'search-form'
+        }
+      }) }}
+
+      {% elif filter.type == 'text' %}
+      {{ tnaTextInput({
+        'label': filter.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'id': filter.slug,
+        'name': filter.slug,
+        'value': filter.value,
+        'attributes': {
+          'form': 'search-form'
+        }
+      }) }}
+
+      {% elif filter.type == 'daterange' %}
+      <h3 class="tna-heading-s">{{ filter.title }}</h3>
+      {{ tnaDateInput({
+        'label': 'From',
+        'headingLevel': 4,
+        'headingSize': 'xs',
+        'id': filter.slug + '-from',
+        'name': filter.slug + '-from',
+        'hint': 'For example, 27 3 2007 or 2007',
+        'classes': 'tna-!--no-margin-top',
+        'attributes': {
+          'form': 'search-form'
+        }
+      }) }}
+      {{ tnaDateInput({
+        'label': 'To',
+        'headingLevel': 4,
+        'headingSize': 'xs',
+        'id': filter.slug + '-to',
+        'name': filter.slug + '-to',
+        'classes': 'tna-!--margin-top-s',
+        'attributes': {
+          'form': 'search-form'
+        }
+      }) }}
+
+      {% else %}
+      <h1>{{ filter.type }}</h1>
+      {% endif %}
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update',
+          'small': True,
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'form': 'search-form'
+          }
+        }) }}
+      </div>
+    </div>
+    {% endfor %}
+    <!-- <div class="tna-aside tna-aside--tight tna-background-tint tna-!--no-margin-top">
       {{ tnaTextInput({
         'label': 'Refine results',
         'headingLevel': 3,
@@ -290,7 +384,7 @@
             'form': 'search-form'
           }
         }) }}
-      </div>
+      </div> -->
     </div>
   </div>
   {% if request.args['view'] == 'grid' %}
@@ -304,7 +398,7 @@
           'title': result.title,
           'headingLevel': 3,
           'headingSize': 's',
-          'href': url_for('catalogue.record', id=result.id),
+          'href': url_for('catalogue.info', id=result.id),
           'body': '<p>' + result.description + '</p>' if result.description else '',
           'meta': [
             {
@@ -332,7 +426,7 @@
     {% for result in results.results %}
     <article>
       <h3 class="tna-heading-m">
-        <a href="{{ url_for('catalogue.record', id=result.id) }}">{{ result.title }}</a>
+        <a href="{{ url_for('catalogue.info', id=result.id) }}">{{ result.title }}</a>
       </h3>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
         {% if result.held_by %}

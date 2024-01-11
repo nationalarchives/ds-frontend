@@ -6,7 +6,7 @@ from app.lib.template_filters import slugify
 from app.search import bp
 from flask import render_template, request
 
-from .api import ArticleFiltersAPI, ArticlesAPI, RecordsAPI
+from .api import ArticleFiltersAPI, ArticlesAPI, RecordFiltersAPI, RecordsAPI
 
 
 @bp.route("/")
@@ -34,6 +34,7 @@ def featured():
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
     page = int(request.args["page"]) if "page" in request.args else 1
+    args = parse_args(request.args)
     records_api = RecordsAPI()
     records_api.query(query)
     records_api.add_parameter("highlight", True)
@@ -43,12 +44,15 @@ def catalogue():
         return render_template("errors/api.html"), 502
     except Exception:
         return render_template("errors/page-not-found.html"), 404
+    filters = get_filters(RecordFiltersAPI, args)
+    selected_filters = get_selected_filters(filters)
     return render_template(
         "search/catalogue.html",
         query=query,
         search_path="/search/catalogue/",
         results=results,
-        # filters=filters,
+        filters=filters,
+        selected_filters=selected_filters,
         page=page,
         pages=results["pages"],
         pagination=pagination_object(page, results["pages"], request.args),
@@ -89,14 +93,34 @@ def website():
         return render_template("errors/api.html"), 502
     except Exception:
         return render_template("errors/page-not-found.html"), 404
-    article_filters_api = ArticleFiltersAPI()
-    article_filters_api.params = (
+    filters = get_filters(ArticleFiltersAPI, args)
+    selected_filters = get_selected_filters(filters)
+    return render_template(
+        "search/website.html",
+        query=query,
+        search_path="/search/website/",
+        results=results,
+        filters=filters,
+        selected_filters=selected_filters,
+        page=page,
+        pages=results["pages"],
+        pagination=pagination_object(page, results["pages"], request.args),
+    )
+
+
+def get_filters(api, args):
+    filters_api = api()
+    filters_api.params = (
         {}
     )  # TODO: Why do I need to do this? Things are persisting...
-    filters = [
+    return [
         {
             "title": filter["title"],
+            "type": filter["type"],
             "slug": slugify(filter["title"]),
+            "value": args[slugify(filter["title"])]
+            if filter["type"] == "text" and slugify(filter["title"]) in args
+            else "",
             "options": [
                 {
                     "text": option["name"],
@@ -111,17 +135,35 @@ def website():
                     ),
                 }
                 for option in filter["options"]
-            ],
+            ]
+            if filter["type"] == "multiple"
+            else [],
         }
-        for filter in article_filters_api.get_results()
+        for filter in filters_api.get_results()
     ]
-    return render_template(
-        "search/website.html",
-        query=query,
-        search_path="/search/website/",
-        results=results,
-        filters=filters,
-        page=page,
-        pages=results["pages"],
-        pagination=pagination_object(page, results["pages"], request.args),
-    )
+
+
+def get_selected_filters(filters):
+    selected_filters = []
+    for filter in filters:
+        if filter["type"] == "multiple":
+            for option in filter["options"]:
+                if option["checked"]:
+                    selected_filters.append(
+                        {
+                            "group": filter["title"],
+                            "filter": option["text"],
+                            "remove_url": option["remove_url"],
+                        }
+                    )
+        if filter["type"] == "text" and filter["value"]:
+            selected_filters.append(
+                {
+                    "group": filter["title"],
+                    "filter": filter["value"],
+                    "remove_url": remove_arg(
+                        request.args, slugify(filter["title"])
+                    ),
+                }
+            )
+    return selected_filters

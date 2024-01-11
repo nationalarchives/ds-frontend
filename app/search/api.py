@@ -18,6 +18,10 @@ class RecordsAPI(BaseSearchAPI):
     api_path = "/records/"
 
 
+class RecordFiltersAPI(BaseSearchAPI):
+    api_path = "/records/filters/"
+
+
 class ArticlesAPI(BaseSearchAPI):
     api_path = "/articles/"
 
