@@ -398,7 +398,7 @@
           'title': result.title,
           'headingLevel': 3,
           'headingSize': 's',
-          'href': url_for('catalogue.info', id=result.id),
+          'href': url_for('catalogue.details', id=result.id),
           'body': '<p>' + result.description + '</p>' if result.description else '',
           'meta': [
             {
@@ -426,7 +426,7 @@
     {% for result in results.results %}
     <article>
       <h3 class="tna-heading-m">
-        <a href="{{ url_for('catalogue.info', id=result.id) }}">{{ result.title }}</a>
+        <a href="{{ url_for('catalogue.details', id=result.id) }}">{{ result.title }}</a>
       </h3>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
         {% if result.held_by %}
