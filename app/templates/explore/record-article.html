@@ -116,7 +116,7 @@ href="{{ url_for('catalogue.details', id=page_data['record']) }}">{{ page_data['
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
           'text': 'View record details',
-          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + page_data['record'],
+          'href': url_for('catalogue.details' id=page_data['record']),
           'accent': True
         }) }}
       </div>
