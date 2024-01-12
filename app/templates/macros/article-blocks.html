@@ -140,7 +140,7 @@
           'height': image['height'],
           'collection': "TS 11/45/167",
           'title': i['descriptive_title'],
-          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + i['record'],
+          'href': url_for('catalogue.details', id=i['record']),
           'date': i['record_dates']
         }) or "" }}
         {% endwith %}
