@@ -25,47 +25,68 @@
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Archive</p>
-      <h1 class="tna-hgroup__title">{{ data.summaryTitle }}</h1>
+      <h1 class="tna-hgroup__title">{{ data.name }}</h1>
     </hgroup>
     <aside class="tna-aside tna-background-tint">
       <h2 class="tna-heading-l">Contact information</h2>
-      {{ contact_info }}
       <dl class="tna-dl tna-dl--plain">
+        {% if address_parts %}
         <dt>Address</dt>
         <dd>
-          <address>???</address>
+          <address class="etna-address">{{ '<br>'.join(address_parts) | safe }}</address>
         </dd>
-        {% if contact_info.url %}
+        {% endif %}
+        {% if data.contact_info.url %}
         <dt>Website</dt>
-        <dd><a href="{{ contact_info.url }}" rel="noopener noreferrer">{{ contact_info.url }}</a></dd>
+        <dd><a href="{{ data.contact_info.url }}" rel="noopener noreferrer">{{ data.contact_info.url }}</a></dd>
         {% endif %}
         <dt>Opening times</dt>
         <dd>???</dd>
       </dl>
     </aside>
+  </div>
+</section>
+<section class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
     <h2 class="tna-heading-l">Key information</h2>
     <dl class="tna-dl tna-dl--plain">
       <dt>ARCHON code</dt>
-      <dd>{{ data.referenceNumber }}</dd>
+      <dd>{{ data.archon }}</dd>
     </dl>
-    <p>{{ places }}</p>
   </div>
+  {% if data.agents %}
+  <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
+    <h2 class="tna-heading-l">Summary of collections</h2>
+    <ul class="tna-ul">
+      {% for agent in data.agents %}
+      {% if data.agents[agent] | length %}
+      <li>
+        <a href="#collection-{{ agent }}">{{ agent | capitalize }}</a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 </section>
-{% if agents %}
+{% if data.agents %}
 <section class="tna-section tna-!--padding-top-s">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">Collections information</h2>
     </div>
-    {% for agent in agents %}
-    {% if agents[agent] | length %}
+    {% for agent in data.agents %}
+    {% if data.agents[agent] | length %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
-      <h3 class="tna-heading-m">{{ agent }} ({{ agents[agent] | length }})</h3>
+      <h3 class="tna-heading-m" id="collection-{{ agent }}">{{ agent | capitalize }} ({{ data.agents[agent] | length | pretty_number }})</h3>
       <div class="tna-aside tna-aside--tight tna-background-tint tna-border-keyline etna-archive-collections-list">
         <ul class="tna-ul">
-          {% for item in agents[agent] %}
+          {% for item in data.agents[agent] %}
           <li>
-            <a href="{{ url_for('catalogue.info', id=item['@admin'].id) }}">{{ item.name.value }}</a>
+            <a href="{{ url_for('catalogue.info', id=item.id) }}">{{ item.name }}</a>
+            {% if item.places %}
+            {{ ', '.join(item.places) }}
+            {% endif %}
           </li>
           {% endfor %}
         </ul>
@@ -79,11 +100,11 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      {% if manifestations %}
+      {% if data.manifestations %}
       <h3 class="tna-heading-m">Paper catalogues available to view at The National Archives ({{ manifestations | length }})</h3>
       <div class="tna-aside tna-aside--tight tna-background-tint tna-border-keyline etna-archive-collections-list">
         <ul class="tna-ul">
-          {% for item in manifestations %}
+          {% for item in data.manifestations %}
           <li>
             <a href="{{ item.url }}">
               {{ item.title[0].value }}

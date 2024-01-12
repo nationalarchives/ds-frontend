@@ -2,56 +2,84 @@ from app.catalogue import bp
 from app.lib import cache, cache_key_prefix
 from flask import current_app, render_template
 
-from .api import RecordParser, RecordsAPI
+from .api import RecordAPI
 
 
 @bp.route("/id/<id>/")
 @cache.cached(key_prefix=cache_key_prefix)
 def info(id):
-    records_api = RecordsAPI()
-    records_api.set_record_id(id)
-    records_api.add_parameter("includeSource", True)
+    records_api = RecordAPI(id)
     record_data = records_api.get_results()
-    type = record_data["metadata"][0]["_source"]["@datatype"]["base"]
+    type = record_data["type"]
+
     if type == "record":
         return render_record(id, record_data)
     if type == "archive":
         return render_archive(id, record_data)
-    if type == "agent":
-        return render_agent(id, record_data)
+    if type == "creator":
+        return render_creator(id, record_data)
+    if type == "person":
+        return render_person(id, record_data)
 
     current_app.logger.error(f"Template for {type} not handled")
     return render_template("errors/page-not-found.html"), 404
 
 
 def render_record(id, record_data):
-    data = record_data["metadata"][0]["detail"]["@template"]["details"]
-    return render_template("catalogue/record.html", id=id, data=data)
+    return render_template("catalogue/record.html", id=id, data=record_data)
 
 
 def render_archive(id, record_data):
-    data = record_data["metadata"][0]["detail"]["@template"]["details"]
-    source = record_data["metadata"][0]["_source"]
-    record = RecordParser(record_data)
-    manifestations = (
-        source["manifestations"] if "manifestations" in source else []
-    )
+    address_parts = []
+    for address_part in [
+        "address_line_1",
+        "town",
+        "county",
+        "country",
+        "postcode",
+    ]:
+        if (
+            address_part in record_data["contact_info"]
+            and record_data["contact_info"][address_part]
+        ):
+            address_parts.append(record_data["contact_info"][address_part])
     return render_template(
         "catalogue/archive.html",
         id=id,
-        data=data,
-        places=record.places(),
-        contact_info=record.contact_info(),
-        agents=record.agents(),
-        descriptions=record.descriptions(),
-        manifestations=manifestations,
+        data=record_data,
+        address_parts=address_parts,
     )
 
 
-def render_agent(id, record_data):
-    record = RecordParser(record_data)
-    data = record_data["metadata"][0]["detail"]["@template"]["details"]
-    details = record.all()
+def render_creator(id, record_data):
+    details = {}
+    if record_data["date"]:
+        details["Date"] = record_data["date"]
+    if record_data["places"]:
+        details["Places"] = "<br>".join(record_data["places"])
+    if record_data["history"]:
+        details["History"] = record_data["history"]
+    if record_data["identifier"]:
+        details["Identifier"] = record_data["identifier"]
     return render_template(
-        "catalogue/agent.html", id=id, data=data, details=details
+        "catalogue/creator.html", id=id, data=record_data, details=details
+    )
+
+
+def render_person(id, record_data):
+    details = {}
+    if record_data["name"]:
+        details["Names"] = record_data["name"]
+    if record_data["date"]:
+        details["Gender"] = record_data["gender"]
+    if record_data["gender"]:
+        details["Date"] = record_data["date"]
+    if record_data["places"]:
+        details["Places"] = "<br>".join(record_data["places"])
+    if record_data["history"]:
+        details["History"] = record_data["history"]
+    if record_data["identifier"]:
+        details["Identifier"] = record_data["identifier"]
+    return render_template(
+        "catalogue/person.html", id=id, data=record_data, details=details
     )

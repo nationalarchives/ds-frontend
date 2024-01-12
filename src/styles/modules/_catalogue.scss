@@ -10,4 +10,12 @@
   height: 20rem;
 
   overflow: auto;
+
+  @include media.on-mobile {
+    height: auto;
+  }
+}
+
+.etna-address {
+  font-style: normal;
 }

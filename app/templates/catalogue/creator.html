@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{% block beforeContent %}
+{% if request.referrer %}
+<!-- <div class="tna-container">
+  <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+    <div class="tna-button-group tna-button-group--back">
+      {{ tnaButton({
+        'text': 'Back',
+        'href': request.referrer,
+        'icon': 'arrow-left',
+        'plain': True,
+        'small': True
+      }) }}
+    </div>
+  </div>
+</div> -->
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="tna-container tna-section tna-!--padding-top-s">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">Record creator</p>
+      <h1 class="tna-hgroup__title">{{ data.name }}</h1>
+    </hgroup>
+    <h2 class="tna-heading-l">Details of this record creator</h2>
+    <dl class="tna-dl">
+      {% for detail in details %}
+      <dt>{{ detail }}</dt>
+      <dd>{{ details[detail] | safe }}</dd>
+      {% endfor %}
+    </dl>
+  </div>
+</div>
+{% endblock %}
