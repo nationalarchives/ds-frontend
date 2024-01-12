@@ -68,8 +68,31 @@ def render_creator(id, record_data):
 
 def render_person(id, record_data):
     details = {}
-    if record_data["name"]:
-        details["Names"] = record_data["name"]
+    if record_data["name_parts"]:
+        if (
+            "surname" in record_data["name_parts"]
+            and record_data["name_parts"]["surname"]
+        ):
+            details["Surname"] = record_data["name_parts"]["surname"]
+        if (
+            "forenames" in record_data["name_parts"]
+            and record_data["name_parts"]["forenames"]
+        ):
+            details["Forenames"] = " ".join(
+                record_data["name_parts"]["forenames"]
+            )
+        if (
+            "alternative_names" in record_data["name_parts"]
+            and record_data["name_parts"]["alternative_names"]
+        ):
+            details["Also known as"] = record_data["name_parts"][
+                "alternative_names"
+            ]
+        if (
+            "title" in record_data["name_parts"]
+            and record_data["name_parts"]["title"]
+        ):
+            details["Title"] = record_data["name_parts"]["title"]
     if record_data["date"]:
         details["Gender"] = record_data["gender"]
     if record_data["gender"]:
@@ -77,7 +100,11 @@ def render_person(id, record_data):
     if record_data["places"]:
         details["Places"] = "<br>".join(record_data["places"])
     if record_data["history"]:
-        details["History"] = record_data["history"]
+        details["Functions, occupations and activities"] = record_data[
+            "history"
+        ]
+    if record_data["biography"]:
+        details["Biography"] = record_data["biography"]
     if record_data["identifier"]:
         details["Identifier"] = record_data["identifier"]
     return render_template(
