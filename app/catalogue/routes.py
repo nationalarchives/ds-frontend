@@ -7,7 +7,7 @@ from .api import RecordAPI
 
 @bp.route("/id/<id>/")
 @cache.cached(key_prefix=cache_key_prefix)
-def info(id):
+def details(id):
     records_api = RecordAPI(id)
     record_data = records_api.get_results()
     type = record_data["type"]
