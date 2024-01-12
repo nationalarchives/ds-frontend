@@ -47,7 +47,7 @@
       {% endif %}
       {% if data.held_by %}
       <dt>Held by</dt>
-      <dd><a href="{{ url_for('catalogue.info', id=data.held_by.id) }}">{{ data.held_by.name }}</a></dd>
+      <dd><a href="{{ url_for('catalogue.details', id=data.held_by.id) }}">{{ data.held_by.name }}</a></dd>
       {% endif %}
       {% if data.legal_status %}
       <dt>Legal status</dt>
