@@ -402,7 +402,7 @@
           'body': '<p>' + result.description + '</p>' if result.description else '',
           'meta': [
             {
-              'text': result.held_by
+              'text': result.held_by.name
             } if result.held_by else None,
             {
               'text': result.covering_date,
@@ -434,7 +434,7 @@
           <i class="fa-solid fa-landmark"></i>
           Held by
         </dt>
-        <dd>{{ result.held_by }}</dd>
+        <dd>{{ result.held_by.name }}</dd>
         {% endif %}
         {% if result.covering_date %}
         <dt>
