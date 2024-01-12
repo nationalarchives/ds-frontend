@@ -57,6 +57,10 @@
       <dt>Closure status</dt>
       <dd>{{ data.closure_status }}</dd>
       {% endif %}
+      {% if data.access_condition %}
+      <dt>Access condition</dt>
+      <dd>{{ data.access_condition }}</dd>
+      {% endif %}
       {% if data.languages %}
       <dt>Languages</dt>
       <dd>{{ ', '.join(data.languages) }}</dd>
