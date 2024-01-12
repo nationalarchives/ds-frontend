@@ -29,20 +29,38 @@
     </hgroup>
     <h2 class="tna-heading-l">Description and record details</h2>
     <dl class="tna-dl">
+      {% if data.ref %}
       <dt>Reference</dt>
       <dd>{{ data.ref }}</dd>
+      {% endif %}
+      {% if data.title %}
+      <dt>Title</dt>
+      <dd>{{ data.title }}</dd>
+      {% endif %}
+      {% if data.date %}
       <dt>Date</dt>
       <dd>{{ data.date }}</dd>
+      {% endif %}
+      {% if data.description %}
       <dt>Description</dt>
       <dd>{{ data.description | safe }}</dd>
+      {% endif %}
+      {% if data.held_by %}
       <dt>Held by</dt>
-      <dd>
-        <a href="{{ url_for('catalogue.info', id=data.held_by.id) }}">{{ data.held_by.name }}</a>
-      </dd>
+      <dd><a href="{{ url_for('catalogue.info', id=data.held_by.id) }}">{{ data.held_by.name }}</a></dd>
+      {% endif %}
+      {% if data.legal_status %}
       <dt>Legal status</dt>
       <dd>{{ data.legal_status }}</dd>
+      {% endif %}
+      {% if data.closure_status %}
       <dt>Closure status</dt>
       <dd>{{ data.closure_status }}</dd>
+      {% endif %}
+      {% if data.languages %}
+      <dt>Languages</dt>
+      <dd>{{ ', '.join(data.languages) }}</dd>
+      {% endif %}
     </dl>
   </div>
   <div class="tna-column tna-column--width-1-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
