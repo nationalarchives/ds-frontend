@@ -177,6 +177,7 @@ mark {
   &__meta {
     display: block;
 
+    @include colour.colour-font("base-font");
     @include typography.relative-font-size(14);
   }
 

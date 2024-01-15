@@ -4,7 +4,7 @@ from app.lib import cache, cache_key_prefix, pagination_object
 from app.lib.query import parse_args, remove_arg
 from app.lib.template_filters import slugify
 from app.search import bp
-from flask import render_template, request
+from flask import render_template, request, url_for
 
 from .api import ArticleFiltersAPI, ArticlesAPI, RecordFiltersAPI, RecordsAPI
 
@@ -16,6 +16,7 @@ def index():
     return render_template(
         "search/index.html",
         query=query,
+        search_path=url_for("search.featured"),
     )
 
 
@@ -26,6 +27,7 @@ def featured():
     return render_template(
         "search/featured.html",
         query=query,
+        search_path=url_for("search.catalogue"),
     )
 
 
@@ -52,7 +54,7 @@ def catalogue():
         "search/catalogue.html",
         query=query,
         group=group,
-        search_path="/search/catalogue/",
+        search_path=url_for("search.catalogue"),
         results=results,
         filters=filters,
         selected_filters=selected_filters,
@@ -69,7 +71,7 @@ def catalogue_new():
     return render_template(
         "search/catalogue-new.html",
         query=query,
-        search_path="/search/catalogue/",
+        search_path=url_for("search.catalogue"),
     )
 
 
@@ -101,7 +103,7 @@ def website():
     return render_template(
         "search/website.html",
         query=query,
-        search_path="/search/website/",
+        search_path=url_for("search.website"),
         results=results,
         filters=filters,
         selected_filters=selected_filters,
