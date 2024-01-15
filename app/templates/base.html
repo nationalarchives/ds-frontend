@@ -8,7 +8,7 @@
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
 {%- set theme = 'light' -%}
-{%- set themeAccent = 'yellow' -%}
+{%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {'data-generated': now_iso_8601()} -%}
 
 {% block headIcons %}

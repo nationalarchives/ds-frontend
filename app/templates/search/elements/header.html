@@ -1,6 +1,6 @@
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 
-<section class="tna-background-tint tna-!--padding-top-m">
+<section class="tna-background-accent tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <form action="{{ search_path or '/search/featured/' }}" method="get" class="tna-!--margin-bottom-m">
@@ -11,7 +11,8 @@
           'hint': 'Search by keyword, place, person, or catalogue reference',
           'id': 'search',
           'name': 'q',
-          'value': query or ''
+          'value': query or '',
+          'formGroupClasses': 'tna-search-field--no-border'
         }) }}
         <input type="hidden" name="view" value="{{ request.args['view'] if 'view' in request.args else 'list' }}">
         <input type="hidden" name="group" value="{{ request.args['group'] if 'group' in request.args else 'tna' }}">

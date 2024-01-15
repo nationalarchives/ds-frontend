@@ -3,13 +3,92 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
-html.tna-template
-  .tna-template__body--search
-  .tna-header__navigation-item-link--selected {
-  &,
-  &:hover {
-    @include colour.tint;
-    @include colour.colour-font("font-base");
+// html.tna-template
+//   .tna-template__body--search
+//   .tna-header__navigation-item-link--selected {
+//   &,
+//   &:hover {
+//     @include colour.tint;
+//     @include colour.colour-font("font-base");
+//   }
+// }
+
+.etna-search-tabs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+
+  list-style: none;
+
+  &__item {
+  }
+
+  &__item-link {
+    height: 100%;
+    padding: 0.5rem 1rem;
+
+    display: block;
+    box-sizing: border-box;
+
+    text-align: center;
+
+    // border-top: 0.25rem transparent solid;
+
+    &:not(#{&}--plain) {
+      // @include typography.heading-font;
+      @include typography.main-font-weight-bold;
+      text-decoration: none;
+
+      &,
+      &:link,
+      &:visited {
+        @include colour.colour-font("font-base");
+      }
+    }
+
+    &:not(#{&}--plain):not(#{&}--current) {
+      background-color: rgb(255 255 255 / 15%);
+
+      // @include colour.colour-border("keyline");
+
+      &:hover {
+        @include typography.interacted-text-decoration;
+
+        // @include colour.colour-background("page-background");
+      }
+    }
+
+    &--current {
+      @include colour.plain;
+
+      @include colour.colour-background("page-background");
+
+      @include colour.colour-border("accent-background");
+    }
+
+    &--plain {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+    }
+  }
+
+  @include media.on-mobile {
+    gap: 0.5rem;
+
+    @include typography.relative-font-size(16);
+
+    &__item-link {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  @include media.on-tiny {
+    @include typography.relative-font-size(14);
+
+    &__item-link {
+      padding-right: 0.25rem;
+      padding-left: 0.25rem;
+    }
   }
 }
 
@@ -118,83 +197,6 @@ mark {
 
     &__name {
       flex: 1;
-    }
-  }
-}
-
-.etna-search-tabs {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: nowrap;
-
-  list-style: none;
-
-  &__item {
-  }
-
-  &__item-link {
-    height: 100%;
-    padding: 0.5rem 1rem;
-
-    display: block;
-    box-sizing: border-box;
-
-    text-align: center;
-
-    border-top: 0.25rem transparent solid;
-
-    &:not(#{&}--plain) {
-      // @include typography.heading-font;
-      @include typography.main-font-weight-bold;
-      text-decoration: none;
-
-      &,
-      &:link,
-      &:visited {
-        @include colour.colour-font("font-base");
-      }
-    }
-
-    &:not(#{&}--plain):not(#{&}--current) {
-      background-color: rgb(255 255 255 / 25%);
-
-      @include colour.colour-border("keyline");
-
-      &:hover {
-        @include typography.interacted-text-decoration;
-
-        // @include colour.colour-background("page-background");
-      }
-    }
-
-    &--current {
-      @include colour.colour-background("page-background");
-
-      @include colour.colour-border("accent-background");
-    }
-
-    &--plain {
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-    }
-  }
-
-  @include media.on-mobile {
-    gap: 0.5rem;
-
-    @include typography.relative-font-size(16);
-
-    &__item-link {
-      padding: 0.25rem 0.5rem;
-    }
-  }
-
-  @include media.on-tiny {
-    @include typography.relative-font-size(14);
-
-    &__item-link {
-      padding-right: 0.25rem;
-      padding-left: 0.25rem;
     }
   }
 }
