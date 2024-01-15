@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'catalogue/elements/discovery.html' import discovery_info -%}
 
 {% block beforeContent %}
 {% if request.referrer %}
@@ -33,10 +34,14 @@
       <dt>Reference</dt>
       <dd>{{ data.ref }}</dd>
       {% endif %}
-      {% if data.title %}
+      {% if data.former_ref %}
+      <dt>Former reference in its original department</dt>
+      <dd>{{ data.former_ref }}</dd>
+      {% endif %}
+      <!-- {% if data.title %}
       <dt>Title</dt>
       <dd>{{ data.title }}</dd>
-      {% endif %}
+      {% endif %} -->
       {% if data.date %}
       <dt>Date</dt>
       <dd>{{ data.date }}</dd>
@@ -67,24 +72,6 @@
       {% endif %}
     </dl>
   </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
-    <aside class="tna-aside tna-background-accent">
-      <h2 class="tna-heading-l">How to order or download this record</h2>
-      <ol class="tna-ol">
-        <li>View this record page in Discovery &ndash; our catalogue</li>
-        <li>Check viewing options</li>
-        <li>Select an option and follow instructions</li>
-      </ol>
-      <p class="tna-!--margin-top-s">
-        <small>Note: Not all documents are available and options will vary.</small>
-      </p>
-      <div class="tna-button-group">
-        {{ tnaButton({
-          'text': 'View this record in Discovery',
-          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + data.id
-        }) }}
-      </div>
-    </aside>
-  </div>
+  {{ discovery_info('/details/r/' + data.id) }}
 </div>
 {% endblock %}

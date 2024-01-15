@@ -13,6 +13,7 @@
 
   @include media.on-mobile {
     height: auto;
+    max-height: 20rem;
   }
 }
 
