@@ -38,21 +38,45 @@
         {% endif %}
         {% if data.contact_info.url %}
         <dt>Website</dt>
-        <dd><a href="{{ data.contact_info.url }}" rel="noopener noreferrer">{{ data.contact_info.url }}</a></dd>
+        <dd><a href="{{ data.contact_info.url }}" target="_blank" title="Website for {{ data.name }} (opens in new tab)" rel="noopener noreferrer">{{ data.contact_info.url }}</a></dd>
         {% endif %}
-        <dt>Opening times</dt>
-        <dd>???</dd>
       </dl>
     </aside>
   </div>
 </section>
 <section class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+    {% if data.opening_times or data.disabled_access or data.fee or data.appointment %}
+    <h2 class="tna-heading-l">Visiting {{ data.name }}</h2>
+    <dl class="tna-dl tna-dl--plain">
+      {% if data.opening_times %}
+      <dt>Opening times</dt>
+      <dd>{{ data.opening_times | safe }}</dd>
+      {% endif %}
+      {% if data.disabled_access %}
+      <dt>Disabled access</dt>
+      <dd>{{ data.disabled_access | safe }}</dd>
+      {% endif %}
+      {% if data.fee %}
+      <dt>Fee</dt>
+      <dd>{{ data.fee }}</dd>
+      {% endif %}
+      {% if data.appointment %}
+      <dt>Appointment</dt>
+      <dd>{{ data.appointment }}</dd>
+      {% endif %}
+    </dl>
+    {% endif %}
     <h2 class="tna-heading-l">Key information</h2>
     <dl class="tna-dl tna-dl--plain">
       <dt>ARCHON code</dt>
       <dd>{{ data.archon }}</dd>
     </dl>
+    {% if data.information %}
+    <div class="etna-space-above">
+      {{ data.information | safe }}
+    </div>
+    {% endif %}
   </div>
 </section>
 {% if data.agents %}
@@ -60,8 +84,6 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">Collections information</h2>
-
-
       <ul class="tna-ul">
         {% for agent in data.agents %}
         {% if data.agents[agent] | length %}
@@ -71,7 +93,6 @@
         {% endif %}
         {% endfor %}
       </ul>
-
     </div>
     {% for agent in data.agents %}
     {% if data.agents[agent] | length %}
@@ -104,8 +125,9 @@
         <ul class="tna-ul">
           {% for item in data.manifestations %}
           <li>
+            NRA {{ item.nra }}
             <a href="{{ item.url }}">
-              {{ item.title[0].value }}
+              {{ item.title }}
             </a>
           </li>
           {% endfor %}

@@ -33,6 +33,8 @@ def article_supertitle(s):
         return "Focus on"
     if s == "articles.RecordArticlePage":
         return "Record revealed"
+    if s == "collections.HighlightGalleryPage":
+        return "Gallery"
     return ""
 
 
