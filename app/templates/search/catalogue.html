@@ -398,16 +398,16 @@
           'title': result.title,
           'headingLevel': 3,
           'headingSize': 's',
-          'href': url_for('catalogue.info', id=result.id),
+          'href': url_for('catalogue.details', id=result.id),
           'body': '<p>' + result.description + '</p>' if result.description else '',
           'meta': [
             {
               'text': result.held_by.name
             } if result.held_by else None,
             {
-              'text': result.covering_date,
+              'text': result.date,
               'icon': 'calendar'
-            } if result.covering_date else None,
+            } if result.date else None,
             {
               'text': 'Reference ' + result.ref
             } if result.ref else None
@@ -426,7 +426,7 @@
     {% for result in results.results %}
     <article>
       <h3 class="tna-heading-m">
-        <a href="{{ url_for('catalogue.info', id=result.id) }}">{{ result.title }}</a>
+        <a href="{{ url_for('catalogue.details', id=result.id) }}">{{ result.title }}</a>
       </h3>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
         {% if result.held_by %}
@@ -436,12 +436,12 @@
         </dt>
         <dd>{{ result.held_by.name }}</dd>
         {% endif %}
-        {% if result.covering_date %}
+        {% if result.date %}
         <dt>
           <i class="fa-solid fa-calendar"></i>
           Date
         </dt>
-        <dd>{{ result.covering_date }}</dd>
+        <dd>{{ result.date }}</dd>
         {% endif %}
         {% if result.ref %}
         <dt>

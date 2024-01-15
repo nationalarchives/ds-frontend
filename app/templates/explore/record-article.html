@@ -109,14 +109,14 @@
         <dt>Catalogue reference</dt>
         <dd>
             <a class="record-matters__text record-matters__text--bold"
-href="https://discovery.nationalarchives.gov.uk/details/r/{{ page_data['record'] }}">{{ page_data['record'] }}</a>
+href="{{ url_for('catalogue.details', id=page_data['record']) }}">{{ page_data['record'] }}</a>
         </dd>
       </dl>
       {{ page_data['about'] | safe }}
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
           'text': 'View record details',
-          'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + page_data['record'],
+          'href': url_for('catalogue.details', id=page_data['record']),
           'accent': True
         }) }}
       </div>

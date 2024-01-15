@@ -81,7 +81,7 @@
         <ul class="tna-ul">
           {% for item in data.agents[agent] %}
           <li>
-            <a href="{{ url_for('catalogue.info', id=item.id) }}">{{ item.name }}</a>
+            <a href="{{ url_for('catalogue.details', id=item.id) }}">{{ item.name }}</a>
             {% if item.places %}
             {{ ', '.join(item.places) }}
             {% endif %}
