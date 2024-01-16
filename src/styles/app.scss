@@ -32,6 +32,10 @@
   padding-top: 2rem;
   padding-bottom: 2rem;
 
+  &__logo-wrapper {
+    display: inline-block;
+  }
+
   &__menu-button-wrapper {
   }
 
@@ -44,6 +48,10 @@
 
     columns: 2;
     list-style: none;
+
+    @include media.on-mobile {
+      columns: 1;
+    }
   }
 
   &__navigation-item {
@@ -60,11 +68,7 @@
     }
 
     @include media.on-mobile {
-      columns: 1;
-
-      li {
-        height: auto;
-      }
+      height: auto;
     }
   }
 
@@ -77,6 +81,12 @@
 
   &__navigation-item-contents {
     display: none;
+  }
+
+  &__navigation-item-description {
+  }
+
+  &__navigation-item-children {
   }
 
   &__top-navigation {
@@ -93,9 +103,49 @@
   }
 
   &__navigation-disclosure {
+    @include media.on-mobile {
+      display: none;
+    }
   }
 
   &__navigation-disclosure &__navigation-item-contents {
     display: block !important;
+
+    ul {
+      margin-top: 2rem;
+      padding-top: 2rem;
+
+      columns: 3;
+
+      @include colour.colour-border("keyline", 1px, solid, top);
+    }
+  }
+
+  &__navigation-disclosure:has(&__navigation-item-contents) {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+
+    @include colour.colour-background("accent-background");
+  }
+
+  @include media.on-mobile {
+    &__navigation {
+      columns: 1;
+    }
+
+    &__navigation-item {
+      height: auto;
+
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &__navigation-item-contents {
+      display: block;
+    }
+
+    &__navigation-item-description {
+      display: none;
+    }
   }
 }

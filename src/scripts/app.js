@@ -35,10 +35,26 @@ document.querySelectorAll(".tna-new-header").forEach((header) => {
       const $itemContents = $item.querySelector(
         ".tna-new-header__navigation-item-contents",
       );
+
+      const $itemChildren = $item.querySelector(
+        ".tna-new-header__navigation-item-children",
+      );
+      if ($itemChildren) {
+        $itemChildren.setAttribute("hidden", true);
+      }
+
       if ($itemContents) {
         $itemContents.setAttribute("hidden", true);
         $itemTitleLink.addEventListener("click", (e) => {
           e.preventDefault();
+          if ($itemChildren) {
+            if ($itemChildren.hasAttribute("hidden")) {
+              $itemChildren.removeAttribute("hidden");
+            } else {
+              $itemChildren.setAttribute("hidden", true);
+            }
+          }
+
           $menuNavigationDisclosure.innerHTML = $item.innerHTML;
           const $itemContentsCopy = $menuNavigationDisclosure.querySelector(
             ".tna-new-header__navigation-item-contents[hidden]",
@@ -46,11 +62,19 @@ document.querySelectorAll(".tna-new-header").forEach((header) => {
           if ($itemContentsCopy) {
             $itemContentsCopy.removeAttribute("hidden");
           }
+          const $itemChildrenCopy = $menuNavigationDisclosure.querySelector(
+            ".tna-new-header__navigation-item-children[hidden]",
+          );
+          if ($itemChildrenCopy) {
+            $itemChildrenCopy.removeAttribute("hidden");
+          }
           const $closeDisclosure = document.createElement("button");
           $closeDisclosure.innerText = "Close";
           $closeDisclosure.addEventListener("click", () => {
             $menuNavigationDisclosure.innerHTML = "";
+            $menuNavigationDisclosure.classList.remove("tna-section");
           });
+          $menuNavigationDisclosure.classList.add("tna-section");
           $menuNavigationDisclosure.append($closeDisclosure);
           $menuNavigationDisclosure.focus();
         });
