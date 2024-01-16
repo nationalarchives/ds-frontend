@@ -16,7 +16,7 @@ def index():
     return render_template(
         "search/index.html",
         query=query,
-        search_path=url_for("search.featured"),
+        search_path=url_for("search.catalogue"),
     )
 
 
