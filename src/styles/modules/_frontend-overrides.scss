@@ -28,6 +28,10 @@
 }
 
 .tna-card {
+  &--horizontal {
+    aspect-ratio: auto 3/1;
+  }
+
   &.etna-promoted-item {
     @include colour.colour-background("background-tint");
 

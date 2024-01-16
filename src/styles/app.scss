@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // @use "@nationalarchives/frontend/nationalarchives/variables/features" with (
 //   $debug-interactable-areas: true
 // );
@@ -8,6 +10,8 @@
 @use "@nationalarchives/frontend/nationalarchives/all";
 
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 @use "modules/frontend-overrides";
 @use "modules/generics";
@@ -21,5 +25,77 @@
   .tna-ul li::marker,
   .tna-ol li::marker {
     @include colour.colour-font("font-base");
+  }
+}
+
+.tna-new-header {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  &__menu-button-wrapper {
+  }
+
+  &__menu-button {
+  }
+
+  &__navigation {
+    margin: 0;
+    height: 100%;
+
+    columns: 2;
+    list-style: none;
+  }
+
+  &__navigation-item {
+    height: math.div(100%, 3);
+
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    @include colour.colour-border("keyline", 1px, solid, bottom);
+
+    &:nth-child(3n) {
+      border-bottom: none;
+    }
+
+    @include media.on-mobile {
+      columns: 1;
+
+      li {
+        height: auto;
+      }
+    }
+  }
+
+  &__navigation-item-heading {
+    @include typography.relative-font-size(18);
+  }
+
+  &__navigation-item-link {
+  }
+
+  &__navigation-item-contents {
+    display: none;
+  }
+
+  &__top-navigation {
+    margin: 0;
+    padding-bottom: 1rem;
+
+    display: flex;
+    align-items: flex-end;
+
+    list-style: none;
+  }
+
+  &__top-navigation-item {
+  }
+
+  &__navigation-disclosure {
+  }
+
+  &__navigation-disclosure &__navigation-item-contents {
+    display: block !important;
   }
 }
