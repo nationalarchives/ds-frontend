@@ -25,6 +25,44 @@
   }
 }
 
+.etna-homepage-hero {
+  position: relative;
+
+  overflow: hidden;
+
+  &__image {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    object-fit: cover;
+  }
+
+  &__content {
+    padding-top: clamp(10rem, 35vw, 45rem);
+
+    position: relative;
+    z-index: 2;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+
+      background-image: linear-gradient(
+        rgba(0 0 0/35%) 25%,
+        65%,
+        rgba(0 0 0/95%)
+      );
+
+      content: "";
+    }
+  }
+}
+
 .tna-new-header {
   padding-top: 2rem;
   padding-bottom: 2rem;

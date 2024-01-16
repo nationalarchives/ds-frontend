@@ -24,3 +24,9 @@ def healthcheck():
 @cache.cached()
 def menu():
     return render_template("main/new_menu.html")
+
+
+@bp.route("/new-homepage/")
+@cache.cached()
+def new_homepage():
+    return render_template("main/new_home.html")
