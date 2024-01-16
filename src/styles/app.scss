@@ -15,11 +15,8 @@
 
 @use "modules/frontend-overrides";
 @use "modules/generics";
-@use "modules/articles";
 @use "modules/authors";
-@use "modules/catalogue";
 @use "modules/feedback";
-@use "modules/search";
 
 .tna-template--yellow-accent {
   .tna-ul li::marker,
