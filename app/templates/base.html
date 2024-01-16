@@ -20,6 +20,10 @@
 <link rel="apple-touch-icon" href="{{ url_for('static', filename='/images/apple-touch-icon.png') }}">
 {% endblock %}
 
+{% block head %}
+<link rel=manifest href={{ url_for('static', filename='manifest.json') }}>
+{% endblock %}
+
 {% block stylesheets %}
 <link rel="preconnect" href="https://use.typekit.net">
 <link rel="stylesheet" href="https://use.typekit.net/hkj3kuz.css">
