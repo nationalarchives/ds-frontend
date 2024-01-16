@@ -160,7 +160,7 @@
     padding-top: 3rem;
     padding-bottom: 3rem;
 
-    @include colour.colour-background("accent-background");
+    @include colour.accent;
   }
 
   @include media.on-mobile {
