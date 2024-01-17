@@ -68,6 +68,15 @@ document.querySelectorAll(".tna-new-header").forEach((header) => {
           if ($itemChildrenCopy) {
             $itemChildrenCopy.removeAttribute("hidden");
           }
+          const $itemHeaderCopy = $menuNavigationDisclosure.querySelector(
+            ".tna-new-header__navigation-item-heading",
+          );
+          if ($itemHeaderCopy) {
+            $itemHeaderCopy.classList.remove(
+              "tna-new-header__navigation-item-heading",
+            );
+            $itemHeaderCopy.classList.add("tna-heading-l");
+          }
           const $closeDisclosure = document.createElement("button");
           $closeDisclosure.innerText = "Close";
           $closeDisclosure.classList.add(
