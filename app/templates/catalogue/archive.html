@@ -77,7 +77,7 @@
     <h2 class="tna-heading-l">Key information</h2>
     <dl class="tna-dl tna-dl--plain">
       <dt>ARCHON code</dt>
-      <dd>{{ data.archon }}</dd>
+      <dd>{{ data.archon_code }}</dd>
     </dl>
     {% if data.information %}
     <div class="etna-space-above">
@@ -140,6 +140,17 @@
           {% endfor %}
         </ul>
       </div>
+      {% endif %}
+      {% if data.accumulation_dates %}
+      <h3 class="tna-heading-m">Accessions</h3>
+      <p>These are selected lists of new or additional collections that were acquired by this archive during a specific year. If a date is not displayed there are no accessions for that year.</p>
+      <ul class="tna-ul">
+        {% for year in data.accumulation_dates %}
+        <li>
+          <a href="https://www.nationalarchives.gov.uk/accessions/{{ year }}/{{ year[2:] }}returns/{{ year[2:] }}ac{{ data.archon_code }}.htm">Accessions for {{ year }}</a>
+        </li>
+        {% endfor %}
+      </ul>
       {% endif %}
       <h2 class="tna-heading-l">Other finding aids</h2>
       <ul class="tna-ul">
