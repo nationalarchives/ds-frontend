@@ -1,6 +1,6 @@
 from app.catalogue import bp
 from app.lib import cache, cache_key_prefix
-from flask import current_app, render_template
+from flask import current_app, render_template, url_for
 
 from .api import RecordAPI
 
@@ -11,8 +11,7 @@ def details(id):
     records_api = RecordAPI(id)
     record_data = records_api.get_results()
     type = record_data["type"]
-
-    if type == "record":
+    if type == "record" or type == "aggregation":
         return render_record(id, record_data)
     if type == "archive":
         return render_archive(id, record_data)
@@ -20,13 +19,39 @@ def details(id):
         return render_creator(id, record_data)
     if type == "person":
         return render_person(id, record_data)
-
     current_app.logger.error(f"Template for {type} not handled")
     return render_template("errors/page-not-found.html"), 404
 
 
 def render_record(id, record_data):
-    return render_template("catalogue/record.html", id=id, data=record_data)
+    hierarchy_breadcrumb_items = (
+        [
+            {
+                "text": record_data["held_by"]["name"],
+                "href": url_for(
+                    "catalogue.details", id=record_data["held_by"]["id"]
+                ),
+            }
+        ]
+        if record_data["held_by"]
+        else []
+    )
+    for level in record_data["hierarchy"]:
+        if "level_name" in level:
+            text = level["level_name"]
+            if "identifier" in level:
+                text = text + " (" + level["identifier"] + ")"
+        href = url_for("catalogue.details", id=level["id"])
+        hierarchy_breadcrumb_items.append({"text": text, "href": href})
+    if len(hierarchy_breadcrumb_items):
+        del hierarchy_breadcrumb_items[-1]
+    # record_data["hierarchy"] = record_data["hierarchy"] + record_data["hierarchy"] + record_data["hierarchy"]  # Testing max levels
+    return render_template(
+        "catalogue/record.html",
+        id=id,
+        data=record_data,
+        hierarchy_breadcrumb_items=hierarchy_breadcrumb_items,
+    )
 
 
 def render_archive(id, record_data):

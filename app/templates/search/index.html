@@ -31,14 +31,14 @@
         'formGroupClasses': 'tna-search-field--no-border'
       }) }}
     </form>
-    <form class="tna-aside tna-background-tint tna-!--margin-top-l" method="get" action="{{ url_for('search.website') }}">
+    <form class="tna-aside tna-background-tint tna-!--margin-top-l" method="get" action="https://www.nationalarchives.gov.uk/search/results">
       {{ tnaSearchField({
         'label': 'Search our website',
         'headingLevel': 2,
         'headingSize': 'l',
         'hint': 'Search by keyword, place, person, or catalogue reference',
         'id': 'search-website',
-        'name': 'q',
+        'name': '_q',
         'formGroupClasses': 'tna-search-field--no-border'
       }) }}
     </form>

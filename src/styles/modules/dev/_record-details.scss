@@ -1,0 +1,72 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
+.etna-record-hierarchy-wrapper {
+  padding: 2rem;
+
+  @include colour.accent-light;
+
+  @include colour.colour-border("accent-background", 1px);
+  border-left-width: 2rem;
+}
+
+.etna-record-hierarchy {
+  margin-top: 1rem;
+  padding-left: 14rem;
+
+  position: relative;
+  left: -2rem;
+
+  overflow: hidden;
+
+  &__item {
+    min-height: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    position: relative;
+
+    p {
+      margin-top: 0;
+    }
+
+    &::before {
+      width: 100vw;
+
+      display: block;
+
+      position: absolute;
+      top: 0;
+      right: calc(100% + 1rem);
+      bottom: 0;
+      z-index: 1;
+
+      background-color: colour.brand-colour("yellow", 0.25);
+
+      @include colour.colour-border("accent-background", 1px);
+
+      content: "";
+    }
+
+    &--current {
+      &::before {
+        background-color: colour.brand-colour("yellow");
+      }
+    }
+  }
+
+  &,
+  ul {
+    list-style: none;
+  }
+
+  ul {
+    margin-top: 0.5rem;
+
+    li {
+      margin-left: -1rem;
+    }
+  }
+}
