@@ -123,7 +123,6 @@
 
   &__top-navigation {
     margin: 0;
-    padding-bottom: 1rem;
 
     display: flex;
     justify-content: flex-end;
@@ -233,6 +232,12 @@
       &::after {
         @include colour.colour-background("font-base");
       }
+    }
+  }
+
+  @include media.on-large {
+    &__top-navigation {
+      padding-bottom: 1rem;
     }
   }
 
