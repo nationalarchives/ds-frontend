@@ -9,6 +9,8 @@
 
 @use "@nationalarchives/frontend/nationalarchives/all";
 
+@use "@nationalarchives/frontend/nationalarchives/variables/grid";
+
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
@@ -22,6 +24,305 @@
   .tna-ul li::marker,
   .tna-ol li::marker {
     @include colour.colour-font("font-base");
+  }
+}
+
+.tna-new-header {
+  padding-top: 1rem;
+
+  @include colour.contrast;
+  // background: linear-gradient(0deg, rgba(30,30,30,1) 0%, rgba(0,0,0,1) 100%);
+  background: linear-gradient(
+    0deg,
+    rgb(34 34 34 / 100%) 0%,
+    rgb(0 0 0 / 100%) 100%
+  );
+
+  &__main {
+    padding-bottom: 1rem;
+  }
+
+  &__logo-wrapper {
+    display: inline-block;
+  }
+
+  .tna-logo {
+    width: 6.5rem;
+    height: 6.5rem;
+
+    &__background {
+      fill: transparent;
+    }
+
+    &__foreground {
+      fill: currentColor;
+    }
+  }
+
+  &__menu-button-wrapper {
+  }
+
+  &__menu-button {
+  }
+
+  &__navigation {
+    margin: 0;
+    height: 100%;
+
+    position: relative;
+
+    columns: 2;
+    list-style: none;
+
+    @include media.on-mobile {
+      columns: 1;
+    }
+  }
+
+  &__navigation-item {
+    height: math.div(100%, 3);
+
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    @include colour.colour-border("keyline", 0.5px, solid, bottom);
+
+    @include media.on-mobile {
+      height: auto;
+    }
+  }
+
+  &__navigation-item-heading {
+    @include typography.relative-font-size(16);
+    @include typography.main-font-weight;
+    text-transform: uppercase;
+  }
+
+  &__navigation-item-link {
+    display: inline-block;
+
+    text-decoration: none;
+
+    &:hover {
+      @include typography.interacted-text-decoration;
+    }
+  }
+
+  &__navigation-item-contents {
+    display: none;
+  }
+
+  &__navigation-item-description {
+  }
+
+  &__navigation-item-children {
+    list-style: none;
+  }
+
+  &__top-navigation {
+    margin: 0;
+    padding-bottom: 1rem;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+
+    @include typography.relative-font-size(15);
+    list-style: none;
+  }
+
+  &__top-navigation-item {
+  }
+
+  &__top-navigation-link {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    text-decoration: none;
+
+    &,
+    &:link,
+    &:visited {
+      @include colour.colour-font("font-light");
+    }
+
+    &:hover {
+      @include colour.colour-font("font-base");
+      @include typography.interacted-text-decoration;
+    }
+  }
+
+  &__disclosure-wrapper {
+  }
+
+  &__disclosure {
+    position: relative;
+  }
+
+  &__disclosure &__navigation-item-contents {
+    display: block !important;
+
+    ul {
+      margin-top: 2rem;
+      padding-top: 2rem;
+
+      columns: 3;
+
+      @include colour.colour-border("keyline", 1px, solid, top);
+    }
+  }
+
+  &__disclosure-wrapper:has(&__navigation-item-contents) {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    @include colour.accent;
+  }
+
+  &__disclosure &__navigation-item-heading,
+  &__disclosure &__navigation-item-description {
+    padding-right: 4rem;
+  }
+
+  &__disclosure-close-button {
+    width: 2rem;
+    height: 2rem;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    font-size: 0;
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      width: 2rem;
+      height: 2px;
+      margin-top: -1px;
+
+      display: block;
+
+      position: absolute;
+      top: 50%;
+      left: 0;
+
+      @include colour.colour-background("font-light");
+
+      content: "";
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+
+    &:hover {
+      &::before,
+      &::after {
+        @include colour.colour-background("font-base");
+      }
+    }
+  }
+
+  @include media.on-larger-than-mobile {
+    &__navigation-item {
+      &:nth-child(3n) {
+        border-bottom: none;
+      }
+    }
+  }
+
+  @include media.on-medium {
+    .tna-logo {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    &__navigation-item-link {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  @include media.on-small {
+    &__navigation {
+      width: calc(100% + #{grid.$gutter-width * 2});
+
+      left: -#{grid.$gutter-width};
+    }
+
+    &__navigation-item {
+      padding-right: #{grid.$gutter-width};
+      padding-left: #{grid.$gutter-width};
+    }
+  }
+
+  @include media.on-tiny {
+    &__navigation {
+      width: calc(100% + #{grid.$gutter-width-tiny * 2});
+
+      left: -#{grid.$gutter-width-tiny};
+    }
+
+    &__navigation-item {
+      padding-right: #{grid.$gutter-width-tiny};
+      padding-left: #{grid.$gutter-width-tiny};
+    }
+  }
+
+  @include media.on-mobile {
+    .tna-logo {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    &__navigation {
+      margin-top: 1rem;
+
+      columns: 1;
+
+      @include colour.colour-border("keyline", 0.5px, solid, top);
+    }
+
+    &__navigation-item {
+      height: auto;
+
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &__navigation-item-link {
+      padding: 0.25rem 0;
+    }
+
+    &__navigation-item-contents {
+      display: block;
+    }
+
+    &__navigation-item-children {
+      margin-left: 1.5rem;
+    }
+
+    &__top-navigation {
+      padding-top: 1rem;
+      justify-content: flex-start;
+    }
+
+    &__navigation-item-description,
+    &__disclosure-wrapper {
+      display: none;
+    }
   }
 }
 
@@ -53,134 +354,12 @@
       z-index: -1;
 
       background-image: linear-gradient(
-        rgba(0 0 0/35%) 25%,
+        rgba(0 0 0 / 35%) 25%,
         65%,
-        rgba(0 0 0/95%)
+        rgba(0 0 0 / 95%)
       );
 
       content: "";
-    }
-  }
-}
-
-.tna-new-header {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-
-  &__logo-wrapper {
-    display: inline-block;
-  }
-
-  &__menu-button-wrapper {
-  }
-
-  &__menu-button {
-  }
-
-  &__navigation {
-    margin: 0;
-    height: 100%;
-
-    columns: 2;
-    list-style: none;
-
-    @include media.on-mobile {
-      columns: 1;
-    }
-  }
-
-  &__navigation-item {
-    height: math.div(100%, 3);
-
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-
-    @include colour.colour-border("keyline", 1px, solid, bottom);
-
-    &:nth-child(3n) {
-      border-bottom: none;
-    }
-
-    @include media.on-mobile {
-      height: auto;
-    }
-  }
-
-  &__navigation-item-heading {
-    @include typography.relative-font-size(18);
-  }
-
-  &__navigation-item-link {
-  }
-
-  &__navigation-item-contents {
-    display: none;
-  }
-
-  &__navigation-item-description {
-  }
-
-  &__navigation-item-children {
-  }
-
-  &__top-navigation {
-    margin: 0;
-    padding-bottom: 1rem;
-
-    display: flex;
-    align-items: flex-end;
-
-    list-style: none;
-  }
-
-  &__top-navigation-item {
-  }
-
-  &__navigation-disclosure {
-    @include media.on-mobile {
-      display: none;
-    }
-  }
-
-  &__navigation-disclosure &__navigation-item-contents {
-    display: block !important;
-
-    ul {
-      margin-top: 2rem;
-      padding-top: 2rem;
-
-      columns: 3;
-
-      @include colour.colour-border("keyline", 1px, solid, top);
-    }
-  }
-
-  &__navigation-disclosure:has(&__navigation-item-contents) {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-
-    @include colour.accent;
-  }
-
-  @include media.on-mobile {
-    &__navigation {
-      columns: 1;
-    }
-
-    &__navigation-item {
-      height: auto;
-
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    &__navigation-item-contents {
-      display: block;
-    }
-
-    &__navigation-item-description {
-      display: none;
     }
   }
 }

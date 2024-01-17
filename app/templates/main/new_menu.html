@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 
+{%- from "components/phase-banner/macro.html" import tnaPhaseBanner -%}
+
 {% block header %}
+{{ tnaPhaseBanner({
+  'phase': 'alpha',
+  'message': 'This is a new service - <a href="#">give us your feedback</a> to help improve it.'
+}) }}
+
 <header class="tna-new-header">
-  <div class="tna-container">
+  <div class="tna-container tna-new-header__main">
     <div class="tna-column tna-column--flex-1 tna-column--order-2">
       <a href="#" class="tna-new-header__logo-wrapper">
         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" class="tna-logo" style="enable-background:new 0 0 160 160" viewBox="0 0 160 160" width="96" height="96">
@@ -74,22 +81,22 @@
         </li>
       </ul>
     </div>
-    <div class="tna-column tna-column--full tna-column--order-1 tna-column--order-4-medium tna-column--order-4-small tna-column--order-4-tiny">
+    <div class="tna-column tna-column--full tna-column--order-1 tna-column--flex-1-medium tna-column--order-2-medium tna-column--order-4-small tna-column--order-4-tiny">
       <ul class="tna-new-header__top-navigation">
         <li class="tna-new-header__top-navigation-item">
-          <a href="#">
+          <a href="#" class="tna-new-header__top-navigation-link">
             <i class="fa-solid fa-search"></i>
             Search
           </a>
         </li>
         <li class="tna-new-header__top-navigation-item">
-          <a href="#">
+          <a href="#" class="tna-new-header__top-navigation-link">
             <i class="fa-solid fa-bag-shopping"></i>
             Shop
           </a>
         </li>
         <li class="tna-new-header__top-navigation-item">
-          <a href="#">
+          <a href="#" class="tna-new-header__top-navigation-link">
             <i class="fa-solid fa-user"></i>
             Sign in
           </a>
@@ -97,8 +104,12 @@
       </ul>
     </div>
   </div>
-  <div class="tna-container">
-    <div class="tna-column tna-column--full tna-new-header__navigation-disclosure"></div>
+  <div class="tna-new-header__disclosure-wrapper">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <div class="tna-new-header__disclosure"></div>
+      </div>
+    </div>
   </div>
 </header>
 {% endblock %}

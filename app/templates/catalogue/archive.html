@@ -2,6 +2,8 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 
+{% block pageTitle %}{{ data.name }} - {{ super() }}{% endblock %}
+
 {% block stylesheets %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.min.css') }}">

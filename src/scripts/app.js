@@ -24,7 +24,7 @@ document.querySelectorAll(".tna-new-header").forEach((header) => {
   });
   $menuButtonWrapper.appendChild($menuButton);
   const $menuNavigationDisclosure = header.querySelector(
-    ".tna-new-header__navigation-disclosure",
+    ".tna-new-header__disclosure",
   );
   const $menuNavigationItemTitleLinks = header.querySelectorAll(
     ".tna-new-header__navigation-item-link",
@@ -70,11 +70,14 @@ document.querySelectorAll(".tna-new-header").forEach((header) => {
           }
           const $closeDisclosure = document.createElement("button");
           $closeDisclosure.innerText = "Close";
+          $closeDisclosure.classList.add(
+            "tna-new-header__disclosure-close-button",
+          );
           $closeDisclosure.addEventListener("click", () => {
             $menuNavigationDisclosure.innerHTML = "";
-            $menuNavigationDisclosure.classList.remove("tna-section");
+            // $menuNavigationDisclosure.classList.remove("tna-section");
           });
-          $menuNavigationDisclosure.classList.add("tna-section");
+          // $menuNavigationDisclosure.classList.add("tna-section");
           $menuNavigationDisclosure.append($closeDisclosure);
           $menuNavigationDisclosure.focus();
         });

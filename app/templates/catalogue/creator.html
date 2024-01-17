@@ -3,6 +3,8 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'catalogue/elements/discovery.html' import discovery_info -%}
 
+{% block pageTitle %}{{ data.name }} - {{ super() }}{% endblock %}
+
 {% block stylesheets %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.min.css') }}">
