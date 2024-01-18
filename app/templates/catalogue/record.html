@@ -45,7 +45,7 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <hgroup class="tna-hgroup-xl">
         <p class="tna-hgroup__supertitle">Record</p>
-        <h1 class="tna-hgroup__title">{{ data.title }}</h1>
+        <h1 class="tna-hgroup__title">{{ data.summary_title }}</h1>
       </hgroup>
     </div>
     {% if data.hierarchy %}
@@ -138,10 +138,10 @@
         <dt>Former reference in its original department</dt>
         <dd>{{ data.former_ref }}</dd>
         {% endif %}
-        <!-- {% if data.title %}
+        {% if data.title %}
         <dt>Title</dt>
-        <dd>{{ data.title }}</dd>
-        {% endif %} -->
+        <dd>{{ data.title | safe }}</dd>
+        {% endif %}
         {% if data.date %}
         <dt>Date</dt>
         <dd>{{ data.date }}</dd>
