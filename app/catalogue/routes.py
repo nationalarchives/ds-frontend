@@ -56,9 +56,8 @@ def render_record(id, record_data):
 
 
 def render_archive(id, record_data):
-    address_parts = []
+    address_parts = record_data["contact_info"]["address_line_1"] or []
     for address_part in [
-        "address_line_1",
         "town",
         "county",
         "country",

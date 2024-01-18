@@ -92,4 +92,4 @@ def remove_all_whitespace(s):
 
 
 def url_encode(s):
-    return urllib.parse.quote(s.replace("<br />", " "), safe='')
+    return urllib.parse.quote(s, safe="")

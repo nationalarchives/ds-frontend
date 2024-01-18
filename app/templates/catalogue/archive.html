@@ -72,6 +72,16 @@
         <dt>Fax</dt>
         <dd>{{ data.contact_info.fax }}</dd>
         {% endif %}
+        {% if data.contact_info.contacts %}
+        <dt>Contacts</dt>
+        <dd>
+          <ul class="tna-ul tna-ul--plain">
+            {% for contact in data.contact_info.contacts %}
+            <li>{{ contact.first_name }} {{ contact.last_name }}{% if contact.job_title %} &mdash; {{ contact.job_title }}{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </dd>
+        {% endif %}
       </dl>
     </aside>
   </div>

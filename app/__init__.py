@@ -16,10 +16,10 @@ from app.lib.template_filters import (
     pretty_date,
     pretty_number,
     remove_all_whitespace,
-    url_encode,
     replace_ext_ref,
     slugify,
     tna_html,
+    url_encode,
 )
 from config import Config, templates_config
 from flask import Flask
