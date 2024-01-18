@@ -1,3 +1,5 @@
+import re
+
 from app.catalogue import bp
 from app.lib import cache, cache_key_prefix
 from flask import current_app, render_template, url_for

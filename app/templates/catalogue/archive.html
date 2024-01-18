@@ -40,12 +40,32 @@
         {% if address_parts %}
         <dt>Address</dt>
         <dd>
-          <address class="etna-address">{{ '<br>'.join(address_parts) | safe }}</address>
+          <address class="etna-address">
+          {% if data.contact_info.map_url %}
+            <a href="{{ data.contact_info.map_url }}">{{ '<br>'.join(address_parts) | safe }}</a>
+          {% else %}
+            {{ '<br>'.join(address_parts) | safe }}
+          {% endif %}
+          </address>
         </dd>
         {% endif %}
         {% if data.contact_info.url %}
         <dt>Website</dt>
-        <dd><a href="{{ data.contact_info.url }}" target="_blank" title="Website for {{ data.name }} (opens in new tab)" rel="noopener noreferrer">{{ data.contact_info.url }}</a></dd>
+        <dd>
+          <a href="{{ data.contact_info.url }}" target="_blank" title="Website for {{ data.name }} (opens in new tab)" rel="noopener noreferrer">{{ data.contact_info.url }}</a>
+        </dd>
+        {% endif %}
+        {% if data.contact_info.email %}
+        <dt>Email</dt>
+        <dd>
+          <a href="mailto:{{ data.contact_info.email }}" title="Send an email to {{ data.name }}">{{ data.contact_info.email }}</a>
+        </dd>
+        {% endif %}
+        {% if data.contact_info.phone %}
+        <dt>Phone</dt>
+        <dd>
+          <a href="tel:{{ data.contact_info.phone | remove_all_whitespace }}" title="Call {{ data.name }}">{{ data.contact_info.phone }}</a>
+        </dd>
         {% endif %}
       </dl>
     </aside>

@@ -20,3 +20,42 @@
 .etna-address {
   font-style: normal;
 }
+
+.etna-record-details {
+  dd .tna-ul--plain li + li {
+    margin-top: 0.5rem;
+  }
+
+  dd p .list .item {
+    margin-left: 2rem;
+
+    display: block;
+
+    position: relative;
+
+    &::before {
+      padding-right: 0.5rem;
+      position: absolute;
+      top: 0;
+      right: 100%;
+
+      content: "•";
+    }
+  }
+
+  .emph-italic {
+    font-style: italic;
+  }
+
+  .bioghist {
+    display: block;
+
+    &:not(:first-child) {
+      margin-top: 1rem;
+    }
+  }
+
+  span + p {
+    margin-top: 1rem;
+  }
+}

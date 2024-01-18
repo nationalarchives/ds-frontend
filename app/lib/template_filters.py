@@ -1,6 +1,8 @@
 import re
 from datetime import datetime
 
+from flask import url_for
+
 
 def tna_html(s):
     return s.replace("<ul>", '<ul class="tna-ul">').replace(
@@ -74,3 +76,15 @@ def headings_list(s):
         for heading in headings_raw
     ]
     return headings
+
+
+def replace_ext_ref(s):
+    ext_ref_pattern = re.compile(r'(<a class="extref" href="([\w\d]+)">)')
+    for link, id in re.findall(ext_ref_pattern, s):
+        new_link = url_for("catalogue.details", id=id)
+        s = s.replace(link, f'<a href="{new_link}">')
+    return s
+
+
+def remove_all_whitespace(s):
+    return s.replace(" ", "")

@@ -15,6 +15,8 @@ from app.lib.template_filters import (
     headings_list,
     pretty_date,
     pretty_number,
+    remove_all_whitespace,
+    replace_ext_ref,
     slugify,
     tna_html,
 )
@@ -50,6 +52,8 @@ def create_app(config_class=Config):
     app.add_template_filter(article_type)
     app.add_template_filter(brand_icon_from_url)
     app.add_template_filter(headings_list)
+    app.add_template_filter(replace_ext_ref)
+    app.add_template_filter(remove_all_whitespace)
 
     @app.context_processor
     def context_processor():

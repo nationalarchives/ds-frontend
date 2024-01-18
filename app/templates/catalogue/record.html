@@ -129,7 +129,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
       <h2 class="tna-heading-l">Description and record details</h2>
-      <dl class="tna-dl">
+      <dl class="tna-dl etna-record-details">
         {% if data.ref %}
         <dt>Reference</dt>
         <dd>{{ data.ref }}</dd>
@@ -148,7 +148,7 @@
         {% endif %}
         {% if data.description %}
         <dt>Description</dt>
-        <dd>{{ data.description | safe }}</dd>
+        <dd>{{ data.description | replace_ext_ref | safe }}</dd>
         {% endif %}
         {% if data.held_by %}
         <dt>Held by</dt>
@@ -168,21 +168,20 @@
         {% endif %}
         {% if data.languages %}
         <dt>Language(s)</dt>
-        <dd>{{ ', '.join(data.languages) }}</dd>
-        <!-- <dd>
-          <ul class="tna-ul">
+        <dd>
+          <ul class="tna-ul tna-ul--plain">
             {% for language in data.languages %}
             <li>{{ language }}</li>
             {% endfor %}
           </ul>
-        </dd> -->
+        </dd>
         {% endif %}
         {% if data.creators %}
         <dt>Creator(s)</dt>
         <dd>
-          <ul class="tna-ul">
+          <ul class="tna-ul tna-ul--plain">
             {% for creator in data.creators %}
-            <li>{{ creator.name }} ({{ creator.date }}) &mdash; {{ creator.title }}</li>
+            <li>{{ creator.name }} ({{ creator.date }}){% if creator.title %} &mdash; {{ creator.title }}{% endif %}</li>
             {% endfor %}
           </ul>
         </dd>
@@ -190,7 +189,7 @@
         {% if data.acquisition %}
         <dt>Immediate source of acquisition</dt>
         <dd>
-          <ul class="tna-ul">
+          <ul class="tna-ul tna-ul--plain">
             {% for acquisitor in data.acquisition %}
             <li>{{ acquisitor.title }}{% if acquisitor.date %} ({{ acquisitor.date }}){% endif %}</li>
             {% endfor %}
@@ -199,7 +198,7 @@
         {% endif %}
         {% if data.arrangement %}
         <dt>Arrangement</dt>
-        <dd>{{ data.arrangement | safe }}</dd>
+        <dd>{{ data.arrangement | replace_ext_ref | safe }}</dd>
         {% endif %}
         {% if data.physical_description %}
         <dt>Physical description</dt>
