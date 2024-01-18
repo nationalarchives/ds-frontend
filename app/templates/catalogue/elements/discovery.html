@@ -1,6 +1,6 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{% macro discovery_info(discovery_uri) %}
+{% macro discovery_info(discovery_uri, config) %}
 <div class="tna-column tna-column--width-1-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
   <aside class="tna-aside tna-background-accent">
     <h2 class="tna-heading-l">How to order or download this record</h2>
@@ -15,7 +15,7 @@
     <div class="tna-button-group">
       {{ tnaButton({
         'text': 'View this record in Discovery',
-        'href': 'https://discovery.nationalarchives.gov.uk' + discovery_uri
+        'href': config.BASE_DISCOVERY_URL + discovery_uri
       }) }}
     </div>
   </aside>

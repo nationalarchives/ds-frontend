@@ -20,7 +20,7 @@
 </section>
 <section class="tna-section tna-container tna-!--no-padding-top">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
-    <form class="tna-aside tna-background-tint" method="get" action="https://discovery.nationalarchives.gov.uk/results/r">
+    <form class="tna-aside tna-background-tint" method="get" action="{{ config.SEARCH_DISCOVERY_URL }}">
       {{ tnaSearchField({
         'label': 'Search for records in our catalogue',
         'headingLevel': 2,
@@ -31,7 +31,7 @@
         'formGroupClasses': 'tna-search-field--no-border'
       }) }}
     </form>
-    <form class="tna-aside tna-background-tint tna-!--margin-top-l" method="get" action="https://www.nationalarchives.gov.uk/search/results">
+    <form class="tna-aside tna-background-tint tna-!--margin-top-l" method="get" action="{{ config.SEARCH_WEBSITE_URL }}">
       {{ tnaSearchField({
         'label': 'Search our website',
         'headingLevel': 2,

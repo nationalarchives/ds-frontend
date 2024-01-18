@@ -31,15 +31,6 @@
 {% endblock %}
 
 {% block content %}
-{% if hierarchy_breadcrumb_items %}
-<!-- <div class="tna-container">
-  <div class="tna-column tna-column--full">
-    {{ tnaBreadcrumbs({
-      'items': hierarchy_breadcrumb_items
-    }) }}
-  </div>
-</div> -->
-{% endif %}
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -138,7 +129,7 @@
         <dt>Former reference in its original department</dt>
         <dd>{{ data.former_ref }}</dd>
         {% endif %}
-        {% if data.title %}
+        {% if data.title and data.title != data.summary_title %}
         <dt>Title</dt>
         <dd>{{ data.title | safe }}</dd>
         {% endif %}
@@ -200,6 +191,16 @@
         <dt>Arrangement</dt>
         <dd>{{ data.arrangement | replace_ext_ref | safe }}</dd>
         {% endif %}
+        {% if data.related_materials %}
+        <dt>Related materials</dt>
+        <dd>
+          <ul class="tna-ul tna-ul--plain">
+            {% for related_material in data.related_materials %}
+            <li>{{ related_material }}</li>
+            {% endfor %}
+          </ul>
+        </dd>
+        {% endif %}
         {% if data.physical_description %}
         <dt>Physical description</dt>
         <dd>{{ data.physical_description }}</dd>
@@ -214,7 +215,7 @@
         {% endif %}
       </dl>
     </div>
-    {{ discovery_info('/details/r/' + data.id) }}
+    {{ discovery_info('/details/r/' + data.id, config) }}
   </div>
 </div>
 {% endblock %}

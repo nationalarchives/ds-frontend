@@ -42,7 +42,8 @@
         <dd>
           <address class="etna-address">
           {% if data.contact_info.map_url %}
-            <a href="{{ data.contact_info.map_url }}">{{ '<br>'.join(address_parts) | safe }}</a>
+            <!-- <a href="{{ data.contact_info.map_url }}">{{ '<br>'.join(address_parts) | safe }}</a> -->
+            <a href="https://www.google.com/maps/search/?api=1&query={{ ', '.join(address_parts) | url_encode }}" target="_blank" rel="noopener noreferrer">{{ '<br>'.join(address_parts) | safe }}</a>
           {% else %}
             {{ '<br>'.join(address_parts) | safe }}
           {% endif %}
@@ -66,6 +67,10 @@
         <dd>
           <a href="tel:{{ data.contact_info.phone | remove_all_whitespace }}" title="Call {{ data.name }}">{{ data.contact_info.phone }}</a>
         </dd>
+        {% endif %}
+        {% if data.contact_info.fax %}
+        <dt>Fax</dt>
+        <dd>{{ data.contact_info.fax }}</dd>
         {% endif %}
       </dl>
     </aside>
@@ -175,7 +180,7 @@
       <h2 class="tna-heading-l">Other finding aids</h2>
       <ul class="tna-ul">
         <li>
-          <a href="https://discovery.nationalarchives.gov.uk/browse/r/h/{{ id }}">Browse records in Discovery</a>
+          <a href="{{ config.ARCHIVE_RECORDS_URL }}{{ id }}">Browse records in Discovery</a>
         </li>
       </ul>
     </div>

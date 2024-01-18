@@ -139,7 +139,7 @@ href="{{ url_for('catalogue.details', id=page_data['record']) }}">{{ page_data['
         'headingSize': 's',
         'href': page['url'],
         'body': page['description'],
-        'imageSrc': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
+        'imageSrc': config.WAGTAIL_MEDIA_URL + image['meta']['download_url'],
         'imageAlt': image['title'],
         'imageWidth': image['width'],
         'imageHeight': image['height'],

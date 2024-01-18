@@ -74,9 +74,10 @@
   }
 
   &__navigation-item-heading {
-    @include typography.relative-font-size(16);
+    // @include typography.relative-font-size(18);
+    font-size: inherit;
     @include typography.main-font-weight;
-    text-transform: uppercase;
+    // text-transform: uppercase;
   }
 
   &__navigation-item-link {
@@ -142,15 +143,9 @@
 
   &__disclosure &__navigation-item-contents {
     display: block !important;
+  }
 
-    ul {
-      margin-top: 2rem;
-      padding-top: 2rem;
-
-      columns: 3;
-
-      @include colour.colour-border("keyline", 1px, solid, top);
-    }
+  &__navigation-item-children {
   }
 
   &__disclosure-wrapper:has(&__navigation-item-contents) {
@@ -163,6 +158,19 @@
   &__disclosure &__navigation-item-heading,
   &__disclosure &__navigation-item-description {
     padding-right: 4rem;
+  }
+
+  &__disclosure &__navigation-item-children {
+    margin-top: 2rem;
+    padding-top: 1rem;
+
+    columns: 3;
+
+    @include colour.colour-border("keyline", 1px, solid, top);
+
+    li {
+      padding-top: 1rem;
+    }
   }
 
   &__disclosure-close-button {

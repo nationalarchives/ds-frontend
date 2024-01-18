@@ -1,4 +1,5 @@
 import re
+import urllib.parse
 from datetime import datetime
 
 from flask import url_for
@@ -88,3 +89,7 @@ def replace_ext_ref(s):
 
 def remove_all_whitespace(s):
     return s.replace(" ", "")
+
+
+def url_encode(s):
+    return urllib.parse.quote(s.replace("<br />", " "), safe='')

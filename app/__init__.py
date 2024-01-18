@@ -16,11 +16,12 @@ from app.lib.template_filters import (
     pretty_date,
     pretty_number,
     remove_all_whitespace,
+    url_encode,
     replace_ext_ref,
     slugify,
     tna_html,
 )
-from config import Config
+from config import Config, templates_config
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
 
@@ -54,6 +55,7 @@ def create_app(config_class=Config):
     app.add_template_filter(headings_list)
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
+    app.add_template_filter(url_encode)
 
     @app.context_processor
     def context_processor():
@@ -63,7 +65,7 @@ def create_app(config_class=Config):
             get_wagtail_page=get_wagtail_page,
             get_wagtail_media=get_wagtail_media,
             now_iso_8601=now_iso_8601,
-            WAGTAIL_MEDIA_URL=Config().WAGTAIL_MEDIA_URL,
+            config=templates_config,
         )
 
     from .catalogue import bp as catalogue_bp

@@ -3,7 +3,7 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
 
-{% macro articleBlocks(blocks, get_wagtail_image, get_wagtail_page, get_wagtail_media, WAGTAIL_MEDIA_URL) %}
+{% macro articleBlocks(blocks, get_wagtail_image, get_wagtail_page, get_wagtail_media, config) %}
   {% for block in blocks %}
   <section class="etna-article__section">
     <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ block['value']['heading'] | slugify }}">{{ block['value']['heading'] }}</h2>
@@ -33,7 +33,7 @@
       }] %}
       {% endif %}
       {{ tnaPicture({
-        'src': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
+        'src': config.WAGTAIL_MEDIA_URL + image['meta']['download_url'],
         'alt': content_item['value']['alt_text'],
         'width': image['width'],
         'height': image['height'],
@@ -92,7 +92,7 @@
         'headingSize': 'm',
         'body': content_item['value']['description'],
         'href': content_item['value']['url'],
-        'imageSrc': WAGTAIL_MEDIA_URL + image['meta']['download_url'],
+        'imageSrc': config.WAGTAIL_MEDIA_URL + image['meta']['download_url'],
         'actions': [
           {
             'text': content_item['value']['cta_label'],
@@ -189,7 +189,7 @@
       {% elif content_item['type'] == 'media' %}
       {% with media = get_wagtail_media(content_item['value']['media']) %}
       {% with background_image = get_wagtail_image(content_item['value']['background_image']) %}
-      <aside class="tna-aside tna-background-mask" style="background-image: url({{ WAGTAIL_MEDIA_URL }}{{ background_image['meta']['download_url'] }})">
+      <aside class="tna-aside tna-background-mask" style="background-image: url({{ config.WAGTAIL_MEDIA_URL }}{{ background_image['meta']['download_url'] }})">
         <hgroup class="tna-hgroup-l">
           <p class="tna-hgroup__supertitle">Listen</p>
           <h3 class="tna-hgroup__title">
@@ -198,8 +198,8 @@
         </hgroup>
         {{ media['description'] | safe }}
         <audio class="etna-audio" controls="" aria-label="Transcript provided below">
-          <source src="{{ WAGTAIL_MEDIA_URL }}{{ media['url'] }}" type="{{ media['mime'] }}">
-          <p>Your browser doesn't support HTML5 audio. <a href="{{ WAGTAIL_MEDIA_URL }}{{ media['url'] }}">Download the audio file</a>.</p>
+          <source src="{{ config.WAGTAIL_MEDIA_URL }}{{ media['url'] }}" type="{{ media['mime'] }}">
+          <p>Your browser doesn't support HTML5 audio. <a href="{{ config.WAGTAIL_MEDIA_URL }}{{ media['url'] }}">Download the audio file</a>.</p>
         </audio>
         {# TODO #}
         <!-- {{ media['transcript'] | safe }} -->
