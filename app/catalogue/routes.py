@@ -45,7 +45,6 @@ def render_record(id, record_data):
         hierarchy_breadcrumb_items.append({"text": text, "href": href})
     if len(hierarchy_breadcrumb_items):
         del hierarchy_breadcrumb_items[-1]
-    # record_data["hierarchy"] = record_data["hierarchy"] + record_data["hierarchy"] + record_data["hierarchy"]  # Testing max levels
     return render_template(
         "catalogue/record.html",
         id=id,
