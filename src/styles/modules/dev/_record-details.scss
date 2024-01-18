@@ -58,6 +58,7 @@
       z-index: 1;
 
       background-color: colour.brand-colour("yellow", 0.25);
+      // background-color: colour.brand-colour("white", 0.25);
 
       @include colour.colour-border("accent-background", 1px);
 
@@ -66,7 +67,7 @@
 
     &--current {
       &::before {
-        background-color: colour.brand-colour("yellow");
+        @include colour.colour-background("accent-background");
       }
     }
   }
