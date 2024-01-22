@@ -1,6 +1,10 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 
+.tna-template--touched:not(.tna-template--tabbed) *:focus {
+  outline: none;
+}
+
 .tna-hero {
   &--thinner {
     .tna-hero__figure {

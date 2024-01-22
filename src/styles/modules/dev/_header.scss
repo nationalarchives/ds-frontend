@@ -145,9 +145,6 @@
     display: block !important;
   }
 
-  &__navigation-item-children {
-  }
-
   &__disclosure-wrapper:has(&__navigation-item-contents) {
     padding-top: 2rem;
     padding-bottom: 2rem;
