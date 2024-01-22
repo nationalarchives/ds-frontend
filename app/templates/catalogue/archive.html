@@ -197,6 +197,11 @@
       {% endif %}
       <h2 class="tna-heading-l">Other finding aids</h2>
       <ul class="tna-ul">
+        {% if data.repository_url %}
+        <li>
+          <a href="{{ data.repository_url }}" target="_blank" rel="noopener noreferrer">Repository's catalogue (opens in new window)</a>
+        </li>
+        {% endif %}
         <li>
           <a href="{{ config.ARCHIVE_RECORDS_URL }}{{ id }}">Browse records in Discovery</a>
         </li>
