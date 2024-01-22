@@ -95,17 +95,25 @@
       <dt>Opening times</dt>
       <dd>{{ data.opening_times | safe }}</dd>
       {% endif %}
+      {% if data.holidays %}
+      <dt>Holidays</dt>
+      <dd>{{ data.holidays | safe }}</dd>
+      {% endif %}
       {% if data.disabled_access %}
       <dt>Disabled access</dt>
       <dd>{{ data.disabled_access | safe }}</dd>
       {% endif %}
-      {% if data.fee %}
-      <dt>Fee</dt>
-      <dd>{{ data.fee }}</dd>
+      {% if data.fees %}
+      <dt>Fees</dt>
+      <dd>{{ data.fees }}</dd>
       {% endif %}
-      {% if data.appointment %}
-      <dt>Appointment</dt>
-      <dd>{{ data.appointment }}</dd>
+      {% if data.tickets %}
+      <dt>Tickets</dt>
+      <dd>{{ data.tickets }}</dd>
+      {% endif %}
+      {% if data.appointments %}
+      <dt>Appointments</dt>
+      <dd>{{ data.appointments }}</dd>
       {% endif %}
     </dl>
     {% endif %}
