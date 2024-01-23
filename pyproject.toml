@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ds-example-flask-application"
+name = "ds-etna-frontend"
 version = "0.1.0"
 description = ""
 authors = ["Andrew Hosgood <andrew.hosgood@nationalarchives.gov.uk>"]
