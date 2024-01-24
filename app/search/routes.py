@@ -6,7 +6,7 @@ from app.lib.template_filters import slugify
 from app.search import bp
 from flask import render_template, request, url_for
 
-from .api import ArticleFiltersAPI, ArticlesAPI, RecordFiltersAPI, RecordsAPI
+from .api import ArticlesAPI, RecordsAPI
 
 
 @bp.route("/")
@@ -48,7 +48,7 @@ def catalogue():
         return render_template("errors/api.html"), 502
     except Exception:
         return render_template("errors/page-not-found.html"), 404
-    filters = get_filters(RecordFiltersAPI, args)
+    filters = get_filters(results["filters"], args)
     selected_filters = get_selected_filters(filters)
     return render_template(
         "search/catalogue.html",
@@ -98,7 +98,7 @@ def website():
         return render_template("errors/api.html"), 502
     except Exception:
         return render_template("errors/page-not-found.html"), 404
-    filters = get_filters(ArticleFiltersAPI, args)
+    filters = get_filters(results["filters"], args)
     selected_filters = get_selected_filters(filters)
     return render_template(
         "search/website.html",
@@ -113,11 +113,7 @@ def website():
     )
 
 
-def get_filters(api, args):
-    filters_api = api()
-    filters_api.params = (
-        {}
-    )  # TODO: Why do I need to do this? Things are persisting...
+def get_filters(filters, args):
     return [
         {
             "title": filter["title"],
@@ -144,7 +140,7 @@ def get_filters(api, args):
             if filter["type"] == "multiple"
             else [],
         }
-        for filter in filters_api.get_results()
+        for filter in filters
     ]
 
 

@@ -18,10 +18,6 @@ class RecordsAPI(BaseSearchAPI):
     api_path = "/records/"
 
 
-class RecordFiltersAPI(BaseSearchAPI):
-    api_path = "/records/filters/"
-
-
 class ArticlesAPI(BaseSearchAPI):
     api_path = "/articles/"
 
@@ -41,7 +37,3 @@ class ArticlesAPI(BaseSearchAPI):
         except requests.exceptions.JSONDecodeError:
             current_app.logger.error("API provided non-JSON response")
             raise ConnectionError("API provided non-JSON response")
-
-
-class ArticleFiltersAPI(BaseSearchAPI):
-    api_path = "/articles/filters/"
