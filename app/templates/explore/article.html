@@ -15,7 +15,9 @@
           <p class="tna-hgroup__supertitle">{{ page_data['meta']['type'] | article_supertitle }}</p>
           <h1 class="tna-hgroup__title">{{ page_data['title'] }}</h1>
         </hgroup>
-        {{ page_data['intro'] | safe }}
+        <div class="tna-large-paragraph tna-!--margin-top-s">
+          {{ page_data['intro'] | safe }}
+        </div>
       </div>
     </div>
   </header>

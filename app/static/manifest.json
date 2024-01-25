@@ -83,7 +83,7 @@
     }
   ],
   "start_url": "/explore-the-collection/?source=pwa",
-  "scope": "/explore-the-collection/",
+  "scope": "/",
   "display": "minimal-ui",
   "background_color": "#000",
   "dir": "ltr",
