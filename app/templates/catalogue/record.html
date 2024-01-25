@@ -149,6 +149,16 @@
         <dt>Legal status</dt>
         <dd>{{ data.legal_status }}</dd>
         {% endif %}
+        {% if data.notes %}
+        <dt>Notes</dt>
+        <dd>
+          <ul class="tna-ul tna-ul--plain">
+            {% for note in data.notes %}
+            <li>{{ note }}</li>
+            {% endfor %}
+          </ul>
+        </dd>
+        {% endif %}
         {% if data.closure_status %}
         <dt>Closure status</dt>
         <dd>{{ data.closure_status }}</dd>
