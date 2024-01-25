@@ -13,7 +13,7 @@ def details(id):
     records_api = RecordAPI(id)
     record_data = records_api.get_results()
     type = record_data["type"]
-    if type == "record" or type == "aggregation":
+    if type == "record":
         return render_record(id, record_data)
     if type == "archive":
         return render_archive(id, record_data)
