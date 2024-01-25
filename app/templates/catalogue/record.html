@@ -199,14 +199,20 @@
         {% endif %}
         {% if data.arrangement %}
         <dt>Arrangement</dt>
-        <dd>{{ data.arrangement | replace_ext_ref | safe }}</dd>
+        <dd>{{ data.arrangement | replace_ext_ref | replace_ref | safe }}</dd>
         {% endif %}
         {% if data.related_materials %}
         <dt>Related materials</dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for related_material in data.related_materials %}
-            <li>{{ related_material }}</li>
+            <li>
+            {% if related_material.id %}
+              <a href="{{ url_for('catalogue.details', id=related_material.id) }}">{{ related_material.title or related_material.note }}</a>
+            {% else %}
+              {{ related_material.title or related_material.note }}
+            {% endif %}
+            </li>
             {% endfor %}
           </ul>
         </dd>

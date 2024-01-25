@@ -17,6 +17,7 @@ from app.lib.template_filters import (
     pretty_number,
     remove_all_whitespace,
     replace_ext_ref,
+    replace_ref,
     slugify,
     tna_html,
     url_encode,
@@ -53,6 +54,7 @@ def create_app(config_class=Config):
     app.add_template_filter(article_type)
     app.add_template_filter(brand_icon_from_url)
     app.add_template_filter(headings_list)
+    app.add_template_filter(replace_ref)
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(url_encode)

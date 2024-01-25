@@ -79,8 +79,20 @@ def headings_list(s):
     return headings
 
 
+def replace_ref(s):
+    # TODO: Where do these link to?
+    return s
+    ext_ref_pattern = re.compile(
+        r'(<span class="ref" (href="([\w\d\-]+)" )?target="([\w\d\-]+)">([^<]*)</span>)'
+    )
+    for link, href, href_value, target, text in re.findall(ext_ref_pattern, s):
+        new_link = url_for("catalogue.details", id=target)
+        s = s.replace(link, f'<a href="{new_link}">{text}</a>')
+    return s
+
+
 def replace_ext_ref(s):
-    ext_ref_pattern = re.compile(r'(<a class="extref" href="([\w\d]+)">)')
+    ext_ref_pattern = re.compile(r'(<a class="extref" href="([\w\d\-]+)">)')
     for link, id in re.findall(ext_ref_pattern, s):
         new_link = url_for("catalogue.details", id=id)
         s = s.replace(link, f'<a href="{new_link}">')
