@@ -12,8 +12,10 @@
     <div class="tna-container">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
         <hgroup class="tna-hgroup-xl">
-          <p class="tna-hgroup__supertitle">{{ page_data['meta']['type'] | article_supertitle }}</p>
-          <h1 class="tna-hgroup__title">{{ page_data['title'] }}</h1>
+          <h1>
+            <span class="tna-hgroup__supertitle">{{ page_data['meta']['type'] | article_supertitle }}</span>
+            <span class="tna-hgroup__title">{{ page_data['title'] }}</span>
+          </h1>
         </hgroup>
         <div class="tna-large-paragraph tna-!--margin-top-s">
           {{ page_data['intro'] | safe }}

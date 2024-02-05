@@ -114,7 +114,7 @@
 href="{{ url_for('catalogue.details', id=page_data['record']) }}">{{ page_data['record'] }}</a>
         </dd>
       </dl>
-      {{ page_data['about'] | safe }}
+      {{ page_data['about'] | tna_html | safe }}
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
           'text': 'View record details',

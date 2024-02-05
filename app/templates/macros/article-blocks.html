@@ -45,9 +45,11 @@
       {% elif content_item['type'] == 'quote' %}
       <blockquote class="tna-blockquote">
         <div class="tna-blockquote__quote">
-          {{ content_item['value']['quote'] | safe }}
+          {{ content_item.value.quote | safe }}
         </div>
-        <p class="tna-blockquote__author">{{ content_item['value']['attribution'] }}</p>
+        {% if content_item.value.attribution %}
+        <p class="tna-blockquote__author">{{ content_item.value.attribution }}</p>
+        {% endif %}
       </blockquote>
 
       {% elif content_item['type'] == 'promoted_list' %}
