@@ -140,7 +140,7 @@ html.tna-template
 
     &__section {
       &:last-of-type {
-        @include colour.colour-border("keyline", 1px, solid, bottom);
+        // @include colour.colour-border("keyline", 1px, solid, bottom);
       }
     }
   }
