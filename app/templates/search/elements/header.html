@@ -11,8 +11,7 @@
           'hint': 'Search by keyword, place, person, or catalogue reference',
           'id': 'search',
           'name': 'q',
-          'value': query or '',
-          'formGroupClasses': 'tna-search-field--no-border'
+          'value': query or ''
         }) }}
         <input type="hidden" name="view" value="{{ request.args['view'] if 'view' in request.args else 'list' }}">
         <input type="hidden" name="group" value="{{ request.args['group'] if 'group' in request.args else 'tna' }}">
