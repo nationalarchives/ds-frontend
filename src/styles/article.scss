@@ -1,5 +1,6 @@
 @use "sass:math";
 
+@use "@nationalarchives/frontend/nationalarchives/variables/grid";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -153,6 +154,12 @@ html.tna-template
       margin-right: 1rem;
       margin-left: 1rem;
     }
+  }
+}
+
+.tna-hero {
+  .tna-column.tna-column--full > & &__figure {
+    min-height: clamp(12rem, calc(33vw - 12rem), 11.75rem);
   }
 }
 
