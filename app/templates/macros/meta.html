@@ -3,7 +3,7 @@
   {% if 'description' in data %}
   <meta name="description" content="{{ data['description'] }}">
   {% endif %}
-  <link rel="canonical" href="{{ data['url'] | default(request.url) }}" />
+  <link rel="canonical" href="{{ data['url'] | default(request.url) }}">
 
   <meta name="apple-mobile-web-app-title" content="{{ siteName }}">
   <meta name="apple-mobile-web-app-capable" content="no">

@@ -25,6 +25,12 @@ def pretty_date(s):
     return new_date
 
 
+def iso_date(s):
+    date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+    new_date = date.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return new_date
+
+
 def pretty_number(s):
     return f"{s:,}"
 
