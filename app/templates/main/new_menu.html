@@ -8,10 +8,10 @@
   'message': 'This is a new service - <a href="#">give us your feedback</a> to help improve it.'
 }) }}
 
-<header class="tna-new-header">
-  <div class="tna-container tna-new-header__main">
+<header class="tna-global-header">
+  <div class="tna-container tna-global-header__main">
     <div class="tna-column tna-column--flex-1 tna-column--order-2">
-      <a href="/" class="tna-new-header__logo-wrapper">
+      <a href="/" class="tna-global-header__logo-wrapper">
         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" class="tna-logo" style="enable-background:new 0 0 160 160" viewBox="0 0 160 160" width="96" height="96">
           <path fill="#fff" d="M0 0h160v160H0z" class="tna-logo__background" />
           <g class="tna-logo__foreground" fill="#000">
@@ -21,18 +21,18 @@
         </svg>
       </a>
     </div>
-    <div class="tna-column tna-column--order-2 tna-!--hide-on-large tna-!--hide-on-medium tna-new-header__menu-button-wrapper"></div>
+    <div class="tna-column tna-column--order-2 tna-!--hide-on-large tna-!--hide-on-medium tna-global-header__menu-button-wrapper"></div>
     <div class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-column--order-3">
-      <ul class="tna-new-header__navigation">
-        <li class="tna-new-header__navigation-item">
-          <h2 class="tna-new-header__navigation-item-heading">
-            <a href="#/visit" class="tna-new-header__navigation-item-link">Visit</a>
+      <ul class="tna-global-header__navigation">
+        <li class="tna-global-header__navigation-item">
+          <h2 class="tna-global-header__navigation-item-heading">
+            <a href="#/visit" class="tna-global-header__navigation-item-link">Visit</a>
           </h2>
-          <div class="tna-new-header__navigation-item-contents">
-            <div class="tna-new-header__navigation-item-description">
+          <div class="tna-global-header__navigation-item-contents">
+            <div class="tna-global-header__navigation-item-description">
               <p>Plan your visit to The National Archives in Kew. Our building, including our reading rooms and exhibition spaces, is now open to everyone. The Archives are open today (23 march 2023) from 0900 - 1900</p>
             </div>
-            <ul class="tna-new-header__navigation-item-children">
+            <ul class="tna-global-header__navigation-item-children">
               <li>
                 <a href="#">Planning your visit</a>
               </li>
@@ -54,49 +54,49 @@
             </ul>
           </div>
         </li>
-        <li class="tna-new-header__navigation-item">
-          <h2 class="tna-new-header__navigation-item-heading">
-            <a href="#/whats-on" class="tna-new-header__navigation-item-link">What's on</a>
+        <li class="tna-global-header__navigation-item">
+          <h2 class="tna-global-header__navigation-item-heading">
+            <a href="#/whats-on" class="tna-global-header__navigation-item-link">What's on</a>
           </h2>
         </li>
-        <li class="tna-new-header__navigation-item">
-          <h2 class="tna-new-header__navigation-item-heading">
-            <a href="/explore-the-collection" class="tna-new-header__navigation-item-link">Explore the collection</a>
+        <li class="tna-global-header__navigation-item">
+          <h2 class="tna-global-header__navigation-item-heading">
+            <a href="/explore-the-collection" class="tna-global-header__navigation-item-link">Explore the collection</a>
           </h2>
         </li>
-        <li class="tna-new-header__navigation-item">
-          <h2 class="tna-new-header__navigation-item-heading">
-            <a href="#/using-the-archives" class="tna-new-header__navigation-item-link">Using the archives</a>
+        <li class="tna-global-header__navigation-item">
+          <h2 class="tna-global-header__navigation-item-heading">
+            <a href="#/using-the-archives" class="tna-global-header__navigation-item-link">Using the archives</a>
           </h2>
         </li>
-        <li class="tna-new-header__navigation-item">
-          <h2 class="tna-new-header__navigation-item-heading">
-            <a href="#/learn" class="tna-new-header__navigation-item-link">Learn</a>
+        <li class="tna-global-header__navigation-item">
+          <h2 class="tna-global-header__navigation-item-heading">
+            <a href="#/learn" class="tna-global-header__navigation-item-link">Learn</a>
           </h2>
         </li>
-        <li class="tna-new-header__navigation-item">
-          <h2 class="tna-new-header__navigation-item-heading">
-            <a href="#/professional-guidance-and-services" class="tna-new-header__navigation-item-link">Professional guidance &amp; services</a>
+        <li class="tna-global-header__navigation-item">
+          <h2 class="tna-global-header__navigation-item-heading">
+            <a href="#/professional-guidance-and-services" class="tna-global-header__navigation-item-link">Professional guidance &amp; services</a>
           </h2>
         </li>
       </ul>
     </div>
     <div class="tna-column tna-column--full tna-column--order-1 tna-column--flex-1-medium tna-column--order-2-medium tna-column--order-4-small tna-column--order-4-tiny">
-      <ul class="tna-new-header__top-navigation">
-        <li class="tna-new-header__top-navigation-item">
-          <a href="{{ url_for('search.index') }}" class="tna-new-header__top-navigation-link">
+      <ul class="tna-global-header__top-navigation">
+        <li class="tna-global-header__top-navigation-item">
+          <a href="{{ url_for('search.index') }}" class="tna-global-header__top-navigation-link">
             <i class="fa-solid fa-search"></i>
             Search
           </a>
         </li>
-        <li class="tna-new-header__top-navigation-item">
-          <a href="#" class="tna-new-header__top-navigation-link">
+        <li class="tna-global-header__top-navigation-item">
+          <a href="#" class="tna-global-header__top-navigation-link">
             <i class="fa-solid fa-bag-shopping"></i>
             Shop
           </a>
         </li>
-        <li class="tna-new-header__top-navigation-item">
-          <a href="#" class="tna-new-header__top-navigation-link">
+        <li class="tna-global-header__top-navigation-item">
+          <a href="#" class="tna-global-header__top-navigation-link">
             <i class="fa-solid fa-user"></i>
             Sign in
           </a>
@@ -104,10 +104,10 @@
       </ul>
     </div>
   </div>
-  <div class="tna-new-header__disclosure-wrapper">
+  <div class="tna-global-header__disclosure-wrapper">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
-        <div class="tna-new-header__disclosure"></div>
+        <div class="tna-global-header__disclosure"></div>
       </div>
     </div>
   </div>

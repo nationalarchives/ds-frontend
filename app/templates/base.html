@@ -22,10 +22,10 @@
 
 {% block head %}
 <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-<meta name="tna:property-1" content="Internment; Navy; Conflict; Asia">
-<meta name="tna:property-2" content="Second World War (1939–1945)">
-<meta name="tna:property-3" content="article">
-<meta name="tna:content-group" content="Explore the collection">
+<meta name="tna.property-1" content="Internment; Navy; Conflict; Asia">
+<meta name="tna.property-2" content="Second World War (1939–1945)">
+<meta name="tna.property-3" content="article">
+<meta name="tna.content-group" content="Explore the collection">
 {% endblock %}
 
 {% block stylesheets %}
@@ -248,6 +248,7 @@
 {% endblock %}
 
 {% block bodyEnd %}
+<!-- TEMP: Import local analytics JS -->
+<!-- <script src="http://127.0.0.1:8080/package/nationalarchives/analytics.js"></script> -->
 <script src="{{ url_for('static', filename='app.min.js') }}"></script>
-<!-- <script defer src="http://127.0.0.1:8080/package/nationalarchives/analytics.js"></script> -->
 {% endblock %}
