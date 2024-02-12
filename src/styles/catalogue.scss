@@ -26,20 +26,13 @@
     margin-top: 0.5rem;
   }
 
-  dd p .list .item {
-    margin-left: 2rem;
-
+  dd p .list {
     display: block;
 
-    position: relative;
+    .item {
+      margin-left: 2rem;
 
-    &::before {
-      padding-right: 0.5rem;
-      position: absolute;
-      top: 0;
-      right: 100%;
-
-      content: "•";
+      display: list-item;
     }
   }
 
