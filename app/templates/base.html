@@ -3,6 +3,7 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
+{%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
@@ -22,10 +23,11 @@
 
 {% block head %}
 <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-<meta name="tna.property-1" content="Internment; Navy; Conflict; Asia">
-<meta name="tna.property-2" content="Second World War (1939–1945)">
-<meta name="tna.property-3" content="article">
-<meta name="tna.content-group" content="Explore the collection">
+<meta name="tna.page.property-1" content="Internment; Navy; Conflict; Asia">
+<meta name="tna.page.property-2" content="Second World War (1939–1945)">
+<meta name="tna.page.property-3" content="article">
+<meta name="tna.page.content-group" content="Explore the collection">
+<meta name="tna.response.status_code" content="200">
 {% endblock %}
 
 {% block stylesheets %}
@@ -66,34 +68,53 @@
   'message': 'This is not a real service.',
   'classes': 'tna-background-accent-light'
 }) }} -->
-{%- set navigationItems = [] -%}
-{%- for navigationItem in [
-  {
-    'text': 'Explore the collection',
-    'href': '/explore-the-collection'
-  },
-  {
-    'text': 'Search',
-    'href': '/search'
-  }
-] -%}
-  {{ navigationItems.append({
-    'text': navigationItem.text,
-    'href': navigationItem.href,
-    'selected': request.path.startswith(navigationItem.href)
-  }) or '' }}
-{%- endfor -%}
-{{ tnaHeader({
+{{ tnaGlobalHeader({
   'logo': {
-    'href': '/',
-    'strapline': 'Headless'
+    'href': '/'
   },
   'exit': {
     'text': 'See this page on the live Wagtail site',
     'href': 'https://beta.nationalarchives.gov.uk' + request.full_path,
     'target': '_blank'
   },
-  'navigation': navigationItems
+  'topNavigation': [
+    {
+      'text': 'Search',
+      'href': '/search',
+      'icon': 'search'
+    },
+    {
+      'text': 'Shop',
+      'href': 'https://shop.nationalarchives.gov.uk/',
+      'icon': 'bag-shopping'
+    },
+  ],
+  'navigation': [
+    {
+      'text': 'Visit',
+      'href': 'https://www.nationalarchives.gov.uk/about/visit-us/'
+    },
+    {
+      'text': 'What\'s on',
+      'href': 'https://www.nationalarchives.gov.uk/about/visit-us/whats-on/'
+    },
+    {
+      'text': 'Explore the collection',
+      'href': '/explore-the-collection/'
+    },
+    {
+      'text': 'Using the archives',
+      'href': '#/using-the-archives'
+    },
+    {
+      'text': 'Learn',
+      'href': '#/learn'
+    },
+    {
+      'text': 'Professional guidance & services',
+      'href': '#/professional-guidance-and-services'
+    }
+  ]
 }) }}
 {% endif %}
 {% endblock %}
@@ -249,6 +270,6 @@
 
 {% block bodyEnd %}
 <!-- TEMP: Import local analytics JS -->
-<!-- <script src="http://127.0.0.1:8080/package/nationalarchives/analytics.js"></script> -->
+<script src="http://127.0.0.1:8080/package/nationalarchives/analytics.js"></script>
 <script src="{{ url_for('static', filename='app.min.js') }}"></script>
 {% endblock %}
