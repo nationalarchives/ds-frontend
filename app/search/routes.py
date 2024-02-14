@@ -1,12 +1,10 @@
-import urllib.parse
-
 from app.lib import cache, cache_key_prefix, pagination_object
-from app.lib.query import parse_args, remove_arg
-from app.lib.template_filters import slugify
+from app.lib.query import parse_args
 from app.search import bp
 from flask import render_template, request, url_for
 
 from .api import ArticlesAPI, RecordsAPI
+from .lib import get_filters, get_selected_filters
 
 
 @bp.route("/")
@@ -111,60 +109,3 @@ def website():
         pages=results["pages"],
         pagination=pagination_object(page, results["pages"], request.args),
     )
-
-
-def get_filters(filters, args):
-    return [
-        {
-            "title": filter["title"],
-            "type": filter["type"],
-            "slug": slugify(filter["title"]),
-            "value": args[slugify(filter["title"])]
-            if filter["type"] == "text" and slugify(filter["title"]) in args
-            else "",
-            "options": [
-                {
-                    "text": option["name"],
-                    "value": option["value"],
-                    "checked": (
-                        str(option["value"]) in args[slugify(filter["title"])]
-                    )
-                    if slugify(filter["title"]) in args
-                    else False,
-                    "remove_url": remove_arg(
-                        request.args, slugify(filter["title"]), option["value"]
-                    ),
-                }
-                for option in filter["options"]
-            ]
-            if filter["type"] == "multiple"
-            else [],
-        }
-        for filter in filters
-    ]
-
-
-def get_selected_filters(filters):
-    selected_filters = []
-    for filter in filters:
-        if filter["type"] == "multiple":
-            for option in filter["options"]:
-                if option["checked"]:
-                    selected_filters.append(
-                        {
-                            "group": filter["title"],
-                            "filter": option["text"],
-                            "remove_url": option["remove_url"],
-                        }
-                    )
-        if filter["type"] == "text" and filter["value"]:
-            selected_filters.append(
-                {
-                    "group": filter["title"],
-                    "filter": filter["value"],
-                    "remove_url": remove_arg(
-                        request.args, slugify(filter["title"])
-                    ),
-                }
-            )
-    return selected_filters

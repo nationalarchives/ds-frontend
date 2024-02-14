@@ -1,6 +1,7 @@
+from app.catalogue.api import RecordAPI
 from app.wagtail.api import breadcrumbs
 from flask import render_template
-from app.catalogue.api import RecordAPI
+
 from ..api import image_details
 
 
