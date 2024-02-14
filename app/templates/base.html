@@ -63,19 +63,14 @@
   </div>
 </nav>
 {% else %}
-<!-- {{ tnaPhaseBanner({
+{{ tnaPhaseBanner({
   'phase': 'prototype',
-  'message': 'This is not a real service.',
-  'classes': 'tna-background-accent-light'
-}) }} -->
+  'message': 'This is not a real service. See this page on the <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '">beta Wagtail site</a>.',
+  'classes': 'tna-background-contrast'
+}) }}
 {{ tnaGlobalHeader({
   'logo': {
     'href': '/'
-  },
-  'exit': {
-    'text': 'See this page on the live Wagtail site',
-    'href': 'https://beta.nationalarchives.gov.uk' + request.full_path,
-    'target': '_blank'
   },
   'topNavigation': [
     {
