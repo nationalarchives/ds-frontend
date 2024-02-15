@@ -65,7 +65,7 @@
 {% else %}
 {{ tnaPhaseBanner({
   'phase': 'prototype',
-  'message': 'This is not a real service. See this page on the <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '">beta Wagtail site</a>.',
+  'message': 'This is not a real service. See this page on the <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">beta Wagtail site</a>.',
   'classes': 'tna-background-contrast'
 }) }}
 {{ tnaGlobalHeader({
@@ -265,6 +265,6 @@
 
 {% block bodyEnd %}
 <!-- TEMP: Import local analytics JS -->
-<script src="http://127.0.0.1:8080/package/nationalarchives/analytics.js"></script>
+<!-- <script src="http://127.0.0.1:8080/package/nationalarchives/analytics.js"></script> -->
 <script src="{{ url_for('static', filename='app.min.js') }}"></script>
 {% endblock %}
