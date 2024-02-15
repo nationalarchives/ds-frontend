@@ -52,14 +52,4 @@ if (TNAAnalytics) {
       },
     },
   ]);
-
-  analytics.addListener(document.getElementById("tna-form__search"), "search", [
-    {
-      eventName: "search_term_blur",
-      on: "blur",
-      data: {
-        value: TNAAnalytics.helpers.valueGetters.value,
-      },
-    },
-  ]);
 }
