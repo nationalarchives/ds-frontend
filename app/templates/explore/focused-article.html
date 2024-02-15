@@ -9,6 +9,11 @@
 
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
 
+{% block stylesheets %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+{% endblock %}
+
 {% block beforeContent %}{% endblock %}
 
 {% block content %}

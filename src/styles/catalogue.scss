@@ -1,4 +1,6 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .tna-button-group--back {
   @include media.on-tiny {
@@ -19,6 +21,116 @@
 
 .etna-address {
   font-style: normal;
+}
+
+.etna-record-hierarchy-wrapper {
+  padding: 2rem;
+
+  @include colour.accent-light;
+
+  @include colour.colour-border("accent-background", 1px);
+  border-left-width: 2rem;
+
+  @include media.on-mobile {
+    padding: 1rem;
+  }
+
+  @include media.on-tiny {
+    border-left-width: 1rem;
+
+    .tna-breadcrumbs {
+      display: none;
+    }
+  }
+}
+
+.etna-record-hierarchy {
+  width: calc(100% - 12rem);
+  margin-top: 1rem;
+  padding-left: 14rem;
+
+  position: relative;
+  left: -2rem;
+
+  overflow: hidden;
+
+  &__item {
+    min-height: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    position: relative;
+
+    p {
+      margin-top: 0;
+    }
+
+    &::before {
+      width: 100vw;
+
+      display: block;
+
+      position: absolute;
+      top: 0;
+      right: calc(100% + 1rem);
+      bottom: 0;
+      z-index: 1;
+
+      background-color: colour.brand-colour("yellow", 0.25);
+      // background-color: colour.brand-colour("white", 0.25);
+
+      @include colour.colour-border("accent-background", 1px);
+
+      content: "";
+    }
+
+    &--current {
+      &::before {
+        @include colour.colour-background("accent-background");
+      }
+    }
+  }
+
+  &,
+  ul {
+    list-style: none;
+  }
+
+  ul {
+    margin-top: 0.5rem;
+
+    li {
+      margin-left: -1rem;
+    }
+  }
+
+  @include media.on-small {
+    width: calc(100% - 7rem);
+    padding-left: 8rem;
+
+    left: -1rem;
+
+    ul {
+      li {
+        margin-left: -0.5rem;
+      }
+    }
+  }
+
+  @include media.on-tiny {
+    width: calc(100% - 1rem);
+    padding-left: 2rem;
+
+    left: -1rem;
+
+    ul {
+      li {
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 .etna-record-details {

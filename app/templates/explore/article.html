@@ -6,6 +6,11 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
+{% block stylesheets %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+{% endblock %}
+
 {% block content %}
 <article class="etna-article">
   <header class="tna-section">

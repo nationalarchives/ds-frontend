@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles/app.scss:app/static/app.min.css src/styles/font-awesome.scss:app/static/font-awesome.min.css src/styles/search.scss:app/static/search.min.css src/styles/article.scss:app/static/article.min.css src/styles/catalogue.scss:app/static/catalogue.min.css",
+    "build:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles:app/static",
     "build:js": "webpack",
     "build": "npm run build:css && npm run build:js",
-    "dev:css": "sass --load-path=node_modules --watch src/styles/app.scss:app/static/app.min.css src/styles/font-awesome.scss:app/static/font-awesome.min.css src/styles/search.scss:app/static/search.min.css src/styles/article.scss:app/static/article.min.css src/styles/catalogue.scss:app/static/catalogue.min.css",
+    "dev:css": "sass --load-path=node_modules --watch src/styles:app/static",
     "dev:js": "webpack --config webpack.config.js --mode=development --watch",
     "dev": "npm run dev:css & npm run dev:js &",
     "lint": "prettier --check src && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'",

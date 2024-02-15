@@ -4,11 +4,6 @@
 
 {% block pageTitle %}{{ page_data['title'] }} - {{ super() }}{% endblock %}
 
-{% block stylesheets %}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='article.min.css') }}">
-{% endblock %}
-
 {% block head %}
 {{ super() }}
 {{ meta({
