@@ -29,11 +29,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="tna-container tna-section tna-!--padding-top-s">
+<div class="tna-container tna-section tna-!--padding-top-s" itemscope itemtype="https://schema.org/Person">
   <div class="tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Person</p>
-      <h1 class="tna-hgroup__title">{{ data.name }}</h1>
+      <h1 class="tna-hgroup__title" itemprop="name">{{ data.name }}</h1>
     </hgroup>
     {% if 'Date' in details or 'Functions, occupations and activities' in details %}
     <p class="tna-large-paragraph">

@@ -17,7 +17,7 @@
 {% block beforeContent %}{% endblock %}
 
 {% block content %}
-<article class="etna-article">
+<article class="etna-article" itemscope itemtype="https://schema.org/Article">
   <div class="tna-background-contrast">
     {% if breadcrumbs and breadcrumbs | length > 0 %}
     <div class="tna-container">
@@ -31,7 +31,7 @@
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <h1 class="tna-heading-xl">{{ page_data['title'] }}</h1>
+          <h1 class="tna-heading-xl" itemprop="name">{{ page_data['title'] }}</h1>
           {% if not page_data['hero_image_jpg'] %}
           <div class="tna-large-paragraph tna-!--margin-top-s">
             {{ page_data['intro'] | safe }}
@@ -40,7 +40,7 @@
           {% if authors | length %}
           {% set authors_list = [] %}
           {% for author in authors %}
-            {% set author_item = '<a href="' + author['meta']['html_url'] + '">' + author['title'] + '</a>' %}
+            {% set author_item = '<a href="' + author['meta']['html_url'] + '" itemprop="author">' + author['title'] + '</a>' %}
             {% set authors_list = authors_list.append(author_item) %}
           {% endfor %}
           <p>By {{ authors_list | join(', ') | safe }}</p>

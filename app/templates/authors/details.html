@@ -4,16 +4,16 @@
 {%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
-<article>
+<section itemscope itemtype="https://schema.org/Person">
   <header class="tna-container tna-section etna-author-header">
     <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-tiny tna-column--order-3 tna-column--order-1-tiny">
       <img src="{{ page_data['teaser_image_square_jpg']['full_url'] }}" alt="{{ page_data['teaser_image_square_jpg']['alt'] }}" width="{{ page_data['teaser_image_square_jpg']['width'] }}" height="{{ page_data['teaser_image_square_jpg']['height'] }}" class="etna-author-image">
     </div>
     <div class="tna-column tna-column--flex-1 tna-column--full-tiny tna-column--order-2 tna-column--align-centre">
-      <h1 class="tna-heading-xl">
+      <h1 class="tna-heading-xl" itemprop="name">
         {{ page_data['title'] }}
       </h1>
-      <p>{{ page_data['role'] | safe }}</p>
+      <p itemprop="jobTitle">{{ page_data['role'] | safe }}</p>
     </div>
   </header>
   <hr>
@@ -49,6 +49,6 @@
       {% endfor %}
     </div>
   </aside>
-</article>
+</section>
 {{ feedback() }}
 {% endblock %}
