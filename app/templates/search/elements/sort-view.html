@@ -30,7 +30,7 @@
         'value': 'alphabetical'
       }
     ],
-    'selected': request.args['order'] if 'order' in request.args else 'relevance',
+    'selected': request.args.order if 'order' in request.args else 'relevance',
     'inline': True,
     'attributes': {
       'form': 'search-form'
@@ -58,7 +58,7 @@
       'buttonElement': True,
       'buttonType': 'submit',
       'iconOnly': True,
-      'accent': request.args['view'] != 'grid',
+      'accent': request.args.view != 'grid',
       'attributes': {
         'name': 'view',
         'value': 'list',
@@ -73,7 +73,7 @@
       'buttonElement': True,
       'buttonType': 'submit',
       'iconOnly': True,
-      'accent': request.args['view'] == 'grid',
+      'accent': request.args.view == 'grid',
       'attributes': {
         'name': 'view',
         'value': 'grid',

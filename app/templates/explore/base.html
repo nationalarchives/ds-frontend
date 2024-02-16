@@ -2,18 +2,18 @@
 
 {%- from 'macros/meta.html' import meta -%}
 
-{% block pageTitle %}{{ page_data['title'] }} - {{ super() }}{% endblock %}
+{% block pageTitle %}{{ page_data.title }} - {{ super() }}{% endblock %}
 
 {% block head %}
 {{ super() }}
 {{ meta({
-  'title': page_data['meta']['seo_title'] or page_data['title'],
-  'description': page_data['meta']['search_description'],
-  'url': page_data['meta']['html_url'],
+  'title': page_data.meta.seo_title or page_data.title,
+  'description': page_data.meta.search_description,
+  'url': page_data.meta.html_url,
   'image': {
-    'src': page_data['teaser_image_jpg']['full_url'],
-    'width': page_data['teaser_image_jpg']['width'],
-    'height': page_data['teaser_image_jpg']['height'],
+    'src': page_data.teaser_image_jpg.full_url,
+    'width': page_data.teaser_image_jpg.width,
+    'height': page_data.teaser_image_jpg.height,
     'type': 'image/jpeg'
   }
 }) }}

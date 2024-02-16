@@ -15,7 +15,7 @@
 {% block head %}
 {{ super() }}
 {{ meta({
-  'title': 'Search for ' + request.args['q'] if 'q' in request.args else 'Search',
-  'description': 'Search results for ' + request.args['q'] if 'q' in request.args else ''
+  'title': 'Search for ' + request.args.q if 'q' in request.args else 'Search',
+  'description': 'Search results for ' + request.args.q if 'q' in request.args else ''
 }) }}
 {% endblock %}

@@ -5,6 +5,11 @@
 
 {% block pageTitle %}{{ data.name }} - {{ super() }}{% endblock %}
 
+{% block head %}
+{{ super() }}
+<meta name="description" content="Record description for {{ data.name }}">
+{% endblock %}
+
 {% block stylesheets %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}">

@@ -8,23 +8,23 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data['title'] }}</h1>
-      {{ page_data['intro'] | safe }}
+      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+      {{ page_data.intro | safe }}
     </div>
   </div>
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       {{ tnaCard({
-        'supertitle': featured_article['meta']['type'] | article_supertitle,
-        'title': featured_article['title'],
-        'href': featured_article['meta']['html_url'],
+        'supertitle': featured_article.meta.type | article_supertitle,
+        'title': featured_article.title,
+        'href': featured_article.meta.html_url,
         'headingLevel': 2,
         'headingSize': 'l',
-        'text': featured_article['teaser_text'],
-        'imageSrc': featured_article['teaser_image_jpg']['full_url'],
-        'imageAlt': featured_article['teaser_image_jpg']['alt'],
-        'imageWidth': featured_article['teaser_image_jpg']['width'],
-        'imageHeight': featured_article['teaser_image_jpg']['height'],
+        'text': featured_article.teaser_text,
+        'imageSrc': featured_article.teaser_image_jpg.full_url,
+        'imageAlt': featured_article.teaser_image_jpg.alt,
+        'imageWidth': featured_article.teaser_image_jpg.width,
+        'imageHeight': featured_article.teaser_image_jpg.height,
         'horizontal': True,
         'style': 'accent',
         'plainSupertitle': True,
@@ -37,24 +37,24 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">{{ page_data['featured_pages'][0]['value']['heading'] }}</h2>
-      <p>{{ page_data['featured_pages'][0]['value']['description'] }}</p>
+      <h2 class="tna-heading-l">{{ page_data.featured_pages[0].value.heading }}</h2>
+      <p>{{ page_data.featured_pages[0].value.description }}</p>
     </div>
   </div>
   <div class="tna-container">
     {% for page in featured_pages %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
       {{ tnaCard({
-        'supertitle': page['meta']['type'] | article_supertitle,
-        'title': page['title'],
+        'supertitle': page.meta.type | article_supertitle,
+        'title': page.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': page['meta']['html_url'],
-        'text': page['teaser_text'],
-        'imageSrc': page['teaser_image_jpg']['full_url'],
-        'imageAlt': page['teaser_image_jpg']['alt'],
-        'imageWidth': page['teaser_image_jpg']['width'],
-        'imageHeight': page['teaser_image_jpg']['height'],
+        'href': page.meta.html_url,
+        'text': page.teaser_text,
+        'imageSrc': page.teaser_image_jpg.full_url,
+        'imageAlt': page.teaser_image_jpg.alt,
+        'imageWidth': page.teaser_image_jpg.width,
+        'imageHeight': page.teaser_image_jpg.height,
         'plainSupertitle': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
@@ -79,16 +79,16 @@
     {% for child in children %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
       {{ tnaCard({
-        'supertitle': child['meta']['type'] | article_supertitle,
-        'title': child['title'],
+        'supertitle': child.meta.type | article_supertitle,
+        'title': child.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': child['meta']['html_url'],
-        'text': child['teaser_text'],
-        'imageSrc': child['teaser_image_jpg']['full_url'],
-        'imageAlt': child['teaser_image_jpg']['alt'],
-        'imageWidth': child['teaser_image_jpg']['width'],
-        'imageHeight': child['teaser_image_jpg']['height'],
+        'href': child.meta.html_url,
+        'text': child.teaser_text,
+        'imageSrc': child.teaser_image_jpg.full_url,
+        'imageAlt': child.teaser_image_jpg.alt,
+        'imageWidth': child.teaser_image_jpg.width,
+        'imageHeight': child.teaser_image_jpg.height,
         'plainSupertitle': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'

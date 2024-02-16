@@ -12,21 +12,21 @@
   <header class="tna-section tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <hgroup class="tna-hgroup-xl">
-        <p class="tna-hgroup__supertitle">{{ page_data['meta']['type'] | article_supertitle }}</p>
-        <h1 class="tna-hgroup__title">{{ page_data['title'] }}</h1>
+        <p class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</p>
+        <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
       </hgroup>
-      {{ page_data['intro'] | safe }}
+      {{ page_data.intro | safe }}
     </div>
   </header>
   <section class="tna-background-contrast">
-    {% for highlight in page_data['page_highlights'] %}
+    {% for highlight in page_data.page_highlights %}
     {% if not loop.first %}
     <hr>
     {% endif %}
-    {% with image = get_wagtail_image(highlight['image']) %}
+    {% with image = get_wagtail_image(highlight.image) %}
     <div class="tna-section tna-container tna-container--centred tna-!--padding-top-s">
       <div class="tna-column tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-column--order-3 tna-column--order-1-medium tna-column--order-1-small tna-column--order-1-tiny tna-!--padding-top-m">
-        <img src="{{ config.WAGTAIL_MEDIA_URL }}{{ highlight.image_details.meta.download_url }}" width="{{ highlight.image_details.width }}" height="{{ highlight.image_details.height }}" alt="{{ highlight['alt_text'] }}" class="etna-highlight-gallery__image">
+        <img src="{{ config.WAGTAIL_MEDIA_URL }}{{ highlight.image_details.meta.download_url }}" width="{{ highlight.image_details.width }}" height="{{ highlight.image_details.height }}" alt="{{ highlight.alt_text }}" class="etna-highlight-gallery__image">
       </div>
       <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
         <h2 class="tna-heading-l">{{ highlight.image_details.title }}</h2>
@@ -36,7 +36,7 @@
           <dt>Catalogue reference</dt>
           <dd>{{ highlight.record_data.ref }}</dd>
         </dl>
-        {{ image['description'] | safe }}
+        {{ image.description | safe }}
         <div class="tna-button-group">
           <a href="{{ url_for('catalogue.details', id=highlight.record_data.id) }}" class="tna-button tna-button--plain-">View record details</a>
         </div>

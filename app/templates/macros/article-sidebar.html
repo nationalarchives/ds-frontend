@@ -7,7 +7,7 @@
     <ol class="tna-ol tna-ol--plain">
       {% for block in blocks %}
       <li>
-        <a href="#{{ block['value']['heading'] | slugify }}" class="etna-article__sidebar-item">{{ block['value']['heading'] }}</a>
+        <a href="#{{ block.value.heading | slugify }}" class="etna-article__sidebar-item">{{ block.value.heading }}</a>
       </li>
       {% endfor %}
     </ol>

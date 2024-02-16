@@ -35,13 +35,13 @@
     <ul class="tna-compound-filters tna-ul tna-ul--plain tna-!--margin-top-s">
       {% for filter in selected_filters %}
       <li class="tna-compound-filters__item">
-        <span class="tna-compound-filters__label">{{ filter['group'] }}: {{ filter['filter'] }}</span>
-        <a href="{{ filter.remove_url }}" class="tna-compound-filters__link">Remove &quot;{{ filter['group'] }}: {{ filter['filter'] }}&quot; filter</a>
+        <span class="tna-compound-filters__label">{{ filter.group }}: {{ filter.filter }}</span>
+        <a href="{{ filter.remove_url }}" class="tna-compound-filters__link">Remove &quot;{{ filter.group }}: {{ filter.filter }}&quot; filter</a>
       </li>
       {% endfor %}
       <li class="tna-compound-filters__item tna-compound-filters__item--remove">
-        {% if 'q' in request.args and request.args['q'] %}
-        <a href="?q={{ request.args['q'] }}">
+        {% if 'q' in request.args and request.args.q %}
+        <a href="?q={{ request.args.q }}">
           {% else %}
           <a href="?">
         {% endif %}
@@ -387,7 +387,7 @@
       </div> -->
     </div>
   </div>
-  {% if request.args['view'] == 'grid' %}
+  {% if request.args.view == 'grid' %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
     <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m tna-column">Search results</h2>
     <!-- TODO: Make into ul -->

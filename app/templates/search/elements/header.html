@@ -13,8 +13,8 @@
           'name': 'q',
           'value': query or ''
         }) }}
-        <input type="hidden" name="view" value="{{ request.args['view'] if 'view' in request.args else 'list' }}">
-        <input type="hidden" name="group" value="{{ request.args['group'] if 'group' in request.args else 'tna' }}">
+        <input type="hidden" name="view" value="{{ request.args.view if 'view' in request.args else 'list' }}">
+        <input type="hidden" name="group" value="{{ request.args.group if 'group' in request.args else 'tna' }}">
       </form>
       <form action="{{ search_path or '/search/featured/' }}" id="search-form" method="get">
         <input type="hidden" name="q" value="{{ query or '' }}">

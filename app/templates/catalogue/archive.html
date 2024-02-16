@@ -4,6 +4,11 @@
 
 {% block pageTitle %}{{ data.name }} - {{ super() }}{% endblock %}
 
+{% block head %}
+{{ super() }}
+<meta name="description" content="Record description for {{ data.name }}">
+{% endblock %}
+
 {% block stylesheets %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}">
@@ -42,8 +47,8 @@
         <dd>
           <address class="etna-address">
           {% if data.contact_info.map_url %}
-            <!-- <a href="{{ data.contact_info.map_url }}">{{ '<br>'.join(address_parts) | safe }}</a> -->
-            <a href="https://www.google.com/maps/search/?api=1&query={{ ', '.join(address_parts) | url_encode }}" target="_blank" rel="noopener noreferrer">{{ '<br>'.join(address_parts) | safe }}</a>
+            <a href="{{ data.contact_info.map_url }}" target="_blank" rel="noopener noreferrer">{{ '<br>'.join(address_parts) | safe }}</a>
+            <!-- <a href="https://www.google.com/maps/search/?api=1&query={{ ', '.join(address_parts) | url_encode }}" target="_blank" rel="noopener noreferrer">{{ '<br>'.join(address_parts) | safe }}</a> -->
           {% else %}
             {{ '<br>'.join(address_parts) | safe }}
           {% endif %}
