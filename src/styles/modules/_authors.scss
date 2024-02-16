@@ -45,6 +45,11 @@
   @include media.on-tiny {
     text-align: center;
 
+    .tna-hgroup__supertitle {
+      margin-right: auto;
+      margin-left: auto;
+    }
+
     .etna-author-image {
       margin: 0 auto 2rem;
     }
