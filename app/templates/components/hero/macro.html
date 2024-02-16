@@ -21,7 +21,7 @@
       {%- endfor %}
       <source srcset="{{ params.imageSrc }}" type="{{ params.imageType if params.imageType else 'image/jpeg' }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}">
       {%- endif -%}
-      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}" itemprop="contentUrl">
+      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}" itemprop="url">
     </picture>
     {%- if params.heading -%}
     <div class="tna-container tna-hero__inner">
