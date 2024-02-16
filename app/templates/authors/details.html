@@ -9,51 +9,53 @@
 {% endblock %}
 
 {% block content %}
-<section itemscope itemtype="https://schema.org/Person">
-  <header class="tna-container tna-section etna-author-header">
-    <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-tiny tna-column--order-3 tna-column--order-1-tiny">
-      <img src="{{ page_data.teaser_image_square_jpg.full_url }}" alt="{{ page_data.teaser_image_square_jpg.alt }}" width="{{ page_data.teaser_image_square_jpg.width }}" height="{{ page_data.teaser_image_square_jpg.height }}" class="etna-author-image">
-    </div>
-    <div class="tna-column tna-column--flex-1 tna-column--full-tiny tna-column--order-2 tna-column--align-centre">
-      <hgroup class="tna-hgroup-xl">
-        <p class="tna-hgroup__supertitle">Author</p>
-        <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
-      </hgroup>
-      <p itemprop="jobTitle">{{ page_data.role | safe }}</p>
-    </div>
-  </header>
-  <hr>
-  <section class="tna-container tna-container--centred tna-section tna-!--margin-bottom-m">
-    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
-        <h2 class="tna-heading-l">About the author</h2>
-        {{ page_data.summary | safe }}
-    </div>
+<div itemscope itemtype="https://schema.org/ProfilePage">
+  <section itemprop="mainEntity" itemtype="https://schema.org/Person" itemscope>
+    <header class="tna-container tna-section etna-author-header">
+      <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-tiny tna-column--order-3 tna-column--order-1-tiny">
+        <img src="{{ page_data.teaser_image_square_jpg.full_url }}" alt="{{ page_data.teaser_image_square_jpg.alt }}" width="{{ page_data.teaser_image_square_jpg.width }}" height="{{ page_data.teaser_image_square_jpg.height }}" class="etna-author-image" itemprop="image">
+      </div>
+      <div class="tna-column tna-column--flex-1 tna-column--full-tiny tna-column--order-2 tna-column--align-centre">
+        <hgroup class="tna-hgroup-xl">
+          <p class="tna-hgroup__supertitle">Author</p>
+          <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
+        </hgroup>
+        <p itemprop="jobTitle">{{ page_data.role | safe }}</p>
+      </div>
+    </header>
+    <hr>
+    <section class="tna-container tna-container--centred tna-section tna-!--margin-bottom-m">
+      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+          <h2 class="tna-heading-l">About the author</h2>
+          {{ page_data.summary | safe }}
+      </div>
+    </section>
+    <aside class="tna-background-tint tna-section">
+      <div class="tna-container">
+        <div class="tna-column tna-column--full">
+          <h2 class="tna-heading-l">{{ page_data.title }}'s articles</h2>
+        </div>
+        {% for article in authored_focused_articles %}
+        <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+          {{ tnaCard({
+            'supertitle': article.meta.type | article_supertitle,
+            'title': article.title,
+            'headingLevel': 3,
+            'headingSize': 's',
+            'href': article.meta.html_url,
+            'body': article.teaser_text,
+            'imageSrc': article.teaser_image_jpg.full_url,
+            'imageAlt': article.teaser_image_jpg.alt,
+            'imageWidth': article.teaser_image_jpg.width,
+            'imageHeight': article.teaser_image_jpg.height,
+            'htmlElement': 'article',
+            'classes': 'tna-!--margin-top-l'
+          }) }}
+        </div>
+        {% endfor %}
+      </div>
+    </aside>
   </section>
-  <aside class="tna-background-tint tna-section">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        <h2 class="tna-heading-l">{{ page_data.title }}'s articles</h2>
-      </div>
-      {% for article in authored_focused_articles %}
-      <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-        {{ tnaCard({
-          'supertitle': article.meta.type | article_supertitle,
-          'title': article.title,
-          'headingLevel': 3,
-          'headingSize': 's',
-          'href': article.meta.html_url,
-          'body': article.teaser_text,
-          'imageSrc': article.teaser_image_jpg.full_url,
-          'imageAlt': article.teaser_image_jpg.alt,
-          'imageWidth': article.teaser_image_jpg.width,
-          'imageHeight': article.teaser_image_jpg.height,
-          'htmlElement': 'article',
-          'classes': 'tna-!--margin-top-l'
-        }) }}
-      </div>
-      {% endfor %}
-    </div>
-  </aside>
-</section>
+</div>
 {{ feedback() }}
 {% endblock %}

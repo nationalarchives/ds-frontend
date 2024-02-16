@@ -33,14 +33,14 @@
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h1 class="tna-heading-xl" itemprop="name">{{ page_data.title }}</h1>
           {% if not page_data.hero_image_jpg %}
-          <div class="tna-large-paragraph tna-!--margin-top-s">
+          <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
             {{ page_data.intro | safe }}
           </div>
           {% endif %}
           {% if authors | length %}
           {% set authors_list = [] %}
           {% for author in authors %}
-            {% set author_item = '<a href="' + author.meta.html_url + '" itemprop="author">' + author.title + '</a>' %}
+            {% set author_item = '<a href="' + author.meta.html_url + '">' + author.title + '</a>' %}
             {% set authors_list = authors_list.append(author_item) %}
           {% endfor %}
           <p>By {{ authors_list | join(', ') | safe }}</p>
@@ -75,7 +75,7 @@
   <section class="tna-section">
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-5-6 tna-column--full-small tna-column--full-tiny">
-        <div class="tna-large-paragraph">
+        <div class="tna-large-paragraph" itemprop="headline">
           {{ page_data.intro | safe }}
         </div>
       </div>
@@ -99,14 +99,17 @@
           <h2 class="etna-author-list__heading tna-chip tna-chip--plain">About the author{{ 's' if authors | length > 1 }}</h2>
           <ul class="etna-author-list__items">
             {% for author in authors %}
-            <li class="etna-author-list__item">
-              <img src="{{ author.teaser_image_square_jpg.full_url }}" alt="{{ author.teaser_image_square_jpg.alt }}" width="{{ author.teaser_image_square_jpg.width }}" height="{{ author.teaser_image_square_jpg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small">
+            <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+              <img src="{{ author.teaser_image_square_jpg.full_url }}" alt="{{ author.teaser_image_square_jpg.alt }}" width="{{ author.teaser_image_square_jpg.width }}" height="{{ author.teaser_image_square_jpg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
               <p class="etna-author-list__name">
                 <strong>
-                  <a href="{{ author.meta.html_url }}" rel="author" data-component-name="About the author" data-link-type="Link" data-link="{{ author.title }}">{{ author.title }}</a>
+                  <link itemprop="url" href="{{ author.meta.html_url }}">
+                  <a href="{{ author.meta.html_url }}" rel="author">
+                    <span itemprop="name">{{ author.title }}</span>
+                  </a>
                 </strong>
               </p>
-              <p class="etna-author-list__description">{{ author.role }}</p>
+              <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
             </li>
             {% endfor %}
           </ul>
