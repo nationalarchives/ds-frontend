@@ -4,10 +4,6 @@ from app.wagtail.api import image_details, media_details, page_details
 from flask import request
 
 
-def is_standalone():
-    return "standalone" in request.args
-
-
 def get_wagtail_image(image_id):
     image_data = image_details(image_id)
     return image_data

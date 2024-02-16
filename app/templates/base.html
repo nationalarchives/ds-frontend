@@ -40,31 +40,15 @@
 {% endblock %}
 
 {% block cookies %}
+{% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': '/cookies'
 }) }}
+{% endif %}
 {% endblock %}
 
 {% block header %}
-{% if is_standalone() %}
-<nav class="tna-background-contrast">
-  <div class="tna-container tna-!--padding-vertical-s">
-    <div class="tna-column tna-column--full">
-      <div class="tna-button-group tna-button-group--full">
-        {{ tnaButton({
-          'text': 'Explore the collection',
-          'href': '/explore-the-collection'
-        }) }}
-        {{ tnaButton({
-          'text': 'Search',
-          'href': '/search'
-        }) }}
-      </div>
-    </div>
-  </div>
-</nav>
-{% else %}
 {{ tnaPhaseBanner({
   'phase': 'prototype',
   'message': 'This is not a real service. See this page on the <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">beta Wagtail site</a>.',
@@ -113,11 +97,9 @@
     }
   ]
 }) }}
-{% endif %}
 {% endblock %}
 
 {% block beforeContent %}
-{% if not is_standalone() %}
 {% if breadcrumbs and breadcrumbs | length > 0 %}
 <div class="tna-container">
   <div class="tna-column tna-column--full">
@@ -127,11 +109,9 @@
   </div>
 </div>
 {% endif %}
-{% endif %}
 {% endblock %}
 
 {% block footer %}
-{% if not is_standalone() %}
 {{ tnaFooter({
   'social': [
     {
@@ -262,7 +242,6 @@
     }
   ]
 }) }}
-{% endif %}
 {% endblock %}
 
 {% block bodyEnd %}

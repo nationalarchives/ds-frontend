@@ -7,6 +7,11 @@
 
 {%- set themeAccent = 'pink' -%}
 
+{% block stylesheets %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+{% endblock %}
+
 {% block content %}
 <section class="tna-background-contrast etna-homepage-hero">
   <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2023/07/tna-building-compress.jpg" class="etna-homepage-hero__image">

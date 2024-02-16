@@ -5,7 +5,6 @@ from app.lib.context_processor import (
     get_wagtail_image,
     get_wagtail_media,
     get_wagtail_page,
-    is_standalone,
     now_iso_8601,
 )
 from app.lib.template_filters import (
@@ -64,7 +63,6 @@ def create_app(config_class=Config):
     @app.context_processor
     def context_processor():
         return dict(
-            is_standalone=is_standalone,
             get_wagtail_image=get_wagtail_image,
             get_wagtail_page=get_wagtail_page,
             get_wagtail_media=get_wagtail_media,
