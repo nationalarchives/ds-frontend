@@ -8,6 +8,7 @@
 {% block head %}
 {{ super() }}
 <meta name="description" content="Record description for {{ data.name }}">
+<link rel="canonical" href="{{ url_for('catalogue.details', id=data.id, _external=True) }}">
 {% endblock %}
 
 {% block stylesheets %}

@@ -3,6 +3,11 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
+{% block head %}
+{{ super() }}
+<link rel="canonical" href="{{ page_data.url | default(request.url) }}?page={{ page }}">
+{% endblock %}
+
 {% block content %}
 {% if page == 1 %}
 <section class="tna-section">

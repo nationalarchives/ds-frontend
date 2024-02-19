@@ -10,6 +10,7 @@
 {% block head %}
 {{ super() }}
 <meta name="description" content="Record {{ data.ref or data.id }} - {{ data.summary_title }}">
+<link rel="canonical" href="{{ url_for('catalogue.details', id=data.id, _external=True) }}">
 {% endblock %}
 
 {% block stylesheets %}
