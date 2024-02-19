@@ -11,7 +11,10 @@ from .api import RecordAPI
 @cache.cached(key_prefix=cache_key_prefix)
 def details(id):
     records_api = RecordAPI(id)
-    record_data = records_api.get_results()
+    try:
+        record_data = records_api.get_results()
+    except Exception:
+        return render_template("errors/page-not-found.html"), 404
     type = record_data["type"]
     if type == "record":
         return render_record(id, record_data)
