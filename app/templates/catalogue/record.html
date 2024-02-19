@@ -228,7 +228,7 @@
         {% endif %}
         {% if data.administrative_background %}
         <dt>Administrative/biographical background</dt>
-        <dd>{{ data.administrative_background | safe }}</dd>
+        <dd>{{ data.administrative_background | replace_ext_ref | safe }}</dd>
         {% endif %}
         {% if data.unpublished_finding_aids %}
         <dt>Unpublished finding aids</dt>
