@@ -1,23 +1,7 @@
-// @use "@nationalarchives/frontend/nationalarchives/variables/features" with (
-//   $debug-interactable-areas: true
-// );
-// @use "@nationalarchives/frontend/nationalarchives/variables/grid" with (
-//   $largest-container-width: 90rem
-// );
-
 @use "@nationalarchives/frontend/nationalarchives/all";
-
-@use "@nationalarchives/frontend/nationalarchives/tools/colour";
 
 @use "modules/frontend-overrides";
 @use "modules/generics";
 
 @use "modules/authors";
 @use "modules/feedback";
-
-.tna-template--yellow-accent {
-  .tna-ul li::marker,
-  .tna-ol li::marker {
-    @include colour.colour-font("font-base");
-  }
-}
