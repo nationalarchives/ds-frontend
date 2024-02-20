@@ -32,6 +32,7 @@
         'body': image.translation | tna_html
       }] %}
       {% endif %}
+      {# TODO src #}
       {{ tnaPicture({
         'src': config.WAGTAIL_MEDIA_URL + image.meta.download_url,
         'alt': content_item.value.alt_text,
@@ -190,6 +191,7 @@
       {% elif content_item.type == 'media' %}
       {% with media = get_wagtail_media(content_item.value.media) %}
       {% with background_image = get_wagtail_image(content_item.value.background_image) %}
+      {# TODO background image #}
       <aside class="tna-aside tna-background-mask" style="background-image: url({{ config.WAGTAIL_MEDIA_URL }}{{ background_image.meta.download_url }})">
         <hgroup class="tna-hgroup-l">
           <p class="tna-hgroup__supertitle">Listen</p>

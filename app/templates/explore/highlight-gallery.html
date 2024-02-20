@@ -24,21 +24,23 @@
     <hr>
     {% endif %}
     {% with image = get_wagtail_image(highlight.image) %}
-    <div class="tna-section tna-container tna-container--centred tna-!--padding-top-s">
+    <div class="tna-section tna-container tna-container--centred tna-!--padding-top-s" itemscope itemtype="https://schema.org/ImageObject">
       <div class="tna-column tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-column--order-3 tna-column--order-1-medium tna-column--order-1-small tna-column--order-1-tiny tna-!--padding-top-m">
-        <img src="{{ config.WAGTAIL_MEDIA_URL }}{{ highlight.image_details.meta.download_url }}" width="{{ highlight.image_details.width }}" height="{{ highlight.image_details.height }}" alt="{{ highlight.alt_text }}" class="etna-highlight-gallery__image">
+        <img src="{{ config.WAGTAIL_MEDIA_URL }}{{ highlight.image_details.meta.download_url }}" width="{{ highlight.image_details.width }}" height="{{ highlight.image_details.height }}" alt="{{ highlight.alt_text }}" class="etna-highlight-gallery__image" itemprop="contentUrl">
       </div>
       <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
-        <h2 class="tna-heading-l">{{ highlight.image_details.title }}</h2>
+        <h2 class="tna-heading-l" itemprop="name">{{ highlight.image_details.title }}</h2>
         <dl class="tna-dl tna-dl--plain">
           <dt>Date</dt>
           <dd>{{ highlight.image_details.record_dates }}</dd>
           <dt>Catalogue reference</dt>
           <dd>{{ highlight.record_data.ref }}</dd>
         </dl>
-        {{ image.description | safe }}
+        <div class="etna-space-above" itemprop="description">
+          {{ image.description | safe }}
+        </div>
         <div class="tna-button-group">
-          <a href="{{ url_for('catalogue.details', id=highlight.record_data.id) }}" class="tna-button tna-button--plain-">View record details</a>
+          <a href="{{ url_for('catalogue.details', id=highlight.record_data.id) }}" class="tna-button tna-button--small" itemprop="url">View record details</a>
         </div>
       </div>
     </div>
