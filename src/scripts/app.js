@@ -9,8 +9,9 @@ initAll();
  * ==========================================
  */
 const TNAAnalytics = window.TNAFrontendAnalytics;
-if (TNAAnalytics) {
-  const analytics = new TNAAnalytics.GA4("GTM-KX8ZWVZG");
+const ga4Id = document.documentElement.getAttribute("data-ga4id");
+if (TNAAnalytics && ga4Id) {
+  const analytics = new TNAAnalytics.GA4(ga4Id);
 
   analytics.addListener(".etna-article__sidebar", "sidebar", [
     {

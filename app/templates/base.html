@@ -10,7 +10,10 @@
 
 {%- set theme = 'light' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
-{%- set htmlAttributes = {'data-generated': now_iso_8601()} -%}
+{%- set htmlAttributes = {
+  'data-generated': now_iso_8601(),
+  'data-ga4id': config.GA4_ID
+} -%}
 
 {% block headIcons %}
 <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
