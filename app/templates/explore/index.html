@@ -6,15 +6,11 @@
 
 {% block content %}
 <section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      {{ page_data.intro | safe }}
-    </div>
-  </div>
   {{ tnaIndexGrid({
     'title': page_data.title,
-    'headingLevel': 2,
+    'body': page_data.intro | safe,
+    'headingLevel': 1,
+    'headingSize': 'xl',
     'items': large_cards,
     'columns': 2,
     'columnsTiny': 1
