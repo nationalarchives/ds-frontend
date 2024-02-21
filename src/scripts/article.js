@@ -30,7 +30,7 @@ $articles.forEach(($article) => {
         "aria-label",
         `${headingText} - hide this section`,
       );
-      $headingButton.innerHTML = `<span class="etna-article__section-button-label">${headingText}</span><i class="fa-solid fa-chevron-up"></i>`;
+      $headingButton.innerHTML = `<h2 class="etna-article__section-button-label">${headingText}</h2><i class="fa-solid fa-chevron-up"></i>`;
     };
     const hideSection = () => {
       $section.classList.add("etna-article__section--hidden");
@@ -39,7 +39,7 @@ $articles.forEach(($article) => {
         "aria-label",
         `${headingText} - show this section`,
       );
-      $headingButton.innerHTML = `<span class="etna-article__section-button-label">${headingText}</span><i class="fa-solid fa-chevron-down"></i>`;
+      $headingButton.innerHTML = `<h2 class="etna-article__section-button-label">${headingText}</h2><i class="fa-solid fa-chevron-down"></i>`;
     };
 
     $headingButton.addEventListener("click", () =>

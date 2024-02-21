@@ -87,6 +87,7 @@
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-l etna-article__sections" itemprop="articleBody">
         {% if page_data.custom_warning_text %}
         {{ tnaMessage({
+          'headingLevel': 2,
           'message': page_data.custom_warning_text | safe,
           'classes': 'tna-!--margin-bottom-l'
         }) }}

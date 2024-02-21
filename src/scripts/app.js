@@ -1,5 +1,6 @@
 import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 // import {GA4} from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
+import "./modules/theme-switcher";
 
 initAll();
 
