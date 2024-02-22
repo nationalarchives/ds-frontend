@@ -128,35 +128,51 @@
       <h2 class="tna-heading-l">Description and record details</h2>
       <dl class="tna-dl etna-record-details">
         {% if data.ref %}
-        <dt>Reference</dt>
+        <dt>
+          <div class="etna-sticky-dt">Reference</div>
+        </dt>
         <dd>{{ data.ref }}</dd>
         {% endif %}
         {% if data.former_ref %}
-        <dt>Former reference in its original department</dt>
+        <dt>
+          <div class="etna-sticky-dt">Former reference in its original department</div>
+        </dt>
         <dd>{{ data.former_ref }}</dd>
         {% endif %}
         {% if data.title and data.title != data.summary_title %}
-        <dt>Title</dt>
+        <dt>
+          <div class="etna-sticky-dt">Title</div>
+        </dt>
         <dd>{{ data.title | safe }}</dd>
         {% endif %}
         {% if data.date %}
-        <dt>Date</dt>
+        <dt>
+          <div class="etna-sticky-dt">Date</div>
+        </dt>
         <dd>{{ data.date }}</dd>
         {% endif %}
         {% if data.description %}
-        <dt>Description</dt>
+        <dt>
+          <div class="etna-sticky-dt">Description</div>
+        </dt>
         <dd>{{ data.description | replace_ext_ref | safe }}</dd>
         {% endif %}
         {% if data.held_by %}
-        <dt>Held by</dt>
+        <dt>
+          <div class="etna-sticky-dt">Held by</div>
+        </dt>
         <dd><a href="{{ url_for('catalogue.details', id=data.held_by.id) }}">{{ data.held_by.name }}</a></dd>
         {% endif %}
         {% if data.legal_status %}
-        <dt>Legal status</dt>
+        <dt>
+          <div class="etna-sticky-dt">Legal status</div>
+        </dt>
         <dd>{{ data.legal_status }}</dd>
         {% endif %}
         {% if data.notes %}
-        <dt>Notes</dt>
+        <dt>
+          <div class="etna-sticky-dt">Notes</div>
+        </dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for note in data.notes %}
@@ -166,15 +182,21 @@
         </dd>
         {% endif %}
         {% if data.closure_status %}
-        <dt>Closure status</dt>
+        <dt>
+          <div class="etna-sticky-dt">Closure status</div>
+        </dt>
         <dd>{{ data.closure_status }}</dd>
         {% endif %}
         {% if data.access_condition %}
-        <dt>Access condition</dt>
+        <dt>
+          <div class="etna-sticky-dt">Access condition</div>
+        </dt>
         <dd>{{ data.access_condition }}</dd>
         {% endif %}
         {% if data.languages %}
-        <dt>Language(s)</dt>
+        <dt>
+          <div class="etna-sticky-dt">Language(s)</div>
+        </dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for language in data.languages %}
@@ -184,7 +206,9 @@
         </dd>
         {% endif %}
         {% if data.creators %}
-        <dt>Creator(s)</dt>
+        <dt>
+          <div class="etna-sticky-dt">Creator(s)</div>
+        </dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for creator in data.creators %}
@@ -194,7 +218,9 @@
         </dd>
         {% endif %}
         {% if data.acquisition %}
-        <dt>Immediate source of acquisition</dt>
+        <dt>
+          <div class="etna-sticky-dt">Immediate source of acquisition</div>
+        </dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for acquisitor in data.acquisition %}
@@ -204,11 +230,15 @@
         </dd>
         {% endif %}
         {% if data.arrangement %}
-        <dt>Arrangement</dt>
+        <dt>
+          <div class="etna-sticky-dt">Arrangement</div>
+        </dt>
         <dd>{{ data.arrangement | replace_ext_ref | replace_ref | safe }}</dd>
         {% endif %}
         {% if data.related_materials %}
-        <dt>Related materials</dt>
+        <dt>
+          <div class="etna-sticky-dt">Related materials</div>
+        </dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for related_material in data.related_materials %}
@@ -224,15 +254,21 @@
         </dd>
         {% endif %}
         {% if data.physical_description %}
-        <dt>Physical description</dt>
+        <dt>
+          <div class="etna-sticky-dt">Physical description</div>
+        </dt>
         <dd>{{ data.physical_description }}</dd>
         {% endif %}
         {% if data.administrative_background %}
-        <dt>Administrative/biographical background</dt>
+        <dt>
+          <div class="etna-sticky-dt">Administrative/biographical background</div>
+        </dt>
         <dd>{{ data.administrative_background | replace_ext_ref | safe }}</dd>
         {% endif %}
         {% if data.unpublished_finding_aids %}
-        <dt>Unpublished finding aids</dt>
+        <dt>
+          <div class="etna-sticky-dt">Unpublished finding aids</div>
+        </dt>
         <dd>{{ data.unpublished_finding_aids }}</dd>
         {% endif %}
       </dl>

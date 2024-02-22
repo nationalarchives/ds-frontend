@@ -133,6 +133,11 @@
   }
 }
 
+.etna-sticky-dt {
+  position: sticky;
+  top: 0.25rem;
+}
+
 .etna-record-details {
   dd .tna-ul--plain li + li {
     margin-top: 0.5rem;

@@ -47,7 +47,9 @@
     <h2 class="tna-heading-l">Details of this record creator</h2>
     <dl class="tna-dl">
       {% for detail in details %}
-      <dt>{{ detail }}</dt>
+      <dt>
+        <div class="etna-sticky-dt">{{ detail }}</div>
+      </dt>
       <dd>{{ details[detail] | safe }}</dd>
       {% endfor %}
     </dl>

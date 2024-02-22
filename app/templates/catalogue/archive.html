@@ -44,7 +44,9 @@
       <h2 class="tna-heading-l">Contact information</h2>
       <dl class="tna-dl tna-dl--plain">
         {% if address_parts %}
-        <dt>Address</dt>
+        <dt>
+          <div class="etna-sticky-dt">Address</div>
+        </dt>
         <dd>
           <address class="etna-address" itemprop="address">
           {% if data.contact_info.map_url %}
@@ -57,29 +59,39 @@
         </dd>
         {% endif %}
         {% if data.contact_info.url %}
-        <dt>Website</dt>
+        <dt>
+          <div class="etna-sticky-dt">Website</div>
+        </dt>
         <dd>
           <a href="{{ data.contact_info.url }}" target="_blank" title="Website for {{ data.name }} (opens in new tab)" rel="noopener noreferrer" itemprop="url">{{ data.contact_info.url }}</a>
         </dd>
         {% endif %}
         {% if data.contact_info.email %}
-        <dt>Email</dt>
+        <dt>
+          <div class="etna-sticky-dt">Email</div>
+        </dt>
         <dd>
           <a href="mailto:{{ data.contact_info.email }}" title="Send an email to {{ data.name }}" itemprop="email">{{ data.contact_info.email }}</a>
         </dd>
         {% endif %}
         {% if data.contact_info.phone %}
-        <dt>Phone</dt>
+        <dt>
+          <div class="etna-sticky-dt">Phone</div>
+        </dt>
         <dd>
           <a href="tel:{{ data.contact_info.phone | remove_all_whitespace }}" title="Call {{ data.name }}" itemprop="telephone">{{ data.contact_info.phone }}</a>
         </dd>
         {% endif %}
         {% if data.contact_info.fax %}
-        <dt>Fax</dt>
+        <dt>
+          <div class="etna-sticky-dt">Fax</div>
+        </dt>
         <dd itemprop="fax">{{ data.contact_info.fax }}</dd>
         {% endif %}
         {% if data.contact_info.contacts %}
-        <dt>Contacts</dt>
+        <dt>
+          <div class="etna-sticky-dt">Contacts</div>
+        </dt>
         <dd>
           <ul class="tna-ul tna-ul--plain">
             {% for contact in data.contact_info.contacts %}
@@ -102,34 +114,48 @@
     <h2 class="tna-heading-l">Visiting {{ data.name }}</h2>
     <dl class="tna-dl tna-dl--plain">
       {% if data.opening_times %}
-      <dt>Opening times</dt>
+      <dt>
+        <div class="etna-sticky-dt">Opening times</div>
+      </dt>
       <dd>{{ data.opening_times | safe }}</dd>
       {% endif %}
       {% if data.holidays %}
-      <dt>Holidays</dt>
+      <dt>
+        <div class="etna-sticky-dt">Holidays</div>
+      </dt>
       <dd>{{ data.holidays | safe }}</dd>
       {% endif %}
       {% if data.disabled_access %}
-      <dt>Disabled access</dt>
+      <dt>
+        <div class="etna-sticky-dt">Disabled access</div>
+      </dt>
       <dd>{{ data.disabled_access | safe }}</dd>
       {% endif %}
       {% if data.fees %}
-      <dt>Fees</dt>
+      <dt>
+        <div class="etna-sticky-dt">Fees</div>
+      </dt>
       <dd>{{ data.fees }}</dd>
       {% endif %}
       {% if data.tickets %}
-      <dt>Tickets</dt>
+      <dt>
+        <div class="etna-sticky-dt">Tickets</div>
+      </dt>
       <dd>{{ data.tickets }}</dd>
       {% endif %}
       {% if data.appointments %}
-      <dt>Appointments</dt>
+      <dt>
+        <div class="etna-sticky-dt">Appointments</div>
+      </dt>
       <dd>{{ data.appointments }}</dd>
       {% endif %}
     </dl>
     {% endif %}
     <h2 class="tna-heading-l">Key information</h2>
     <dl class="tna-dl tna-dl--plain">
-      <dt>ARCHON code</dt>
+      <dt>
+        <div class="etna-sticky-dt">ARCHON code</div>
+      </dt>
       <dd>{{ data.archon_code }}</dd>
     </dl>
     {% if data.information %}
