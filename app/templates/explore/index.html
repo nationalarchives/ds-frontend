@@ -8,7 +8,7 @@
 <section class="tna-section">
   {{ tnaIndexGrid({
     'title': page_data.title,
-    'body': page_data.intro | safe,
+    'body': ('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | safe,
     'headingLevel': 1,
     'headingSize': 'xl',
     'items': large_cards,

@@ -170,7 +170,7 @@ html.tna-template
     }
 
     &__section-heading {
-      .tna-template--js-enabled {
+      .tna-template--js-enabled & {
         display: none;
       }
     }
