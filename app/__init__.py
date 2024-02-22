@@ -20,8 +20,8 @@ from app.lib.template_filters import (
     replace_ref,
     slugify,
     tna_html,
+    to_bool,
     url_encode,
-    to_bool
 )
 from config import Config, templates_config
 from flask import Flask

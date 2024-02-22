@@ -42,5 +42,5 @@ templates_config = {
         "ARCHIVE_RECORDS_URL",
         "https://discovery.nationalarchives.gov.uk/browse/r/h/",
     ),
-    "GA4_ID": os.environ.get("GA4_ID")
+    "GA4_ID": os.environ.get("GA4_ID"),
 }

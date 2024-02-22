@@ -27,20 +27,22 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
     prev_linker = (
         end_initial_chunk
         if end_initial_chunk == 2 and current_page - (around + 1) == 2
-        else "..."
-        if end_initial_chunk < start_middle_chunk
-        and len(middle_chunk_numbers) > 0
-        else ""
+        else (
+            "..."
+            if end_initial_chunk < start_middle_chunk
+            and len(middle_chunk_numbers) > 0
+            else ""
+        )
     )
     next_linker = (
         end_middle_chunk
         if end_middle_chunk == (total_pages - 1)
         and current_page + (around + 1) == (total_pages - 1)
-        else "..."
-        if end_middle_chunk < start_final_chunk
-        else ""
-        if boundaries + 1 <= end_middle_chunk
-        else ""
+        else (
+            "..."
+            if end_middle_chunk < start_final_chunk
+            else "" if boundaries + 1 <= end_middle_chunk else ""
+        )
     )
 
     pagination_items = (
@@ -67,13 +69,15 @@ def pagination_object(
     current_page = int(current_page)
     pagination_object = {}
     pagination_object["items"] = [
-        {"ellipsis": True}
-        if item == "..."
-        else {
-            "number": item,
-            "href": generate_new_page_query_string(current_args, item),
-            "current": item == current_page,
-        }
+        (
+            {"ellipsis": True}
+            if item == "..."
+            else {
+                "number": item,
+                "href": generate_new_page_query_string(current_args, item),
+                "current": item == current_page,
+            }
+        )
         for item in pagination_list(
             current_page, total_pages, boundaries, around
         )

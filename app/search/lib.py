@@ -9,26 +9,35 @@ def get_filters(filters, args):
             "title": filter["title"],
             "type": filter["type"],
             "slug": slugify(filter["title"]),
-            "value": args[slugify(filter["title"])]
-            if filter["type"] == "text" and slugify(filter["title"]) in args
-            else "",
-            "options": [
-                {
-                    "text": option["name"],
-                    "value": option["value"],
-                    "checked": (
-                        str(option["value"]) in args[slugify(filter["title"])]
-                    )
-                    if slugify(filter["title"]) in args
-                    else False,
-                    "remove_url": remove_arg(
-                        request.args, slugify(filter["title"]), option["value"]
-                    ),
-                }
-                for option in filter["options"]
-            ]
-            if filter["type"] == "multiple"
-            else [],
+            "value": (
+                args[slugify(filter["title"])]
+                if filter["type"] == "text" and slugify(filter["title"]) in args
+                else ""
+            ),
+            "options": (
+                [
+                    {
+                        "text": option["name"],
+                        "value": option["value"],
+                        "checked": (
+                            (
+                                str(option["value"])
+                                in args[slugify(filter["title"])]
+                            )
+                            if slugify(filter["title"]) in args
+                            else False
+                        ),
+                        "remove_url": remove_arg(
+                            request.args,
+                            slugify(filter["title"]),
+                            option["value"],
+                        ),
+                    }
+                    for option in filter["options"]
+                ]
+                if filter["type"] == "multiple"
+                else []
+            ),
         }
         for filter in filters
     ]

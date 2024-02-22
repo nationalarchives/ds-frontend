@@ -3,7 +3,6 @@ import urllib.parse
 from datetime import datetime
 
 from app.lib.util import strtobool
-
 from flask import url_for
 
 

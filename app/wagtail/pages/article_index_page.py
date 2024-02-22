@@ -23,10 +23,17 @@ def article_index_page(page_data):
         ]
         featured_article = page_details(page_data["featured_article"]["id"])
         featured_pages = [
-            page_details(featured_page_id)
-            for featured_page_id in page_data["featured_pages"][0]["value"][
-                "items"
-            ]
+            {
+                "heading": featured_page_group["value"]["heading"],
+                "description": featured_page_group["value"]["description"],
+                "pages": [
+                    page_details(featured_page_id)
+                    for featured_page_id in featured_page_group["value"][
+                        "items"
+                    ]
+                ],
+            }
+            for featured_page_group in page_data["featured_pages"]
         ]
     except ConnectionError:
         return render_template("errors/api.html"), 502
