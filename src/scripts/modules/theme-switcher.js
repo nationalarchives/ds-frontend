@@ -20,16 +20,20 @@ const setThemeFromCookie = () => {
 };
 
 const setThemeFromUserPref = () => {
-  setDarkTheme(
-    window.matchMedia("(prefers-color-scheme: dark)")?.matches || false,
-  );
+  // Default is light
+  setDarkTheme(false);
+  // setDarkTheme(
+  //   window.matchMedia("(prefers-color-scheme: dark)")?.matches || false,
+  // );
 };
 
 const setThemeCookieFromUserPref = () => {
-  cookies.set(
-    "dark_theme",
-    window.matchMedia("(prefers-color-scheme: dark)")?.matches || false,
-  );
+  // Default is light
+  cookies.set("dark_theme", false);
+  // cookies.set(
+  //   "dark_theme",
+  //   window.matchMedia("(prefers-color-scheme: dark)")?.matches || false,
+  // );
 };
 
 const addThemeSwitcher = () => {

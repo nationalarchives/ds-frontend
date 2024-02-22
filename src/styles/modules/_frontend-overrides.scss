@@ -5,6 +5,10 @@
   outline: none;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .tna-global-header {
   button.tna-global-header__top-navigation-link {
     padding: 0;

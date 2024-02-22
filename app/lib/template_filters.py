@@ -2,6 +2,8 @@ import re
 import urllib.parse
 from datetime import datetime
 
+from app.lib.util import strtobool
+
 from flask import url_for
 
 
@@ -111,3 +113,7 @@ def remove_all_whitespace(s):
 
 def url_encode(s):
     return urllib.parse.quote(s, safe="")
+
+
+def to_bool(s):
+    return strtobool(s) if s else False

@@ -14,14 +14,29 @@ $articles.forEach(($article) => {
 
   $sections.forEach(($section, index) => {
     const $heading = $section.querySelector("h2:first-child");
-    $heading.classList.add("etna-article__section-heading");
+    const $buttonHeading = $section.previousElementSibling;
+
+    if (
+      !$heading ||
+      !$buttonHeading ||
+      !$buttonHeading.classList.contains("etna-article__section-button-header")
+    ) {
+      return;
+    }
+
     const headingText = $heading.innerText;
 
-    const $headingButton = document.createElement("button");
-    $headingButton.classList.add(
-      "etna-article__section-button",
-      "tna-heading-l",
+    const $headingButton = $buttonHeading.querySelector(
+      ".etna-article__section-button",
     );
+
+    if (!$headingButton) {
+      return;
+    }
+
+    $buttonHeading.removeAttribute("hidden");
+
+    $headingButton.setAttribute("aria-controls", $heading.getAttribute("id"));
 
     const showSection = () => {
       $section.classList.remove("etna-article__section--hidden");
@@ -30,7 +45,6 @@ $articles.forEach(($article) => {
         "aria-label",
         `${headingText} - hide this section`,
       );
-      $headingButton.innerHTML = `<h2 class="etna-article__section-button-label">${headingText}</h2><i class="fa-solid fa-chevron-up"></i>`;
     };
     const hideSection = () => {
       $section.classList.add("etna-article__section--hidden");
@@ -39,7 +53,6 @@ $articles.forEach(($article) => {
         "aria-label",
         `${headingText} - show this section`,
       );
-      $headingButton.innerHTML = `<h2 class="etna-article__section-button-label">${headingText}</h2><i class="fa-solid fa-chevron-down"></i>`;
     };
 
     $headingButton.addEventListener("click", () =>
@@ -48,7 +61,6 @@ $articles.forEach(($article) => {
         : hideSection(),
     );
 
-    $collapsibleSections.insertBefore($headingButton, $section);
     $section.setAttribute("data-section-id", $heading.getAttribute("id"));
 
     if (
@@ -80,50 +92,17 @@ $articles.forEach(($article) => {
     const currentSectionFromTop = 0.15;
     const onMobile = window.matchMedia("(max-width: 48em)");
 
-    // const setSelectedToPreviousItem = ($targetItem, $sidebarItems) => {
-    //   const currentIndex = Array.from($sidebarItems).findIndex(($sidebarItem) =>
-    //       $sidebarItem.getAttribute("href") === $targetItem.getAttribute("href")
-    //   )
-    //   if(currentIndex > 0) {
-    //     switchItemByIndex(currentIndex - 1,$sidebarItems, true)
-    //   }
-    // }
-
-    // const setSelectedToNextItem = ($targetItem,$sidebarItems) => {
-    //   const currentIndex = Array.from($sidebarItems).findIndex(($sidebarItem) =>
-    //       $sidebarItem.getAttribute("href") === $targetItem.getAttribute("href")
-    //   )
-    //   if(currentIndex < $sidebarItems.length - 1) {
-    //     switchItemByIndex(currentIndex + 1,$sidebarItems, true)
-    //   }
-    // }
-
-    // const switchItemByIndex = (
-    //   targetItemIndex,
-    //   $sidebarItems,
-    //   simulateClick = false,
-    // ) => {
-    //   switchItem($sidebarItems[targetItemIndex], $sidebarItems, true);
-    // };
-
-    const switchItemById = (
-      targetItemID,
-      $sidebarItems,
-      // simulateClick = false,
-    ) => {
+    const switchItemById = (targetItemID, $sidebarItems) => {
       const index = Array.from($sidebarItems).findIndex(
         ($sidebarItem) =>
           $sidebarItem.getAttribute("href") === `#${targetItemID}`,
       );
       if (index >= 0) {
-        switchItem($sidebarItems[index], $sidebarItems /*, simulateClick*/);
+        switchItem($sidebarItems[index], $sidebarItems);
       }
     };
 
-    const switchItem = (
-      $targetItem,
-      $sidebarItems /*, simulateClick = false*/,
-    ) => {
+    const switchItem = ($targetItem, $sidebarItems) => {
       const currentSectionHref = $targetItem.getAttribute("href");
       $sidebarItems.forEach(($sidebarItem) => {
         const isCurrentItem =
@@ -133,52 +112,11 @@ $articles.forEach(($article) => {
           : $sidebarItem.classList.remove(
               "etna-article__sidebar-item--current",
             );
-        // $sidebarItem.setAttribute("tabindex", isCurrentItem ? "0" : "-1");
       });
       if (history.replaceState) {
         history.replaceState(null, null, currentSectionHref);
       }
-      // if (simulateClick) {
-      //   // $targetItem.click()
-      // } else {
-      //   $targetItem.focus();
-      // }
     };
-
-    // const handleSidebarItemKeyDown = (e, $sidebarItems) => {
-    //   const targetItem = e.currentTarget;
-    //   let overwriteKeyAction = false;
-
-    //   switch (e.key) {
-    //     case "ArrowUp":
-    //       setSelectedToPreviousItem(targetItem, $sidebarItems);
-    //       overwriteKeyAction = true;
-    //       break;
-
-    //     case "ArrowDown":
-    //       setSelectedToNextItem(targetItem, $sidebarItems);
-    //       overwriteKeyAction = true;
-    //       break;
-
-    //     case "Home":
-    //       switchItem(0);
-    //       overwriteKeyAction = true;
-    //       break;
-
-    //     case "End":
-    //       switchItem($sidebarItems.length - 1);
-    //       overwriteKeyAction = true;
-    //       break;
-
-    //     default:
-    //       break;
-    //   }
-
-    //   if (overwriteKeyAction) {
-    //     e.stopPropagation();
-    //     e.preventDefault();
-    //   }
-    // };
 
     const highlightCurrentSection = () => {
       if (onMobile.matches) {
@@ -198,18 +136,6 @@ $articles.forEach(($article) => {
           currentSectionId = topSectionId;
           if ($topSection) {
             switchItemById(currentSectionId, $sidebarItems);
-            // $sidebarItems.forEach(($sidebarItem) => {
-            //   const isCurrentItem =
-            //     $sidebarItem.getAttribute("href") === `#${currentSectionId}`;
-            //   isCurrentItem
-            //     ? $sidebarItem.classList.add(
-            //         "etna-article__sidebar-item--current",
-            //       )
-            //     : $sidebarItem.classList.remove(
-            //         "etna-article__sidebar-item--current",
-            //       );
-            //   // $sidebarItem.setAttribute("tabindex", isCurrentItem ? "0" : "-1");
-            // });
             // if (history.replaceState) {
             //   history.replaceState(null, null, `#${currentSectionId}`);
             // }
@@ -217,10 +143,6 @@ $articles.forEach(($article) => {
         }
       } else {
         currentSectionId = "";
-        // $sidebarItems.forEach(($sidebarItem, index) => {
-        //   $sidebarItem.classList.remove("etna-article__sidebar-item--current");
-        //   $sidebarItem.setAttribute("tabindex", index === 0 ? "0" : "-1");
-        // });
         $sidebarItems.forEach(($sidebarItem) => {
           $sidebarItem.classList.remove("etna-article__sidebar-item--current");
         });
@@ -229,14 +151,6 @@ $articles.forEach(($article) => {
         }
       }
     };
-
-    // $sidebarItems.forEach(($sidebarItem) => {
-    //   $sidebarItem.addEventListener(
-    //     "keydown",
-    //     (e) => handleSidebarItemKeyDown(e, $sidebarItems),
-    //     true,
-    //   );
-    // });
 
     window.addEventListener("scroll", highlightCurrentSection);
     window.addEventListener("resize", highlightCurrentSection);

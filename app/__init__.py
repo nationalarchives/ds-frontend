@@ -21,6 +21,7 @@ from app.lib.template_filters import (
     slugify,
     tna_html,
     url_encode,
+    to_bool
 )
 from config import Config, templates_config
 from flask import Flask
@@ -59,6 +60,7 @@ def create_app(config_class=Config):
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(url_encode)
+    app.add_template_filter(to_bool)
 
     @app.context_processor
     def context_processor():
