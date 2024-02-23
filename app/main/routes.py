@@ -24,11 +24,13 @@ def healthcheck():
 
 
 @bp.route("/sitemap.xml")
-# @cache.cached(timeout=60)
+@cache.cached(timeout=900)
 def sitemap():
     host_components = urlparse(request.host_url)
     host_base = host_components.scheme + "://" + host_components.netloc
-    host_base = host_base.replace("http://tna.dblclk.dev", "https://tna.dblclk.dev")
+    host_base = host_base.replace(
+        "http://tna.dblclk.dev", "https://tna.dblclk.dev"
+    )
     static_urls = list()
     for rule in current_app.url_map.iter_rules():
         if (
