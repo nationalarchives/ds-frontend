@@ -77,6 +77,14 @@ def breadcrumbs(page_id):
     )
 
 
+def all_pages(batch=1, params={}):
+    children_per_page = 20
+    offset = (batch - 1) * children_per_page
+    params = params | {"offset": offset, "limit": children_per_page}
+    uri = "pages/"
+    return wagtail_request_handler(uri, params)
+
+
 def page_details(page_id, params={}):
     uri = f"pages/{page_id}/"
     return wagtail_request_handler(uri, params)
