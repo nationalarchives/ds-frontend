@@ -38,4 +38,7 @@
   {% if 'image' in data %}
   <meta property="twitter:image" content="{{ data.image.src }}">
   {% endif %}
+  {% if config.DOMAIN %}
+  <meta property="twitter:domain" content="{{ config.DOMAIN }}">
+  {% endif %}
 {% endmacro %}

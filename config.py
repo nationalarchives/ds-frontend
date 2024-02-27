@@ -9,6 +9,7 @@ class Config(object):
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL").rstrip("/")
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL").rstrip("/")
+    DOMAIN = os.environ.get("DOMAIN", "")
 
 
 cache_config = {
@@ -19,6 +20,7 @@ cache_config = {
 }
 
 templates_config = {
+    "DOMAIN": os.environ.get("DOMAIN", ""),
     "WAGTAIL_MEDIA_URL": os.environ.get("WAGTAIL_MEDIA_URL").rstrip("/"),
     "BASE_DISCOVERY_URL": os.environ.get(
         "BASE_DISCOVERY_URL",
