@@ -62,15 +62,15 @@ def catalogue():
     )
 
 
-@bp.route("/catalogue-new/")
-@cache.cached(key_prefix=cache_key_prefix)
-def catalogue_new():
-    query = request.args["q"] if "q" in request.args else ""
-    return render_template(
-        "search/catalogue-new.html",
-        query=query,
-        search_path=url_for("search.catalogue"),
-    )
+# @bp.route("/catalogue-new/")
+# @cache.cached(key_prefix=cache_key_prefix)
+# def catalogue_new():
+#     query = request.args["q"] if "q" in request.args else ""
+#     return render_template(
+#         "search/catalogue-new.html",
+#         query=query,
+#         search_path=url_for("search.catalogue"),
+#     )
 
 
 @bp.route("/website/")
