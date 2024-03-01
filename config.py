@@ -10,6 +10,7 @@ class Config(object):
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL").rstrip("/")
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL").rstrip("/")
     DOMAIN = os.environ.get("DOMAIN", "")
+    MEDIA_DOMAIN = os.environ.get("MEDIA_DOMAIN", "")
 
 
 cache_config = {

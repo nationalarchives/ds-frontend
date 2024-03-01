@@ -25,6 +25,7 @@ from app.lib.template_filters import (
 )
 from config import Config, templates_config
 from flask import Flask
+from flask_talisman import Talisman
 from jinja2 import ChoiceLoader, PackageLoader
 
 
@@ -37,6 +38,46 @@ def create_app(config_class=Config):
     app.logger.setLevel(gunicorn_error_logger.level)
 
     cache.init_app(app)
+
+    SELF = "'self'"
+    Talisman(
+        app,
+        content_security_policy={
+            "default-src": SELF,
+            "img-src": SELF,
+            "script-src": [
+                SELF,
+                "some.cdn.com",
+            ],
+            "style-src": [
+                SELF,
+                "fonts.googleapis.com",
+                "p.typekit.net",
+                "use.typekit.net",
+                "'unsafe-inline'",
+            ],
+            "font-src": [
+                SELF,
+                "fonts.gstatic.com",
+                "use.typekit.net",
+            ],
+            "img-src": [
+                SELF,
+                Config().DOMAIN,
+                Config().MEDIA_DOMAIN,
+            ],
+        },
+        # content_security_policy_nonce_in=["script-src"],
+        feature_policy={
+            "camera": "'none'",
+            "fullscreen": "'self'",
+            "geolocation": "'none'",
+            "microphone": "'none'",
+            "screen-wake-lock": "'none'",
+            # "web-share": "'self'",
+        },
+        force_https=Config().ENVIRONMENT != "develop",
+    )
 
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True

@@ -31,9 +31,7 @@ def sitemap():
     host_base = host_components.scheme + "://" + host_components.netloc
     domain = Config().DOMAIN
     if domain:
-        host_base = host_base.replace(
-            f"http://{domain}", f"https://{domain}"
-        )
+        host_base = host_base.replace(f"http://{domain}", f"https://{domain}")
     static_urls = list()
     for rule in current_app.url_map.iter_rules():
         if (
