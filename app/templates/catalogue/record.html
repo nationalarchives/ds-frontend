@@ -5,6 +5,21 @@
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'catalogue/elements/discovery.html' import discovery_info -%}
 
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'Search',
+    'href': url_for('search.index')
+  },
+  {
+    'text': 'Catalogue',
+    'href': url_for('search.catalogue')
+  }
+] -%}
+
 {% block pageTitle %}{{ data.title }} - {{ super() }}{% endblock %}
 
 {% block head %}
@@ -19,6 +34,7 @@
 {% endblock %}
 
 {% block beforeContent %}
+{{ super() }}
 {% if request.referrer %}
 <!-- <div class="tna-container">
   <div class="tna-column tna-column--full tna-!--padding-vertical-s">
@@ -122,7 +138,7 @@
     {% endif %}
   </div>
 </div>
-<div class="tna-section tna-!--padding-top-s">
+<div class="tna-section tna-!--no-padding-top">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
       <h2 class="tna-heading-l">Description and record details</h2>
@@ -273,6 +289,10 @@
         {% endif %}
       </dl>
     </div>
+  </div>
+</div>
+<div class="tna-section tna-!--no-padding-top">
+  <div class="tna-container">
     {{ discovery_info('/details/r/' + data.id, config) }}
   </div>
 </div>

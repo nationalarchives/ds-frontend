@@ -2,6 +2,21 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'Search',
+    'href': url_for('search.index')
+  },
+  {
+    'text': 'Catalogue',
+    'href': url_for('search.catalogue')
+  }
+] -%}
+
 {% block pageTitle %}{{ data.name }} - {{ super() }}{% endblock %}
 
 {% block head %}
@@ -16,6 +31,7 @@
 {% endblock %}
 
 {% block beforeContent %}
+{{ super() }}
 {% if request.referrer %}
 <!-- <div class="tna-container">
   <div class="tna-column tna-column--full tna-!--padding-vertical-s">
