@@ -62,17 +62,6 @@ def catalogue():
     )
 
 
-# @bp.route("/catalogue-new/")
-# @cache.cached(key_prefix=cache_key_prefix)
-# def catalogue_new():
-#     query = request.args["q"] if "q" in request.args else ""
-#     return render_template(
-#         "search/catalogue-new.html",
-#         query=query,
-#         search_path=url_for("search.catalogue"),
-#     )
-
-
 @bp.route("/website/")
 @cache.cached(key_prefix=cache_key_prefix)
 def website():
@@ -96,7 +85,10 @@ def website():
         return render_template("errors/api.html"), 502
     except Exception:
         return render_template("errors/page-not-found.html"), 404
-    filters = get_filters(results["filters"], args)
+    filters = [
+        filter | {"open": True}
+        for filter in get_filters(results["filters"], args)
+    ]
     selected_filters = get_selected_filters(filters)
     return render_template(
         "search/website.html",

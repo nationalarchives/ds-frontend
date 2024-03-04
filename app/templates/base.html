@@ -30,6 +30,7 @@
 <meta name="tna.page.property-2" content="Second World War (1939–1945)">
 <meta name="tna.page.property-3" content="article">
 <meta name="tna.page.content-group" content="Explore the collection">
+<meta name="tna.view.theme" content="{{ theme }}">
 <meta name="tna.response.status_code" content="200">
 {% endblock %}
 
@@ -108,7 +109,8 @@
 <div class="tna-container">
   <div class="tna-column tna-column--full">
     {{ tnaBreadcrumbs({
-      'items': breadcrumbs
+      'items': breadcrumbs,
+      'structuredData': True
     }) }}
   </div>
 </div>

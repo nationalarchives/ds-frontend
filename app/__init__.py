@@ -44,7 +44,11 @@ def create_app(config_class=Config):
         app,
         content_security_policy={
             "default-src": SELF,
-            "img-src": SELF,
+            "img-src": [
+                SELF,
+                Config().DOMAIN,
+                Config().MEDIA_DOMAIN,
+            ],
             "script-src": [
                 SELF,
                 "some.cdn.com",
@@ -60,11 +64,6 @@ def create_app(config_class=Config):
                 SELF,
                 "fonts.gstatic.com",
                 "use.typekit.net",
-            ],
-            "img-src": [
-                SELF,
-                Config().DOMAIN,
-                Config().MEDIA_DOMAIN,
             ],
         },
         # content_security_policy_nonce_in=["script-src"],

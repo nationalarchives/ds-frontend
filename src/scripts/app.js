@@ -1,18 +1,15 @@
 import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
-// import {GA4} from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
+import {
+  GA4,
+  helpers,
+} from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
 import "./modules/theme-switcher";
 
 initAll();
 
-/*
- * ==========================================
- * TEMP: ANALYTICS
- * ==========================================
- */
-const TNAAnalytics = window.TNAFrontendAnalytics;
 const ga4Id = document.documentElement.getAttribute("data-ga4id");
-if (TNAAnalytics && ga4Id) {
-  const analytics = new TNAAnalytics.GA4(ga4Id);
+if (ga4Id) {
+  const analytics = new GA4(ga4Id);
 
   analytics.addListener(".etna-article__sidebar", "sidebar", [
     {
@@ -20,7 +17,7 @@ if (TNAAnalytics && ga4Id) {
       targetElement: ".etna-article__sidebar-item",
       on: "click",
       data: {
-        value: TNAAnalytics.helpers.valueGetters.text,
+        value: helpers.valueGetters.text,
       },
     },
   ]);
@@ -39,7 +36,7 @@ if (TNAAnalytics && ga4Id) {
           }
           return expanded.toString() === "true" ? "opened" : "closed";
         },
-        value: TNAAnalytics.helpers.valueGetters.text,
+        value: helpers.valueGetters.text,
       },
     },
   ]);
@@ -49,7 +46,7 @@ if (TNAAnalytics && ga4Id) {
       eventName: "double_click",
       on: "dblclick",
       data: {
-        state: ($el, $scope, event) => TNAAnalytics.getXPathTo(event.target),
+        state: ($el, $scope, event) => helpers.getXPathTo(event.target),
         value: ($el, $scope, event) => event.target.innerHTML,
       },
     },
