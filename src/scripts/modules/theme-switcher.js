@@ -55,14 +55,14 @@ const addThemeSwitcher = () => {
     "tna-global-header__top-navigation-link",
     "tna-global-header__top-navigation-link--light",
   );
-  lightThemeButton.innerHTML = `<i class="fa-solid fa-fw fa-sun" aria-hidden="true"></i>Switch to light theme`;
+  lightThemeButton.innerHTML = `<i class="fa-solid fa-sun" aria-hidden="true"></i>Switch to light theme`;
 
   const darkThemeButton = document.createElement("button");
   darkThemeButton.classList.add(
     "tna-global-header__top-navigation-link",
     "tna-global-header__top-navigation-link--dark",
   );
-  darkThemeButton.innerHTML = `<i class="fa-solid fa-fw fa-moon" aria-hidden="true"></i>Switch to dark theme`;
+  darkThemeButton.innerHTML = `<i class="fa-solid fa-moon" aria-hidden="true"></i>Switch to dark theme`;
 
   lightThemeButton.addEventListener("click", () => {
     cookies.set("dark_theme", false);
