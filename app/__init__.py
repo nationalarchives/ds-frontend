@@ -51,7 +51,7 @@ def create_app(config_class=Config):
             ],
             "script-src": [
                 SELF,
-                "some.cdn.com",
+                "www.googletagmanager.com",
             ],
             "style-src": [
                 SELF,
