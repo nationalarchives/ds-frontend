@@ -83,6 +83,11 @@ def create_app(config_class=Config):
                     else "http://googletagmanager.com"
                 ),
                 (
+                    "https://www.googletagmanager.com"
+                    if Config().ENVIRONMENT != "develop"
+                    else "http://www.googletagmanager.com"
+                ),
+                (
                     "https://tagmanager.google.com"
                     if Config().ENVIRONMENT != "develop"
                     else "http://tagmanager.google.com"
