@@ -56,25 +56,87 @@
       <p class="tna-hgroup__supertitle">Person</p>
       <h1 class="tna-hgroup__title" itemprop="name">{{ data.name }}</h1>
     </hgroup>
-    {% if 'Date' in details or 'Functions, occupations and activities' in details %}
+    {% if data.birth or data.death or data.functions %}
     <p class="tna-large-paragraph">
-      {%- if 'Date' in details -%}
-        {{ details['Date'] }}
-      {%- endif -%}
-      {%- if 'Functions, occupations and activities' in details %}
-        {%- if 'Date' in details %}, {% endif -%}
-        {{ details['Functions, occupations and activities'] }}
-      {%- endif -%}
+      {%- if data.birth or data.death %}
+      <span itemprop="birthDate">{{ data.birth }}</span>&ndash;<span itemprop="deathDate"></span>{{ data.death }}</span>
+        {%- if data.functions %}, {% endif %}
+      {%- endif %}
+      {%- if data.functions %}
+        <span itemprop="jobTitle">{{ data.functions }}</span>
+      {%- endif %}
     </p>
     {% endif -%}
     <h2 class="tna-heading-l">Details of this record creator</h2>
     <dl class="tna-dl">
-      {% for detail in details %}
-      <dt>
-        <div class="etna-sticky-dt">{{ detail }}</div>
-      </dt>
-      <dd>{{ details[detail] | safe }}</dd>
-      {% endfor %}
+      {%- if data.name_parts %}
+        {%- if data.name_parts.surname %}
+        <dt>
+          <div class="etna-sticky-dt">Surname</div>
+        </dt>
+        <dd itemprop="familyName">{{ data.name_parts.surname }}</dd>
+        {%- endif %}
+        {%- if data.name_parts.forenames %}
+        <dt>
+          <div class="etna-sticky-dt">Forename{{ 's' if data.name_parts.forenames | length > 1 }}</div>
+        </dt>
+        <dd itemprop="givenName">{{ data.name_parts.forenames | join(' ') }}</dd>
+        {%- endif %}
+        {%- if data.name_parts.alternative_names %}
+        <dt>
+          <div class="etna-sticky-dt">Also known as</div>
+        </dt>
+        <dd itemprop="alternateName">{{ data.name_parts.alternative_names }}</dd>
+        {%- endif %}
+        {%- if data.name_parts.title %}
+        <dt>
+          <div class="etna-sticky-dt">Title</div>
+        </dt>
+        <dd>{{ data.name_parts.title }}</dd>
+        {%- endif %}
+      {%- endif %}
+      {%- if data.gender %}
+        <dt>
+          <div class="etna-sticky-dt">Gender</div>
+        </dt>
+        <dd itemprop="gender">{{ data.gender }}</dd>
+      {%- endif %}
+      {%- if data.date %}
+        <dt>
+          <div class="etna-sticky-dt">Date</div>
+        </dt>
+        <dd>{{ data.date }}</dd>
+      {%- endif %}
+      {%- if data.places %}
+        <dt>
+          <div class="etna-sticky-dt">Places</div>
+        </dt>
+        <dd>{{ data.places | join('<br>') }}</dd>
+      {%- endif %}
+      {%- if data.functions %}
+        <dt>
+          <div class="etna-sticky-dt">Functions, occupations and activities</div>
+        </dt>
+        <dd>{{ data.functions | safe }}</dd>
+      {%- endif %}
+      {%- if data.history and data.history != data.functions %}
+        <dt>
+          <div class="etna-sticky-dt">History</div>
+        </dt>
+        <dd>{{ data.history | safe }}</dd>
+      {%- endif %}
+      {%- if data.biography %}
+        <dt>
+          <div class="etna-sticky-dt">Biography</div>
+        </dt>
+        <dd>{{ data.biography | safe }}</dd>
+      {%- endif %}
+      {%- if data.identifier %}
+        <dt>
+          <div class="etna-sticky-dt">Identifier</div>
+        </dt>
+        <dd>{{ data.identifier }}</dd>
+      {%- endif %}
     </dl>
   </div>
 </div>
