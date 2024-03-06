@@ -3,13 +3,17 @@ import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 //   GA4,
 //   helpers,
 // } from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
-import "./tmp/analytics";
+import {
+     GA4,
+     helpers,
+   } from "./tmp/analytics.mjs";
 import "./modules/theme-switcher";
 
 initAll();
 
-const GA4 = window.TNAFrontendAnalytics.GA4;
-const helpers = window.TNAFrontendAnalytics.helpers;
+
+// const GA4 = window.TNAFrontendAnalytics.GA4;
+// const helpers = window.TNAFrontendAnalytics.helpers;
 
 const ga4Id = document.documentElement.getAttribute("data-ga4id");
 if (ga4Id) {
