@@ -50,13 +50,43 @@ def create_app(config_class=Config):
                 Config().MEDIA_DOMAIN,
                 "https://*.google-analytics.com",
                 "https://*.googletagmanager.com",
+                (
+                    "https://googletagmanager.com"
+                    if Config().ENVIRONMENT != "develop"
+                    else "http://googletagmanager.com"
+                ),
+                "https://ssl.gstatic.com",
+                "https://www.gstatic.com",
             ],
-            "script-src": [SELF, "https://*.googletagmanager.com"],
+            "script-src": [
+                SELF,
+                "https://*.googletagmanager.com",
+                (
+                    "https://googletagmanager.com"
+                    if Config().ENVIRONMENT != "develop"
+                    else "http://googletagmanager.com"
+                ),
+                (
+                    "https://tagmanager.google.com"
+                    if Config().ENVIRONMENT != "develop"
+                    else "http://tagmanager.google.com"
+                ),
+            ],
             "style-src": [
                 SELF,
                 "https://fonts.googleapis.com",
                 "https://p.typekit.net",
                 "https://use.typekit.net",
+                (
+                    "https://googletagmanager.com"
+                    if Config().ENVIRONMENT != "develop"
+                    else "http://googletagmanager.com"
+                ),
+                (
+                    "https://tagmanager.google.com"
+                    if Config().ENVIRONMENT != "develop"
+                    else "http://tagmanager.google.com"
+                ),
                 "'unsafe-inline'",
             ],
             "font-src": [
