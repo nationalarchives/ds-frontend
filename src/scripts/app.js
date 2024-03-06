@@ -1,11 +1,15 @@
 import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
-import {
-  GA4,
-  helpers,
-} from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
+// import {
+//   GA4,
+//   helpers,
+// } from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
+import "./tmp/analytics";
 import "./modules/theme-switcher";
 
 initAll();
+
+const GA4 = window.TNAFrontendAnalytics.GA4;
+const helpers = window.TNAFrontendAnalytics.helpers;
 
 const ga4Id = document.documentElement.getAttribute("data-ga4id");
 if (ga4Id) {
@@ -13,7 +17,7 @@ if (ga4Id) {
 
   analytics.addListener(".etna-article__sidebar", "sidebar", [
     {
-      eventName: "scection_jump",
+      eventName: "section.jump_to",
       targetElement: ".etna-article__sidebar-item",
       on: "click",
       data: {
@@ -24,18 +28,11 @@ if (ga4Id) {
 
   analytics.addListener(".etna-article", "article", [
     {
-      eventName: "toggle_section",
+      eventName: "section.toggle",
       targetElement: ".etna-article__section-button",
       on: "click",
       data: {
-        // eslint-disable-next-line no-unused-vars
-        state: ($el, $scope, event) => {
-          const expanded = $el.getAttribute("aria-expanded");
-          if (expanded === null) {
-            return null;
-          }
-          return expanded.toString() === "true" ? "opened" : "closed";
-        },
+        state: helpers.valueGetters.expanded,
         value: helpers.valueGetters.text,
       },
     },
@@ -46,8 +43,10 @@ if (ga4Id) {
       eventName: "double_click",
       on: "dblclick",
       data: {
-        state: ($el, $scope, event) => helpers.getXPathTo(event.target),
-        value: ($el, $scope, event) => event.target.innerHTML,
+        // eslint-disable-next-line no-unused-vars
+        state: ($el, $scope, event, index) => helpers.getXPathTo(event.target),
+        // eslint-disable-next-line no-unused-vars
+        value: ($el, $scope, event, index) => event.target.innerHTML,
       },
     },
   ]);
