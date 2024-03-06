@@ -59,7 +59,7 @@
     {% if data.birth or data.death or data.functions %}
     <p class="tna-large-paragraph">
       {%- if data.birth or data.death %}
-      <span itemprop="birthDate">{{ data.birth }}</span>&ndash;<span itemprop="deathDate"></span>{{ data.death }}</span>
+      <span itemprop="birthDate">{{ data.birth }}</span>&ndash;<span itemprop="deathDate">{{ data.death }}</span>
         {%- if data.functions %}, {% endif %}
       {%- endif %}
       {%- if data.functions %}
