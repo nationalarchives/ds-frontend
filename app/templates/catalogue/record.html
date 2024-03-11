@@ -161,11 +161,11 @@
         </dt>
         <dd>{{ data.title | safe }}</dd>
         {% endif %}
-        {% if data.date %}
+        {% if data.date_from or data.date_to %}
         <dt>
           <div class="etna-sticky-dt">Date</div>
         </dt>
-        <dd>{{ data.date }}</dd>
+        <dd>{{ pretty_date_range(data.date_from, data.date_to) }}</dd>
         {% endif %}
         {% if data.description %}
         <dt>

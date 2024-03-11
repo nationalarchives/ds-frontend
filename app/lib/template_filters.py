@@ -21,9 +21,27 @@ def slugify(s):
 
 
 def pretty_date(s):
-    date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-    new_date = date.strftime("%d %B %Y")
-    return new_date
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        return date.strftime("%d %B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m-%d")
+        return date.strftime("%d %B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m")
+        return date.strftime("%B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y")
+        return date.strftime("%Y")
+    except ValueError:
+        pass
+    return s
 
 
 def iso_date(s):

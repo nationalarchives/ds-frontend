@@ -6,6 +6,7 @@ from app.lib.context_processor import (
     get_wagtail_media,
     get_wagtail_page,
     now_iso_8601,
+    pretty_date_range,
 )
 from app.lib.template_filters import (
     article_supertitle,
@@ -147,6 +148,7 @@ def create_app(config_class=Config):
             get_wagtail_page=get_wagtail_page,
             get_wagtail_media=get_wagtail_media,
             now_iso_8601=now_iso_8601,
+            pretty_date_range=pretty_date_range,
             config=templates_config,
         )
 

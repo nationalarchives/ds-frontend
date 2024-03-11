@@ -327,7 +327,7 @@
     <!-- TODO: Make into ul -->
     <div class="tna-container tna-container--no-padding">
       {% for result in results.results %}
-      <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      <div class="tna-column tna-column--width-1-2 tna-column--full-tiny">
         {{ tnaCard({
           'title': result.title,
           'headingLevel': 3,
@@ -336,14 +336,16 @@
           'body': '<p>' + result.description + '</p>' if result.description else '',
           'meta': [
             {
-              'text': result.held_by.name
+              'text': result.held_by.name,
+              'icon': 'landmark'
             } if result.held_by else None,
             {
-              'text': result.date,
+              'text': pretty_date_range(result.date_from, result.date_to),
               'icon': 'calendar'
-            } if result.date else None,
+            } if result.date_from or result.date_to else None,
             {
-              'text': 'Reference ' + result.ref
+              'text': 'Reference ' + result.ref,
+              'icon': 'database'
             } if result.ref else None
           ],
           'htmlElement': 'article',
@@ -362,24 +364,24 @@
       <h3 class="tna-heading-m">
         <a href="{{ url_for('catalogue.details', id=result.id) }}">{{ result.title }}</a>
       </h3>
-      <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
+      <dl class="tna-dl tna-dl--plain tna-dl--icon-padding-">
         {% if result.held_by %}
         <dt>
-          <i class="fa-solid fa-landmark"></i>
+          <!-- <i class="fa-solid fa-landmark"></i> -->
           Held by
         </dt>
         <dd>{{ result.held_by.name }}</dd>
         {% endif %}
-        {% if result.date %}
+        {% if result.date_from or result.date_to %}
         <dt>
-          <i class="fa-solid fa-calendar"></i>
+          <!-- <i class="fa-solid fa-calendar"></i> -->
           Date
         </dt>
-        <dd>{{ result.date }}</dd>
+        <dd>{{ pretty_date_range(result.date_from, result.date_to) }}</dd>
         {% endif %}
         {% if result.ref %}
         <dt>
-          <i class="fa-solid fa-database"></i>
+          <!-- <i class="fa-solid fa-database"></i> -->
           Reference
         </dt>
         <dd>{{ result.ref }}</dd>

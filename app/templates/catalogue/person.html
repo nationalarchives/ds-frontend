@@ -101,11 +101,11 @@
         </dt>
         <dd itemprop="gender">{{ data.gender }}</dd>
       {%- endif %}
-      {%- if data.date %}
+      {%- if data.birth or data.death %}
         <dt>
-          <div class="etna-sticky-dt">Date</div>
+          <div class="etna-sticky-dt">Lifespan</div>
         </dt>
-        <dd>{{ data.date }}</dd>
+        <dd>{{ data.birth }}&ndash;{{ data.death }}</dd>
       {%- endif %}
       {%- if data.places %}
         <dt>

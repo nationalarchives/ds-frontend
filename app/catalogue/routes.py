@@ -95,6 +95,4 @@ def render_creator(id, record_data):
 
 
 def render_person(id, record_data):
-    return render_template(
-        "catalogue/person.html", id=id, data=record_data
-    )
+    return render_template("catalogue/person.html", id=id, data=record_data)
