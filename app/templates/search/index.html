@@ -3,6 +3,13 @@
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  }
+] -%}
+
 {% block content %}
 <section class="tna-section tna-container tna-!--padding-bottom-s">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">

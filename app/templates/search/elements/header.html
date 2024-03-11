@@ -1,8 +1,24 @@
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 
-<section class="tna-background-accent tna-!--padding-top-m">
+<section class="tna-background-accent">
   <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': [
+          {
+            'text': 'Home',
+            'href': '/'
+          },
+          {
+            'text': 'Search',
+            'href': url_for('search.index')
+          }
+        ],
+        'structuredData': True
+      }) }}
+    </div>
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m-">
       <form action="{{ search_path or '/search/featured/' }}" method="get" class="tna-!--margin-bottom-m">
         {{ tnaSearchField({
           'label': 'All search results',
