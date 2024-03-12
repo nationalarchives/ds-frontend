@@ -4,6 +4,7 @@
 {%- from 'macros/article-sidebar.html' import articleSidebar -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
 {% block stylesheets %}
@@ -87,14 +88,18 @@
     {% endfor %}
   </div>
 </section>
+{% if highlights | length %}
 <section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">Discover highlights from the collection</h2>
-    </div>
-    TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-  </div>
+  {{ tnaIndexGrid({
+    'title': 'Discover highlights from the collection',
+    'headingLevel': 2,
+    'headingSize': 'l',
+    'items': highlights,
+    'columns': 2,
+    'columnsTiny': 1
+  }) }}
 </section>
+{% endif %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
