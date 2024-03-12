@@ -3,6 +3,7 @@
 {%- from 'macros/article-blocks.html' import articleBlocks -%}
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'components/message/macro.html' import tnaMessage -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'macros/feedback.html' import feedback -%}
@@ -38,10 +39,10 @@
             {{ page_data.intro | safe }}
           </div>
           {% endif %}
-          {% if authors | length %}
+          {% if page_data.authors | length %}
           {% set authors_list = [] %}
-          {% for author in authors %}
-            {% set author_item = '<a href="' + author.meta.html_url + '">' + author.title + '</a>' %}
+          {% for author in page_data.authors %}
+            {% set author_item = '<a href="' + author.url + '">' + author.title + '</a>' %}
             {% set authors_list = authors_list.append(author_item) %}
           {% endfor %}
           <p>By {{ authors_list | join(', ') | safe }}</p>
@@ -126,6 +127,34 @@
     </div>
   </section>
 </article>
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">You may also be interested in</h2>
+      [TODO]
+    </div>
+  </div>
+</section>
+{% if highlights | length %}
+<section class="tna-section">
+  {{ tnaIndexGrid({
+    'title': 'Discover highlights from the collection',
+    'headingLevel': 2,
+    'headingSize': 'l',
+    'items': highlights,
+    'columns': 2,
+    'columnsTiny': 1
+  }) }}
+</section>
+{% endif %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">More stories</h2>
+      [TODO]
+    </div>
+  </div>
+</section>
 {{ feedback() }}
 {% endblock %}
 

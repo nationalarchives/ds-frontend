@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    app: "./src/scripts/app.js",
+    main: "./src/scripts/main.js",
     article: "./src/scripts/article.js",
     search: "./src/scripts/search.js",
   },
