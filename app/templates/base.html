@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{%- extends 'layouts/base.html' -%}
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -17,19 +17,27 @@
 
 {% block headIcons %}
 <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
-<link rel="mask-icon" href="{{ url_for('static', filename='images/mask-icon.svg') }}" color="{{ themeColor | default('#000000') }}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon-180x180.png') }}">
-<link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='images/apple-touch-icon-167x167.png') }}">
-<link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='images/apple-touch-icon-152x152.png') }}">
-<link rel="apple-touch-icon" href="{{ url_for('static', filename='/images/apple-touch-icon.png') }}">
+<link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#000000') }}">
+<link rel="apple-touch-icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
+<link rel="apple-touch-icon" sizes="96x96" href="{{ url_for('static', filename='assets/images/icon-96x96.png') }}">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='assets/images/icon-120x120.png') }}">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='assets/images/icon-144x144.png') }}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='assets/images/icon-152x152.png') }}">
+<link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='assets/images/icon-167x167.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
+<link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='assets/images/icon-192x192.png') }}">
+<link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
+<link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
+<link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
 {% endblock %}
 
 {% block head %}
 <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-<meta name="tna.page.property-1" content="Internment; Navy; Conflict; Asia">
+<!-- <meta name="tna.page.property-1" content="Internment; Navy; Conflict; Asia">
 <meta name="tna.page.property-2" content="Second World War (1939–1945)">
 <meta name="tna.page.property-3" content="article">
-<meta name="tna.page.content-group" content="Explore the collection">
+<meta name="tna.page.content-group" content="Explore the collection"> -->
 <meta name="tna.view.theme" content="{{ theme }}">
 <meta name="tna.response.status_code" content="200">
 {% endblock %}
