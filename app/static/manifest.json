@@ -82,10 +82,11 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/explore-the-collection/?source=pwa",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "minimal-ui",
   "background_color": "#000",
   "dir": "ltr",
-  "lang": "en-GB"
+  "lang": "en"
 }
