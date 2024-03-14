@@ -2,13 +2,12 @@ import json
 
 import requests
 from app.lib import BaseAPI
-from config import Config
 from flask import current_app
 
 
 class BaseSearchAPI(BaseAPI):
     def __init__(self):
-        super().__init__(Config().SEARCH_API_URL)
+        super().__init__(current_app.config["SEARCH_API_URL"])
 
     def query(self, value):
         self.add_parameter("q", value)
@@ -23,7 +22,7 @@ class ArticlesAPI(BaseSearchAPI):
 
     def parse_response(self, response):
         try:
-            if Config().ENVIRONMENT == "develop":
+            if current_app.config["ENVIRONMENT"] == "develop":
                 text = response.text
                 text = text.replace(
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",

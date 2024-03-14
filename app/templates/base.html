@@ -39,7 +39,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://use.typekit.net/hkj3kuz.css">
-<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}">
 {% endblock %}
 
@@ -143,6 +143,11 @@
       'href': 'https://www.instagram.com/nationalarchivesuk/',
       'icon': 'instagram',
       'title': 'The National Archives Instagram feed'
+    },
+    {
+      'href': 'https://www.tiktok.com/@uknatarchives',
+      'icon': 'tiktok',
+      'title': 'The National Archives TikTok feed'
     }
   ],
   'navigation': [
@@ -214,6 +219,10 @@
         {
           'text': 'The National Archives Trust',
           'href': 'https://www.nationalarchives.gov.uk/about/the-national-archives-trust/'
+        },
+        {
+          'text': 'Friends of The National Archives',
+          'href': 'https://www.nationalarchives.gov.uk/about/get-involved/friends-of-the-national-archives/'
         }
       ]
     }

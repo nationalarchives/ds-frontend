@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 from app.lib import cache, cache_key_prefix
 from app.main import bp
 from app.wagtail.api import all_pages
-from config import Config
 from flask import current_app, make_response, render_template, request
 
 
@@ -29,7 +28,7 @@ def healthcheck():
 def sitemap():
     host_components = urlparse(request.host_url)
     host_base = host_components.scheme + "://" + host_components.netloc
-    domain = Config().DOMAIN
+    domain = current_app.config["DOMAIN"]
     if domain:
         host_base = host_base.replace(f"http://{domain}", f"https://{domain}")
     static_urls = list()

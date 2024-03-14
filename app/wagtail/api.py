@@ -2,12 +2,11 @@ import json
 import os
 
 import requests
-from config import Config
 from flask import current_app
 
 
 def wagtail_request_handler(uri, params={}):
-    api_url = Config().WAGTAIL_API_URL
+    api_url = current_app.config["WAGTAIL_API_URL"]
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
@@ -27,7 +26,7 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("Resource not found")
     if r.status_code == requests.codes.ok:
         try:
-            if Config().ENVIRONMENT == "staging":
+            if current_app.config["ENVIRONMENT"] == "staging":
                 text = r.text
                 text = text.replace(
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
@@ -37,7 +36,7 @@ def wagtail_request_handler(uri, params={}):
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
                 )
                 return json.loads(text)
-            if Config().ENVIRONMENT == "develop":
+            if current_app.config["ENVIRONMENT"] == "develop":
                 text = r.text
                 text = text.replace(
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
