@@ -4,7 +4,7 @@ import urllib.parse
 def parse_args(args):
     args_dict = args.to_dict(flat=False)
     return_args = {}
-    print(args_dict)
+    # print(args_dict)
     for arg_key in args_dict:
         if arg_key.endswith("[]"):
             arg_key_clipped = arg_key.removesuffix("[]")

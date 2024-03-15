@@ -25,7 +25,7 @@ class BaseAPI:
         if page:
             self.add_parameter("page", page)
         url = f"{self.api_url}{self.api_path}{self.build_query_string()}"
-        print(url)
+        # print(url)
         response = requests.get(url)
         if response.status_code == 404:
             raise Exception("Resource not found")
