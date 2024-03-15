@@ -58,7 +58,7 @@
     </hgroup>
     {%- if data.date_from or data.date_to %}
     <p class="tna-large-paragraph">
-      {{ data.date_from }}&ndash;{{ data.date_to }}
+      {{ pretty_date_range(data.date_from, data.date_to) }}
     </p>
     {%- endif %}
     <h2 class="tna-heading-l">Details of this record creator</h2>
@@ -86,6 +86,12 @@
           <div class="etna-sticky-dt">Identifier</div>
         </dt>
         <dd>{{ data.identifier }}</dd>
+      {%- endif %}
+      {%- if data.former_identifier %}
+        <dt>
+          <div class="etna-sticky-dt">Former identifier</div>
+        </dt>
+        <dd>{{ data.former_identifier }}</dd>
       {%- endif %}
     </dl>
   </div>

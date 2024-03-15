@@ -24,7 +24,7 @@
 
 {% block head %}
 {{ super() }}
-<meta name="description" content="Record {{ data.ref or data.id }} - {{ data.summary_title }}">
+<meta name="description" content="Record {{ data.identifier or data.id }} - {{ data.summary_title }}">
 <link rel="canonical" href="{{ url_for('catalogue.details', id=data.id, _external=True, _scheme='https') }}">
 {% endblock %}
 
@@ -115,7 +115,7 @@
           </ul>
           {%- endfor %}
         </ul>
-        {%- if data.ref %}
+        {%- if data.identifier %}
         {{ tnaPagination({
           'previous': {
             'href': '#',
@@ -123,7 +123,7 @@
             'title': 'Previous in series: TODO'
           },
           'items': [],
-          'currentItemText': 'Current item: ' + data.ref,
+          'currentItemText': 'Current item: ' + data.identifier,
           'next': {
             'href': '#',
             'text': 'TODO',
@@ -143,11 +143,11 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
       <h2 class="tna-heading-l">Description and record details</h2>
       <dl class="tna-dl etna-record-details">
-        {%- if data.ref %}
+        {%- if data.identifier %}
         <dt>
           <div class="etna-sticky-dt">Reference</div>
         </dt>
-        <dd>{{ data.ref }}</dd>
+        <dd>{{ data.identifier }}</dd>
         {%- endif %}
         {%- if data.former_ref %}
         <dt>

@@ -53,8 +53,10 @@ def pretty_date_range(s_from, s_to):
         if (
             date_from.day == 1
             and date_from.month == 1
-            and date_to.day == 31
-            and date_to.month == 12
+            and (
+                (date_to.day == 31 and date_to.month == 12)
+                or (date_to.day == 1 and date_to.month == 1)
+            )
         ):
             if date_from.year == date_to.year:
                 return date_from.year
