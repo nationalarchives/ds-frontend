@@ -80,18 +80,7 @@ def render_archive(id, record_data):
 
 
 def render_creator(id, record_data):
-    details = {}
-    if record_data["date"]:
-        details["Date"] = record_data["date"]
-    if record_data["places"]:
-        details["Places"] = "<br>".join(record_data["places"])
-    if record_data["history"]:
-        details["History"] = record_data["history"]
-    if record_data["identifier"]:
-        details["Identifier"] = record_data["identifier"]
-    return render_template(
-        "catalogue/creator.html", id=id, data=record_data, details=details
-    )
+    return render_template("catalogue/creator.html", id=id, data=record_data)
 
 
 def render_person(id, record_data):

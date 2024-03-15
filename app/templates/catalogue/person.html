@@ -56,7 +56,7 @@
       <p class="tna-hgroup__supertitle">Person</p>
       <h1 class="tna-hgroup__title" itemprop="name">{{ data.name }}</h1>
     </hgroup>
-    {% if data.birth or data.death or data.functions %}
+    {%- if data.birth or data.death or data.functions %}
     <p class="tna-large-paragraph">
       {%- if data.birth or data.death %}
       <span itemprop="birthDate">{{ data.birth }}</span>&ndash;<span itemprop="deathDate">{{ data.death }}</span>
@@ -66,7 +66,7 @@
         <span itemprop="jobTitle">{{ data.functions }}</span>
       {%- endif %}
     </p>
-    {% endif -%}
+    {%- endif %}
     <h2 class="tna-heading-l">Details of this record creator</h2>
     <dl class="tna-dl">
       {%- if data.name_parts %}
