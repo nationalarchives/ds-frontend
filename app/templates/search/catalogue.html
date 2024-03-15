@@ -61,275 +61,16 @@
       'formId': 'search-form',
       'items': filters
     }) }}
-    <!-- <h2 class="tna-visually-hidden">Search filters</h2>
-    <div class="tna-aside tna-aside--tight tna-background-tint tna-!--no-margin-top">
-      {{ tnaTextInput({
-        'label': 'Refine results',
-        'headingLevel': 3,
-        'headingSize': 's',
-        'hint': 'Search within results'
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      <h3 class="tna-heading-s">Covering date</h3>
-      {{ tnaDateInput({
-        'label': 'From',
-        'headingLevel': 4,
-        'headingSize': 'xs',
-        'id': 'date-from',
-        'name': 'date-from',
-        'hint': 'For example, 27 3 2007 or 2007',
-        'classes': 'tna-!--no-margin-top'
-      }) }}
-      {{ tnaDateInput({
-        'label': 'To',
-        'headingLevel': 4,
-        'headingSize': 'xs',
-        'id': 'date-to',
-        'name': 'date-to',
-        'classes': 'tna-!--margin-top-s'
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      {{ tnaCheckboxes({
-        'label': 'Digitised records',
-        'headingLevel': 3,
-        'headingSize': 's',
-        'id': 'digitised',
-        'name': 'digitised',
-        'items': [
-          {
-            'text': 'Digitised records',
-            'value': 'true'
-          }
-        ],
-        'small': True
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      {{ tnaCheckboxes({
-        'label': 'Collections',
-        'headingLevel': 3,
-        'headingSize': 's',
-        'id': 'collections',
-        'name': 'collections',
-        'items': [
-          {
-            'text': 'Admiralty, Navy, Royal Marines, and Coastguard',
-            'value': 'ADM'
-          },
-          {
-            'text': 'Air Ministry and Royal Air Force records',
-            'value': 'AIR'
-          },
-          {
-            'text': 'Board of Trade and successors',
-            'value': 'BT'
-          },
-          {
-            'text': 'Chancery, the Wardrobe, Royal Household, Exchequer and various commissions',
-            'value': 'C'
-          },
-          {
-            'text': 'Colonial Office, Commonwealth and Foreign and Commonwealth Offices',
-            'value': 'CO'
-          },
-          {
-            'text': 'Exchequer, Office of First Fruits and Tenths, and the Court of Augmentations',
-            'value': 'E'
-          },
-          {
-            'text': 'Foreign Office',
-            'value': 'FO'
-          },
-          {
-            'text': 'Home Office',
-            'value': 'HO'
-          },
-          {
-            'text': 'Prerogative Court of Canterbury',
-            'value': 'PROB'
-          },
-          {
-            'text': 'War Office, Armed Forces, Judge Advocate General, and related bodies',
-            'value': 'WO'
-          }
-        ],
-        'small': True
-      }) }}
-      <p><a href="#">More collections&hellip;</a></p>
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      {{ tnaCheckboxes({
-        'label': 'Level',
-        'headingLevel': 3,
-        'headingSize': 's',
-        'id': 'level',
-        'name': 'level',
-        'items': [
-          {
-            'text': 'Division',
-            'value': 'a'
-          },
-          {
-            'text': 'Item',
-            'value': 'b'
-          },
-          {
-            'text': 'Lettercode',
-            'value': 'c'
-          },
-          {
-            'text': 'Piece',
-            'value': 'd'
-          },
-          {
-            'text': 'Series',
-            'value': 'e'
-          },
-          {
-            'text': 'Sub-series',
-            'value': 'f'
-          },
-          {
-            'text': 'Sub-sub-series',
-            'value': 'g'
-          }
-        ],
-        'small': True
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      {{ tnaCheckboxes({
-        'label': 'Closure Status',
-        'headingLevel': 3,
-        'headingSize': 's',
-        'id': 'closure-status',
-        'name': 'closure-status',
-        'items': [
-          {
-            'text': 'Closed Or Retained Document, Closed Description',
-            'value': 'a'
-          },
-          {
-            'text': 'Closed Or Retained Document, Open Description',
-            'value': 'b'
-          },
-          {
-            'text': 'Open Document, Open Description',
-            'value': 'c'
-          }
-        ],
-        'small': True
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div>
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      <h3 class="tna-heading-s">Record opening date</h3>
-      {{ tnaDateInput({
-        'label': 'From',
-        'headingLevel': 4,
-        'headingSize': 'xs',
-        'id': 'opening-date-from',
-        'name': 'opening-date-from',
-        'hint': 'For example, 27 3 2007 or 2007',
-        'classes': 'tna-!--no-margin-top'
-      }) }}
-      {{ tnaDateInput({
-        'label': 'To',
-        'headingLevel': 4,
-        'headingSize': 'xs',
-        'id': 'opening-date-to',
-        'name': 'opening-date-to',
-        'classes': 'tna-!--margin-top-s'
-      }) }}
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update',
-          'small': True,
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'attributes': {
-            'form': 'search-form'
-          }
-        }) }}
-      </div>
-    </div> -->
   </div>
   {% if request.args.view == 'grid' %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
     <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m tna-column">Search results</h2>
     <!-- TODO: Make into ul -->
-    <div class="tna-container tna-container--no-padding">
+    <ul class=" tna-ul tna-ul--plain tna-container tna-container--no-padding">
       {% for result in results.results %}
-      <div class="tna-column tna-column--width-1-2 tna-column--full-tiny">
+      <li class="tna-column tna-column--width-1-2 tna-column--full-tiny">
         {{ tnaCard({
-          'title': result.title,
+          'title': result.title | safe,
           'headingLevel': 3,
           'headingSize': 's',
           'href': url_for('catalogue.details', id=result.id),
@@ -349,11 +90,11 @@
             } if result.ref else None
           ],
           'htmlElement': 'article',
-          'classes': 'tna-!--margin-top-l'
+          'classes': 'tna-!--margin-top-l etna-search-result'
         }) }}
-      </div>
+      </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
   {% else %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
@@ -362,8 +103,13 @@
     {% for result in results.results %}
     <article>
       <h3 class="tna-heading-m">
-        <a href="{{ url_for('catalogue.details', id=result.id) }}">{{ result.title }}</a>
+        <a href="{{ url_for('catalogue.details', id=result.id) }}">{{ result.title | safe }}</a>
       </h3>
+      <div class="etna-search-result__description">
+        {%- if result.description %}
+        {{ result.description | safe }}
+        {%- endif %}
+      </div>
       <dl class="tna-dl tna-dl--plain tna-dl--icon-padding-">
         {% if result.held_by %}
         <dt>

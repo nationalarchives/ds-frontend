@@ -93,9 +93,11 @@
 }
 
 mark {
-  @include colour.colour-font("accent-font-base");
+  @include colour.accent-light;
 
-  @include colour.colour-background("accent-background");
+  a & {
+    @include colour.colour-font("link");
+  }
 }
 
 .etna-featured-search {
@@ -252,6 +254,18 @@ mark {
     margin-top: 1rem;
 
     @include colour.colour-border("keyline", 1px);
+  }
+}
+
+.etna-search-result {
+  &__description,
+  .tna-card__body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+            line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 }
 
