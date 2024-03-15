@@ -16,7 +16,7 @@ initAll();
 
 const ga4Id = document.documentElement.getAttribute("data-ga4id");
 if (ga4Id) {
-  const analytics = new GA4(ga4Id);
+  const analytics = new GA4({ id: ga4Id });
 
   analytics.addListener(".etna-article__sidebar", "sidebar", [
     {
@@ -41,7 +41,7 @@ if (ga4Id) {
     },
   ]);
 
-  analytics.addListener(document.documentElement, "doc", [
+  analytics.addListener(document.documentElement, "document", [
     {
       eventName: "double_click",
       on: "dblclick",
