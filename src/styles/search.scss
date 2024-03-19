@@ -93,10 +93,23 @@
 }
 
 mark {
-  @include colour.accent-light;
+  // @include colour.accent-background;
 
-  a & {
-    @include colour.colour-font("link");
+  // a &,
+  // a:link & {
+  //   @include colour.colour-font("link");
+  // }
+
+  // a:visited & {
+  //   @include colour.colour-font("link-visited");
+  // }
+
+  @include colour.accent;
+
+  a &,
+  a:link &,
+  a:visited & {
+    @include colour.colour-font("font-base");
   }
 }
 
