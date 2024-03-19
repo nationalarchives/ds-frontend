@@ -93,7 +93,6 @@ def create_app(config_class=Config):
                     if Config().ENVIRONMENT != "develop"
                     else "http://tagmanager.google.com"
                 ),
-                "'unsafe-inline'",
             ],
             "font-src": [
                 SELF,
