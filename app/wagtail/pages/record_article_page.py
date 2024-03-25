@@ -4,8 +4,8 @@ from flask import render_template
 
 
 def record_article_page(page_data):
-    topics = pages_to_index_grid_items(page_data["topics"])
-    time_periods = pages_to_index_grid_items(page_data["time_periods"])
+    topics = pages_to_index_grid_items(page_data["topics"], "Topic")
+    time_periods = pages_to_index_grid_items(page_data["time_periods"], "Time period")
     highlights = pick_top_two(topics, time_periods)
     return render_template(
         "explore/record-article.html",
