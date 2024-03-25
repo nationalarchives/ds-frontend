@@ -195,28 +195,31 @@
       </aside>
 
       {% elif content_item.type == 'media' %}
-      {% with media = get_wagtail_media(content_item.value.media) %}
-      {% with background_image = get_wagtail_image(content_item.value.background_image) %}
-      {# TODO background image #}
-      <aside class="tna-aside tna-background-mask" style="background-image: url({{ config.WAGTAIL_MEDIA_URL }}{{ background_image.meta.download_url }})">
-        <hgroup class="tna-hgroup-l">
-          <p class="tna-hgroup__supertitle">Listen</p>
-          <h3 class="tna-hgroup__title" itemprop="name">
-            {{ content_item.value.title }}
-          </h3>
-        </hgroup>
-        <div itemprop="description">
-          {{ media.description | safe }}
+      <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
+        <div class="tna-aside etna-background-masked-image">
+          <img src="{{ content_item.value.background_image.image_jpeg.full_url }}" class="etna-background-masked-image__image">
+          <hgroup class="tna-hgroup-l">
+            <p class="tna-hgroup__supertitle">Listen</p>
+            <h3 class="tna-hgroup__title" itemprop="name">
+              {{ content_item.value.title }}
+            </h3>
+          </hgroup>
+          <div itemprop="description" itemprop="description">
+            {{ content_item.value.media.description | safe }}
+          </div>
+          <audio class="etna-audio" controls="" aria-label="Transcript provided below">
+            <source itemprop="contentUrl" src="{{ content_item.value.media.full_url }}" type="{{ content_item.value.media.mime }}" itemprop="contentUrl">
+            <p>Your browser doesn't support HTML5 audio. <a href="{{ content_item.value.media.full_url }}">Download the audio file</a>.</p>
+          </audio>
+          <meta itemprop="encodingFormat" content="{{ content_item.value.media.mime }}">
         </div>
-        <audio class="etna-audio" controls="" aria-label="Transcript provided below" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
-          <source itemprop="contentUrl" src="{{ config.WAGTAIL_MEDIA_URL }}{{ media.url }}" type="{{ media.mime }}">
-          <p>Your browser doesn't support HTML5 audio. <a href="{{ config.WAGTAIL_MEDIA_URL }}{{ media.url }}">Download the audio file</a>.</p>
-        </audio>
-        {# TODO #}
-        <!-- {{ media.transcript | safe }} -->
+        <div class="tna-aside tna-background-contrast tna-!--no-margin-top">
+          <h4 class="tna-heading-m tna-!--padding-bottom-s">Transcript</h4>
+          <div itemprop="transcript">
+            {{ content_item.value.media.transcript | safe }}
+          </div>
+        </div>
       </aside>
-      {% endwith %}
-      {% endwith %}
 
       {% else %}
       <h1 class="tna-heading-xl">======= TODO: {{ content_item.type }} =======</h1>

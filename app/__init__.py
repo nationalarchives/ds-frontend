@@ -105,6 +105,10 @@ def create_app(config_class=Config):
                 "https://*.analytics.google.com",
                 "https://*.googletagmanager.com",
             ],
+            "media-src": [
+                SELF,
+                Config().MEDIA_DOMAIN,
+            ],
         },
         feature_policy={
             "camera": "'none'",
