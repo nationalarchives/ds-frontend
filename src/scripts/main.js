@@ -3,22 +3,16 @@ import {
   GA4,
   helpers,
 } from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
-// import {
-//      GA4,
-//      helpers,
-//    } from "./tmp/analytics.mjs";
+// import { GA4, helpers } from "./tmp/analytics.mjs";
 import "./modules/theme-switcher";
 
 initAll();
-
-// const GA4 = window.TNAFrontendAnalytics.GA4;
-// const helpers = window.TNAFrontendAnalytics.helpers;
 
 const ga4Id = document.documentElement.getAttribute("data-ga4id");
 if (ga4Id) {
   const analytics = new GA4({ id: ga4Id });
 
-  analytics.addListener(".etna-article__sidebar", "sidebar", [
+  analytics.addListeners(".etna-article__sidebar", "sidebar", [
     {
       eventName: "section.jump_to",
       targetElement: ".etna-article__sidebar-item",
@@ -29,7 +23,7 @@ if (ga4Id) {
     },
   ]);
 
-  analytics.addListener(".etna-article", "article", [
+  analytics.addListeners(".etna-article", "article", [
     {
       eventName: "section.toggle",
       targetElement: ".etna-article__section-button",
@@ -41,7 +35,7 @@ if (ga4Id) {
     },
   ]);
 
-  analytics.addListener(document.documentElement, "document", [
+  analytics.addListeners(document.documentElement, "document", [
     {
       eventName: "double_click",
       on: "dblclick",
