@@ -8,6 +8,7 @@ from ..api import image_details
 def highlight_gallery_page(page_data):
     for highlight in page_data["page_highlights"]:
         image_id = highlight["image"]
+        # TODO: Remove extra calls
         highlight_image_details = image_details(image_id)
         highlight["image_details"] = highlight_image_details
         if "record" in highlight_image_details:
