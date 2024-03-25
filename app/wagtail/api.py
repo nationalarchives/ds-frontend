@@ -20,6 +20,7 @@ def wagtail_request_handler(uri, params={}):
         else ""
     )
     url = f"{api_url}/{uri}{query_string}"
+    print(url)
     r = requests.get(url)
     if r.status_code == 404:
         current_app.logger.error(f"Resource not found: {url}")

@@ -24,33 +24,30 @@
       <h3 class="tna-heading-m">{{ block.value.heading }}</h3>
 
       {% elif content_item.type == 'image' %}
-      {# TODO: This is the original image - we need an image rendition #}
-      {% with image = get_wagtail_image(content_item.value.image) %}
       {% set picture_information = [] %}
-      {% if image.transcription %}
+      {# TODO: Transcripts and translations #}
+      {% if content_item.value.image.transcription %}
       {% set picture_information = picture_information + [{
         'id': 'transcription',
-        'title': image.transcription_heading or 'Transcription',
-        'body': image.transcription | tna_html
+        'title': content_item.value.image.transcription_heading or 'Transcription',
+        'body': content_item.value.image.transcription | tna_html
       }] %}
       {% endif %}
-      {% if image.translation %}
+      {% if content_item.value.image.translation %}
       {% set picture_information = picture_information + [{
         'id': 'translation',
-        'title': image.translation_heading or 'Translation',
-        'body': image.translation | tna_html
+        'title': content_item.value.image.translation_heading or 'Translation',
+        'body': content_item.value.image.translation | tna_html
       }] %}
       {% endif %}
-      {# TODO src #}
       {{ tnaPicture({
-        'src': config.WAGTAIL_MEDIA_URL + image.meta.download_url,
-        'alt': content_item.value.alt_text,
-        'width': image.width,
-        'height': image.height,
+        'src': content_item.value.image.image_jpeg.full_url,
+        'alt': content_item.value.image.image_jpeg.alt_text,
+        'width': content_item.value.image.image_jpeg.width,
+        'height': content_item.value.image.image_jpeg.height,
         'caption': content_item.value.caption,
         'information': picture_information
       }) }}
-      {% endwith %}
 
       {% elif content_item.type == 'quote' %}
       <blockquote class="tna-blockquote">

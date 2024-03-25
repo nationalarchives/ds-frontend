@@ -2,6 +2,7 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'components/tabs/macro.html' import tnaTabs -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
@@ -125,42 +126,60 @@ href="{{ url_for('catalogue.details', id=page_data.record) }}">{{ page_data.reco
     </div>
   </div>
 </section>
-{% if page_data.promoted_links | length %}
+{%- for promoted_links in page_data.promoted_links %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">{{ page_data.promoted_links[0]['value']['heading'] }}</h2>
+      <h2 class="tna-heading-l">{{ promoted_links.value.heading }}</h2>
     </div>
-    {% for page in page_data.promoted_links[0]['value']['promoted_items'] %}
-    {% with image = get_wagtail_image(page.teaser_image) %}
+    {%- for item in promoted_links.value.promoted_items %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-      {# TODO imageSrc #}
+      {% set meta = [] %}
+      {% if item.author %}
+      {% set meta = meta + [{ 'text': 'By ' + item.author }] %}
+      {% endif %}
+      {% if item.publication_date %}
+      {% set meta = meta + [{ 'text': 'Published ' + item.publication_date }] %}
+      {% endif %}
+
       {{ tnaCard({
-        'title': page.title,
+        'title': item.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': page.url,
-        'body': page.description,
-        'imageSrc': config.WAGTAIL_MEDIA_URL + image.meta.download_url,
-        'imageAlt': image.title,
-        'imageWidth': image.width,
-        'imageHeight': image.height,
+        'href': item.url,
+        'meta': meta,
+        'text': item.description,
+        'imageSrc': item.teaser_image.image_jpeg.full_url,
+        'imageAlt': item.teaser_image.title,
+        'imageWidth': item.teaser_image.image_jpeg.width,
+        'imageHeight': item.teaser_image.image_jpeg.height,
+        'imageSources': [
+          {
+            'src': item.teaser_image.image_webp.full_url,
+            'type': 'image/webp',
+            'width': item.teaser_image.image_webp.width,
+            'height': item.teaser_image.image_webp.height
+          }
+        ],
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}
     </div>
-    {% endwith %}
-    {% endfor %}
+    {%- endfor %}
   </div>
+</section>
+{%- endfor %}
+{% if highlights | length %}
+<section class="tna-section">
+  {{ tnaIndexGrid({
+    'title': 'Discover highlights from the collection',
+    'headingLevel': 2,
+    'headingSize': 'l',
+    'items': highlights,
+    'columns': 2,
+    'columnsTiny': 1
+  }) }}
 </section>
 {% endif %}
-<section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">You may be interested in</h2>
-      <p>TODO</p>
-    </div>
-  </div>
-</section>
 {{ feedback() }}
 {% endblock %}
