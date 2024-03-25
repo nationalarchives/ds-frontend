@@ -1,10 +1,10 @@
 def pick_top_two(a, b):
     selection = []
-    if a.len and b.len:
+    if len(a) and len(b):
         selection = [a[0], b[0]]
-    elif a.len:
+    elif len(a):
         selection = [a[0], a[1] or None]
-    elif b.len:
+    elif len(b):
         selection = [b[0], b[1] or None]
     return selection
 
