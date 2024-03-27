@@ -1,9 +1,11 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-author-list {
-  // padding: spacing.space(1) 0;
+  // @include spacing.space-above;
+  padding: spacing.space(1) 0 0;
 
   // @include colour.colour-border("keyline", 1px, dashed, top);
 
@@ -33,6 +35,7 @@
   }
 
   &__description {
+    @include typography.relative-font-size(16);
   }
 
   @include media.on-mobile {

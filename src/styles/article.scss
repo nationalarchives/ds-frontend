@@ -16,6 +16,7 @@ html.tna-template
   }
 }
 
+.etna-background-half-top-accent,
 .etna-background-half-top-contrast {
   position: relative;
 
@@ -27,9 +28,19 @@ html.tna-template
     right: 0;
     left: 0;
 
-    @include colour.contrast;
-
     content: "";
+  }
+}
+
+.etna-background-half-top-accent {
+  &::before {
+    @include colour.accent;
+  }
+}
+
+.etna-background-half-top-contrast {
+  &::before {
+    @include colour.contrast;
   }
 }
 
