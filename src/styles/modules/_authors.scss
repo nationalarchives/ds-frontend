@@ -3,12 +3,12 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .etna-author-list {
-  padding: spacing.space(1) 0;
+  // padding: spacing.space(1) 0;
 
-  @include colour.colour-border("keyline", 1px, dashed, top);
+  // @include colour.colour-border("keyline", 1px, dashed, top);
 
   &__heading {
-    // padding-top: spacing.space(1);
+    // padding-bottom: spacing.space(2);
   }
 
   &__items {
@@ -19,7 +19,7 @@
   }
 
   &__item {
-    margin-top: spacing.space(2);
+    padding-top: spacing.space(2);
 
     p {
       margin-top: spacing.space(0.5);
@@ -36,9 +36,10 @@
   }
 
   @include media.on-mobile {
-    padding: spacing.space(2) 0;
+    // padding: spacing.space(2) 0;
 
-    @include colour.colour-border("keyline", 1px, dashed, bottom);
+    // border: none;
+    // @include colour.colour-border("keyline", 1px, dashed, bottom);
   }
 }
 
