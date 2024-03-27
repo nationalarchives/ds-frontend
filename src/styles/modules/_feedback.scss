@@ -1,7 +1,8 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .etna-feedback {
-  padding: 2rem;
+  padding: spacing.space(2);
 
   text-align: center;
 

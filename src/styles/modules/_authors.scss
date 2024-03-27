@@ -1,13 +1,14 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .etna-author-list {
-  padding: 1rem 0;
+  padding: spacing.space(1) 0;
 
   @include colour.colour-border("keyline", 1px, dashed, top);
 
   &__heading {
-    // padding-top: 1rem;
+    // padding-top: spacing.space(1);
   }
 
   &__items {
@@ -18,10 +19,10 @@
   }
 
   &__item {
-    margin-top: 2rem;
+    margin-top: spacing.space(2);
 
     p {
-      margin-top: 0.5rem;
+      margin-top: spacing.space(0.5);
     }
   }
 
@@ -35,7 +36,7 @@
   }
 
   @include media.on-mobile {
-    padding: 2rem 0;
+    padding: spacing.space(2) 0;
 
     @include colour.colour-border("keyline", 1px, dashed, bottom);
   }
@@ -51,7 +52,7 @@
     }
 
     .etna-author-image {
-      margin: 0 auto 2rem;
+      margin: 0 auto spacing.space(2);
     }
   }
 }

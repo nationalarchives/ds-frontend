@@ -24,7 +24,7 @@
 }
 
 .etna-record-hierarchy-wrapper {
-  padding: 2rem;
+  padding: spacing.space(2);
 
   @include colour.accent-light;
 
@@ -32,7 +32,7 @@
   border-left-width: 2rem;
 
   @include media.on-mobile {
-    padding: 1rem;
+    padding: spacing.space(1);
   }
 
   @include media.on-tiny {
@@ -46,7 +46,7 @@
 
 .etna-record-hierarchy {
   width: calc(100% - 12rem);
-  margin-top: 1rem;
+  margin-top: spacing.space(1);
   padding-left: 14rem;
 
   position: relative;
@@ -135,19 +135,19 @@
 
 .etna-sticky-dt {
   position: sticky;
-  top: 0.25rem;
+  top: spacing.space(0.25);
 }
 
 .etna-record-details {
   dd .tna-ul--plain li + li {
-    margin-top: 0.5rem;
+    margin-top: spacing.space(0.5);
   }
 
   dd p .list {
     display: block;
 
     .item {
-      margin-left: 2rem;
+      margin-left: spacing.space(2);
 
       display: list-item;
     }
@@ -161,11 +161,11 @@
     display: block;
 
     &:not(:first-child) {
-      margin-top: 1rem;
+      margin-top: spacing.space(1);
     }
   }
 
   span + p {
-    margin-top: 1rem;
+    margin-top: spacing.space(1);
   }
 }

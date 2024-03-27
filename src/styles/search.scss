@@ -15,7 +15,7 @@
 
 .etna-search-tabs {
   display: flex;
-  gap: 1rem;
+  gap: spacing.space(1);
   flex-wrap: nowrap;
 
   list-style: none;
@@ -25,7 +25,7 @@
 
   &__item-link {
     height: 100%;
-    padding: 0.5rem 1rem;
+    padding: spacing.space(0.5) spacing.space(1);
 
     display: block;
     box-sizing: border-box;
@@ -67,18 +67,18 @@
     }
 
     &--plain {
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
+      padding-right: spacing.space(0.5);
+      padding-left: spacing.space(0.5);
     }
   }
 
   @include media.on-mobile {
-    gap: 0.5rem;
+    gap: spacing.space(0.5);
 
     @include typography.relative-font-size(16);
 
     &__item-link {
-      padding: 0.25rem 0.5rem;
+      padding: spacing.space(0.25) spacing.space(0.5);
     }
   }
 
@@ -86,8 +86,8 @@
     @include typography.relative-font-size(14);
 
     &__item-link {
-      padding-right: 0.25rem;
-      padding-left: 0.25rem;
+      padding-right: spacing.space(0.25);
+      padding-left: spacing.space(0.25);
     }
   }
 }
@@ -123,7 +123,7 @@ mark {
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: spacing.space(1);
   }
 
   &__list-item {
@@ -134,10 +134,10 @@ mark {
 }
 
 .etna-search-buckets {
-  margin-top: 2rem;
+  margin-top: spacing.space(2);
 
   display: flex;
-  gap: 1rem;
+  gap: spacing.space(1);
 
   list-style: none;
 
@@ -148,7 +148,7 @@ mark {
   &__button {
     width: 100%;
     height: 100%;
-    padding: 0.5rem;
+    padding: spacing.space(0.5);
 
     display: flex;
     flex-direction: column;
@@ -198,15 +198,15 @@ mark {
 
   @include media.on-mobile {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: spacing.space(0.5);
 
     &__button {
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
+      padding-top: spacing.space(0.25);
+      padding-bottom: spacing.space(0.25);
 
       flex-direction: row;
       align-items: center;
-      gap: 2rem;
+      gap: spacing.space(2);
 
       text-align: left;
     }
@@ -233,11 +233,11 @@ mark {
   }
 
   .tna-button-group {
-    gap: 0.25rem;
+    gap: spacing.space(0.25);
   }
 
   .tna-form__group--inline + .tna-button-group {
-    margin-left: 0.5rem;
+    margin-left: spacing.space(0.5);
     margin-top: 0;
   }
 }
@@ -288,12 +288,12 @@ mark {
   list-style: none;
 
   ul {
-    margin-left: 0.5rem;
+    margin-left: spacing.space(0.5);
 
     list-style: none;
 
     li {
-      padding-left: 1rem;
+      padding-left: spacing.space(1);
 
       position: relative;
 

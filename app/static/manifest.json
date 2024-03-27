@@ -1,7 +1,7 @@
 {
   "short_name": "National Archives",
   "name": "The National Archives",
-  "theme_color": "#000",
+  "theme_color": "#010101",
   "icons": [
     {
       "src": "/static/assets/images/icon-48x48.png",
@@ -86,7 +86,7 @@
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "minimal-ui",
-  "background_color": "#000",
+  "background_color": "#010101",
   "dir": "ltr",
   "lang": "en"
 }

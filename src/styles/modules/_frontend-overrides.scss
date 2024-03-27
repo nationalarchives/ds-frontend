@@ -1,5 +1,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .tna-template--touched:not(.tna-template--tabbed) *:focus {
   outline: none;
@@ -65,7 +66,7 @@
       @include colour.plain;
 
       &:not(:has(.tna-card__image-container)) {
-        padding-top: 1rem;
+        padding-top: spacing.space(1);
       }
     }
   }

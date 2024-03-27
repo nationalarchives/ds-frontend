@@ -1,6 +1,8 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
 .etna-highlight-gallery {
   &__image {
     position: sticky;
-    top: 2rem;
+    top: spacing.space(2);
   }
 }
