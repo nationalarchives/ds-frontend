@@ -85,6 +85,8 @@ def brand_icon_from_url(s):
         return "facebook"
     if "youtube.com" in s:
         return "youtube"
+    if "spotify.com" in s:
+        return "spotify"
     return ""
 
 

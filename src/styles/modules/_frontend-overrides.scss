@@ -57,10 +57,12 @@
 }
 
 .tna-card {
-  &.etna-promoted-item {
+  &__promoted-item {
+    @include colour.thick-keyline-accent(top);
+
     @include colour.colour-background("background-tint");
 
-    @include colour.colour-border("accent-background", 0.25rem, solid, top);
+    // @include colour.colour-border("accent-background", 0.25rem, solid, top);
 
     .tna-card__inner {
       @include colour.plain;
