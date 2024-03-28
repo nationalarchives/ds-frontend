@@ -112,6 +112,9 @@ $articles.forEach(($article) => {
           : $sidebarItem.classList.remove(
               "etna-article__sidebar-item--current",
             );
+        if (isCurrentItem) {
+          $sidebarItem.scrollIntoView({ block: "nearest" });
+        }
       });
       if (history.replaceState) {
         history.replaceState(null, null, currentSectionHref);

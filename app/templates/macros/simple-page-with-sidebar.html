@@ -13,7 +13,7 @@
     <!-- {{ headings }} -->
     <nav class="etna-article__sidebar" aria-label="Table of contents">
       {# TODO: Make a marco for this recursion #}
-      <ol class="tna-ol tna-ol--plain">
+      <ol class="tna-ol tna-ol--plain etna-article__sidebar-items">
         {%- for heading in headings %}
         <li>
           <a href="#{{ heading.id }}" class="etna-article__sidebar-item">

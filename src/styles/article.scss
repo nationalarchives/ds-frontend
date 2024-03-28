@@ -46,8 +46,20 @@ html.tna-template
 
 .etna-article {
   &__sidebar {
+    max-height: 100vh;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
     position: sticky;
     top: 0;
+  }
+
+  &__sidebar-items {
+    flex: 1;
+
+    overflow-y: auto;
   }
 
   &__sidebar-item {
