@@ -39,7 +39,10 @@
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <h1 class="tna-heading-xl" itemprop="name">{{ page_data.title }}</h1>
+          <hgroup class="tna-hgroup-xl">
+            <p class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</p>
+            <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
+          </hgroup>
           <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
             {{ page_data.intro | safe }}
           </div>
