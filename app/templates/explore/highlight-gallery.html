@@ -1,7 +1,7 @@
 {% extends 'explore/base.html' %}
 
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'components/message/macro.html' import tnaMessage -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
 
 {% block stylesheets %}
 {{ super() }}
@@ -24,9 +24,9 @@
   {% if page_data.custom_warning_text %}
   <div class="tna-section tna-container tna-!--no-padding-top">
     <div class="tna-column tna-column--full">
-      {{ tnaMessage({
+      {{ tnaWarning({
         'headingLevel': 2,
-        'message': page_data.custom_warning_text | safe
+        'body': page_data.custom_warning_text | safe
       }) }}
     </div>
   </div>

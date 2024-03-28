@@ -92,7 +92,6 @@
 
       {% elif content_item.type == 'promoted_item' %}
       <aside class="etna-space-above">
-      {# TODO: Change style to "tint" for next version of TNA Frontend #}
       {% set card_content = {
         'title': content_item.value.title,
         'headingLevel': 3,
@@ -107,7 +106,7 @@
             }
           }
         ],
-        'style': 'accent',
+        'style': 'tint',
         'htmlElement': 'article'
       } %}
       {% if content_item.value.image.image %}

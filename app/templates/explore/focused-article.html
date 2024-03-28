@@ -5,8 +5,8 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
-{%- from 'components/message/macro.html' import tnaMessage -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
 {%- set themeAccent = 'pink' -%}
@@ -104,9 +104,9 @@
       </div>
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections" itemprop="articleBody">
         {% if page_data.custom_warning_text %}
-        {{ tnaMessage({
+        {{ tnaWarning({
           'headingLevel': 2,
-          'message': page_data.custom_warning_text | safe,
+          'body': page_data.custom_warning_text | safe,
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-l'
         }) }}
         {% endif %}
