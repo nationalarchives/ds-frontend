@@ -89,7 +89,7 @@ $articles.forEach(($article) => {
 
   if ($sidebarItems) {
     let currentSectionId = "";
-    const currentSectionFromTop = 0.1;
+    const currentSectionFromTop = 0.05;
     const onMobile = window.matchMedia("(max-width: 48em)");
 
     const switchItemById = (targetItemID, $sidebarItems) => {
