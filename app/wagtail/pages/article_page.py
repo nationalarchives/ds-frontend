@@ -14,7 +14,9 @@ def article_page(page_data):
     except ConnectionError:
         return render_template("errors/api.html"), 502
     topics = pages_to_index_grid_items(page_data["topics"], "Topic")
-    time_periods = pages_to_index_grid_items(page_data["time_periods"], "Time period")
+    time_periods = pages_to_index_grid_items(
+        page_data["time_periods"], "Time period"
+    )
     highlights = pick_top_two(topics, time_periods)
     return render_template(
         "explore/article.html",
