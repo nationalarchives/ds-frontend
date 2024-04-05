@@ -54,14 +54,14 @@
       &:hover {
         @include typography.interacted-text-decoration;
 
-        // @include colour.colour-background("page-background");
+        // @include colour.colour-background("background");
       }
     }
 
     &--current {
       @include colour.plain;
 
-      @include colour.colour-background("page-background");
+      @include colour.colour-background("background");
 
       @include colour.colour-border("accent-background");
     }

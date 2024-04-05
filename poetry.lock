@@ -537,13 +537,13 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.1.24"
+version = "0.1.25"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tna-frontend-jinja-0.1.24.tar.gz", hash = "sha256:396d3ac52182393acb07852ae1067f746ac87e6061659eaca9e91f3da64903d9"},
-    {file = "tna_frontend_jinja-0.1.24-py3-none-any.whl", hash = "sha256:60f4a39c775eae4c0b07bb70c0c190cc0c2ed90a96b11eac0a1647de5562c262"},
+    {file = "tna-frontend-jinja-0.1.25.tar.gz", hash = "sha256:6fb6315ef0b8b69556b9a81515276fc6dad8ea4ca1ac248a274604b2b0278e59"},
+    {file = "tna_frontend_jinja-0.1.25-py3-none-any.whl", hash = "sha256:67e0b10b885225552117d31a764263e5f828bb568fac8d379b1e7a7009de2c22"},
 ]
 
 [package.dependencies]
@@ -586,4 +586,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "54c994275ecae749cf2e2e041457fc3b20c0d4d62238088ca1a2d1afeb5151fd"
+content-hash = "123dcdee9fd6016427217ae87ce891635c9f9783c342ee3228aadaca83c2d04b"
