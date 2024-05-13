@@ -4,7 +4,6 @@ import {
   helpers,
 } from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
 // import { GA4, helpers } from "./tmp/analytics.mjs";
-import "./modules/theme-switcher";
 
 initAll();
 

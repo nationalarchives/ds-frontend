@@ -100,28 +100,43 @@
   </div>
   {% endif %} -->
 
-  {% if page_data.hero_image_jpg %}
+
+
+
+
+  {% if 'hero_image' in page_data %}
   {{ tnaHero({
-    'content': ('<hgroup class="tna-hgroup-xl">
-      <p class="tna-hgroup__supertitle">' + (page_data.meta.type | article_supertitle) + '</p>
-      <h1 class="tna-hgroup__title" itemprop="name">' + page_data.title + '</h1>
-    </hgroup><div class="tna-large-paragraph tna-!--margin-top-l">' + page_data.intro + '</div>') | safe,
-    'imageSrc': page_data.hero_image_jpg.full_url,
-    'imageAlt': page_data.hero_image_jpg.alt,
-    'imageWidth': page_data.hero_image_jpg.width,
-    'imageHeight': page_data.hero_image_jpg.height,
+    'supertitle': page_data.type_label,
+    'title': page_data.title,
+    'imageSrc': page_data.hero_image.image_jpeg.full_url,
+    'imageAlt': page_data.hero_image.image_jpeg.alt or 'TODO',
+    'imageWidth': page_data.hero_image.image_jpeg.width,
+    'imageHeight': page_data.hero_image.image_jpeg.height,
+    'imageCaption': page_data.hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image_jpg_small.full_url,
-        'media': '(max-width: 48em)',
-        'width': page_data.hero_image_jpg_small.width,
-        'height': page_data.hero_image_jpg_small.height,
-        'type': 'image/jpeg'
+        'src': page_data.hero_image_small.image_webp.full_url,
+        'width': page_data.hero_image_small.image_webp.width,
+        'height': page_data.hero_image_small.image_webp.height,
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image_small.image_jpeg.full_url,
+        'width': page_data.hero_image_small.image_jpeg.width,
+        'height': page_data.hero_image_small.image_jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.image_webp.full_url,
+        'width': page_data.hero_image.image_webp.width,
+        'height': page_data.hero_image.image_webp.height,
+        'type': 'image/webp'
       }
     ],
-    'imageCaption': page_data.hero_image_caption | safe,
     'style': 'accent',
-    'shifted': True
+    'layout': 'shift'
   }) }}
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3">
@@ -222,9 +237,11 @@
       </div> -->
     </div>
   </section>
+  <aside>
+    {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
+  </aside>
 </article>
 
-{{ articleFooter(page_data.similar_items, highlights, page_data.latest_items) }}
 {{ feedback() }}
 {% endblock %}
 

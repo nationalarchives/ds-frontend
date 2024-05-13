@@ -1,25 +1,25 @@
 from app.catalogue.api import RecordAPI
 from app.wagtail.api import breadcrumbs
+from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
 from flask import render_template
-
-from ..api import image_details
 
 
 def highlight_gallery_page(page_data):
-    for highlight in page_data["page_highlights"]:
-        image_id = highlight["image"]
-        # TODO: Remove extra calls
-        highlight_image_details = image_details(image_id)
-        highlight["image_details"] = highlight_image_details
-        if "record" in highlight_image_details:
-            record_id = highlight["image_details"]["record"]
+    topics = pages_to_index_grid_items(page_data["topics"], "Topic")
+    time_periods = pages_to_index_grid_items(
+        page_data["time_periods"], "Time period"
+    )
+    categories = pick_top_two(topics, time_periods)
+    for highlight in page_data["highlights"]:
+        highlight["record_data"] = {}
+        if "record" in highlight["image"]:
+            record_id = highlight["image"]["record"]
             records_api = RecordAPI(record_id)
             record_data = records_api.get_results()
             highlight["record_data"] = record_data
-        else:
-            highlight["record_data"] = {}
     return render_template(
         "explore/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
+        categories=categories,
     )

@@ -16,7 +16,7 @@ def category_index_page(page_data):
             "title": child["title"],
             "url": child["meta"]["html_url"],
             "teaser": child["teaser_text"],
-            "image": child["teaser_image_jpg"],
+            "image": child["teaser_image"]["image_jpeg"],
         }
         for child in all_children
     ]

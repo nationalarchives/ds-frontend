@@ -1,4 +1,4 @@
-from app.wagtail.api import breadcrumbs, page_children, page_details
+from app.wagtail.api import breadcrumbs, page_children
 from flask import render_template
 
 
@@ -8,7 +8,7 @@ def author_index_page(page_data):
             page_data["id"],
             {
                 "type": "authors.AuthorPage",
-                "fields": "_,title,teaser_image_jpg,role,html_url",
+                "fields": "_,title,teaser_image,role,html_url",
                 "order": "title",
             },
         )

@@ -29,10 +29,10 @@
         'headingLevel': 2,
         'headingSize': 'l',
         'text': featured_article.teaser_text,
-        'imageSrc': featured_article.teaser_image_jpg.full_url,
-        'imageAlt': featured_article.teaser_image_jpg.alt,
-        'imageWidth': featured_article.teaser_image_jpg.width,
-        'imageHeight': featured_article.teaser_image_jpg.height,
+        'imageSrc': featured_article.teaser_image.image_jpeg.full_url,
+        'imageAlt': featured_article.teaser_image.image_jpeg.alt or 'TODO',
+        'imageWidth': featured_article.teaser_image.image_jpeg.width,
+        'imageHeight': featured_article.teaser_image.image_jpeg.height,
         'horizontal': True,
         'style': 'accent',
         'htmlElement': 'article',
@@ -83,7 +83,7 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {% if page > 1 %}
       <h1 class="tna-heading-xl">Stories from the collection</h1>
-      <h2 class="tna-heading-l">Discover all stories, page {{ page }}</h2>
+      <h2 class="tna-heading-l">Discover all stories, page {{ page }} of {{ pages }}</h2>
       {% else %}
       <h2 class="tna-heading-l">Discover all stories</h2>
       {% endif %}
@@ -100,10 +100,10 @@
         'headingSize': 's',
         'href': child.meta.html_url,
         'text': child.teaser_text,
-        'imageSrc': child.teaser_image_jpg.full_url,
-        'imageAlt': child.teaser_image_jpg.alt,
-        'imageWidth': child.teaser_image_jpg.width,
-        'imageHeight': child.teaser_image_jpg.height,
+        'imageSrc': child.teaser_image.image_jpeg.full_url,
+        'imageAlt': child.teaser_image.image_jpeg.alt or 'TODO',
+        'imageWidth': child.teaser_image.image_jpeg.width,
+        'imageHeight': child.teaser_image.image_jpeg.height,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}

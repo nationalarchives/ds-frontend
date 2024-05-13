@@ -8,7 +8,7 @@
 {%- from 'components/header/macro.html' import tnaHeader -%}
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
-{%- set theme = request.cookies.get('theme') or 'system' -%}
+{%- set theme = request.cookies.get('theme') or 'light' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {
   'data-generated': now_iso_8601(),
@@ -125,51 +125,8 @@
 {% endblock %}
 
 {% block footer %}
-<section class="tna-background-tint tna-!--margin-top-xl">
-  <div id="theme-selector" class="tna-container tna-!--padding-vertical-xs" hidden>
-    <div class="tna-column tna-column--flex-1">
-      <h2 class="tna-visually-hidden">Change your theme</h2>
-    </div>
-    <div class="tna-column tna-column--full-tiny">
-      <div class="tna-button-group tna-button-group--small">
-        {{ tnaButton({
-          'text': 'System theme',
-          'icon': 'circle-half-stroke',
-          'buttonElement': True,
-          'classes': 'etna-theme-selector',
-          'plain': theme != 'system',
-          'attributes': {
-            'value': 'system',
-            'aria-current': 'true' if theme == 'system' else 'false'
-          }
-        }) }}
-        {{ tnaButton({
-          'text': 'Light theme',
-          'icon': 'sun',
-          'buttonElement': True,
-          'classes': 'etna-theme-selector',
-          'plain': theme != 'light',
-          'attributes': {
-            'value': 'light',
-            'aria-current': 'true' if theme == 'light' else 'false'
-          }
-        }) }}
-        {{ tnaButton({
-          'text': 'Dark theme',
-          'icon': 'moon',
-          'buttonElement': True,
-          'classes': 'etna-theme-selector',
-          'plain': theme != 'dark',
-          'attributes': {
-            'value': 'dark',
-            'aria-current': 'true' if theme == 'dark' else 'false'
-          }
-        }) }}
-      </div>
-    </div>
-  </div>
-</section>
 {{ tnaFooter({
+  'themeSelector': True,
   'social': [
     {
       'href': 'https://twitter.com/UKNatArchives',
@@ -300,7 +257,8 @@
       'text': 'Cookies',
       'href': url_for('main.cookies')
     }
-  ]
+  ],
+  'classes': 'tna-!--margin-top-l'
 }) }}
 {% endblock %}
 

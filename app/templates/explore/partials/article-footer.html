@@ -1,7 +1,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 
-{% macro articleFooter(similar_items, highlights, latest_items) %}
+{% macro articleFooter(similar_items, categories, latest_items) %}
 {% if similar_items | length %}
 <section class="tna-section tna-!--padding-bottom-s">
   <div class="tna-container">
@@ -32,13 +32,13 @@
 </section>
 {% endif %}
 
-{% if highlights | length %}
+{% if categories | length %}
 <section class="tna-section">
   {{ tnaIndexGrid({
     'title': 'Discover highlights from the collection',
     'headingLevel': 2,
     'headingSize': 'l',
-    'items': highlights,
+    'items': categories,
     'columns': 2,
     'columnsTiny': 1
   }) }}

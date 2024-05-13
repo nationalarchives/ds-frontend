@@ -8,6 +8,8 @@
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
+{%- set themeAccent = 'blue' -%}
+
 {% block stylesheets %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
@@ -32,20 +34,33 @@
     </div>
   </header>
 
-  {% if 'hero_image_jpg' in page_data %}
+  {% if 'hero_image' in page_data %}
   {{ tnaHero({
-    'imageSrc': page_data.hero_image_jpg.full_url,
-    'imageAlt': page_data.hero_image_jpg.alt,
-    'imageWidth': page_data.hero_image_jpg.width,
-    'imageHeight': page_data.hero_image_jpg.height,
+    'imageSrc': page_data.hero_image.image_jpeg.full_url,
+    'imageAlt': page_data.hero_image.image_jpeg.alt or 'TODO',
+    'imageWidth': page_data.hero_image.image_jpeg.width,
+    'imageHeight': page_data.hero_image.image_jpeg.height,
     'imageCaption': page_data.hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image_webp_small.full_url,
-        'width': page_data.hero_image_webp_small.width,
-        'height': page_data.hero_image_webp_small.height,
+        'src': page_data.hero_image_small.image_webp.full_url,
+        'width': page_data.hero_image_small.image_webp.width,
+        'height': page_data.hero_image_small.image_webp.height,
         'type': 'image/webp',
         'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image_small.image_jpeg.full_url,
+        'width': page_data.hero_image_small.image_jpeg.width,
+        'height': page_data.hero_image_small.image_jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.image_webp.full_url,
+        'width': page_data.hero_image.image_webp.width,
+        'height': page_data.hero_image.image_webp.height,
+        'type': 'image/webp'
       }
     ]
   }) }}
@@ -66,9 +81,11 @@
       </div> -->
     </div>
   </div>
+  <aside>
+    {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
+  </aside>
 </article>
 
-{{ articleFooter(page_data.similar_items, highlights, page_data.latest_items) }}
 {{ feedback() }}
 {% endblock %}
 

@@ -8,10 +8,10 @@ def article_page_focused(page_data):
     time_periods = pages_to_index_grid_items(
         page_data["time_periods"], "Time period"
     )
-    highlights = pick_top_two(topics, time_periods)
+    categories = pick_top_two(topics, time_periods)
     return render_template(
         "explore/article-focused.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
-        highlights=highlights,
+        categories=categories,
     )
