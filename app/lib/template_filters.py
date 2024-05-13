@@ -66,6 +66,7 @@ def article_supertitle(s):
     return ""
 
 
+# TODO: This should come from the CMS
 def article_type(s):
     if s == "articles.ArticlePage" or s == "articles.FocusedArticlePage":
         return "Article"
@@ -77,16 +78,6 @@ def article_type(s):
         return "Time period"
     if s == "collections.TopicExplorerPage":
         return "Topic"
-    return ""
-
-
-def brand_icon_from_url(s):
-    if "facebook.com" in s:
-        return "facebook"
-    if "youtube.com" in s:
-        return "youtube"
-    if "spotify.com" in s:
-        return "spotify"
     return ""
 
 

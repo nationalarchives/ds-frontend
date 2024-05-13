@@ -1,6 +1,7 @@
 {% extends 'explore/base.html' %}
 
 {%- from 'explore/partials/article-blocks.html' import articleBlocks -%}
+{%- from 'explore/partials/article-footer.html' import articleFooter -%}
 {%- from 'explore/partials/article-sidebar.html' import articleSidebar -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
@@ -20,7 +21,7 @@
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
         <hgroup class="tna-hgroup-xl">
           <h1>
-            <span class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</span>
+            <span class="tna-hgroup__supertitle">{{ page_data.type_label }}</span>
             <span class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</span>
           </h1>
         </hgroup>
@@ -30,6 +31,7 @@
       </div>
     </div>
   </header>
+
   {% if 'hero_image_jpg' in page_data %}
   {{ tnaHero({
     'imageSrc': page_data.hero_image_jpg.full_url,
@@ -48,13 +50,14 @@
     ]
   }) }}
   {% endif %}
+  
   <div class="tna-section tna-!--padding-top-m">
     <div class="tna-container">
       <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny">
         {{ articleSidebar(page_data.body) }}
       </div>
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections" itemprop="articleBody">
-        {{ articleBlocks(page_data.body, get_wagtail_image, get_wagtail_page, get_wagtail_media, config) }}
+        {{ articleBlocks(page_data.body, get_wagtail_page, merge_dict_if, config) }}
       </div>
       <!-- <div class="tna-column tna-column--full tna-!--margin-top-m">
         <p>
@@ -64,69 +67,8 @@
     </div>
   </div>
 </article>
-<section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">You may also be interested in</h2>
-    </div>
-    {# TODO: Include in page data #}
-    {% for page in similar_items %}
-    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-      {{ tnaCard({
-        'supertitle': page.meta.type | article_supertitle,
-        'title': page.title,
-        'headingLevel': 3,
-        'headingSize': 's',
-        'href': page.meta.html_url,
-        'body': page.teaser_text,
-        'imageSrc': page.teaser_image_jpg.full_url,
-        'imageAlt': page.teaser_image_jpg.alt,
-        'imageWidth': page.teaser_image_jpg.width,
-        'imageHeight': page.teaser_image_jpg.height,
-        'htmlElement': 'article',
-        'classes': 'tna-!--margin-top-l'
-      }) }}
-    </div>
-    {% endfor %}
-  </div>
-</section>
-{% if highlights | length %}
-<section class="tna-section">
-  {{ tnaIndexGrid({
-    'title': 'Discover highlights from the collection',
-    'headingLevel': 2,
-    'headingSize': 'l',
-    'items': highlights,
-    'columns': 2,
-    'columnsTiny': 1
-  }) }}
-</section>
-{% endif %}
-<section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">More stories</h2>
-    </div>
-    {% for page in latest_items %}
-    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-      {{ tnaCard({
-        'supertitle': page.meta.type | article_supertitle,
-        'title': page.title,
-        'headingLevel': 3,
-        'headingSize': 's',
-        'href': page.meta.html_url,
-        'body': page.teaser_text,
-        'imageSrc': page.teaser_image_jpg.full_url,
-        'imageAlt': page.teaser_image_jpg.alt,
-        'imageWidth': page.teaser_image_jpg.width,
-        'imageHeight': page.teaser_image_jpg.height,
-        'htmlElement': 'article',
-        'classes': 'tna-!--margin-top-l'
-      }) }}
-    </div>
-    {% endfor %}
-  </div>
-</section>
+
+{{ articleFooter(page_data.similar_items, highlights, page_data.latest_items) }}
 {{ feedback() }}
 {% endblock %}
 

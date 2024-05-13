@@ -59,16 +59,12 @@
 .tna-card {
   &__promoted-item {
     @include colour.thick-keyline-accent(top);
-
-    @include colour.colour-background("background-tint");
-
-    // @include colour.colour-border("accent-background", 0.25rem, solid, top);
-
+    
     .tna-card__inner {
-      @include colour.plain;
-
       &:not(:has(.tna-card__image-container)) {
         padding-top: spacing.space(1);
+
+        border-top: none;
       }
     }
   }

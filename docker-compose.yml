@@ -2,7 +2,10 @@ version: "3"
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        IMAGE_TAG: preview
     environment:
       - ENVIRONMENT=develop
       - SECRET_KEY=abc123

@@ -1,5 +1,10 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-space-above {
   @include spacing.space-above;
+}
+
+.etna-theme-selector {
+  @include typography.main-font-weight-bold;
 }

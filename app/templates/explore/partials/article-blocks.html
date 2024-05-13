@@ -3,14 +3,13 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
 
-{% macro articleBlocks(blocks, get_wagtail_image, get_wagtail_page, get_wagtail_media, config) %}
+{% macro articleBlocks(blocks, get_wagtail_page, merge_dict_if, config) %}
   {% for block in blocks %}
   <h2 class="etna-article__section-button-header tna-heading-l" hidden>
     <button class="etna-article__section-button">
       <span class="etna-article__section-button-label">{{ block.value.heading }}</span>
       <svg class="etna-article__section-button-icon etna-article__section-button-icon--down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" /></svg>
       <svg class="etna-article__section-button-icon etna-article__section-button-icon--up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" /></svg>
-
     </button>
   </h2>
 
@@ -25,19 +24,18 @@
 
       {% elif content_item.type == 'image' %}
       {% set picture_information = [] %}
-      {# TODO: Transcripts and translations #}
-      {% if content_item.value.image.transcription %}
+      {% if content_item.value.image.transcript %}
       {% set picture_information = picture_information + [{
-        'id': 'transcription',
-        'title': content_item.value.image.transcription_heading or 'Transcription',
-        'body': content_item.value.image.transcription | tna_html
+        'id': 'transcript-' + content_item.id,
+        'title': content_item.value.image.transcript.heading or 'Transcription',
+        'body': content_item.value.image.transcript.text | tna_html
       }] %}
       {% endif %}
       {% if content_item.value.image.translation %}
       {% set picture_information = picture_information + [{
-        'id': 'translation',
-        'title': content_item.value.image.translation_heading or 'Translation',
-        'body': content_item.value.image.translation | tna_html
+        'id': 'translation-' + content_item.id,
+        'title': content_item.value.image.translation.heading or 'Translation',
+        'body': content_item.value.image.translation.text | tna_html
       }] %}
       {% endif %}
       {{ tnaPicture({
@@ -101,6 +99,7 @@
           {
             'text': content_item.value.cta_label,
             'href': content_item.value.url,
+            'title': content_item.value.cta_label + ' (opens a new tab)' if content_item.value.target_blank else None,
             'attributes': {
               'target': '_blank' if content_item.value.target_blank
             }
@@ -109,36 +108,31 @@
         'style': 'tint',
         'htmlElement': 'article'
       } %}
-      {% if content_item.value.image.image %}
-      {% set card_content = dict(card_content, **{
+      {% set card_content = merge_dict_if(card_content, {
         'horizontal': True,
         'imageSrc': content_item.value.image.image.image_jpeg.full_url,
         'imageAlt': content_item.value.image.image.alt_text,
         'imageWidth': content_item.value.image.image.image_jpeg.width,
         'imageHeight': content_item.value.image.image.image_jpeg.height,
         'classes': 'tna-card__promoted-item'
-      }) %}
-      {% endif %}
+      }, content_item.value.image.image) %}
       {{ tnaCard(card_content) }}
       </aside>
 
       {% elif content_item.type == 'record_links' %}
       {% set items = [] %}
       {% for i in content_item.value['items'] %}
-        {# TODO: This is the original image - we need an image rendition #}
         {# TODO: Collection #}
         {% if i.thumbnail_image %}
-        {% with image = get_wagtail_image(i.thumbnail_image) %}
         {{ items.append({
-          'imageSrc': image.file,
-          'width': image.width,
-          'height': image.height,
+          'imageSrc': i.thumbnail_image.image_jpeg.full_url,
+          'width': i.thumbnail_image.image_jpeg.width,
+          'height': i.thumbnail_image.image_jpeg.height,
           'collection': "TS 11/45/167",
           'title': i.descriptive_title,
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
-        {% endwith %}
         {% else %}
         {{ items.append({
           'collection': "TS 11/45/167",

@@ -5,12 +5,12 @@ from flask import render_template
 def explore_index_page(page_data):
     try:
         large_cards_data = page_data["body"][0]["value"]
-        large_card_1 = page_details(large_cards_data["page_1"])
-        large_card_2 = page_details(large_cards_data["page_2"])
+        large_card_1 = page_details(large_cards_data["page_1"]["id"])
+        large_card_2 = page_details(large_cards_data["page_2"]["id"])
         featured_article = page_details(page_data["featured_article"]["id"])
         featured_pages = [
-            page_details(featured_page_id)
-            for featured_page_id in page_data["featured_articles"][0]["value"][
+            page_details(featured_page["id"])
+            for featured_page in page_data["featured_articles"][0]["value"][
                 "items"
             ]
         ]

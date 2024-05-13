@@ -1,6 +1,7 @@
 {% extends 'explore/base.html' %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
 {% block head %}
@@ -44,27 +45,33 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">{{ featured_page_group.heading }}</h2>
-      <p>{{ featured_page_group.description }}</p>
+      <h2 class="tna-heading-l">{{ featured_page_group.value.heading }}</h2>
+      <p class="tna-large-paragraph">{{ featured_page_group.value.description }}</p>
     </div>
   </div>
   <div class="tna-container">
-    {% for page in featured_page_group.pages %}
+    {% for page in featured_page_group.value['items'] %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-      {{ tnaCard({
-        'supertitle': page.meta.type | article_supertitle,
+      {% set card_content = {
+        'supertitle': page.type_label or None,
         'title': page.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': page.meta.html_url,
+        'href': page.url,
         'text': page.teaser_text,
-        'imageSrc': page.teaser_image_jpg.full_url,
-        'imageAlt': page.teaser_image_jpg.alt,
-        'imageWidth': page.teaser_image_jpg.width,
-        'imageHeight': page.teaser_image_jpg.height,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
-      }) }}
+      } %}
+      {% set card_content = merge_dict_if(card_content, {
+        'imageSrc': page.teaser_image_jpeg.full_url,
+        'imageAlt': page.teaser_image_jpeg.alt,
+        'imageWidth': page.teaser_image_jpeg.width,
+        'imageHeight': page.teaser_image_jpeg.height
+      }, page.teaser_image_jpeg) %}
+      {% set card_content = merge_dict_if(card_content, {
+        'label': 'New'
+      }, page.is_newly_published) %}
+      {{ tnaCard(card_content) }}
     </div>
     {% endfor %}
   </div>
@@ -75,11 +82,12 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {% if page > 1 %}
+      <h1 class="tna-heading-xl">Stories from the collection</h1>
       <h2 class="tna-heading-l">Discover all stories, page {{ page }}</h2>
       {% else %}
       <h2 class="tna-heading-l">Discover all stories</h2>
-      <p>Browse and explore the human stories behind The National Archives’ collection.</p>
       {% endif %}
+      <p class="tna-large-paragraph">Browse and explore the human stories behind The National Archives’ collection.</p>
     </div>
   </div>
   <div class="tna-container">
@@ -103,44 +111,8 @@
     {% endfor %}
   </div>
   <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <nav class="tna-pagination tna-!--margin-top-xl" aria-label="Pagination">
-        {% if page > 1 %}
-        <div class="tna-pagination__prev">
-          <a class="tna-button tna-pagination__link" href="?page={{ page - 1 }}" rel="prev">
-            <svg class="tna-pagination__icon tna-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
-              <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
-            </svg>
-            <span class="tna-pagination__link-title">
-              Previous
-            </span>
-          </a>
-        </div>
-        {% endif %}
-        <ul class="tna-pagination__list">
-          {% for pagination_item in pagination_list %}
-          {% if pagination_item == '...' %}
-          <li class="tna-pagination__item tna-pagination__item--ellipses">&ctdot;</li>
-          {% elif pagination_item != '' %}
-          <li class="tna-pagination__item{% if pagination_item == page %} tna-pagination__item--current{% endif %}">
-            <a class="tna-button{% if pagination_item == page %} tna-button--accent{% endif %} tna-pagination__link" href="?page={{ pagination_item }}" aria-label="">
-              {{ pagination_item }}
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-        {% if page < pages %}
-        <div class="tna-pagination__next">
-          <a class="tna-button tna-pagination__link" href="?page={{ page + 1 }}" rel="next">
-            <span class="tna-pagination__link-title">Next</span>
-            <svg class="tna-pagination__icon tna-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
-              <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-            </svg>
-          </a>
-        </div>
-        {% endif %}
-      </nav>
+    <div class="tna-column tna-column--full tna-!--margin-top-xl">
+      {{ tnaPagination(pagination) }}
     </div>
   </div>
 </section>
