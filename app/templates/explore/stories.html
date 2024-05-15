@@ -29,10 +29,10 @@
         'headingLevel': 2,
         'headingSize': 'l',
         'text': featured_article.teaser_text,
-        'imageSrc': featured_article.teaser_image.image_jpeg.full_url,
-        'imageAlt': featured_article.teaser_image.image_jpeg.alt or 'TODO',
-        'imageWidth': featured_article.teaser_image.image_jpeg.width,
-        'imageHeight': featured_article.teaser_image.image_jpeg.height,
+        'imageSrc': featured_article.teaser_image.jpeg.full_url,
+        'imageAlt': featured_article.teaser_image.jpeg.alt or 'TODO',
+        'imageWidth': featured_article.teaser_image.jpeg.width,
+        'imageHeight': featured_article.teaser_image.jpeg.height,
         'horizontal': True,
         'style': 'accent',
         'htmlElement': 'article',
@@ -63,11 +63,11 @@
         'classes': 'tna-!--margin-top-l'
       } %}
       {% set card_content = merge_dict_if(card_content, {
-        'imageSrc': page.teaser_image_jpeg.full_url,
-        'imageAlt': page.teaser_image_jpeg.alt,
-        'imageWidth': page.teaser_image_jpeg.width,
-        'imageHeight': page.teaser_image_jpeg.height
-      }, page.teaser_image_jpeg) %}
+        'imageSrc': page.teaser_jpeg.full_url,
+        'imageAlt': page.teaser_jpeg.alt,
+        'imageWidth': page.teaser_jpeg.width,
+        'imageHeight': page.teaser_jpeg.height
+      }, page.teaser_jpeg) %}
       {% set card_content = merge_dict_if(card_content, {
         'label': 'New'
       }, page.is_newly_published) %}
@@ -100,10 +100,10 @@
         'headingSize': 's',
         'href': child.meta.html_url,
         'text': child.teaser_text,
-        'imageSrc': child.teaser_image.image_jpeg.full_url,
-        'imageAlt': child.teaser_image.image_jpeg.alt or 'TODO',
-        'imageWidth': child.teaser_image.image_jpeg.width,
-        'imageHeight': child.teaser_image.image_jpeg.height,
+        'imageSrc': child.teaser_image.jpeg.full_url,
+        'imageAlt': child.teaser_image.jpeg.alt or 'TODO',
+        'imageWidth': child.teaser_image.jpeg.width,
+        'imageHeight': child.teaser_image.jpeg.height,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}

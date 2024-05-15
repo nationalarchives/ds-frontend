@@ -39,10 +39,10 @@
       }] %}
       {% endif %}
       {{ tnaPicture({
-        'src': content_item.value.image.image_jpeg.full_url,
-        'alt': content_item.value.image.image_jpeg.alt_text,
-        'width': content_item.value.image.image_jpeg.width,
-        'height': content_item.value.image.image_jpeg.height,
+        'src': content_item.value.image.jpeg.full_url,
+        'alt': content_item.value.image.jpeg.alt_text,
+        'width': content_item.value.image.jpeg.width,
+        'height': content_item.value.image.jpeg.height,
         'caption': content_item.value.caption,
         'information': picture_information
       }) }}
@@ -110,10 +110,10 @@
       } %}
       {% set card_content = merge_dict_if(card_content, {
         'horizontal': True,
-        'imageSrc': content_item.value.image.image.image_jpeg.full_url,
+        'imageSrc': content_item.value.image.image.jpeg.full_url,
         'imageAlt': content_item.value.image.image.alt_text,
-        'imageWidth': content_item.value.image.image.image_jpeg.width,
-        'imageHeight': content_item.value.image.image.image_jpeg.height,
+        'imageWidth': content_item.value.image.image.jpeg.width,
+        'imageHeight': content_item.value.image.image.jpeg.height,
         'classes': 'tna-card__promoted-item'
       }, content_item.value.image.image) %}
       {{ tnaCard(card_content) }}
@@ -122,25 +122,27 @@
       {% elif content_item.type == 'record_links' %}
       {% set items = [] %}
       {% for i in content_item.value['items'] %}
+        {# {% with parent = i.record_data.hierarchy | last %} #}
         {# TODO: Collection #}
         {% if i.thumbnail_image %}
         {{ items.append({
-          'imageSrc': i.thumbnail_image.image_jpeg.full_url,
-          'width': i.thumbnail_image.image_jpeg.width,
-          'height': i.thumbnail_image.image_jpeg.height,
-          'collection': "TS 11/45/167",
+          'imageSrc': i.thumbnail_image.jpeg.full_url,
+          'width': i.thumbnail_image.jpeg.width,
+          'height': i.thumbnail_image.jpeg.height,
+          'collection': 'parent.identifier',
           'title': i.descriptive_title,
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
         {% else %}
         {{ items.append({
-          'collection': "TS 11/45/167",
+          'collection': 'parent.identifier',
           'title': i.descriptive_title,
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
         {% endif %}
+        {# {% endwith %} #}
       {% endfor %}
       {{ tnaFeaturedRecords({
         'items': items
@@ -177,7 +179,7 @@
       {% elif content_item.type == 'media' %}
       <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
         <div class="tna-aside etna-background-masked-image">
-          <img src="{{ content_item.value.background_image.image_jpeg.full_url }}" class="etna-background-masked-image__image">
+          <img src="{{ content_item.value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
           <hgroup class="tna-hgroup-l">
             <p class="tna-hgroup__supertitle">Listen</p>
             <h3 class="tna-hgroup__title" itemprop="name">

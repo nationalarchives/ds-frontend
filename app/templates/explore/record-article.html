@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-!--hide-on-small tna-!--hide-on-tiny etna-tilted-image-wrapper">
-      <img src="{{ page_data.teaser_image_square.image_jpeg.full_url }}" width="{{ page_data.teaser_image_square.image_jpeg.width }}" height="{{ page_data.teaser_image_square.image_jpeg.height }}" alt="{{ page_data.teaser_image_square.image_jpeg.alt or 'TODO' }}" class="etna-tilted-image">
+      <img src="{{ page_data.teaser_image_square.jpeg.full_url }}" width="{{ page_data.teaser_image_square.jpeg.width }}" height="{{ page_data.teaser_image_square.jpeg.height }}" alt="{{ page_data.teaser_image_square.jpeg.alt or 'TODO' }}" class="etna-tilted-image">
     </div>
   </div>
 </section>
@@ -36,12 +36,14 @@
   <div class="tna-gallery__items">
 
 
+
+    {%- for item in page_data.gallery_items %}
     <div class="tna-gallery__item tna-container">
       <div class="tna-column tna-column--full tna-gallery__header">
         <p class="tna-gallery__item-index">Image 1 of 2</p>
       </div>
       <figure class="tna-gallery__item-figure tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-        <img src="https://picsum.photos/800/600?1" class="tna-gallery__item-image" alt="Photo 1" width="800" height="600">
+        <img src="{{ item.image.jpeg.full_url }}" class="tna-gallery__item-image" alt="Photo 1" width="800" height="600">
         <figcaption class="tna-gallery__item-description">
           <p>Photo 1</p>
         </figcaption>
@@ -68,38 +70,8 @@
         }) }}
       </div>
     </div>
-    <div class="tna-gallery__item tna-container">
-      <div class="tna-column tna-column--full tna-gallery__header">
-        <p class="tna-gallery__item-index">Image 1 of 2</p>
-      </div>
-      <figure class="tna-gallery__item-figure tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-        <img src="https://picsum.photos/800/600?1" class="tna-gallery__item-image" alt="Photo 1" width="800" height="600">
-        <figcaption class="tna-gallery__item-description">
-          <p>Photo 1</p>
-        </figcaption>
-      </figure>
-      <div class="tna-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-        {{ tnaTabs({
-          'items': [
-            {
-              'id': 'unique-id-a2',
-              'title': 'Alpha section',
-              'body': '<h2 class="tna-heading-l">Alpha title</h2><p>Lorem ipsum</p>'
-            },
-            {
-              'id': 'unique-id-b2',
-              'title': 'Beta section',
-              'body': '<h2 class="tna-heading-l">Beta title</h2><p>Lorem ipsum</p>'
-            },
-            {
-              'id': 'unique-id-c2',
-              'title': 'Gamma section',
-              'body': '<h2 class="tna-heading-l">Gamma title</h2><p>Lorem ipsum</p>'
-            }
-          ]
-        }) }}
-      </div>
-    </div>
+    {%- endfor %}
+    
 
 
   </div>
@@ -155,16 +127,16 @@
         'href': item.url,
         'meta': meta,
         'text': item.description,
-        'imageSrc': item.teaser_image.image_jpeg.full_url,
+        'imageSrc': item.teaser_image.jpeg.full_url,
         'imageAlt': item.teaser_image.title,
-        'imageWidth': item.teaser_image.image_jpeg.width,
-        'imageHeight': item.teaser_image.image_jpeg.height,
+        'imageWidth': item.teaser_image.jpeg.width,
+        'imageHeight': item.teaser_image.jpeg.height,
         'imageSources': [
           {
-            'src': item.teaser_image.image_webp.full_url,
+            'src': item.teaser_image.webp.full_url,
             'type': 'image/webp',
-            'width': item.teaser_image.image_webp.width,
-            'height': item.teaser_image.image_webp.height
+            'width': item.teaser_image.webp.width,
+            'height': item.teaser_image.webp.height
           }
         ],
         'htmlElement': 'article',

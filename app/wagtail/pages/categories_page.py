@@ -16,7 +16,7 @@ def categories_page(page_data):
             "title": child["title"],
             "url": child["meta"]["html_url"],
             "teaser": child["teaser_text"],
-            "image": child["teaser_image"]["image_jpeg"],
+            "image": child["teaser_image"]["jpeg"],
         }
         for child in all_children
     ]
@@ -28,11 +28,11 @@ def categories_page(page_data):
             "subtitle": str(len(child["highlights"])) + " images",
             "href": child["meta"]["html_url"],
             "teaser": child["teaser_text"],
-            "src": child["teaser_image"]["image_jpeg"]["full_url"],
+            "src": child["teaser_image"]["jpeg"]["full_url"],
             # TODO
-            # "alt": child["teaser_image"]["image_jpeg"]["alt"],
-            "width": child["teaser_image"]["image_jpeg"]["width"],
-            "height": child["teaser_image"]["image_jpeg"]["height"],
+            # "alt": child["teaser_image"]["jpeg"]["alt"],
+            "width": child["teaser_image"]["jpeg"]["width"],
+            "height": child["teaser_image"]["jpeg"]["height"],
         }
         for child in all_children
     ]

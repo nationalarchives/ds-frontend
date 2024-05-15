@@ -56,7 +56,7 @@
             <ul class="etna-author-list__items tna-columns tna-columns--3 tna-columns--2-small tna-columns--1-tiny">
               {% for author in page_data.authors %}
               <li class="etna-author-list__item tna-columns__block" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                <img src="{{ author.image.image_jpeg.full_url }}" alt="{{ author.image.alt or 'TODO' }}" width="{{ author.image.image_jpeg.width }}" height="{{ author.image.image_jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
+                <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt or 'TODO' }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
                 <p class="etna-author-list__name">
                   <strong>
                     <link itemprop="url" href="{{ author.url }}">
@@ -108,30 +108,30 @@
   {{ tnaHero({
     'supertitle': page_data.type_label,
     'title': page_data.title,
-    'imageSrc': page_data.hero_image.image_jpeg.full_url,
-    'imageAlt': page_data.hero_image.image_jpeg.alt or 'TODO',
-    'imageWidth': page_data.hero_image.image_jpeg.width,
-    'imageHeight': page_data.hero_image.image_jpeg.height,
+    'imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageAlt': page_data.hero_image.jpeg.alt or 'TODO',
+    'imageWidth': page_data.hero_image.jpeg.width,
+    'imageHeight': page_data.hero_image.jpeg.height,
     'imageCaption': page_data.hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image_small.image_webp.full_url,
-        'width': page_data.hero_image_small.image_webp.width,
-        'height': page_data.hero_image_small.image_webp.height,
+        'src': page_data.hero_image_small.webp.full_url,
+        'width': page_data.hero_image_small.webp.width,
+        'height': page_data.hero_image_small.webp.height,
         'type': 'image/webp',
         'media': '(max-width: 48em)'
       },
       {
-        'src': page_data.hero_image_small.image_jpeg.full_url,
-        'width': page_data.hero_image_small.image_jpeg.width,
-        'height': page_data.hero_image_small.image_jpeg.height,
+        'src': page_data.hero_image_small.jpeg.full_url,
+        'width': page_data.hero_image_small.jpeg.width,
+        'height': page_data.hero_image_small.jpeg.height,
         'type': 'image/jpeg',
         'media': '(max-width: 48em)'
       },
       {
-        'src': page_data.hero_image.image_webp.full_url,
-        'width': page_data.hero_image.image_webp.width,
-        'height': page_data.hero_image.image_webp.height,
+        'src': page_data.hero_image.webp.full_url,
+        'width': page_data.hero_image.webp.width,
+        'height': page_data.hero_image.webp.height,
         'type': 'image/webp'
       }
     ],
@@ -151,7 +151,7 @@
         <ul class="etna-author-list__items">
           {% for author in page_data.authors %}
           <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <img src="{{ author.image.image_jpeg.full_url }}" alt="{{ author.image.image_jpeg.alt or 'TODO' }}" width="{{ author.image.image_jpeg.width }}" height="{{ author.image.image_jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
+            <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.jpeg.alt or 'TODO' }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
             <p class="etna-author-list__name">
               <strong>
                 <link itemprop="url" href="{{ author.url }}">
@@ -195,7 +195,7 @@
           <ul class="etna-author-list__items">
             {% for author in page_data.authors %}
             <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-              <img src="{{ author.image.image_jpeg.full_url }}" alt="{{ author.image.image_jpeg.alt or 'TODO' }}" width="{{ author.image.image_jpeg.width }}" height="{{ author.image.image_jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
+              <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.jpeg.alt or 'TODO' }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
               <p class="etna-author-list__name">
                 <strong>
                   <link itemprop="url" href="{{ author.url }}">

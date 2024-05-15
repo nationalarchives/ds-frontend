@@ -10,29 +10,29 @@
 {{ tnaHero({
   'title': page_data.title,
   'body': page_data.intro | safe,
-  'imageSrc': page_data.hero_image.image_jpeg.full_url,
-  'imageAlt': page_data.hero_image.image_jpeg.alt or 'TODO',
-  'imageWidth': page_data.hero_image.image_jpeg.width,
-  'imageHeight': page_data.hero_image.image_jpeg.height,
+  'imageSrc': page_data.hero_image.jpeg.full_url,
+  'imageAlt': page_data.hero_image.jpeg.alt or 'TODO',
+  'imageWidth': page_data.hero_image.jpeg.width,
+  'imageHeight': page_data.hero_image.jpeg.height,
   'imageSources': [
     {
-      'src': page_data.hero_image_small.image_webp.full_url,
-      'width': page_data.hero_image_small.image_webp.width,
-      'height': page_data.hero_image_small.image_webp.height,
+      'src': page_data.hero_image_small.webp.full_url,
+      'width': page_data.hero_image_small.webp.width,
+      'height': page_data.hero_image_small.webp.height,
       'type': 'image/webp',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image_small.image_jpeg.full_url,
-      'width': page_data.hero_image_small.image_jpeg.width,
-      'height': page_data.hero_image_small.image_jpeg.height,
+      'src': page_data.hero_image_small.jpeg.full_url,
+      'width': page_data.hero_image_small.jpeg.width,
+      'height': page_data.hero_image_small.jpeg.height,
       'type': 'image/jpeg',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image.image_webp.full_url,
-      'width': page_data.hero_image.image_webp.width,
-      'height': page_data.hero_image.image_webp.height,
+      'src': page_data.hero_image.webp.full_url,
+      'width': page_data.hero_image.webp.width,
+      'height': page_data.hero_image.webp.height,
       'type': 'image/webp'
     }
   ]

@@ -15,10 +15,10 @@ def pages_to_index_grid_items(pages, label=""):
             "href": page["url"],
             "label": label,
             "title": page["title"],
-            "src": page["teaser_image"]["image_jpeg"]["full_url"],
-            # "alt": page["teaser_image"]["image_jpeg"]["alt"] or "TODO",
-            "width": page["teaser_image"]["image_jpeg"]["width"],
-            "height": page["teaser_image"]["image_jpeg"]["height"],
+            "src": page["teaser_image"]["jpeg"]["full_url"],
+            # "alt": page["teaser_image"]["jpeg"]["alt"] or "TODO",
+            "width": page["teaser_image"]["jpeg"]["width"],
+            "height": page["teaser_image"]["jpeg"]["height"],
         }
         for page in pages
     ]

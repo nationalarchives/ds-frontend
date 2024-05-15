@@ -21,11 +21,11 @@ def explore_index_page(page_data):
     large_cards = [
         {
             "href": card["meta"]["html_url"],
-            "src": card["teaser_image"]["image_jpeg"]["full_url"],
+            "src": card["teaser_image"]["jpeg"]["full_url"],
             # TODO
-            # "alt": card["teaser_image"]["image_jpeg"]["alt"],
-            "width": card["teaser_image"]["image_jpeg"]["width"],
-            "height": card["teaser_image"]["image_jpeg"]["height"],
+            # "alt": card["teaser_image"]["jpeg"]["alt"],
+            "width": card["teaser_image"]["jpeg"]["width"],
+            "height": card["teaser_image"]["jpeg"]["height"],
             "title": card["title"],
         }
         for card in [large_card_1, large_card_2]
