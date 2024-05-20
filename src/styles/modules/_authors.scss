@@ -1,37 +1,74 @@
+@use "sass:math";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-author-list {
-  padding: spacing.space(1) 0 0;
-
   &__heading {
+    margin-bottom: spacing.space(1);
   }
 
   &__items {
     margin: 0;
     padding: 0;
 
+    display: flex;
+    flex-direction: column;
+    gap: spacing.space(1.5);
     list-style: none;
+
+    // @include colour.colour-border("keyline", 1px, solid, bottom);
   }
 
   &__item {
-    padding-top: spacing.space(2);
-
-    p {
-      margin-top: spacing.space(0.5);
-    }
+    // padding: spacing.space(0.5) 0;
+    display: flex;
+    gap: spacing.space(1);
+    // @include colour.colour-border("keyline", 1px, solid, top);
   }
 
   &__image {
+    width: 5rem;
+    height: 5rem;
+    
+    border-radius: 100%;
+  }
+
+  &__details {
   }
 
   &__name {
   }
 
   &__description {
+    margin-top: spacing.space(0.125);
+
     @include typography.relative-font-size(16);
+  }
+
+  &--horizontal {
+  }
+
+  &--horizontal &__items {
+    display: block;
+
+    columns: 3;
+    column-gap: spacing.space(2);
+
+    @include media.on-medium {
+      columns: 2;
+    }
+
+    @include media.on-mobile {
+      columns: 1;
+    }
+  }
+
+  &--horizontal &__item {
+    margin-bottom: spacing.space(1);
+
+    break-inside: avoid;
   }
 }
 

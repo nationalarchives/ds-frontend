@@ -16,24 +16,21 @@
   <header class="tna-section tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <hgroup class="tna-hgroup-xl">
-        <p class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</p>
+        <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
         <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
       </hgroup>
       <div class="tna-large-paragraph tna-!--margin-top-s">
         {{ page_data.intro | safe }}
       </div>
-    </div>
-  </header>
-  {% if page_data.custom_warning_text %}
-  <div class="tna-section tna-container tna-!--no-padding-top">
-    <div class="tna-column tna-column--full">
+      {% if page_data.display_content_warning %}
       {{ tnaWarning({
         'headingLevel': 2,
-        'body': page_data.custom_warning_text | safe
+        'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
+        'classes': 'tna-!--margin-top-m'
       }) }}
+      {% endif %}
     </div>
-  </div>
-  {% endif %}
+  </header>
   <section class="tna-background-contrast">
     {% for highlight in page_data.highlights %}
     {% if not loop.first %}

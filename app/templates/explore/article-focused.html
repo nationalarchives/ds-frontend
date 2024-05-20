@@ -104,98 +104,78 @@
 
 
 
-  {% if 'hero_image' in page_data %}
-  {{ tnaHero({
-    'supertitle': page_data.type_label,
-    'title': page_data.title,
-    'imageSrc': page_data.hero_image.jpeg.full_url,
-    'imageAlt': page_data.hero_image.alt_text,
-    'imageWidth': page_data.hero_image.jpeg.width,
-    'imageHeight': page_data.hero_image.jpeg.height,
-    'imageCaption': page_data.hero_image_caption,
-    'imageSources': [
-      {
-        'src': page_data.hero_image_small.webp.full_url,
-        'width': page_data.hero_image_small.webp.width,
-        'height': page_data.hero_image_small.webp.height,
-        'type': 'image/webp',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': page_data.hero_image_small.jpeg.full_url,
-        'width': page_data.hero_image_small.jpeg.width,
-        'height': page_data.hero_image_small.jpeg.height,
-        'type': 'image/jpeg',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': page_data.hero_image.webp.full_url,
-        'width': page_data.hero_image.webp.width,
-        'height': page_data.hero_image.webp.height,
-        'type': 'image/webp'
-      }
-    ],
-    'style': 'accent',
-    'layout': 'shift'
-  }) }}
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3">
-      <div class="tna-large-paragraph tna-!--margin-top-l" itemprop="headline">
-        {{ page_data.intro | safe }}
+  {% if page_data.hero_image and page_data.hero_image_small %}
+  <div class="tna-background-accent-light">
+    {{ tnaHero({
+      'supertitle': page_data.type_label,
+      'title': page_data.title,
+      'body_': ('<div class="tna-large-paragraph" itemprop="headline">' + page_data.intro + '</div>') | safe,
+      'imageSrc': page_data.hero_image.jpeg.full_url,
+      'imageAlt': page_data.hero_image.alt_text,
+      'imageWidth': page_data.hero_image.jpeg.width,
+      'imageHeight': page_data.hero_image.jpeg.height,
+      'imageCaption': page_data.hero_image_caption,
+      'imageSources': [
+        {
+          'src': page_data.hero_image_small.webp.full_url,
+          'width': page_data.hero_image_small.webp.width,
+          'height': page_data.hero_image_small.webp.height,
+          'type': 'image/webp',
+          'media': '(max-width: 48em)'
+        },
+        {
+          'src': page_data.hero_image_small.jpeg.full_url,
+          'width': page_data.hero_image_small.jpeg.width,
+          'height': page_data.hero_image_small.jpeg.height,
+          'type': 'image/jpeg',
+          'media': '(max-width: 48em)'
+        },
+        {
+          'src': page_data.hero_image.webp.full_url,
+          'width': page_data.hero_image.webp.width,
+          'height': page_data.hero_image.webp.height,
+          'type': 'image/webp'
+        }
+      ],
+      'style': 'accent',
+      'layout': 'shift'
+    }) }}
+    <div class="tna-container tna-!--padding-bottom-s">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <div class="tna-large-paragraph tna-!--margin-top-l" itemprop="headline">
+          {{ page_data.intro | safe }}
+        </div>
       </div>
-    </div>
-    <div class="tna-column tna-column--width-1-3">
-      {% if page_data.authors | length %}
-      <div class="etna-author-list">
-        <h2 class="etna-author-list__heading tna-chip tna-chip--plain tna-visually-hidden">Author{{ 's' if authors | length > 1 }}</h2>
-        <ul class="etna-author-list__items">
-          {% for author in page_data.authors %}
-          <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
-            <p class="etna-author-list__name">
-              <strong>
-                <link itemprop="url" href="{{ author.url }}">
-                <a href="{{ author.url }}" rel="author">
-                  <span itemprop="name">{{ author.title }}</span>
-                </a>
-              </strong>
-            </p>
-            <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
     </div>
   </div>
   {% else %}
   <div class="tna-background-accent">
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <div class="tna-column tna-column--width-2-3{{ ' tna-column--width-5-6-medium' if not page_data.authors | length }} tna-column--full-small tna-column--full-tiny">
           <hgroup class="tna-hgroup-xl">
             <p class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</p>
             <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
           </hgroup>
+          <div class="tna-large-paragraph tna-!--margin-top-l" itemprop="headline">
+            {{ page_data.intro | safe }}
+          </div>
         </div>
       </div>
     </header>
   </div>
-  <div class="tna-section tna-!--padding-bottom-xl">
+  {% endif %}
+
+  {% if page_data.authors | length %}
+  <div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-s">
     <div class="tna-container">
-      <div class="tna-column tna-column--width-2-3">
-        <div class="tna-large-paragraph tna-!--margin-top-l" itemprop="headline">
-          {{ page_data.intro | safe }}
-        </div>
-      </div>
-      <div class="tna-column tna-column--width-1-3">
-        {% if page_data.authors | length %}
-        <div class="etna-author-list">
-          <h2 class="etna-author-list__heading tna-chip tna-chip--plain tna-visually-hidden">Author{{ 's' if authors | length > 1 }}</h2>
-          <ul class="etna-author-list__items">
-            {% for author in page_data.authors %}
-            <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-              <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
+      <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
+        <h2 class="etna-author-list__heading tna-heading-s tna-visually-hidden-">Author{{ 's' if page_data.authors | length > 1 }}</h2>
+        <ul class="etna-author-list__items">
+          {% for author in page_data.authors %}
+          <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+            <div class="etna-author-list__details">
               <p class="etna-author-list__name">
                 <strong>
                   <link itemprop="url" href="{{ author.url }}">
@@ -205,11 +185,10 @@
                 </strong>
               </p>
               <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>
@@ -225,7 +204,7 @@
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
-          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-l'
+          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
         {% endif %}
         {{ articleBlocks(page_data.body, get_wagtail_page, merge_dict_if, config) }}

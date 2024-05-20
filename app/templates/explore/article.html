@@ -6,6 +6,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
 {%- set themeAccent = 'blue' -%}
@@ -72,6 +73,13 @@
         {{ articleSidebar(page_data.body) }}
       </div>
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections" itemprop="articleBody">
+        {% if not page_data.display_content_warning %}
+        {{ tnaWarning({
+          'headingLevel': 2,
+          'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
+          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
+        }) }}
+        {% endif %}
         {{ articleBlocks(page_data.body, get_wagtail_page, merge_dict_if, config) }}
       </div>
       <!-- <div class="tna-column tna-column--full tna-!--margin-top-m">
