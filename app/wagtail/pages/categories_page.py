@@ -30,7 +30,7 @@ def categories_page(page_data):
             "teaser": child["teaser_text"],
             "src": child["teaser_image"]["jpeg"]["full_url"],
             # TODO
-            # "alt": child["teaser_image"]["jpeg"]["alt"],
+            # "alt": child["teaser_image"]["alt_text"],
             "width": child["teaser_image"]["jpeg"]["width"],
             "height": child["teaser_image"]["jpeg"]["height"],
         }

@@ -11,7 +11,7 @@
   'title': page_data.title,
   'body': page_data.intro | safe,
   'imageSrc': page_data.hero_image.jpeg.full_url,
-  'imageAlt': page_data.hero_image.jpeg.alt or 'TODO',
+  'imageAlt': page_data.hero_image.alt_text,
   'imageWidth': page_data.hero_image.jpeg.width,
   'imageHeight': page_data.hero_image.jpeg.height,
   'imageSources': [

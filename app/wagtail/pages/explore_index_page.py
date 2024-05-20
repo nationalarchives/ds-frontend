@@ -23,7 +23,7 @@ def explore_index_page(page_data):
             "href": card["meta"]["html_url"],
             "src": card["teaser_image"]["jpeg"]["full_url"],
             # TODO
-            # "alt": card["teaser_image"]["jpeg"]["alt"],
+            # "alt": card["teaser_image"]["alt_text"],
             "width": card["teaser_image"]["jpeg"]["width"],
             "height": card["teaser_image"]["jpeg"]["height"],
             "title": card["title"],

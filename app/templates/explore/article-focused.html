@@ -109,7 +109,7 @@
     'supertitle': page_data.type_label,
     'title': page_data.title,
     'imageSrc': page_data.hero_image.jpeg.full_url,
-    'imageAlt': page_data.hero_image.jpeg.alt or 'TODO',
+    'imageAlt': page_data.hero_image.alt_text,
     'imageWidth': page_data.hero_image.jpeg.width,
     'imageHeight': page_data.hero_image.jpeg.height,
     'imageCaption': page_data.hero_image_caption,
@@ -151,7 +151,7 @@
         <ul class="etna-author-list__items">
           {% for author in page_data.authors %}
           <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.jpeg.alt or 'TODO' }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
+            <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
             <p class="etna-author-list__name">
               <strong>
                 <link itemprop="url" href="{{ author.url }}">
@@ -195,7 +195,7 @@
           <ul class="etna-author-list__items">
             {% for author in page_data.authors %}
             <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-              <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.jpeg.alt or 'TODO' }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
+              <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
               <p class="etna-author-list__name">
                 <strong>
                   <link itemprop="url" href="{{ author.url }}">

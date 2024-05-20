@@ -13,7 +13,7 @@
   </div>
 {%- if params.information -%}
   <div class="tna-picture__transcript">
-  {%- if params.information|length > 1 -%}
+  {%- if params.information | length > 1 -%}
     {{ tnaTabs({
       'items': params.information
     }) }}

@@ -12,12 +12,12 @@ from flask import current_app, render_template, request
 from .pages import (
     article_index_page,
     article_page,
+    article_page_focused,
     author_index_page,
     author_page,
     categories_page,
     category_index_page,
     explore_index_page,
-    article_page_focused,
     highlight_gallery_page,
     home_page,
     record_article_page,

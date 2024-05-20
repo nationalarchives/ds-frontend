@@ -8,6 +8,11 @@
 
 {%- set themeAccent = 'green' -%}
 
+{% block stylesheets %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+{% endblock %}
+
 {% block content %}
 <section class="tna-section">
   <div class="tna-container">
@@ -21,7 +26,7 @@
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-!--hide-on-small tna-!--hide-on-tiny etna-tilted-image-wrapper">
-      <img src="{{ page_data.teaser_image_square.jpeg.full_url }}" width="{{ page_data.teaser_image_square.jpeg.width }}" height="{{ page_data.teaser_image_square.jpeg.height }}" alt="{{ page_data.teaser_image_square.jpeg.alt or 'TODO' }}" class="etna-tilted-image">
+      <img src="{{ page_data.intro_image.jpeg.full_url }}" width="{{ page_data.intro_image.jpeg.width }}" height="{{ page_data.intro_image.jpeg.height }}" alt="{{ page_data.intro_image.alt_text }}" class="etna-tilted-image">
     </div>
   </div>
 </section>
@@ -34,46 +39,41 @@
     </div>
   </div>
   <div class="tna-gallery__items">
-
-
-
     {%- for item in page_data.gallery_items %}
+    {% set picture_information = [] %}
+    {%- if item.image.transcript %}
+    {% set picture_information = picture_information + [{
+      'id': 'transcript-' + item.image.id | string,
+      'title': item.image.transcript.heading or 'Transcript',
+      'body': item.image.transcript.text | tna_html
+    }] %}
+    {%- endif %}
+    {%- if item.image.translation %}
+    {% set picture_information = picture_information + [{
+      'id': 'translation-' + item.image.id | string,
+      'title': item.image.translation.heading or 'Translation',
+      'body': item.image.translation.text | tna_html
+    }] %}
+    {%- endif %}
     <div class="tna-gallery__item tna-container">
       <div class="tna-column tna-column--full tna-gallery__header">
-        <p class="tna-gallery__item-index">Image 1 of 2</p>
+        <p class="tna-gallery__item-index">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</p>
       </div>
-      <figure class="tna-gallery__item-figure tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-        <img src="{{ item.image.jpeg.full_url }}" class="tna-gallery__item-image" alt="Photo 1" width="800" height="600">
+      <figure class="tna-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        <img src="{{ item.image.jpeg.full_url }}" class="tna-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.jpeg.width }}" height="{{ item.image.jpeg.height }}">
         <figcaption class="tna-gallery__item-description">
-          <p>Photo 1</p>
+          {{ item.caption | safe }}
         </figcaption>
       </figure>
+      {%- if picture_information | length %}
       <div class="tna-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
         {{ tnaTabs({
-          'items': [
-            {
-              'id': 'unique-id-a',
-              'title': 'Alpha section',
-              'body': '<h2 class="tna-heading-l">Alpha title</h2><p>Lorem ipsum</p>'
-            },
-            {
-              'id': 'unique-id-b',
-              'title': 'Beta section',
-              'body': '<h2 class="tna-heading-l">Beta title</h2><p>Lorem ipsum</p>'
-            },
-            {
-              'id': 'unique-id-c',
-              'title': 'Gamma section',
-              'body': '<h2 class="tna-heading-l">Gamma title</h2><p>Lorem ipsum</p>'
-            }
-          ]
+          'items': picture_information
         }) }}
       </div>
+      {%- endif %}
     </div>
     {%- endfor %}
-    
-
-
   </div>
 </section>
 <section class="tna-section">

@@ -4,13 +4,9 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-author-list {
-  // @include spacing.space-above;
   padding: spacing.space(1) 0 0;
 
-  // @include colour.colour-border("keyline", 1px, dashed, top);
-
   &__heading {
-    // padding-bottom: spacing.space(2);
   }
 
   &__items {
@@ -37,24 +33,10 @@
   &__description {
     @include typography.relative-font-size(16);
   }
-
-  @include media.on-mobile {
-    // padding: spacing.space(2) 0;
-
-    // border: none;
-    // @include colour.colour-border("keyline", 1px, dashed, bottom);
-  }
 }
 
 .etna-author-header {
-  @include media.on-tiny {
-    // text-align: center;
-
-    .tna-hgroup__supertitle {
-      // margin-right: auto;
-      // margin-left: auto;
-    }
-
+  @include media.on-mobile {
     .etna-author-image {
       margin: 0 auto spacing.space(2);
     }
@@ -64,6 +46,10 @@
 .etna-author-image {
   width: 20rem;
   border-radius: 100%;
+
+  @include media.on-small {
+    width: 12rem;
+  }
 
   @include media.on-tiny {
     width: 8rem;

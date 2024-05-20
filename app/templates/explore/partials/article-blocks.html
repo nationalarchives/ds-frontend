@@ -27,7 +27,7 @@
       {% if content_item.value.image.transcript %}
       {% set picture_information = picture_information + [{
         'id': 'transcript-' + content_item.id,
-        'title': content_item.value.image.transcript.heading or 'Transcription',
+        'title': content_item.value.image.transcript.heading or 'Transcript',
         'body': content_item.value.image.transcript.text | tna_html
       }] %}
       {% endif %}

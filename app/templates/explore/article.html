@@ -37,7 +37,7 @@
   {% if 'hero_image' in page_data %}
   {{ tnaHero({
     'imageSrc': page_data.hero_image.jpeg.full_url,
-    'imageAlt': page_data.hero_image.jpeg.alt or 'TODO',
+    'imageAlt': page_data.hero_image.alt_text,
     'imageWidth': page_data.hero_image.jpeg.width,
     'imageHeight': page_data.hero_image.jpeg.height,
     'imageCaption': page_data.hero_image_caption,
