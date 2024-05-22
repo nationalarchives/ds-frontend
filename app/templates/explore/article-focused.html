@@ -167,10 +167,10 @@
   {% endif %}
 
   {% if page_data.authors | length %}
-  <div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-s">
+  <div class="tna-background-accent-light tna-!--padding-top-s">
     <div class="tna-container">
       <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
-        <h2 class="etna-author-list__heading tna-heading-s tna-visually-hidden-">Author{{ 's' if page_data.authors | length > 1 }}</h2>
+        <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if page_data.authors | length > 1 }}</h2>
         <ul class="etna-author-list__items">
           {% for author in page_data.authors %}
           <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
