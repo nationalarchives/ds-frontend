@@ -6,6 +6,10 @@
 
 {% block head %}
 {{ super() }}
+{%- if page_data.tags | length %}
+<meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
+{%- endif %}
+
 {{ meta({
   'title': page_data.meta.seo_title or page_data.title,
   'description': page_data.meta.search_description,
