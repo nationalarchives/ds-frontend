@@ -6,7 +6,7 @@
 
 {% block head %}
 {{ super() }}
-<link rel="canonical" href="{{ page_data.url | default(request.url) }}?page={{ page }}">
+<link rel="canonical" href="{{ request.url }}{{ '?page=' + (page | string) if 'page' not in request.args }}">
 {% endblock %}
 
 {% block content %}
@@ -41,7 +41,7 @@
     </div>
   </div>
 </section>
-{% for featured_page_group in featured_pages %}
+{% for featured_page_group in page_data.featured_pages %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -62,12 +62,12 @@
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       } %}
-      {% set card_content = merge_dict_if(card_content, {
-        'imageSrc': page.teaser_jpeg.full_url,
-        'imageAlt': page.teaser_jpeg.alt,
-        'imageWidth': page.teaser_jpeg.width,
-        'imageHeight': page.teaser_jpeg.height
-      }, page.teaser_jpeg) %}
+      {# {% set card_content = merge_dict_if(card_content, {
+        'imageSrc': page.teaser_image.jpeg.full_url,
+        'imageAlt': page.teaser_image.alt,
+        'imageWidth': page.teaser_image.jpeg.width,
+        'imageHeight': page.teaser_image.jpeg.height
+      }, page.teaser_jpeg) %} #}
       {% set card_content = merge_dict_if(card_content, {
         'label': 'New'
       }, page.is_newly_published) %}
