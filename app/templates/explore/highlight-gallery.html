@@ -72,6 +72,7 @@
     {%- endfor %}
   </section>
 
+  {% if page_data.featured_article %}
   <aside>
     <section class="tna-section">
       <div class="tna-container">
@@ -79,7 +80,6 @@
           <h2 class="tna-heading-l">Featured article</h2>
         </div>
         <div class="tna-column tna-column--full">
-          {% if page_data.featured_article %}
           {{ tnaCard({
             'supertitle': page_data.featured_article.type_label,
             'title': page_data.featured_article.title,
@@ -87,6 +87,7 @@
             'headingSize': 'l',
             'href': page_data.featured_article.url,
             'text': page_data.featured_article.teaser_text,
+            'label': 'New' if page_data.featured_article.is_newly_published,
             'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
             'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
             'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
@@ -96,11 +97,11 @@
             'style': 'accent',
             'classes': 'tna-!--margin-top-m'
           }) }}
-          {% endif %}
         </div>
       </div>
     </section>
   </aside>
+  {% endif %}
   {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>
 

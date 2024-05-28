@@ -41,6 +41,7 @@
             'headingSize': 's',
             'href': article.url,
             'body': article.teaser_text,
+            'label': 'New' if article.is_newly_published,
             'imageSrc': article.teaser_image.jpeg.full_url,
             'imageAlt': article.teaser_image.alt_text or article.teaser_image.title,
             'imageWidth': article.teaser_image.jpeg.width,

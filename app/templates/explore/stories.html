@@ -29,6 +29,7 @@
         'headingLevel': 2,
         'headingSize': 'l',
         'text': page_data.featured_article.teaser_text,
+        'label': 'New' if page_data.featured_article.is_newly_published,
         'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
         'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
@@ -59,6 +60,7 @@
         'headingSize': 's',
         'href': page.url,
         'text': page.teaser_text,
+        'label': 'New' if page.is_newly_published,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       } %}

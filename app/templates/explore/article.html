@@ -3,7 +3,6 @@
 {%- from 'explore/partials/article-blocks.html' import articleBlocks -%}
 {%- from 'explore/partials/article-footer.html' import articleFooter -%}
 {%- from 'explore/partials/article-sidebar.html' import articleSidebar -%}
-{%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
@@ -23,10 +22,8 @@
     <div class="tna-container">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
         <hgroup class="tna-hgroup-xl">
-          <h1>
-            <span class="tna-hgroup__supertitle">{{ page_data.type_label }}</span>
-            <span class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</span>
-          </h1>
+          <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+          <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
         </hgroup>
         <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
           {{ page_data.intro | safe }}

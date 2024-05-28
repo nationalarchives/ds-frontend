@@ -18,6 +18,7 @@ def article_index_page(page_data):
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
     try:
+        # TODO: Make this data available in the ?child_of endpoint
         children = [
             page_details(child["id"]) for child in children_data["items"]
         ]

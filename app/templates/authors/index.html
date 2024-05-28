@@ -20,6 +20,7 @@
         'headingLevel': 2,
         'body': child.role,
         'href': child.meta.html_url,
+        'label': 'New' if child.is_newly_published,
         'imageSrc': child.teaser_image.jpeg.full_url,
         'imageAlt': child.teaser_image.jpeg.alt,
         'imageWidth': child.teaser_image.jpeg.width,
@@ -32,6 +33,7 @@
         'headingLevel': 2,
         'body': child.role,
         'href': child.meta.html_url,
+        'label': 'New' if child.is_newly_published,
         'htmlElement': 'article'
       }) }}
       {%- endif %}
@@ -58,6 +60,7 @@
         'headingLevel': 2,
         'body': child.role,
         'href': child.meta.html_url,
+        'label': 'New' if child.is_newly_published,
         'htmlElement': 'article'
       }) }}
     </li>
