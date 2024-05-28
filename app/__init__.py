@@ -2,8 +2,6 @@ import logging
 
 from app.lib import cache
 from app.lib.context_processor import (
-    get_wagtail_image,
-    get_wagtail_page,
     merge_dict,
     merge_dict_if,
     now_iso_8601,
@@ -146,8 +144,6 @@ def create_app(config_class=Config):
     @app.context_processor
     def context_processor():
         return dict(
-            get_wagtail_image=get_wagtail_image,
-            get_wagtail_page=get_wagtail_page,
             merge_dict=merge_dict,
             merge_dict_if=merge_dict_if,
             now_iso_8601=now_iso_8601,

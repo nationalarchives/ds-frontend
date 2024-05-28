@@ -30,7 +30,7 @@
         'headingSize': 'l',
         'text': featured_article.teaser_text,
         'imageSrc': featured_article.teaser_image.jpeg.full_url,
-        'imageAlt': featured_article.teaser_image.alt_text,
+        'imageAlt': featured_article.teaser_image.alt_text or featured_article.teaser_image.title,
         'imageWidth': featured_article.teaser_image.jpeg.width,
         'imageHeight': featured_article.teaser_image.jpeg.height,
         'horizontal': True,
@@ -62,12 +62,12 @@
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       } %}
-      {# {% set card_content = merge_dict_if(card_content, {
+      {% set card_content = merge_dict_if(card_content, {
         'imageSrc': page.teaser_image.jpeg.full_url,
         'imageAlt': page.teaser_image.alt,
         'imageWidth': page.teaser_image.jpeg.width,
         'imageHeight': page.teaser_image.jpeg.height
-      }, page.teaser_jpeg) %} #}
+      }, page.teaser_image) %}
       {% set card_content = merge_dict_if(card_content, {
         'label': 'New'
       }, page.is_newly_published) %}
@@ -101,9 +101,10 @@
         'href': child.meta.html_url,
         'text': child.teaser_text,
         'imageSrc': child.teaser_image.jpeg.full_url,
-        'imageAlt': child.teaser_image.alt_text,
+        'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,
         'imageWidth': child.teaser_image.jpeg.width,
         'imageHeight': child.teaser_image.jpeg.height,
+        'lazyImage': page == 1,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}

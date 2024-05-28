@@ -1,18 +1,5 @@
 from datetime import datetime
 
-from app.wagtail.api import image_details, media_details, page_details
-
-
-def get_wagtail_image(image_id):
-    image_data = image_details(image_id)
-    return image_data
-
-
-def get_wagtail_page(page_id):
-    page_data = page_details(page_id)
-    return page_data
-
-
 def merge_dict(dict, new_data):
     return dict | new_data
 

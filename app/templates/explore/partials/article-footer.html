@@ -20,9 +20,10 @@
         'href': page.full_url,
         'body': page.teaser_text,
         'imageSrc': page.teaser_image.jpeg.full_url,
-        'imageAlt': page.teaser_image.alt_text,
+        'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
         'imageWidth': page.teaser_image.jpeg.width,
         'imageHeight': page.teaser_image.jpeg.height,
+        'lazyImage': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
       }) }}
@@ -63,9 +64,10 @@
         'href': page.full_url,
         'body': page.teaser_text,
         'imageSrc': page.teaser_image.jpeg.full_url,
-        'imageAlt': page.teaser_image.alt_text,
+        'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
         'imageWidth': page.teaser_image.jpeg.width,
         'imageHeight': page.teaser_image.jpeg.height,
+        'lazyImage': True,
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
       }) }}

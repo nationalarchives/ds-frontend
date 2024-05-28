@@ -3,7 +3,7 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
 
-{% macro articleBlocks(blocks, get_wagtail_page, merge_dict_if, config) %}
+{% macro articleBlocks(blocks, merge_dict_if) %}
   {% for block in blocks %}
   <h2 class="etna-article__section-button-header tna-heading-l" hidden>
     <button class="etna-article__section-button">
@@ -149,31 +149,31 @@
       }) }}
 
       {% elif content_item.type == 'featured_record_article' %}
-      {# TODO: This is the original image - we need an image rendition #}
+      {# TODO: Date #}
       <aside class="etna-space-above">
-      {% with article = get_wagtail_page(content_item.value.page) %}
       {{ tnaCard({
-        'supertitle': article.meta.type | article_supertitle,
-        'title': article.title,
+        'supertitle': content_item.value.page.type_label,
+        'title': content_item.value.page.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': article.meta.html_url,
+        'href': content_item.value.page.url,
         'meta': [
           {
-            'text': article.date_text,
+            'text': 'content_item.value.date_text',
             'icon': 'calendar'
           }
         ],
-        'text': article.teaser_text,
-        'imageSrc': article.teaser_image_jpg.full_url,
-        'imageAlt': article.teaser_image_jpg.alt,
-        'imageWidth': article.teaser_image_jpg.width,
-        'imageHeight': article.teaser_image_jpg.height,
+        'label': 'New' if content_item.value.page.is_newly_published else None,
+        'text': content_item.value.page.teaser_text,
+        'imageSrc': content_item.value.page.teaser_image.jpeg.full_url,
+        'imageAlt': content_item.value.page.teaser_image.alt,
+        'imageWidth': content_item.value.page.teaser_image.jpeg.width,
+        'imageHeight': content_item.value.page.teaser_image.jpeg.height,
+        'lazyImage': True,
         'style': 'contrast',
         'htmlElement': 'article',
         'horizontal': True
       }) }}
-      {% endwith %}
       </aside>
 
       {% elif content_item.type == 'media' %}

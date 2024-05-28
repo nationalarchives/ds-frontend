@@ -32,7 +32,7 @@
         'href': featured_article.meta.html_url,
         'text': featured_article.teaser_text,
         'imageSrc': featured_article.teaser_image.jpeg.full_url,
-        'imageAlt': featured_article.teaser_image.alt_text,
+        'imageAlt': featured_article.teaser_image.alt_text or featured_article.teaser_image.title,
         'imageWidth': featured_article.teaser_image.jpeg.width,
         'imageHeight': featured_article.teaser_image.jpeg.height,
         'htmlElement': 'article',
@@ -52,9 +52,10 @@
         'href': featured_page.meta.html_url,
         'body': featured_page.teaser_text,
         'imageSrc': featured_page.teaser_image.jpeg.full_url,
-        'imageAlt': featured_page.teaser_image.alt_text,
+        'imageAlt': featured_page.teaser_image.alt_text or featured_page.teaser_image.title,
         'imageWidth': featured_page.teaser_image.jpeg.width,
         'imageHeight': featured_page.teaser_image.jpeg.height,
+        'lazyImage': True,
         'htmlElement': 'article'
       }) }}
     </div>
