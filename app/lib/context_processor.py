@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def merge_dict(dict, new_data):
     return dict | new_data
 

@@ -8,8 +8,6 @@ from app.lib.context_processor import (
     pretty_date_range,
 )
 from app.lib.template_filters import (
-    article_supertitle,
-    article_type,
     headings_list,
     iso_date,
     pretty_date,
@@ -132,8 +130,6 @@ def create_app(config_class=Config):
     app.add_template_filter(pretty_date)
     app.add_template_filter(iso_date)
     app.add_template_filter(pretty_number)
-    app.add_template_filter(article_supertitle)
-    app.add_template_filter(article_type)
     app.add_template_filter(headings_list)
     app.add_template_filter(replace_ref)
     app.add_template_filter(replace_ext_ref)

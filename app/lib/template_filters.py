@@ -54,33 +54,6 @@ def pretty_number(s):
     return f"{s:,}"
 
 
-def article_supertitle(s):
-    if s == "articles.ArticlePage":
-        return "The story of"
-    if s == "articles.FocusedArticlePage":
-        return "Focus on"
-    if s == "articles.RecordArticlePage":
-        return "Record revealed"
-    if s == "collections.HighlightGalleryPage":
-        return "Gallery"
-    return ""
-
-
-# TODO: This should come from the CMS
-def article_type(s):
-    if s == "articles.ArticlePage" or s == "articles.FocusedArticlePage":
-        return "Article"
-    if s == "articles.RecordArticlePage":
-        return "Records revealed"
-    if s == "collections.HighlightGalleryPage":
-        return "Gallery"
-    if s == "collections.TimePeriodExplorerPage":
-        return "Time period"
-    if s == "collections.TopicExplorerPage":
-        return "Topic"
-    return ""
-
-
 def headings_list(s):
     headings_raw = re.findall(
         r'<h([1-6])[^>]*id="([\w\-]+)"[^>]*>\s*([\w\s\.]+)\s*<', s

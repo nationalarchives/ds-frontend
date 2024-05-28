@@ -6,7 +6,6 @@
 {%- from 'macros/feedback.html' import feedback -%}
 
 {% block content %}
-<!-- TODO: Heading and body? -->
 {{ tnaHero({
   'title': page_data.title,
   'body': page_data.intro | safe,
@@ -38,14 +37,77 @@
   ]
 }) }}
 <section class="tna-section">
+  {% set children = [] %}
+  {%- for child in page_data.related_highlight_gallery_pages %}
+  {% set children = children.append({
+    'id': child.id,
+    'title': child.title,
+    'subtitle': (child.highlight_image_count | string) + ' images',
+    'href': child.url,
+    'src': child.teaser_image.jpeg.full_url,
+    'alt': child.teaser_image.alt_text or child.teaser_image.title,
+    'width': child.teaser_image.jpeg.width,
+    'height': child.teaser_image.jpeg.height
+  }) %}
+  {%- endfor %}
   {{ tnaIndexGrid({
     'title': page_data.title + ' highlights in pictures',
     'headingLevel': 2,
-    'items': children_index_grid,
+    'headingSize': 'l',
+    'items': children,
     'columns': 3,
     'columnsSmall': 2,
     'columnsTiny': 1
   }) }}
 </section>
+
+
+{% if page_data.related_articles | length %}
+<section class="tna-section tna-!--padding-bottom-s">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">Stories from the collection</h2>
+      {% if page_data.featured_article %}
+      {{ tnaCard({
+        'supertitle': page_data.featured_article.type_label,
+        'title': page_data.featured_article.title,
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': page_data.featured_article.url,
+        'text': page_data.featured_article.teaser_text,
+        'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
+        'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+        'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
+        'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
+        'htmlElement': 'article',
+        'horizontal': True,
+        'style': 'accent'
+      }) }}
+      {% endif %}
+    </div>
+  </div>
+  <ul class="tna-ul tna-ul--plain tna-container">
+    {%- for page in page_data.related_articles %}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      {{ tnaCard({
+        'supertitle': page.type_label,
+        'title': page.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': page.full_url,
+        'body': page.teaser_text,
+        'imageSrc': page.teaser_image.jpeg.full_url,
+        'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
+        'imageWidth': page.teaser_image.jpeg.width,
+        'imageHeight': page.teaser_image.jpeg.height,
+        'lazyImage': True,
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
+      }) }}
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{% endif %}
 {{ feedback() }}
 {% endblock %}

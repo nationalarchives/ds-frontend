@@ -4,7 +4,7 @@
 {%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
 
 {% macro articleBlocks(blocks, merge_dict_if) %}
-  {% for block in blocks %}
+  {%- for block in blocks %}
   <h2 class="etna-article__section-button-header tna-heading-l" hidden>
     <button class="etna-article__section-button">
       <span class="etna-article__section-button-label">{{ block.value.heading }}</span>
@@ -15,29 +15,29 @@
 
   <section class="etna-article__section">
     <h2 class="tna-heading-l tna-!--padding-top-s etna-article__section-heading" id="{{ block.value.heading | slugify }}">{{ block.value.heading }}</h2>
-    {% for content_item in block.value.content %}
-      {% if content_item.type == 'paragraph' %}
+    {%- for content_item in block.value.content %}
+      {%- if content_item.type == 'paragraph' %}
       {{ content_item.value.text | tna_html | safe }}
 
       {% elif content_item.type == 'sub_heading' %}
       <h3 class="tna-heading-m">{{ block.value.heading }}</h3>
 
-      {% elif content_item.type == 'image' %}
+      {%- elif content_item.type == 'image' %}
       {% set picture_information = [] %}
-      {% if content_item.value.image.transcript %}
+      {%- if content_item.value.image.transcript %}
       {% set picture_information = picture_information + [{
         'id': 'transcript-' + content_item.id,
         'title': content_item.value.image.transcript.heading or 'Transcript',
         'body': content_item.value.image.transcript.text | tna_html
       }] %}
-      {% endif %}
-      {% if content_item.value.image.translation %}
+      {%- endif %}
+      {%- if content_item.value.image.translation %}
       {% set picture_information = picture_information + [{
         'id': 'translation-' + content_item.id,
         'title': content_item.value.image.translation.heading or 'Translation',
         'body': content_item.value.image.translation.text | tna_html
       }] %}
-      {% endif %}
+      {%- endif %}
       {{ tnaPicture({
         'src': content_item.value.image.jpeg.full_url,
         'alt': content_item.value.image.jpeg.alt_text,
@@ -47,7 +47,7 @@
         'information': picture_information
       }) }}
 
-      {% elif content_item.type == 'quote' %}
+      {%- elif content_item.type == 'quote' %}
       <blockquote class="tna-blockquote">
         <div class="tna-blockquote__quote">
           {{ content_item.value.quote | safe }}
@@ -57,10 +57,10 @@
         {% endif %}
       </blockquote>
 
-      {% elif content_item.type == 'promoted_list' %}
+      {%- elif content_item.type == 'promoted_list' %}
       <aside class="etna-space-above">
         <ul class="etna-block-list">
-          {% for item in content_item.value.promoted_items %}
+          {%- for item in content_item.value.promoted_items %}
           <li>
             {% set supertitle = '' %}
             {% if 'blog.nationalarchives.gov.uk' in item.url %}
@@ -84,11 +84,11 @@
             {% endif %}
             {{ item.description | safe }}
           </li>
-          {% endfor %}
+          {%- endfor %}
         </ul>
       </aside>
 
-      {% elif content_item.type == 'promoted_item' %}
+      {%- elif content_item.type == 'promoted_item' %}
       <aside class="etna-space-above">
       {% set card_content = {
         'title': content_item.value.title,
@@ -119,12 +119,12 @@
       {{ tnaCard(card_content) }}
       </aside>
 
-      {% elif content_item.type == 'record_links' %}
+      {%- elif content_item.type == 'record_links' %}
       {% set items = [] %}
-      {% for i in content_item.value['items'] %}
+      {%- for i in content_item.value['items'] %}
         {# {% with parent = i.record_data.hierarchy | last %} #}
         {# TODO: Collection #}
-        {% if i.thumbnail_image %}
+        {%- if i.thumbnail_image %}
         {{ items.append({
           'imageSrc': i.thumbnail_image.jpeg.full_url,
           'width': i.thumbnail_image.jpeg.width,
@@ -134,21 +134,21 @@
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
-        {% else %}
+        {%- else %}
         {{ items.append({
           'collection': 'parent.identifier',
           'title': i.descriptive_title,
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
-        {% endif %}
+        {%- endif %}
         {# {% endwith %} #}
-      {% endfor %}
+      {%- endfor %}
       {{ tnaFeaturedRecords({
         'items': items
       }) }}
 
-      {% elif content_item.type == 'featured_record_article' %}
+      {%- elif content_item.type == 'featured_record_article' %}
       {# TODO: Date #}
       <aside class="etna-space-above">
       {{ tnaCard({
@@ -176,7 +176,7 @@
       }) }}
       </aside>
 
-      {% elif content_item.type == 'media' %}
+      {%- elif content_item.type == 'media' %}
       <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
         <div class="tna-aside etna-background-masked-image">
           <img src="{{ content_item.value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
@@ -203,10 +203,10 @@
         </div>
       </aside>
 
-      {% else %}
-      <h1 class="tna-heading-xl">======= TODO: {{ content_item.type }} =======</h1>
-      {% endif %}
-    {% endfor %}
+      {%- else %}
+      <h1 class="tna-heading-xl">======= {{ content_item.type }} =======</h1>
+      {%- endif %}
+    {%- endfor %}
   </section>
-  {% endfor %}
+  {%- endfor %}
 {% endmacro %}

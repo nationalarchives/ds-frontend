@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-{% if page == 1 %}
+{%- if page == 1 %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -23,16 +23,16 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       {{ tnaCard({
-        'supertitle': featured_article.meta.type | article_supertitle,
-        'title': featured_article.title,
-        'href': featured_article.meta.html_url,
+        'supertitle': page_data.featured_article.type_label,
+        'title': page_data.featured_article.title,
+        'href': page_data.featured_article.url,
         'headingLevel': 2,
         'headingSize': 'l',
-        'text': featured_article.teaser_text,
-        'imageSrc': featured_article.teaser_image.jpeg.full_url,
-        'imageAlt': featured_article.teaser_image.alt_text or featured_article.teaser_image.title,
-        'imageWidth': featured_article.teaser_image.jpeg.width,
-        'imageHeight': featured_article.teaser_image.jpeg.height,
+        'text': page_data.featured_article.teaser_text,
+        'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
+        'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+        'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
+        'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'horizontal': True,
         'style': 'accent',
         'htmlElement': 'article',
@@ -41,7 +41,7 @@
     </div>
   </div>
 </section>
-{% for featured_page_group in page_data.featured_pages %}
+{%- for featured_page_group in page_data.featured_pages %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -50,7 +50,7 @@
     </div>
   </div>
   <div class="tna-container">
-    {% for page in featured_page_group.value['items'] %}
+    {%- for page in featured_page_group.value['items'] %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
       {% set card_content = {
         'supertitle': page.type_label or None,
@@ -73,11 +73,11 @@
       }, page.is_newly_published) %}
       {{ tnaCard(card_content) }}
     </div>
-    {% endfor %}
+    {%- endfor %}
   </div>
 </section>
-{% endfor %}
-{% endif %}
+{%- endfor %}
+{%- endif %}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -91,10 +91,10 @@
     </div>
   </div>
   <div class="tna-container">
-    {% for child in children %}
+    {%- for child in children %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
       {{ tnaCard({
-        'supertitle': child.meta.type | article_supertitle,
+        'supertitle': child.type_label,
         'title': child.title,
         'headingLevel': 3,
         'headingSize': 's',
@@ -109,7 +109,7 @@
         'classes': 'tna-!--margin-top-l'
       }) }}
     </div>
-    {% endfor %}
+    {%- endfor %}
   </div>
   <div class="tna-container">
     <div class="tna-column tna-column--full tna-!--margin-top-xl">

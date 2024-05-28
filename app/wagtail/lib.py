@@ -1,12 +1,11 @@
 def pick_top_two(a, b):
-    selection = []
     if len(a) and len(b):
-        selection = [a[0], b[0]]
+        return [a[0], b[0]]
     elif len(a):
-        selection = [a[0], a[1] or None]
+        return [a[0], a[1]] if len(a) > 1 else [a[0]]
     elif len(b):
-        selection = [b[0], b[1] or None]
-    return selection
+        return [b[0], b[1]] if len(b) > 1 else [b[0]]
+    return []
 
 
 def pages_to_index_grid_items(pages, label=""):

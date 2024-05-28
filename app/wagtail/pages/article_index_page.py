@@ -18,7 +18,6 @@ def article_index_page(page_data):
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
     try:
-        featured_article = page_details(page_data["featured_article"]["id"])
         children = [
             page_details(child["id"]) for child in children_data["items"]
         ]
@@ -28,7 +27,6 @@ def article_index_page(page_data):
         "explore/stories.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
-        featured_article=featured_article,
         children=children,
         pagination=pagination_object(page, pages, request.args),
         page=page,

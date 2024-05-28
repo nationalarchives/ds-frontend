@@ -61,7 +61,7 @@
           'headingSize': 's',
           'href': result.url,
           'text': result.description,
-          'label': result.type | article_type,
+          '_label': result.type_label,
           'meta': [
             {
               'text': 'Published ' + (result.first_published | pretty_date),
@@ -91,7 +91,7 @@
       </div>
       <div class="tna-column tna-column--width-7-12 tna-column--width-1-2-medium tna-column--width-2-3-small tna-column--full-tiny tna-!--margin-top-m">
         <hgroup class="tna-hgroup-m">
-          <p class="tna-hgroup__supertitle tna-hgroup__supertitle--plain-">{{ result.type | article_type }}</p>
+          {# <p class="tna-hgroup__supertitle">{{ result.type_label }}</p> #}
           <h3 class="tna-hgroup__title">
             <a href="{{ result.url }}">{{ result.title }}</a>
           </h3>

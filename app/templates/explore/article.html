@@ -84,14 +84,12 @@
       </div>
       <!-- <div class="tna-column tna-column--full tna-!--margin-top-m">
         <p>
-          <small>&quot;{{ page_data.meta.type | article_supertitle }} {{ page_data.title }}&quot; was first published on <time datetime="{{ page_data.meta.first_published_at | iso_date }}" itemprop="datePublished">{{ page_data.meta.first_published_at | pretty_date }}</time>.</small>
+          <small>&quot;{{ page_data.type_label }} {{ page_data.title }}&quot; was first published on <time datetime="{{ page_data.meta.first_published_at | iso_date }}" itemprop="datePublished">{{ page_data.meta.first_published_at | pretty_date }}</time>.</small>
         </p>
       </div> -->
     </div>
   </div>
-  <aside>
-    {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
-  </aside>
+  {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>
 
 {{ feedback() }}

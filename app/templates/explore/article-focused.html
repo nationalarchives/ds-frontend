@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block beforeContent %}
-{% if breadcrumbs and breadcrumbs | length > 0 %}
+{%- if breadcrumbs and breadcrumbs | length > 0 %}
 <div class="tna-background-accent">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
@@ -31,80 +31,13 @@
     </div>
   </div>
 </div>
-{% endif %}
+{%- endif %}
 {% endblock %}
 
 {% block content %}
 <article class="etna-article" itemscope itemtype="https://schema.org/Article">
   <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
-  <!-- <div class="tna-background-accent">
-    <header class="tna-section tna-!--padding-bottom-xl">
-      <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</p>
-            <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
-          </hgroup>
-          <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
-            {{ page_data.intro | safe }}
-          </div>
-        </div>
-        <div class="tna-column tna-column--full">
-          {% if page_data.authors | length %}
-          <div class="etna-author-list">
-            <h2 class="etna-author-list__heading tna-chip tna-chip--plain tna-visually-hidden">Author{{ 's' if authors | length > 1 }}</h2>
-            <ul class="etna-author-list__items tna-columns tna-columns--3 tna-columns--2-small tna-columns--1-tiny">
-              {% for author in page_data.authors %}
-              <li class="etna-author-list__item tna-columns__block" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt or 'TODO' }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image etna-author-image etna-author-image--small" itemprop="image">
-                <p class="etna-author-list__name">
-                  <strong>
-                    <link itemprop="url" href="{{ author.url }}">
-                    <a href="{{ author.url }}" rel="author">
-                      <span itemprop="name">{{ author.title }}</span>
-                    </a>
-                  </strong>
-                </p>
-                <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    </header>
-  </div>
-  {% if page_data.hero_image_jpg %}
-  <div class="etna-background-half-top-accent">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        {{ tnaHero({
-          'imageSrc': page_data.hero_image_jpg.full_url,
-          'imageAlt': page_data.hero_image_jpg.alt,
-          'imageWidth': page_data.hero_image_jpg.width,
-          'imageHeight': page_data.hero_image_jpg.height,
-          'imageSources': [
-            {
-              'src': page_data.hero_image_jpg_small.full_url,
-              'media': "(max-width: 48em)",
-              'width': page_data.hero_image_jpg_small.width,
-              'height': page_data.hero_image_jpg_small.height,
-              'type': "image/jpeg"
-            }
-          ],
-          'imageCaption': page_data.hero_image_caption | safe
-        }) }}
-      </div>
-    </div>
-  </div>
-  {% endif %} -->
-
-
-
-
-
-  {% if page_data.hero_image and page_data.hero_image_small %}
+  {%- if page_data.hero_image and page_data.hero_image_small %}
   <div class="tna-background-accent-light">
     {{ tnaHero({
       'supertitle': page_data.type_label,
@@ -148,13 +81,13 @@
       </div>
     </div>
   </div>
-  {% else %}
+  {%- else %}
   <div class="tna-background-accent">
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3{{ ' tna-column--width-5-6-medium' if not page_data.authors | length }} tna-column--full-small tna-column--full-tiny">
           <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">{{ page_data.meta.type | article_supertitle }}</p>
+            <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
             <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
           </hgroup>
           <div class="tna-large-paragraph tna-!--margin-top-l" itemprop="headline">
@@ -164,15 +97,15 @@
       </div>
     </header>
   </div>
-  {% endif %}
+  {%- endif %}
 
-  {% if page_data.authors | length %}
+  {%- if page_data.authors | length %}
   <div class="tna-background-accent-light tna-!--padding-top-s">
     <div class="tna-container">
       <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
         <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if page_data.authors | length > 1 }}</h2>
         <ul class="etna-author-list__items">
-          {% for author in page_data.authors %}
+          {%- for author in page_data.authors %}
           <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
             <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
             <div class="etna-author-list__details">
@@ -187,12 +120,12 @@
               <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
             </div>
           </li>
-          {% endfor %}
+          {%- endfor %}
         </ul>
       </div>
     </div>
   </div>
-  {% endif %}
+  {%- endif %}
 
   <section class="tna-section">
     <div class="tna-container">
@@ -200,25 +133,23 @@
         {{ articleSidebar(page_data.body) }}
       </div>
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections" itemprop="articleBody">
-        {% if page_data.display_content_warning %}
+        {%- if page_data.display_content_warning %}
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
-        {% endif %}
+        {%- endif %}
         {{ articleBlocks(page_data.body, merge_dict_if) }}
       </div>
       <!-- <div class="tna-column tna-column--full tna-!--margin-top-m">
         <p>
-          <small>&quot;{{ page_data.meta.type | article_supertitle }} {{ page_data.title }}&quot; was first published on <time datetime="{{ page_data.meta.first_published_at }}" itemprop="datePublished">{{ page_data.meta.first_published_at | pretty_date }}</time>.</small>
+          <small>&quot;{{ page_data.type_label }} {{ page_data.title }}&quot; was first published on <time datetime="{{ page_data.meta.first_published_at }}" itemprop="datePublished">{{ page_data.meta.first_published_at | pretty_date }}</time>.</small>
         </p>
       </div> -->
     </div>
   </section>
-  <aside>
-    {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
-  </aside>
+  {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>
 
 {{ feedback() }}
