@@ -24,13 +24,13 @@
 
 {% block head %}
 {{ super() }}
-<meta name="description" content="Record {{ data.identifier or data.id }} - {{ data.summary_title }}">
-<link rel="canonical" href="{{ url_for('catalogue.details', id=data.id, _external=True, _scheme='https') }}">
+    <meta name="description" content="Record {{ data.identifier or data.id }} - {{ data.summary_title }}">
+    <link rel="canonical" href="{{ url_for('catalogue.details', id=data.id, _external=True, _scheme='https') }}">
 {% endblock %}
 
 {% block stylesheets %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}">
 {% endblock %}
 
 {% block beforeContent %}

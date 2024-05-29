@@ -54,7 +54,7 @@ def create_app(config_class=Config):
                 ),
                 "https://ssl.gstatic.com",
                 "https://www.gstatic.com",
-                "https://www.nationalarchives.gov.uk"
+                "https://www.nationalarchives.gov.uk",
             ],
             "script-src": [
                 SELF,

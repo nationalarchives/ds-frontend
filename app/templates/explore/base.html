@@ -7,16 +7,16 @@
 {% block head %}
 {{ super() }}
 {%- if page_data.id %}
-<meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
+    <meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
 {% endif %}
 {%- if page_data.title %}
-<meta name="tna.page.wagtail.title" content="{{ page_data.title }}">
+    <meta name="tna.page.wagtail.title" content="{{ page_data.title }}">
 {% endif %}
 {%- if page_data.meta and page_data.meta.type %}
-<meta name="tna.page.wagtail.type" content="{{ page_data.meta.type }}">
+    <meta name="tna.page.wagtail.type" content="{{ page_data.meta.type }}">
 {% endif %}
 {%- if page_data.tags and page_data.tags | length %}
-<meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
+    <meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
 {% endif %}
 
 {{ meta({
@@ -24,9 +24,14 @@
   'description': page_data.meta.search_description,
   'url': page_data.meta.html_url,
   'image': {
-    'src': page_data.teaser_image.full_url,
-    'width': page_data.teaser_image.width,
-    'height': page_data.teaser_image.height,
+    'src': page_data.facebook_og_image.jpeg.full_url,
+    'width': page_data.facebook_og_image.jpeg.width,
+    'height': page_data.facebook_og_image.jpeg.height
+  },
+  'twitter_image': {
+    'src': page_data.twitter_og_image.jpeg.full_url,
+    'width': page_data.twitter_og_image.jpeg.width,
+    'height': page_data.twitter_og_image.jpeg.height,
     'type': 'image/jpeg'
   }
 }) }}
