@@ -102,6 +102,7 @@
         'headingSize': 's',
         'href': child.url,
         'text': child.teaser_text,
+        'label': 'New' if child.is_newly_published,
         'imageSrc': child.teaser_image.jpeg.full_url,
         'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,
         'imageWidth': child.teaser_image.jpeg.width,
