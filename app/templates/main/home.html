@@ -7,14 +7,14 @@
       <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
       {{ page_data.intro | safe }}
 
-      {% for content_item in page_data.body %}
+      {%- for content_item in page_data.body %}
       
-      {% if content_item.type == 'paragraph_with_heading' %}
+      {%- if content_item.type == 'paragraph_with_heading' %}
       <h2 class="tna-heading-l">{{ content_item.value.heading }}</h2>
       {{ content_item.value.paragraph | tna_html | safe }}
 
-      {% endif %}
-      {% endfor %}
+      {%- endif %}
+      {%- endfor %}
     </div>
   </div>
 </div>

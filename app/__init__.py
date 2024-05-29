@@ -2,16 +2,12 @@ import logging
 
 from app.lib import cache
 from app.lib.context_processor import (
-    get_wagtail_image,
-    get_wagtail_media,
-    get_wagtail_page,
+    merge_dict,
+    merge_dict_if,
     now_iso_8601,
     pretty_date_range,
 )
 from app.lib.template_filters import (
-    article_supertitle,
-    article_type,
-    brand_icon_from_url,
     headings_list,
     iso_date,
     pretty_date,
@@ -58,6 +54,7 @@ def create_app(config_class=Config):
                 ),
                 "https://ssl.gstatic.com",
                 "https://www.gstatic.com",
+                "https://www.nationalarchives.gov.uk"
             ],
             "script-src": [
                 SELF,
@@ -134,9 +131,6 @@ def create_app(config_class=Config):
     app.add_template_filter(pretty_date)
     app.add_template_filter(iso_date)
     app.add_template_filter(pretty_number)
-    app.add_template_filter(article_supertitle)
-    app.add_template_filter(article_type)
-    app.add_template_filter(brand_icon_from_url)
     app.add_template_filter(headings_list)
     app.add_template_filter(replace_ref)
     app.add_template_filter(replace_ext_ref)
@@ -147,9 +141,8 @@ def create_app(config_class=Config):
     @app.context_processor
     def context_processor():
         return dict(
-            get_wagtail_image=get_wagtail_image,
-            get_wagtail_page=get_wagtail_page,
-            get_wagtail_media=get_wagtail_media,
+            merge_dict=merge_dict,
+            merge_dict_if=merge_dict_if,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
             config=templates_config,

@@ -3,11 +3,9 @@
   {% if 'description' in data %}
   <meta name="description" content="{{ data.description }}">
   {% endif %}
-
   <meta name="apple-mobile-web-app-title" content="{{ siteName }}">
   <meta name="apple-mobile-web-app-capable" content="no">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
   <meta property="og:site_name" content="{{ siteName }}">
   {% if 'title' in data %}
   <meta property="og:title" content="{{ data.title }}" data-meta="title">
@@ -26,7 +24,6 @@
   {% endif %}
   <meta property="og:type" content="{{ data.type | default('website') }}">
   <meta property="og:locale" content="{{ data.language | default('en-GB') }}">
-
   <meta name="twitter:card" content="summary">
   {% if 'title' in data %}
   <meta name="twitter:title" content="{{ data.title }}">

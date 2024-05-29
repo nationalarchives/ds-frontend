@@ -24,7 +24,7 @@ def healthcheck():
 
 
 @bp.route("/sitemap.xml")
-@cache.cached(timeout=900)
+@cache.cached(timeout=3600)
 def sitemap():
     host_components = urlparse(request.host_url)
     host_base = host_components.scheme + "://" + host_components.netloc

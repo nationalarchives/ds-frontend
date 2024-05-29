@@ -3,53 +3,51 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
 
-{% macro articleBlocks(blocks, get_wagtail_image, get_wagtail_page, get_wagtail_media, config) %}
-  {% for block in blocks %}
+{% macro articleBlocks(blocks, merge_dict_if) %}
+  {%- for block in blocks %}
   <h2 class="etna-article__section-button-header tna-heading-l" hidden>
     <button class="etna-article__section-button">
       <span class="etna-article__section-button-label">{{ block.value.heading }}</span>
       <svg class="etna-article__section-button-icon etna-article__section-button-icon--down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" /></svg>
       <svg class="etna-article__section-button-icon etna-article__section-button-icon--up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" /></svg>
-
     </button>
   </h2>
 
   <section class="etna-article__section">
     <h2 class="tna-heading-l tna-!--padding-top-s etna-article__section-heading" id="{{ block.value.heading | slugify }}">{{ block.value.heading }}</h2>
-    {% for content_item in block.value.content %}
-      {% if content_item.type == 'paragraph' %}
+    {%- for content_item in block.value.content %}
+      {%- if content_item.type == 'paragraph' %}
       {{ content_item.value.text | tna_html | safe }}
 
       {% elif content_item.type == 'sub_heading' %}
       <h3 class="tna-heading-m">{{ block.value.heading }}</h3>
 
-      {% elif content_item.type == 'image' %}
+      {%- elif content_item.type == 'image' %}
       {% set picture_information = [] %}
-      {# TODO: Transcripts and translations #}
-      {% if content_item.value.image.transcription %}
+      {%- if content_item.value.image.transcript %}
       {% set picture_information = picture_information + [{
-        'id': 'transcription',
-        'title': content_item.value.image.transcription_heading or 'Transcription',
-        'body': content_item.value.image.transcription | tna_html
+        'id': 'transcript-' + content_item.id,
+        'title': content_item.value.image.transcript.heading or 'Transcript',
+        'body': content_item.value.image.transcript.text | tna_html
       }] %}
-      {% endif %}
-      {% if content_item.value.image.translation %}
+      {%- endif %}
+      {%- if content_item.value.image.translation %}
       {% set picture_information = picture_information + [{
-        'id': 'translation',
-        'title': content_item.value.image.translation_heading or 'Translation',
-        'body': content_item.value.image.translation | tna_html
+        'id': 'translation-' + content_item.id,
+        'title': content_item.value.image.translation.heading or 'Translation',
+        'body': content_item.value.image.translation.text | tna_html
       }] %}
-      {% endif %}
+      {%- endif %}
       {{ tnaPicture({
-        'src': content_item.value.image.image_jpeg.full_url,
-        'alt': content_item.value.image.image_jpeg.alt_text,
-        'width': content_item.value.image.image_jpeg.width,
-        'height': content_item.value.image.image_jpeg.height,
+        'src': content_item.value.image.jpeg.full_url,
+        'alt': content_item.value.image.jpeg.alt_text,
+        'width': content_item.value.image.jpeg.width,
+        'height': content_item.value.image.jpeg.height,
         'caption': content_item.value.caption,
         'information': picture_information
       }) }}
 
-      {% elif content_item.type == 'quote' %}
+      {%- elif content_item.type == 'quote' %}
       <blockquote class="tna-blockquote">
         <div class="tna-blockquote__quote">
           {{ content_item.value.quote | safe }}
@@ -59,10 +57,10 @@
         {% endif %}
       </blockquote>
 
-      {% elif content_item.type == 'promoted_list' %}
+      {%- elif content_item.type == 'promoted_list' %}
       <aside class="etna-space-above">
         <ul class="etna-block-list">
-          {% for item in content_item.value.promoted_items %}
+          {%- for item in content_item.value.promoted_items %}
           <li>
             {% set supertitle = '' %}
             {% if 'blog.nationalarchives.gov.uk' in item.url %}
@@ -86,11 +84,11 @@
             {% endif %}
             {{ item.description | safe }}
           </li>
-          {% endfor %}
+          {%- endfor %}
         </ul>
       </aside>
 
-      {% elif content_item.type == 'promoted_item' %}
+      {%- elif content_item.type == 'promoted_item' %}
       <aside class="etna-space-above">
       {% set card_content = {
         'title': content_item.value.title,
@@ -101,6 +99,7 @@
           {
             'text': content_item.value.cta_label,
             'href': content_item.value.url,
+            'title': content_item.value.cta_label + ' (opens a new tab)' if content_item.value.target_blank else None,
             'attributes': {
               'target': '_blank' if content_item.value.target_blank
             }
@@ -109,81 +108,78 @@
         'style': 'tint',
         'htmlElement': 'article'
       } %}
-      {% if content_item.value.image.image %}
-      {% set card_content = dict(card_content, **{
+      {% set card_content = merge_dict_if(card_content, {
         'horizontal': True,
-        'imageSrc': content_item.value.image.image.image_jpeg.full_url,
+        'imageSrc': content_item.value.image.image.jpeg.full_url,
         'imageAlt': content_item.value.image.image.alt_text,
-        'imageWidth': content_item.value.image.image.image_jpeg.width,
-        'imageHeight': content_item.value.image.image.image_jpeg.height,
+        'imageWidth': content_item.value.image.image.jpeg.width,
+        'imageHeight': content_item.value.image.image.jpeg.height,
         'classes': 'tna-card__promoted-item'
-      }) %}
-      {% endif %}
+      }, content_item.value.image.image) %}
       {{ tnaCard(card_content) }}
       </aside>
 
-      {% elif content_item.type == 'record_links' %}
+      {%- elif content_item.type == 'record_links' %}
       {% set items = [] %}
-      {% for i in content_item.value['items'] %}
-        {# TODO: This is the original image - we need an image rendition #}
+      {%- for i in content_item.value['items'] %}
+        {# {% with parent = i.record_data.hierarchy | last %} #}
         {# TODO: Collection #}
-        {% if i.thumbnail_image %}
-        {% with image = get_wagtail_image(i.thumbnail_image) %}
+        {%- if i.thumbnail_image %}
         {{ items.append({
-          'imageSrc': image.file,
-          'width': image.width,
-          'height': image.height,
-          'collection': "TS 11/45/167",
+          'imageSrc': i.thumbnail_image.jpeg.full_url,
+          'width': i.thumbnail_image.jpeg.width,
+          'height': i.thumbnail_image.jpeg.height,
+          'collection': 'parent.identifier',
           'title': i.descriptive_title,
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
-        {% endwith %}
-        {% else %}
+        {%- else %}
         {{ items.append({
-          'collection': "TS 11/45/167",
+          'collection': 'parent.identifier',
           'title': i.descriptive_title,
           'href': url_for('catalogue.details', id=i.record),
           'date': i.record_dates
         }) or "" }}
-        {% endif %}
-      {% endfor %}
+        {%- endif %}
+        {# {% endwith %} #}
+      {%- endfor %}
       {{ tnaFeaturedRecords({
         'items': items
       }) }}
 
-      {% elif content_item.type == 'featured_record_article' %}
-      {# TODO: This is the original image - we need an image rendition #}
+      {%- elif content_item.type == 'featured_record_article' %}
+      {# TODO: Date #}
       <aside class="etna-space-above">
-      {% with article = get_wagtail_page(content_item.value.page) %}
       {{ tnaCard({
-        'supertitle': article.meta.type | article_supertitle,
-        'title': article.title,
+        'supertitle': content_item.value.page.type_label,
+        'title': content_item.value.page.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': article.meta.html_url,
+        'href': content_item.value.page.url,
         'meta': [
           {
-            'text': article.date_text,
+            'text': 'content_item.value.date_text',
             'icon': 'calendar'
           }
         ],
-        'text': article.teaser_text,
-        'imageSrc': article.teaser_image_jpg.full_url,
-        'imageAlt': article.teaser_image_jpg.alt,
-        'imageWidth': article.teaser_image_jpg.width,
-        'imageHeight': article.teaser_image_jpg.height,
+        'label': 'New' if content_item.value.page.is_newly_published else None,
+        'text': content_item.value.page.teaser_text,
+        'imageSrc': content_item.value.page.teaser_image.jpeg.full_url,
+        'imageAlt': content_item.value.page.teaser_image.alt,
+        'imageWidth': content_item.value.page.teaser_image.jpeg.width,
+        'imageHeight': content_item.value.page.teaser_image.jpeg.height,
+        'lazyImage': True,
         'style': 'contrast',
         'htmlElement': 'article',
         'horizontal': True
       }) }}
-      {% endwith %}
       </aside>
 
-      {% elif content_item.type == 'media' %}
+      {%- elif content_item.type == 'media' %}
       <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
         <div class="tna-aside etna-background-masked-image">
-          <img src="{{ content_item.value.background_image.image_jpeg.full_url }}" class="etna-background-masked-image__image">
+          <img src="{{ content_item.value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
           <hgroup class="tna-hgroup-l">
             <p class="tna-hgroup__supertitle">Listen</p>
             <h3 class="tna-hgroup__title" itemprop="name">
@@ -207,10 +203,10 @@
         </div>
       </aside>
 
-      {% else %}
-      <h1 class="tna-heading-xl">======= TODO: {{ content_item.type }} =======</h1>
-      {% endif %}
-    {% endfor %}
+      {%- else %}
+      <h1 class="tna-heading-xl">======= {{ content_item.type }} =======</h1>
+      {%- endif %}
+    {%- endfor %}
   </section>
-  {% endfor %}
+  {%- endfor %}
 {% endmacro %}

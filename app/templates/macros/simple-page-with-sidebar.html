@@ -8,7 +8,7 @@
 </section>
 <div class="tna-container">
   {% set headings = page_content | headings_list %}
-  {% if headings %}
+  {%- if headings %}
   <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
     <!-- {{ headings }} -->
     <nav class="etna-article__sidebar" aria-label="Table of contents">
@@ -35,7 +35,7 @@
       </ol>
     </nav>
   </div>
-  {% endif %}
+  {%- endif %}
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
     {{ page_content | safe }}
   </div>

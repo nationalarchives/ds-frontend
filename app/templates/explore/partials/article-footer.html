@@ -1,0 +1,87 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
+
+{% macro articleFooter(similar_items, categories, latest_items) %}
+{%- if similar_items | length or categories | length or latest_items | length %}
+<aside>
+{%- endif %}
+  {%- if similar_items | length %}
+  <section class="tna-section tna-!--padding-bottom-s">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h2 class="tna-heading-l">You may also be interested in</h2>
+      </div>
+    </div>
+    <ul class="tna-ul tna-ul--plain tna-container">
+      {%- for page in similar_items %}
+      <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+        {{ tnaCard({
+          'supertitle': page.type_label,
+          'title': page.title,
+          'headingLevel': 3,
+          'headingSize': 's',
+          'href': page.full_url,
+          'body': page.teaser_text,
+          'label': 'New' if page.is_newly_published,
+          'imageSrc': page.teaser_image.jpeg.full_url,
+          'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
+          'imageWidth': page.teaser_image.jpeg.width,
+          'imageHeight': page.teaser_image.jpeg.height,
+          'lazyImage': True,
+          'htmlElement': 'article',
+          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
+        }) }}
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+
+  {%- if categories | length %}
+  <section class="tna-section">
+    {{ tnaIndexGrid({
+      'title': 'Discover highlights from the collection',
+      'headingLevel': 2,
+      'headingSize': 'l',
+      'items': categories,
+      'columns': 2,
+      'columnsTiny': 1
+    }) }}
+  </section>
+  {%- endif %}
+
+  {%- if latest_items | length %}
+  <section class="tna-section tna-!--padding-bottom-s">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h2 class="tna-heading-l">More stories</h2>
+      </div>
+    </div>
+    <ul class="tna-ul tna-ul--plain tna-container">
+      {%- for page in latest_items %}
+      <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+        {{ tnaCard({
+          'supertitle': page.type_label,
+          'title': page.title,
+          'headingLevel': 3,
+          'headingSize': 's',
+          'href': page.full_url,
+          'body': page.teaser_text,
+          'label': 'New' if page.is_newly_published,
+          'imageSrc': page.teaser_image.jpeg.full_url,
+          'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
+          'imageWidth': page.teaser_image.jpeg.width,
+          'imageHeight': page.teaser_image.jpeg.height,
+          'lazyImage': True,
+          'htmlElement': 'article',
+          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
+        }) }}
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+{%- if similar_items | length or categories | length or latest_items | length %}
+</aside>
+{%- endif %}
+{% endmacro %}

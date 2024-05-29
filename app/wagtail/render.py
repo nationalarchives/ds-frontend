@@ -12,12 +12,12 @@ from flask import current_app, render_template, request
 from .pages import (
     article_index_page,
     article_page,
+    article_page_focused,
     author_index_page,
     author_page,
     categories_page,
     category_index_page,
     explore_index_page,
-    focused_article_page,
     highlight_gallery_page,
     home_page,
     record_article_page,
@@ -47,7 +47,7 @@ def render_content_page(page_data):
     if page_type == "articles.RecordArticlePage":
         return record_article_page(page_data)
     if page_type == "articles.FocusedArticlePage":
-        return focused_article_page(page_data)
+        return article_page_focused(page_data)
     if page_type == "collections.HighlightGalleryPage":
         return highlight_gallery_page(page_data)
     if page_type == "authors.AuthorIndexPage":
