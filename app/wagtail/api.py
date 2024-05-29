@@ -66,7 +66,11 @@ def breadcrumbs(page_id):
                 "text": (
                     "Home" if ancestor["url"] == "/" else ancestor["title"]
                 ),
-                "href": ancestor["url"],
+                "href": (
+                    "https://www.nationalarchives.gov.uk/"
+                    if ancestor["url"] == "/"
+                    else ancestor["url"]
+                ),
             }
             for ancestor in ancestors["items"]
         ]
