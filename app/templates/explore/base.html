@@ -24,14 +24,14 @@
   'description': page_data.meta.search_description,
   'url': page_data.meta.html_url,
   'image': {
-    'src': page_data.facebook_og_image.jpeg.full_url,
-    'width': page_data.facebook_og_image.jpeg.width,
-    'height': page_data.facebook_og_image.jpeg.height
+    'src': page_data.facebook_og_image.jpeg.full_url if page_data.facebook_og_image else page_data.teaser_image.jpeg.full_url,
+    'width': page_data.facebook_og_image.jpeg.width if page_data.facebook_og_image else page_data.teaser_image.jpeg.width,
+    'height': page_data.facebook_og_image.jpeg.height if page_data.facebook_og_image else page_data.teaser_image.jpeg.height
   },
   'twitter_image': {
-    'src': page_data.twitter_og_image.jpeg.full_url,
-    'width': page_data.twitter_og_image.jpeg.width,
-    'height': page_data.twitter_og_image.jpeg.height,
+    'src': page_data.twitter_og_image.jpeg.full_url if page_data.twitter_og_image else page_data.teaser_image.jpeg.full_url,
+    'width': page_data.twitter_og_image.jpeg.width if page_data.twitter_og_image else page_data.teaser_image.jpeg.width,
+    'height': page_data.twitter_og_image.jpeg.height if page_data.twitter_og_image else page_data.teaser_image.jpeg.height,
     'type': 'image/jpeg'
   }
 }) }}
