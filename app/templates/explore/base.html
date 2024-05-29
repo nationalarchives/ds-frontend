@@ -6,9 +6,18 @@
 
 {% block head %}
 {{ super() }}
-{%- if page_data.tags | length %}
+{%- if page_data.id %}
+<meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
+{% endif %}
+{%- if page_data.title %}
+<meta name="tna.page.wagtail.title" content="{{ page_data.title }}">
+{% endif %}
+{%- if page_data.meta and page_data.meta.type %}
+<meta name="tna.page.wagtail.type" content="{{ page_data.meta.type }}">
+{% endif %}
+{%- if page_data.tags and page_data.tags | length %}
 <meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
-{%- endif %}
+{% endif %}
 
 {{ meta({
   'title': page_data.meta.seo_title or page_data.title,

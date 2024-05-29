@@ -70,7 +70,7 @@
         {{ articleSidebar(page_data.body) }}
       </div>
       <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections" itemprop="articleBody">
-        {% if not page_data.display_content_warning %}
+        {% if page_data.display_content_warning %}
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
