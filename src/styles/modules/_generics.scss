@@ -16,3 +16,20 @@ p.etna-small-paragraph {
 
   @include typography.relative-font-size(16);
 }
+
+// TEMP FIX
+.tna-form__heading:not(.tna-heading--no-link-arrow) a,
+.tna-form__heading--s:not(.tna-heading--no-link-arrow) a,
+.tna-hgroup-s .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
+.tna-heading-s:not(.tna-heading--no-link-arrow) a,
+.tna-form__heading--m:not(.tna-heading--no-link-arrow) a,
+.tna-hgroup-m .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
+.tna-heading-m:not(.tna-heading--no-link-arrow) a,
+.tna-form__heading--l:not(.tna-heading--no-link-arrow) a,
+.tna-hgroup-l .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
+.tna-heading-l:not(.tna-heading--no-link-arrow) a,
+.tna-form__heading--xl:not(.tna-heading--no-link-arrow) a,
+.tna-hgroup-xl .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
+.tna-heading-xl:not(.tna-heading--no-link-arrow) a {
+  vertical-align: top;
+}
