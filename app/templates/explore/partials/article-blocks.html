@@ -43,6 +43,12 @@
         'alt': content_item.value.image.jpeg.alt_text,
         'width': content_item.value.image.jpeg.width,
         'height': content_item.value.image.jpeg.height,
+        'sources': [
+          {
+            'src': content_item.value.image.webp.full_url,
+            'type': 'image/webp'
+          }
+        ],
         'caption': content_item.value.caption,
         'information': picture_information
       }) }}
