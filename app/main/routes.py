@@ -6,6 +6,12 @@ from app.wagtail.api import all_pages
 from flask import current_app, make_response, render_template, request
 
 
+@bp.route("/browse/")
+@cache.cached(key_prefix=cache_key_prefix)
+def browse():
+    return render_template("main/browse.html")
+
+
 @bp.route("/accessibility/")
 @cache.cached(key_prefix=cache_key_prefix)
 def accessibility():

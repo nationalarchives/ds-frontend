@@ -58,8 +58,8 @@
 
 {% block header %}
 {{ tnaPhaseBanner({
-  'phase': 'prototype',
-  'message': 'This is not a real service. See this page on the <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">beta Wagtail site</a>.',
+  'phase': 'Alpha',
+  'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
   'classes': 'tna-background-contrast'
 }) }}
 {{ tnaGlobalHeader({
@@ -69,7 +69,7 @@
   'topNavigation': [
     {
       'text': 'Search',
-      'href': '/search',
+      'href': 'https://www.nationalarchives.gov.uk/search/',
       'icon': 'search'
     },
     {
@@ -92,12 +92,12 @@
       'href': '/explore-the-collection/'
     },
     {
-      'text': 'Using the archive',
+      'text': 'Help using the archive',
       'href': 'https://www.nationalarchives.gov.uk/help-with-your-research/'
     },
     {
-      'text': 'Learn',
-      'href': 'https://www.nationalarchives.gov.uk/education'
+      'text': 'Education',
+      'href': 'https://www.nationalarchives.gov.uk/education/'
     },
     {
       'text': 'Professional guidance and services',
