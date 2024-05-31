@@ -20,13 +20,12 @@ from app.lib.template_filters import (
     to_bool,
     url_encode,
 )
-from config import Config, templates_config
 from flask import Flask
 from flask_talisman import Talisman
 from jinja2 import ChoiceLoader, PackageLoader
 
 
-def create_app(config_class=Config):
+def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
 
@@ -34,7 +33,7 @@ def create_app(config_class=Config):
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
     app.logger.setLevel(gunicorn_error_logger.level)
 
-    cache.init_app(app)
+    cache.init_app(app, config=app.config["CACHE"])
 
     SELF = "'self'"
     Talisman(
@@ -43,53 +42,35 @@ def create_app(config_class=Config):
             "default-src": SELF,
             "img-src": [
                 SELF,
-                Config().DOMAIN,
-                Config().MEDIA_DOMAIN,
+                app.config["DOMAIN"],
+                app.config["MEDIA_DOMAIN"],
                 "https://*.google-analytics.com",
                 "https://*.googletagmanager.com",
-                (
-                    "https://googletagmanager.com"
-                    if Config().ENVIRONMENT != "develop"
-                    else "http://googletagmanager.com"
-                ),
+                "https://googletagmanager.com",
+                # "http://googletagmanager.com",
                 "https://ssl.gstatic.com",
                 "https://www.gstatic.com",
-                "https://www.nationalarchives.gov.uk"
+                "https://www.nationalarchives.gov.uk",
             ],
             "script-src": [
                 SELF,
                 "https://*.googletagmanager.com",
-                (
-                    "https://googletagmanager.com"
-                    if Config().ENVIRONMENT != "develop"
-                    else "http://googletagmanager.com"
-                ),
-                (
-                    "https://tagmanager.google.com"
-                    if Config().ENVIRONMENT != "develop"
-                    else "http://tagmanager.google.com"
-                ),
+                "https://googletagmanager.com",
+                # "http://googletagmanager.com",
+                "https://tagmanager.google.com",
+                # "http://tagmanager.google.com",
             ],
             "style-src": [
                 SELF,
                 "https://fonts.googleapis.com",
                 "https://p.typekit.net",
                 "https://use.typekit.net",
-                (
-                    "https://googletagmanager.com"
-                    if Config().ENVIRONMENT != "develop"
-                    else "http://googletagmanager.com"
-                ),
-                (
-                    "https://www.googletagmanager.com"
-                    if Config().ENVIRONMENT != "develop"
-                    else "http://www.googletagmanager.com"
-                ),
-                (
-                    "https://tagmanager.google.com"
-                    if Config().ENVIRONMENT != "develop"
-                    else "http://tagmanager.google.com"
-                ),
+                "https://googletagmanager.com",
+                # "http://googletagmanager.com",
+                "https://www.googletagmanager.com",
+                # "http://www.googletagmanager.com",
+                "https://tagmanager.google.com",
+                # "http://tagmanager.google.com",
             ],
             "font-src": [
                 SELF,
@@ -104,7 +85,7 @@ def create_app(config_class=Config):
             ],
             "media-src": [
                 SELF,
-                Config().MEDIA_DOMAIN,
+                app.config["MEDIA_DOMAIN"],
             ],
         },
         feature_policy={
@@ -114,7 +95,7 @@ def create_app(config_class=Config):
             "microphone": "'none'",
             "screen-wake-lock": "'none'",
         },
-        force_https=Config().ENVIRONMENT != "develop",
+        force_https=app.config["FORCE_HTTPS"],
     )
 
     app.jinja_env.trim_blocks = True
@@ -145,7 +126,15 @@ def create_app(config_class=Config):
             merge_dict_if=merge_dict_if,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
-            config=templates_config,
+            config={
+                "DOMAIN": app.config["DOMAIN"],
+                "WAGTAIL_MEDIA_URL": app.config["WAGTAIL_MEDIA_URL"],
+                "BASE_DISCOVERY_URL": app.config["BASE_DISCOVERY_URL"],
+                "SEARCH_DISCOVERY_URL": app.config["SEARCH_DISCOVERY_URL"],
+                "SEARCH_WEBSITE_URL": app.config["SEARCH_WEBSITE_URL"],
+                "ARCHIVE_RECORDS_URL": app.config["ARCHIVE_RECORDS_URL"],
+                "GA4_ID": app.config["GA4_ID"],
+            },
         )
 
     from .catalogue import bp as catalogue_bp

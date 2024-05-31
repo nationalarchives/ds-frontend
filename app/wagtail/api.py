@@ -27,26 +27,26 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("Resource not found")
     if r.status_code == requests.codes.ok:
         try:
-            if current_app.config["ENVIRONMENT"] == "staging":
-                text = r.text
-                text = text.replace(
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                ).replace(
-                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                )
-                return json.loads(text)
-            if current_app.config["ENVIRONMENT"] == "develop":
-                text = r.text
-                text = text.replace(
-                    "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-                    "http://localhost:65535/",
-                ).replace(
-                    "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-                    "http://localhost:65535/",
-                )
-                return json.loads(text)
+            # if current_app.config["ENVIRONMENT"] == "staging":
+            #     text = r.text
+            #     text = text.replace(
+            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+            #     ).replace(
+            #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
+            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+            #     )
+            #     return json.loads(text)
+            # if current_app.config["ENVIRONMENT"] == "develop":
+            #     text = r.text
+            #     text = text.replace(
+            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
+            #         "http://localhost:65535/",
+            #     ).replace(
+            #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
+            #         "http://localhost:65535/",
+            #     )
+            #     return json.loads(text)
             return r.json()
         except requests.exceptions.JSONDecodeError:
             current_app.logger.error("API provided non-JSON response")
