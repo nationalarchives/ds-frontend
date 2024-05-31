@@ -10,8 +10,28 @@ concurrency:
   group: cd
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - uses: snok/install-poetry@v1
+        with:
+          version: 1.8.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          virtualenvs-path: .venv
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+      - name: Run tests
+        run: poetry run python -m pytest --ignore=test/integration/ds-wagtail
+
   build:
     runs-on: ubuntu-latest
+    needs:
+      - test
     permissions:
       packages: write
       contents: read

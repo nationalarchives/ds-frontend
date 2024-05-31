@@ -1,7 +1,6 @@
 from app.lib import cache, cache_key_prefix
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
-from config import cache_config
 from flask import current_app, make_response, render_template, request
 from flask_caching import CachedResponse
 
@@ -37,7 +36,7 @@ def index():
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=cache_config["CACHE_DEFAULT_TIMEOUT"],
+        timeout=current_app.config["CACHE"]["CACHE_DEFAULT_TIMEOUT"],
     )
 
 
@@ -62,5 +61,5 @@ def explore_page(path):
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=cache_config["CACHE_DEFAULT_TIMEOUT"],
+        timeout=current_app.config["CACHE"]["CACHE_DEFAULT_TIMEOUT"],
     )
