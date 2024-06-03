@@ -1,13 +1,4 @@
-import math
-
-from app.lib import pagination_list
-from app.wagtail.api import (
-    breadcrumbs,
-    page_children,
-    page_children_paginated,
-    page_details,
-)
-from flask import current_app, render_template, request
+from flask import current_app, render_template
 
 from .pages import (
     article_index_page,

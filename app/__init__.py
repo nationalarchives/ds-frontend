@@ -88,9 +88,10 @@ def create_app(config_class):
                 app.config["MEDIA_DOMAIN"],
             ],
         },
+        content_security_policy_nonce_in=["script-src"],
         feature_policy={
             "camera": "'none'",
-            "fullscreen": "'self'",
+            "fullscreen": SELF,
             "geolocation": "'none'",
             "microphone": "'none'",
             "screen-wake-lock": "'none'",

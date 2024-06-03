@@ -1,40 +1,42 @@
 {% macro meta(data) %}
-  {% set siteName = data.siteName if 'siteName' in data else 'The National Archives' %}
-  {% if 'description' in data %}
-  <meta name="description" content="{{ data.description }}">
-  {% endif %}
-  <meta name="apple-mobile-web-app-title" content="{{ siteName }}">
-  <meta name="apple-mobile-web-app-capable" content="no">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta property="og:site_name" content="{{ siteName }}">
-  {% if 'title' in data %}
-  <meta property="og:title" content="{{ data.title }}" data-meta="title">
-  {% endif %}
-  {% if 'description' in data %}
-  <meta property="og:description" content="{{ data.description }}" data-meta="description">
-  {% endif %}
-  {% if 'url' in data %}
-  <meta property="og:url" content="{{ data.url | default(request.url) }}" data-meta="url">
-  {% endif %}
-  {% if 'image' in data %}
-  <meta property="og:image" content="{{ data.image.src }}">
-  <meta property="og:image:width" content="{{ data.image.width }}">
-  <meta property="og:image:height" content="{{ data.image.height }}">
-  <meta property="og:image:type" content="{{ data.image.type | default('image/jpeg') }}">
-  {% endif %}
-  <meta property="og:type" content="{{ data.type | default('website') }}">
-  <meta property="og:locale" content="{{ data.language | default('en-GB') }}">
-  <meta name="twitter:card" content="summary">
-  {% if 'title' in data %}
-  <meta name="twitter:title" content="{{ data.title }}">
-  {% endif %}
-  {% if 'description' in data %}
-  <meta name="twitter:description" content="{{ data.description }}" data-meta="description">
-  {% endif %}
-  {% if 'image' in data %}
-  <meta property="twitter:image" content="{{ data.image.src }}">
-  {% endif %}
-  {% if config.DOMAIN %}
-  <meta property="twitter:domain" content="{{ config.DOMAIN }}">
-  {% endif %}
+{% set siteName = data.siteName if 'siteName' in data else 'The National Archives' %}
+{% if 'description' in data %}
+    <meta name="description" content="{{ data.description }}">
+{% endif %}
+    <meta name="apple-mobile-web-app-title" content="{{ siteName }}">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta property="og:site_name" content="{{ siteName }}">
+{% if 'title' in data %}
+    <meta property="og:title" content="{{ data.title }}" data-meta="title">
+{% endif %}
+{% if 'description' in data %}
+    <meta property="og:description" content="{{ data.description }}" data-meta="description">
+{% endif %}
+{% if 'url' in data %}
+    <meta property="og:url" content="{{ data.url | default(request.url) }}" data-meta="url">
+{% endif %}
+{% if 'image' in data %}
+    <meta property="og:image" content="{{ data.image.src }}">
+    <meta property="og:image:width" content="{{ data.image.width }}">
+    <meta property="og:image:height" content="{{ data.image.height }}">
+    <meta property="og:image:type" content="{{ data.image.type | default('image/jpeg') }}">
+{% endif %}
+    <meta property="og:type" content="{{ data.type | default('website') }}">
+    <meta property="og:locale" content="{{ data.language | default('en-GB') }}">
+    <meta name="twitter:card" content="summary">
+{% if 'title' in data %}
+    <meta name="twitter:title" content="{{ data.title }}">
+{% endif %}
+{% if 'description' in data %}
+    <meta name="twitter:description" content="{{ data.description }}" data-meta="description">
+{% endif %}
+{% if 'twitter_image' in data %}
+    <meta property="twitter:image" content="{{ data.twitter_image.src }}">
+{% elif 'image' in data %}
+    <meta property="twitter:image" content="{{ data.image.src }}">
+{% endif %}
+{% if config.DOMAIN %}
+    <meta property="twitter:domain" content="{{ config.DOMAIN }}">
+{% endif %}
 {% endmacro %}

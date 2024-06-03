@@ -12,7 +12,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -142,6 +142,7 @@
       'columnsSmall': 2,
       'columnsTiny': 1
     }) }}
+    {%- if page_data.featured_highlight_gallery.highlight_image_count > 4 %}
     <div class="tna-container tna-!--margin-top-m">
       <div class="tna-column tna-column--full">
         <div class="tna-button-group">
@@ -152,6 +153,7 @@
         </div>
       </div>
     </div>
+    {%- endif %}
   </section>
   {%- endif %}
 

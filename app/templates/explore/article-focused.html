@@ -5,8 +5,6 @@
 {%- from 'explore/partials/article-sidebar.html' import articleSidebar -%}
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
-{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
-{%- from 'components/picture/macro.html' import tnaPicture -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
@@ -15,7 +13,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
 {% endblock %}
 
 {% block beforeContent %}
@@ -141,11 +139,6 @@
         {%- endif %}
         {{ articleBlocks(page_data.body, merge_dict_if) }}
       </div>
-      <!-- <div class="tna-column tna-column--full tna-!--margin-top-m">
-        <p>
-          <small>&quot;{{ page_data.type_label }} {{ page_data.title }}&quot; was first published on <time datetime="{{ page_data.meta.first_published_at }}" itemprop="datePublished">{{ page_data.meta.first_published_at | pretty_date }}</time>.</small>
-        </p>
-      </div> -->
     </div>
   </section>
   {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
@@ -155,6 +148,6 @@
 {% endblock %}
 
 {% block bodyEnd %}
-<script src="{{ url_for('static', filename='article.min.js') }}"></script>
+<script src="{{ url_for('static', filename='article.min.js') }}" nonce="{{ csp_nonce() }}"></script>
 {{ super() }}
 {% endblock %}

@@ -16,7 +16,7 @@ def preview_page():
 
 
 @bp.route("/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def index():
     try:
         page_data = page_details_by_uri("/")
@@ -41,7 +41,7 @@ def index():
 
 
 @bp.route("/<path:path>/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def explore_page(path):
     try:
         page_data = page_details_by_uri(path)
