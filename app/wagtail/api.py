@@ -27,26 +27,6 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("Resource not found")
     if r.status_code == requests.codes.ok:
         try:
-            # if current_app.config["ENVIRONMENT"] == "staging":
-            #     text = r.text
-            #     text = text.replace(
-            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #     ).replace(
-            #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #     )
-            #     return json.loads(text)
-            # if current_app.config["ENVIRONMENT"] == "develop":
-            #     text = r.text
-            #     text = text.replace(
-            #         "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",
-            #         "http://localhost:65535/",
-            #     ).replace(
-            #         "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site/",
-            #         "http://localhost:65535/",
-            #     )
-            #     return json.loads(text)
             return r.json()
         except requests.exceptions.JSONDecodeError:
             current_app.logger.error("API provided non-JSON response")
@@ -59,7 +39,10 @@ def wagtail_request_handler(uri, params={}):
 
 
 def breadcrumbs(page_id):
-    ancestors = page_ancestors(page_id)
+    try:
+        ancestors = page_ancestors(page_id)
+    except Exception:
+        return []
     return (
         [
             {
@@ -123,14 +106,14 @@ def page_children_paginated(page_id, page, children_per_page, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def image_details(image_id, params={}):
-    uri = f"images/{image_id}/"
-    return wagtail_request_handler(uri, params)
+# def image_details(image_id, params={}):
+#     uri = f"images/{image_id}/"
+#     return wagtail_request_handler(uri, params)
 
 
-def media_details(media_id, params={}):
-    uri = f"media/{media_id}/"
-    return wagtail_request_handler(uri, params)
+# def media_details(media_id, params={}):
+#     uri = f"media/{media_id}/"
+#     return wagtail_request_handler(uri, params)
 
 
 def page_preview(content_type, token, params={}):

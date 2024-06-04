@@ -48,15 +48,18 @@
 {% endblock %}
 
 {% block cookies %}
+{% if not page_data or not page_data.page_preview %}
 {# {% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %} #}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': '/cookies'
 }) }}
 {# {% endif %} #}
+{% endif %}
 {% endblock %}
 
 {% block header %}
+{% if not page_data or not page_data.page_preview %}
 {{ tnaPhaseBanner({
   'phase': 'Alpha',
   'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
@@ -85,7 +88,7 @@
       'href': 'https://www.nationalarchives.gov.uk/about/visit-us'
     },
     {
-      'text': 'What\'s on',
+      'text': 'What’s on',
       'href': 'https://www.nationalarchives.gov.uk/about/visit-us/whats-on/'
     },
     {
@@ -106,6 +109,7 @@
     },
   ]
 }) }}
+{% endif %}
 {% endblock %}
 
 {% block beforeContent %}
@@ -122,6 +126,7 @@
 {% endblock %}
 
 {% block footer %}
+{% if not page_data or not page_data.page_preview %}
 {{ tnaFooter({
   'themeSelector': True,
   'social': [
@@ -236,7 +241,7 @@
   'legal': [
     {
       'text': 'Accessibility statement',
-      'href': url_for('main.accessibility')
+      'href': url_for('legal.accessibility')
     },
     {
       'text': 'Freedom of information',
@@ -252,11 +257,12 @@
     },
     {
       'text': 'Cookies',
-      'href': url_for('main.cookies')
+      'href': url_for('legal.cookies')
     }
   ],
   'classes': 'tna-!--margin-top-l'
 }) }}
+{% endif %}
 {% endblock %}
 
 {% block bodyEnd %}

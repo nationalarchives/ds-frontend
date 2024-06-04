@@ -10,10 +10,10 @@ services:
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
-      - WAGTAIL_MEDIA_URL=http://localhost:8000
       - SEARCH_API_URL=http://host.docker.internal:65534/api/v1
       - DOMAIN=localhost:65535
       - MEDIA_DOMAIN=localhost:8000
+      - WAGTAIL_DOMAIN=localhost:8000
       - GA4_ID=GTM-KX8ZWVZG
     ports:
       - 65535:8080

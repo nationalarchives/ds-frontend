@@ -4,7 +4,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
 
-{% block pageTitle %}{{ page_data.title }} - {{ super() }}{% endblock %}
+{%- set pageTitle = page_data.title -%}
 
 {% block head %}
 {{ super() }}

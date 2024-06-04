@@ -10,10 +10,10 @@ class Config(object):
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
     DOMAIN = os.environ.get("DOMAIN", "")
     MEDIA_DOMAIN = os.environ.get("MEDIA_DOMAIN", "")
+    WAGTAIL_DOMAIN = os.environ.get("WAGTAIL_DOMAIN", "")
     CACHE = {"CACHE_TYPE": "SimpleCache"}
     FORCE_HTTPS = False
     DOMAIN = os.environ.get("DOMAIN", "")
-    WAGTAIL_MEDIA_URL = os.environ.get("WAGTAIL_MEDIA_URL", "").rstrip("/")
     BASE_DISCOVERY_URL = os.environ.get(
         "BASE_DISCOVERY_URL",
         "https://discovery.nationalarchives.gov.uk",

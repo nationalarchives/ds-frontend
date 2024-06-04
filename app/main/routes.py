@@ -12,18 +12,6 @@ def browse():
     return render_template("main/browse.html")
 
 
-@bp.route("/accessibility/")
-@cache.cached(key_prefix=cache_key_prefix)
-def accessibility():
-    return render_template("main/accessibility.html")
-
-
-@bp.route("/cookies/")
-@cache.cached(key_prefix=cache_key_prefix)
-def cookies():
-    return render_template("main/cookies.html")
-
-
 @bp.route("/healthcheck/live/")
 def healthcheck():
     return "ok"

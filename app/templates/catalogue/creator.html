@@ -17,7 +17,7 @@
   }
 ] -%}
 
-{% block pageTitle %}{{ data.name }} - {{ super() }}{% endblock %}
+{%- set pageTitle = data.name -%}
 
 {% block head %}
 {{ super() }}

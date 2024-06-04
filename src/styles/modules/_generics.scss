@@ -10,6 +10,11 @@
   @include colour.thick-keyline-accent(top);
 }
 
+.etna-inset {
+  @include colour.thick-keyline(left);
+  padding: spacing.space(0.5) 0 spacing.space(0.5) spacing.space(1);
+}
+
 p.etna-small-paragraph {
   margin-top: 0;
   margin-bottom: spacing.space(0.5);
@@ -18,18 +23,22 @@ p.etna-small-paragraph {
 }
 
 // TEMP FIX
-.tna-form__heading:not(.tna-heading--no-link-arrow) a,
-.tna-form__heading--s:not(.tna-heading--no-link-arrow) a,
-.tna-hgroup-s .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
-.tna-heading-s:not(.tna-heading--no-link-arrow) a,
-.tna-form__heading--m:not(.tna-heading--no-link-arrow) a,
-.tna-hgroup-m .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
-.tna-heading-m:not(.tna-heading--no-link-arrow) a,
-.tna-form__heading--l:not(.tna-heading--no-link-arrow) a,
-.tna-hgroup-l .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
-.tna-heading-l:not(.tna-heading--no-link-arrow) a,
-.tna-form__heading--xl:not(.tna-heading--no-link-arrow) a,
-.tna-hgroup-xl .tna-hgroup__title:not(.tna-heading--no-link-arrow) a,
-.tna-heading-xl:not(.tna-heading--no-link-arrow) a {
-  vertical-align: top;
+.tna-heading-s,
+.tna-heading-m,
+.tna-heading-l,
+.tna-heading-xl,
+.tna-form__heading,
+.tna-form__heading--s,
+.tna-form__heading--m,
+.tna-form__heading--l,
+.tna-form__heading--xl,
+.tna-hgroup-s .tna-hgroup__title,
+.tna-hgroup-m .tna-hgroup__title,
+.tna-hgroup-l .tna-hgroup__title,
+.tna-hgroup-xl .tna-hgroup__title {
+  &:not(.tna-heading--no-link-arrow) {
+    a {
+      vertical-align: top;
+    }
+  }
 }

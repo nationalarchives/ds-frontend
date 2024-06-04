@@ -14,6 +14,8 @@ def article_index_page(page_data):
         )
     except ConnectionError:
         return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/server.html"), 500
     pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
     if page > pages:
         return render_template("errors/page-not-found.html"), 404

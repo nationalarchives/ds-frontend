@@ -14,6 +14,8 @@ def author_index_page(page_data):
         )
     except ConnectionError:
         return render_template("errors/api.html"), 502
+    except Exception:
+        return render_template("errors/server.html"), 500
     return render_template(
         "authors/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),

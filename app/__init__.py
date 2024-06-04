@@ -2,6 +2,7 @@ import logging
 
 from app.lib import cache
 from app.lib.context_processor import (
+    cookie_preference,
     merge_dict,
     merge_dict_if,
     now_iso_8601,
@@ -97,6 +98,8 @@ def create_app(config_class):
             "screen-wake-lock": "'none'",
         },
         force_https=app.config["FORCE_HTTPS"],
+        frame_options="ALLOW-FROM",
+        frame_options_allow_from=app.config["WAGTAIL_DOMAIN"],
     )
 
     app.jinja_env.trim_blocks = True
@@ -125,11 +128,11 @@ def create_app(config_class):
         return dict(
             merge_dict=merge_dict,
             merge_dict_if=merge_dict_if,
+            cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
             config={
                 "DOMAIN": app.config["DOMAIN"],
-                "WAGTAIL_MEDIA_URL": app.config["WAGTAIL_MEDIA_URL"],
                 "BASE_DISCOVERY_URL": app.config["BASE_DISCOVERY_URL"],
                 "SEARCH_DISCOVERY_URL": app.config["SEARCH_DISCOVERY_URL"],
                 "SEARCH_WEBSITE_URL": app.config["SEARCH_WEBSITE_URL"],
@@ -139,11 +142,13 @@ def create_app(config_class):
         )
 
     from .catalogue import bp as catalogue_bp
+    from .legal import bp as legal_bp
     from .main import bp as site_bp
     from .search import bp as search_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
+    app.register_blueprint(legal_bp, url_prefix="/legal")
     app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(catalogue_bp, url_prefix="/catalogue")
     app.register_blueprint(wagtail_bp)
