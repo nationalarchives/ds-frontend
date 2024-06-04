@@ -18,7 +18,6 @@ from app.lib.template_filters import (
     replace_ref,
     slugify,
     tna_html,
-    to_bool,
     url_encode,
 )
 from flask import Flask
@@ -121,7 +120,6 @@ def create_app(config_class):
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(url_encode)
-    app.add_template_filter(to_bool)
 
     @app.context_processor
     def context_processor():

@@ -39,13 +39,8 @@
     </div>
     <section class="tna-container tna-section tna-!--no-margin-top">
       <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-
         <h2 class="tna-heading-l">Cookie settings</h2>
         <p>We use three types of cookie. You can choose which cookies you’re happy for us to use.</p>
-
-      
-
-
         {{ tnaRadios({
           'label': 'Cookies that measure website use',
           'headingLevel': 3,
@@ -65,7 +60,6 @@
           ],
           'selected': 'accept' if cookie_preference('usage') else 'decline'
         }) }}
-
         {{ tnaRadios({
           'label': 'Cookies that remember your settings',
           'headingLevel': 3,
@@ -88,20 +82,16 @@
         <h3 class="tna-heading-m">Strictly necessary cookies</h3>
         <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
         <p>They always need to be on.</p>
-
         <div class="tna-button-group">
           {{ tnaButton({
             'text': 'Save changes',
             'buttonElement': True
           }) }}
         </div>
-
-
-
       </div>
       <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <div class="tna-aside tna-background-tint">
-          <h2 class="tna-heading-m">Also in our terms of use</h2>
+          <h2 class="tna-heading-m">Related content</h2>
           <ul class="tna-ul tna-ul--plain">
             <li>
               <a href="#">Fair and reasonable use</a>

@@ -55,18 +55,56 @@ def pretty_number(s):
 
 
 def headings_list(s):
-    headings_raw = re.findall(
+    headings_regex = re.findall(
         r'<h([1-6])[^>]*id="([\w\-]+)"[^>]*>\s*(.+)\s*</', s
     )
-    headings = [
+    headings_raw = [
         {
             "title": heading[2],
-            "id": heading[1],
-            "level": heading[0],
+            "href": heading[1],
+            "level": int(heading[0]),
             "children": [],
         }
-        for heading in headings_raw
+        for heading in headings_regex
     ]
+
+    def group_headings(index, grouping):
+        if index < len(headings_raw):
+            next_heading = headings_raw[index]
+            if len(grouping):
+                prev_heading = grouping[-1]
+                try:
+                    if next_heading["level"] > prev_heading["level"]:
+                        prev_heading["children"] = (
+                            prev_heading["children"] or []
+                        )
+                        return group_headings(index, prev_heading["children"])
+                    elif next_heading["level"] == prev_heading["level"]:
+                        grouping.append(next_heading)
+                        index = index + 1
+                        return group_headings(index, grouping)
+                    else:
+                        raise Exception(
+                            {"index": index, "heading": next_heading}
+                        )
+                except Exception as e:
+                    (higher_heading,) = e.args
+                    if (
+                        higher_heading["heading"]["level"]
+                        == prev_heading["level"]
+                    ):
+                        grouping.append(higher_heading["heading"])
+                        higher_heading["index"] = higher_heading["index"] + 1
+                        return group_headings(higher_heading["index"], grouping)
+                    else:
+                        raise Exception(higher_heading)
+            else:
+                grouping.append(next_heading)
+                index = index + 1
+                group_headings(index, grouping)
+        return grouping
+
+    headings = group_headings(0, [])
     return headings
 
 
@@ -96,7 +134,3 @@ def remove_all_whitespace(s):
 
 def url_encode(s):
     return urllib.parse.quote(s, safe="")
-
-
-def to_bool(s):
-    return strtobool(s) if s else False
