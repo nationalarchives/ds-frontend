@@ -2,6 +2,14 @@
 
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'macros/meta.html' import meta -%}
+
+{% block pageTitle %}{{ page_data.title }} - {{ super() }}{% endblock %}
+
+{% block head %}
+{{ super() }}
+{{ meta(page_data) }}
+{% endblock %}
 
 {% block content %}
 <section class="tna-section">

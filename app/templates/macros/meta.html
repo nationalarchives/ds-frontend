@@ -1,40 +1,85 @@
-{% macro meta(data) %}
-{% set siteName = data.siteName if 'siteName' in data else 'The National Archives' %}
-{% if 'description' in data %}
-    <meta name="description" content="{{ data.description }}">
+{% macro meta(page_data) %}
+{% set siteName = page_data.siteName if 'siteName' in page_data else 'The National Archives' %}
+{% set title = page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' %}
+{% set description = page_data.meta.search_description if page_data.meta else '' %}
+{% set url = page_data.meta.html_url if page_data.meta else request.url %}
+
+{%- if page_data.id %}
+    <meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
+{% endif %}
+{% if page_data.title %}
+    <meta name="tna.page.wagtail.title" content="{{ page_data.title }}">
+{% endif %}
+{% if page_data.meta and page_data.meta.type %}
+    <meta name="tna.page.wagtail.type" content="{{ page_data.meta.type }}">
+{% endif %}
+{% if page_data.tags and page_data.tags | length %}
+    <meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
+{% endif %}
+
+{%- if description %}
+    <meta name="description" content="{{ description }}">
 {% endif %}
     <meta name="apple-mobile-web-app-title" content="{{ siteName }}">
     <meta name="apple-mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta property="og:site_name" content="{{ siteName }}">
-{% if 'title' in data %}
-    <meta property="og:title" content="{{ data.title }}" data-meta="title">
+{% if title %}
+    <meta property="og:title" content="{{ title }}" data-meta="title">
 {% endif %}
-{% if 'description' in data %}
-    <meta property="og:description" content="{{ data.description }}" data-meta="description">
+{% if description %}
+    <meta property="og:description" content="{{ description }}" data-meta="description">
 {% endif %}
-{% if 'url' in data %}
-    <meta property="og:url" content="{{ data.url | default(request.url) }}" data-meta="url">
+{% if url %}
+    <meta property="og:url" content="{{ url }}" data-meta="url">
 {% endif %}
-{% if 'image' in data %}
-    <meta property="og:image" content="{{ data.image.src }}">
-    <meta property="og:image:width" content="{{ data.image.width }}">
-    <meta property="og:image:height" content="{{ data.image.height }}">
-    <meta property="og:image:type" content="{{ data.image.type | default('image/jpeg') }}">
+
+{%- set og_image = None %}
+{%- if page_data.facebook_og_image %}
+    {% set og_image = {
+        'src': page_data.facebook_og_image.jpeg.full_url,
+        'width': page_data.facebook_og_image.jpeg.width,
+        'height': page_data.facebook_og_image.jpeg.height,
+        'type': 'image/jpeg'
+      } %}
+{% elif page_data.teaser_image %}
+{%- set og_image = {
+    'src': page_data.teaser_image.jpeg.full_url,
+    'width': page_data.teaser_image.jpeg.width,
+    'height': page_data.teaser_image.jpeg.height,
+    'type': 'image/jpeg'
+  } %}
 {% endif %}
-    <meta property="og:type" content="{{ data.type | default('website') }}">
-    <meta property="og:locale" content="{{ data.language | default('en-GB') }}">
+
+{%- if og_image %}
+    <meta property="og:image" content="{{ og_image.src }}">
+    <meta property="og:image:width" content="{{ og_image.width }}">
+    <meta property="og:image:height" content="{{ og_image.height }}">
+    <meta property="og:image:type" content="{{ og_image.type }}">
+{% endif %}
+    <meta property="og:type" content="{{ page_data.type | default('website') }}">
+    <meta property="og:locale" content="{{ page_data.language | default('en-GB') }}">
     <meta name="twitter:card" content="summary">
-{% if 'title' in data %}
-    <meta name="twitter:title" content="{{ data.title }}">
+{% if title %}
+    <meta name="twitter:title" content="{{ title }}">
 {% endif %}
-{% if 'description' in data %}
-    <meta name="twitter:description" content="{{ data.description }}" data-meta="description">
+{% if description %}
+    <meta name="twitter:description" content="{{ description }}" data-meta="description">
 {% endif %}
-{% if 'twitter_image' in data %}
-    <meta property="twitter:image" content="{{ data.twitter_image.src }}">
-{% elif 'image' in data %}
-    <meta property="twitter:image" content="{{ data.image.src }}">
+
+{%- set og_image_twitter = None %}
+{%- if page_data.twitter_og_image %}
+    {% set og_image_twitter = {
+        'src': page_data.twitter_og_image.jpeg.full_url
+      } %}
+{% elif page_data.teaser_image %}
+    {% set og_image_twitter = {
+        'src': page_data.teaser_image.jpeg.full_url
+    } %}
+{% endif %}
+
+{%- if og_image_twitter %}
+    <meta property="twitter:image" content="{{ og_image_twitter.src }}">
 {% endif %}
 {% if config.DOMAIN %}
     <meta property="twitter:domain" content="{{ config.DOMAIN }}">

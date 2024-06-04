@@ -104,7 +104,7 @@
         <ul class="etna-author-list__items">
           {%- for author in page_data.authors %}
           <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+            <img src="{{ author.image_small.jpeg.full_url }}" alt="{{ author.image_small.alt_text }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
             <div class="etna-author-list__details">
               <p class="etna-author-list__name">
                 <strong>

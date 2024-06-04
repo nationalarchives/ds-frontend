@@ -2,10 +2,13 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/meta.html' import meta -%}
+
+{% block pageTitle %}{{ page_data.title }} - {{ super() }}{% endblock %}
 
 {% block head %}
 {{ super() }}
-<meta name="description" content="Profile for {{ page_data.role }}">
+{{ meta(page_data) }}
 {% endblock %}
 
 {% block content %}
