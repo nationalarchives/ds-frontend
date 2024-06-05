@@ -1,13 +1,14 @@
 {
   "scripts": {
-    "build:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles:app/static",
-    "build:js": "webpack",
-    "build": "npm run build:css && npm run build:js",
+    "compile:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles:app/static",
+    "compile:js": "webpack",
+    "compile": "npm run compile:css && npm run compile:js",
     "dev:css": "sass --load-path=node_modules --watch src/styles:app/static",
     "dev:js": "webpack --config webpack.config.js --mode=development --watch",
     "dev": "npm run dev:css & npm run dev:js &",
-    "lint": "prettier --check src && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'",
-    "lint:fix": "prettier --write src && stylelint --fix 'src/styles/**/*.scss' && eslint --fix 'src/scripts/**/*.js'"
+    "lint:fix": "prettier --write src && stylelint --fix 'src/styles/**/*.scss' && eslint --fix 'src/scripts/**/*.js'",
+    "test:all": "npm run test:lint",
+    "test:lint": "prettier --check src && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
   },
   "dependencies": {
     "@nationalarchives/frontend": "0.1.58"

@@ -26,3 +26,9 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SEARCH_WEBSITE_URL`    | The URL that accepts form posts to search the website         | `https://www.nationalarchives.gov.uk/search/results`  |
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)
+
+## Running tests
+
+```sh
+poetry run python -m pytest
+```

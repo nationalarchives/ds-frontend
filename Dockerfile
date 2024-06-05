@@ -2,7 +2,7 @@ ARG IMAGE_TAG=latest
 
 FROM ghcr.io/nationalarchives/tna-python:"$IMAGE_TAG"
 
-ENV NPM_BUILD_COMMAND=build
+ENV NPM_BUILD_COMMAND=compile
 
 # Copy in the application code
 COPY --chown=app . .
