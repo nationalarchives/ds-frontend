@@ -26,3 +26,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 line-length = 80
 include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test",
+]

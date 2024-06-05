@@ -6,3 +6,4 @@ __pycache__
 /app/static/*.css.map
 /app/static/*.min.js
 /app/static/*.min.js.map
+/tmp

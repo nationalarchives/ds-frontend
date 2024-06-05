@@ -31,9 +31,17 @@ def create_app(config_class):
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
-    app.logger.setLevel(gunicorn_error_logger.level)
+    app.logger.setLevel(gunicorn_error_logger.level or "DEBUG")
 
-    cache.init_app(app, config=app.config["CACHE"])
+    cache.init_app(
+        app,
+        config={
+            "CACHE_TYPE": app.config["CACHE_TYPE"],
+            "CACHE_DEFAULT_TIMEOUT": app.config["CACHE_DEFAULT_TIMEOUT"],
+            "CACHE_IGNORE_ERRORS": app.config["CACHE_IGNORE_ERRORS"],
+            "CACHE_DIR": app.config["CACHE_DIR"],
+        },
+    )
 
     SELF = "'self'"
     Talisman(

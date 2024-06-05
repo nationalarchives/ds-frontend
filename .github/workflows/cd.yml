@@ -25,6 +25,10 @@ jobs:
           virtualenvs-path: .venv
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
+      - name: Make tmp directory
+        run: mkdir tmp
+      - name: Clone ds-wagtail
+        run: cd tmp && git clone https://github.com/nationalarchives/ds-wagtail.git ds-wagtail
       - name: Run tests
         run: poetry run python -m pytest
 

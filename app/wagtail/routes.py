@@ -36,7 +36,7 @@ def index():
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=current_app.config["CACHE"]["CACHE_DEFAULT_TIMEOUT"],
+        timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
     )
 
 
@@ -61,5 +61,5 @@ def explore_page(path):
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=current_app.config["CACHE"]["CACHE_DEFAULT_TIMEOUT"],
+        timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
     )

@@ -4,6 +4,7 @@ docker-compose.yml
 Dockerfile
 README.md
 node_modules
+tmp
 .babelrc.json
 .eslintrc.js
 .flake8

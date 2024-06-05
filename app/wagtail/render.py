@@ -16,7 +16,6 @@ from .pages import (
 
 
 def render_content_page(page_data):
-    print(page_data)
     page_type = page_data["meta"]["type"]
     if page_type == "home.HomePage":
         return home_page(page_data)

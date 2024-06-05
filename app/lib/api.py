@@ -1,6 +1,7 @@
 import urllib.parse
 
 import requests
+from flask import current_app
 
 
 class BaseAPI:
@@ -27,6 +28,7 @@ class BaseAPI:
         url = f"{self.api_url}{self.api_path}{self.build_query_string()}"
         response = requests.get(url)
         if response.status_code == 404:
+            current_app.logger.warning("Resource not found")
             raise Exception("Resource not found")
         if response.status_code == requests.codes.ok:
             return self.parse_response(response)
@@ -36,4 +38,5 @@ class BaseAPI:
         try:
             return response.json()
         except requests.exceptions.JSONDecodeError:
+            current_app.logger.error("API provided non-JSON response")
             raise ConnectionError("API provided non-JSON response")

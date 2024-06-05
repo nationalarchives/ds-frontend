@@ -20,10 +20,10 @@ def wagtail_request_handler(uri, params={}):
         else ""
     )
     url = f"{api_url}/{uri}{query_string}"
-    print(url)
+    current_app.logger.debug(f"API endpoint requested: {url}")
     r = requests.get(url)
     if r.status_code == 404:
-        current_app.logger.error(f"Resource not found: {url}")
+        current_app.logger.warning(f"Resource not found: {url}")
         raise Exception("Resource not found")
     if r.status_code == requests.codes.ok:
         try:
@@ -34,7 +34,6 @@ def wagtail_request_handler(uri, params={}):
     current_app.logger.error(
         f"API responded with {r.status_code} status for {url}"
     )
-    print("no conn")
     raise ConnectionError("Request to API failed")
 
 
@@ -42,6 +41,7 @@ def breadcrumbs(page_id):
     try:
         ancestors = page_ancestors(page_id)
     except Exception:
+        current_app.logger.warning(f"Page {page_id} failed to get ancestors")
         return []
     return (
         [

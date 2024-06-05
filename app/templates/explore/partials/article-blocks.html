@@ -155,6 +155,7 @@
       }) }}
 
       {%- elif content_item.type == 'featured_record_article' %}
+      {%- if content_item.value.page %}
       {# TODO: Date #}
       <aside class="etna-space-above">
       {{ tnaCard({
@@ -180,6 +181,7 @@
         'htmlElement': 'article',
         'horizontal': True
       }) }}
+      {%- endif %}
       </aside>
 
       {%- elif content_item.type == 'media' %}

@@ -7,14 +7,14 @@ ENV NPM_BUILD_COMMAND=compile
 # Copy in the application code
 COPY --chown=app . .
 
-# Install the dependencies
+# Install dependencies
 RUN tna-build
 
 RUN mkdir /app/app/static/assets; \
     cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets
 
-# Delete the source files
-RUN rm -fR /app/src
+# Delete source files and tests
+RUN rm -fR /app/src /app/test
 
 # Run the application
 CMD ["tna-run", "etna:app"]
