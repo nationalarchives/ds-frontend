@@ -16,6 +16,10 @@
             {
               'text': 'Home',
               'href': '/'
+            },
+            {
+              'text': 'Legal',
+              'href': url_for('legal.index')
             }
           ],
           'structuredData': True
@@ -37,8 +41,8 @@
         </div>
       </div>
     </div>
-    <section class="tna-container tna-section tna-!--no-margin-top">
-      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+    <div class="tna-container tna-section tna-!--no-margin-top">
+      <section class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <h2 class="tna-heading-l">Cookie settings</h2>
         <p>We use three types of cookie. You can choose which cookies you’re happy for us to use.</p>
         {{ tnaRadios({
@@ -88,44 +92,44 @@
             'buttonElement': True
           }) }}
         </div>
-      </div>
-      <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-        <div class="tna-aside tna-background-tint">
+      </section>
+      <section class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+        <nav class="etna-sidebar etna-sidebar--right" aria-label="Related content">
           <h2 class="tna-heading-m">Related content</h2>
-          <ul class="tna-ul tna-ul--plain">
-            <li>
-              <a href="#">Fair and reasonable use</a>
+          <ol class="tna-ul tna-ol--plain- etna-sidebar__items">
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Fair and reasonable use</a>
             </li>
-            <li>
-              <a href="#">Use of bulk downloads and web crawlers</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Use of bulk downloads and web crawlers</a>
             </li>
-            <li>
-              <a href="#">Privacy notice</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Privacy notice</a>
             </li>
-            <li>
-              <a href="#">Copyright</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Copyright</a>
             </li>
-            <li>
-              <a href="#">Takedown and reclosure policy</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Takedown and reclosure policy</a>
             </li>
-            <li>
-              <a href="#">Record copying</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Record copying</a>
             </li>
-            <li>
-              <a href="#">Booking events and visits</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Booking events and visits</a>
             </li>
-            <li>
-              <a href="#">User participation</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">User participation</a>
             </li>
-            <li>
-              <a href="#">Our fees</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Our fees</a>
             </li>
-            <li>
-              <a href="#">Information we collect online</a>
+            <li class="etna-sidebar__item">
+              <a href="#" class="etna-sidebar__link">Information we collect online</a>
             </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+          </ol>
+        </nav>
+      </section>
+    </div>
   </main>
 {% endblock %}

@@ -12,7 +12,7 @@ def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     page_data = page_preview(content_type, token)
-    return render_content_page(page_data | {"page_preview": False})
+    return render_content_page(page_data | {"page_preview": True})
 
 
 @bp.route("/")

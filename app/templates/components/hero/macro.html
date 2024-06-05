@@ -1,16 +1,21 @@
 {% macro tnaHero(params) %}
+{% from "components/button/macro.html" import tnaButton %}
+
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
 {%- if params.style == "contrast" -%}
-  {%- set containerClasses = containerClasses + ['tna-hero--contrast'] -%}
+  {%- set containerClasses = containerClasses + ['tna-background-contrast'] -%}
 {%- elif params.style == "tint" -%}
-  {%- set containerClasses = containerClasses + ['tna-hero--tint'] -%}
+  {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
 {%- elif params.style == "accent" -%}
-  {%- set containerClasses = containerClasses + ['tna-hero--accent'] -%}
+  {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
 {%- endif -%}
 {%- if params.layout == "shift" -%}
   {%- set containerClasses = containerClasses + ['tna-hero--shift'] -%}
 {%- elif params.layout == "split" -%}
   {%- set containerClasses = containerClasses + ['tna-hero--split'] -%}
+{%- endif -%}
+{%- if params.narrow -%}
+  {%- set containerClasses = containerClasses + ['tna-hero--narrow'] -%}
 {%- endif -%}
 {% set hasContent = params.title or params.body or params.text %}
 <{{ 'header' if hasContent else 'div' }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
@@ -57,6 +62,21 @@
             <p>{{ params.text }}</p>
           {%- else %}
             {{ params.body | safe }}
+          {%- endif %}
+          {%- if params.actions %}
+          <div class="tna-button-group tna-hero__actions">
+            {%- for item in params.actions %}
+            {{ tnaButton({
+              'text': item.text,
+              'href': item.href,
+              'title': item.title,
+              'icon': item.icon,
+              'rightAlignIcon': item.rightAlignIcon,
+              'classes': item.classes,
+              'attributes': item.attributes
+            }) }}
+            {%- endfor %}
+          </div>
           {%- endif %}
         </div>
       </div>

@@ -1,15 +1,24 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-sidebar {
-  padding-right: spacing.space(1);
+  &__items {
+    padding-left: spacing.space(1.5);
 
-  @include colour.thick-keyline(right);
-  // @include colour.colour-border("keyline", 1px, solid, right);
+    word-break: break-word;
+  }
 
   &__item {
     margin-top: spacing.space(0.5);
+    padding-left: spacing.space(0.5);
+
+    &::marker {
+      content: "—";
+      @include colour.colour-font("font-light", true);
+      @include typography.main-font-weight;
+    }
   }
 
   &__item-children {
@@ -17,16 +26,27 @@
 
     @include typography.relative-font-size(16);
 
-    // @include colour.thick-keyline(left);
+    @include colour.thick-keyline(left);
   }
 
   &__item-child {
     margin-top: spacing.space(0.25);
-    // padding-left: spacing.space(0.5);
+  }
 
-    // &::marker {
-    //   content: "—";
-    //   @include colour.colour-font("font-base", true);
-    // }
+  &--right {
+  }
+
+  @include media.on-larger-than-mobile {
+    padding-right: spacing.space(1);
+
+    @include colour.thick-keyline(right);
+
+    &--right {
+      padding-right: 0;
+      padding-left: spacing.space(1);
+
+      border-right: none;
+      @include colour.thick-keyline(left);
+    }
   }
 }

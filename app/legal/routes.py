@@ -3,10 +3,10 @@ from app.lib import cache, cache_key_prefix
 from flask import render_template
 
 
-@bp.route("/accessibility/")
+@bp.route("/")
 @cache.cached(key_prefix=cache_key_prefix)
-def accessibility():
-    return render_template("legal/accessibility.html")
+def index():
+    return render_template("legal/index.html")
 
 
 @bp.route("/cookies/")

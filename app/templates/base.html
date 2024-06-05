@@ -59,7 +59,6 @@
 {% endblock %}
 
 {% block header %}
-{% if not page_data or not page_data.page_preview %}
 {{ tnaPhaseBanner({
   'phase': 'Alpha',
   'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
@@ -109,7 +108,6 @@
     },
   ]
 }) }}
-{% endif %}
 {% endblock %}
 
 {% block beforeContent %}
@@ -126,7 +124,6 @@
 {% endblock %}
 
 {% block footer %}
-{% if not page_data or not page_data.page_preview %}
 {{ tnaFooter({
   'themeSelector': True,
   'social': [
@@ -241,7 +238,7 @@
   'legal': [
     {
       'text': 'Accessibility statement',
-      'href': url_for('legal.accessibility')
+      'href': 'https://www.nationalarchives.gov.uk/help/web-accessibility/'
     },
     {
       'text': 'Freedom of information',
@@ -262,7 +259,6 @@
   ],
   'classes': 'tna-!--margin-top-l'
 }) }}
-{% endif %}
 {% endblock %}
 
 {% block bodyEnd %}

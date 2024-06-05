@@ -6,7 +6,7 @@
     <nav class="etna-sidebar" aria-label="Table of contents">
       {# TODO: Make a marco for this recursion #}
       <h2 class="tna-heading-m">Contents</h2>
-      <ol class="tna-ol tna-ol--plain etna-sidebar__items">
+      <ol class="tna-ul etna-sidebar__items">
         {%- for heading in headings %}
         <li class="etna-sidebar__item">
           <a href="#{{ heading.href }}" class="etna-sidebar__link">

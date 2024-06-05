@@ -5,7 +5,7 @@
 {%- from 'macros/simple-page-with-sidebar.html' import simplePageWithSidebar -%}
 
 {%- set themeAccent = 'blue' -%}
-{%- set pageTitle = 'Details about cookies' -%}
+{%- set pageTitle = 'Accessibility' -%}
 
 {% block main %}
   <div class="tna-background-accent">
@@ -16,6 +16,10 @@
             {
               'text': 'Home',
               'href': '/'
+            },
+            {
+              'text': 'Help',
+              'href': url_for('help.index')
             }
           ],
           'structuredData': True
@@ -28,7 +32,7 @@
       <div class="tna-container tna-section tna-!--padding-bottom-xl">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">Legal</p>
+            <p class="tna-hgroup__supertitle">Help</p>
             <h1 class="tna-hgroup__title">Accessibility at The National Archives</h1>
           </hgroup>
           <p class="tna-large-paragraph">We are continually working to improve the accessibility of our digital services, and to develop our skills in relevant standards and techniques.</p>
