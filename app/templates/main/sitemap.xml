@@ -10,7 +10,6 @@
   <loc>{{ url["loc"] }}</loc>
 </url>
 {% endfor %}
-
 {% for url in dynamic_urls %}
 <url>
   <loc>{{ url["loc"] }}</loc>

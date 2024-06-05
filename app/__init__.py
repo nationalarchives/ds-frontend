@@ -40,6 +40,7 @@ def create_app(config_class):
         app,
         content_security_policy={
             "default-src": SELF,
+            "base-uri": "'none'",
             "img-src": [
                 SELF,
                 app.config["DOMAIN"],

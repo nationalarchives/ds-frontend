@@ -22,9 +22,6 @@ def healthcheck():
 def sitemap():
     host_components = urlparse(request.host_url)
     host_base = host_components.scheme + "://" + host_components.netloc
-    domain = current_app.config["DOMAIN"]
-    if domain:
-        host_base = host_base.replace(f"http://{domain}", f"https://{domain}")
     static_urls = list()
     for rule in current_app.url_map.iter_rules():
         if (
@@ -44,7 +41,7 @@ def sitemap():
         wagtail_pages = all_pages(page_batch)
         wagtail_pages_count = wagtail_pages["meta"]["total_count"]
         for page in wagtail_pages["items"]:
-            html_url = page["meta"]["html_url"]
+            html_url = page["full_url"]
             if not any(
                 static_url["loc"] == html_url for static_url in static_urls
             ):

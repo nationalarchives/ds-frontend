@@ -3,7 +3,7 @@ import os
 from app.lib.util import strtobool
 
 
-class Config(object):
+class Base(object):
     SECRET_KEY = os.environ.get("SECRET_KEY", "")
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
@@ -39,10 +39,11 @@ class Config(object):
     GA4_ID = os.environ.get("GA4_ID", "")
 
 
-class ProductionConfig(Config):
+class Production(Base):
     ENVIRONMENT = "production"
     CACHE = {
         "CACHE_TYPE": "FileSystemCache",
+        # TODO: This invalidates the CSP nonces
         "CACHE_DEFAULT_TIMEOUT": int(
             os.environ.get("CACHE_DEFAULT_TIMEOUT", 300)
         ),
@@ -52,7 +53,7 @@ class ProductionConfig(Config):
     FORCE_HTTPS = True
 
 
-class DevelopmentConfig(Config):
+class Develop(Base):
     ENVIRONMENT = "develop"
     DEBUG = True
     CACHE = {
@@ -65,11 +66,11 @@ class DevelopmentConfig(Config):
     }
 
 
-class TestingConfig(Config):
+class Test(Base):
     ENVIRONMENT = "test"
     SECRET_KEY = ""
     DEBUG = True
-    WAGTAIL_API_URL = "test"
-    SEARCH_API_URL = ""
-    DOMAIN = ""
-    MEDIA_DOMAIN = ""
+    WAGTAIL_API_URL = "http://wagtail.test/api/v2"
+    SEARCH_API_URL = "http://search.test/api/v1"
+    DOMAIN = "http://localhost"
+    MEDIA_DOMAIN = "http://media.test"

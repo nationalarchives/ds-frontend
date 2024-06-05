@@ -6,7 +6,7 @@ services:
         IMAGE_TAG: preview
     environment:
       - ENVIRONMENT=develop
-      - CONFIG=config.DevelopmentConfig
+      - CONFIG=config.Develop
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
