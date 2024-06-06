@@ -20,11 +20,11 @@
       {{ content_item.value.text | tna_html | safe }}
 
       {% elif content_item.type == 'sub_heading' %}
-      <h3 class="tna-heading-m">{{ block.value.heading }}</h3>
+      <h3 class="tna-heading-m">{{ content_item.value.heading }}</h3>
 
       {% elif content_item.type == 'table' %}
-      <h3 class="tna-heading-m">{{ block.value.title }}</h3>
-      {{ block.value.table | tna_table }}
+      <h3 class="tna-heading-m">{{ content_item.value.title }}</h3>
+      {{ content_item.value.table | tna_table }}
 
       {%- elif content_item.type == 'image' %}
       {% set picture_information = [] %}
