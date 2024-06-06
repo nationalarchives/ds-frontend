@@ -5,24 +5,23 @@
 
 .etna-sidebar {
   &__items {
-    padding-left: spacing.space(1.5);
+    padding-left: spacing.space(1.75);
 
     word-break: break-word;
   }
 
-  &__item {
+  & &__item {
     margin-top: spacing.space(0.5);
-    padding-left: spacing.space(0.5);
 
     &::marker {
-      content: "—";
+      content: "—  ";
       @include colour.colour-font("font-light", true);
       @include typography.main-font-weight;
     }
   }
 
   &__item-children {
-    padding-left: spacing.space(1) !important;
+    padding-left: spacing.space(0.75) !important;
 
     @include typography.relative-font-size(16);
 
