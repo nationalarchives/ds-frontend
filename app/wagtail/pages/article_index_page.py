@@ -13,10 +13,14 @@ def article_index_page(page_data):
             page_data["id"], page, children_per_page
         )
     except ConnectionError:
-        current_app.logger.error(f"An error occured getting children for page {page_data["id"]}")
+        current_app.logger.error(
+            f"API error getting children for page {page_data['id']}"
+        )
         return render_template("errors/api.html"), 502
     except Exception:
-        current_app.logger.error(f"Page {page_data["id"]} failed to get children")
+        current_app.logger.error(
+            f"Exception getting children for page {page_data['id']}"
+        )
         return render_template("errors/server.html"), 500
     pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
     if page > pages:

@@ -22,6 +22,10 @@
       {% elif content_item.type == 'sub_heading' %}
       <h3 class="tna-heading-m">{{ block.value.heading }}</h3>
 
+      {% elif content_item.type == 'table' %}
+      <h3 class="tna-heading-m">{{ block.value.title }}</h3>
+      {{ block.value.table | tna_table }}
+
       {%- elif content_item.type == 'image' %}
       {% set picture_information = [] %}
       {%- if content_item.value.image.transcript %}

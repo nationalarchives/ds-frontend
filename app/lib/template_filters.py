@@ -2,14 +2,23 @@ import re
 import urllib.parse
 from datetime import datetime
 
-from app.lib.util import strtobool
 from flask import url_for
+
+from .content_parser import (
+    b_to_strong,
+    lists_to_tna_lists,
+    wagtail_api_table_to_html,
+)
 
 
 def tna_html(s):
-    return s.replace("<ul>", '<ul class="tna-ul">').replace(
-        "<ol>", '<ol class="tna-ol">'
-    )
+    s = lists_to_tna_lists(s)
+    s = b_to_strong(s)
+    return s
+
+
+def tna_table(table_data):
+    return wagtail_api_table_to_html(table_data)
 
 
 def slugify(s):
