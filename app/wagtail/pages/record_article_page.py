@@ -17,7 +17,7 @@ def record_article_page(page_data):
         record_data = records_api.get_results()
         page_data["record_data"] = record_data
     return render_template(
-        "explore/record-article.html",
+        "explore-the-collection/record-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         categories=categories,

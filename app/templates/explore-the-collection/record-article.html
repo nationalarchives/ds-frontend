@@ -1,6 +1,6 @@
-{% extends 'explore/base.html' %}
+{% extends 'explore-the-collection/base.html' %}
 
-{%- from 'explore/partials/article-footer.html' import articleFooter -%}
+{%- from 'explore-the-collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
@@ -111,6 +111,13 @@
             'href': url_for('catalogue.details', id=page_data.record),
             'accent': True
           }) }}
+          {% if page_data.image_library_link %}
+          {{ tnaButton({
+            'text': 'Use this image',
+            'href': page_data.image_library_link,
+            'accent': True
+          }) }}
+          {% endif %}
         </div>
       </div>
     </div>

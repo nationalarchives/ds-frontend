@@ -26,7 +26,7 @@ def article_index_page(page_data):
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
     return render_template(
-        "explore/stories.html",
+        "explore-the-collection/stories.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children_data["items"],

@@ -10,7 +10,7 @@ def article_page(page_data):
     )
     categories = pick_top_two(topics, time_periods)
     return render_template(
-        "explore/article.html",
+        "explore-the-collection/article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         categories=categories,

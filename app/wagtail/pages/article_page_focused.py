@@ -10,7 +10,7 @@ def article_page_focused(page_data):
     )
     categories = pick_top_two(topics, time_periods)
     return render_template(
-        "explore/article-focused.html",
+        "explore-the-collection/article-focused.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         categories=categories,

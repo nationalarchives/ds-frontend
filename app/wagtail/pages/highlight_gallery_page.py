@@ -18,7 +18,7 @@ def highlight_gallery_page(page_data):
             record_data = records_api.get_results()
             highlight["record_data"] = record_data
     return render_template(
-        "explore/highlight-gallery.html",
+        "explore-the-collection/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         categories=categories,
