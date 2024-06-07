@@ -77,19 +77,18 @@ html.tna-template
 
     display: block;
 
-    text-decoration: none;
+    // text-decoration: none;
     @include typography.relative-font-size(16);
 
     &,
     &:link,
     &:visited {
-      @include colour.colour-font("font-base");
+      // @include colour.colour-font("font-base");
+      @include colour.colour-font("link");
     }
 
     &--current {
       @include colour.accent;
-      // @include colour.colour-outline("accent", 0.3125rem, solid);
-      // outline-offset: 0.125rem;
     }
   }
 
