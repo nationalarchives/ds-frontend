@@ -7,6 +7,7 @@
   &__items {
     padding-left: spacing.space(1.75);
 
+    @include typography.relative-font-size(16);
     word-break: break-word;
   }
 
@@ -21,15 +22,24 @@
   }
 
   &__item-children {
-    padding-left: spacing.space(0.75) !important;
-
-    @include typography.relative-font-size(16);
+    margin-top: spacing.space(0.5) !important;
+    padding-left: spacing.space(2) !important;
 
     @include colour.thick-keyline(left);
   }
 
-  &__item-child {
+  & &__item-child {
     margin-top: spacing.space(0.25);
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &::marker {
+      content: "—  ";
+      @include colour.colour-font("font-light", true);
+      @include typography.main-font-weight;
+    }
   }
 
   &--right {
@@ -38,7 +48,7 @@
   @include media.on-larger-than-mobile {
     padding-right: spacing.space(1);
 
-    @include colour.thick-keyline(right);
+    // @include colour.thick-keyline(right);
 
     &--right {
       padding-right: 0;
