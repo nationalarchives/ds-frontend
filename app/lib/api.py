@@ -4,6 +4,14 @@ import requests
 from flask import current_app
 
 
+class ApiResourceNotFound(Exception):
+    pass
+
+
+class ApiResourceProtected(Exception):
+    pass
+
+
 class BaseAPI:
     api_url = ""
     api_path = "/"

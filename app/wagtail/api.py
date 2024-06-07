@@ -1,7 +1,5 @@
-import json
-import os
-
 import requests
+from app.lib.api import ApiResourceNotFound, ApiResourceProtected
 from flask import current_app
 
 
@@ -24,7 +22,10 @@ def wagtail_request_handler(uri, params={}):
     r = requests.get(url)
     if r.status_code == 404:
         current_app.logger.warning(f"Resource not found: {url}")
-        raise Exception("Resource not found")
+        raise ApiResourceNotFound("Resource not found")
+    if r.status_code == 401:
+        current_app.logger.info(f"Resource protected: {url}")
+        raise ApiResourceProtected("Resource protected")
     if r.status_code == requests.codes.ok:
         try:
             return r.json()
@@ -75,8 +76,19 @@ def page_details(page_id, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def password_protected_page_details(page_id, params={}):
+    uri = f"private_pages/{page_id}/"
+    return wagtail_request_handler(uri, params)
+
+
 def page_details_by_uri(page_uri, params={}):
     uri = "pages/find/"
+    params = params | {"html_path": page_uri}
+    return wagtail_request_handler(uri, params)
+
+
+def password_protected_page_details_by_uri(page_uri, params={}):
+    uri = "private_pages/find/"
     params = params | {"html_path": page_uri}
     return wagtail_request_handler(uri, params)
 
