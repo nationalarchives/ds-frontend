@@ -115,7 +115,20 @@
           {{ tnaButton({
             'text': 'Use this image',
             'href': page_data.image_library_link,
-            'accent': True
+            'accent': True,
+            'attributes': {
+              'rel': 'noopener noreferrer'
+            }
+          }) }}
+          {% endif %}
+          {% if page_data.print_on_demand_link %}
+          {{ tnaButton({
+            'text': 'Buy an art print',
+            'href': page_data.print_on_demand_link,
+            'accent': True,
+            'attributes': {
+              'rel': 'noopener noreferrer'
+            }
           }) }}
           {% endif %}
         </div>
