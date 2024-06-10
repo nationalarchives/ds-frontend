@@ -14,7 +14,7 @@ class Base(object):
     DOMAIN = os.environ.get("DOMAIN", "")
     MEDIA_DOMAIN = os.environ.get("MEDIA_DOMAIN", "")
     WAGTAIL_DOMAIN = os.environ.get("WAGTAIL_DOMAIN", "")
-    FORCE_HTTPS = False
+    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
 
     CACHE_TYPE = "FileSystemCache"
     CACHE_DEFAULT_TIMEOUT = 0
@@ -46,6 +46,8 @@ class Base(object):
 
     GA4_ID = os.environ.get("GA4_ID", "")
 
+    APPLY_REDIRECTS = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
+
 
 class Production(Base):
     ENVIRONMENT = "production"
@@ -53,13 +55,13 @@ class Production(Base):
     # TODO: This invalidates the CSP nonces
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300))
 
-    FORCE_HTTPS = True
+    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
 
 class Develop(Base):
     ENVIRONMENT = "develop"
 
-    DEBUG = True
+    DEBUG = strtobool(os.getenv("DEBUG", "True"))
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 1))
 
@@ -78,3 +80,7 @@ class Test(Base):
     MEDIA_DOMAIN = "http://media.test"
 
     CACHE_TYPE = "SimpleCache"
+
+    FORCE_HTTPS = False
+
+    APPLY_REDIRECTS = False

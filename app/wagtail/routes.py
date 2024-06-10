@@ -147,6 +147,14 @@ def page(path):
         return redirect(
             url_for("wagtail.preview_protected_page", id=page_data["id"])
         )
+    if (
+        current_app.config["APPLY_REDIRECTS"]
+        and page_data["meta"]["url"] != f"/{path}/"
+    ):
+        return redirect(
+            url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
+            code=302,
+        )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
         timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
