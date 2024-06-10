@@ -13,7 +13,8 @@ class ArticleTemplateTestCase(unittest.TestCase):
         self.media_domain = self.app.application.config["MEDIA_DOMAIN"]
         self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
 
-    def test_template(self):
+    @requests_mock.Mocker()
+    def test_template(self, m):
         with open(
             "tmp/ds-wagtail/etna/api/tests/expected_results/article.json", "r"
         ) as json_file:
@@ -28,38 +29,37 @@ class ArticleTemplateTestCase(unittest.TestCase):
                 .replace("POSTWAR_ID", "6")
             )
             page_data = json.loads(page_data_json)
-            with requests_mock.Mocker() as m:
-                mock_endpoint_slug = "test-article"
-                mock_endpoint = f"{self.mock_api_url}/pages/find/?html_path={mock_endpoint_slug}&format=json"
-                m.get(mock_endpoint, json=page_data)
-                rv = self.app.get(f"/{mock_endpoint_slug}/")
-                self.assertEqual(rv.status_code, 200)
-                self.assertIn(
-                    f"<title>{page_data['title']} - The National Archives</title>",
-                    rv.text,
-                )
-                self.assertIn(
-                    f"<meta name=\"tna.page.wagtail.id\" content=\"{page_data['id']}\">",
-                    rv.text,
-                )
-                self.assertIn(
-                    f"<meta name=\"tna.page.wagtail.title\" content=\"{page_data['title']}\">",
-                    rv.text,
-                )
-                self.assertIn(
-                    f"<meta name=\"tna.page.wagtail.type\" content=\"{page_data['meta']['type']}\">",
-                    rv.text,
-                )
-                self.assertIn(
-                    f"<meta name=\"tna.page.tags\" content=\"{';'.join(page_data['tags'])}\">",
-                    rv.text,
-                )
-                # self.assertIn('<meta name="description" content="articles.ArticlePage">', rv.text)
-                self.assertIn(
-                    '<p class="tna-hgroup__supertitle">The story of</p>',
-                    rv.text,
-                )
-                self.assertIn(
-                    f"<h1 class=\"tna-hgroup__title\" itemprop=\"name\">{page_data['title']}</h1>",
-                    rv.text,
-                )
+            mock_endpoint_slug = "test-article"
+            mock_endpoint = f"{self.mock_api_url}/pages/find/?html_path={mock_endpoint_slug}&format=json"
+            m.get(mock_endpoint, json=page_data)
+            rv = self.app.get(f"/{mock_endpoint_slug}/")
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn(
+                f"<title>{page_data['title']} - The National Archives</title>",
+                rv.text,
+            )
+            self.assertIn(
+                f"<meta name=\"tna.page.wagtail.id\" content=\"{page_data['id']}\">",
+                rv.text,
+            )
+            self.assertIn(
+                f"<meta name=\"tna.page.wagtail.title\" content=\"{page_data['title']}\">",
+                rv.text,
+            )
+            self.assertIn(
+                f"<meta name=\"tna.page.wagtail.type\" content=\"{page_data['meta']['type']}\">",
+                rv.text,
+            )
+            self.assertIn(
+                f"<meta name=\"tna.page.tags\" content=\"{';'.join(page_data['tags'])}\">",
+                rv.text,
+            )
+            # self.assertIn('<meta name="description" content="articles.ArticlePage">', rv.text)
+            self.assertIn(
+                '<p class="tna-hgroup__supertitle">The story of</p>',
+                rv.text,
+            )
+            self.assertIn(
+                f"<h1 class=\"tna-hgroup__title\" itemprop=\"name\">{page_data['title']}</h1>",
+                rv.text,
+            )

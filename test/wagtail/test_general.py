@@ -21,16 +21,16 @@ class ArticleTemplateTestCase(unittest.TestCase):
             rv.text,
         )
 
-    def test_404(self):
-        with requests_mock.Mocker() as m:
-            mock_endpoint = (
-                f"{self.mock_api_url}/pages/find/?html_path=foobar&format=json"
-            )
-            mock_respsone = {"message": "not found"}
-            m.get(mock_endpoint, json=mock_respsone, status_code=404)
-            rv = self.app.get("/foobar/")
-            self.assertEqual(rv.status_code, 404)
-            self.assertIn(
-                '<h1 class="tna-heading-xl">Page not found</h1>',
-                rv.text,
-            )
+    @requests_mock.Mocker()
+    def test_page_not_found(self, m):
+        mock_endpoint = (
+            f"{self.mock_api_url}/pages/find/?html_path=foobar&format=json"
+        )
+        mock_respsone = {"message": "not found"}
+        m.get(mock_endpoint, json=mock_respsone, status_code=404)
+        rv = self.app.get("/foobar/")
+        self.assertEqual(rv.status_code, 404)
+        self.assertIn(
+            '<h1 class="tna-heading-xl">Page not found</h1>',
+            rv.text,
+        )
