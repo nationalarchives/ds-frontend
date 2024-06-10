@@ -3,7 +3,6 @@
 .etna-highlight-gallery {
   &__image {
     width: auto;
-    min-height: 20rem;
     max-height: calc(100dvh - #{spacing.space(2)});
     margin: 0 auto;
 

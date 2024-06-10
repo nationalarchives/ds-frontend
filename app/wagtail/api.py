@@ -1,7 +1,5 @@
-import json
-import os
-
 import requests
+from app.lib.api import ApiResourceNotFound
 from flask import current_app
 
 
@@ -24,7 +22,7 @@ def wagtail_request_handler(uri, params={}):
     r = requests.get(url)
     if r.status_code == 404:
         current_app.logger.warning(f"Resource not found: {url}")
-        raise Exception("Resource not found")
+        raise ApiResourceNotFound("Resource not found")
     if r.status_code == requests.codes.ok:
         try:
             return r.json()
