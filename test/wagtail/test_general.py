@@ -6,7 +6,7 @@ import requests_mock
 from app import create_app
 
 
-class ArticleTemplateTestCase(unittest.TestCase):
+class GeneralWagtailTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
         self.domain = self.app.application.config["DOMAIN"]

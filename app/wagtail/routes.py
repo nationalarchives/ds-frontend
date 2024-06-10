@@ -79,7 +79,9 @@ def preview_protected_page(id):
             )
         if "url" in page_data["meta"]:
             return redirect(
-                url_for("wagtail.page", path=page_data["meta"]["url"]),
+                url_for(
+                    "wagtail.page", path=page_data["meta"]["url"].strip("/")
+                ),
                 code=302,
             )
     return CachedResponse(
