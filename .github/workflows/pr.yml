@@ -1,0 +1,19 @@
+name: PR
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+concurrency:
+  group: pr
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        uses: ./.github/actions/tests
