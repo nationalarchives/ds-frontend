@@ -11,9 +11,16 @@ concurrency:
   group: pr
 
 jobs:
-  test:
+  test-node:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Run tests
-        uses: ./.github/actions/tests
+        uses: ./.github/actions/node-tests
+
+  test-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        uses: ./.github/actions/python-tests
