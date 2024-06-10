@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
+{%- set status_code = 500 -%}
+
 {% block header %}
 {{ tnaHeader({
   'logo': {
     'href': '/'
   }
 }) }}
-<meta name="tna.response.status_code" content="500">
 {% endblock %}
 
 {% block content %}
