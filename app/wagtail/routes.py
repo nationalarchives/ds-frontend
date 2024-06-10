@@ -77,7 +77,11 @@ def preview_protected_page(id):
                 response=make_response(render_content_page(page_data)),
                 timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
             )
-        return redirect(page_data["meta"]["html_url"], code=302)
+        if "url" in page_data["meta"]:
+            return redirect(
+                url_for("wagtail.page", path=page_data["meta"]["url"]),
+                code=302,
+            )
     return CachedResponse(
         response=make_response(render_template("errors/api.html"), 502),
         timeout=1,
@@ -114,7 +118,7 @@ def index():
 
 @bp.route("/<path:path>/")
 @cache.cached(key_prefix=cache_key_prefix)
-def explore_page(path):
+def page(path):
     try:
         page_data = page_details_by_uri(path)
     except ConnectionError:
