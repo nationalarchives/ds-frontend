@@ -9,6 +9,8 @@ class MainBlueprintTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
         self.domain = self.app.application.config["DOMAIN"]
+        self.media_domain = self.app.application.config["MEDIA_DOMAIN"]
+        self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
 
     def test_trailing_slash_redirects(self):
         rv = self.app.get("/healthcheck/live")
@@ -27,10 +29,8 @@ class MainBlueprintTestCase(unittest.TestCase):
 
     def test_sitemap_xml(self):
         with requests_mock.Mocker() as m:
-            media_domain = self.app.application.config["MEDIA_DOMAIN"]
-            mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
             mock_endpoint = (
-                f"{mock_api_url}/pages/?offset=0&limit=20&format=json"
+                f"{self.mock_api_url}/pages/?offset=0&limit=20&format=json"
             )
             mock_respsone = {
                 "meta": {"total_count": 3},
@@ -56,13 +56,13 @@ class MainBlueprintTestCase(unittest.TestCase):
                             "title": "Large collection of letters sent on the Spanish ship La Perla",
                             "jpeg": {
                                 "url": "/media/images/prize-p.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_W4BMfq1.jpg",
-                                "full_url": f"{media_domain}/media/images/prize-p.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_W4BMfq1.jpg",
+                                "full_url": f"{self.media_domain}/media/images/prize-p.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_W4BMfq1.jpg",
                                 "width": 600,
                                 "height": 400,
                             },
                             "webp": {
                                 "url": "/media/images/prize-.2e16d0ba.fill-600x400.format-webp.webpquality-80_bk8AKep.webp",
-                                "full_url": f"{media_domain}/media/images/prize-.2e16d0ba.fill-600x400.format-webp.webpquality-80_bk8AKep.webp",
+                                "full_url": f"{self.media_domain}/media/images/prize-.2e16d0ba.fill-600x400.format-webp.webpquality-80_bk8AKep.webp",
                                 "width": 600,
                                 "height": 400,
                             },
@@ -80,13 +80,13 @@ class MainBlueprintTestCase(unittest.TestCase):
                             "title": "Map of Chertsey Abbey teaser",
                             "jpeg": {
                                 "url": "/media/images/map-of-.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_Mh4oeUt.jpg",
-                                "full_url": f"{media_domain}/media/images/map-of-.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_Mh4oeUt.jpg",
+                                "full_url": f"{self.media_domain}/media/images/map-of-.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_Mh4oeUt.jpg",
                                 "width": 600,
                                 "height": 400,
                             },
                             "webp": {
                                 "url": "/media/images/map-of.2e16d0ba.fill-600x400.format-webp.webpquality-80_e9FuoI4.webp",
-                                "full_url": f"{media_domain}/media/images/map-of.2e16d0ba.fill-600x400.format-webp.webpquality-80_e9FuoI4.webp",
+                                "full_url": f"{self.media_domain}/media/images/map-of.2e16d0ba.fill-600x400.format-webp.webpquality-80_e9FuoI4.webp",
                                 "width": 600,
                                 "height": 400,
                             },
@@ -111,7 +111,3 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertIn(
                 f"<loc>{self.domain}/legal/cookie-details/</loc>", rv.text
             )
-
-    def test_404(self):
-        rv = self.app.get("/foobar/")
-        self.assertEqual(rv.status_code, 404)

@@ -9,6 +9,9 @@ from app import create_app
 class ArticleTemplateTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
+        self.domain = self.app.application.config["DOMAIN"]
+        self.media_domain = self.app.application.config["MEDIA_DOMAIN"]
+        self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
 
     def test_template(self):
         with open(
@@ -26,9 +29,8 @@ class ArticleTemplateTestCase(unittest.TestCase):
             )
             page_data = json.loads(page_data_json)
             with requests_mock.Mocker() as m:
-                mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
                 mock_endpoint_slug = "test-article"
-                mock_endpoint = f"{mock_api_url}/pages/find/?html_path={mock_endpoint_slug}&format=json"
+                mock_endpoint = f"{self.mock_api_url}/pages/find/?html_path={mock_endpoint_slug}&format=json"
                 m.get(mock_endpoint, json=page_data)
                 rv = self.app.get(f"/{mock_endpoint_slug}/")
                 self.assertEqual(rv.status_code, 200)
