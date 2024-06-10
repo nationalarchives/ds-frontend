@@ -60,6 +60,8 @@ def create_app(config_class):
                 "https://ssl.gstatic.com",
                 "https://www.gstatic.com",
                 "https://www.nationalarchives.gov.uk",
+                "https://beta.nationalarchives.gov.uk",
+                "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site",
             ],
             "script-src": [
                 SELF,
