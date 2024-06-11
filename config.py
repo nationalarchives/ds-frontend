@@ -69,8 +69,6 @@ class Develop(Base):
 class Test(Base):
     ENVIRONMENT = "test"
 
-    SECRET_KEY = ""
-
     DEBUG = True
 
     WAGTAIL_API_URL = "http://wagtail.test/api/v2"
