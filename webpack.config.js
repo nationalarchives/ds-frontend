@@ -5,6 +5,7 @@ module.exports = {
     main: "./src/scripts/main.js",
     analytics: "./src/scripts/analytics.js",
     article: "./src/scripts/article.js",
+    cookies: "./src/scripts/cookies.js",
     search: "./src/scripts/search.js",
   },
   mode: "production",

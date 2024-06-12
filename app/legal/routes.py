@@ -4,7 +4,14 @@ from urllib.parse import quote, unquote
 from app.legal import bp
 from app.lib import cache, cache_key_prefix
 from app.lib.util import strtobool
-from flask import current_app, make_response, render_template, request
+from flask import (
+    current_app,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 
 @bp.route("/")
@@ -37,7 +44,19 @@ def cookies():
             ),
             "essential": True,
         }
-        response = make_response(render_template("legal/cookies.html"))
+        response = make_response(
+            redirect(
+                url_for(
+                    "legal.cookies",
+                    saved="true",
+                    referrer=(
+                        request.form["referrer"]
+                        if "referrer" in request.form
+                        else ""
+                    ),
+                )
+            )
+        )
         response.set_cookie(
             "cookies_policy",
             quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
