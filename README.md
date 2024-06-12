@@ -20,7 +20,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `DEBUG`                 | If true, allow debugging[^1]                                              | `False`                                                 |
 | `WAGTAIL_API_URL`       | The base URL of the content API, including the `/api/v2` path             | _none_                                                  |
 | `SEARCH_API_URL`        | The base URL of the search API                                            | _none_                                                  |
-| `DOMAIN`                | The domain the site is hosted on                                          | _none_                                                  |
+| `COOKIE_DOMAIN`         | The domain to save cookie preferences against                             | _none_                                                  |
 | `CSP_IMG_SRC`           | A comma separated list of CSP rules for `img-src`                         | `'self'`                                                |
 | `CSP_SCRIPT_SRC`        | A comma separated list of CSP rules for `script-src`                      | `'self'`                                                |
 | `CSP_STYLE_SRC`         | A comma separated list of CSP rules for `style-src`                       | `'self'`                                                |

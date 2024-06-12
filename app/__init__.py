@@ -106,14 +106,7 @@ def create_app(config_class):
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
-            config={
-                "DOMAIN": app.config["DOMAIN"],
-                "BASE_DISCOVERY_URL": app.config["BASE_DISCOVERY_URL"],
-                "SEARCH_DISCOVERY_URL": app.config["SEARCH_DISCOVERY_URL"],
-                "SEARCH_WEBSITE_URL": app.config["SEARCH_WEBSITE_URL"],
-                "ARCHIVE_RECORDS_URL": app.config["ARCHIVE_RECORDS_URL"],
-                "GA4_ID": app.config["GA4_ID"],
-            },
+            config=app.config,
         )
 
     from .about import bp as about_bp

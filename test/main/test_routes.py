@@ -8,8 +8,8 @@ from app import create_app
 class MainBlueprintTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
-        self.domain = self.app.application.config["DOMAIN"]
-        self.media_domain = self.app.application.config["MEDIA_DOMAIN"]
+        self.domain = "TEST"
+        self.media_domain = "TEST_MEDIA"
         self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
 
     def test_trailing_slash_redirects(self):

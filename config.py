@@ -11,7 +11,7 @@ class Base(object):
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
 
-    DOMAIN = os.environ.get("DOMAIN", "")
+    COOKIE_DOMAIN = os.environ.get("COOKIE_DOMAIN", "")
 
     CSP_IMG_SRC = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")
@@ -79,9 +79,6 @@ class Test(Base):
 
     WAGTAIL_API_URL = "http://wagtail.test/api/v2"
     SEARCH_API_URL = "http://search.test/api/v1"
-
-    DOMAIN = "http://localhost"
-    MEDIA_DOMAIN = "http://media.test"
 
     CACHE_TYPE = "SimpleCache"
 
