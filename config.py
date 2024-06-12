@@ -12,9 +12,15 @@ class Base(object):
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
 
     DOMAIN = os.environ.get("DOMAIN", "")
-    MEDIA_DOMAIN = os.environ.get("MEDIA_DOMAIN", "")
-    WAGTAIL_DOMAIN = os.environ.get("WAGTAIL_DOMAIN", "")
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
+
+    CSP_IMG_SRC = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
+    CSP_SCRIPT_SRC = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")
+    CSP_STYLE_SRC = os.environ.get("CSP_STYLE_SRC", "'self'").split(",")
+    CSP_FONT_SRC = os.environ.get("CSP_FONT_SRC", "'self'").split(",")
+    CSP_CONNECT_SRC = os.environ.get("CSP_CONNECT_SRC", "'self'").split(",")
+    CSP_MEDIA_SRC = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
+    FRAME_DOMAIN_ALLOW = os.environ.get("FRAME_DOMAIN_ALLOW", "")
 
     CACHE_TYPE = "FileSystemCache"
     CACHE_DEFAULT_TIMEOUT = 0

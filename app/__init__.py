@@ -43,73 +43,29 @@ def create_app(config_class):
         },
     )
 
-    SELF = "'self'"
     Talisman(
         app,
         content_security_policy={
-            "default-src": SELF,
+            "default-src": "'self'",
             "base-uri": "'none'",
-            "img-src": [
-                SELF,
-                app.config["DOMAIN"],
-                app.config["MEDIA_DOMAIN"],
-                "https://*.google-analytics.com",
-                "https://*.googletagmanager.com",
-                "https://googletagmanager.com",
-                # "http://googletagmanager.com",
-                "https://ssl.gstatic.com",
-                "https://www.gstatic.com",
-                "https://www.nationalarchives.gov.uk",
-                "https://beta.nationalarchives.gov.uk",
-                "https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site",
-            ],
-            "script-src": [
-                SELF,
-                "https://*.googletagmanager.com",
-                "https://googletagmanager.com",
-                # "http://googletagmanager.com",
-                "https://tagmanager.google.com",
-                # "http://tagmanager.google.com",
-            ],
-            "style-src": [
-                SELF,
-                "https://fonts.googleapis.com",
-                "https://p.typekit.net",
-                "https://use.typekit.net",
-                "https://googletagmanager.com",
-                # "http://googletagmanager.com",
-                "https://www.googletagmanager.com",
-                # "http://www.googletagmanager.com",
-                "https://tagmanager.google.com",
-                # "http://tagmanager.google.com",
-            ],
-            "font-src": [
-                SELF,
-                "https://fonts.gstatic.com",
-                "https://use.typekit.net",
-            ],
-            "connect-src": [
-                SELF,
-                "https://*.google-analytics.com",
-                "https://*.analytics.google.com",
-                "https://*.googletagmanager.com",
-            ],
-            "media-src": [
-                SELF,
-                app.config["MEDIA_DOMAIN"],
-            ],
+            "img-src": app.config["CSP_IMG_SRC"],
+            "script-src": app.config["CSP_SCRIPT_SRC"],
+            "style-src": app.config["CSP_STYLE_SRC"],
+            "font-src": app.config["CSP_FONT_SRC"],
+            "connect-src": app.config["CSP_CONNECT_SRC"],
+            "media-src": app.config["CSP_MEDIA_SRC"],
         },
         content_security_policy_nonce_in=["script-src"],
         feature_policy={
             "camera": "'none'",
-            "fullscreen": SELF,
+            "fullscreen": "'self'",
             "geolocation": "'none'",
             "microphone": "'none'",
             "screen-wake-lock": "'none'",
         },
         force_https=app.config["FORCE_HTTPS"],
         frame_options="ALLOW-FROM",
-        frame_options_allow_from=app.config["WAGTAIL_DOMAIN"],
+        frame_options_allow_from=app.config["FRAME_DOMAIN_ALLOW"],
     )
 
     app.jinja_env.trim_blocks = True

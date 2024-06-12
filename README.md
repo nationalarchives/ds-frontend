@@ -20,12 +20,17 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `DEBUG`                 | If true, allow debugging[^1]                                              | `False`                                                 |
 | `WAGTAIL_API_URL`       | The base URL of the content API, including the `/api/v2` path             | _none_                                                  |
 | `SEARCH_API_URL`        | The base URL of the search API                                            | _none_                                                  |
-| `DOMAIN`                | The domain the site is hosted on, for CSP purposes                        | _none_                                                  |
-| `MEDIA_DOMAIN`          | The domain that media is served from, for CSP purposes                    | _none_                                                  |
-| `WAGTAIL_DOMAIN`        | The domain that wagtail is hosted on to allow the CMS preview             | _none_                                                  |
+| `DOMAIN`                | The domain the site is hosted on                                          | _none_                                                  |
 | `FORCE_HTTPS`           | Redirect requests to HTTPS as part of the CSP                             | _none_                                                  |
+| `CSP_IMG_SRC`           | A comma separated list of CSP rules for `img-src`                         | `'self'`                                                |
+| `CSP_SCRIPT_SRC`        | A comma separated list of CSP rules for `script-src`                      | `'self'`                                                |
+| `CSP_STYLE_SRC`         | A comma separated list of CSP rules for `style-src`                       | `'self'`                                                |
+| `CSP_FONT_SRC`          | A comma separated list of CSP rules for `font-src`                        | `'self'`                                                |
+| `CSP_CONNECT_SRC`       | A comma separated list of CSP rules for `connect-src`                     | `'self'`                                                |
+| `CSP_MEDIA_SRC`         | A comma separated list of CSP rules for `media-src`                       | `'self'`                                                |
+| `FRAME_DOMAIN_ALLOW`    | A domain from which to allow frame embedding (used in CMS previews)       | _none_                                                  |
 | `CACHE_TYPE`            | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching | _none_                                                  |
-| `CACHE_DEFAULT_TIMEOUT` | The number of seconds to cache pages for                                  | `300`                                                   |
+| `CACHE_DEFAULT_TIMEOUT` | The number of seconds to cache pages for                                  | `300` in production, `1` in develop, `0` elsewhere      |
 | `CACHE_DIR`             | Directory for storing cached responses                                    | `/tmp`                                                  |
 | `BASE_DISCOVERY_URL`    | The base URL to allow records to have a link to Discovery                 | `https://discovery.nationalarchives.gov.uk`             |
 | `SEARCH_DISCOVERY_URL`  | The URL that accepts form posts to search discovery                       | `https://discovery.nationalarchives.gov.uk/results/r`   |
