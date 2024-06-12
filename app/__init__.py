@@ -69,6 +69,15 @@ def create_app(config_class):
         frame_options_allow_from=app.config["FRAME_DOMAIN_ALLOW"],
     )
 
+    @app.after_request
+    def apply_extra_headers(response):
+        response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+        response.headers["Cross-Origin-Embedder-Policy"] = "credentialless"
+        response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        response.headers["Cache-Control"] = "public, max-age=604800"  # 1 week
+        return response
+
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
     app.jinja_loader = ChoiceLoader(

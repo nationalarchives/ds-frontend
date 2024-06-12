@@ -60,6 +60,7 @@ class Production(Base):
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
+    # TODO: This invalidates the CSP nonces
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300))
 
 
