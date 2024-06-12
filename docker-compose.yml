@@ -12,11 +12,11 @@ services:
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
       - SEARCH_API_URL=http://host.docker.internal:65534/api/v1
       - DOMAIN=http://localhost:65535
-      - CSP_IMG_SRC='self',localhost:65535,localhost:8000,https://*.google-analytics.com,https://*.googletagmanager.com,https://googletagmanager.com,http://googletagmanager.com,https://*.gstatic.com,https://*.nationalarchives.gov.uk,https://develop-sr3snxi-rasrzs7pi6sd4.uk-1.platformsh.site
-      - CSP_SCRIPT_SRC='self',https://*.googletagmanager.com,https://googletagmanager.com,http://googletagmanager.com,https://tagmanager.google.com,http://tagmanager.google.com
-      - CSP_STYLE_SRC='self',https://fonts.googleapis.com,https://p.typekit.net,https://use.typekit.net,https://googletagmanager.com,http://googletagmanager.com,https://www.googletagmanager.com,http://www.googletagmanager.com,https://tagmanager.google.com,http://tagmanager.google.com
-      - CSP_FONT_SRC='self',https://fonts.gstatic.com,https://use.typekit.net
-      - CSP_CONNECT_SRC='self',https://*.google-analytics.com,https://*.analytics.google.com,https://*.googletagmanager.com
+      - CSP_IMG_SRC='self',localhost:65535,localhost:8000,*.google-analytics.com,*.googletagmanager.com,googletagmanager.com,*.gstatic.com,*.nationalarchives.gov.uk,*.platformsh.site
+      - CSP_SCRIPT_SRC='self',*.googletagmanager.com,googletagmanager.com,tagmanager.google.com
+      - CSP_STYLE_SRC='self',fonts.googleapis.com,p.typekit.net,use.typekit.net,googletagmanager.com,www.googletagmanager.com,tagmanager.google.com
+      - CSP_FONT_SRC='self',fonts.gstatic.com,use.typekit.net
+      - CSP_CONNECT_SRC='self',*.google-analytics.com,*.analytics.google.com,*.googletagmanager.com
       - CSP_MEDIA_SRC='self',localhost:8000
       - FRAME_DOMAIN_ALLOW=localhost:8000
       - GA4_ID=GTM-KX8ZWVZG

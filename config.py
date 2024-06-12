@@ -12,7 +12,6 @@ class Base(object):
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
 
     DOMAIN = os.environ.get("DOMAIN", "")
-    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
 
     CSP_IMG_SRC = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")
@@ -21,6 +20,7 @@ class Base(object):
     CSP_CONNECT_SRC = os.environ.get("CSP_CONNECT_SRC", "'self'").split(",")
     CSP_MEDIA_SRC = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
     FRAME_DOMAIN_ALLOW = os.environ.get("FRAME_DOMAIN_ALLOW", "")
+    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
 
     CACHE_TYPE = "FileSystemCache"
     CACHE_DEFAULT_TIMEOUT = 0
@@ -58,10 +58,9 @@ class Base(object):
 class Production(Base):
     ENVIRONMENT = "production"
 
-    # TODO: This invalidates the CSP nonces
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300))
-
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
+
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300))
 
 
 class Develop(Base):
