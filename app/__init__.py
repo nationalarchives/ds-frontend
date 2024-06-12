@@ -56,6 +56,7 @@ def create_app(config_class):
             "connect-src": app.config["CSP_CONNECT_SRC"],
             "media-src": app.config["CSP_MEDIA_SRC"],
         },
+        content_security_policy_nonce_in=["script-src", "style-src"],
         feature_policy={
             "camera": "'none'",
             "fullscreen": "'self'",

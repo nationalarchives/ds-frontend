@@ -30,7 +30,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}" nonce="{{ csp_nonce() }}">
 {% endblock %}
 
 {% block beforeContent %}

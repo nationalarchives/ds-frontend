@@ -262,6 +262,6 @@
 {% endblock %}
 
 {% block bodyEnd %}
-<script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
-<script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
+<script src="{{ url_for('static', filename='main.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
+<script src="{{ url_for('static', filename='analytics.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
 {% endblock %}

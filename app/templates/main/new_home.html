@@ -9,7 +9,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}" nonce="{{ csp_nonce() }}">
 {% endblock %}
 
 {% block content %}
