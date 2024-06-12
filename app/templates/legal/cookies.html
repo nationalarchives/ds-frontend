@@ -41,13 +41,13 @@
         </div>
       </div>
     </div>
-    <div class="tna-container tna-section tna-!--no-margin-top">
+    <div class="tna-container tna-section tna-!--no-padding-top">
       <section class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <form method="post" action="{{ url_for('legal.cookies') }}" id="cookie-settings">
           <div class="tna-aside tna-accent-green tna-background-accent" role="alert" id="cookie-settings-success"{% if request.args.saved == 'true' %} tabindex="-1" autofocus{% else %} hidden{% endif %}>
             <h2 class="tna-heading-l">Success</h2>
             <p>Your cookie settings were saved.</p>
-            {% if request.args.referrer %}
+            {% if request.args.referrer and request.args.referrer != request.base_url %}
             <p>
               <a href="{{ request.args.referrer }}">Go back to the page you were looking at</a>
             </p>

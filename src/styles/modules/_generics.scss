@@ -42,3 +42,17 @@ p.etna-small-paragraph {
     }
   }
 }
+
+:first-child[hidden] {
+  + .tna-hgroup-xl,
+  + .tna-hgroup-l,
+  + .tna-hgroup-m,
+  + .tna-hgroup-s,
+  + .tna-heading-s,
+  + .tna-heading-m,
+  + .tna-heading-l,
+  + .tna-heading-xl {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
