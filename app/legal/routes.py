@@ -31,17 +31,19 @@ def cookies():
         if "cookies_policy" in request.cookies:
             cookies_policy = request.cookies["cookies_policy"]
             current_cookies_policy = json.loads(unquote(cookies_policy))
+        usage = (
+            strtobool(request.form["usage"])
+            if "usage" in request.form
+            else current_cookies_policy["usage"]
+        )
+        settings = (
+            strtobool(request.form["settings"])
+            if "settings" in request.form
+            else current_cookies_policy["settings"]
+        )
         new_cookies_policy = {
-            "usage": (
-                strtobool(request.form["usage"])
-                if "usage" in request.form
-                else current_cookies_policy["usage"]
-            ),
-            "settings": (
-                strtobool(request.form["settings"])
-                if "settings" in request.form
-                else current_cookies_policy["settings"]
-            ),
+            "usage": usage,
+            "settings": settings,
             "essential": True,
         }
         response = make_response(
@@ -62,6 +64,10 @@ def cookies():
             quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
             domain=current_app.config["COOKIE_DOMAIN"],
         )
+        if not usage:
+            for cookie in request.cookies:
+                if cookie.startswith("_ga"):
+                    response.set_cookie(cookie, "", expires=0)
         return response
     return render_template("legal/cookies.html")
 
