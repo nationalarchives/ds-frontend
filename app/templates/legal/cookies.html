@@ -43,55 +43,58 @@
     </div>
     <div class="tna-container tna-section tna-!--no-margin-top">
       <section class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-        <h2 class="tna-heading-l">Cookie settings</h2>
-        <p>We use three types of cookie. You can choose which cookies you’re happy for us to use.</p>
-        {{ tnaRadios({
-          'label': 'Cookies that measure website use',
-          'headingLevel': 3,
-          'headingSize': 'm',
-          'hintHtml': '<p>We use Google Analytics cookies to measure how you use National Archives websites.</p><p>These cookies collect information about:</p><ul class="tna-ul"><li>how you got to these sites</li><li>the pages you visit and how long you spend on each page</li><li>what you click on while you’re visiting these sites</li></ul><p>We do not allow Google to use or share this data for their own purposes.</p>',
-          'id': 'usage',
-          'name': 'usage',
-          'items': [
-            {
-              'text': 'Use cookies that measure my website use',
-              'value': 'accept'
-            },
-            {
-              'text': 'Do not use cookies that measure my website use',
-              'value': 'decline'
-            }
-          ],
-          'selected': 'accept' if cookie_preference('usage') else 'decline'
-        }) }}
-        {{ tnaRadios({
-          'label': 'Cookies that remember your settings',
-          'headingLevel': 3,
-          'headingSize': 'm',
-          'hint': 'These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.',
-          'id': 'settings',
-          'name': 'settings',
-          'items': [
-            {
-              'text': 'Use cookies that remember my settings on the site',
-              'value': 'accept'
-            },
-            {
-              'text': 'Do not use cookies that remember my settings on the site',
-              'value': 'decline'
-            }
-          ],
-          'selected': 'accept' if cookie_preference('settings') else 'decline'
-        }) }}
-        <h3 class="tna-heading-m">Strictly necessary cookies</h3>
-        <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
-        <p>They always need to be on.</p>
-        <div class="tna-button-group">
-          {{ tnaButton({
-            'text': 'Save changes',
-            'buttonElement': True
+        <form method="post" action="{{ url_for('legal.cookies') }}">
+          <h2 class="tna-heading-l">Cookie settings</h2>
+          <p>We use three types of cookie. You can choose which cookies you’re happy for us to use.</p>
+          {{ tnaRadios({
+            'label': 'Cookies that measure website use',
+            'headingLevel': 3,
+            'headingSize': 'm',
+            'hintHtml': '<p>We use Google Analytics cookies to measure how you use National Archives websites.</p><p>These cookies collect information about:</p><ul class="tna-ul"><li>how you got to these sites</li><li>the pages you visit and how long you spend on each page</li><li>what you click on while you’re visiting these sites</li></ul><p>We do not allow Google to use or share this data for their own purposes.</p>',
+            'id': 'usage',
+            'name': 'usage',
+            'items': [
+              {
+                'text': 'Use cookies that measure my website use',
+                'value': 'true'
+              },
+              {
+                'text': 'Do not use cookies that measure my website use',
+                'value': 'false'
+              }
+            ],
+            'selected': 'true' if cookie_preference('usage') else 'false'
           }) }}
-        </div>
+          {{ tnaRadios({
+            'label': 'Cookies that remember your settings',
+            'headingLevel': 3,
+            'headingSize': 'm',
+            'hint': 'These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.',
+            'id': 'settings',
+            'name': 'settings',
+            'items': [
+              {
+                'text': 'Use cookies that remember my settings on the site',
+                'value': 'true'
+              },
+              {
+                'text': 'Do not use cookies that remember my settings on the site',
+                'value': 'false'
+              }
+            ],
+            'selected': 'true' if cookie_preference('settings') else 'false'
+          }) }}
+          <h3 class="tna-heading-m">Strictly necessary cookies</h3>
+          <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
+          <p>They always need to be on.</p>
+          <div class="tna-button-group">
+            {{ tnaButton({
+              'text': 'Save changes',
+              'buttonElement': True,
+              'buttonType': 'submit'
+            }) }}
+          </div>
+        </form>
       </section>
       <section class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <nav class="etna-sidebar etna-sidebar--right" aria-label="Related content">
