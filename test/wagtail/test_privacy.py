@@ -9,8 +9,7 @@ from app import create_app
 class WagtailPrivacyTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
-        self.domain = self.app.application.config["DOMAIN"]
-        self.media_domain = self.app.application.config["MEDIA_DOMAIN"]
+        self.domain = "http://localhost"
         self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
 
     @requests_mock.Mocker()

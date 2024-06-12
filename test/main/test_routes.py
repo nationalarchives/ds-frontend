@@ -8,8 +8,7 @@ from app import create_app
 class MainBlueprintTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
-        self.domain = "TEST"
-        self.media_domain = "TEST_MEDIA"
+        self.domain = "http://localhost"
         self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
 
     def test_trailing_slash_redirects(self):
@@ -56,13 +55,13 @@ class MainBlueprintTestCase(unittest.TestCase):
                         "title": "Large collection of letters sent on the Spanish ship La Perla",
                         "jpeg": {
                             "url": "/media/images/prize-p.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_W4BMfq1.jpg",
-                            "full_url": f"{self.media_domain}/media/images/prize-p.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_W4BMfq1.jpg",
+                            "full_url": f"{self.domain}/media/images/prize-p.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_W4BMfq1.jpg",
                             "width": 600,
                             "height": 400,
                         },
                         "webp": {
                             "url": "/media/images/prize-.2e16d0ba.fill-600x400.format-webp.webpquality-80_bk8AKep.webp",
-                            "full_url": f"{self.media_domain}/media/images/prize-.2e16d0ba.fill-600x400.format-webp.webpquality-80_bk8AKep.webp",
+                            "full_url": f"{self.domain}/media/images/prize-.2e16d0ba.fill-600x400.format-webp.webpquality-80_bk8AKep.webp",
                             "width": 600,
                             "height": 400,
                         },
@@ -80,13 +79,13 @@ class MainBlueprintTestCase(unittest.TestCase):
                         "title": "Map of Chertsey Abbey teaser",
                         "jpeg": {
                             "url": "/media/images/map-of-.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_Mh4oeUt.jpg",
-                            "full_url": f"{self.media_domain}/media/images/map-of-.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_Mh4oeUt.jpg",
+                            "full_url": f"{self.domain}/media/images/map-of-.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60_Mh4oeUt.jpg",
                             "width": 600,
                             "height": 400,
                         },
                         "webp": {
                             "url": "/media/images/map-of.2e16d0ba.fill-600x400.format-webp.webpquality-80_e9FuoI4.webp",
-                            "full_url": f"{self.media_domain}/media/images/map-of.2e16d0ba.fill-600x400.format-webp.webpquality-80_e9FuoI4.webp",
+                            "full_url": f"{self.domain}/media/images/map-of.2e16d0ba.fill-600x400.format-webp.webpquality-80_e9FuoI4.webp",
                             "width": 600,
                             "height": 400,
                         },

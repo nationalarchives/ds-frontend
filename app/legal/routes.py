@@ -4,7 +4,7 @@ from urllib.parse import quote, unquote
 from app.legal import bp
 from app.lib import cache, cache_key_prefix
 from app.lib.util import strtobool
-from flask import make_response, render_template, request, current_app
+from flask import current_app, make_response, render_template, request
 
 
 @bp.route("/")
@@ -41,7 +41,7 @@ def cookies():
         response.set_cookie(
             "cookies_policy",
             quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
-            domain=current_app.config["COOKIE_DOMAIN"]
+            domain=current_app.config["COOKIE_DOMAIN"],
         )
         return response
     return render_template("legal/cookies.html")
