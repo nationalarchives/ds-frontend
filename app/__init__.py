@@ -106,7 +106,7 @@ def create_app(config_class):
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
-            config=app.config,
+            app_config=app.config,
         )
 
     from .about import bp as about_bp
