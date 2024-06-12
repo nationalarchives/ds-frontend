@@ -189,6 +189,29 @@
     <ul class="tna-ul tna-ul--plain tna-container">
       {%- for item in promoted_links.value.promoted_items %}
       <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+        {% set supertitle = '' %}
+        {% set title = item.title %}
+        {% if 'blog.nationalarchives.gov.uk' in item.url %}
+          {% set supertitle = 'Blog' %}
+          {% set title = title.removeprefix('Blog: ') %}
+        {% elif 'www.nationalarchives.gov.uk/help-with-your-research/research-guides' in item.url %}
+          {% set supertitle = 'Research guide' %}
+          {% set title = title.removeprefix('Research guide: ').removeprefix('Research Guide: ') %}
+        {% elif 'www.nationalarchives.gov.uk/education/resources' in item.url %}
+          {% if title.startswith('Teaching resource') %}
+            {% set supertitle = 'Teaching resource' %}
+            {% set title = title.removeprefix('Teaching resource: ').removeprefix('Teaching Resource: ') %}
+          {% elif title.startswith('Classroom resource') %}
+            {% set supertitle = 'Classroom resource' %}
+            {% set title = title.removeprefix('Classroom resource: ').removeprefix('Classroom Resource: ') %}
+          {% endif %}
+        {% elif 'media.nationalarchives.gov.uk' in item.url %}
+          {% set supertitle = 'Podcast' %}
+          {% set title = title.removeprefix('Podcast: ') %}
+        {% elif 'youtube.com' in item.url %}
+          {% set supertitle = 'Film' %}
+          {% set title = title.removeprefix('Film: ') %}
+        {% endif %}
         {% set meta = [] %}
         {% if item.author %}
         {% set meta = meta + [{ 'title': 'Author', 'text': item.author }] %}
@@ -197,7 +220,8 @@
         {% set meta = meta + [{ 'title': 'Published', 'text': item.publication_date }] %}
         {% endif %}
         {{ tnaCard({
-          'title': item.title,
+          'supertitle': supertitle,
+          'title': title,
           'headingLevel': 3,
           'headingSize': 's',
           'href': item.url,
