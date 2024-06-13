@@ -1,172 +1,165 @@
-{% extends 'base.html' %}
+{% extends 'layouts/page-with-contents-sidebar.html' %}
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
-{%- from 'macros/simple-page-with-sidebar.html' import simplePageWithSidebar -%}
 
 {%- set themeAccent = 'blue' -%}
 {%- set pageTitle = 'Details about cookies' -%}
 
-{% block main %}
-  <div class="tna-background-accent">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        {{ tnaBreadcrumbs({
-          'items': [
-            {
-              'text': 'Home',
-              'href': '/'
-            },
-            {
-              'text': 'Legal',
-              'href': url_for('legal.index')
-            }
-          ],
-          'structuredData': True
-        }) }}
-      </div>
+{% block beforeContent %}
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': [
+          {
+            'text': 'Home',
+            'href': '/'
+          },
+          {
+            'text': 'Legal',
+            'href': url_for('legal.index')
+          }
+        ],
+        'structuredData': True
+      }) }}
     </div>
   </div>
-  <main class="tna-main {{ mainClasses }}" id="main-content">
-    <div class="tna-background-accent">
-      <div class="tna-container tna-section tna-!--padding-bottom-xl">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">Legal</p>
-            <h1 class="tna-hgroup__title">Details about our cookies</h1>
-          </hgroup>
-          <p>The National Archives put small files (known as ‘cookies’) onto your computer to collect information about how you browse the site. Find out more about the cookies we use, what they’re for and when they expire.</p>
-        </div>
-      </div>
-    </div>
-    {% call simplePageWithSidebar() %}
-    <h2 class="tna-heading-l" id="cookies-we-use">Cookies on our main site</h2>
-    <p>Our main site is <a href="https://www.nationalarchives.gov.uk/">nationalarchives.gov.uk</a>.</p>
-    <div class="tna-table-wrapper">
-      <table class="tna-table">
-        <thead class="tna-table__head">
-          <tr class="tna-table__row">
-            <th class="tna-table__header">Name</th>
-            <th class="tna-table__header">Purpose</th>
-            <th class="tna-table__header">Expires</th>
-          </tr>
-        </thead>
-        <tbody class="tna-table__body">
-          <tr>
-            <th class="tna-table__header"><code>cookies_preferences_set</code></th>
-            <td class="tna-table__cell">Lets us know that you’ve saved your cookie consent settings</td>
-            <td class="tna-table__cell">1 year</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>cookies_policy</code></th>
-            <td class="tna-table__cell">Saves your cookie consent settings</td>
-            <td class="tna-table__cell">1 year</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <h2 class="tna-heading-l" id="shop">Cookies we use on our shop</h2>
-    <p>Our shop site is <a href="https://shop.nationalarchives.gov.uk/">shop.nationalarchives.gov.uk</a>.</p>
-    <div class="tna-table-wrapper">
-      <table class="tna-table">
-        <thead class="tna-table__head">
-          <tr class="tna-table__row">
-            <th class="tna-table__header">Name</th>
-            <th class="tna-table__header">Purpose</th>
-            <th class="tna-table__header">Expires</th>
-          </tr>
-        </thead>
-        <tbody class="tna-table__body">
-          <tr>
-            <th class="tna-table__header"><code>_ab</code></th>
-            <td class="tna-table__cell">This is used in connection with access to admin.</td>
-            <td class="tna-table__cell">2 years</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_secure_session_id</code></th>
-            <td class="tna-table__cell">This is used in connection with navigation through a storefront.</td>
-            <td class="tna-table__cell">24 hours</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_shopify_country</code></th>
-            <td class="tna-table__cell">This is used in connection with the checkout.</td>
-            <td class="tna-table__cell">Expires when you exit the browser</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_shopify_m</code></th>
-            <td class="tna-table__cell">This is used for managing customer privacy settings.</td>
-            <td class="tna-table__cell">1 year</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_shopify_tm</code></th>
-            <td class="tna-table__cell">This is used for managing customer privacy settings.</td>
-            <td class="tna-table__cell">30 minutes</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_shopify_tw</code></th>
-            <td class="tna-table__cell">This is used for managing customer privacy settings.</td>
-            <td class="tna-table__cell">2 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_storefront_u</code></th>
-            <td class="tna-table__cell">This is used to facilitate updating customer account information.</td>
-            <td class="tna-table__cell">1 minute</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_tracking_consent</code></th>
-            <td class="tna-table__cell">This is used for tracking preferences.</td>
-            <td class="tna-table__cell">1 year</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>Cart</code></th>
-            <td class="tna-table__cell">This is used in connection with the shopping cart.</td>
-            <td class="tna-table__cell">2 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>cart_currency</code></th>
-            <td class="tna-table__cell">This is used in connection with the shopping cart.</td>
-            <td class="tna-table__cell">2 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>cart_sig</code></th>
-            <td class="tna-table__cell">This is used in connection with the checkout.</td>
-            <td class="tna-table__cell">2 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>cart_ts</code></th>
-            <td class="tna-table__cell">This is used in connection with the checkout.</td>
-            <td class="tna-table__cell">2 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>cart_ver</code></th>
-            <td class="tna-table__cell">This is used in connection with the shopping cart.</td>
-            <td class="tna-table__cell">2 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>checkout</code></th>
-            <td class="tna-table__cell">This is used in connection with the checkout.</td>
-            <td class="tna-table__cell">4 weeks</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>checkout_token</code></th>
-            <td class="tna-table__cell">This is used in connection with the checkout.</td>
-            <td class="tna-table__cell">1 year</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_atuvc</code></th>
-            <td class="tna-table__cell">This (communication and marketing) cookie is associated with the AddThis social sharing widget; it stores an updated page share count.</td>
-            <td class="tna-table__cell">1 year</td>
-          </tr>
-          <tr>
-            <th class="tna-table__header"><code>_atuvs</code></th>
-            <td class="tna-table__cell">This (communication and marketing) cookie is associated with the AddThis social sharing widget; it serves a similar purpose to other cookies set by the service.</td>
-            <td class="tna-table__cell">1 month</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <h2 class="tna-heading-l">Change your settings</h2>    
-    <p>You can <a href="{{ url_for('legal.cookies') }}">change which cookies you’re happy for us to use</a>.</p>
-    {% endcall %}
-  </main>
+{% endblock %}
+
+{% block contentHeader %}
+<hgroup class="tna-hgroup-xl">
+  <p class="tna-hgroup__supertitle">Legal</p>
+  <h1 class="tna-hgroup__title">Details about our cookiesssss</h1>
+</hgroup>
+<p>The National Archives put small files (known as ‘cookies’) onto your computer to collect information about how you browse the site. Find out more about the cookies we use, what they’re for and when they expire.</p>
+{% endblock %}
+
+{% block content %}
+<h2 class="tna-heading-l" id="cookies-we-use">Cookies on our main site</h2>
+<p>Our main site is <a href="https://www.nationalarchives.gov.uk/">nationalarchives.gov.uk</a>.</p>
+<div class="tna-table-wrapper">
+  <table class="tna-table">
+    <thead class="tna-table__head">
+      <tr class="tna-table__row">
+        <th class="tna-table__header">Name</th>
+        <th class="tna-table__header">Purpose</th>
+        <th class="tna-table__header">Expires</th>
+      </tr>
+    </thead>
+    <tbody class="tna-table__body">
+      <tr>
+        <th class="tna-table__header"><code>cookies_preferences_set</code></th>
+        <td class="tna-table__cell">Lets us know that you’ve saved your cookie consent settings</td>
+        <td class="tna-table__cell">1 year</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>cookies_policy</code></th>
+        <td class="tna-table__cell">Saves your cookie consent settings</td>
+        <td class="tna-table__cell">1 year</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 class="tna-heading-l" id="shop">Cookies we use on our shop</h2>
+<p>Our shop site is <a href="https://shop.nationalarchives.gov.uk/">shop.nationalarchives.gov.uk</a>.</p>
+<div class="tna-table-wrapper">
+  <table class="tna-table">
+    <thead class="tna-table__head">
+      <tr class="tna-table__row">
+        <th class="tna-table__header">Name</th>
+        <th class="tna-table__header">Purpose</th>
+        <th class="tna-table__header">Expires</th>
+      </tr>
+    </thead>
+    <tbody class="tna-table__body">
+      <tr>
+        <th class="tna-table__header"><code>_ab</code></th>
+        <td class="tna-table__cell">This is used in connection with access to admin.</td>
+        <td class="tna-table__cell">2 years</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_secure_session_id</code></th>
+        <td class="tna-table__cell">This is used in connection with navigation through a storefront.</td>
+        <td class="tna-table__cell">24 hours</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_shopify_country</code></th>
+        <td class="tna-table__cell">This is used in connection with the checkout.</td>
+        <td class="tna-table__cell">Expires when you exit the browser</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_shopify_m</code></th>
+        <td class="tna-table__cell">This is used for managing customer privacy settings.</td>
+        <td class="tna-table__cell">1 year</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_shopify_tm</code></th>
+        <td class="tna-table__cell">This is used for managing customer privacy settings.</td>
+        <td class="tna-table__cell">30 minutes</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_shopify_tw</code></th>
+        <td class="tna-table__cell">This is used for managing customer privacy settings.</td>
+        <td class="tna-table__cell">2 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_storefront_u</code></th>
+        <td class="tna-table__cell">This is used to facilitate updating customer account information.</td>
+        <td class="tna-table__cell">1 minute</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_tracking_consent</code></th>
+        <td class="tna-table__cell">This is used for tracking preferences.</td>
+        <td class="tna-table__cell">1 year</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>Cart</code></th>
+        <td class="tna-table__cell">This is used in connection with the shopping cart.</td>
+        <td class="tna-table__cell">2 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>cart_currency</code></th>
+        <td class="tna-table__cell">This is used in connection with the shopping cart.</td>
+        <td class="tna-table__cell">2 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>cart_sig</code></th>
+        <td class="tna-table__cell">This is used in connection with the checkout.</td>
+        <td class="tna-table__cell">2 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>cart_ts</code></th>
+        <td class="tna-table__cell">This is used in connection with the checkout.</td>
+        <td class="tna-table__cell">2 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>cart_ver</code></th>
+        <td class="tna-table__cell">This is used in connection with the shopping cart.</td>
+        <td class="tna-table__cell">2 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>checkout</code></th>
+        <td class="tna-table__cell">This is used in connection with the checkout.</td>
+        <td class="tna-table__cell">4 weeks</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>checkout_token</code></th>
+        <td class="tna-table__cell">This is used in connection with the checkout.</td>
+        <td class="tna-table__cell">1 year</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_atuvc</code></th>
+        <td class="tna-table__cell">This (communication and marketing) cookie is associated with the AddThis social sharing widget; it stores an updated page share count.</td>
+        <td class="tna-table__cell">1 year</td>
+      </tr>
+      <tr>
+        <th class="tna-table__header"><code>_atuvs</code></th>
+        <td class="tna-table__cell">This (communication and marketing) cookie is associated with the AddThis social sharing widget; it serves a similar purpose to other cookies set by the service.</td>
+        <td class="tna-table__cell">1 month</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 class="tna-heading-l">Change your settings</h2>    
+<p>You can <a href="{{ url_for('legal.cookies') }}">change which cookies you’re happy for us to use</a>.</p>
 {% endblock %}

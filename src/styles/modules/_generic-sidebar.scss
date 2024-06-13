@@ -45,6 +45,40 @@
   &--right {
   }
 
+  &__items--a-z {
+    padding-left: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: spacing.space(0.5);
+  }
+
+  &__items--a-z &__item {
+    margin: 0;
+
+    &::marker {
+      content: none;
+    }
+  }
+
+  &__items--a-z &__link {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include typography.main-font-weight-bold;
+
+    @include colour.colour-border("keyline", 1px);
+    border-radius: 100%;
+
+    &:hover {
+      @include colour.tint;
+    }
+  }
+
   @include media.on-larger-than-mobile {
     padding-right: spacing.space(1);
 

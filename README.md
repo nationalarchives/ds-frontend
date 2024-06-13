@@ -34,7 +34,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_TYPE`            | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching | _none_                                                      |
 | `CACHE_DEFAULT_TIMEOUT` | The number of seconds to cache pages for                                  | production: `300`, staging: `60`, develop: `0`, test: `0`   |
 | `CACHE_DIR`             | Directory for storing cached responses                                    | `/tmp`                                                      |
-| `CACHE_HEADER_DURATION` | The time to return in the `Cache-Control` header                          | production: `604800`, staging/develop/test: `0`             |
+| `CACHE_HEADER_DURATION` | The time to return in the `Cache-Control` header                          | production: `604800`, staging/develop/test: `1`             |
 | `DISCOVERY_URL`         | The base URL to allow records to have a link to Discovery                 | `https://discovery.nationalarchives.gov.uk`                 |
 | `ARCHIVE_RECORDS_URL`   | The URL to allow records to have a direct link to their page in Discovery | `https://discovery.nationalarchives.gov.uk/browse/r/h`      |
 | `SEARCH_DISCOVERY_URL`  | The URL that accepts form posts to search discovery                       | `https://discovery.nationalarchives.gov.uk/results/r`       |

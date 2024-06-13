@@ -28,10 +28,10 @@ class Base(object):
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
 
     CACHE_TYPE = "FileSystemCache"
-    CACHE_DEFAULT_TIMEOUT = 0
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
     CACHE_IGNORE_ERRORS = True
     CACHE_DIR = os.environ.get("CACHE_DIR", "/tmp")
-    CACHE_HEADER_DURATION = int(os.getenv("CACHE_HEADER_DURATION", "0"))
+    CACHE_HEADER_DURATION = int(os.getenv("CACHE_HEADER_DURATION", "1"))
 
     DISCOVERY_URL = os.environ.get(
         "DISCOVERY_URL",
@@ -71,8 +71,6 @@ class Production(Base):
 class Staging(Base):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.25"))
 
-    CACHE_HEADER_DURATION = int(os.environ.get("CACHE_HEADER_DURATION", "0"))
-
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
     # TODO: This invalidates the CSP nonces
@@ -83,10 +81,6 @@ class Develop(Base):
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
-
-    CACHE_HEADER_DURATION = 0
-
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "0"))
 
 
 class Test(Base):
@@ -101,7 +95,7 @@ class Test(Base):
     SEARCH_API_URL = "http://search.test/api/v1"
 
     CACHE_TYPE = "SimpleCache"
-    CACHE_DEFAULT_TIMEOUT = 0
+    CACHE_DEFAULT_TIMEOUT = 1
     CACHE_HEADER_DURATION = 0
 
     FORCE_HTTPS = False
