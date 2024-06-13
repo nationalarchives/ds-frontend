@@ -10,6 +10,11 @@
 
 {%- set themeAccent = 'blue' -%}
 
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.html_url }}">
+{% endblock %}
+
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}" nonce="{{ csp_nonce() }}">

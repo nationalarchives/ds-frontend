@@ -6,7 +6,7 @@
 
 {% block head %}
 {{ super() }}
-<link rel="canonical" href="{{ request.url }}{{ '?page=' + (page | string) if 'page' not in request.args }}">
+    <link rel="canonical" href="{{ request.url }}{{ '?page=' + (page | string) if 'page' not in request.args }}">
 {% endblock %}
 
 {% block content %}

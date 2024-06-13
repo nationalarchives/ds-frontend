@@ -4,6 +4,11 @@
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/feedback.html' import feedback -%}
 
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.html_url }}">
+{% endblock %}
+
 {% block content %}
 <section class="tna-section">
   {%- for item in page_data.body %}
