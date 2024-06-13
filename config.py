@@ -4,9 +4,14 @@ from app.lib.util import strtobool
 
 
 class Base(object):
+    ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
+
     SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
+
+    SENTRY_DSN = os.getenv("SENTRY_DSN", "")
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1.0"))
 
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
@@ -26,29 +31,24 @@ class Base(object):
     CACHE_DEFAULT_TIMEOUT = 0
     CACHE_IGNORE_ERRORS = True
     CACHE_DIR = os.environ.get("CACHE_DIR", "/tmp")
+    CACHE_HEADER_DURATION = int(os.getenv("CACHE_HEADER_DURATION", "0"))
 
-    BASE_DISCOVERY_URL = os.environ.get(
-        "BASE_DISCOVERY_URL",
+    DISCOVERY_URL = os.environ.get(
+        "DISCOVERY_URL",
         "https://discovery.nationalarchives.gov.uk",
+    ).rstrip("/")
+    ARCHIVE_RECORDS_URL = os.environ.get(
+        "SEARCH_DISCOVERY_URL",
+        (f"{DISCOVERY_URL}/browse/r/h"),
     ).rstrip("/")
     SEARCH_DISCOVERY_URL = os.environ.get(
         "SEARCH_DISCOVERY_URL",
-        (
-            os.environ.get(
-                "BASE_DISCOVERY_URL",
-                "https://discovery.nationalarchives.gov.uk",
-            ).rstrip("/")
-            + "/results/r"
-        ),
-    )
+        (f"{DISCOVERY_URL}/results/r"),
+    ).rstrip("/")
     SEARCH_WEBSITE_URL = os.environ.get(
         "SEARCH_WEBSITE_URL",
         "https://www.nationalarchives.gov.uk/search/results",
-    )
-    ARCHIVE_RECORDS_URL = os.environ.get(
-        "ARCHIVE_RECORDS_URL",
-        "https://discovery.nationalarchives.gov.uk/browse/r/h/",
-    )
+    ).rstrip("/")
 
     GA4_ID = os.environ.get("GA4_ID", "")
 
@@ -56,20 +56,37 @@ class Base(object):
 
 
 class Production(Base):
-    ENVIRONMENT = "production"
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
+
+    CACHE_HEADER_DURATION = int(
+        os.environ.get("CACHE_HEADER_DURATION", "604800")
+    )  # 1 week
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
     # TODO: This invalidates the CSP nonces
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 300))
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
+
+
+class Staging(Base):
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.25"))
+
+    CACHE_HEADER_DURATION = int(os.environ.get("CACHE_HEADER_DURATION", "0"))
+
+    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
+
+    # TODO: This invalidates the CSP nonces
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
 
 class Develop(Base):
-    ENVIRONMENT = "develop"
-
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
 
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", 1))
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
+
+    CACHE_HEADER_DURATION = 0
+
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "0"))
 
 
 class Test(Base):
@@ -77,10 +94,15 @@ class Test(Base):
 
     DEBUG = True
 
+    SENTRY_DSN = ""
+    SENTRY_SAMPLE_RATE = 0
+
     WAGTAIL_API_URL = "http://wagtail.test/api/v2"
     SEARCH_API_URL = "http://search.test/api/v1"
 
     CACHE_TYPE = "SimpleCache"
+    CACHE_DEFAULT_TIMEOUT = 0
+    CACHE_HEADER_DURATION = 0
 
     FORCE_HTTPS = False
 

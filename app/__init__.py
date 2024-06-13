@@ -1,5 +1,6 @@
 import logging
 
+import sentry_sdk
 from app.lib import cache
 from app.lib.context_processor import (
     cookie_preference,
@@ -26,8 +27,16 @@ from jinja2 import ChoiceLoader, PackageLoader
 
 
 def create_app(config_class):
+
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+
+    if app.config["SENTRY_DSN"]:
+        sentry_sdk.init(
+            dsn=app.config["SENTRY_DSN"],
+            traces_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
+            profiles_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
+        )
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
@@ -75,7 +84,9 @@ def create_app(config_class):
         response.headers["Cross-Origin-Embedder-Policy"] = "credentialless"
         response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-        response.headers["Cache-Control"] = "public, max-age=604800"  # 1 week
+        response.headers["Cache-Control"] = (
+            f"public, max-age={app.config['CACHE_HEADER_DURATION']}"
+        )
         return response
 
     app.jinja_env.trim_blocks = True

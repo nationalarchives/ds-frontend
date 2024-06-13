@@ -8,6 +8,7 @@ services:
       - ENVIRONMENT=develop
       - CONFIG=config.Develop
       - SECRET_KEY=abc123
+      - SENTRY_DSN=https://cd29dbbbe0df9acf5c001eb0da230525@o1230303.ingest.us.sentry.io/4507423798853632
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
       - SEARCH_API_URL=http://host.docker.internal:65534/api/v1
