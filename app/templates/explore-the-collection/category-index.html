@@ -31,6 +31,14 @@
         'imageAlt': child.teaser_image.alt_text or 'TODO',
         'imageWidth': child.teaser_image.jpeg.width,
         'imageHeight': child.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': child.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': child.teaser_image.webp.width,
+            'height': child.teaser_image.webp.height
+          }
+        ],
         'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}

@@ -97,6 +97,14 @@
             'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
             'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
             'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page_data.featured_article.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': page_data.featured_article.teaser_image.webp.width,
+                'height': page_data.featured_article.teaser_image.webp.height
+              }
+            ],
             'htmlElement': 'article',
             'horizontal': True,
             'style': 'accent',

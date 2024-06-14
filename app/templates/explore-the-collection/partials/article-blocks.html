@@ -50,7 +50,9 @@
         'sources': [
           {
             'src': content_item.value.image.webp.full_url,
-            'type': 'image/webp'
+            'type': 'image/webp',
+            'width': content_item.value.image.webp.width,
+            'height': content_item.value.image.webp.height
           }
         ],
         'caption': content_item.value.caption,
@@ -139,6 +141,14 @@
         'imageAlt': content_item.value.image.image.alt_text,
         'imageWidth': content_item.value.image.image.jpeg.width,
         'imageHeight': content_item.value.image.image.jpeg.height,
+        'imageSources': [
+          {
+            'src': content_item.value.image.image.webp.full_url,
+            'type': 'image/webp',
+            'width': content_item.value.image.image.webp.width,
+            'height': content_item.value.image.image.webp.height
+          }
+        ],
         'classes': 'tna-card__promoted-item'
       }, content_item.value.image.image) %}
       {{ tnaCard(card_content) }}
@@ -196,6 +206,14 @@
         'imageAlt': content_item.value.page.teaser_image.alt,
         'imageWidth': content_item.value.page.teaser_image.jpeg.width,
         'imageHeight': content_item.value.page.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': content_item.value.page.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': content_item.value.page.teaser_image.webp.width,
+            'height': content_item.value.page.teaser_image.webp.height
+          }
+        ],
         'lazyImage': True,
         'style': 'contrast',
         'htmlElement': 'article',

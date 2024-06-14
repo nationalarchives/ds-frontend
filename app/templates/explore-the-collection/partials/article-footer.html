@@ -27,6 +27,14 @@
           'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
           'imageWidth': page.teaser_image.jpeg.width,
           'imageHeight': page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page.teaser_image.webp.width,
+              'height': page.teaser_image.webp.height
+            }
+          ],
           'lazyImage': True,
           'htmlElement': 'article',
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
@@ -72,6 +80,14 @@
           'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
           'imageWidth': page.teaser_image.jpeg.width,
           'imageHeight': page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page.teaser_image.webp.width,
+              'height': page.teaser_image.webp.height
+            }
+          ],
           'lazyImage': True,
           'htmlElement': 'article',
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
