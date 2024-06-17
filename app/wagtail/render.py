@@ -14,36 +14,29 @@ from .pages import (
     record_article_page,
 )
 
+page_type_templates = {
+    "home.HomePage": home_page,
+    "collections.ExplorerIndexPage": explore_index_page,
+    "collections.TopicExplorerIndexPage": category_index_page,
+    "collections.TimePeriodExplorerIndexPage": category_index_page,
+    "collections.TopicExplorerPage": categories_page,
+    "collections.TimePeriodExplorerPage": categories_page,
+    "collections.HighlightGalleryPage": highlight_gallery_page,
+    "articles.ArticleIndexPage": article_index_page,
+    "articles.ArticlePage": article_page,
+    "articles.RecordArticlePage": record_article_page,
+    "articles.FocusedArticlePage": article_page_focused,
+    "authors.AuthorIndexPage": author_index_page,
+    "authors.AuthorPage": author_page,
+}
+
 
 def render_content_page(page_data):
-    page_type = page_data["meta"]["type"]
-    if page_type == "home.HomePage":
-        return home_page(page_data)
-    if page_type == "collections.ExplorerIndexPage":
-        return explore_index_page(page_data)
-    if page_type == "articles.ArticleIndexPage":
-        return article_index_page(page_data)
-    if page_type == "articles.ArticlePage":
-        return article_page(page_data)
-    if (
-        page_type == "collections.TopicExplorerIndexPage"
-        or page_type == "collections.TimePeriodExplorerIndexPage"
-    ):
-        return category_index_page(page_data)
-    if (
-        page_type == "collections.TopicExplorerPage"
-        or page_type == "collections.TimePeriodExplorerPage"
-    ):
-        return categories_page(page_data)
-    if page_type == "articles.RecordArticlePage":
-        return record_article_page(page_data)
-    if page_type == "articles.FocusedArticlePage":
-        return article_page_focused(page_data)
-    if page_type == "collections.HighlightGalleryPage":
-        return highlight_gallery_page(page_data)
-    if page_type == "authors.AuthorIndexPage":
-        return author_index_page(page_data)
-    if page_type == "authors.AuthorPage":
-        return author_page(page_data)
-    current_app.logger.error(f"Template for {page_type} not handled")
-    return render_template("errors/page-not-found.html"), 404
+    if "meta" in page_data and "type" in page_data["meta"]:
+        page_type = page_data["meta"]["type"]
+        if page_type in page_type_templates:
+            return page_type_templates[page_type](page_data)
+        current_app.logger.error(f"Template for {page_type} not handled")
+        return render_template("errors/page-not-found.html"), 404
+    current_app.logger.error("Page meta information not included")
+    return render_template("errors/api.html"), 502

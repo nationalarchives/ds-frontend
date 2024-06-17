@@ -142,6 +142,14 @@ def page(path):
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
+    if "meta" not in page_data:
+        current_app.logger.error(
+            f"Page meta information not included for path: {path}"
+        )
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
     if (
         "privacy" in page_data["meta"]
         and page_data["meta"]["privacy"] == "password"
@@ -151,6 +159,7 @@ def page(path):
         )
     if (
         current_app.config["APPLY_REDIRECTS"]
+        and "url" in page_data["meta"]
         and page_data["meta"]["url"] != f"/{path}/"
     ):
         return redirect(
