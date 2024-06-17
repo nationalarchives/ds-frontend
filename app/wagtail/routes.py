@@ -19,8 +19,10 @@ from .api import page_details, page_details_by_uri, page_preview
 def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
-    page_data = page_preview(content_type, token)
-    return render_content_page(page_data | {"page_preview": True})
+    if content_type and token:
+        page_data = page_preview(content_type, token)
+        return render_content_page(page_data | {"page_preview": True})
+    return render_template("errors/page-not-found.html"), 404
 
 
 @bp.route("/preview/<int:id>/", methods=["GET", "POST"])
