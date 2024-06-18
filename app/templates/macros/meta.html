@@ -4,7 +4,8 @@
 {% set description = page_data.meta.search_description if page_data.meta else '' %}
 {% set url = page_data.meta.html_url if page_data.meta else request.url %}
 
-{%- if page_data.id %}
+    <meta property="og:locale" content="en_GB">
+{% if page_data.id %}
     <meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
 {% endif %}
 {% if page_data.title %}

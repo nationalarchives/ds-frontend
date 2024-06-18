@@ -7,6 +7,7 @@ from flask import url_for
 from .content_parser import (
     b_to_strong,
     lists_to_tna_lists,
+    strip_wagtail_attributes,
     wagtail_api_table_to_html,
 )
 
@@ -14,6 +15,7 @@ from .content_parser import (
 def tna_html(s):
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
+    s = strip_wagtail_attributes(s)
     return s
 
 

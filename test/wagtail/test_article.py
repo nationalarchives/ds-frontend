@@ -38,6 +38,14 @@ class ArticleTemplateTestCase(unittest.TestCase):
                 rv.text,
             )
             self.assertIn(
+                '<article class="etna-article" itemscope itemtype="https://schema.org/Article">',
+                rv.text,
+            )
+            self.assertIn(
+                '<meta itemprop="datePublished" content="2000-01-01T00:00:00Z">',
+                rv.text,
+            )
+            self.assertIn(
                 f"<meta name=\"tna.page.wagtail.id\" content=\"{page_data['id']}\">",
                 rv.text,
             )
@@ -60,5 +68,9 @@ class ArticleTemplateTestCase(unittest.TestCase):
             )
             self.assertIn(
                 f"<h1 class=\"tna-hgroup__title\" itemprop=\"name\">{page_data['title']}</h1>",
+                rv.text,
+            )
+            self.assertIn(
+                f"<a href=\"#heading-text\" class=\"etna-article__sidebar-item\">{page_data['body'][0]['value']['heading']}</a>",
                 rv.text,
             )

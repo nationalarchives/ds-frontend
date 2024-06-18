@@ -13,6 +13,10 @@
 
 {% block head %}
 {{ super() }}
+    <meta property="og:type" content="article">
+    {% for author in page_data.authors %}
+    <meta property="article:author" content="{{ author.full_url }}">
+    {% endfor %}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
 {% endblock %}
 
