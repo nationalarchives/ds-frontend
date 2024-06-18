@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta property="og:site_name" content="{{ siteName }}">
-    <!-- <meta property="og:type" content="{{ page_data.type | default('website') }}"> -->
+    <meta property="og:type" content="{{ og_type | default('website') }}">
     <meta property="og:locale" content="{{ page_data.language | default('en_GB') }}">
     <meta name="twitter:card" content="summary">
 {% if title %}

@@ -10,10 +10,10 @@
 
 {%- set themeAccent = 'pink' -%}
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
+{%- set og_type = 'article' -%}
 
 {% block head %}
 {{ super() }}
-    <meta property="og:type" content="article">
     {% for author in page_data.authors %}
     <meta property="article:author" content="{{ author.full_url }}">
     {% endfor %}

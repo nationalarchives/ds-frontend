@@ -31,7 +31,11 @@ class BaseAPI:
             self.add_parameter("page", page)
         url = f"{self.api_url}{self.api_path}{self.build_query_string()}"
         current_app.logger.debug(f"API endpoint requested: {url}")
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+        except ConnectionError:
+            current_app.logger.error(f"API connection error for: {url}")
+            raise Exception("A connection error occured with the API")
         if response.status_code == 404:
             current_app.logger.warning(f"Resource not found: {url}")
             raise ApiResourceNotFound("Resource not found")

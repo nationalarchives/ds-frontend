@@ -2,6 +2,7 @@ import re
 
 from app.catalogue import bp
 from app.lib import cache, cache_key_prefix
+from app.lib.api import ApiResourceNotFound
 from flask import current_app, render_template, url_for
 
 from .api import RecordAPI
@@ -13,8 +14,10 @@ def details(id):
     records_api = RecordAPI(id)
     try:
         record_data = records_api.get_results()
-    except Exception:
+    except ApiResourceNotFound:
         return render_template("errors/page-not-found.html"), 404
+    except Exception:
+        return render_template("errors/api.html"), 502
     type = record_data["type"]
     if type == "record":
         return render_record(id, record_data)

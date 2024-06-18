@@ -1,7 +1,8 @@
 from app.catalogue.api import RecordAPI
+from app.lib.api import ApiResourceNotFound
 from app.wagtail.api import breadcrumbs
 from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
-from flask import render_template
+from flask import current_app, render_template
 
 
 def highlight_gallery_page(page_data):
@@ -13,8 +14,17 @@ def highlight_gallery_page(page_data):
         if "record" in highlight["image"]:
             record_id = highlight["image"]["record"]
             records_api = RecordAPI(record_id)
-            record_data = records_api.get_results()
-            highlight["record_data"] = record_data
+            try:
+                record_data = records_api.get_results()
+                highlight["record_data"] = record_data
+            except ApiResourceNotFound:
+                current_app.logger.error(
+                    f"No record details found for record {record_id} in page {page_data['id']}"
+                )
+            except Exception:
+                current_app.logger.error(
+                    f"Can't get record details for record {record_id} in page {page_data['id']}"
+                )
     return render_template(
         "explore-the-collection/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
