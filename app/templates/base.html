@@ -52,7 +52,7 @@
 {% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
-  'cookiesUrl': '/cookies',
+  'cookiesUrl': url_for('legal.cookies'),
   'cookiesDomain': app_config.COOKIE_DOMAIN
 }) }}
 {% endif %}
