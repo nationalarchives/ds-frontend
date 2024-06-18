@@ -81,11 +81,11 @@
           'headingSize': 's',
           'href': result.url,
           'text': result.description,
-          '_label': result.type_label,
-          'imageSrc': result.image.full_url,
-          'imageAlt': result.image.title,
-          'imageWidth': result.image.width,
-          'imageHeight': result.image.height,
+          'label': result.type_label,
+          'imageSrc': result.image.jpeg.full_url,
+          'imageAlt': '',
+          'imageWidth': result.image.jpeg.width,
+          'imageHeight': result.image.jpeg.height,
           'htmlElement': 'article',
           'classes': 'tna-!--margin-top-l'
         }) }}
@@ -101,11 +101,11 @@
     {% for result in results.results %}
     <article class="tna-container tna-container--no-padding">
       <div class="tna-column tna-column--width-5-12 tna-column--width-1-2-medium tna-column--width-1-3-small tna-column--full-tiny tna-!--margin-top-m">
-        <img src="{{ result.image.full_url }}" width="{{ result.image.width }}" height="{{ result.image.height }}" alt="{{ result.image.alt }}">
+        <img src="{{ result.image.jpeg.full_url }}" width="{{ result.image.jpeg.width }}" height="{{ result.image.jpeg.height }}" alt="">
       </div>
       <div class="tna-column tna-column--width-7-12 tna-column--width-1-2-medium tna-column--width-2-3-small tna-column--full-tiny tna-!--margin-top-m">
         <hgroup class="tna-hgroup-m">
-          {# <p class="tna-hgroup__supertitle">{{ result.type_label }}</p> #}
+          <p class="tna-hgroup__supertitle">{{ result.type_label }}</p>
           <h3 class="tna-hgroup__title">
             <a href="{{ result.url }}">{{ result.title }}</a>
           </h3>
