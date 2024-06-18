@@ -71,8 +71,8 @@ def headings_list(s):
     )
     headings_raw = [
         {
-            "title": heading[2],
-            "href": heading[1],
+            "text": heading[2],
+            "href": "#" + heading[1],
             "level": int(heading[0]),
             "children": [],
         }

@@ -1,33 +1,19 @@
 {% extends 'base.html' %}
 
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+
 {% macro simplePageWithSidebar(aToZSidebar) %}
 <div class="tna-container tna-section tna-!--padding-top-s">
   {% set headings = caller() | headings_list %}
   {%- if headings %}
   <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-    <nav class="etna-sidebar" aria-label="Table of contents">
-      <h2 class="tna-heading-m">On this page</h2>
-      <ol class="tna-ul etna-sidebar__items{% if aToZSidebar %} etna-sidebar__items--a-z{% endif %}">
-        {%- for heading in headings %}
-        <li class="etna-sidebar__item">
-          <a href="#{{ heading.href }}" class="etna-sidebar__link">
-            {{ heading.title }}
-          </a>
-          {%- if heading.children %}
-          <ol class="tna-ol tna-ol--plain etna-sidebar__item-children">
-            {%- for child in heading.children %}
-            <li class="etna-sidebar__item-child">
-              <a href="#{{ child.href }}" class="etna-sidebar__link">
-                {{ child.title }}
-              </a>
-            </li>
-            {%- endfor %}
-          </ol>
-          {%- endif %}
-        </li>
-        {%- endfor %}
-      </ol>
-    </nav>
+    {{ tnaSidebar({
+      'heading': 'Contents',
+      'headingLevel': 2,
+      'items': headings,
+      'type': 'contents',
+      'classes': 'etna-sidebar--a-z' if aToZSidebar else ''
+    }) }}
   </div>
   {%- endif %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">

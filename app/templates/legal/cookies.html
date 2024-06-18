@@ -3,6 +3,7 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/radios/macro.html' import tnaRadios -%}
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 
 {%- set themeAccent = 'blue' -%}
 {%- set pageTitle = 'Cookies' -%}
@@ -103,41 +104,55 @@
 {% endblock %}
 
 {% block contentSidebar %}
-<nav class="etna-sidebar etna-sidebar--right" aria-label="Related content">
-  <h2 class="tna-heading-m">Related content</h2>
-  <ol class="tna-ul tna-ol--plain- etna-sidebar__items">
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Fair and reasonable use</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Use of bulk downloads and web crawlers</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Privacy notice</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Copyright</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Takedown and reclosure policy</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Record copying</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Booking events and visits</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">User participation</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Our fees</a>
-    </li>
-    <li class="etna-sidebar__item">
-      <a href="#" class="etna-sidebar__link">Information we collect online</a>
-    </li>
-  </ol>
-</nav>
+<div class="etna-sidebar etna-sidebar--right">
+  {{ tnaSidebar({
+    'heading': 'Related content',
+    'headingLevel': 2,
+    'items': [
+      {
+        'text': 'Fair and reasonable use',
+        'href': '#'
+      },
+      {
+        'text': 'Use of bulk downloads and web crawlers',
+        'href': '#'
+      },
+      {
+        'text': 'Privacy notice',
+        'href': '#'
+      },
+      {
+        'text': 'Copyright',
+        'href': '#'
+      },
+      {
+        'text': 'Takedown and reclosure policy',
+        'href': '#'
+      },
+      {
+        'text': 'Record copying',
+        'href': '#'
+      },
+      {
+        'text': 'Booking events and visits',
+        'href': '#'
+      },
+      {
+        'text': 'User participation',
+        'href': '#'
+      },
+      {
+        'text': 'Our fees',
+        'href': '#'
+      },
+      {
+        'text': 'Information we collect online',
+        'href': '#'
+      }
+    ],
+    'type': 'pages'
+  }) }}
+</div>
 {% endblock %}
 
 {% block bodyEnd %}
