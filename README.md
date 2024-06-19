@@ -20,6 +20,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `DEBUG`                 | If true, allow debugging[^1]                                              | `False`                                                     |
 | `SENTRY_DSN`            | The Sentry DSN (project code)                                             | _none_                                                      |
 | `SENTRY_SAMPLE_RATE`    | How often to sample traces and profiles (0-1.0)                           | production: `0.1`, staging: `0.25`, develop: `1`, test: `0` |
+| `SENTRY_JS`             | The JS file from Sentry to catch issues                                   | _none_                                                      |
 | `WAGTAIL_API_URL`       | The base URL of the content API, including the `/api/v2` path             | _none_                                                      |
 | `SEARCH_API_URL`        | The base URL of the search API                                            | _none_                                                      |
 | `COOKIE_DOMAIN`         | The domain to save cookie preferences against                             | _none_                                                      |
@@ -29,6 +30,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CSP_FONT_SRC`          | A comma separated list of CSP rules for `font-src`                        | `'self'`                                                    |
 | `CSP_CONNECT_SRC`       | A comma separated list of CSP rules for `connect-src`                     | `'self'`                                                    |
 | `CSP_MEDIA_SRC`         | A comma separated list of CSP rules for `media-src`                       | `'self'`                                                    |
+| `CSP_WORKER_SRC`        | A comma separated list of CSP rules for `worker-src`                      | `'self'`                                                    |
 | `FRAME_DOMAIN_ALLOW`    | A domain from which to allow frame embedding (used in CMS previews)       | _none_                                                      |
 | `FORCE_HTTPS`           | Redirect requests to HTTPS as part of the CSP                             | _none_                                                      |
 | `CACHE_TYPE`            | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching | _none_                                                      |

@@ -12,6 +12,7 @@ class Base(object):
 
     SENTRY_DSN = os.getenv("SENTRY_DSN", "")
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1.0"))
+    SENTRY_JS = os.getenv("SENTRY_JS", "")
 
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
@@ -24,6 +25,7 @@ class Base(object):
     CSP_FONT_SRC = os.environ.get("CSP_FONT_SRC", "'self'").split(",")
     CSP_CONNECT_SRC = os.environ.get("CSP_CONNECT_SRC", "'self'").split(",")
     CSP_MEDIA_SRC = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
+    CSP_WORKER_SRC = os.environ.get("CSP_WORKER_SRC", "'self'").split(",")
     FRAME_DOMAIN_ALLOW = os.environ.get("FRAME_DOMAIN_ALLOW", "")
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
 

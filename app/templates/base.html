@@ -36,6 +36,9 @@
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <meta name="tna.view.theme" content="{{ theme }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
+    {% if app_config.SENTRY_JS %}
+    <script src="{{ app_config.SENTRY_JS }}" crossorigin="anonymous"></script>
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}

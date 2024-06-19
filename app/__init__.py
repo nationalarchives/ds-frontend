@@ -63,6 +63,7 @@ def create_app(config_class):
             "font-src": app.config["CSP_FONT_SRC"],
             "connect-src": app.config["CSP_CONNECT_SRC"],
             "media-src": app.config["CSP_MEDIA_SRC"],
+            "worker-src": app.config["CSP_WORKER_SRC"],
         },
         content_security_policy_nonce_in=["script-src", "style-src"],
         feature_policy={
