@@ -50,13 +50,13 @@
 
 {% block cookies %}
 {% if not page_data or not page_data.page_preview %}
-{% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %#}
+{% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': url_for('legal.cookies'),
   'cookiesDomain': app_config.COOKIE_DOMAIN
 }) }}
-{#% endif %}
+{% endif %}
 {% endif %}
 {% endblock %}
 
