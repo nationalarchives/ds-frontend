@@ -3,11 +3,17 @@
 ## Quickstart
 
 ```sh
-npm install
-npm run compile
-mkdir app/static/assets
-cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
+# Build and start the container
 docker compose up -d
+
+# Install Node modules
+npm install
+
+# Create a static assets directory
+mkdir app/static/assets
+
+# Copy in the TNA Frontend static assets
+cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
 ```
 
 ## Environment variables
