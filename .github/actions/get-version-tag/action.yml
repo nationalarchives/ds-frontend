@@ -14,8 +14,10 @@ runs:
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        [ "$VERSION" == "main" ] && VERSION=develop
-        [ "$VERSION" == "develop" ] && VERSION=develop
+        CALVER=$(date +%y.%m.%d).${{ github.run_number }}
+        [ "$VERSION" == "main" ] && VERSION=$CALVER
+        [ "$VERSION" == "proof-of-concept" ] && VERSION=$CALVER
+        # [ "$VERSION" == "develop" ] && VERSION=develop
         echo "Version: $VERSION"
         echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
       shell: bash
