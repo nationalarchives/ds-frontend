@@ -16,7 +16,7 @@ runs:
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
         CALVER=$(date +%y.%m.%d).${{ github.run_number }}
         [ "$VERSION" == "main" ] && VERSION=$CALVER
-        [ "$VERSION" == "proof-of-concept" ] && VERSION=$CALVER
+        # [ "$VERSION" == "proof-of-concept" ] && VERSION=$CALVER
         # [ "$VERSION" == "develop" ] && VERSION=develop
         echo "Version: $VERSION"
         echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
