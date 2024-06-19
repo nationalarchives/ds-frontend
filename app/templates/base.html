@@ -267,7 +267,7 @@
 
 {% block bodyEnd %}
 {% if app_config.SENTRY_JS %}
-<script src="{{ app_config.SENTRY_JS }}" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC" crossorigin="anonymous" defer></script>
+<script src="{{ app_config.SENTRY_JS }}" integrity="sha384-F+LbRhFVfEzSIaf/0nxCFCP4HJ3+bfnpC8KBSfqxOHnf3dMxHiZq09rgRXswF5Jl" crossorigin="anonymous" defer></script>
 {% endif %}
 <!--[if !IE]>-->
 <script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
