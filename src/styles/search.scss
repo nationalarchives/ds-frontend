@@ -75,7 +75,7 @@
   @include media.on-mobile {
     gap: spacing.space(0.5);
 
-    @include typography.relative-font-size(16);
+    @include typography.font-size(16);
 
     &__item-link {
       padding: spacing.space(0.25) spacing.space(0.5);
@@ -83,7 +83,7 @@
   }
 
   @include media.on-tiny {
-    @include typography.relative-font-size(14);
+    @include typography.font-size(14);
 
     &__item-link {
       padding-right: spacing.space(0.25);
@@ -168,7 +168,7 @@ mark {
     cursor: pointer;
 
     @include media.on-mobile {
-      @include typography.relative-font-size(16);
+      @include typography.font-size(16);
     }
 
     &--current {
@@ -193,7 +193,7 @@ mark {
     display: block;
 
     @include colour.colour-font("base-font");
-    @include typography.relative-font-size(14);
+    @include typography.font-size(14);
   }
 
   @include media.on-mobile {

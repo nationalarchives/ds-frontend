@@ -78,7 +78,7 @@ html.tna-template
     display: block;
 
     // text-decoration: none;
-    @include typography.relative-font-size(16);
+    @include typography.font-size(16);
 
     &,
     &:link,

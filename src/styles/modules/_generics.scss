@@ -19,7 +19,7 @@ p.etna-small-paragraph {
   margin-top: 0;
   margin-bottom: spacing.space(0.5);
 
-  @include typography.relative-font-size(16);
+  @include typography.font-size(16);
 }
 
 // TEMP FIX
