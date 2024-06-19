@@ -1,6 +1,7 @@
+ARG IMAGE=ghcr.io/nationalarchives/tna-python
 ARG IMAGE_TAG=latest
 
-FROM ghcr.io/nationalarchives/tna-python:"$IMAGE_TAG"
+FROM "$IMAGE":"$IMAGE_TAG"
 
 ENV NPM_BUILD_COMMAND=compile
 

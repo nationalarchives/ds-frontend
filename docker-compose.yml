@@ -3,6 +3,7 @@ services:
     build:
       context: .
       args:
+        IMAGE: ghcr.io/nationalarchives/tna-python-root
         IMAGE_TAG: preview
     environment:
       - ENVIRONMENT=develop
