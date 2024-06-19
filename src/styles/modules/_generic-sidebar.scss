@@ -5,8 +5,6 @@
 
 .etna-sidebar {
   &--a-z .tna-sidebar__items {
-    padding-left: 0;
-
     flex-flow: row wrap;
     gap: spacing.space(0.5);
   }

@@ -156,6 +156,6 @@
 {% endblock %}
 
 {% block bodyEnd %}
-<script src="{{ url_for('static', filename='article.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
 {{ super() }}
+<script src="{{ url_for('static', filename='article.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
 {% endblock %}

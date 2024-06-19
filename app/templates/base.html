@@ -36,9 +36,6 @@
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <meta name="tna.view.theme" content="{{ theme }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
-    {% if app_config.SENTRY_JS %}
-    <script src="{{ app_config.SENTRY_JS }}" crossorigin="anonymous" nonce="{{ csp_nonce() }}"></script>
-    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
@@ -269,6 +266,9 @@
 {% endblock %}
 
 {% block bodyEnd %}
+{% if app_config.SENTRY_JS %}
+<script src="{{ app_config.SENTRY_JS }}" crossorigin="anonymous" nonce="{{ csp_nonce() }}" defer></script>
+{% endif %}
 <!--[if !IE]>-->
 <script src="{{ url_for('static', filename='main.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
 <script src="{{ url_for('static', filename='analytics.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
