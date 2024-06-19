@@ -157,5 +157,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-<script src="{{ url_for('static', filename='cookies.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
+<script src="{{ url_for('static', filename='cookies.min.js') }}" defer></script>
 {% endblock %}

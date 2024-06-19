@@ -14,7 +14,8 @@ services:
       - SEARCH_API_URL=http://host.docker.internal:65534/api/v1
       - COOKIE_DOMAIN=localhost
       - CSP_IMG_SRC='self',localhost:65535,localhost:8000,*.google-analytics.com,*.googletagmanager.com,googletagmanager.com,*.gstatic.com,*.nationalarchives.gov.uk,*.platformsh.site
-      - CSP_SCRIPT_SRC='self',*.googletagmanager.com,googletagmanager.com,tagmanager.google.com,*.sentry-cdn.com
+      - CSP_SCRIPT_SRC='self'
+      - CSP_SCRIPT_SRC_ELEM='self',*.googletagmanager.com,googletagmanager.com,tagmanager.google.com,*.sentry-cdn.com
       - CSP_STYLE_SRC='self',fonts.googleapis.com,p.typekit.net,use.typekit.net,googletagmanager.com,www.googletagmanager.com,tagmanager.google.com
       - CSP_FONT_SRC='self',fonts.gstatic.com,use.typekit.net
       - CSP_CONNECT_SRC='self',*.google-analytics.com,*.analytics.google.com,*.googletagmanager.com,*.sentry.io

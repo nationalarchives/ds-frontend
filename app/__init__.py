@@ -1,3 +1,5 @@
+# import base64
+# import hashlib
 import logging
 
 import sentry_sdk
@@ -51,6 +53,25 @@ def create_app(config_class):
         },
     )
 
+    # scripts = [
+    #     "app/static/main.min.js",
+    #     "app/static/analytics.min.js",
+    #     "app/static/article.min.js",
+    # ]
+    # script_hases = []
+    # for script in scripts:
+    #     # https://codeberg.org/fbausch/csp-hash/src/branch/main/src/csp-hash.py
+    #     with open(script, "r") as f:
+    #         file_contents = f.read()
+    #         file_contents = file_contents.replace("\r", "")
+    #         sha = base64.b64encode(
+    #             hashlib.sha256(file_contents.encode("utf-8")).digest()
+    #         ).decode("utf-8")
+    #         entry = f"'sha256-{sha}'"
+    #         if entry not in script_hases:
+    #             script_hases.append(f"'sha256-{sha}'")
+    # print(script_hases)
+
     Talisman(
         app,
         content_security_policy={
@@ -59,13 +80,14 @@ def create_app(config_class):
             "object-src": "'none'",
             "img-src": app.config["CSP_IMG_SRC"],
             "script-src": app.config["CSP_SCRIPT_SRC"],
+            "script-src-elem": app.config["CSP_SCRIPT_SRC_ELEM"],
             "style-src": app.config["CSP_STYLE_SRC"],
             "font-src": app.config["CSP_FONT_SRC"],
             "connect-src": app.config["CSP_CONNECT_SRC"],
             "media-src": app.config["CSP_MEDIA_SRC"],
             "worker-src": app.config["CSP_WORKER_SRC"],
         },
-        content_security_policy_nonce_in=["script-src", "style-src"],
+        # content_security_policy_nonce_in=["script-src", "style-src"],
         feature_policy={
             "camera": "'none'",
             "fullscreen": "'self'",

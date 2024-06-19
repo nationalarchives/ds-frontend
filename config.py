@@ -21,6 +21,9 @@ class Base(object):
 
     CSP_IMG_SRC = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")
+    CSP_SCRIPT_SRC_ELEM = os.environ.get("CSP_SCRIPT_SRC_ELEM", "'self'").split(
+        ","
+    )
     CSP_STYLE_SRC = os.environ.get("CSP_STYLE_SRC", "'self'").split(",")
     CSP_FONT_SRC = os.environ.get("CSP_FONT_SRC", "'self'").split(",")
     CSP_CONNECT_SRC = os.environ.get("CSP_CONNECT_SRC", "'self'").split(",")

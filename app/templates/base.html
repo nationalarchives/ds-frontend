@@ -267,10 +267,10 @@
 
 {% block bodyEnd %}
 {% if app_config.SENTRY_JS %}
-<script src="{{ app_config.SENTRY_JS }}" crossorigin="anonymous" nonce="{{ csp_nonce() }}" defer></script>
+<script src="{{ app_config.SENTRY_JS }}" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC" crossorigin="anonymous" defer></script>
 {% endif %}
 <!--[if !IE]>-->
-<script src="{{ url_for('static', filename='main.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
-<script src="{{ url_for('static', filename='analytics.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
+<script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
+<script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
 <!--<![endif]-->
 {% endblock %}

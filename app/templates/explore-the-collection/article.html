@@ -18,7 +18,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}" nonce="{{ csp_nonce() }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -95,5 +95,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-<script src="{{ url_for('static', filename='article.min.js') }}" nonce="{{ csp_nonce() }}" defer></script>
+<script src="{{ url_for('static', filename='article.min.js') }}" defer></script>
 {% endblock %}
