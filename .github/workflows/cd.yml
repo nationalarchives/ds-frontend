@@ -63,7 +63,7 @@ jobs:
       - version
     # if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: nationalarchives/ds-etna
           ref: feature/my-cool-feature
@@ -82,3 +82,12 @@ jobs:
           git commit -m "Update frontend to v${{ needs.version.outputs.version }}"
           git push origin feature/my-cool-feature
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - update
+    # if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: nationalarchives/ds-etna/.github/actions/deploy/action.yml@feature/my-cool-feature
+        with:
+          environment: develop-test
