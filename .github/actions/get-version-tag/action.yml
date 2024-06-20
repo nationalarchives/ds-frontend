@@ -13,8 +13,8 @@ runs:
       run: |
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         # Strip "v" prefix from tag name
-        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-        [[ "${{ github.ref }}" == "refs/heads/"* ]] && VERSION=$(echo "${{ github.ref }}" | sed -e 's,refs/heads/,,g') | sed -e 's,/,-,g'
+        [[ "${{ github.ref_type }}" == "tag" ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        [[ "${{ github.ref_type }}" == "branch" ]] && VERSION=$(echo "${{ github.ref }}" | sed -e 's,refs/heads/,,g') | sed -e 's,/,-,g'
         CALVER=$(date +%y.%m.%d).${{ github.run_number }}
         [ "$VERSION" == "main" ] && VERSION=$CALVER
         # TEMP
