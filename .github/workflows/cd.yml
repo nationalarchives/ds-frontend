@@ -6,7 +6,7 @@ on:
     branches:
       - main
       - proof-of-concept # TEMP
-      - feature/*
+      - 'feature/**'
 
 concurrency:
   group: cd
@@ -36,32 +36,33 @@ jobs:
     outputs:
       version: ${{ steps.version-tag.outputs.version-tag }}
 
-  # build:
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - test-python
-  #     - test-node
-  #     - version
-  #   permissions:
-  #     packages: write
-  #     contents: read
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Build Docker image
-  #       uses: ./.github/actions/docker-build
-  #       with:
-  #         version: ${{ needs.version.outputs.version }}
-  #         # latest: github.ref == 'refs/heads/main'
-  #         latest: true # TEMP
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+  build:
+    runs-on: ubuntu-latest
+    needs:
+      - test-python
+      - test-node
+      - version
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        uses: ./.github/actions/docker-build
+        with:
+          version: ${{ needs.version.outputs.version }}
+          # latest: github.ref == 'refs/heads/main'
+          latest: true # TEMP
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
 
   update:
     runs-on: ubuntu-latest
     needs:
-      # - build
+      - build
       - version
     # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/proof-of-concept' # TEMP
     steps:
       - uses: actions/checkout@v4
         with:
