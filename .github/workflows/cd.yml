@@ -36,39 +36,49 @@ jobs:
     outputs:
       version: ${{ steps.version-tag.outputs.version-tag }}
 
-  build:
-    runs-on: ubuntu-latest
-    needs:
-      - test-python
-      - test-node
-      - version
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build Docker image
-        uses: ./.github/actions/docker-build
-        with:
-          version: ${{ needs.version.outputs.version }}
-          # latest: github.ref == 'refs/heads/main'
-          latest: true # TEMP
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - test-python
+  #     - test-node
+  #     - version
+  #   permissions:
+  #     packages: write
+  #     contents: read
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Build Docker image
+  #       uses: ./.github/actions/docker-build
+  #       with:
+  #         version: ${{ needs.version.outputs.version }}
+  #         # latest: github.ref == 'refs/heads/main'
+  #         latest: true # TEMP
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
 
   update:
     runs-on: ubuntu-latest
     needs:
-      - build
+      # - build
       - version
     # if: github.ref == 'refs/heads/main'
     steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: nationalarchives/ds-etna
+          ref: feature/my-cool-feature
+          token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+      - name: Set up git config
+        run: |
+          git config user.name "ds-etna-frontend"
+          git config user.email "<>"
       - name: Install jq
         run: sudo apt-get install jq
-      - name: Clone config repository
-        run: git clone git@github.com:nationalarchives/ds-etna.git && cd ds-etna && git checkout feature/my-cool-feature
       - name: Update config
-        run: jq --indent 4 '(.services.frontend.version|="${{ needs.version.outputs.version }}")' ds-etna/config-aws.json > tmp.$$.json && mv tmp.$$.json ds-etna/config-aws.json
+        run: jq --indent 4 '(.services.frontend.version|="${{ needs.version.outputs.version }}")' config-aws.json > tmp.$$.json && mv tmp.$$.json config-aws.json
       - name: Push new version
-        run: cd ds-etna && git add ds-etna/config-aws.json && git commit -m "Update frontend to v${{ needs.version.outputs.version }}" && git push
+        run: |
+          git add config-aws.json
+          git commit -m "Update frontend to v${{ needs.version.outputs.version }}"
+          git push origin feature/my-cool-feature
 
