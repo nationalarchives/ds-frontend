@@ -9,7 +9,7 @@ on:
       - 'feature/**'
 
 concurrency:
-  group: cd
+  group: cd-${{ github.ref }}
 
 jobs:
   test-node:
