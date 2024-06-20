@@ -64,7 +64,7 @@ jobs:
     # if: github.ref == 'refs/heads/main'
     steps:
       - name: Install jq
-        run: apt-get install jq
+        run: sudo apt-get install jq
       - name: Clone config repository
         run: git clone git@github.com:nationalarchives/ds-etna.git && cd ds-etna && git checkout feature/my-cool-feature
       - name: Update config
