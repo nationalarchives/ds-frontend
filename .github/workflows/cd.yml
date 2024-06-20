@@ -1,10 +1,12 @@
-name: CD
+name: Build and deploy
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - proof-of-concept
+      - main
+      - proof-of-concept # TEMP
+      - feature/*
 
 concurrency:
   group: cd
@@ -24,23 +26,44 @@ jobs:
       - name: Run tests
         uses: ./.github/actions/python-tests
 
-  build:
+  version:
     runs-on: ubuntu-latest
-    needs:
-      - test-python
-      - test-node
-    permissions:
-      packages: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Get tag
         id: version-tag
         uses: ./.github/actions/get-version-tag
+    outputs:
+      version: ${{ steps.version-tag.outputs.version-tag }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs:
+      - test-python
+      - test-node
+      - version
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
       - name: Build Docker image
         uses: ./.github/actions/docker-build
         with:
-          version: ${{ steps.version-tag.outputs.version-tag }}
-          latest: github.ref == 'refs/heads/main'
+          version: ${{ needs.version.outputs.version }}
+          # latest: github.ref == 'refs/heads/main'
+          latest: true # TEMP
           github-token: ${{ secrets.GITHUB_TOKEN }}
           docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+
+  update:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - version
+    # if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update config
+        run: echo "Update version on develop to ${{ needs.version.outputs.version }}"
+
