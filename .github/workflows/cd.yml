@@ -63,7 +63,12 @@ jobs:
       - version
     # if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
+      - name: Install jq
+        run: apt-get install jq
+      - name: Clone config repository
+        run: git clone git@github.com:nationalarchives/ds-etna.git && cd ds-etna && git checkout feature/my-cool-feature
       - name: Update config
-        run: echo "Update version on develop to ${{ needs.version.outputs.version }}"
+        run: jq --indent 4 '(.services.frontend.version|="${{ needs.version.outputs.version }}")' ds-etna/config-aws.json > tmp.$$.json && mv tmp.$$.json ds-etna/config-aws.json
+      - name: Push new version
+        run: cd ds-etna && git add ds-etna/config-aws.json && git commit -m "Update frontend to v${{ needs.version.outputs.version }}" && git push
 
