@@ -65,8 +65,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: nationalarchives/ds-etna
-          ref: feature/my-cool-feature
+          repository: nationalarchives/ds-etna-deployments-proof-of-concept
+          ref: main
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: Set up git config
         run: |
@@ -75,12 +75,12 @@ jobs:
       - name: Install jq
         run: sudo apt-get install jq
       - name: Update config
-        run: jq --indent 4 '(.services.frontend.version|="${{ needs.version.outputs.version }}")' config-aws.json > tmp.$$.json && mv tmp.$$.json config-aws.json
+        run: jq --indent 4 '(.services.frontend.version|="${{ needs.version.outputs.version }}")' config-aws-develop.json > tmp.$$.json && mv tmp.$$.json config-aws-develop.json
       - name: Push new version
         run: |
-          git add config-aws.json
+          git add config-aws-develop.json
           git commit -m "Update frontend to v${{ needs.version.outputs.version }}"
-          git push origin feature/my-cool-feature
+          git push origin main
 
   deploy:
     runs-on: ubuntu-latest
@@ -88,6 +88,7 @@ jobs:
       - update
     # if: github.ref == 'refs/heads/main'
     steps:
-      - uses: nationalarchives/ds-etna/.github/actions/deploy@feature/my-cool-feature
+      - uses: nationalarchives/ds-etna-deployments-proof-of-concept/.github/actions/deploy@main
         with:
-          environment: develop-test
+          config: config-aws-develop.json
+          environment: develop
