@@ -88,6 +88,6 @@ jobs:
       - update
     # if: github.ref == 'refs/heads/main'
     steps:
-      - uses: nationalarchives/ds-etna/.github/actions/deploy/action.yml@feature/my-cool-feature
+      - uses: nationalarchives/ds-etna/.github/actions/deploy@feature/my-cool-feature
         with:
           environment: develop-test
