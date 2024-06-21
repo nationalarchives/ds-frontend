@@ -54,7 +54,7 @@
       <div class="tna-background-accent tna-!--padding-bottom-m">
         <div class="tna-container tna-container--align-bottom">
           <div class="tna-column tna-column--flex-1 tna-!--padding-top-m">
-            <form method="get" action="{{ config.SEARCH_DISCOVERY_URL }}">
+            <form method="get" action="{{ app_config.SEARCH_DISCOVERY_URL }}">
               {{ tnaSearchField({
                 'label': 'Search our catalogue',
                 'headingLevel': 2,
@@ -68,7 +68,7 @@
           <div class="tna-column tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
             {{ tnaButton({
               'text': 'Advanced search',
-              'href': '{{ config.DISCOVERY_URL }}/advanced-search',
+              'href': app_config.DISCOVERY_URL + '/advanced-search',
               'plain': True
             }) }}
           </div>
