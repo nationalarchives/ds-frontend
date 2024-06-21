@@ -51,8 +51,7 @@ jobs:
         uses: ./.github/actions/docker-build
         with:
           version: ${{ needs.version.outputs.version }}
-          # latest: ${{ github.ref == 'refs/heads/main' }}
-          latest: ${{ github.ref == 'refs/heads/proof-of-concept' }} # TEMP
+          latest: ${{ github.ref == 'refs/heads/main' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
 
@@ -61,8 +60,7 @@ jobs:
     needs:
       - build
       - version
-    # if: github.ref == 'refs/heads/main'
-    if: github.ref == 'refs/heads/proof-of-concept' # TEMP
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
         with:

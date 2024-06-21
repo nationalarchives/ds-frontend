@@ -27,8 +27,6 @@ runs:
         CALVER=$(date +%y.%m.%d).${{ github.run_number }}
         echo "Calver:                       $CALVER"
         [ "$VERSION" == "main" ] && VERSION=$CALVER
-        # TEMP
-        [ "$VERSION" == "proof-of-concept" ] && VERSION=$CALVER
         echo "Final version:                $VERSION"
 
         echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
