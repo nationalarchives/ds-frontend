@@ -11,6 +11,10 @@ runs:
     - id: version-tag
       name: Get tag from branch, tag or release
       run: |
+        echo "github.ref:                   ${{ github.ref }}"
+        echo "github.ref_name:              ${{ github.ref_name }}"
+        echo "github.event.ref:             ${{ github.event.ref }}"
+
         # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
         VERSION=$(echo "${{ github.event.ref }}" | sed -e 's,[\./_],-,g')
