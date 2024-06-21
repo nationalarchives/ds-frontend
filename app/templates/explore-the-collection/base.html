@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/meta.html' import meta -%}
+
+{%- set pageTitle = page_data.title -%}
+
+{% block head %}
+{{ super() }}
+{{ meta(page_data) }}
+{% endblock %}

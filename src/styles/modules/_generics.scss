@@ -1,0 +1,58 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+.etna-space-above {
+  @include spacing.space-above;
+}
+
+.etna-thick-keyline-accent-top {
+  @include colour.thick-keyline-accent(top);
+}
+
+.etna-inset {
+  @include colour.thick-keyline(left);
+  padding: spacing.space(0.5) 0 spacing.space(0.5) spacing.space(1);
+}
+
+p.etna-small-paragraph {
+  margin-top: 0;
+  margin-bottom: spacing.space(0.5);
+
+  @include typography.font-size(16);
+}
+
+// TEMP FIX
+.tna-heading-s,
+.tna-heading-m,
+.tna-heading-l,
+.tna-heading-xl,
+.tna-form__heading,
+.tna-form__heading--s,
+.tna-form__heading--m,
+.tna-form__heading--l,
+.tna-form__heading--xl,
+.tna-hgroup-s .tna-hgroup__title,
+.tna-hgroup-m .tna-hgroup__title,
+.tna-hgroup-l .tna-hgroup__title,
+.tna-hgroup-xl .tna-hgroup__title {
+  &:not(.tna-heading--no-link-arrow) {
+    a {
+      vertical-align: top;
+    }
+  }
+}
+
+:first-child[hidden] {
+  + .tna-hgroup-xl,
+  + .tna-hgroup-l,
+  + .tna-hgroup-m,
+  + .tna-hgroup-s,
+  + .tna-heading-s,
+  + .tna-heading-m,
+  + .tna-heading-l,
+  + .tna-heading-xl {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,122 @@
+{% extends 'explore-the-collection/base.html' %}
+
+{%- from 'explore-the-collection/partials/article-footer.html' import articleFooter -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/feedback.html' import feedback -%}
+
+{%- set themeAccent = 'orange' -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.html_url }}">
+{% endblock %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='highlight-gallery.css') }}">
+{% endblock %}
+
+{% block content %}
+<article>
+  <header class="tna-section tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+        <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+      </hgroup>
+      <div class="tna-large-paragraph tna-!--margin-top-s">
+        {{ page_data.intro | safe }}
+      </div>
+      {%- if page_data.display_content_warning %}
+      {{ tnaWarning({
+        'headingLevel': 2,
+        'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
+        'classes': 'tna-!--margin-top-m'
+      }) }}
+      {%- endif %}
+    </div>
+  </header>
+  <section class="tna-background-contrast">
+    {%- for highlight in page_data.highlights %}
+    {%- if not loop.first %}
+    <hr>
+    {%- endif %}
+    <div class="tna-section tna-!--padding-top-m" itemscope itemtype="https://schema.org/ImageObject">
+      <div class="tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+          <h2 class="tna-heading-l tna-!--padding-top-s" itemprop="name" id="gallery-image-{{ loop.index }}">{{ highlight.image.title }}</h2>
+        </div>
+      </div>
+      <div class="tna-container tna-container--centred">
+        <div class="tna-column tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
+          <img src="{{ highlight.image.webp.full_url }}" width="{{ highlight.image.webp.width }}" height="{{ highlight.image.webp.height }}" alt="{{ highlight.alt_text }}" class="etna-highlight-gallery__image" itemprop="contentUrl">
+        </div>
+        <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-column--order-1 tna-column--order-3-medium tna-column--order-3-small tna-column--order-3-tiny tna-!--padding-top-m">
+          <dl class="tna-dl tna-dl--plain tna-dl--stacked">
+            <dt>Date</dt>
+            <dd>{{ highlight.image.record_dates }}</dd>
+            {% if highlight.record_data and highlight.record_data.hierarchy | length %}
+            {% with parent = highlight.record_data.hierarchy | last %}
+            <dt>Catalogue reference</dt>
+            <dd>
+              <a href="{{ url_for('catalogue.details', id=parent.id) }}">{{ parent.identifier }}</a>
+            </dd>
+            {% endwith %}
+            {% endif %}
+          </dl>
+          <div class="etna-space-above" itemprop="description">
+            {{ highlight.image.description | safe }}
+          </div>
+          <div class="tna-button-group tna-button-group--small">
+            <a href="{{ url_for('catalogue.details', id=highlight.image.record) }}" class="tna-button" itemprop="url">View record details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+
+  {% if page_data.featured_article %}
+  <aside>
+    <section class="tna-section">
+      <div class="tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+          <h2 class="tna-heading-l">Featured article</h2>
+        </div>
+        <div class="tna-column tna-column--full">
+          {{ tnaCard({
+            'supertitle': page_data.featured_article.type_label,
+            'title': page_data.featured_article.title,
+            'headingLevel': 3,
+            'headingSize': 'l',
+            'href': page_data.featured_article.url,
+            'text': page_data.featured_article.teaser_text,
+            'label': 'New' if page_data.featured_article.is_newly_published,
+            'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
+            'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+            'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
+            'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page_data.featured_article.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': page_data.featured_article.teaser_image.webp.width,
+                'height': page_data.featured_article.teaser_image.webp.height
+              }
+            ],
+            'htmlElement': 'article',
+            'horizontal': True,
+            'style': 'accent',
+            'classes': 'tna-!--margin-top-m'
+          }) }}
+        </div>
+      </div>
+    </section>
+  </aside>
+  {% endif %}
+  {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
+</article>
+
+{{ feedback() }}
+{% endblock %}

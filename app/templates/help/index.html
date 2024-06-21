@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{%- set themeAccent = 'blue' -%}
+{%- set pageTitle = 'Help' -%}
+
+{% block main %}
+  <div class="tna-background-accent">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        {{ tnaBreadcrumbs({
+          'items': [
+            {
+              'text': 'Home',
+              'href': '/'
+            }
+          ],
+          'structuredData': True
+        }) }}
+      </div>
+    </div>
+  </div>
+  <main class="tna-main {{ mainClasses }}" id="main-content">
+    <div class="tna-background-accent">
+      <div class="tna-container tna-section tna-!--padding-bottom-xl">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+          <h1 class="tna-heading-xl">Website help</h1>
+          <p class="tna-large-paragraph">What we hold on our website and how you can use it.</p>
+        </div>
+      </div>
+    </div>
+    <nav class="tna-section" aria-label="Child pages">
+      <ul class="tna-container tna-ul tna-ul--plain">
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+          {{ tnaCard({
+            'title': 'A to Z',
+            'headingLevel': 2,
+            'headingSize': 'm',
+            'href': url_for('help.a_to_z'),
+            'text': 'Browse an alphabetical list of the contents of our website.'
+          }) }}
+        </li>
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+          {{ tnaCard({
+            'title': 'Accessibility statement',
+            'headingLevel': 2,
+            'headingSize': 'm',
+            'href': url_for('help.accessibility'),
+            'text': 'Accessibility and inclusion are important to everyone at The National Archives and we want as many people as possible to be able to use www.nationalarchives.gov.uk.'
+          }) }}
+        </li>
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+          {{ tnaCard({
+            'title': 'Discovery for developers: about the application programming interface (API)',
+            'headingLevel': 2,
+            'headingSize': 'm',
+            'href': url_for('help.discovery_for_developers'),
+            'text': 'To access our API help page please click here.'
+          }) }}
+        </li>
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+          {{ tnaCard({
+            'title': 'Making payments through WorldPay',
+            'headingLevel': 2,
+            'headingSize': 'm',
+            'href': '#',
+            'text': 'First, select one of the available payment methods.'
+          }) }}
+        </li>
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+          {{ tnaCard({
+            'title': 'Workday accessibility statement',
+            'headingLevel': 2,
+            'headingSize': 'm',
+            'href': '#',
+            'text': 'Candidate experience: search and apply Workday has a strong commitment to accessibility and users of all abilities use our solutions every day.'
+          }) }}
+        </li>
+      </ul>
+    </nav>
+  </main>
+{% endblock %}

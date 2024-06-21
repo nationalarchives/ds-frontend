@@ -1,0 +1,15 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
+.etna-highlight-gallery {
+  &__image {
+    width: auto;
+    max-height: calc(100dvh - #{spacing.space(2)});
+    margin: 0 auto;
+
+    position: sticky;
+    top: spacing.space(1);
+
+    &--interactive {
+    }
+  }
+}

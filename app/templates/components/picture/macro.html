@@ -1,0 +1,33 @@
+{# Adds schema.org markup #}
+
+{% macro tnaPicture(params) %}
+{% from "components/tabs/macro.html" import tnaTabs %}
+
+{%- set containerClasses = [params.classes] if params.classes else [] -%}
+<figure class="tna-picture {{ ' '.join(containerClasses) }}" data-module="tna-picture"{% if params.informationLabelOpen %} data-informationlabelopen="{{ params.informationLabelOpen }}"{% endif %}{% if params.informationLabelClose %} data-informationlabelclose="{{ params.informationLabelClose }}"{% endif %} {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+  <div class="tna-picture__image-wrapper tna-background-tint">
+    <picture>
+    {%- for source in params.sources -%}
+      <source class="tna-picture__image" srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width or params.width }}" height="{{ source.height or params.height }}"{%- if source.media %} media="{{ source.media }}"{% endif %}>
+    {%- endfor -%}
+      <img class="tna-picture__image" width="{{ params.width }}" height="{{ params.height }}" src="{{ params.src }}" alt="{{ params.alt }}" itemprop="contentUrl" loading="lazy">
+    </picture>
+  </div>
+{%- if params.information -%}
+  <div class="tna-picture__transcript">
+  {%- if params.information | length > 1 -%}
+    {{ tnaTabs({
+      'items': params.information
+    }) }}
+  {%- else -%}
+    {{ params.information[0].body | safe }}
+  {%- endif -%}
+  </div>
+{%- endif -%}
+{%- if params.caption -%}
+  <figcaption class="tna-picture__caption" itemprop="description">
+      {{ params.caption | safe }}
+  </figcaption>
+{%- endif -%}
+</figure>
+{% endmacro %}

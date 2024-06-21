@@ -1,0 +1,336 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+// html.tna-template
+//   .tna-template__body--search
+//   .tna-header__navigation-item-link--selected {
+//   &,
+//   &:hover {
+//     @include colour.tint;
+//     @include colour.colour-font("font-base");
+//   }
+// }
+
+.etna-search-tabs {
+  display: flex;
+  gap: spacing.space(1);
+  flex-wrap: nowrap;
+
+  list-style: none;
+
+  &__item {
+  }
+
+  &__item-link {
+    height: 100%;
+    padding: spacing.space(0.5) spacing.space(1);
+
+    display: block;
+    box-sizing: border-box;
+
+    text-align: center;
+
+    // border-top: 0.25rem transparent solid;
+
+    &:not(#{&}--plain) {
+      // @include typography.heading-font;
+      @include typography.main-font-weight-bold;
+      text-decoration: none;
+
+      &,
+      &:link,
+      &:visited {
+        @include colour.colour-font("font-base");
+      }
+    }
+
+    &:not(#{&}--plain):not(#{&}--current) {
+      background-color: rgb(255 255 255 / 15%);
+
+      // @include colour.colour-border("keyline");
+
+      &:hover {
+        @include typography.interacted-text-decoration;
+
+        // @include colour.colour-background("background");
+      }
+    }
+
+    &--current {
+      @include colour.plain;
+
+      @include colour.colour-background("background");
+
+      @include colour.colour-border("accent-background");
+    }
+
+    &--plain {
+      padding-right: spacing.space(0.5);
+      padding-left: spacing.space(0.5);
+    }
+  }
+
+  @include media.on-mobile {
+    gap: spacing.space(0.5);
+
+    @include typography.font-size(16);
+
+    &__item-link {
+      padding: spacing.space(0.25) spacing.space(0.5);
+    }
+  }
+
+  @include media.on-tiny {
+    @include typography.font-size(14);
+
+    &__item-link {
+      padding-right: spacing.space(0.25);
+      padding-left: spacing.space(0.25);
+    }
+  }
+}
+
+mark {
+  // @include colour.accent-background;
+
+  // a &,
+  // a:link & {
+  //   @include colour.colour-font("link");
+  // }
+
+  // a:visited & {
+  //   @include colour.colour-font("link-visited");
+  // }
+
+  @include colour.accent;
+
+  a &,
+  a:link &,
+  a:visited & {
+    @include colour.colour-font("font-base");
+  }
+}
+
+.etna-featured-search {
+  height: 100%;
+
+  box-sizing: border-box;
+
+  @include colour.colour-border("accent-background", 0.125rem);
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: spacing.space(1);
+  }
+
+  &__list-item {
+    p {
+      margin-top: 0;
+    }
+  }
+}
+
+.etna-search-buckets {
+  margin-top: spacing.space(2);
+
+  display: flex;
+  gap: spacing.space(1);
+
+  list-style: none;
+
+  &__item {
+    flex: 1;
+  }
+
+  &__button {
+    width: 100%;
+    height: 100%;
+    padding: spacing.space(0.5);
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: stretch;
+    justify-content: center;
+
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    text-align: center;
+
+    background-color: transparent;
+
+    @include colour.colour-border("keyline-dark", 1px);
+
+    cursor: pointer;
+
+    @include media.on-mobile {
+      @include typography.font-size(16);
+    }
+
+    &--current {
+      @include colour.accent;
+
+      @include colour.colour-background("accent-background");
+    }
+  }
+
+  &__name {
+    @include colour.colour-font("link");
+    @include typography.main-font-weight-bold;
+    line-height: 1.5;
+    text-decoration: underline;
+  }
+
+  &__button:hover &__name {
+    @include typography.interacted-text-decoration;
+  }
+
+  &__meta {
+    display: block;
+
+    @include colour.colour-font("base-font");
+    @include typography.font-size(14);
+  }
+
+  @include media.on-mobile {
+    flex-direction: column;
+    gap: spacing.space(0.5);
+
+    &__button {
+      padding-top: spacing.space(0.25);
+      padding-bottom: spacing.space(0.25);
+
+      flex-direction: row;
+      align-items: center;
+      gap: spacing.space(2);
+
+      text-align: left;
+    }
+
+    &__name {
+      flex: 1;
+    }
+  }
+}
+
+.etna-search-sort-view {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+
+  .tna-form__group-contents {
+    flex: 1;
+  }
+
+  .tna-form__group--inline,
+  .tna-button-group {
+    flex-direction: row;
+  }
+
+  .tna-button-group {
+    gap: spacing.space(0.25);
+  }
+
+  .tna-form__group--inline + .tna-button-group {
+    margin-left: spacing.space(0.5);
+    margin-top: 0;
+  }
+}
+
+.etna-search-sidebar {
+  &__expand-button {
+    width: 100%;
+
+    display: none;
+  }
+
+  @include media.on-mobile {
+    &__expand-button {
+      display: block;
+    }
+
+    &__content {
+      display: none;
+
+      &--expanded {
+        display: block;
+      }
+    }
+  }
+
+  .tna-aside {
+    margin-top: 1rem;
+
+    @include colour.colour-border("keyline", 1px);
+  }
+}
+
+.etna-search-result {
+  &__description,
+  .tna-card__body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.etna-ul-hierarchy {
+  $hierarchy-keyline-width: 1.5px;
+
+  list-style: none;
+
+  ul {
+    margin-left: spacing.space(0.5);
+
+    list-style: none;
+
+    li {
+      padding-left: spacing.space(1);
+
+      position: relative;
+
+      &::before,
+      &::after {
+        display: block;
+
+        position: absolute;
+
+        @include colour.colour-background("keyline");
+
+        content: "";
+      }
+
+      &::before {
+        width: $hierarchy-keyline-width;
+
+        top: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      &::after {
+        width: 0.5rem;
+        height: $hierarchy-keyline-width;
+
+        top: 1rem;
+        left: $hierarchy-keyline-width;
+      }
+
+      &:last-child {
+        &::before {
+          height: calc(1rem + $hierarchy-keyline-width);
+
+          bottom: auto;
+        }
+      }
+    }
+  }
+}

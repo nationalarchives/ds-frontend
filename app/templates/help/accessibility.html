@@ -1,0 +1,86 @@
+{% extends 'layouts/page-with-contents-sidebar.html' %}
+
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{%- set themeAccent = 'blue' -%}
+{%- set pageTitle = 'Accessibility' -%}
+
+{% block beforeContent %}
+<div class="tna-container">
+  <div class="tna-column tna-column--full">
+    {{ tnaBreadcrumbs({
+      'items': [
+        {
+          'text': 'Home',
+          'href': '/'
+        },
+        {
+          'text': 'Help',
+          'href': url_for('help.index')
+        }
+      ],
+      'structuredData': True
+    }) }}
+  </div>
+</div>
+{% endblock %}
+
+{% block contentHeader %}
+<hgroup class="tna-hgroup-xl">
+  <p class="tna-hgroup__supertitle">Help</p>
+  <h1 class="tna-hgroup__title">Accessibility at The National Archives</h1>
+</hgroup>
+<p class="tna-large-paragraph">We are continually working to improve the accessibility of our digital services, and to develop our skills in relevant standards and techniques.</p>
+{% endblock %}
+
+{% block content %}
+<h2 id="intro" class="tna-heading-l">Accessibility statement</h2>
+<p>This statement applies to content published sites under the <strong>nationalarchives.gov.uk</strong> domain.</p>
+<p>This website is run by The National Archives Digital Services team. We want as many people as possible to be able to use this website. For example, that means you should be able to:</p>
+<ul class="tna-ul">
+  <li>change colours, contrast levels and fonts using browser or device settings</li>
+  <li>zoom in up to 400% without problems</li>
+  <li>navigate most of the website using just a keyboard</li>
+  <li>navigate most of the website using just a mouse and on-screen keyboard</li>
+  <li>navigate most of the website using speech recognition software</li>
+  <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
+</ul>
+<p>We’ve also made the website text as simple as possible to understand.</p>
+<p>AbilityNet has <a href="https://mcmw.abilitynet.org.uk/">advice on making your device easier to use</a> if you have a disability.</p>
+<h2 id="feedback-and-contact-information" class="tna-heading-l">Feedback and contact information</h2>
+<p>The National Archives Design System team is always looking to improve the accessibility of this website. If you find any problems that are not listed on this page or think this website is not meeting accessibility requirements, email us at <a href="mailto:webmaster@nationalarchives.gov.uk">webmaster@nationalarchives.National Archives</a>.</p>
+<p>The National Archives Design System team will review your request and get back to you in 2 working days.</p>
+<h2 id="enforcement-procedure" class="tna-heading-l">Enforcement procedure</h2>
+<p>The National Archives Digital Service Team is committed to making its websites accessible, in accordance with the <a href="https://www.legislation.gov.uk/uksi/2018/952/contents">Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018</a>.</p>
+<p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you contact us with a complaint and you’re not happy with our response, <a href="https://www.equalityadvisoryservice.com/">contact the Equality Advisory and Support Service (EASS)</a>.</p>
+<h2 id="compliance-status" class="tna-heading-l">Compliance status</h2>
+<p>TODO</p>
+<h2 id="non-accessible-content" class="tna-heading-l">Non-accessible content</h2>
+<p>TODO</p>
+<h3 id="non-compliance-with-the-accessibility-regulations" class="tna-heading-m">Non-compliance with the accessibility regulations</h3>
+<p>These accessibility concerns have been classified as being non-compliant, due to a failure in one or more WCAG 2.2 Level A and AA criteria.</p>
+<p>TODO</p>
+<h3 id="disproportionate-burden" class="tna-heading-m">Disproportionate burden</h3>
+<p>We do not currently make any claims of disproportionate burden for any of our services.</p>
+<h3 id="content-thats-not-within-the-scope-of-the-accessibility-regulations" class="tna-heading-m">Content that’s not within the scope of the accessibility regulations</h3>
+<p>TODO</p>
+<h3 id="other-identified-and-tracked-accessibility-concerns" class="tna-heading-m">Other identified and tracked accessibility concerns</h3>
+<p>Above and beyond non-compliant content, we also track accessibility concerns which:</p>
+<ul class="tna-ul">
+  <li>show strong evidence of being accessibility barriers</li>
+  <li>do not constitute a failure in one or more WCAG 2.1 Level AA criteria</li>
+  <li>are not classified as non-compliance with the accessibility regulations</li>
+  <li>are determined as worth featuring in this accessibility statement</li>
+</ul>
+<p>TODO</p>
+<h2 id="testing-our-products-for-accessibility" class="tna-heading-l">Testing our products for accessibility</h2>
+<p>TODO</p>
+<h2 id="how-the-national-archives-design-system-team-makes-their-websites-accessible" class="tna-heading-l">How the National Archives Design System team makes their websites accessible</h2>
+<p>The National Archives Design System team works to make sure the Design System and Frontend websites, and the codebase they use, are accessible.</p>
+<p>Where possible, the team aims to research components and patterns with a representative range of users, including those with disabilities.</p>
+<p>We also test components to make sure they work with a broad range of browsers, devices and assistive technologies — including screen magnifiers, screen readers and speech recognition tools.</p>
+<p>When we publish new content, we’ll continue to make sure that it meets accessibility standards.</p>
+<h2 id="preparation-of-this-accessibility-statement" class="tna-heading-l">Preparation of this accessibility statement</h2>
+<p>This statement was prepared on <time datetime="2024-06-04">4 June 2024</time>. It was last reviewed on <time datetime="2024-06-04">4 June 2024</time>.</p>
+{% endblock %}

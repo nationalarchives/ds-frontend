@@ -1,0 +1,161 @@
+{% extends 'layouts/page-with-sidebar-right.html' %}
+
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/radios/macro.html' import tnaRadios -%}
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+
+{%- set themeAccent = 'blue' -%}
+{%- set pageTitle = 'Cookies' -%}
+
+{% block beforeContent %}
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': [
+          {
+            'text': 'Home',
+            'href': '/'
+          },
+          {
+            'text': 'Legal',
+            'href': url_for('legal.index')
+          }
+        ],
+        'structuredData': True
+      }) }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block contentHeader %}
+<hgroup class="tna-hgroup-xl">
+  <p class="tna-hgroup__supertitle">Legal</p>
+  <h1 class="tna-hgroup__title">Cookies</h1>
+</hgroup>
+<p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
+<p>We use cookies to collect and store information about how you use National Archives websites which means any page with nationalarchives.gov.uk in the URL.</p>
+<p>This page has a brief explanation of each type of cookie we use. If you want more details, <a href="{{ url_for('legal.cookie_details') }}">our detailed cookie information</a>.</p>
+{% endblock %}
+
+{% block content %}
+<form method="post" action="{{ url_for('legal.cookies') }}" id="cookie-settings">
+  <div class="tna-aside tna-accent-green tna-background-accent" role="alert" id="cookie-settings-success"{% if request.args.saved == 'true' %} tabindex="-1" autofocus{% else %} hidden{% endif %}>
+    <h2 class="tna-heading-l">Success</h2>
+    <p>Your cookie settings were saved.</p>
+    {% if request.args.referrer and request.args.referrer != request.base_url %}
+    <p>
+      <a href="{{ request.args.referrer }}">Go back to the page you were looking at</a>
+    </p>
+    {% endif %}
+  </div>
+  <h2 class="tna-heading-l">Cookie settings</h2>
+  <p>We use three types of cookie. You can choose which cookies you’re happy for us to use.</p>
+  {{ tnaRadios({
+    'label': 'Cookies that measure website use',
+    'headingLevel': 3,
+    'headingSize': 'm',
+    'hintHtml': '<p>We use Google Analytics cookies to measure how you use National Archives websites.</p><p>These cookies collect information about:</p><ul class="tna-ul"><li>how you got to these sites</li><li>the pages you visit and how long you spend on each page</li><li>what you click on while you’re visiting these sites</li></ul><p>We do not allow Google to use or share this data for their own purposes.</p>',
+    'id': 'usage',
+    'name': 'usage',
+    'items': [
+      {
+        'text': 'Use cookies that measure my website use',
+        'value': 'true'
+      },
+      {
+        'text': 'Do not use cookies that measure my website use',
+        'value': 'false'
+      }
+    ],
+    'selected': 'true' if cookie_preference('usage') else 'false'
+  }) }}
+  {{ tnaRadios({
+    'label': 'Cookies that remember your settings',
+    'headingLevel': 3,
+    'headingSize': 'm',
+    'hint': 'These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.',
+    'id': 'settings',
+    'name': 'settings',
+    'items': [
+      {
+        'text': 'Use cookies that remember my settings on the site',
+        'value': 'true'
+      },
+      {
+        'text': 'Do not use cookies that remember my settings on the site',
+        'value': 'false'
+      }
+    ],
+    'selected': 'true' if cookie_preference('settings') else 'false'
+  }) }}
+  <h3 class="tna-heading-m">Strictly necessary cookies</h3>
+  <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
+  <p>They always need to be on.</p>
+  <input type="hidden" name="referrer" value="{{ request.referrer }}">
+  <div class="tna-button-group">
+    {{ tnaButton({
+      'text': 'Save changes',
+      'buttonElement': True,
+      'buttonType': 'submit'
+    }) }}
+  </div>
+</form>
+{% endblock %}
+
+{% block contentSidebar %}
+<div class="etna-sidebar etna-sidebar--right">
+  {{ tnaSidebar({
+    'heading': 'Related content',
+    'headingLevel': 2,
+    'items': [
+      {
+        'text': 'Fair and reasonable use',
+        'href': '#'
+      },
+      {
+        'text': 'Use of bulk downloads and web crawlers',
+        'href': '#'
+      },
+      {
+        'text': 'Privacy notice',
+        'href': '#'
+      },
+      {
+        'text': 'Copyright',
+        'href': '#'
+      },
+      {
+        'text': 'Takedown and reclosure policy',
+        'href': '#'
+      },
+      {
+        'text': 'Record copying',
+        'href': '#'
+      },
+      {
+        'text': 'Booking events and visits',
+        'href': '#'
+      },
+      {
+        'text': 'User participation',
+        'href': '#'
+      },
+      {
+        'text': 'Our fees',
+        'href': '#'
+      },
+      {
+        'text': 'Information we collect online',
+        'href': '#'
+      }
+    ],
+    'type': 'pages'
+  }) }}
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+<script src="{{ url_for('static', filename='cookies.min.js') }}" defer></script>
+{% endblock %}

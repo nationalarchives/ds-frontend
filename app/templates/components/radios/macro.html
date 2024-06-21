@@ -1,0 +1,41 @@
+{# Allows for hint text to be HTML #}
+
+{% macro tnaRadios(params) %}
+{%- set containerClasses = [params.classes] if params.classes else [] -%}
+{%- if params.inline -%}
+  {%- set containerClasses = containerClasses + ['tna-form__group--inline'] -%}
+{%- endif -%}
+<div class="tna-form__group{% if params.error %} tna-form__group--error{% endif %} {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+  <fieldset class="tna-form__fieldset"{%- if params.hint or params.error %} aria-describedby="{%- if params.hint -%}{{ params.id }}-hint{%- endif %} {% if params.error -%}{{ params.id }}-error{%- endif -%}"{%- endif %}>
+    <legend class="tna-form__legend">
+      <h{{ params.headingLevel }} class="tna-form__heading tna-form__heading--{{ params.headingSize or 'm' }}">
+        {{ params.label }}
+      </h{{ params.headingLevel }}>
+    </legend>
+    {%- if params.hint %}
+    <p id="{{ params.id }}-hint" class="tna-form__hint">
+      {{ params.hint }}
+    </p>
+    {%- elif params.hintHtml %}
+    <div id="{{ params.id }}-hint" class="tna-form__hint">
+      {{ params.hintHtml | safe }}
+    </div>
+    {%- endif %}
+    {%- if params.error %}
+    <p id="{{ params.id }}-error" class="tna-form__error-message">
+      <span class="tna-!--visually-hidden">Error:</span> {{ params.error.text }}
+    </p>
+    {%- endif %}
+    <div class="tna-radios{% if params.small or params.inline %} tna-radios--small{% endif %}{% if params.inline %} tna-radios--inline{% endif %}" id="{{ params.id }}">
+      {%- for item in params['items'] %}
+      <div class="tna-radios__item">
+        <input type="radio" id="{{ params.id }}-{{ item.value }}" value="{{ item.value }}" name="{{ params.name }}"{% if params.selected and item.value == params.selected %} checked{% endif %}>
+        <label for="{{ params.id }}-{{ item.value }}" class="tna-radios__item-label">
+          {{ item.text }}
+        </label>
+      </div>
+      {%- endfor %}
+    </div>
+  </fieldset>
+</div>
+{% endmacro %}

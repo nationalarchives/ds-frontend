@@ -1,0 +1,89 @@
+{# Adds schema.org markup #}
+
+{% macro tnaHero(params) %}
+{% from "components/button/macro.html" import tnaButton %}
+
+{%- set containerClasses = [params.classes] if params.classes else [] -%}
+{%- if params.style == "contrast" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-contrast'] -%}
+{%- elif params.style == "tint" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
+{%- elif params.style == "accent" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
+{%- endif -%}
+{%- if params.layout == "shift" -%}
+  {%- set containerClasses = containerClasses + ['tna-hero--shift'] -%}
+{%- elif params.layout == "split" -%}
+  {%- set containerClasses = containerClasses + ['tna-hero--split'] -%}
+{%- endif -%}
+{%- if params.narrow -%}
+  {%- set containerClasses = containerClasses + ['tna-hero--narrow'] -%}
+{%- endif -%}
+{% set hasContent = params.title or params.body or params.text %}
+<{{ 'header' if hasContent else 'div' }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
+  <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+    {%- if params.imageCaption -%}
+    <figcaption class="tna-hero__caption">
+      <details class="tna-hero__details">
+        <summary class="tna-hero__details-summary" title="About this image">
+          About this <span class="tna-hero__details-summary-icon">i</span>mage
+        </summary>
+        <div class="tna-hero__information" itemprop="description">
+          {{ params.imageCaption | safe }}
+        </div>
+      </details>
+    </figcaption>
+    {%- endif -%}
+    <picture class="tna-hero__image">
+      {%- if params.imageSources -%}
+      {%- for source in params.imageSources %}
+      <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else params.imageWidth }}" height="{{ source.height if source.height else params.imageHeight }}"{% if source.media %} media="{{ source.media }}"{% endif %}>
+      {%- endfor %}
+      {%- endif -%}
+      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}" itemprop="contentUrl">
+    </picture>
+    {%- if hasContent -%}
+    <div class="tna-container tna-hero__inner">
+      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-hero__content">
+        <div class="tna-hero__content-inner">
+          {%- if params.title %}
+          {%- if params.supertitle %}
+          <hgroup class="tna-hgroup-{{ params.headingSize or 'xl' }} tna-hero__heading">
+            <p class="tna-hgroup__supertitle{% if params.plainSupertitle %} tna-hgroup__supertitle--plain{% endif %}">{{ params.supertitle }}</p>
+            <h{{ params.headingLevel or '1' }} class="tna-hgroup__title" itemprop="name">
+              {{ params.title }}
+            </h{{ params.headingLevel or '1' }}>
+          </hgroup>
+          {%- else %}
+          <h{{ params.headingLevel or '1' }} class=" tna-heading-{{ params.headingSize or 'xl' }} tna-hero__heading" itemprop="name">
+            {{ params.title }}
+          </h{{ params.headingLevel or '1' }}>
+          {%- endif %}
+          {%- endif %}
+          {%- if params.text %}
+            <p>{{ params.text }}</p>
+          {%- else %}
+            {{ params.body | safe }}
+          {%- endif %}
+          {%- if params.actions %}
+          <div class="tna-button-group tna-hero__actions">
+            {%- for item in params.actions %}
+            {{ tnaButton({
+              'text': item.text,
+              'href': item.href,
+              'title': item.title,
+              'icon': item.icon,
+              'rightAlignIcon': item.rightAlignIcon,
+              'classes': item.classes,
+              'attributes': item.attributes
+            }) }}
+            {%- endfor %}
+          </div>
+          {%- endif %}
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+  </figure>
+</{{ 'header' if hasContent else 'div' }}>
+{% endmacro %}

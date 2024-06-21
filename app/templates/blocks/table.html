@@ -1,0 +1,33 @@
+{%- set body_start_row = 0 %}
+<div class="tna-table-wrapper">
+  <table class="tna-table">
+    {% if data.table_caption %}
+    <caption class="tna-table__caption">
+      {{ data.table_caption }}
+    </caption>
+    {% endif %}
+    {% if data.first_row_is_table_header %}
+    {%- set body_start_row = 1 %}
+    <thead class="tna-table__head">
+      <tr class="tna-table__row">
+        {% for cell in data.data[0] %}
+        <th class="tna-table__header">{{ cell }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody class="tna-table__body">
+      {% for row in data.data[body_start_row:] %}
+      <tr class="tna-table__row">
+        {% for cell in row %}
+        {% if loop.index == 1 and data.first_col_is_header %}
+        <th class="tna-table__header">{{ cell }}</th>
+        {% else %}
+        <td class="tna-table__cell">{{ cell }}</td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

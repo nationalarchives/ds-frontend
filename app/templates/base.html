@@ -1,0 +1,272 @@
+{%- extends 'layouts/base.html' -%}
+
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
+{%- from 'components/footer/macro.html' import tnaFooter -%}
+{%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
+{%- from 'components/header/macro.html' import tnaHeader -%}
+{%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
+
+{%- set theme = request.cookies.get('theme') or 'light' -%}
+{%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
+{%- set htmlAttributes = {
+  'data-generated': now_iso_8601(),
+  'data-ga4id': app_config.GA4_ID or "",
+  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ""
+} -%}
+
+{% block headIcons %}
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
+    <link rel="apple-touch-icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="96x96" href="{{ url_for('static', filename='assets/images/icon-96x96.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='assets/images/icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='assets/images/icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='assets/images/icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='assets/images/icon-167x167.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='assets/images/icon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
+    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
+{% endblock %}
+
+{% block head %}
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="tna.view.theme" content="{{ theme }}">
+    <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="preconnect" href="https://use.typekit.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}">
+{% endblock %}
+
+{% block cookies %}
+{% if not page_data or not page_data.page_preview %}
+{% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
+{{ tnaCookieBanner({
+  'serviceName': 'The National Archives',
+  'cookiesUrl': url_for('legal.cookies'),
+  'cookiesDomain': app_config.COOKIE_DOMAIN
+}) }}
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block header %}
+{{ tnaPhaseBanner({
+  'phase': 'Alpha',
+  'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
+  'classes': 'tna-background-contrast'
+}) }}
+{{ tnaGlobalHeader({
+  'logo': {
+    'href': 'https://www.nationalarchives.gov.uk/',
+    'title': 'The National Archives home page'
+  },
+  'topNavigation': [
+    {
+      'text': 'Search',
+      'href': 'https://www.nationalarchives.gov.uk/search/',
+      'icon': 'search'
+    },
+    {
+      'text': 'Shop',
+      'href': 'https://shop.nationalarchives.gov.uk/',
+      'icon': 'shop'
+    },
+  ],
+  'navigation': [
+    {
+      'text': 'Visit',
+      'href': 'https://www.nationalarchives.gov.uk/about/visit-us'
+    },
+    {
+      'text': 'What’s on',
+      'href': 'https://www.nationalarchives.gov.uk/about/visit-us/whats-on/'
+    },
+    {
+      'text': 'Explore the collection',
+      'href': '/explore-the-collection/'
+    },
+    {
+      'text': 'Help using the archive',
+      'href': 'https://www.nationalarchives.gov.uk/help-with-your-research/'
+    },
+    {
+      'text': 'Education',
+      'href': 'https://www.nationalarchives.gov.uk/education/'
+    },
+    {
+      'text': 'Professional guidance and services',
+      'href': 'https://www.nationalarchives.gov.uk/professional-guidance-and-services/'
+    },
+  ]
+}) }}
+{% endblock %}
+
+{% block beforeContent %}
+{% if breadcrumbs and breadcrumbs | length > 0 %}
+<div class="tna-container">
+  <div class="tna-column tna-column--full">
+    {{ tnaBreadcrumbs({
+      'items': breadcrumbs,
+      'structuredData': True
+    }) }}
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+{{ tnaFooter({
+  'themeSelector': True,
+  'social': [
+    {
+      'href': 'https://twitter.com/UKNatArchives',
+      'icon': 'twitter',
+      'title': 'The National Archives X feed (formally known as Twitter)'
+    },
+    {
+      'href': 'https://www.youtube.com/c/TheNationalArchivesUK',
+      'icon': 'youtube',
+      'title': 'The National Archives YouTube channel'
+    },
+    {
+      'href': 'https://www.facebook.com/TheNationalArchives',
+      'icon': 'facebook',
+      'title': 'The National Archives Facebook page'
+    },
+    {
+      'href': 'https://www.flickr.com/photos/nationalarchives',
+      'icon': 'flickr',
+      'title': 'The National Archives Flickr feed'
+    },
+    {
+      'href': 'https://www.instagram.com/nationalarchivesuk/',
+      'icon': 'instagram',
+      'title': 'The National Archives Instagram feed'
+    },
+    {
+      'href': 'https://www.tiktok.com/@uknatarchives',
+      'icon': 'tiktok',
+      'title': 'The National Archives TikTok feed'
+    }
+  ],
+  'navigation': [
+    {
+      'title': 'Quick links',
+      'items': [
+        {
+          'text': 'About us',
+          'href': 'https://www.nationalarchives.gov.uk/about/'
+        },
+        {
+          'text': 'Contact us',
+          'href': 'https://www.nationalarchives.gov.uk/contact-us/'
+        },
+        {
+          'text': 'News',
+          'href': 'https://www.nationalarchives.gov.uk/about/news/'
+        },
+        {
+          'text': 'Blog',
+          'href': 'https://blog.nationalarchives.gov.uk/'
+        },
+        {
+          'text': 'Podcasts',
+          'href': 'https://media.nationalarchives.gov.uk/index.php/category/podcasts-2/'
+        },
+        {
+          'text': 'Image library',
+          'href': 'https://images.nationalarchives.gov.uk/'
+        },
+        {
+          'text': 'Press room',
+          'href': 'https://www.nationalarchives.gov.uk/about/press-room/'
+        },
+        {
+          'text': 'Jobs',
+          'href': 'https://www.nationalarchives.gov.uk/about/jobs/'
+        },
+        {
+          'text': 'British citizenship services',
+          'href': 'https://www.nationalarchives.gov.uk/contact-us/british-citizenship-services/'
+        },
+        {
+          'text': 'Historical Manuscripts Commission',
+          'href': 'https://www.nationalarchives.gov.uk/archives-sector/our-archives-sector-role/historical-manuscripts-commission/'
+        }
+      ]
+    },
+    {
+      'title': 'Other websites',
+      'items': [
+        {
+          'text': 'UK Government Web Archive',
+          'href': 'https://www.nationalarchives.gov.uk/webarchive/'
+        },
+        {
+          'text': 'Legislation.gov.uk',
+          'href': 'https://www.legislation.gov.uk/'
+        },
+        {
+          'text': 'Find case law',
+          'href': 'https://caselaw.nationalarchives.gov.uk/'
+        },
+        {
+          'text': 'The Gazette',
+          'href': 'https://www.thegazette.co.uk/',
+        },
+        {
+          'text': 'The National Archives Trust',
+          'href': 'https://www.nationalarchivestrust.org.uk/'
+        },
+        {
+          'text': 'Friends of The National Archives',
+          'href': 'https://ftna.org.uk/'
+        },
+      ]
+    }
+  ],
+  'showNewsletter': True,
+  'legal': [
+    {
+      'text': 'Accessibility statement',
+      'href': 'https://www.nationalarchives.gov.uk/help/web-accessibility/'
+    },
+    {
+      'text': 'Freedom of information',
+      'href': 'https://www.nationalarchives.gov.uk/about/freedom-of-information/'
+    },
+    {
+      'text': 'Terms and conditions',
+      'href': 'https://www.nationalarchives.gov.uk/legal/'
+    },
+    {
+      'text': 'Privacy policy',
+      'href': 'https://www.nationalarchives.gov.uk/legal/privacy.htm'
+    },
+    {
+      'text': 'Cookies',
+      'href': url_for('legal.cookies')
+    }
+  ],
+  'classes': 'tna-!--margin-top-l'
+}) }}
+{% endblock %}
+
+{% block bodyEnd %}
+{% if app_config.SENTRY_JS %}
+<script src="{{ app_config.SENTRY_JS }}" integrity="sha384-F+LbRhFVfEzSIaf/0nxCFCP4HJ3+bfnpC8KBSfqxOHnf3dMxHiZq09rgRXswF5Jl" crossorigin="anonymous" defer></script>
+{% endif %}
+<script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
+<script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
+{% endblock %}

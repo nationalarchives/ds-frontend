@@ -1,0 +1,58 @@
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
+{%- from 'components/search-field/macro.html' import tnaSearchField -%}
+
+<section class="tna-background-accent">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': [
+          {
+            'text': 'Home',
+            'href': '/'
+          },
+          {
+            'text': 'Search',
+            'href': url_for('search.index')
+          }
+        ],
+        'structuredData': True
+      }) }}
+    </div>
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m-">
+      <form action="{{ search_path or '/search/featured/' }}" method="get" class="tna-!--margin-bottom-m">
+        {{ tnaSearchField({
+          'label': 'All search results',
+          'headingLevel': 1,
+          'headingSize': 'l',
+          'hint': 'Search by keyword, place, person, or catalogue reference',
+          'id': 'search',
+          'name': 'q',
+          'value': query or ''
+        }) }}
+        <input type="hidden" name="view" value="{{ request.args.view if 'view' in request.args else 'list' }}">
+        <input type="hidden" name="group" value="{{ request.args.group if 'group' in request.args else 'tna' }}">
+      </form>
+      <form action="{{ search_path or '/search/featured/' }}" id="search-form" method="get">
+        <input type="hidden" name="q" value="{{ query or '' }}">
+      </form>
+    </div>
+    {% if show_tabs %}
+    <div class="tna-column tna-column--full">
+      <ul class="etna-search-tabs">
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.featured', q=query) if query else url_for('search.featured') }}" class="etna-search-tabs__item-link{{ ' etna-search-tabs__item-link--current' if url_for('search.featured') == request.path }}">All results</a>
+        </li>
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.catalogue', q=query) if query else url_for('search.catalogue') }}" class="etna-search-tabs__item-link{{ ' etna-search-tabs__item-link--current' if url_for('search.catalogue') == request.path }}">Catalogue results</a>
+        </li>
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.website', q=query) if query else url_for('search.website') }}" class="etna-search-tabs__item-link{{ ' etna-search-tabs__item-link--current' if url_for('search.website') == request.path }}">Our website results</a>
+        </li>
+        <li class="etna-search-tabs__item">
+          <a href="{{ url_for('search.index') }}" class="etna-search-tabs__item-link etna-search-tabs__item-link--plain tna-link--no-visited-state">Start new search</a>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</section>

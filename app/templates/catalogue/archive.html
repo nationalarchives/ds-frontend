@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'Search',
+    'href': url_for('search.index')
+  },
+  {
+    'text': 'Catalogue',
+    'href': url_for('search.catalogue')
+  }
+] -%}
+
+{%- set pageTitle = data.name -%}
+
+{% block head %}
+{{ super() }}
+    <meta name="description" content="Record description for {{ data.name }}">
+    <link rel="canonical" href="{{ url_for('catalogue.details', id=data.id, _external=True, _scheme='https') }}">
+{% endblock %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='catalogue.css') }}">
+{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+{%- if request.referrer %}
+<!-- <div class="tna-container">
+  <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+    <div class="tna-button-group tna-button-group--back">
+      {{ tnaButton({
+        'text': 'Back',
+        'href': request.referrer,
+        'icon': 'arrow-left',
+        'plain': True,
+        'small': True
+      }) }}
+    </div>
+  </div>
+</div> -->
+{%- endif %}
+{% endblock %}
+
+{% block content %}
+<section class="tna-container tna-section" itemscope itemtype="https://schema.org/Organization">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">Archive</p>
+      <h1 class="tna-hgroup__title" itemprop="name">{{ data.name }}</h1>
+    </hgroup>
+    <aside class="tna-aside tna-background-tint">
+      <h2 class="tna-heading-l">Contact information</h2>
+      <dl class="tna-dl tna-dl--plain">
+        {%- if address_parts %}
+        <dt>
+          <div class="etna-sticky-dt">Address</div>
+        </dt>
+        <dd>
+          <address class="etna-address" itemprop="address">
+          {%- if data.contact_info.map_url %}
+            <a href="{{ data.contact_info.map_url }}" target="_blank" rel="noopener noreferrer">{{ '<br>'.join(address_parts) | safe }}</a>
+            <!-- <a href="https://www.google.com/maps/search/?api=1&query={{ ', '.join(address_parts) | url_encode }}" target="_blank" rel="noopener noreferrer">{{ '<br>'.join(address_parts) | safe }}</a> -->
+          {%- else %}
+            {{ '<br>'.join(address_parts) | safe }}
+          {%- endif %}
+          </address>
+        </dd>
+        {%- endif %}
+        {%- if data.contact_info.url %}
+        <dt>
+          <div class="etna-sticky-dt">Website</div>
+        </dt>
+        <dd>
+          <a href="{{ data.contact_info.url }}" target="_blank" title="Website for {{ data.name }} (opens in new tab)" rel="noopener noreferrer" itemprop="url">{{ data.contact_info.url }}</a>
+        </dd>
+        {%- endif %}
+        {%- if data.contact_info.email %}
+        <dt>
+          <div class="etna-sticky-dt">Email</div>
+        </dt>
+        <dd>
+          <a href="mailto:{{ data.contact_info.email }}" title="Send an email to {{ data.name }}" itemprop="email">{{ data.contact_info.email }}</a>
+        </dd>
+        {%- endif %}
+        {%- if data.contact_info.phone %}
+        <dt>
+          <div class="etna-sticky-dt">Phone</div>
+        </dt>
+        <dd>
+          <a href="tel:{{ data.contact_info.phone | remove_all_whitespace }}" title="Call {{ data.name }}" itemprop="telephone">{{ data.contact_info.phone }}</a>
+        </dd>
+        {%- endif %}
+        {%- if data.contact_info.fax %}
+        <dt>
+          <div class="etna-sticky-dt">Fax</div>
+        </dt>
+        <dd itemprop="fax">{{ data.contact_info.fax }}</dd>
+        {%- endif %}
+        {%- if data.contact_info.contacts %}
+        <dt>
+          <div class="etna-sticky-dt">Contacts</div>
+        </dt>
+        <dd>
+          <ul class="tna-ul tna-ul--plain">
+            {%- for contact in data.contact_info.contacts %}
+            <li itemprop="contactPoint" itemscope itemtype="https://schema.org/ContactPoint">
+              <span itemprop="name">
+                {{ contact.first_name }} {{ contact.last_name }}
+              </span>
+              {% if contact.job_title %} &mdash; <span itemprop="contactType">{{ contact.job_title }}</span>{% endif %}</li>
+            {%- endfor %}
+          </ul>
+        </dd>
+        {%- endif %}
+      </dl>
+    </aside>
+  </div>
+</section>
+<section class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+    {%- if data.opening_times or data.disabled_access or data.fee or data.appointment %}
+    <h2 class="tna-heading-l">Visiting {{ data.name }}</h2>
+    <dl class="tna-dl tna-dl--plain">
+      {%- if data.opening_times %}
+      <dt>
+        <div class="etna-sticky-dt">Opening times</div>
+      </dt>
+      <dd>{{ data.opening_times | safe }}</dd>
+      {%- endif %}
+      {%- if data.holidays %}
+      <dt>
+        <div class="etna-sticky-dt">Holidays</div>
+      </dt>
+      <dd>{{ data.holidays | safe }}</dd>
+      {%- endif %}
+      {%- if data.disabled_access %}
+      <dt>
+        <div class="etna-sticky-dt">Disabled access</div>
+      </dt>
+      <dd>{{ data.disabled_access | safe }}</dd>
+      {%- endif %}
+      {%- if data.fees %}
+      <dt>
+        <div class="etna-sticky-dt">Fees</div>
+      </dt>
+      <dd>{{ data.fees }}</dd>
+      {%- endif %}
+      {%- if data.tickets %}
+      <dt>
+        <div class="etna-sticky-dt">Tickets</div>
+      </dt>
+      <dd>{{ data.tickets }}</dd>
+      {%- endif %}
+      {%- if data.appointments %}
+      <dt>
+        <div class="etna-sticky-dt">Appointments</div>
+      </dt>
+      <dd>{{ data.appointments }}</dd>
+      {%- endif %}
+    </dl>
+    {%- endif %}
+    <h2 class="tna-heading-l">Key information</h2>
+    <dl class="tna-dl tna-dl--plain">
+      <dt>
+        <div class="etna-sticky-dt">ARCHON code</div>
+      </dt>
+      <dd>{{ data.archon_code }}</dd>
+    </dl>
+    {%- if data.information %}
+    <div class="etna-space-above">
+      {{ data.information | safe }}
+    </div>
+    {%- endif %}
+  </div>
+</section>
+{%- if data.agents %}
+<section class="tna-section tna-!--padding-top-s">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">Collections information</h2>
+      <ul class="tna-ul">
+        {%- for agent in data.agents %}
+        {%- if data.agents[agent] | length %}
+        <li>
+          <a href="#collection-{{ agent }}">{{ agent | capitalize }}</a>
+        </li>
+        {%- endif %}
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- for agent in data.agents %}
+    {%- if data.agents[agent] | length %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+      <h3 class="tna-heading-m tna-!--padding-top-s" id="collection-{{ agent }}">{{ agent | capitalize }} ({{ data.agents[agent] | length | pretty_number }})</h3>
+      <div class="tna-aside tna-aside--tight tna-background-tint tna-border-keyline etna-archive-collections-list">
+        <ul class="tna-ul">
+          {%- for item in data.agents[agent] %}
+          <li>
+            <a href="{{ url_for('catalogue.details', id=item.id) }}">{{ item.name }}</a>
+            {%- if item.places %}
+            {{ ', '.join(item.places) }}
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+    {%- endif %}
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {%- if data.manifestations %}
+      <h3 class="tna-heading-m">Paper catalogues available to view at The National Archives ({{ data.manifestations | length | pretty_number }})</h3>
+      <div class="tna-aside tna-aside--tight tna-background-tint tna-border-keyline etna-archive-collections-list">
+        <ul class="tna-ul">
+          {%- for item in data.manifestations %}
+          <li>
+            NRA {{ item.nra }}
+            <a href="{{ item.url }}">
+              {{ item.title }}
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+      {%- if data.accumulation_dates %}
+      <h3 class="tna-heading-m">Accessions</h3>
+      <p>These are selected lists of new or additional collections that were acquired by this archive during a specific year. If a date is not displayed there are no accessions for that year.</p>
+      <ul class="tna-ul">
+        {%- for year in data.accumulation_dates %}
+        <li>
+          <a href="https://www.nationalarchives.gov.uk/accessions/{{ year }}/{{ year[2:] }}returns/{{ year[2:] }}ac{{ data.archon_code }}.htm">Accessions for {{ year }}</a>
+        </li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+      <h2 class="tna-heading-l">Other finding aids</h2>
+      <ul class="tna-ul">
+        {%- if data.repository_url %}
+        <li>
+          <a href="{{ data.repository_url }}" target="_blank" rel="noopener noreferrer">Repository's catalogue (opens in new window)</a>
+        </li>
+        {%- endif %}
+        <li>
+          <a href="{{ app_config.ARCHIVE_RECORDS_URL }}/{{ id }}">Browse records in Discovery</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

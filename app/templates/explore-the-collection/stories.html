@@ -1,0 +1,148 @@
+{% extends 'explore-the-collection/base.html' %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
+{%- from 'macros/feedback.html' import feedback -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ request.url }}{{ '?page=' + (page | string) if 'page' not in request.args }}">
+{% endblock %}
+
+{% block content %}
+{%- if page == 1 %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+      <div class="tna-large-paragraph tna-!--margin-top-s">
+        {{ page_data.intro | safe }}
+      </div>
+    </div>
+  </div>
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ tnaCard({
+        'supertitle': page_data.featured_article.type_label,
+        'title': page_data.featured_article.title,
+        'href': page_data.featured_article.url,
+        'headingLevel': 2,
+        'headingSize': 'l',
+        'text': page_data.featured_article.teaser_text,
+        'label': 'New' if page_data.featured_article.is_newly_published,
+        'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
+        'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+        'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
+        'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': page_data.featured_article.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': page_data.featured_article.teaser_image.webp.width,
+            'height': page_data.featured_article.teaser_image.webp.height
+          }
+        ],
+        'horizontal': True,
+        'style': 'accent',
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-l'
+      }) }}
+    </div>
+  </div>
+</div>
+{%- for featured_page_group in page_data.featured_pages %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">{{ featured_page_group.value.heading }}</h2>
+      <p class="tna-large-paragraph">{{ featured_page_group.value.description }}</p>
+    </div>
+  </div>
+  <ul class="tna-container tna-ul tna-ul--plain">
+    {%- for page in featured_page_group.value['items'] %}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      {% set card_content = {
+        'supertitle': page.type_label or None,
+        'title': page.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': page.url,
+        'text': page.teaser_text,
+        'label': 'New' if page.is_newly_published,
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-l'
+      } %}
+      {% set card_content = merge_dict_if(card_content, {
+        'imageSrc': page.teaser_image.jpeg.full_url,
+        'imageAlt': page.teaser_image.alt,
+        'imageWidth': page.teaser_image.jpeg.width,
+        'imageHeight': page.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': page.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': page.teaser_image.webp.width,
+            'height': page.teaser_image.webp.height
+          }
+        ]
+      }, page.teaser_image) %}
+      {% set card_content = merge_dict_if(card_content, {
+        'label': 'New'
+      }, page.is_newly_published) %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endfor %}
+{%- endif %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {% if page > 1 %}
+      <h1 class="tna-heading-xl">Stories from the collection</h1>
+      <h2 class="tna-heading-l">Discover all stories, page {{ page }} of {{ pages }}</h2>
+      {% else %}
+      <h2 class="tna-heading-l">Discover all stories</h2>
+      {% endif %}
+      <p class="tna-large-paragraph">Browse and explore the human stories behind The National Archives’ collection.</p>
+    </div>
+  </div>
+  <ul class="tna-container tna-ul tna-ul--plain">
+    {%- for child in children %}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      {{ tnaCard({
+        'supertitle': child.type_label,
+        'title': child.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': child.url,
+        'text': child.teaser_text,
+        'label': 'New' if child.is_newly_published,
+        'imageSrc': child.teaser_image.jpeg.full_url,
+        'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,
+        'imageWidth': child.teaser_image.jpeg.width,
+        'imageHeight': child.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': child.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': child.teaser_image.webp.width,
+            'height': child.teaser_image.webp.height
+          }
+        ],
+        'lazyImage': page == 1,
+        'htmlElement': 'article',
+        'classes': 'tna-!--margin-top-l'
+      }) }}
+    </li>
+    {%- endfor %}
+  </ul>
+  <div class="tna-container">
+    <div class="tna-column tna-column--full tna-!--margin-top-xl">
+      {{ tnaPagination(pagination) }}
+    </div>
+  </div>
+</section>
+{{ feedback() }}
+{% endblock %}

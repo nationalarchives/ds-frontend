@@ -1,0 +1,334 @@
+@use "sass:math";
+
+@use "@nationalarchives/frontend/nationalarchives/variables/grid";
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+html.tna-template
+  .tna-template__body--focused-article
+  .tna-header__navigation-item-link--selected {
+  &,
+  &:hover {
+    @include colour.contrast;
+    @include colour.colour-font("font-base");
+  }
+}
+
+.etna-background-half-top-accent,
+.etna-background-half-top-contrast {
+  position: relative;
+
+  &::before {
+    height: 50%;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    content: "";
+  }
+}
+
+.etna-background-half-top-accent {
+  &::before {
+    @include colour.accent;
+  }
+}
+
+.etna-background-half-top-contrast {
+  &::before {
+    @include colour.contrast;
+  }
+}
+
+.etna-article {
+  &__sidebar {
+    max-height: 100vh;
+    max-height: 100dvh;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    position: sticky;
+    top: 0;
+  }
+
+  &__sidebar-items {
+    width: 100%;
+    margin: 0;
+    padding: spacing.space(0.5);
+
+    box-sizing: content-box;
+    position: relative;
+    left: -#{spacing.space(0.5)};
+
+    flex: 1;
+
+    overflow-y: auto;
+  }
+
+  &__sidebar-item {
+    margin-bottom: spacing.space(0.25);
+    padding: spacing.space(0.25) spacing.space(0.625);
+
+    display: block;
+
+    // text-decoration: none;
+    @include typography.font-size(16);
+
+    &,
+    &:link,
+    &:visited {
+      // @include colour.colour-font("font-base");
+      @include colour.colour-font("link");
+    }
+
+    &--current {
+      @include colour.accent;
+    }
+  }
+
+  &__sections {
+    @include media.on-mobile {
+      &::after {
+        width: 100%;
+
+        display: block;
+
+        @include colour.colour-border("keyline", 1px, solid, bottom);
+
+        content: "";
+      }
+    }
+  }
+
+  &__section {
+    padding-bottom: spacing.space(2);
+
+    &:focus {
+      .tna-template--clicked & {
+        outline: none !important;
+      }
+    }
+
+    @include media.on-larger-than-mobile {
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  &__section-button-header {
+    margin: 0;
+    padding: 0;
+
+    display: none;
+
+    &:first-of-type {
+      margin-top: spacing.space(2);
+    }
+
+    @include media.on-mobile {
+      display: block;
+    }
+  }
+
+  &__section-button-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    @include colour.colour-fill("font-base");
+
+    &--up {
+      display: none;
+    }
+  }
+
+  &__section-button {
+    width: 100%;
+    padding: spacing.space(1) 0 !important;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: spacing.space(2);
+
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    text-align: left;
+
+    background: none;
+
+    border: none;
+    @include colour.colour-border("keyline", 1px, solid, top);
+
+    appearance: none;
+
+    cursor: pointer;
+
+    [aria-expanded="true"] &-icon {
+      &--up {
+        display: block;
+      }
+
+      &--down {
+        display: none;
+      }
+    }
+
+    &-label {
+      flex: 1;
+    }
+
+    &:hover,
+    &:active {
+      .etna-article__section-button-label {
+        @include typography.interacted-text-decoration;
+      }
+    }
+  }
+
+  @include media.on-mobile {
+    &--interactive &__sidebar,
+    &__section--hidden {
+      display: none;
+    }
+
+    &__section-heading {
+      .tna-template--js-enabled & {
+        display: none;
+      }
+    }
+
+    &__section {
+      &:last-of-type {
+        // @include colour.colour-border("keyline", 1px, solid, bottom);
+      }
+    }
+  }
+
+  .tna-featured-records {
+    margin-right: spacing.space(3);
+    margin-left: spacing.space(3);
+
+    @include media.on-mobile {
+      margin-right: spacing.space(1);
+      margin-left: spacing.space(1);
+    }
+  }
+
+  .tna-picture {
+    &__image {
+      box-shadow:
+        0 0.25rem 1rem -0.25rem rgb(0 0 0 / 25%),
+        0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 75%);
+    }
+  }
+}
+
+.tna-hero {
+  .tna-column.tna-column--full > & &__figure {
+    min-height: clamp(12rem, calc(33vw - 12rem), 11.75rem);
+  }
+}
+
+.etna-tilted-image-wrapper {
+  position: relative;
+}
+
+.etna-tilted-image {
+  width: calc(100% - 4rem);
+  $rotate: 10deg;
+  margin-top: #{math.sin($rotate) * 100%};
+  // margin-bottom: -#{(math.sin($rotate) * 100%) * 1.1};
+
+  position: absolute;
+  top: spacing.space(1);
+  left: spacing.space(2);
+
+  transform-origin: 0 0;
+  transform: rotate(-#{$rotate});
+
+  // outline: 0.75rem #fff solid;
+
+  // box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 75%);
+}
+
+.tna-section:has(.etna-tilted-image) {
+  overflow: hidden;
+}
+
+.etna-background-masked-image {
+  position: relative;
+
+  @include colour.contrast;
+  background-color: transparent;
+
+  &__image:first-child {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    z-index: -2;
+
+    + * {
+      margin-top: 0;
+      padding-top: 0;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+
+    background-color: rgb(0 0 0 / 85%);
+    background-blend-mode: multiply;
+
+    content: "";
+  }
+}
+
+.etna-audio {
+  width: 100%;
+  @include spacing.space-above;
+
+  display: block;
+}
+
+.etna-block-list {
+  margin: 0 spacing.space(3);
+
+  display: flex;
+  flex-direction: column;
+  gap: spacing.space(1);
+
+  list-style: none;
+
+  li {
+    padding: spacing.space(1);
+
+    @include colour.colour-background("background-tint");
+
+    @include colour.colour-border("accent-background", 0.375rem, solid, left);
+  }
+
+  @include media.on-medium {
+    margin-right: spacing.space(2);
+    margin-left: spacing.space(2);
+  }
+
+  @include media.on-mobile {
+    margin-right: spacing.space(1);
+    margin-left: spacing.space(1);
+  }
+}

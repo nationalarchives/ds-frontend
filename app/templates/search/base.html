@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/meta.html' import meta -%}
+
+{%- set themeAccent = 'blue' -%}
+{%- set bodyClasses = 'tna-template__body--search' -%}
+
+{% block pageTitle %}Search - {{ super() }}{% endblock %}
+
+{% block stylesheets %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+{{ meta({
+  'title': 'Search for ' + request.args.q if 'q' in request.args else 'Search',
+  'description': 'Search results for ' + request.args.q if 'q' in request.args else ''
+}) }}
+{% endblock %}
