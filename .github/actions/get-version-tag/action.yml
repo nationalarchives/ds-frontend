@@ -8,27 +8,24 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Debug
-      run: |
-        echo "github.ref:                   ${{ github.ref }}"
-        echo "github.ref_name:              ${{ github.ref_name }}"
-        echo "github.event.ref:             ${{ github.event.ref }}"
-      shell: bash
     - id: version-tag
       name: Get tag from branch, tag or release
       run: |
-        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        # VERSION=$(echo "${{ github.event.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,[\./_],-,g')
         echo "Basic version:                $VERSION"
+
         # Strip "v" prefix from tag name
-        [[ "${{ github.ref_type }}" == "tag" ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        [[ "${{ github.ref_type }}" == "tag" ]] && VERSION=$(echo "$VERSION" | sed -e 's/^v//')
         echo "Tag version without v prefix: $VERSION"
-        [[ "${{ github.ref_type }}" == "branch" ]] && VERSION=$(echo "${{ github.ref }}" | sed 's,refs/heads/,,g; s,[\./_],-,g')
-        echo "Branch version:               $VERSION"
+
         CALVER=$(date +%y.%m.%d).${{ github.run_number }}
         echo "Calver:                       $CALVER"
         [ "$VERSION" == "main" ] && VERSION=$CALVER
         # TEMP
         [ "$VERSION" == "proof-of-concept" ] && VERSION=$CALVER
         echo "Final version:                $VERSION"
+
         echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
       shell: bash
