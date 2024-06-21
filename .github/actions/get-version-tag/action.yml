@@ -8,6 +8,12 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Debug
+      run: |
+        echo "github.ref:                   ${{ github.ref }}"
+        echo "github.ref_name:              ${{ github.ref_name }}"
+        echo "github.event.ref:             ${{ github.event.ref }}"
+      shell: bash
     - id: version-tag
       name: Get tag from branch, tag or release
       run: |
