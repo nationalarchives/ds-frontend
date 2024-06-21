@@ -69,3 +69,9 @@
     }
   }
 }
+
+.tna-container {
+  &--align-bottom {
+    align-items: flex-end;
+  }
+}

@@ -1,7 +1,10 @@
 {% extends 'explore-the-collection/base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
+{%- from 'components/search-field/macro.html' import tnaSearchField -%}
+
 {%- from 'macros/feedback.html' import feedback -%}
 
 {% block head %}
@@ -44,6 +47,37 @@
   {%- endif %}
   {%- endfor %}
 </section>
+
+<section class="tna-section tna-accent-blue">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <div class="tna-background-accent tna-!--padding-bottom-m">
+        <div class="tna-container tna-container--align-bottom">
+          <div class="tna-column tna-column--flex-1 tna-!--padding-top-m">
+            <form method="get" action="{{ config.SEARCH_DISCOVERY_URL }}">
+              {{ tnaSearchField({
+                'label': 'Search our catalogue',
+                'headingLevel': 2,
+                'headingSize': 'l',
+                'hint': 'Search by keyword, place, person, or catalogue reference',
+                'id': 'search-catalogue',
+                'name': '_q'
+              }) }}
+            </form>
+          </div>
+          <div class="tna-column tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+            {{ tnaButton({
+              'text': 'Advanced search',
+              'href': '#',
+              'plain': True
+            }) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -114,5 +148,7 @@
     </div>
   </div>
 </section>
+
 {{ feedback() }}
+
 {% endblock %}
