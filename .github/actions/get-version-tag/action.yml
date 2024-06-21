@@ -17,7 +17,7 @@ runs:
 
         # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-        VERSION=$(echo "${{ github.event.ref }}" | sed -e 's,[\./_],-,g')
+        VERSION=$(echo "${{ github.ref_name }}" | sed -e 's,/,-,g')
         echo "Basic version:                $VERSION"
 
         # Strip "v" prefix from tag name
