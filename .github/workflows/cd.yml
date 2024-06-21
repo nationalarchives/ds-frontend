@@ -3,10 +3,6 @@ name: Build and deploy
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
-      - proof-of-concept # TEMP
-      - 'feature/**'
 
 concurrency:
   group: cd-${{ github.ref }}
@@ -32,7 +28,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get tag
         id: version-tag
-        # uses: ./.github/actions/get-version-tag
         uses: nationalarchives/ds-docker-actions/.github/actions/get-version-tag@main
     outputs:
       version: ${{ steps.version-tag.outputs.version-tag }}
@@ -49,7 +44,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Docker image
-        # uses: ./.github/actions/docker-build
         uses: nationalarchives/ds-docker-actions/.github/actions/docker-build@main
         with:
           version: ${{ needs.version.outputs.version }}
