@@ -51,8 +51,8 @@ jobs:
         uses: ./.github/actions/docker-build
         with:
           version: ${{ needs.version.outputs.version }}
-          latest: ${{ github.ref == 'refs/heads/main' }}
-          # latest: ${{ github.ref == 'refs/heads/proof-of-concept' }} # TEMP
+          # latest: ${{ github.ref == 'refs/heads/main' }}
+          latest: ${{ github.ref == 'refs/heads/proof-of-concept' }} # TEMP
           github-token: ${{ secrets.GITHUB_TOKEN }}
           docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
 
