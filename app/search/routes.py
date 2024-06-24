@@ -35,7 +35,7 @@ def catalogue():
     query = request.args["q"] if "q" in request.args else ""
     page = (
         int(request.args["page"])
-        if "page" in request.args and isinstance(request.args["page"], int)
+        if "page" in request.args and request.args["page"].isnumeric()
         else 1
     )
     group = request.args["group"] if "group" in request.args else "tna"
@@ -72,7 +72,7 @@ def website():
     query = request.args["q"] if "q" in request.args else ""
     page = (
         int(request.args["page"])
-        if "page" in request.args and isinstance(request.args["page"], int)
+        if "page" in request.args and request.args["page"].isnumeric()
         else 1
     )
     args = parse_args(request.args)
