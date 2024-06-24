@@ -33,7 +33,11 @@ def featured():
 @cache.cached(key_prefix=cache_key_prefix)
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
-    page = int(request.args["page"]) if "page" in request.args else 1
+    page = (
+        int(request.args["page"])
+        if "page" in request.args and isinstance(request.args["page"], int)
+        else 1
+    )
     group = request.args["group"] if "group" in request.args else "tna"
     args = parse_args(request.args)
     records_api = RecordsAPI()
@@ -66,7 +70,11 @@ def catalogue():
 @cache.cached(key_prefix=cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
-    page = int(request.args["page"]) if "page" in request.args else 1
+    page = (
+        int(request.args["page"])
+        if "page" in request.args and isinstance(request.args["page"], int)
+        else 1
+    )
     args = parse_args(request.args)
     articles_api = ArticlesAPI()
     articles_api.params = (

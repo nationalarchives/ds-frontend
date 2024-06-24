@@ -7,7 +7,11 @@ from flask import current_app, render_template, request
 
 def article_index_page(page_data):
     children_per_page = 12
-    page = int(request.args.get("page")) if "page" in request.args else 1
+    page = (
+        int(request.args.get("page"))
+        if "page" in request.args and isinstance(request.args["page"], int)
+        else 1
+    )
     try:
         children_data = page_children_paginated(
             page_data["id"], page, children_per_page
