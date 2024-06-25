@@ -37,8 +37,8 @@ def create_app(config_class):
             dsn=app.config["SENTRY_DSN"],
             environment=app.config["ENVIRONMENT"],
             release=(
-                f"ds-etna-frontend@{app.config['VERSION']}"
-                if app.config["VERSION"]
+                f"ds-etna-frontend@{app.config['BUILD_VERSION']}"
+                if app.config["BUILD_VERSION"]
                 else ""
             ),
             sample_rate=app.config["SENTRY_SAMPLE_RATE"],
