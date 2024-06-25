@@ -237,6 +237,7 @@
   </aside>
 
   {%- elif content_item.type == 'media' %}
+  {%- if content_item.value.media.type == 'audio' %}
   <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
     <div class="tna-aside etna-background-masked-image">
       <img src="{{ content_item.value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
@@ -262,6 +263,9 @@
       </div>
     </div>
   </aside>
+  {%- elif content_item.value.media.type == 'video' %}
+  <h1 class="tna-heading-xl">======= VIDEO =======</h1>
+  {%- endif %}
 
   {%- else %}
   <h1 class="tna-heading-xl">======= {{ content_item.type }} =======</h1>
