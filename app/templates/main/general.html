@@ -11,8 +11,23 @@
 {{ meta(page_data) }}
 {% endblock %}
 
+{% block beforeContent %}
+{% if breadcrumbs and breadcrumbs | length > 0 %}
+<div class="tna-background-accent">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': breadcrumbs,
+        'structuredData': True
+      }) }}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
 {% block content %}
-<div class="tna-section">
+<div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
