@@ -6,7 +6,7 @@ from app.lib.util import strtobool
 class Base(object):
     ENVIRONMENT = os.environ.get("ENVIRONMENT", "production")
 
-    IMAGE_VERSION = os.environ.get("IMAGE_VERSION", "")
+    VERSION = os.environ.get("IMAGE_VERSION", "")
 
     SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
