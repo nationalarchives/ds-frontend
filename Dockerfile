@@ -1,11 +1,11 @@
 ARG IMAGE=ghcr.io/nationalarchives/tna-python
 ARG IMAGE_TAG=latest
-ARG IMAGE_VERSION
 
 FROM "$IMAGE":"$IMAGE_TAG"
 
 ENV NPM_BUILD_COMMAND=compile
-ENV IMAGE_VERSION=$IMAGE_VERSION
+ARG BUILD_VERSION
+ENV BUILD_VERSION="$BUILD_VERSION"
 
 # Copy in the application code
 COPY --chown=app . .
