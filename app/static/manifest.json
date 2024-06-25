@@ -1,6 +1,7 @@
 {
   "short_name": "National Archives",
   "name": "The National Archives",
+  "description": "We are a non-ministerial department, and the official archive and publisher for the UK Government, and for England and Wales.",
   "theme_color": "#010101",
   "icons": [
     {
@@ -83,10 +84,24 @@
     }
   ],
   "id": "/?source=pwa",
-  "start_url": "/?source=pwa",
+  "start_url": "/explore-the-collection/?source=pwa",
   "scope": "/",
   "display": "minimal-ui",
-  "background_color": "#010101",
+  "background_color": "#f4f4f4",
   "dir": "ltr",
-  "lang": "en"
+  "lang": "en",
+  "shortcuts" : [
+    {
+      "name": "Search",
+      "url": "/search/"
+    },
+    {
+      "name": "Explore the collection",
+      "url": "/explore-the-collection/"
+    },
+    {
+      "name": "Help using the archive",
+      "url": "/help-with-your-research/"
+    }
+  ]
 }
