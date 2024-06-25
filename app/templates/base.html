@@ -264,8 +264,8 @@
 {% endblock %}
 
 {% block bodyEnd %}
-{% if app_config.SENTRY_JS %}
-<script src="{{ app_config.SENTRY_JS }}" integrity="sha384-F+LbRhFVfEzSIaf/0nxCFCP4HJ3+bfnpC8KBSfqxOHnf3dMxHiZq09rgRXswF5Jl" crossorigin="anonymous" defer></script>
+{% if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
+<script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" defer></script>
 {% endif %}
 <script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
 <script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>

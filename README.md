@@ -25,8 +25,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CONFIG`                | The configuration to use                                                  | `config.Production`                                         |
 | `DEBUG`                 | If true, allow debugging[^1]                                              | `False`                                                     |
 | `SENTRY_DSN`            | The Sentry DSN (project code)                                             | _none_                                                      |
+| `SENTRY_JS_ID`          | The ID of the Sentry client project to catch issues                       | _none_                                                      |
 | `SENTRY_SAMPLE_RATE`    | How often to sample traces and profiles (0-1.0)                           | production: `0.1`, staging: `0.25`, develop: `1`, test: `0` |
-| `SENTRY_JS`             | The JS file from Sentry to catch issues                                   | _none_                                                      |
 | `WAGTAIL_API_URL`       | The base URL of the content API, including the `/api/v2` path             | _none_                                                      |
 | `SEARCH_API_URL`        | The base URL of the search API                                            | _none_                                                      |
 | `COOKIE_DOMAIN`         | The domain to save cookie preferences against                             | _none_                                                      |

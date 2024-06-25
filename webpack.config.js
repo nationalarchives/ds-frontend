@@ -4,6 +4,7 @@ module.exports = {
   entry: {
     main: "./src/scripts/main.js",
     analytics: "./src/scripts/analytics.js",
+    sentry: "./src/scripts/sentry.js",
     article: "./src/scripts/article.js",
     cookies: "./src/scripts/cookies.js",
     search: "./src/scripts/search.js",

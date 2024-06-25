@@ -11,7 +11,8 @@
     "test:lint": "prettier --check src && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.1.64"
+    "@nationalarchives/frontend": "0.1.64",
+    "@sentry/browser": "^8.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.11",

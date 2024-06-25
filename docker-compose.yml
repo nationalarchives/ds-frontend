@@ -9,6 +9,7 @@ services:
       - ENVIRONMENT=develop
       - CONFIG=config.Develop
       - SECRET_KEY=abc123
+      - SENTRY_JS_ID=f736865f0e1fb140b8192082e1bfb5ad
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
       - SEARCH_API_URL=http://host.docker.internal:65534/api/v1

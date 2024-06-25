@@ -11,8 +11,8 @@ class Base(object):
     DEBUG = strtobool(os.getenv("DEBUG", "False"))
 
     SENTRY_DSN = os.getenv("SENTRY_DSN", "")
+    SENTRY_JS_ID = os.getenv("SENTRY_JS_ID", "")
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1.0"))
-    SENTRY_JS = os.getenv("SENTRY_JS", "")
 
     WAGTAIL_API_URL = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     SEARCH_API_URL = os.environ.get("SEARCH_API_URL", "").rstrip("/")
