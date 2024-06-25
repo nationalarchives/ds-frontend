@@ -9,6 +9,7 @@ from .pages import (
     categories_page,
     category_index_page,
     explore_index_page,
+    general_page,
     highlight_gallery_page,
     home_page,
     record_article_page,
@@ -16,6 +17,7 @@ from .pages import (
 
 page_type_templates = {
     "home.HomePage": home_page,
+    "generic_pages.GeneralPage": general_page,
     "collections.ExplorerIndexPage": explore_index_page,
     "collections.TopicExplorerIndexPage": category_index_page,
     "collections.TimePeriodExplorerIndexPage": category_index_page,

@@ -90,7 +90,7 @@
   "background_color": "#f4f4f4",
   "dir": "ltr",
   "lang": "en",
-  "shortcuts" : [
+  "shortcuts": [
     {
       "name": "Search",
       "url": "/search/"

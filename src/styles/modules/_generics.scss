@@ -10,7 +10,15 @@
   @include colour.thick-keyline-accent(top);
 }
 
+.etna-cta {
+  @include spacing.space-above;
+
+  @include colour.thick-keyline-accent(left);
+}
+
 .etna-inset {
+  @include spacing.space-above;
+
   @include colour.thick-keyline(left);
   padding: spacing.space(0.5) 0 spacing.space(0.5) spacing.space(1);
 }
