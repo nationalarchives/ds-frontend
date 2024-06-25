@@ -1,5 +1,7 @@
 ARG IMAGE=ghcr.io/nationalarchives/tna-python
 ARG IMAGE_TAG=latest
+ARG IMAGE_VERSION
+ENV IMAGE_VERSION=${IMAGE_VERSION}
 
 FROM "$IMAGE":"$IMAGE_TAG"
 

@@ -35,6 +35,9 @@ def create_app(config_class):
     if app.config["SENTRY_DSN"]:
         sentry_sdk.init(
             dsn=app.config["SENTRY_DSN"],
+            environment=app.config["ENVIRONMENT"],
+            release=f"ds-etna-frontend@{app.config['VERSION']}" if app.config['VERSION'] else "",
+            sample_rate=app.config["SENTRY_SAMPLE_RATE"],
             traces_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
             profiles_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
         )

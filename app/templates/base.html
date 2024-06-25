@@ -13,7 +13,8 @@
 {%- set htmlAttributes = {
   'data-generated': now_iso_8601(),
   'data-ga4id': app_config.GA4_ID or "",
-  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ""
+  'data-cookiesdomain': app_config.COOKIE_DOMAIN or "",
+  'data-version': app_config.IMAGE_VERSION
 } -%}
 
 {% block headIcons %}
@@ -265,7 +266,7 @@
 
 {% block bodyEnd %}
 {% if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
-<script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" defer></script>
+<script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.VERSION }}" defer></script>
 {% endif %}
 <script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
 <script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
