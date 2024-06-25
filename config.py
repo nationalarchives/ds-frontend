@@ -32,7 +32,7 @@ class Base(object):
     CSP_MEDIA_SRC = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
     CSP_WORKER_SRC = os.environ.get("CSP_WORKER_SRC", "'self'").split(",")
     FRAME_DOMAIN_ALLOW = os.environ.get("FRAME_DOMAIN_ALLOW", "")
-    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
+    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
     CACHE_TYPE = "FileSystemCache"
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
@@ -69,16 +69,12 @@ class Production(Base):
         os.environ.get("CACHE_HEADER_DURATION", "604800")
     )  # 1 week
 
-    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
-
     # TODO: This invalidates the CSP nonces
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
 
 
 class Staging(Base):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.25"))
-
-    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
     # TODO: This invalidates the CSP nonces
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
@@ -88,6 +84,8 @@ class Develop(Base):
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
+
+    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
 
 
 class Test(Base):
