@@ -94,7 +94,7 @@ jobs:
           git config user.name "ds-etna-frontend"
           git config user.email "<>"
       - name: Install yq
-        run: sudo apt-get install yq
+        uses: dcarbone/install-yq-action@v1.1.1
       - name: Update config
         run: yq '(.services.frontend.image|="ghcr.io/${{ github.repository_owner }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ needs.version.outputs.version }}")' docker-compose.yml > tmp.$$.yml && mv tmp.$$.yml docker-compose.yml
       - name: Push new version
