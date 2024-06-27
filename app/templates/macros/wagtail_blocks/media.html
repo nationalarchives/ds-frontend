@@ -1,0 +1,31 @@
+{% macro wagtailMedia(block_value) %}
+  {%- if block_value.media.type == 'audio' %}
+  <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
+    <div class="tna-aside etna-background-masked-image">
+      <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
+      <hgroup class="tna-hgroup-l">
+        <p class="tna-hgroup__supertitle">Listen</p>
+        <h3 class="tna-hgroup__title" itemprop="name">
+          {{ block_value.title }}
+        </h3>
+      </hgroup>
+      <div itemprop="description" class="tna-!--margin-top-s">
+        {{ block_value.media.description | safe }}
+      </div>
+      <audio class="etna-audio" controls="" aria-label="Transcript provided below">
+        <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+        <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
+      </audio>
+      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
+    </div>
+    <div class="tna-aside tna-background-contrast tna-!--no-margin-top">
+      <h4 class="tna-heading-m tna-!--padding-bottom-s">Transcript</h4>
+      <div itemprop="transcript">
+        {{ block_value.media.transcript | safe }}
+      </div>
+    </div>
+  </aside>
+  {%- elif block_value.media.type == 'video' %}
+  <h1 class="tna-heading-xl">======= VIDEO =======</h1>
+  {%- endif %}
+{% endmacro %}

@@ -1,0 +1,77 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
+{%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
+{%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
+{%- from 'macros/wagtail_blocks/promoted_item.html' import wagtailPromotedItem -%}
+{%- from 'macros/wagtail_blocks/promoted_list.html' import wagtailPromotedList -%}
+{%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
+{%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
+
+{% macro wagtail_block(content_item, merge_dict_if) %}
+  {%- if content_item.type == 'paragraph' %}
+  {{ content_item.value.text | tna_html | safe }}
+
+  {% elif content_item.type == 'sub_heading' %}
+  <h3 class="tna-heading-m">{{ content_item.value.heading }}</h3>
+
+  {% elif content_item.type == 'table' %}
+  {{ wagtailTable(content_item.value) }}
+
+  {% elif content_item.type == 'button' %}
+  <div class="tna-button-group">
+    {{ tnaButton({
+      'text': content_item.value.label,
+      'href': content_item.value.href,
+      'accent': content_item.value.accent
+    }) }}
+  </div>
+
+  {% elif content_item.type == 'call_to_action' %}
+  <aside class="tna-aside tna-aside--tight tna-background-tint etna-cta">
+    {{ content_item.value.body | tna_html | safe }}
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': content_item.value.button.label,
+        'href': content_item.value.button.href,
+        'accent': content_item.value.button.accent
+      }) }}
+    </div>
+  </aside>
+
+  {% elif content_item.type == 'inset_text' %}
+  <aside class="etna-inset">
+    {{ content_item.value.text | tna_html | safe }}
+  </aside>
+
+  {%- elif content_item.type == 'image' %}
+  {{ wagtailImage(content_item.value, content_item.id) }}
+
+  {%- elif content_item.type == 'quote' %}
+  <blockquote class="tna-blockquote">
+    <div class="tna-blockquote__quote">
+      {{ content_item.value.quote | safe }}
+    </div>
+    {% if content_item.value.attribution %}
+    <p class="tna-blockquote__citation">{{ content_item.value.attribution }}</p>
+    {% endif %}
+  </blockquote>
+
+  {%- elif content_item.type == 'promoted_list' %}
+  {{ wagtailPromotedList(content_item.value) }}
+
+  {%- elif content_item.type == 'promoted_item' %}
+  {{ wagtailPromotedItem(content_item.value, merge_dict_if) }}
+
+  {%- elif content_item.type == 'record_links' %}
+  {{ wagtailRecordLinks(content_item.value) }}
+
+  {%- elif content_item.type == 'featured_record_article' %}
+  {{ wagtailFeaturedRecordArticle(content_item.value) }}
+  
+  {%- elif content_item.type == 'media' %}
+  {{ wagtailMedia(content_item.value) }}
+
+  {%- else %}
+  <h1 class="tna-heading-xl">======= {{ content_item.type }} =======</h1>
+  {%- endif %}
+{% endmacro %}

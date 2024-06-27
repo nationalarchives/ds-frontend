@@ -1,0 +1,31 @@
+{%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
+
+{% macro wagtailRecordLinks(block_value) %}
+  {% set items = [] %}
+  {%- for i in block_value['items'] %}
+    {# {% with parent = i.record_data.hierarchy | last %} #}
+    {# TODO: Collection #}
+    {%- if i.thumbnail_image %}
+    {{ items.append({
+      'imageSrc': i.thumbnail_image.jpeg.full_url,
+      'width': i.thumbnail_image.jpeg.width,
+      'height': i.thumbnail_image.jpeg.height,
+      'collection': 'parent.identifier',
+      'title': i.descriptive_title,
+      'href': url_for('catalogue.details', id=i.record),
+      'date': i.record_dates
+    }) or "" }}
+    {%- else %}
+    {{ items.append({
+      'collection': 'parent.identifier',
+      'title': i.descriptive_title,
+      'href': url_for('catalogue.details', id=i.record),
+      'date': i.record_dates
+    }) or "" }}
+    {%- endif %}
+    {# {% endwith %} #}
+  {%- endfor %}
+  {{ tnaFeaturedRecords({
+    'items': items
+  }) }}
+{% endmacro %}

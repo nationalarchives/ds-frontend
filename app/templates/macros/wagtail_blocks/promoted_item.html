@@ -1,0 +1,41 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{% macro wagtailPromotedItem(block_value, merge_dict_if) %}
+  <aside class="etna-space-above">
+    {% set card_content = {
+      'title': block_value.title,
+      'headingLevel': 3,
+      'headingSize': 'm',
+      'body': block_value.description,
+      'actions': [
+        {
+          'text': block_value.cta_label,
+          'href': block_value.url,
+          'title': block_value.cta_label + ' (opens a new tab)' if block_value.target_blank else None,
+          'attributes': {
+            'target': '_blank' if block_value.target_blank
+          }
+        }
+      ],
+      'style': 'tint',
+      'htmlElement': 'article'
+    } %}
+    {% set card_content = merge_dict_if(card_content, {
+      'horizontal': True,
+      'imageSrc': block_value.image.image.jpeg.full_url,
+      'imageAlt': block_value.image.image.alt_text,
+      'imageWidth': block_value.image.image.jpeg.width,
+      'imageHeight': block_value.image.image.jpeg.height,
+      'imageSources': [
+        {
+          'src': block_value.image.image.webp.full_url,
+          'type': 'image/webp',
+          'width': block_value.image.image.webp.width,
+          'height': block_value.image.image.webp.height
+        }
+      ],
+      'classes': 'tna-card__promoted-item'
+    }, block_value.image.image) %}
+    {{ tnaCard(card_content) }}
+  </aside>
+{% endmacro %}

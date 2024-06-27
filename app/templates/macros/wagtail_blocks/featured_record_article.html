@@ -1,0 +1,41 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{% macro wagtailFeaturedRecordArticle(block_value) %}
+  {%- if block_value.page %}
+  {# TODO: Date #}
+  <aside class="etna-space-above">
+  {{ tnaCard({
+    'supertitle': block_value.page.type_label,
+    'title': block_value.page.title,
+    'headingLevel': 3,
+    'headingSize': 's',
+    'href': block_value.page.url,
+    'meta': [
+      {
+        'title': 'Date',
+        'text': 'block_value.date_text',
+        'icon': 'calendar'
+      }
+    ],
+    'label': 'New' if block_value.page.is_newly_published else None,
+    'text': block_value.page.teaser_text,
+    'imageSrc': block_value.page.teaser_image.jpeg.full_url,
+    'imageAlt': block_value.page.teaser_image.alt,
+    'imageWidth': block_value.page.teaser_image.jpeg.width,
+    'imageHeight': block_value.page.teaser_image.jpeg.height,
+    'imageSources': [
+      {
+        'src': block_value.page.teaser_image.webp.full_url,
+        'type': 'image/webp',
+        'width': block_value.page.teaser_image.webp.width,
+        'height': block_value.page.teaser_image.webp.height
+      }
+    ],
+    'lazyImage': True,
+    'style': 'contrast',
+    'htmlElement': 'article',
+    'horizontal': True
+  }) }}
+  {%- endif %}
+  </aside>
+{% endmacro %}

@@ -4,8 +4,8 @@ from app.lib.content_parser import (
     b_to_strong,
     lists_to_tna_lists,
     strip_wagtail_attributes,
-    wagtail_api_table_to_html,
 )
+from flask import render_template_string
 
 from app import create_app
 
@@ -77,33 +77,40 @@ class ContentParserTestCase(unittest.TestCase):
             },
         }
         with self.app.application.app_context():
-            result = wagtail_api_table_to_html(table_block_data["table"])
+            result = render_template_string(
+                "{% from 'macros/wagtail_blocks/table.html' import wagtailTable %}"
+                "{{ wagtailTable(table_block_data) }}",
+                table_block_data=table_block_data,
+            )
+            print(result)
             self.assertEqual(
                 result,
-                """<div class="tna-table-wrapper">
-  <table class="tna-table">
-    <caption class="tna-table__caption">
-      Ages of members of the Doe family
-    </caption>
-    <thead class="tna-table__head">
-      <tr class="tna-table__row">
-        <th class="tna-table__header">First name</th>
-        <th class="tna-table__header">Surname</th>
-        <th class="tna-table__header">Age</th>
-      </tr>
-    </thead>
-    <tbody class="tna-table__body">
-      <tr class="tna-table__row">
-        <td class="tna-table__cell">John</td>
-        <td class="tna-table__cell">Doe</td>
-        <td class="tna-table__cell">50</td>
-      </tr>
-      <tr class="tna-table__row">
-        <td class="tna-table__cell">Jane</td>
-        <td class="tna-table__cell">Doe</td>
-        <td class="tna-table__cell">25</td>
-      </tr>
-    </tbody>
-  </table>
-</div>""",
+                """  <h3 class="tna-heading-m">Title of the table</h3>
+  <div class="tna-table-wrapper">
+    <table class="tna-table">
+      <caption class="tna-table__caption">
+        Ages of members of the Doe family
+      </caption>
+      <thead class="tna-table__head">
+        <tr class="tna-table__row">
+          <th class="tna-table__header">First name</th>
+          <th class="tna-table__header">Surname</th>
+          <th class="tna-table__header">Age</th>
+        </tr>
+      </thead>
+      <tbody class="tna-table__body">
+        <tr class="tna-table__row">
+          <td class="tna-table__cell">John</td>
+          <td class="tna-table__cell">Doe</td>
+          <td class="tna-table__cell">50</td>
+        </tr>
+        <tr class="tna-table__row">
+          <td class="tna-table__cell">Jane</td>
+          <td class="tna-table__cell">Doe</td>
+          <td class="tna-table__cell">25</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+""",
             )

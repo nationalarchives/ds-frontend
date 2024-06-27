@@ -8,7 +8,6 @@ from .content_parser import (
     b_to_strong,
     lists_to_tna_lists,
     strip_wagtail_attributes,
-    wagtail_api_table_to_html,
 )
 
 
@@ -17,10 +16,6 @@ def tna_html(s):
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     return s
-
-
-def tna_table(table_data):
-    return wagtail_api_table_to_html(table_data)
 
 
 def slugify(s):

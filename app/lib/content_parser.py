@@ -20,7 +20,3 @@ def lists_to_tna_lists(html):
 def strip_wagtail_attributes(html):
     html = re.sub(r' data-block-key="([^"]*)"', "", html)
     return html
-
-
-def wagtail_api_table_to_html(table_data):
-    return render_template("blocks/table.html", data=table_data)
