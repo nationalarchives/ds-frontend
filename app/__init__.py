@@ -60,47 +60,67 @@ def create_app(config_class):
         },
     )
 
-    # scripts = [
-    #     "app/static/main.min.js",
-    #     "app/static/analytics.min.js",
-    #     "app/static/article.min.js",
-    # ]
-    # script_hases = []
-    # for script in scripts:
-    #     # https://codeberg.org/fbausch/csp-hash/src/branch/main/src/csp-hash.py
-    #     with open(script, "r") as f:
-    #         file_contents = f.read()
-    #         file_contents = file_contents.replace("\r", "")
-    #         sha = base64.b64encode(
-    #             hashlib.sha256(file_contents.encode("utf-8")).digest()
-    #         ).decode("utf-8")
-    #         entry = f"'sha256-{sha}'"
-    #         if entry not in script_hases:
-    #             script_hases.append(f"'sha256-{sha}'")
-    # print(script_hases)
-
+    csp_self = "'self'"
+    csp_none = "'none'"
     Talisman(
         app,
         content_security_policy={
-            "default-src": "'self'",
-            "base-uri": "'none'",
-            "object-src": "'none'",
-            "img-src": app.config["CSP_IMG_SRC"],
-            "script-src": app.config["CSP_SCRIPT_SRC"],
-            "script-src-elem": app.config["CSP_SCRIPT_SRC_ELEM"],
-            "style-src": app.config["CSP_STYLE_SRC"],
-            "font-src": app.config["CSP_FONT_SRC"],
-            "connect-src": app.config["CSP_CONNECT_SRC"],
-            "media-src": app.config["CSP_MEDIA_SRC"],
-            "worker-src": app.config["CSP_WORKER_SRC"],
+            "default-src": csp_self,
+            "base-uri": csp_none,
+            "object-src": csp_none,
+            **(
+                {"img-src": app.config["CSP_IMG_SRC"]}
+                if app.config["CSP_IMG_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"script-src": app.config["CSP_SCRIPT_SRC"]}
+                if app.config["CSP_SCRIPT_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"script-src-elem": app.config["CSP_SCRIPT_SRC_ELEM"]}
+                if app.config["CSP_SCRIPT_SRC_ELEM"] != csp_self
+                else {}
+            ),
+            **(
+                {"style-src": app.config["CSP_STYLE_SRC"]}
+                if app.config["CSP_STYLE_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"font-src": app.config["CSP_FONT_SRC"]}
+                if app.config["CSP_FONT_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"connect-src": app.config["CSP_CONNECT_SRC"]}
+                if app.config["CSP_CONNECT_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"media-src": app.config["CSP_MEDIA_SRC"]}
+                if app.config["CSP_MEDIA_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"worker-src": app.config["CSP_WORKER_SRC"]}
+                if app.config["CSP_WORKER_SRC"] != csp_self
+                else {}
+            ),
+            **(
+                {"frame-src": app.config["CSP_FRAME_SRC"]}
+                if app.config["CSP_FRAME_SRC"] != csp_self
+                else {}
+            ),
         },
         # content_security_policy_nonce_in=["script-src", "style-src"],
         feature_policy={
-            "camera": "'none'",
-            "fullscreen": "'self'",
-            "geolocation": "'none'",
-            "microphone": "'none'",
-            "screen-wake-lock": "'none'",
+            "camera": csp_none,
+            "fullscreen": csp_self,
+            "geolocation": csp_none,
+            "microphone": csp_none,
+            "screen-wake-lock": csp_none,
         },
         force_https=app.config["FORCE_HTTPS"],
         frame_options="ALLOW-FROM",
@@ -110,9 +130,9 @@ def create_app(config_class):
     @app.after_request
     def apply_extra_headers(response):
         response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
-        response.headers["Cross-Origin-Embedder-Policy"] = "credentialless"
+        response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
         response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
         response.headers["Cache-Control"] = (
             f"public, max-age={app.config['CACHE_HEADER_DURATION']}"
         )

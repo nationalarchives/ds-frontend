@@ -38,6 +38,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CSP_CONNECT_SRC`       | A comma separated list of CSP rules for `connect-src`                     | `'self'`                                                    |
 | `CSP_MEDIA_SRC`         | A comma separated list of CSP rules for `media-src`                       | `'self'`                                                    |
 | `CSP_WORKER_SRC`        | A comma separated list of CSP rules for `worker-src`                      | `'self'`                                                    |
+| `CSP_FRAME_SRC`         | A comma separated list of CSP rules for `frame-src`                       | `'self'`                                                    |
 | `FRAME_DOMAIN_ALLOW`    | A domain from which to allow frame embedding (used in CMS previews)       | _none_                                                      |
 | `FORCE_HTTPS`           | Redirect requests to HTTPS as part of the CSP                             | _none_                                                      |
 | `CACHE_TYPE`            | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching | _none_                                                      |

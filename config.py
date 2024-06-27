@@ -31,6 +31,7 @@ class Base(object):
     CSP_CONNECT_SRC = os.environ.get("CSP_CONNECT_SRC", "'self'").split(",")
     CSP_MEDIA_SRC = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
     CSP_WORKER_SRC = os.environ.get("CSP_WORKER_SRC", "'self'").split(",")
+    CSP_FRAME_SRC = os.environ.get("CSP_FRAME_SRC", "'self'").split(",")
     FRAME_DOMAIN_ALLOW = os.environ.get("FRAME_DOMAIN_ALLOW", "")
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "True"))
 
