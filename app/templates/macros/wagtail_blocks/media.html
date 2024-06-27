@@ -10,7 +10,7 @@
         </h3>
       </hgroup>
       <div itemprop="description" class="tna-!--margin-top-s">
-        {{ block_value.media.description | safe }}
+        {{ block_value.media.description | tna_html | safe }}
       </div>
       <audio class="etna-audio" controls="" aria-label="Transcript provided below">
         <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
@@ -21,7 +21,7 @@
     <div class="tna-aside tna-background-contrast tna-!--no-margin-top">
       <h4 class="tna-heading-m tna-!--padding-bottom-s">Transcript</h4>
       <div itemprop="transcript">
-        {{ block_value.media.transcript | safe }}
+        {{ block_value.media.transcript | tna_html | safe }}
       </div>
     </div>
   </aside>

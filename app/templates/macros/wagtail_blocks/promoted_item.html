@@ -6,7 +6,7 @@
       'title': block_value.title,
       'headingLevel': 3,
       'headingSize': 'm',
-      'body': block_value.description,
+      'body': block_value.description | tna_html | safe,
       'actions': [
         {
           'text': block_value.cta_label,

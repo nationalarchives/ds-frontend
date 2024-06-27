@@ -6,14 +6,14 @@
   {% set picture_information = picture_information + [{
     'id': 'transcript-' + id,
     'title': block_value.image.transcript.heading or 'Transcript',
-    'body': block_value.image.transcript.text | tna_html
+    'body': block_value.image.transcript.text | tna_html | safe
   }] %}
   {%- endif %}
   {%- if block_value.image.translation %}
   {% set picture_information = picture_information + [{
     'id': 'translation-' + id,
     'title': block_value.image.translation.heading or 'Translation',
-    'body': block_value.image.translation.text | tna_html
+    'body': block_value.image.translation.text | tna_html | safe
   }] %}
   {%- endif %}
   {{ tnaPicture({
