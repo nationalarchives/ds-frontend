@@ -19,20 +19,15 @@ class BaseAPI:
     def add_parameter(self, key, value):
         self.params[key] = value
 
-    def build_query_string(self) -> str:
-        return (
-            "?" + urllib.parse.urlencode(self.params)
-            if len(self.params)
-            else ""
-        )
-
     def get_results(self, page=None):
         if page:
             self.add_parameter("page", page)
-        url = f"{self.api_url}{self.api_path}{self.build_query_string()}"
-        current_app.logger.debug(f"API endpoint requested: {url}")
+        url = f"{self.api_url}{self.api_path}"
+        current_app.logger.debug(
+            f"API endpoint requested: {url} (params {self.params})"
+        )
         try:
-            response = requests.get(url)
+            response = requests.get(url, params=self.params)
         except ConnectionError:
             current_app.logger.error(f"API connection error for: {url}")
             raise Exception("A connection error occured with the API")

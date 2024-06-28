@@ -9,17 +9,9 @@ def wagtail_request_handler(uri, params={}):
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
     params["format"] = "json"
-    query_string = (
-        "?"
-        + "&".join(
-            ["=".join((key, str(value))) for key, value in params.items()]
-        )
-        if len(params)
-        else ""
-    )
-    url = f"{api_url}/{uri}{query_string}"
-    current_app.logger.debug(f"API endpoint requested: {url}")
-    r = requests.get(url)
+    url = f"{api_url}/{uri}"
+    current_app.logger.debug(f"API endpoint requested: {url} (params {params})")
+    r = requests.get(url, params=params)
     if r.status_code == 404:
         current_app.logger.warning(f"Resource not found: {url}")
         raise ApiResourceNotFound("Resource not found")
@@ -102,16 +94,6 @@ def page_children_paginated(page_id, page, children_per_page, params={}):
         "order": order,
     }
     return wagtail_request_handler(uri, params)
-
-
-# def image_details(image_id, params={}):
-#     uri = f"images/{image_id}/"
-#     return wagtail_request_handler(uri, params)
-
-
-# def media_details(media_id, params={}):
-#     uri = f"media/{media_id}/"
-#     return wagtail_request_handler(uri, params)
 
 
 def page_preview(content_type, token, params={}):
