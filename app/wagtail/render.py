@@ -12,12 +12,14 @@ from .pages import (
     general_page,
     highlight_gallery_page,
     home_page,
+    hub_page,
     record_article_page,
 )
 
 page_type_templates = {
     "home.HomePage": home_page,
     "generic_pages.GeneralPage": general_page,
+    "generic_pages.HubPage": hub_page,
     "collections.ExplorerIndexPage": explore_index_page,
     "collections.TopicExplorerIndexPage": category_index_page,
     "collections.TimePeriodExplorerIndexPage": category_index_page,
