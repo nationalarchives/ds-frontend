@@ -1,5 +1,6 @@
 {% macro wagtailPromotedList(block_value) %}
   <aside class="etna-space-above">
+    {{ block_value.summary | tna_html | safe }}
     <ul class="etna-block-list">
       {%- for item in block_value.promoted_items %}
       <li>
