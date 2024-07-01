@@ -1,4 +1,5 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
@@ -70,8 +71,11 @@
   
   {%- elif content_item.type == 'media' %}
   {{ wagtailMedia(content_item.value) }}
+  
+  {%- elif content_item.type == 'do_dont_list' %}
+  {{ wagtailDoDontList(content_item.value) }}
 
   {%- else %}
-  <h1 class="tna-heading-xl">======= {{ content_item.type }} =======</h1>
+  <p class="tna-heading-xl">======= TODO: {{ content_item.type }} =======</p>
   {%- endif %}
 {% endmacro %}

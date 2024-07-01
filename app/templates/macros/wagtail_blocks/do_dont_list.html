@@ -1,0 +1,26 @@
+{% macro wagtailDoDontList(block_value) %}
+  <div class="etna-do-dont-list">
+    <div class="etna-do-dont-list__block">
+      <h3 class="tna-heading-m etna-do-dont-list__heading">Do</h3>
+      <ul class="tna-ul etna-ul-ticks">
+        {% for item in block_value.do %}
+        <li>
+          <i class="fa-solid fa-check" aria-hidden="true"></i>
+          {{ item.text | tna_html | safe }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="etna-do-dont-list__block">
+      <h3 class="tna-heading-m etna-do-dont-list__heading">Don't</h3>
+      <ul class="tna-ul etna-ul-crosses">
+        {% for item in block_value.dont %}
+        <li>
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          {{ item.text | tna_html | safe }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endmacro %}

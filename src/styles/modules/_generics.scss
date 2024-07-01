@@ -92,6 +92,70 @@
   }
 }
 
+.etna-do-dont-list {
+  @include spacing.space-above;
+
+  display: flex;
+  gap: spacing.space(2);
+
+  @include media.on-mobile {
+    flex-direction: column;
+  }
+
+  &__block {
+    padding: 0 spacing.space(1.5) spacing.space(1);
+
+    flex: 1;
+
+    @include colour.tint;
+  }
+
+  &__heading {
+    padding: 0 spacing.space(0.75);
+
+    display: inline-block;
+
+    position: relative;
+    top: spacing.space(-0.5);
+    left: spacing.space(-0.5);
+
+    @include colour.contrast;
+  }
+
+  .etna-ul-ticks,
+  .etna-ul-crosses {
+    margin-top: 0;
+
+    list-style: none;
+
+    li {
+      position: relative;
+    }
+
+    .fa-solid {
+      width: spacing.space(2);
+
+      position: absolute;
+      top: 0;
+      right: 100%;
+
+      line-height: inherit;
+
+      + p {
+        margin-top: 0;
+      }
+    }
+
+    .fa-check {
+      color: colour.brand-colour("green");
+    }
+
+    .fa-xmark {
+      color: colour.brand-colour("pink");
+    }
+  }
+}
+
 p.etna-small-paragraph {
   margin-top: 0;
   margin-bottom: spacing.space(0.5);
