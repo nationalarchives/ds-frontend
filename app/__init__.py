@@ -130,9 +130,9 @@ def create_app(config_class):
     @app.after_request
     def apply_extra_headers(response):
         response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
-        response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
+        response.headers["Cross-Origin-Embedder-Policy"] = "credentialless"
         response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-        response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
+        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         response.headers["Cache-Control"] = (
             f"public, max-age={app.config['CACHE_HEADER_DURATION']}"
         )
