@@ -3,7 +3,7 @@
 
 {% macro articleFooter(similar_items, categories, latest_items) %}
 {%- if similar_items | length or categories | length or latest_items | length %}
-<aside>
+<aside class="tna-!--hide-on-print">
 {%- endif %}
   {%- if similar_items | length %}
   <section class="tna-section tna-!--padding-bottom-s">
