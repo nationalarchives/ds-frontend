@@ -1,8 +1,8 @@
 @use "@nationalarchives/frontend/nationalarchives/all";
 
-@use "modules/frontend-overrides";
-@use "modules/generics";
+@use "main/frontend-overrides";
+@use "main/generics";
 
-@use "modules/authors";
-@use "modules/feedback";
-@use "modules/generic-sidebar";
+@use "main/authors";
+@use "main/feedback";
+@use "main/sidebar";

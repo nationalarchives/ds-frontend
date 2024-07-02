@@ -6,44 +6,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
-html.tna-template
-  .tna-template__body--focused-article
-  .tna-header__navigation-item-link--selected {
-  &,
-  &:hover {
-    @include colour.contrast;
-    @include colour.colour-font("font-base");
-  }
-}
-
-.etna-background-half-top-accent,
-.etna-background-half-top-contrast {
-  position: relative;
-
-  &::before {
-    height: 50%;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-
-    content: "";
-  }
-}
-
-.etna-background-half-top-accent {
-  &::before {
-    @include colour.accent;
-  }
-}
-
-.etna-background-half-top-contrast {
-  &::before {
-    @include colour.contrast;
-  }
-}
-
 .etna-article {
   &__sidebar {
     max-height: 100vh;
@@ -173,7 +135,7 @@ html.tna-template
 
     cursor: pointer;
 
-    [aria-expanded="true"] &-icon {
+    &[aria-expanded="true"] &-icon {
       &--up {
         display: block;
       }
@@ -206,11 +168,16 @@ html.tna-template
         display: none;
       }
     }
+  }
 
-    &__section {
-      &:last-of-type {
-        // @include colour.colour-border("keyline", 1px, solid, bottom);
-      }
+  @include media.on-print {
+    .etna-article__section-button-header {
+      display: none !important;
+    }
+    
+    .etna-article__section,
+    .etna-article__section-heading {
+      display: block !important;
     }
   }
 
@@ -223,21 +190,13 @@ html.tna-template
       margin-left: spacing.space(1);
     }
   }
-
-  .tna-picture {
-    &__image {
-      box-shadow:
-        0 0.25rem 1rem -0.25rem rgb(0 0 0 / 25%),
-        0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 75%);
-    }
-  }
 }
 
-.tna-hero {
-  .tna-column.tna-column--full > & &__figure {
-    min-height: clamp(12rem, calc(33vw - 12rem), 11.75rem);
-  }
-}
+// .tna-hero {
+//   .tna-column.tna-column--full > & &__figure {
+//     min-height: clamp(12rem, calc(33vw - 12rem), 11.75rem);
+//   }
+// }
 
 .etna-tilted-image-wrapper {
   position: relative;

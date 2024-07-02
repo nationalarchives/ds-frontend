@@ -52,7 +52,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <div class="tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
-        <div class="tna-container tna-container--align-bottom">
+        <div class="tna-container">
           <div class="tna-column tna-column--flex-1 tna-!--padding-top-s">
             <form method="get" action="{{ app_config.SEARCH_DISCOVERY_URL }}">
               {{ tnaSearchField({
@@ -65,7 +65,7 @@
               }) }}
             </form>
           </div>
-          <div class="tna-column tna-column--full-small tna-column--full-tiny tna-!--padding-top-s">
+          <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--align-bottom tna-!--padding-top-s">
             {{ tnaButton({
               'text': 'Advanced search',
               'href': app_config.DISCOVERY_URL + '/advanced-search',

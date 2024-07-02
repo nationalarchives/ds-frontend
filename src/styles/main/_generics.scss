@@ -200,3 +200,7 @@ p.etna-small-paragraph {
     padding-top: 0;
   }
 }
+
+.tna-\!--hide-on-print {
+  @include media.hide-on-print;
+}
