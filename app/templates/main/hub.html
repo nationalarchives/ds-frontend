@@ -2,11 +2,9 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
-{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/meta.html' import meta -%}
-{%- from 'macros/wagtail_block.html' import wagtail_block -%}
 
-{%- set themeAccent = 'blue' -%}
+{%- set themeAccent = 'green' -%}
 {%- set pageTitle = page_data.title -%}
 
 {% block head %}
@@ -14,41 +12,56 @@
 {{ meta(page_data) }}
 {% endblock %}
 
-{% block content %}
-{% if page_data.teaser_image %}
-{{ tnaHero({
-  'title': page_data.title,
-  'text': page_data.teaser_text,
-  'imageSrc': page_data.teaser_image.jpeg.full_url,
-  'imageAlt': '',
-  'imageWidth': page_data.teaser_image.jpeg.width,
-  'imageHeight': page_data.teaser_image.jpeg.height
-}) }}
-{% else %}
-<div class="tna-section">
+{% block main %}
+  {% if breadcrumbs and breadcrumbs | length > 0 %}
   <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      <p class="tna-large-paragraph">{{ page_data.teaser_text }}</p>
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': breadcrumbs,
+        'structuredData': True
+      }) }}
     </div>
   </div>
-</div>
-{% endif %}
-<nav class="tna-section" aria-label="Child pages">
-  <ul class="tna-container tna-ul tna-ul--plain">
-    {% for child in children %}
-    <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
-      {{ tnaCard({
-        'title': child.title,
-        'headingLevel': 2,
-        'headingSize': 'm',
-        'href': child.url,
-        'label': 'About',
-        'text': child.teaser_text,
-        'htmlElement': 'article'
-      }) }}
-    </li>
-    {% endfor %}
-  </ul>
-</nav>
+  {% endif %}
+  <main class="tna-main {{ mainClasses }}" id="main-content">
+    {% if page_data.teaser_image %}
+    {{ tnaHero({
+      'title': page_data.title,
+      'text': page_data.teaser_text,
+      'imageSrc': page_data.teaser_image.jpeg.full_url,
+      'imageAlt': '',
+      'imageWidth': page_data.teaser_image.jpeg.width,
+      'imageHeight': page_data.teaser_image.jpeg.height,
+      'narrow': True,
+      'style': 'accent',
+      'layout': 'split'
+    }) }}
+    {% else %}
+    <div class="tna-section">
+      <div class="tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+          <p class="tna-large-paragraph">{{ page_data.teaser_text }}</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <nav class="tna-section" aria-label="Child pages">
+      <ul class="tna-container tna-ul tna-ul--plain">
+        {% for child in children %}
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+          {{ tnaCard({
+            'title': child.title,
+            'headingLevel': 2,
+            'headingSize': 'm',
+            'href': child.url,
+            'label': 'About',
+            'text': child.teaser_text,
+            'htmlElement': 'article'
+          }) }}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </main>
 {% endblock %}
