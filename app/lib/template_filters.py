@@ -62,7 +62,7 @@ def pretty_number(s):
 
 def headings_list(s):
     headings_regex = re.findall(
-        r'<h([1-6])[^>]*id="([\w\-]+)"[^>]*>\s*(.+)\s*</', s
+        r'<h([1-6])[^>]*id="([\w\-]+)"[^>]*>\s*([^<]+)\s*</', s
     )
     headings_raw = [
         {

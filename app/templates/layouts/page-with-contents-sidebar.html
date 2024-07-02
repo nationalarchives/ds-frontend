@@ -2,7 +2,7 @@
 
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 
-{% macro simplePageWithSidebar(aToZSidebar) %}
+{% macro simplePageWithSidebar(aToZSidebar, noPadding) %}
 <div class="tna-container tna-section tna-!--padding-top-s">
   {% set headings = caller() | headings_list %}
   {%- if headings %}
@@ -12,11 +12,12 @@
       'headingLevel': 2,
       'items': headings,
       'type': 'contents',
-      'classes': 'etna-sidebar--a-z' if aToZSidebar else ''
+      'classes': 'etna-sidebar--a-z' if aToZSidebar else '',
+      'sticky': True
     }) }}
   </div>
   {%- endif %}
-  <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+  <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m{% if noPadding %} tna-container--no-padding{% endif %}">
     {{ caller() }}
   </div>
 </div>
@@ -34,7 +35,8 @@
         </div>
       </div>
     </div>
-    {% call simplePageWithSidebar(aToZSidebar or False) %}
+    {% block afterContentHeader %}{% endblock %}
+    {% call simplePageWithSidebar(aToZSidebar or False, noPadding or False) %}
     {% block content %}{% endblock %}
     {% endcall %}
   </main>

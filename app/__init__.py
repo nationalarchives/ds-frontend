@@ -1,5 +1,3 @@
-# import base64
-# import hashlib
 import logging
 
 import sentry_sdk
@@ -69,7 +67,14 @@ def create_app(config_class):
             "base-uri": csp_none,
             "object-src": csp_none,
             **(
-                {"img-src": app.config["CSP_IMG_SRC"]}
+                {
+                    "img-src": app.config["CSP_IMG_SRC"]
+                    + [
+                        "https://loremflickr.com",
+                        "https://picsum.photos",
+                        "https://fastly.picsum.photos",
+                    ]
+                }
                 if app.config["CSP_IMG_SRC"] != csp_self
                 else {}
             ),
@@ -170,6 +175,7 @@ def create_app(config_class):
         )
 
     from .catalogue import bp as catalogue_bp
+    from .dev import bp as dev_bp
     from .help import bp as help_bp
     from .legal import bp as legal_bp
     from .main import bp as site_bp
@@ -180,6 +186,7 @@ def create_app(config_class):
     app.register_blueprint(legal_bp, url_prefix="/legal")
     app.register_blueprint(help_bp, url_prefix="/help")
     app.register_blueprint(search_bp, url_prefix="/search")
+    app.register_blueprint(dev_bp, url_prefix="/dev")
     app.register_blueprint(catalogue_bp, url_prefix="/catalogue")
     app.register_blueprint(wagtail_bp)
 

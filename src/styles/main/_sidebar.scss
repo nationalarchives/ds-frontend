@@ -4,34 +4,38 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-sidebar {
-  &--a-z .tna-sidebar__items {
-    flex-flow: row wrap;
-    gap: spacing.space(0.5);
-  }
+  &--a-z {
+    .tna-sidebar__items {
+      padding-left: spacing.space(0.5);
 
-  &--a-z .tna-sidebar__item {
-    margin: 0;
-
-    &::marker {
-      content: none;
+      flex-flow: row wrap;
+      gap: spacing.space(0.5);
     }
-  }
 
-  &--a-z .tna-sidebar__link {
-    width: 2.5rem;
-    height: 2.5rem;
+    .tna-sidebar__item {
+      margin: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+      &::marker {
+        content: none;
+      }
+    }
 
-    @include typography.main-font-weight-bold;
+    .tna-sidebar__link {
+      width: 2.5rem;
+      height: 2.5rem;
 
-    @include colour.colour-border("keyline", 1px);
-    border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    &:hover {
-      @include colour.tint;
+      @include typography.main-font-weight-bold;
+
+      @include colour.colour-border("keyline", 1px);
+      border-radius: 100%;
+
+      &:hover {
+        @include colour.tint;
+      }
     }
   }
 
