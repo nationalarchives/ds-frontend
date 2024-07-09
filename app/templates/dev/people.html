@@ -93,7 +93,7 @@
         'title': person.last_name + ', ' + person.first_name,
         'headingLevel': 2,
         'body': person.role,
-        'href': '#',
+        'href': url_for('dev.person_profile', name_slug=((person.first_name + ' ' + person.last_name) | slugify)),
         'imageSrc': person.photo,
         'imageAlt': '',
         'imageWidth': 600,
@@ -105,7 +105,7 @@
         'title': person.last_name + ', ' + person.first_name,
         'headingLevel': 2,
         'body': person.role,
-        'href': '#',
+        'href': url_for('dev.person_profile', name_slug=((person.first_name + ' ' + person.last_name) | slugify)),
         'htmlElement': 'article'
       }) }}
       {%- endif %}

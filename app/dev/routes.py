@@ -1,4 +1,5 @@
 from app.dev import bp
+from app.lib.template_filters import slugify
 from flask import render_template, request
 
 people = [
@@ -1425,4 +1426,23 @@ def people_list():
         people=people_sorted,
         people_length=len(people),
         roles=sorted(roles),
+    )
+
+
+@bp.route("/people/<string:name_slug>/")
+def person_profile(name_slug):
+    person = next(
+        (
+            person
+            for person in people
+            if slugify(f"{person['first_name']} {person['last_name']}")
+            == name_slug
+        ),
+        None,
+    )
+    if not person:
+        return render_template("errors/page-not-found.html"), 404
+    return render_template(
+        "dev/person.html",
+        person=person,
     )
