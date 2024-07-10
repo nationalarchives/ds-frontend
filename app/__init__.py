@@ -30,18 +30,18 @@ def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
 
-    if app.config["SENTRY_DSN"]:
+    if app.config.get("SENTRY_DSN"):
         sentry_sdk.init(
-            dsn=app.config["SENTRY_DSN"],
-            environment=app.config["ENVIRONMENT"],
+            dsn=app.config.get("SENTRY_DSN"),
+            environment=app.config.get("ENVIRONMENT"),
             release=(
-                f"ds-etna-frontend@{app.config['BUILD_VERSION']}"
-                if app.config["BUILD_VERSION"]
+                f"ds-etna-frontend@{app.config.get('BUILD_VERSION')}"
+                if app.config.get("BUILD_VERSION")
                 else ""
             ),
-            sample_rate=app.config["SENTRY_SAMPLE_RATE"],
-            traces_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
-            profiles_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
+            sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
+            traces_sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
+            profiles_sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
         )
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
@@ -51,10 +51,10 @@ def create_app(config_class):
     cache.init_app(
         app,
         config={
-            "CACHE_TYPE": app.config["CACHE_TYPE"],
-            "CACHE_DEFAULT_TIMEOUT": app.config["CACHE_DEFAULT_TIMEOUT"],
-            "CACHE_IGNORE_ERRORS": app.config["CACHE_IGNORE_ERRORS"],
-            "CACHE_DIR": app.config["CACHE_DIR"],
+            "CACHE_TYPE": app.config.get("CACHE_TYPE"),
+            "CACHE_DEFAULT_TIMEOUT": app.config.get("CACHE_DEFAULT_TIMEOUT"),
+            "CACHE_IGNORE_ERRORS": app.config.get("CACHE_IGNORE_ERRORS"),
+            "CACHE_DIR": app.config.get("CACHE_DIR"),
         },
     )
 
@@ -68,54 +68,54 @@ def create_app(config_class):
             "object-src": csp_none,
             **(
                 {
-                    "img-src": app.config["CSP_IMG_SRC"]
+                    "img-src": app.config.get("CSP_IMG_SRC")
                     + [
                         "https://loremflickr.com",
                         "https://picsum.photos",
                         "https://fastly.picsum.photos",
                     ]
                 }
-                if app.config["CSP_IMG_SRC"] != csp_self
+                if app.config.get("CSP_IMG_SRC") != csp_self
                 else {}
             ),
             **(
-                {"script-src": app.config["CSP_SCRIPT_SRC"]}
-                if app.config["CSP_SCRIPT_SRC"] != csp_self
+                {"script-src": app.config.get("CSP_SCRIPT_SRC")}
+                if app.config.get("CSP_SCRIPT_SRC") != csp_self
                 else {}
             ),
             **(
-                {"script-src-elem": app.config["CSP_SCRIPT_SRC_ELEM"]}
-                if app.config["CSP_SCRIPT_SRC_ELEM"] != csp_self
+                {"script-src-elem": app.config.get("CSP_SCRIPT_SRC_ELEM")}
+                if app.config.get("CSP_SCRIPT_SRC_ELEM") != csp_self
                 else {}
             ),
             **(
-                {"style-src": app.config["CSP_STYLE_SRC"]}
-                if app.config["CSP_STYLE_SRC"] != csp_self
+                {"style-src": app.config.get("CSP_STYLE_SRC")}
+                if app.config.get("CSP_STYLE_SRC") != csp_self
                 else {}
             ),
             **(
-                {"font-src": app.config["CSP_FONT_SRC"]}
-                if app.config["CSP_FONT_SRC"] != csp_self
+                {"font-src": app.config.get("CSP_FONT_SRC")}
+                if app.config.get("CSP_FONT_SRC") != csp_self
                 else {}
             ),
             **(
-                {"connect-src": app.config["CSP_CONNECT_SRC"]}
-                if app.config["CSP_CONNECT_SRC"] != csp_self
+                {"connect-src": app.config.get("CSP_CONNECT_SRC")}
+                if app.config.get("CSP_CONNECT_SRC") != csp_self
                 else {}
             ),
             **(
-                {"media-src": app.config["CSP_MEDIA_SRC"]}
-                if app.config["CSP_MEDIA_SRC"] != csp_self
+                {"media-src": app.config.get("CSP_MEDIA_SRC")}
+                if app.config.get("CSP_MEDIA_SRC") != csp_self
                 else {}
             ),
             **(
-                {"worker-src": app.config["CSP_WORKER_SRC"]}
-                if app.config["CSP_WORKER_SRC"] != csp_self
+                {"worker-src": app.config.get("CSP_WORKER_SRC")}
+                if app.config.get("CSP_WORKER_SRC") != csp_self
                 else {}
             ),
             **(
-                {"frame-src": app.config["CSP_FRAME_SRC"]}
-                if app.config["CSP_FRAME_SRC"] != csp_self
+                {"frame-src": app.config.get("CSP_FRAME_SRC")}
+                if app.config.get("CSP_FRAME_SRC") != csp_self
                 else {}
             ),
         },
@@ -127,9 +127,9 @@ def create_app(config_class):
             "microphone": csp_none,
             "screen-wake-lock": csp_none,
         },
-        force_https=app.config["FORCE_HTTPS"],
+        force_https=app.config.get("FORCE_HTTPS"),
         frame_options="ALLOW-FROM",
-        frame_options_allow_from=app.config["FRAME_DOMAIN_ALLOW"],
+        frame_options_allow_from=app.config.get("FRAME_DOMAIN_ALLOW"),
     )
 
     @app.after_request
@@ -139,7 +139,7 @@ def create_app(config_class):
         response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         response.headers["Cache-Control"] = (
-            f"public, max-age={app.config['CACHE_HEADER_DURATION']}"
+            f"public, max-age={app.config.get('CACHE_HEADER_DURATION')}"
         )
         return response
 

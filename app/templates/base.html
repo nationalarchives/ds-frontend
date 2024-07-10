@@ -62,11 +62,13 @@
 {% endblock %}
 
 {% block header %}
+{% if app_config.FEATURE_PHASE_BANNER %}
 {{ tnaPhaseBanner({
   'phase': 'Alpha',
   'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
   'classes': 'tna-background-contrast'
 }) }}
+{% endif %}
 {{ tnaGlobalHeader({
   'logo': {
     'href': 'https://www.nationalarchives.gov.uk/',

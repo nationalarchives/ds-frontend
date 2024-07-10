@@ -7,7 +7,7 @@ from flask import current_app
 
 class BaseSearchAPI(BaseAPI):
     def __init__(self):
-        super().__init__(current_app.config["SEARCH_API_URL"])
+        super().__init__(current_app.config.get("SEARCH_API_URL"))
 
     def query(self, value):
         self.add_parameter("q", value)
@@ -22,7 +22,7 @@ class ArticlesAPI(BaseSearchAPI):
 
     def parse_response(self, response):
         try:
-            if current_app.config["ENVIRONMENT"] == "develop":
+            if current_app.config.get("ENVIRONMENT") == "develop":
                 text = response.text
                 text = text.replace(
                     "https://main-bvxea6i-ncoml7u56y47e.uk-1.platformsh.site/",

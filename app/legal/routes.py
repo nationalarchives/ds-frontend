@@ -62,7 +62,7 @@ def cookies():
         response.set_cookie(
             "cookies_policy",
             quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
-            domain=current_app.config["COOKIE_DOMAIN"],
+            domain=current_app.config.get("COOKIE_DOMAIN"),
         )
         if not usage:
             for cookie in request.cookies:

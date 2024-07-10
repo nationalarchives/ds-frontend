@@ -4,7 +4,7 @@ from flask import current_app
 
 
 def wagtail_request_handler(uri, params={}):
-    api_url = current_app.config["WAGTAIL_API_URL"]
+    api_url = current_app.config.get("WAGTAIL_API_URL")
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")

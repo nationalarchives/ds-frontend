@@ -77,7 +77,7 @@ def preview_protected_page(id):
                 )
             return CachedResponse(
                 response=make_response(render_content_page(page_data)),
-                timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
+                timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
             )
         if "url" in page_data["meta"]:
             return redirect(
@@ -116,7 +116,7 @@ def index():
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
+        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )
 
 
@@ -158,7 +158,7 @@ def page(path):
             url_for("wagtail.preview_protected_page", id=page_data["id"])
         )
     if (
-        current_app.config["APPLY_REDIRECTS"]
+        current_app.config.get("APPLY_REDIRECTS")
         and "url" in page_data["meta"]
         and page_data["meta"]["url"] != f"/{path}/"
     ):
@@ -168,5 +168,5 @@ def page(path):
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=current_app.config["CACHE_DEFAULT_TIMEOUT"],
+        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )
