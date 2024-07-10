@@ -1,4 +1,5 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
@@ -74,8 +75,15 @@
   
   {%- elif content_item.type == 'do_dont_list' %}
   {{ wagtailDoDontList(content_item.value) }}
+  
+  {%- elif content_item.type == 'warning_text' %}
+  {{ tnaWarning({
+    'heading': content_item.value.heading,
+    'headingLevel': 2,
+    'body': content_item.value.body | tna_html | safe
+  }) }}
 
   {%- else %}
-  <p class="tna-heading-xl">======= TODO: {{ content_item.type }} =======</p>
+  <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>
   {%- endif %}
 {% endmacro %}
