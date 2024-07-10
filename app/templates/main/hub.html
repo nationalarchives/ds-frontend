@@ -27,7 +27,7 @@
     {% if page_data.teaser_image %}
     {{ tnaHero({
       'title': page_data.title,
-      'text': page_data.teaser_text,
+      'text': (page_data.intro or "") | tna_html | safe,
       'imageSrc': page_data.teaser_image.jpeg.full_url,
       'imageAlt': '',
       'imageWidth': page_data.teaser_image.jpeg.width,
@@ -41,7 +41,9 @@
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-          <p class="tna-large-paragraph">{{ page_data.teaser_text }}</p>
+          {% if page_data.intro %}
+          <p class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</p>
+          {% endif %}
         </div>
       </div>
     </div>
