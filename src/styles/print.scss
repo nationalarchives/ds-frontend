@@ -1,11 +1,22 @@
 @use "@nationalarchives/frontend/nationalarchives/print";
 
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
 .etna-\!--full-width-on-print {
   width: 100% !important;
 }
 
 .plyr {
+  aspect-ratio: 16 / 9;
+
   position: relative;
+
+  &__control,
+  &__controls,
+  &__video-wrapper {
+    display: none !important;
+  }
 
   &::after {
     content: "[VIDEO]";
@@ -18,11 +29,18 @@
     inset: 0;
     z-index: 4;
 
-    font-size: 48px;
-    font-weight: 800;
+    @include typography.font-size(48);
+    @include typography.main-font-weight-bold;
 
-    background-color: #999;
+    @include colour.colour-border("keyline-dark", 0.5rem, dashed);
+  }
+}
 
-    border: 10px #000 dashed;
+a:not([href^="#"], [href^="?"], [href^="/"]) {
+  &::after {
+    content: " (" attr(href) ")";
+
+    font-style: italic;
+    word-break: break-all;
   }
 }
