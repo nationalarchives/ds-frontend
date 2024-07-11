@@ -1,6 +1,6 @@
 {%- from 'macros/wagtail_block.html' import wagtail_block -%}
 
-{% macro articleBlocks(blocks, merge_dict_if) %}
+{% macro articleBlocks(blocks) %}
   {%- for block in blocks %}
   <h2 class="etna-article__section-button-header tna-heading-l" hidden>
     <button class="etna-article__section-button">
@@ -13,7 +13,7 @@
   <section class="etna-article__section">
     <h2 class="tna-heading-l tna-!--padding-top-s etna-article__section-heading" id="{{ block.value.heading | slugify }}">{{ block.value.heading }}</h2>
     {%- for content_item in block.value.content %}
-      {{ wagtail_block(content_item, merge_dict_if) }}
+      {{ wagtail_block(content_item) }}
     {%- endfor %}
   </section>
   {%- endfor %}

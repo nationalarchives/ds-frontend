@@ -1,6 +1,6 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 
-{% macro wagtailPromotedItem(block_value, merge_dict_if) %}
+{% macro wagtailPromotedItem(block_value) %}
   <aside class="etna-space-above">
     {% set card_content = {
       'title': block_value.title,
@@ -20,22 +20,24 @@
       'style': 'tint',
       'htmlElement': 'article'
     } %}
-    {% set card_content = merge_dict_if(card_content, {
-      'horizontal': True,
-      'imageSrc': block_value.image.image.jpeg.full_url,
-      'imageAlt': block_value.image.image.alt_text,
-      'imageWidth': block_value.image.image.jpeg.width,
-      'imageHeight': block_value.image.image.jpeg.height,
-      'imageSources': [
-        {
-          'src': block_value.image.image.webp.full_url,
-          'type': 'image/webp',
-          'width': block_value.image.image.webp.width,
-          'height': block_value.image.image.webp.height
-        }
-      ],
-      'classes': 'tna-card__promoted-item'
-    }, block_value.image.image) %}
+    {% if block_value.image.image %}
+      {% set card_content = dict(card_content, **{
+        'horizontal': True,
+        'imageSrc': block_value.image.image.jpeg.full_url,
+        'imageAlt': block_value.image.image.alt_text,
+        'imageWidth': block_value.image.image.jpeg.width,
+        'imageHeight': block_value.image.image.jpeg.height,
+        'imageSources': [
+          {
+            'src': block_value.image.image.webp.full_url,
+            'type': 'image/webp',
+            'width': block_value.image.image.webp.width,
+            'height': block_value.image.image.webp.height
+          }
+        ],
+        'classes': 'tna-card__promoted-item'
+      }) %}
+    {% endif %}
     {{ tnaCard(card_content) }}
   </aside>
 {% endmacro %}

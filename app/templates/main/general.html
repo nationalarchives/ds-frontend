@@ -54,7 +54,7 @@
       {% for section in page_data.body %}
       <h2 class="tna-heading-l" id="{{ section.value.heading | slugify }}">{{ section.value.heading }}</h2>
       {% for block in section.value.content %}
-      {{ wagtail_block(block, merge_dict_if) }}
+      {{ wagtail_block(block) }}
       {% endfor %}
       {% endfor %}
     </div>
@@ -75,10 +75,12 @@
           'text': sibling.title,
           'href': sibling.url
         } %}
-        {% set sidebarItem = merge_dict_if(sidebarItem, {
-          'current': True,
-          'children': pageSections
-        }, sibling.url == page_data.meta.url) %}
+        {% if sibling.url == page_data.meta.url %}
+          {% set sidebarItem = dict(sidebarItem, **{
+            'current': True,
+            'children': pageSections
+          }) %}
+        {% endif %}
         {% set sidebarItems = sidebarItems.append(sidebarItem) %}
       {% endfor %}
 

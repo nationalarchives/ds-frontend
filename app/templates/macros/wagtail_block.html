@@ -10,7 +10,7 @@
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
-{% macro wagtail_block(content_item, merge_dict_if) %}
+{% macro wagtail_block(content_item) %}
   {%- if content_item.type == 'paragraph' %}
   {{ content_item.value.text | tna_html | safe }}
 
@@ -63,7 +63,7 @@
   {{ wagtailPromotedList(content_item.value) }}
 
   {%- elif content_item.type == 'promoted_item' %}
-  {{ wagtailPromotedItem(content_item.value, merge_dict_if) }}
+  {{ wagtailPromotedItem(content_item.value) }}
 
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}

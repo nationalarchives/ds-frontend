@@ -88,11 +88,11 @@
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
         {% endif %}
-        {{ articleBlocks(page_data.body, merge_dict_if) }}
+        {{ articleBlocks(page_data.body) }}
       </div>
     </div>
   </div>
-  {{ articleFooter(page_data.similar_items, categories, page_data.latest_items, merge_dict_if) }}
+  {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>
 
 {{ feedback() }}

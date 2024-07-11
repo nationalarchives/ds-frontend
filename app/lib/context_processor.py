@@ -5,14 +5,6 @@ from urllib.parse import unquote
 from flask import request
 
 
-def merge_dict(dict, new_data):
-    return dict | new_data
-
-
-def merge_dict_if(dict, new_data, condition):
-    return dict | new_data if condition else dict
-
-
 def now_iso_8601():
     now = datetime.now()
     now_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")

@@ -4,8 +4,6 @@ import sentry_sdk
 from app.lib import cache
 from app.lib.context_processor import (
     cookie_preference,
-    merge_dict,
-    merge_dict_if,
     now_iso_8601,
     pretty_date_range,
 )
@@ -165,8 +163,6 @@ def create_app(config_class):
     @app.context_processor
     def context_processor():
         return dict(
-            merge_dict=merge_dict,
-            merge_dict_if=merge_dict_if,
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
