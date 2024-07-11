@@ -15,7 +15,7 @@
     <ul class="tna-ul tna-ul--plain tna-container">
       {%- for page in similar_items %}
       <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-        {{ tnaCard({
+        {% set card_content = {
           'supertitle': page.type_label,
           'title': page.title,
           'headingLevel': 3,
@@ -23,6 +23,10 @@
           'href': page.full_url,
           'body': page.teaser_text,
           'label': 'New' if page.is_newly_published,
+          'htmlElement': 'article',
+          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
+        } %}
+        {% set card_content = merge_dict_if(card_content, {
           'imageSrc': page.teaser_image.jpeg.full_url,
           'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
           'imageWidth': page.teaser_image.jpeg.width,
@@ -35,10 +39,9 @@
               'height': page.teaser_image.webp.height
             }
           ],
-          'lazyImage': True,
-          'htmlElement': 'article',
-          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
-        }) }}
+          'lazyImage': True
+        }, page.teaser_image) %}
+        {{ tnaCard(card_content) }}
       </li>
       {%- endfor %}
     </ul>
@@ -68,7 +71,7 @@
     <ul class="tna-ul tna-ul--plain tna-container">
       {%- for page in latest_items %}
       <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
-        {{ tnaCard({
+        {% set card_content = {
           'supertitle': page.type_label,
           'title': page.title,
           'headingLevel': 3,
@@ -76,6 +79,10 @@
           'href': page.full_url,
           'body': page.teaser_text,
           'label': 'New' if page.is_newly_published,
+          'htmlElement': 'article',
+          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
+        } %}
+        {% set card_content = merge_dict_if(card_content, {
           'imageSrc': page.teaser_image.jpeg.full_url,
           'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
           'imageWidth': page.teaser_image.jpeg.width,
@@ -88,10 +95,9 @@
               'height': page.teaser_image.webp.height
             }
           ],
-          'lazyImage': True,
-          'htmlElement': 'article',
-          'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
-        }) }}
+          'lazyImage': True
+        }, page.teaser_image) %}
+        {{ tnaCard(card_content) }}
       </li>
       {%- endfor %}
     </ul>

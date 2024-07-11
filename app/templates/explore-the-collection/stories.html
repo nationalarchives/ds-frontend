@@ -86,9 +86,6 @@
           }
         ]
       }, page.teaser_image) %}
-      {% set card_content = merge_dict_if(card_content, {
-        'label': 'New'
-      }, page.is_newly_published) %}
       {{ tnaCard(card_content) }}
     </li>
     {%- endfor %}
