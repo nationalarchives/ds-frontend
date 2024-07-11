@@ -18,7 +18,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -48,15 +48,15 @@
       {% endif %}
     </div>
   </section>
-  <section class="tna-gallery" data-module="tna-gallery">
+  <section class="etna-record-gallery">
     <div class="tna-container tna-visually-hidden">
-      <div class="tna-column tna-column--full tna-gallery__header">
+      <div class="tna-column tna-column--full etna-record-gallery__header">
         <h2 class="tna-heading-l">
           Images
         </h2>
       </div>
     </div>
-    <div class="tna-gallery__items">
+    <div class="etna-record-gallery__items">
       {%- for item in page_data.gallery_items %}
       {% set picture_information = [] %}
       {%- if item.image.transcript %}
@@ -73,20 +73,20 @@
         'body': item.image.translation.text | tna_html
       }] %}
       {%- endif %}
-      <div class="tna-gallery__item tna-container">
-        <div class="tna-column tna-column--full tna-gallery__header">
-          <p class="tna-gallery__item-index">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</p>
+      <div class="etna-record-gallery__item tna-container">
+        <div class="tna-column tna-column--full etna-record-gallery__header">
+          <p class="etna-record-gallery__item-index">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</p>
         </div>
-        <figure class="tna-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-          <img src="{{ item.image.webp.full_url }}" class="tna-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
+        <figure class="etna-record-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+          <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
           {% if item.caption %}
-          <figcaption class="tna-gallery__item-description">
+          <figcaption class="etna-record-gallery__item-description">
             {{ item.caption | safe }}
           </figcaption>
           {% endif %}
         </figure>
         {%- if picture_information | length %}
-        <div class="tna-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        <div class="etna-record-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
           {{ tnaTabs({
             'items': picture_information
           }) }}
@@ -261,4 +261,9 @@
 </article>
 
 {{ feedback() }}
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='record-article.min.js') }}" defer></script>
 {% endblock %}

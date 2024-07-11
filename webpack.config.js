@@ -6,6 +6,7 @@ module.exports = {
     analytics: "./src/scripts/analytics.js",
     article: "./src/scripts/article.js",
     cookies: "./src/scripts/cookies.js",
+    "record-article": "./src/scripts/record-article.js",
     search: "./src/scripts/search.js",
     sentry: "./src/scripts/sentry.js",
     video: "./src/scripts/video.js",

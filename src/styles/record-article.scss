@@ -1,0 +1,133 @@
+@use "sass:math";
+
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+.etna-tilted-image-wrapper {
+  position: relative;
+}
+
+.etna-tilted-image {
+  width: calc(100% - 4rem);
+  $rotate: 10deg;
+  margin-top: #{math.sin($rotate) * 100%};
+  // margin-bottom: -#{(math.sin($rotate) * 100%) * 1.1};
+
+  position: absolute;
+  top: spacing.space(1);
+  left: spacing.space(2);
+
+  transform-origin: 0 0;
+  transform: rotate(-#{$rotate});
+
+  // outline: 0.75rem #fff solid;
+
+  // box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 75%);
+}
+
+.tna-section:has(.etna-tilted-image) {
+  overflow: hidden;
+}
+
+.etna-record-gallery {
+  @include colour.contrast;
+
+  padding-bottom: spacing.space(2);
+
+  &__header {
+    padding-top: spacing.space(2);
+  }
+
+  &__items {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: spacing.space(3);
+
+    &:focus {
+      outline: none !important;
+    }
+  }
+
+  &__item {
+    margin: 0;
+
+    &-index {
+      padding-bottom: spacing.space(1);
+
+      text-align: center;
+      @include typography.main-font-weight-bold;
+    }
+
+    &-figure {
+    }
+
+    &-image {
+      height: auto;
+      margin: 0 auto;
+    }
+
+    &-description {
+      margin-top: spacing.space(1);
+      padding: spacing.space(0.5) 0 spacing.space(0.5) spacing.space(1);
+
+      @include colour.colour-border("keyline-dark", 4px, solid, left);
+    }
+
+    &-tabs {
+      @include media.on-smaller-than-large {
+        padding-top: spacing.space(2);
+      }
+    }
+  }
+
+  &__item + &__item {
+    @include colour.colour-border("keyline", 1px, solid, top);
+  }
+
+  &__toggle-wrapper {
+    text-align: center;
+  }
+
+  &__toggle {
+    margin-top: spacing.space(2);
+  }
+
+  // &--touchable {
+  //   .etna-record-gallery__items {
+  //     flex-flow: row nowrap;
+
+  //     gap: spacing.space(6);
+
+  //     overflow-x: scroll;
+  //     scroll-snap-type: x mandatory;
+  //   }
+
+  //   .etna-record-gallery__item {
+  //     width: 100%;
+
+  //     scroll-snap-align: center;
+  //     flex: none;
+  //   }
+
+  //   &.etna-record-gallery--collapsed {
+  //     .etna-record-gallery__items {
+  //       overflow: auto;
+  //     }
+  //   }
+  // }
+
+  &--collapsed &__item + &__item,
+  &--collapsed &__item:first-child &__item-description,
+  &--collapsed &__item:first-child &__item-tabs {
+    display: none;
+  }
+
+  &--collapsed &__item-figure {
+    width: 100%;
+  }
+}
