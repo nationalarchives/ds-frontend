@@ -65,7 +65,13 @@ $plyr-tooltip-radius: 0;
 }
 
 .plyr {
+  --plyr-color-main: var(--accent-background, $plyr-color-main);
+
   &__control--overlaid {
     border-radius: 0;
+
+    svg {
+      fill: var(--accent-font-dark, currentColor);
+    }
   }
 }
