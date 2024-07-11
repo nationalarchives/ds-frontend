@@ -15,8 +15,8 @@
 
 .etna-search-tabs {
   display: flex;
-  gap: spacing.space(1);
   flex-wrap: nowrap;
+  gap: spacing.space(1);
 
   list-style: none;
 
@@ -152,20 +152,21 @@ mark {
 
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
     align-items: stretch;
     justify-content: center;
+    box-sizing: border-box;
+
+    font-family: inherit;
 
     font-size: inherit;
-    font-family: inherit;
     line-height: inherit;
     text-align: center;
 
     background-color: transparent;
 
-    @include colour.colour-border("keyline-dark", 1px);
-
     cursor: pointer;
+
+    @include colour.colour-border("keyline-dark", 1px);
 
     @include media.on-mobile {
       @include typography.font-size(16);
@@ -219,9 +220,9 @@ mark {
 
 .etna-search-sort-view {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  flex-wrap: nowrap;
 
   .tna-form__group-contents {
     flex: 1;
@@ -237,8 +238,8 @@ mark {
   }
 
   .tna-form__group--inline + .tna-button-group {
-    margin-left: spacing.space(0.5);
     margin-top: 0;
+    margin-left: spacing.space(0.5);
   }
 }
 
@@ -273,9 +274,10 @@ mark {
 .etna-search-result {
   &__description,
   .tna-card__body {
-    overflow: hidden;
-    text-overflow: ellipsis;
     display: -webkit-box;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
     -webkit-line-clamp: 4; /* number of lines to show */
     line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -299,13 +301,13 @@ mark {
 
       &::before,
       &::after {
+        content: "";
+
         display: block;
 
         position: absolute;
 
         @include colour.colour-background("keyline");
-
-        content: "";
       }
 
       &::before {

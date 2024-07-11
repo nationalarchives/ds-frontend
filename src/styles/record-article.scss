@@ -10,8 +10,8 @@
 }
 
 .etna-tilted-image {
-  width: calc(100% - 4rem);
   $rotate: 10deg;
+  width: calc(100% - 4rem);
   margin-top: #{math.sin($rotate) * 100%};
   // margin-bottom: -#{(math.sin($rotate) * 100%) * 1.1};
 
@@ -20,6 +20,7 @@
   left: spacing.space(2);
 
   transform-origin: 0 0;
+
   transform: rotate(-#{$rotate});
 
   // outline: 0.75rem #fff solid;

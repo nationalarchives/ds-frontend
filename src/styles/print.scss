@@ -1,0 +1,28 @@
+@use "@nationalarchives/frontend/nationalarchives/print";
+
+.etna-\!--full-width-on-print {
+  width: 100% !important;
+}
+
+.plyr {
+  position: relative;
+
+  &::after {
+    content: "[VIDEO]";
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+
+    font-size: 48px;
+    font-weight: 800;
+
+    background-color: #999;
+
+    border: 10px #000 dashed;
+  }
+}

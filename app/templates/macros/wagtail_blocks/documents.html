@@ -1,0 +1,18 @@
+{%- from 'components/files/macro.html' import tnaFiles -%}
+
+{% macro wagtailDocuments(block_value) %}
+  {% set files = [] %}
+  {% for document in block_value.documents %}
+    {% set files = files.append({
+      'text': document.file.title,
+      'href': document.file.url,
+      'fileType': document.file.type | upper,
+      'fileSize': document.file.pretty_file_size,
+      'fileExtent': document.file.extent,
+      'description': document.file.description
+    }) %}
+  {% endfor %}
+  {{ tnaFiles({
+    'items': files
+  }) }}
+{% endmacro %}

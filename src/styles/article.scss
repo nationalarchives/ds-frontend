@@ -9,9 +9,10 @@
     max-height: 100vh;
     max-height: 100dvh;
 
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+
+    box-sizing: border-box;
 
     position: sticky;
     top: 0;
@@ -23,12 +24,13 @@
     padding: spacing.space(0.5);
 
     box-sizing: content-box;
+
+    overflow-y: auto;
+
     position: relative;
     left: -#{spacing.space(0.5)};
 
     flex: 1;
-
-    overflow-y: auto;
   }
 
   &__sidebar-item {
@@ -55,13 +57,13 @@
   &__sections {
     @include media.on-mobile {
       &::after {
+        content: "";
+
         width: 100%;
 
         display: block;
 
         @include colour.colour-border("keyline", 1px, solid, bottom);
-
-        content: "";
       }
     }
   }
@@ -112,26 +114,26 @@
     width: 100%;
     padding: spacing.space(1) 0 !important;
 
+    appearance: none;
+
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: spacing.space(2);
 
     color: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    font-weight: inherit;
     font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
     text-align: left;
 
     background: none;
 
     border: none;
-    @include colour.colour-border("keyline", 1px, solid, top);
-
-    appearance: none;
 
     cursor: pointer;
+    @include colour.colour-border("keyline", 1px, solid, top);
 
     &[aria-expanded="true"] &-icon {
       &--up {
@@ -180,12 +182,10 @@
   }
 
   .tna-featured-records {
-    margin-right: spacing.space(3);
-    margin-left: spacing.space(3);
+    margin-left: spacing.space(2);
 
     @include media.on-mobile {
-      margin-right: spacing.space(1);
-      margin-left: spacing.space(1);
+      margin-left: 0;
     }
   }
 }

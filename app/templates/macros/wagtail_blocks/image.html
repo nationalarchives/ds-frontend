@@ -1,35 +1,39 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
 {% macro wagtailImage(block_value, id) %}
-  {% set picture_information = [] %}
-  {%- if block_value.image.transcript %}
-  {% set picture_information = picture_information + [{
-    'id': 'transcript-' + id,
-    'title': block_value.image.transcript.heading or 'Transcript',
-    'body': block_value.image.transcript.text | tna_html | safe
-  }] %}
-  {%- endif %}
-  {%- if block_value.image.translation %}
-  {% set picture_information = picture_information + [{
-    'id': 'translation-' + id,
-    'title': block_value.image.translation.heading or 'Translation',
-    'body': block_value.image.translation.text | tna_html | safe
-  }] %}
-  {%- endif %}
-  {{ tnaPicture({
-    'src': block_value.image.jpeg.full_url,
-    'alt': block_value.image.jpeg.alt_text,
-    'width': block_value.image.jpeg.width,
-    'height': block_value.image.jpeg.height,
-    'sources': [
-      {
-        'src': block_value.image.webp.full_url,
-        'type': 'image/webp',
-        'width': block_value.image.webp.width,
-        'height': block_value.image.webp.height
-      }
-    ],
-    'caption': block_value.caption,
-    'information': picture_information
-  }) }}
+  {% if block_value.detailed %}
+    {% set picture_information = [] %}
+    {%- if block_value.image.transcript %}
+      {% set picture_information = picture_information + [{
+        'id': 'transcript-' + id,
+        'title': block_value.image.transcript.heading or 'Transcript',
+        'body': block_value.image.transcript.text | tna_html | safe
+      }] %}
+    {%- endif %}
+    {%- if block_value.image.translation %}
+      {% set picture_information = picture_information + [{
+        'id': 'translation-' + id,
+        'title': block_value.image.translation.heading or 'Translation',
+        'body': block_value.image.translation.text | tna_html | safe
+      }] %}
+    {%- endif %}
+    {{ tnaPicture({
+      'src': block_value.image.jpeg.full_url,
+      'alt': block_value.alt_text,
+      'width': block_value.image.jpeg.width,
+      'height': block_value.image.jpeg.height,
+      'sources': [
+        {
+          'src': block_value.image.webp.full_url,
+          'type': 'image/webp',
+          'width': block_value.image.webp.width,
+          'height': block_value.image.webp.height
+        }
+      ],
+      'caption': block_value.caption,
+      'information': picture_information
+    }) }}
+  {% else %}
+    <img class="etna-image etna-space-above" src="{{ block_value.image.jpeg.full_url }}" width="{{ block_value.image.jpeg.width }}" height="{{ block_value.image.jpeg.height }}" alt="{{ block_value.alt_text }}">
+  {% endif %}
 {% endmacro %}

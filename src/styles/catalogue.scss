@@ -49,10 +49,10 @@
   margin-top: spacing.space(1);
   padding-left: 14rem;
 
+  overflow: hidden;
+
   position: relative;
   left: -2rem;
-
-  overflow: hidden;
 
   &__item {
     min-height: 4rem;
@@ -68,6 +68,8 @@
     }
 
     &::before {
+      content: "";
+
       width: 100vw;
 
       display: block;
@@ -82,8 +84,6 @@
       // background-color: colour.brand-colour("white", 0.25);
 
       @include colour.colour-border("accent-background", 1px);
-
-      content: "";
     }
 
     &--current {

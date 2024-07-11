@@ -6,10 +6,6 @@
   outline: none;
 }
 
-[hidden] {
-  display: none !important;
-}
-
 .tna-button-group {
   &--full {
     justify-content: stretch;
@@ -26,6 +22,10 @@
       flex: 1;
     }
   }
+}
+
+.tna-files {
+  @include spacing.space-above;
 }
 
 .tna-card {
