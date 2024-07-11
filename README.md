@@ -12,8 +12,9 @@ npm install
 # Create a static assets directory
 mkdir app/static/assets
 
-# Copy in the TNA Frontend static assets
+# Copy in the static assets from TNA Frontend and Plyr
 cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
+cp -r node_modules/plyr/dist/plyr.svg app/static/assets/images
 ```
 
 ## Environment variables

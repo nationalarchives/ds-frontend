@@ -13,9 +13,10 @@ COPY --chown=app . .
 # Install dependencies
 RUN tna-build
 
-# Copy in the static assets from TNA Frontend
+# Copy in the static assets
 RUN mkdir /app/app/static/assets; \
-    cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets
+    cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets; \
+    cp -r /app/node_modules/plyr/dist/plyr.svg /app/app/static/assets/images
 
 # Delete source files and tests
 RUN rm -fR /app/src /app/test

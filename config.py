@@ -4,7 +4,9 @@ from app.lib.util import strtobool
 
 
 class Features(object):
-    FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
+    FEATURE_PHASE_BANNER: bool = strtobool(
+        os.getenv("FEATURE_PHASE_BANNER", "True")
+    )
 
 
 class Base(object):
@@ -50,6 +52,12 @@ class Base(object):
     CSP_FRAME_SRC: list[str] = os.environ.get("CSP_FRAME_SRC", "'self'").split(
         ","
     )
+    CSP_FEATURE_FULLSCREEN: list[str] = os.environ.get(
+        "CSP_FEATURE_FULLSCREEN", "'self'"
+    ).split(",")
+    CSP_FEATURE_PICTURE_IN_PICTURE: list[str] = os.environ.get(
+        "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
+    ).split(",")
     FRAME_DOMAIN_ALLOW: str = os.environ.get("FRAME_DOMAIN_ALLOW", "")
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
 

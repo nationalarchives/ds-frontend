@@ -12,6 +12,8 @@
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
 {%- set og_type = 'article' -%}
 
+{%- set bodyContainsYouTubeVideo = page_data.body | wagtail_streamfield_contains_youtube_video -%}
+
 {% block head %}
 {{ super() }}
     {% for author in page_data.authors %}
@@ -23,6 +25,9 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+    {% if bodyContainsYouTubeVideo %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='video.css') }}">
+    {% endif %}
 {% endblock %}
 
 {% block beforeContent %}
@@ -157,5 +162,8 @@
 
 {% block bodyEnd %}
 {{ super() }}
-<script src="{{ url_for('static', filename='article.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='article.min.js') }}" defer></script>
+    {% if bodyContainsYouTubeVideo %}
+    <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
+    {% endif %}
 {% endblock %}

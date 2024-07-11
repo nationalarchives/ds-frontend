@@ -1,0 +1,71 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+$plyr-color-main: #010101;
+$plyr-badge-border-radius: 0;
+$plyr-control-radius: 0;
+$plyr-menu-radius: 0;
+$plyr-tooltip-radius: 0;
+
+@import "plyr/src/sass/plyr";
+
+.etna-video,
+.plyr {
+  width: 100%;
+  @include spacing.space-above;
+
+  display: block;
+}
+
+.etna-video {
+  aspect-ratio: 16/9;
+
+  position: relative;
+
+  &__preview-image {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    object-fit: cover;
+  }
+
+  &__label {
+    padding: 0.5rem 1rem;
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    color: #fff;
+    @include typography.main-font-weight-bold;
+    text-decoration: underline;
+
+    background-color: rgb(0 0 0 / 75%);
+  }
+
+  &__icon {
+    width: 20%;
+    height: 25%;
+
+    display: block;
+
+    position: absolute;
+    top: 37.5%;
+    left: 40%;
+    z-index: 2;
+  }
+
+  &:hover &__label {
+    @include typography.interacted-text-decoration;
+  }
+}
+
+.plyr {
+  &__control--overlaid {
+    border-radius: 0;
+  }
+}

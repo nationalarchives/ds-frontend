@@ -56,7 +56,7 @@
   'serviceName': 'The National Archives',
   'cookiesUrl': url_for('legal.cookies'),
   'cookiesDomain': app_config.COOKIE_DOMAIN
-}) }}
+}) | indent(6) }}
 {% endif %}
 {% endif %}
 {% endblock %}
@@ -67,7 +67,7 @@
   'phase': 'Alpha',
   'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
   'classes': 'tna-background-contrast'
-}) }}
+}) | indent(6) }}
 {% endif %}
 {{ tnaGlobalHeader({
   'logo': {
@@ -112,19 +112,19 @@
       'href': 'https://www.nationalarchives.gov.uk/professional-guidance-and-services/'
     },
   ]
-}) }}
+}) | indent(6) }}
 {% endblock %}
 
 {% block beforeContent %}
 {% if breadcrumbs and breadcrumbs | length > 0 %}
-<div class="tna-container">
-  <div class="tna-column tna-column--full">
-    {{ tnaBreadcrumbs({
-      'items': breadcrumbs,
-      'structuredData': True
-    }) }}
-  </div>
-</div>
+      <div class="tna-container">
+        <div class="tna-column tna-column--full">
+          {{ tnaBreadcrumbs({
+            'items': breadcrumbs,
+            'structuredData': True
+          }) }}
+        </div>
+      </div>
 {% endif %}
 {% endblock %}
 
@@ -263,13 +263,13 @@
     }
   ],
   'classes': 'tna-!--margin-top-l'
-}) }}
+}) | indent(4) }}
 {% endblock %}
 
 {% block bodyEnd %}
 {% if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
-<script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
+    <script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
 {% endif %}
-<script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
-<script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
 {% endblock %}

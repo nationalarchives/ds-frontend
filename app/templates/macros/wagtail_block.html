@@ -8,6 +8,7 @@
 {%- from 'macros/wagtail_blocks/promoted_list.html' import wagtailPromotedList -%}
 {%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
+{%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
 {% macro wagtail_block(content_item, merge_dict_if) %}
   {%- if content_item.type == 'paragraph' %}
@@ -82,6 +83,12 @@
     'headingLevel': 2,
     'body': content_item.value.body | tna_html | safe
   }) }}
+  
+  {%- elif content_item.type == 'youtube_video' %}
+  {{ wagtailYouTubeVideo(content_item.value) }}
+  
+  {%- elif content_item.type == 'document' %}
+  {{ content_item.value }}
 
   {%- else %}
   <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>

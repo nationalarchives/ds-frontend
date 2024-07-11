@@ -20,6 +20,7 @@ from app.lib.template_filters import (
     slugify,
     tna_html,
     url_encode,
+    wagtail_streamfield_contains_youtube_video,
 )
 from flask import Flask
 from flask_talisman import Talisman
@@ -67,14 +68,7 @@ def create_app(config_class):
             "base-uri": csp_none,
             "object-src": csp_none,
             **(
-                {
-                    "img-src": app.config.get("CSP_IMG_SRC")
-                    + [
-                        "https://loremflickr.com",
-                        "https://picsum.photos",
-                        "https://fastly.picsum.photos",
-                    ]
-                }
+                {"img-src": app.config.get("CSP_IMG_SRC")}
                 if app.config.get("CSP_IMG_SRC") != csp_self
                 else {}
             ),
@@ -122,10 +116,14 @@ def create_app(config_class):
         # content_security_policy_nonce_in=["script-src", "style-src"],
         feature_policy={
             "camera": csp_none,
-            "fullscreen": csp_self,
+            "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN") or csp_self,
             "geolocation": csp_none,
             "microphone": csp_none,
             "screen-wake-lock": csp_none,
+            "picture-in-picture": app.config.get(
+                "CSP_FEATURE_PICTURE_IN_PICTURE"
+            )
+            or csp_self,
         },
         force_https=app.config.get("FORCE_HTTPS"),
         frame_options="ALLOW-FROM",
@@ -135,7 +133,7 @@ def create_app(config_class):
     @app.after_request
     def apply_extra_headers(response):
         response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
-        response.headers["Cross-Origin-Embedder-Policy"] = "credentialless"
+        response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
         response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         response.headers["Cache-Control"] = (
@@ -162,6 +160,7 @@ def create_app(config_class):
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(url_encode)
+    app.add_template_filter(wagtail_streamfield_contains_youtube_video)
 
     @app.context_processor
     def context_processor():
