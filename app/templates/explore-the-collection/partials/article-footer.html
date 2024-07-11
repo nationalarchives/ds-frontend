@@ -1,7 +1,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 
-{% macro articleFooter(similar_items, categories, latest_items) %}
+{% macro articleFooter(similar_items, categories, latest_items, merge_dict_if) %}
 {%- if similar_items | length or categories | length or latest_items | length %}
 <aside class="tna-!--hide-on-print">
 {%- endif %}
