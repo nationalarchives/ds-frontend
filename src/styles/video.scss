@@ -1,3 +1,4 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
@@ -15,6 +16,10 @@ $plyr-tooltip-radius: 0;
   @include spacing.space-above;
 
   display: block;
+
+  + .tna-details {
+    margin-top: 0;
+  }
 }
 
 .etna-video {
@@ -72,6 +77,18 @@ $plyr-tooltip-radius: 0;
 
     svg {
       fill: var(--accent-font-dark, currentColor);
+    }
+  }
+
+  &__control {
+    transition: none;
+
+    &:focus-visible {
+      @include a11y.focus-outline;
+
+      &:active {
+        @include a11y.active-outline;
+      }
     }
   }
 }
