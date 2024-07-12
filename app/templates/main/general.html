@@ -8,7 +8,7 @@
 {%- set pageTitle = page_data.title -%}
 {%- set showSidebar = siblings | length > 1 -%}
 
-{%- set bodyContainsYouTubeVideo = page_data.body | wagtail_streamfield_contains_youtube_video -%}
+{%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
 
 {% block head %}
 {{ super() }}
@@ -17,7 +17,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    {% if bodyContainsYouTubeVideo %}
+    {% if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='video.css') }}">
     {% endif %}
 {% endblock %}
@@ -99,7 +99,7 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    {% if bodyContainsYouTubeVideo %}
+    {% if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
     {% endif %}
 {% endblock %}

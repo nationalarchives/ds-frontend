@@ -142,7 +142,7 @@ def url_encode(s):
     return urllib.parse.quote(s, safe="")
 
 
-def wagtail_streamfield_contains_youtube_video(body):
+def wagtail_streamfield_contains_media(body):
     for section in body:
         for block in section["value"]["content"]:
             if block["type"] == "youtube_video":

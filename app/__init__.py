@@ -18,7 +18,7 @@ from app.lib.template_filters import (
     slugify,
     tna_html,
     url_encode,
-    wagtail_streamfield_contains_youtube_video,
+    wagtail_streamfield_contains_media,
 )
 from flask import Flask
 from flask_talisman import Talisman
@@ -158,7 +158,7 @@ def create_app(config_class):
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(url_encode)
-    app.add_template_filter(wagtail_streamfield_contains_youtube_video)
+    app.add_template_filter(wagtail_streamfield_contains_media)
 
     @app.context_processor
     def context_processor():

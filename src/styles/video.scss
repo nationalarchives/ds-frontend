@@ -91,4 +91,20 @@ $plyr-tooltip-radius: 0;
       }
     }
   }
+
+  &--full-ui input[type="range"] {
+    &:focus-visible {
+      &::-webkit-slider-runnable-track {
+        @include a11y.focus-outline;
+      }
+
+      &::-moz-range-track {
+        @include a11y.focus-outline;
+      }
+
+      &::-ms-track {
+        @include a11y.focus-outline;
+      }
+    }
+  }
 }

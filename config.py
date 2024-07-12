@@ -26,6 +26,7 @@ class Base(object):
     SEARCH_API_URL: str = os.environ.get("SEARCH_API_URL", "").rstrip("/")
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
+    SESSION_COOKIE_DOMAIN: str | None = COOKIE_DOMAIN or None
 
     CSP_IMG_SRC: list[str] = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC: list[str] = os.environ.get(
@@ -111,6 +112,7 @@ class Staging(Base, Features):
 
 class Develop(Base, Features):
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
+    EXPLAIN_TEMPLATE_LOADING = True
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
@@ -121,6 +123,7 @@ class Test(Base, Features):
     ENVIRONMENT = "test"
 
     DEBUG = True
+    TESTING = True
 
     SENTRY_DSN = ""
     SENTRY_SAMPLE_RATE = 0
