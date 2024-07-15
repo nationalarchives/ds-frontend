@@ -1,4 +1,6 @@
-@use "@nationalarchives/frontend/nationalarchives/all";
+@use "@nationalarchives/frontend/nationalarchives/utilities";
+
+@use "main/components";
 
 @use "main/frontend-overrides";
 @use "main/generics";
