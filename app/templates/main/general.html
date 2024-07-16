@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_block.html' import wagtail_block -%}
@@ -13,6 +14,11 @@
 {% block head %}
 {{ super() }}
 {{ meta(page_data) }}
+{% endblock %}
+
+{% block skipLink %}
+<a id="top"></a>
+{{ super() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -48,7 +54,7 @@
     </div>
   </div>
 </div>
-<div class="tna-section tna-!--padding-top-s">
+<div class="tna-!--padding-top-s">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny tna-!--padding-top-m etna-!--full-width-on-print">
       {% for section in page_data.body %}
@@ -93,6 +99,21 @@
       {% endif %}
     </div>
     {% endif %}
+
+
+
+    <div class="tna-column tna-column--full tna-hide-on-print">
+      <hr class="tna-!--margin-top-xl">
+      <div class="tna-button-group tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Back to top',
+          'href': '#top',
+          'icon': 'arrow-up',
+          'small': True,
+          'plain': True
+        }) }}
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
