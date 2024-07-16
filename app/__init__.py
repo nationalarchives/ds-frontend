@@ -171,7 +171,6 @@ def create_app(config_class):
 
     from .catalogue import bp as catalogue_bp
     from .dev import bp as dev_bp
-    from .help import bp as help_bp
     from .legal import bp as legal_bp
     from .main import bp as site_bp
     from .search import bp as search_bp
@@ -179,7 +178,6 @@ def create_app(config_class):
 
     app.register_blueprint(site_bp)
     app.register_blueprint(legal_bp, url_prefix="/legal")
-    app.register_blueprint(help_bp, url_prefix="/help")
     app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(dev_bp, url_prefix="/dev")
     app.register_blueprint(catalogue_bp, url_prefix="/catalogue")
