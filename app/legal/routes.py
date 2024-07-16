@@ -64,6 +64,11 @@ def cookies():
             quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
             domain=current_app.config.get("COOKIE_DOMAIN"),
         )
+        response.set_cookie(
+            "cookie_preferences_set",
+            "true",
+            domain=current_app.config.get("COOKIE_DOMAIN"),
+        )
         if not usage:
             for cookie in request.cookies:
                 if cookie.startswith("_ga"):
