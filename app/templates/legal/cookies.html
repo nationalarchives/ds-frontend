@@ -8,6 +8,11 @@
 {%- set themeAccent = 'blue' -%}
 {%- set pageTitle = 'Cookies' -%}
 
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+{% endblock %}
+
 {% block beforeContent %}
   <div class="tna-container">
     <div class="tna-column tna-column--full">
