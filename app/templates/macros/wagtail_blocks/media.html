@@ -4,7 +4,7 @@
   {%- if block_value.media.type == 'audio' %}
   <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
     <div class="tna-aside etna-background-masked-image">
-      <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
+      <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image" alt="">
       <hgroup class="tna-hgroup-l">
         <p class="tna-hgroup__supertitle">Listen</p>
         <h3 class="tna-hgroup__title" itemprop="name">
@@ -32,7 +32,7 @@
   {%- elif block_value.media.type == 'video' %}
   <aside class="etna-space-above" itemprop="video" itemscope itemtype="https://schema.org/VideoObject">
     <div class="tna-aside etna-background-masked-image">
-      <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image">
+      <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image" alt="">
       <hgroup class="tna-hgroup-l">
         <p class="tna-hgroup__supertitle">Watch</p>
         <h3 class="tna-hgroup__title" itemprop="name">
