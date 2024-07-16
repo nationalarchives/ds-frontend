@@ -10,7 +10,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
         self.domain = "http://localhost"
-        self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
+        self.mock_api_url = self.app.application.config.get("WAGTAIL_API_URL")
 
     def test_no_api_response(self):
         rv = self.app.get("/foobar/")
