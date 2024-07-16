@@ -15,18 +15,21 @@ class Base(object):
 
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
     TNA_FRONTEND_VERSION: str = ""
-    with open(
-        os.path.join(
-            os.path.realpath(os.path.dirname(__file__)),
-            "node_modules/@nationalarchives/frontend",
-            "package.json",
-        )
-    ) as package_json:
-        try:
-            data = json.load(package_json)
-            TNA_FRONTEND_VERSION = data["version"] or ""
-        except ValueError:
-            pass
+    try:
+        with open(
+            os.path.join(
+                os.path.realpath(os.path.dirname(__file__)),
+                "node_modules/@nationalarchives/frontend",
+                "package.json",
+            )
+        ) as package_json:
+            try:
+                data = json.load(package_json)
+                TNA_FRONTEND_VERSION = data["version"] or ""
+            except ValueError:
+                pass
+    except FileNotFoundError:
+        pass
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
 
