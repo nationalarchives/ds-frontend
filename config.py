@@ -1,3 +1,4 @@
+import json
 import os
 
 from app.lib.util import strtobool
@@ -13,6 +14,18 @@ class Base(object):
     ENVIRONMENT: str = os.environ.get("ENVIRONMENT", "production")
 
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
+    TNA_FRONTEND_VERSION: str = (
+        json.load(
+            open(
+                os.path.join(
+                    os.path.realpath(os.path.dirname(__file__)),
+                    "node_modules/@nationalarchives/frontend",
+                    "package.json",
+                )
+            )
+        )["version"]
+        or ""
+    )
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
 

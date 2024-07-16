@@ -11,10 +11,8 @@
 {%- set theme = request.cookies.get('theme') or 'light' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {
-  'data-generated': now_iso_8601(),
   'data-ga4id': app_config.GA4_ID or "",
-  'data-cookiesdomain': app_config.COOKIE_DOMAIN or "",
-  'data-version': app_config.BUILD_VERSION
+  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ""
 } -%}
 
 {% block headIcons %}
@@ -36,8 +34,11 @@
 
 {% block head %}
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="tna.view.theme" content="{{ theme }}">
+    <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
+    <meta name="tna.app.tna-frontend" content="{{ app_config.TNA_FRONTEND_VERSION }}">
+    <meta name="tna.app.ds-etna-frontend" content="{{ app_config.BUILD_VERSION }}">
+    <meta name="tna.settings.theme" content="{{ theme }}">
 {% endblock %}
 
 {% block stylesheets %}

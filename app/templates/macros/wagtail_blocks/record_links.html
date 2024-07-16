@@ -1,4 +1,4 @@
-{%- from 'components/featured-records/macro.html' import tnaFeaturedRecords -%}
+{%- from 'components/records-list/macro.html' import tnaRecordsList -%}
 
 {% macro wagtailRecordLinks(block_value) %}
   {% set items = [] %}
@@ -25,7 +25,7 @@
     {%- endif %}
     {# {% endwith %} #}
   {%- endfor %}
-  {{ tnaFeaturedRecords({
+  {{ tnaRecordsList({
     'items': items
   }) }}
 {% endmacro %}

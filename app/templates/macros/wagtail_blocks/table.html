@@ -1,5 +1,7 @@
 {% macro wagtailTable(block_value) %}
+  {% if block_value.title %}
   <h3 class="tna-heading-m">{{ block_value.title }}</h3>
+  {% endif %}
   {% set body_start_row = 0 %}
   <div class="tna-table-wrapper">
     <table class="tna-table">

@@ -6,12 +6,12 @@
     "dev:css": "sass --load-path=node_modules --watch src/styles:app/static",
     "dev:js": "webpack --config webpack.config.js --mode=development --watch",
     "dev": "npm run dev:css & npm run dev:js &",
-    "lint:fix": "prettier --write src && stylelint --config 'node_modules/@nationalarchives/frontend/config/stylelint.config.js' --ignore-path 'app/**/*.css' --ignore-path 'tmp/**/*' --fix 'src/styles/**/*.scss' && eslint --fix 'src/scripts/**/*.js'",
+    "lint:fix": "prettier --write src && stylelint --fix 'src/styles/**/*.scss' && eslint --fix 'src/scripts/**/*.js'",
     "test:all": "npm run test:lint",
-    "test:lint": "prettier --check src && stylelint --config 'node_modules/@nationalarchives/frontend/config/stylelint.config.js' --ignore-path 'app/**/*.css' --ignore-path 'tmp/**/*' 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
+    "test:lint": "prettier --check src && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.1.65",
+    "@nationalarchives/frontend": "0.2.0",
     "@sentry/browser": "^8.11.0",
     "plyr": "^3.7.8"
   },

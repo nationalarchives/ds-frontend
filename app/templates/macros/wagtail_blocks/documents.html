@@ -1,4 +1,4 @@
-{%- from 'components/files/macro.html' import tnaFiles -%}
+{%- from 'components/files-list/macro.html' import tnaFilesList -%}
 
 {% macro wagtailDocuments(block_value) %}
   {% set files = [] %}
@@ -12,7 +12,7 @@
       'description': document.file.description
     }) %}
   {% endfor %}
-  {{ tnaFiles({
+  {{ tnaFilesList({
     'items': files
   }) }}
 {% endmacro %}
