@@ -12,7 +12,7 @@
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
-{% macro wagtail_block(content_item, plain_images) %}
+{% macro wagtail_block(content_item, next_heading_level, plain_images) %}
   {%- if content_item.type == 'paragraph' %}
   {{ content_item.value.text | tna_html | safe }}
 
@@ -93,7 +93,7 @@
   {{ wagtailDocuments(content_item.value) }}
   
   {%- elif content_item.type == 'accordion' %}
-  {{ wagtailAccordion(content_item.value, content_item.id) }}
+  {{ wagtailAccordion(content_item.value, content_item.id, next_heading_level) }}
 
   {%- else %}
   <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>

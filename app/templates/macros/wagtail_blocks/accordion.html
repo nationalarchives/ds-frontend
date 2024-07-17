@@ -2,7 +2,7 @@
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 
-{% macro wagtailAccordion(block_value, id) %}
+{% macro wagtailAccordion(block_value, id, itemHeadingLevel) %}
   {% set items = [] %}
   {% for item in block_value.accordion %}
     {% set body_items = [] %}
@@ -21,7 +21,7 @@
     }) %}
   {% endfor %}
   {{ tnaAccordion({
-    'itemHeadingLevel': 3,
+    'itemHeadingLevel': itemHeadingLevel or 3,
     'items': items,
     'id': id
   }) }}
