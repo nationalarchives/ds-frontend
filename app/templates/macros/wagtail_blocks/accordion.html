@@ -4,7 +4,7 @@
 
 {% macro wagtailAccordion(block_value, id, itemHeadingLevel) %}
   {% set items = [] %}
-  {% for item in block_value.accordion %}
+  {% for item in block_value.items %}
     {% set body_items = [] %}
     {% for body_item in item.body %}
       {% if body_item.type == 'text' %}
