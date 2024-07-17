@@ -1,0 +1,21 @@
+{%- from 'components/gallery/macro.html' import tnaGallery -%}
+
+{% macro wagtailGallery(block_value, id, headingLevel) %}
+  {% set items = [] %}
+  {% for item in block_value.images %}
+    {% set items = items.append({
+      'src': item.image.jpeg.full_url,
+      'alt': item.alt_text,
+      'width': item.image.jpeg.width,
+      'height': item.image.jpeg.height,
+      'description': item.caption | safe
+    }) %}
+  {% endfor %}
+  {{ tnaGallery({
+    'title': block_value.title,
+    'body': block_value.description,
+    'headingLevel': headingLevel,
+    'items': items,
+    'id': id
+  }) }}
+{% endmacro %}

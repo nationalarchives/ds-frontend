@@ -4,6 +4,7 @@
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
+{%- from 'macros/wagtail_blocks/gallery.html' import wagtailGallery -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/promoted_item.html' import wagtailPromotedItem -%}
@@ -18,9 +19,6 @@
 
   {% elif content_item.type == 'sub_heading' %}
   <h3 class="tna-heading-m" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h3>
-
-  {% elif content_item.type == 'table' %}
-  {{ wagtailTable(content_item.value) }}
 
   {% elif content_item.type == 'button' %}
   <div class="tna-button-group">
@@ -88,12 +86,18 @@
   
   {%- elif content_item.type == 'youtube_video' %}
   {{ wagtailYouTubeVideo(content_item.value) }}
+
+  {% elif content_item.type == 'table' %}
+  {{ wagtailTable(content_item.value) }}
   
   {%- elif content_item.type == 'document' %}
   {{ wagtailDocuments(content_item.value) }}
   
   {%- elif content_item.type == 'accordion' %}
   {{ wagtailAccordion(content_item.value, content_item.id, next_heading_level) }}
+  
+  {%- elif content_item.type == 'image_gallery' %}
+  {{ wagtailGallery(content_item.value, content_item.id, next_heading_level) }}
 
   {%- else %}
   <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>

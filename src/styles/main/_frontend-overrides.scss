@@ -52,6 +52,11 @@ ul.tna-container {
   }
 }
 
+.tna-gallery {
+  @include spacing.space-above;
+  min-height: 0;
+}
+
 .tna-table {
   width: auto;
   max-width: 100%;
