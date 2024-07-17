@@ -13,7 +13,7 @@
   {% endfor %}
   {{ tnaGallery({
     'title': block_value.title,
-    'body': block_value.description,
+    'body': block_value.description | tna_html,
     'headingLevel': headingLevel,
     'items': items,
     'id': id
