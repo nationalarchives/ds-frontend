@@ -1,0 +1,28 @@
+{%- from 'components/accordion/macro.html' import tnaAccordion -%}
+{%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
+{%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
+
+{% macro wagtailAccordion(block_value, id) %}
+  {% set items = [] %}
+  {% for item in block_value.accordion %}
+    {% set body_items = [] %}
+    {% for body_item in item.body %}
+      {% if body_item.type == 'text' %}
+        {% set body_items = body_items.append(body_item.value | tna_html | safe) %}
+      {% elif body_item.type == 'table' %}
+        {% set body_items = body_items.append(wagtailTable({'table': body_item.value})) %}
+      {% elif body_item.type == 'documents' %}
+        {% set body_items = body_items.append(wagtailDocuments(body_item.value)) %}
+      {% endif %}
+    {% endfor %}
+    {% set items = items.append({
+      'title': item.title,
+      'body': body_items | join
+    }) %}
+  {% endfor %}
+  {{ tnaAccordion({
+    'itemHeadingLevel': 3,
+    'items': items,
+    'id': id
+  }) }}
+{% endmacro %}

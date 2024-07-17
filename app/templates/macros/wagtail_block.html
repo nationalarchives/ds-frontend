@@ -1,5 +1,6 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/wagtail_blocks/accordion.html' import wagtailAccordion -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
@@ -90,6 +91,9 @@
   
   {%- elif content_item.type == 'document' %}
   {{ wagtailDocuments(content_item.value) }}
+  
+  {%- elif content_item.type == 'accordion' %}
+  {{ wagtailAccordion(content_item.value, content_item.id) }}
 
   {%- else %}
   <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>
