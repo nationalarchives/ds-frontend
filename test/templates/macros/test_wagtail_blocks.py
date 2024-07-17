@@ -12,7 +12,6 @@ class ContentParserTestCase(unittest.TestCase):
     def test_tables(self):
         self.maxDiff = None
         table_block_data = {
-            "title": "Title of the table",
             "table": {
                 "cell": [],
                 "data": [
@@ -48,8 +47,7 @@ class ContentParserTestCase(unittest.TestCase):
             print(result)
             self.assertEqual(
                 result,
-                """  <h3 class="tna-heading-m">Title of the table</h3>
-  <div class="tna-table-wrapper">
+                """  <div class="tna-table-wrapper">
     <table class="tna-table">
       <caption class="tna-table__caption">
         Ages of members of the Doe family
