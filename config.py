@@ -129,7 +129,6 @@ class Staging(Base, Features):
 
 class Develop(Base, Features):
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
-    EXPLAIN_TEMPLATE_LOADING = True
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
@@ -141,6 +140,7 @@ class Test(Base, Features):
 
     DEBUG = True
     TESTING = True
+    EXPLAIN_TEMPLATE_LOADING = True
 
     SENTRY_DSN = ""
     SENTRY_SAMPLE_RATE = 0

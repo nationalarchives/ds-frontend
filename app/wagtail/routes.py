@@ -125,7 +125,8 @@ def index():
 def page(path):
     try:
         page_data = page_details_by_uri(path)
-    except ConnectionError:
+    except ConnectionError as e:
+        current_app.logger.error(e)
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
@@ -137,7 +138,8 @@ def page(path):
             ),
             timeout=1,
         )
-    except Exception:
+    except Exception as e:
+        current_app.logger.error(e)
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
