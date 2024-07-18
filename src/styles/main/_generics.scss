@@ -105,6 +105,7 @@
 
   @include media.on-mobile {
     flex-direction: column;
+    gap: spacing.space(1);
   }
 
   &__block {
