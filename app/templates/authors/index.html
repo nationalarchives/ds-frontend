@@ -48,12 +48,6 @@
     </li>
     {%- endfor %}
   </ul>
-  {%- set ns = namespace(first_letter='') %}
-  {%- for child in children %}
-  {%- if ns.first_letter != child.title.0 %}
-  {%- if ns.first_letter != '' %}
-    </ul>
-  {%- endif %}
 </section>
 {{ feedback() }}
 {% endblock %}
