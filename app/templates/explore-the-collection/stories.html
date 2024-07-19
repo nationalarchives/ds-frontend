@@ -44,7 +44,6 @@
         ],
         'horizontal': True,
         'style': 'accent',
-        'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       }) }}
     </div>
@@ -69,7 +68,6 @@
         'href': page.url,
         'text': page.teaser_text,
         'label': 'New' if page.is_newly_published,
-        'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       } %}
       {% if page.teaser_image %}
@@ -118,7 +116,6 @@
         'href': child.url,
         'text': child.teaser_text,
         'label': 'New' if child.is_newly_published,
-        'htmlElement': 'article',
         'classes': 'tna-!--margin-top-l'
       } %}
       {% if child.teaser_image %}

@@ -1,7 +1,7 @@
-{% macro wagtailDoDontList(block_value) %}
+{% macro wagtailDoDontList(block_value, itemHeadingLevel) %}
   <div class="etna-do-dont-list">
     <div class="etna-do-dont-list__block">
-      <h3 class="tna-heading-m etna-do-dont-list__heading">Do</h3>
+      <h{{ itemHeadingLevel }} class="tna-heading-m etna-do-dont-list__heading">Do</h{{ itemHeadingLevel }}>
       <ul class="tna-ul etna-ul-ticks">
         {% for item in block_value.do %}
         <li>
@@ -12,7 +12,7 @@
       </ul>
     </div>
     <div class="etna-do-dont-list__block">
-      <h3 class="tna-heading-m etna-do-dont-list__heading">Don't</h3>
+      <h{{ itemHeadingLevel }} class="tna-heading-m etna-do-dont-list__heading">Don't</h{{ itemHeadingLevel }}>
       <ul class="tna-ul etna-ul-crosses">
         {% for item in block_value.dont %}
         <li>

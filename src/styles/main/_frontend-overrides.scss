@@ -6,10 +6,6 @@
   outline: none;
 }
 
-ul.tna-container {
-  list-style: none;
-}
-
 .tna-button-group {
   &--full {
     justify-content: stretch;
@@ -55,17 +51,4 @@ ul.tna-container {
 .tna-gallery {
   @include spacing.space-above;
   min-height: 0;
-}
-
-.tna-table-wrapper {
-  margin-bottom: spacing.space(4);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.tna-table {
-  width: auto;
-  max-width: 100%;
 }

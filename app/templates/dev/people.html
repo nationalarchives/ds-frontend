@@ -97,16 +97,14 @@
         'imageSrc': person.photo,
         'imageAlt': '',
         'imageWidth': 600,
-        'imageHeight': 400,
-        'htmlElement': 'article'
+        'imageHeight': 400
       }) }}
       {%- else %}
       {{ tnaCard({
         'title': person.last_name + ', ' + person.first_name,
         'headingLevel': 2,
         'body': person.role,
-        'href': url_for('dev.person_profile', name_slug=((person.first_name + ' ' + person.last_name) | slugify)),
-        'htmlElement': 'article'
+        'href': url_for('dev.person_profile', name_slug=((person.first_name + ' ' + person.last_name) | slugify))
       }) }}
       {%- endif %}
     </li>

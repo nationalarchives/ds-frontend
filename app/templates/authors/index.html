@@ -32,8 +32,7 @@
         'imageSrc': child.teaser_image.jpeg.full_url,
         'imageAlt': child.teaser_image.jpeg.alt,
         'imageWidth': child.teaser_image.jpeg.width,
-        'imageHeight': child.teaser_image.jpeg.height,
-        'htmlElement': 'article'
+        'imageHeight': child.teaser_image.jpeg.height
       }) }}
       {%- else %}
       {{ tnaCard({
@@ -41,8 +40,7 @@
         'headingLevel': 2,
         'body': child.role,
         'href': child.url,
-        'label': 'New' if child.is_newly_published,
-        'htmlElement': 'article'
+        'label': 'New' if child.is_newly_published
       }) }}
       {%- endif %}
     </li>

@@ -63,19 +63,19 @@
   {{ wagtailPromotedList(content_item.value) }}
 
   {%- elif content_item.type == 'promoted_item' %}
-  {{ wagtailPromotedItem(content_item.value) }}
+  {{ wagtailPromotedItem(content_item.value, next_heading_level) }}
 
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}
 
   {%- elif content_item.type == 'featured_record_article' %}
-  {{ wagtailFeaturedRecordArticle(content_item.value) }}
+  {{ wagtailFeaturedRecordArticle(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'media' %}
-  {{ wagtailMedia(content_item.value) }}
+  {{ wagtailMedia(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'do_dont_list' %}
-  {{ wagtailDoDontList(content_item.value) }}
+  {{ wagtailDoDontList(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'warning_text' %}
   {{ tnaWarning({
@@ -91,7 +91,7 @@
   {{ wagtailTable(content_item.value) }}
   
   {%- elif content_item.type == 'document' %}
-  {{ wagtailDocuments(content_item.value) }}
+  {{ wagtailDocuments(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'accordions' %}
   {{ wagtailAccordion(content_item.value, content_item.id, next_heading_level) }}

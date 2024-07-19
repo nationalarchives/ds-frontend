@@ -1,6 +1,6 @@
 {%- from 'components/files-list/macro.html' import tnaFilesList -%}
 
-{% macro wagtailDocuments(block_value) %}
+{% macro wagtailDocuments(block_value, itemHeadingLevel) %}
   {% set files = [] %}
   {% for document in block_value.documents %}
     {% set files = files.append({
@@ -13,6 +13,7 @@
     }) %}
   {% endfor %}
   {{ tnaFilesList({
+    'itemHeadingLevel': itemHeadingLevel,
     'items': files
   }) }}
 {% endmacro %}

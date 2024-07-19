@@ -1,4 +1,4 @@
-{% macro wagtailPromotedList(block_value) %}
+{% macro wagtailPromotedList(block_value, itemHeadingLevel) %}
   <aside class="etna-space-above">
     {{ block_value.summary | tna_html | safe }}
     <ul class="etna-block-list">
@@ -30,14 +30,14 @@
         {% if supertitle %}
         <hgroup class="tna-hgroup-s">
           <p class="tna-hgroup__supertitle">{{ supertitle }}</p>
-          <h3 class="tna-hgroup__title">
+          <h{{ itemHeadingLevel }} class="tna-hgroup__title">
             <a href="{{ item.url }}">{{ title }}</a>
-          </h3>
+          </h{{ itemHeadingLevel }}>
         </hgroup>
         {% else %}
-        <h3 class="tna-heading-s">
+        <h{{ itemHeadingLevel }} class="tna-heading-s">
           <a href="{{ item.url }}">{{ title }}</a>
-        </h3>
+        </h{{ itemHeadingLevel }}>
         {% endif %}
         {{ item.description | safe }}
       </li>

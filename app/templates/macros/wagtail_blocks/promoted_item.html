@@ -1,10 +1,10 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 
-{% macro wagtailPromotedItem(block_value) %}
+{% macro wagtailPromotedItem(block_value, itemHeadingLevel) %}
   <aside class="etna-space-above">
     {% set card_content = {
       'title': block_value.title,
-      'headingLevel': 3,
+      'headingLevel': itemHeadingLevel,
       'headingSize': 'm',
       'body': block_value.description | tna_html | safe,
       'actions': [
@@ -17,8 +17,7 @@
           }
         }
       ],
-      'style': 'tint',
-      'htmlElement': 'article'
+      'style': 'tint'
     } %}
     {% if block_value.image.image %}
       {% set card_content = dict(card_content, **{

@@ -86,7 +86,7 @@
   "id": "/?source=pwa",
   "start_url": "/explore-the-collection/?source=pwa",
   "scope": "/",
-  "display": "minimal-ui",
+  "display": "browser",
   "background_color": "#f4f4f4",
   "dir": "ltr",
   "lang": "en",

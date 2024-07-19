@@ -1,15 +1,13 @@
-{%- from 'components/details/macro.html' import tnaDetails -%}
-
-{% macro wagtailMedia(block_value) %}
+{% macro wagtailMedia(block_value, itemHeadingLevel) %}
   {%- if block_value.media.type == 'audio' %}
   <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
     <div class="tna-aside etna-background-masked-image">
       <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image" alt="">
       <hgroup class="tna-hgroup-l">
         <p class="tna-hgroup__supertitle">Listen</p>
-        <h3 class="tna-hgroup__title" itemprop="name">
+        <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
           {{ block_value.title }}
-        </h3>
+        </h{{ itemHeadingLevel }}>
       </hgroup>
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
@@ -22,7 +20,7 @@
     </div>
     {% if block_value.media.transcript %}
     <div class="tna-aside tna-background-contrast tna-!--no-margin-top">
-      <h4 class="tna-heading-m tna-!--padding-bottom-s">Transcript</h4>
+      <h{{ itemHeadingLevel + 1 }} class="tna-heading-m tna-!--padding-bottom-s">Transcript</h{{ itemHeadingLevel + 1 }}>
       <div itemprop="transcript">
         {{ block_value.media.transcript | tna_html | safe }}
       </div>
@@ -35,9 +33,9 @@
       <img src="{{ block_value.background_image.jpeg.full_url }}" class="etna-background-masked-image__image" alt="">
       <hgroup class="tna-hgroup-l">
         <p class="tna-hgroup__supertitle">Watch</p>
-        <h3 class="tna-hgroup__title" itemprop="name">
+        <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
           {{ block_value.title }}
-        </h3>
+        </h{{ itemHeadingLevel }}>
       </hgroup>
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
@@ -50,7 +48,7 @@
     </div>
     {% if block_value.media.transcript %}
     <div class="tna-aside tna-background-contrast tna-!--no-margin-top">
-      <h4 class="tna-heading-m tna-!--padding-bottom-s">Transcript</h4>
+      <h{{ itemHeadingLevel + 1 }} class="tna-heading-m tna-!--padding-bottom-s">Transcript</h{{ itemHeadingLevel + 1 }}>
       <div itemprop="transcript">
         {{ block_value.media.transcript | tna_html | safe }}
       </div>
