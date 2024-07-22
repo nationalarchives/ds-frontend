@@ -101,11 +101,10 @@
   @include spacing.space-above;
 
   display: flex;
-  gap: spacing.space(2);
+  gap: spacing.space(1);
 
   @include media.on-mobile {
     flex-direction: column;
-    gap: spacing.space(1);
   }
 
   &__block {
