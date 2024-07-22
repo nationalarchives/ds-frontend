@@ -17,6 +17,11 @@ def healthcheck():
     return "ok"
 
 
+@bp.route("/service-worker.min.js")
+def service_worker():
+    return current_app.send_static_file("service-worker.min.js")
+
+
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=3600)
 def sitemap():

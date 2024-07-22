@@ -9,4 +9,8 @@ if (cookiesDomain) {
   new Cookies({ domain: cookiesDomain });
 }
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.min.js");
+}
+
 initAll();

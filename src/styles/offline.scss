@@ -1,0 +1,47 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/typography" with (
+  $use-local-fonts: true,
+  $heading-m-font-size-default: 64,
+  $heading-m-font-size-medium: 48,
+  $heading-m-font-size-small: 36,
+  $heading-m-font-size-tiny: 36,
+  $heading-m-line-height: 1.1
+);
+
+@use "@nationalarchives/frontend/nationalarchives/tools/grid";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
+@use "@nationalarchives/frontend/nationalarchives/utilities";
+
+.tna-template {
+  &__body {
+    max-width: max-content;
+    margin: 0 auto;
+
+    padding: grid.gutter-width();
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: spacing.space(2);
+
+    box-sizing: border-box;
+
+    @include media.on-mobile {
+      align-items: flex-start;
+    }
+
+    @include media.on-tiny {
+      padding: grid.gutter-width-tiny();
+    }
+  }
+}
+
+#logo {
+  transition: transform 1000ms;
+
+  &.spin {
+    transform: rotate(360deg);
+  }
+}
