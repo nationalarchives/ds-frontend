@@ -5,8 +5,23 @@
 {%- set pageTitle = 'Browse' -%}
 
 {% block content %}
-{{ global_alert_banner(global_alert) }}
-<div class="tna-background-accent tna-!--padding-vertical-xl">
+<div class="tna-background-accent">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': [
+          {
+            'text': 'Home',
+            'href': '/'
+          }
+        ],
+        'structuredData': True
+      }) }}
+    </div>
+  </div>
+  {{ global_alert_banner(global_alert) }}
+</div>
+<div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">Explore 1,000 years of history</h1>
