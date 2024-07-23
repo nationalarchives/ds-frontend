@@ -2,6 +2,7 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set themeAccent = 'green' -%}
@@ -25,6 +26,7 @@
   {% endif %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {% if page_data.teaser_image %}
+    {{ global_alert_banner(page_data.global_alert, None, 'm') }}
     {{ tnaHero({
       'title': page_data.title,
       'text': (page_data.intro or "") | tna_html | safe,
@@ -37,6 +39,7 @@
       'layout': 'split'
     }) }}
     {% else %}
+    {{ global_alert_banner(page_data.global_alert) }}
     <div class="tna-section">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
