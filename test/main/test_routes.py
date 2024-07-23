@@ -21,10 +21,23 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn("ok", rv.text)
 
-    def test_browse(self):
+    @requests_mock.Mocker()
+    def test_browse(self, m):
+        mock_endpoint = (
+            f"{self.mock_api_url}/pages/3/?fields=_,global_alert&format=json"
+        )
+        mock_respsone = {
+            "global_alert": {
+                "title": "TEST",
+                "message": '<p data-block-key="bvk08">This is some test text</p>',
+                "alert_level": "high",
+            }
+        }
+        m.get(mock_endpoint, json=mock_respsone)
         rv = self.app.get("/browse/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Explore 1,000 years of history", rv.text)
+        self.assertIn("This is some test text", rv.text)
 
     @requests_mock.Mocker()
     def test_sitemap_xml(self, m):
