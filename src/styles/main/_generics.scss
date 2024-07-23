@@ -11,6 +11,49 @@
   @include colour.thick-keyline-accent(top);
 }
 
+.etna-global-alert {
+  @include spacing.space-above;
+
+  @include colour.always-light;
+  @include colour.thick-keyline;
+  @include colour.colour-font("font-base");
+  @include colour.colour-background("background");
+
+  padding: spacing.space(0.75) spacing.space(1);
+
+  &--high {
+    @include colour.thick-keyline-error;
+  }
+
+  &--medium {
+    @include colour.yellow-accent;
+
+    @include colour.thick-keyline-accent;
+  }
+
+  &--low {
+    @include colour.blue-accent;
+
+    @include colour.thick-keyline-accent;
+  }
+
+  &__heading {
+    @include colour.thick-keyline-dark(bottom);
+
+    display: inline-block;
+  }
+
+  &__body {
+    margin-top: spacing.space(0.25);
+
+    @include typography.font-size(16);
+
+    p + p {
+      margin-top: spacing.space(0.25);
+    }
+  }
+}
+
 .etna-cta {
   @include spacing.space-above;
 

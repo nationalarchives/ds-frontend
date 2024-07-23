@@ -7,6 +7,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {%- set themeAccent = 'pink' -%}
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
@@ -41,6 +42,11 @@
       }) }}
     </div>
   </div>
+</div>
+{%- endif %}
+{%- if page_data.global_alert %}
+<div class="tna-background-accent">
+{{ global_alert_banner(page_data.global_alert) }}
 </div>
 {%- endif %}
 {% endblock %}

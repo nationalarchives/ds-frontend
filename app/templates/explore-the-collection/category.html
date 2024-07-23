@@ -4,6 +4,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {% block head %}
 {{ super() }}
@@ -11,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(page_data.global_alert, None, 'm') }}
 {{ tnaHero({
   'title': page_data.title,
   'body': page_data.intro | safe,

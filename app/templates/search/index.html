@@ -2,6 +2,7 @@
 
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {%- set breadcrumbs = [
   {
@@ -11,6 +12,7 @@
 ] -%}
 
 {% block content %}
+{{ global_alert_banner(global_alert) }}
 <section class="tna-section tna-container tna-!--padding-bottom-s">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <h1 class="tna-heading-xl">Search The National Archives</h1>

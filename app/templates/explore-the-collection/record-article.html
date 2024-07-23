@@ -7,6 +7,7 @@
 {%- from 'components/tabs/macro.html' import tnaTabs -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {%- set themeAccent = 'green' -%}
 {%- set og_type = 'article' -%}
@@ -22,6 +23,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(page_data.global_alert) }}
 <article>
   <section class="tna-section">
     <div class="tna-container">

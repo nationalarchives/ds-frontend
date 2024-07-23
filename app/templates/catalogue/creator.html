@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {%- set breadcrumbs = [
   {
@@ -50,6 +51,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(global_alert) }}
 <div class="tna-container tna-section tna-!--padding-top-s">
   <div class="tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
     <hgroup class="tna-hgroup-xl">

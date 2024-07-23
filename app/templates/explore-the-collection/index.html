@@ -4,6 +4,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {%- from 'macros/feedback.html' import feedback -%}
 
@@ -13,6 +14,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(page_data.global_alert) }}
 <section class="tna-section">
   {%- for item in page_data.body %}
   {%- if item.type == 'large_card_links' %}

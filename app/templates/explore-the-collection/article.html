@@ -7,6 +7,7 @@
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {%- set themeAccent = 'blue' -%}
 {%- set og_type = 'article' -%}
@@ -27,6 +28,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(page_data.global_alert) }}
 <article class="etna-article" itemscope itemtype="https://schema.org/Article">
   <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
   <header class="tna-section">

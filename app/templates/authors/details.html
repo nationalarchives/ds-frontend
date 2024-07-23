@@ -2,6 +2,7 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
@@ -12,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(page_data.global_alert) }}
 <div itemscope itemtype="https://schema.org/ProfilePage">
   <section itemprop="mainEntity" itemtype="https://schema.org/Person" itemscope>
     <header class="tna-container tna-section etna-author-header">

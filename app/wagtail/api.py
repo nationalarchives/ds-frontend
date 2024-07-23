@@ -100,3 +100,9 @@ def page_preview(content_type, token, params={}):
     uri = "page_preview/1/"
     params = params | {"content_type": content_type, "token": token}
     return wagtail_request_handler(uri, params)
+
+
+def global_alert():
+    global_alert_data = page_details(3, {"fields": "_,global_alert"})
+    # global_alert_data = page_details_by_uri("/", {"fields": "_,global_alert"})
+    return global_alert_data["global_alert"] or None

@@ -3,6 +3,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 
 {% block head %}
 {{ super() }}
@@ -10,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+{{ global_alert_banner(page_data.global_alert) }}
 {%- if page == 1 %}
 <div class="tna-section">
   <div class="tna-container">

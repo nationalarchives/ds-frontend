@@ -2,14 +2,14 @@ from urllib.parse import urlparse
 
 from app.lib import cache, cache_key_prefix
 from app.main import bp
-from app.wagtail.api import all_pages
+from app.wagtail.api import all_pages, global_alert
 from flask import current_app, make_response, render_template, request
 
 
 @bp.route("/browse/")
 @cache.cached(key_prefix=cache_key_prefix)
 def browse():
-    return render_template("main/browse.html")
+    return render_template("main/browse.html", global_alert=global_alert())
 
 
 @bp.route("/healthcheck/live/")

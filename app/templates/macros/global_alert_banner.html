@@ -1,0 +1,15 @@
+{% macro global_alert_banner(global_alert, margin_top, margin_bottom) %}
+  {% if global_alert %}
+  <div class="tna-container{% if margin_top %} tna-!--margin-top-{{ margin_top }}{% endif %}{% if margin_bottom %} tna-!--margin-bottom-{{ margin_bottom }}{% endif %}">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <div class="etna-global-alert{% if global_alert.alert_level == 'high' %} etna-global-alert--high{% elif global_alert.alert_level == 'medium' %} etna-global-alert--medium{% elif global_alert.alert_level == 'low' %} etna-global-alert--low{% endif %}">
+        <h2 class="tna-heading-s etna-global-alert__heading">{{ global_alert.title }}</h2>
+        <div class="etna-global-alert__body">
+          {{ global_alert.message | tna_html | safe }}
+          <p>Find out <a href="#">more about this outage</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endmacro %}
