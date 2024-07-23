@@ -1,10 +1,10 @@
 @use "@nationalarchives/frontend/nationalarchives/variables/typography" with (
   $use-local-fonts: true,
-  $heading-m-font-size-default: 64,
-  $heading-m-font-size-medium: 48,
-  $heading-m-font-size-small: 36,
-  $heading-m-font-size-tiny: 36,
-  $heading-m-line-height: 1.1
+  $heading-m-font-size-default: 36,
+  $heading-m-font-size-medium: 30,
+  $heading-m-font-size-small: 28,
+  $heading-m-font-size-tiny: 25,
+  $heading-m-line-height: 1.6
 );
 
 @use "@nationalarchives/frontend/nationalarchives/tools/grid";
