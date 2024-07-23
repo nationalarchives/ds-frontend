@@ -44,17 +44,17 @@
   </div>
 </div>
 {%- endif %}
-{%- if page_data.global_alert %}
-<div class="tna-background-accent">
-{{ global_alert_banner(page_data.global_alert) }}
-</div>
-{%- endif %}
 {% endblock %}
 
 {% block content %}
 <article class="etna-article" itemscope itemtype="https://schema.org/Article">
   <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
   {%- if page_data.hero_image and page_data.hero_image_small %}
+  {%- if page_data.global_alert %}
+  <div class="tna-background-accent">
+    {{ global_alert_banner(page_data.global_alert, None, 'm') }}
+  </div>
+  {%- endif %}
   <div class="tna-background-accent-light">
     {{ tnaHero({
       'supertitle': page_data.type_label,
@@ -99,6 +99,7 @@
   </div>
   {%- else %}
   <div class="tna-background-accent">
+    {{ global_alert_banner(page_data.global_alert) }}
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3{{ ' tna-column--width-5-6-medium' if not page_data.authors | length }} tna-column--full-small tna-column--full-tiny">
