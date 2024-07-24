@@ -23,9 +23,7 @@ class MainBlueprintTestCase(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_browse(self, m):
-        mock_endpoint = (
-            f"{self.mock_api_url}/pages/find/?html_path=/&fields=_,global_alert&format=json"
-        )
+        mock_endpoint = f"{self.mock_api_url}/pages/find/?html_path=/&fields=_,global_alert&format=json"
         mock_respsone = {
             "global_alert": {
                 "title": "TEST",
