@@ -56,6 +56,10 @@
   </div>
   {%- endif %}
   <div class="tna-background-accent-light">
+    {% set hero_image_caption = page_data.hero_image_caption or '' %}
+    {% if page_data.hero_image.copyright %}
+      {% set hero_image_caption = hero_image_caption + '<p>' + page_data.hero_image.copyright + '</p>' %}
+    {% endif %}
     {{ tnaHero({
       'supertitle': page_data.type_label,
       'title': page_data.title,
@@ -63,7 +67,7 @@
       'imageAlt': page_data.hero_image.alt_text,
       'imageWidth': page_data.hero_image.jpeg.width,
       'imageHeight': page_data.hero_image.jpeg.height,
-      'imageCaption': page_data.hero_image_caption,
+      'imageCaption': hero_image_caption,
       'imageSources': [
         {
           'src': page_data.hero_image_small.webp.full_url,

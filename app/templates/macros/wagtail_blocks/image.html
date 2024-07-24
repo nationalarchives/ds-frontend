@@ -18,6 +18,10 @@
       }] %}
     {%- endif %}
   {%- endif %}
+  {% set image_caption = (block_value.caption | tna_html) or '' %}
+  {% if block_value.image.copyright %}
+    {% set image_caption = image_caption + '<p>' + block_value.image.copyright + '</p>' %}
+  {% endif %}
   {{ tnaPicture({
     'src': block_value.image.jpeg.full_url,
     'alt': block_value.alt_text,
@@ -31,7 +35,7 @@
         'height': block_value.image.webp.height
       }
     ],
-    'caption': block_value.caption,
+    'caption': image_caption,
     'information': picture_information,
     'classes': 'tna-picture--plain' if plain_image else ''
   }) }}
