@@ -11,8 +11,6 @@ const $sidebar = document
 const $sidebarItems =
   $sidebar && $sidebar.querySelectorAll(".tna-sidebar__item");
 
-console.log($sidebarItems);
-
 if ($sidebarItems) {
   let currentSectionId = "";
   const currentSectionFromTop = 0.05;
@@ -62,10 +60,8 @@ if ($sidebarItems) {
           $section.getBoundingClientRect().top <
           window.innerHeight * currentSectionFromTop,
       );
-    console.log($topSection);
     const topSectionId =
       $topSection && $topSection.querySelector("h2:first-child").id;
-    console.log(topSectionId);
     if (topSectionId) {
       if (topSectionId !== currentSectionId) {
         currentSectionId = topSectionId;
