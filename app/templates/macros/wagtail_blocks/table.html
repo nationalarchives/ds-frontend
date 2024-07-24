@@ -1,5 +1,6 @@
 {% macro wagtailTable(block_value) %}
   {% set body_start_row = 0 %}
+  {% if block_value.table %}
   <div class="tna-table-wrapper">
     <table class="tna-table">
       {% if block_value.table.table_caption %}
@@ -32,4 +33,5 @@
       </tbody>
     </table>
   </div>
+  {% endif %}
 {% endmacro %}
