@@ -485,6 +485,23 @@ files = [
 ]
 
 [[package]]
+name = "pydash"
+version = "8.0.3"
+description = "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pydash-8.0.3-py3-none-any.whl", hash = "sha256:c16871476822ee6b59b87e206dd27888240eff50a7b4cd72a4b80b43b6b994d7"},
+    {file = "pydash-8.0.3.tar.gz", hash = "sha256:1b27cd3da05b72f0e5ff786c523afd82af796936462e631ffd1b228d91f8b9aa"},
+]
+
+[package.dependencies]
+typing-extensions = ">3.10,<4.6.0 || >4.6.0"
+
+[package.extras]
+dev = ["build", "coverage", "furo", "invoke", "mypy", "pytest", "pytest-cov", "pytest-mypy-testing", "ruff", "sphinx", "sphinx-autodoc-typehints", "tox", "twine", "wheel"]
+
+[[package]]
 name = "pyflakes"
 version = "3.1.0"
 description = "passive checker of Python programs"
@@ -621,6 +638,17 @@ files = [
 flask = ">=2"
 
 [[package]]
+name = "typing-extensions"
+version = "4.12.2"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
+    {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.2.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -657,4 +685,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "14b75b8d941584f6075fc2139ec304ab2351afc06828afda54281bd87f8186bd"
+content-hash = "7fa18dc13ee92fef320f056c78cbec3678d9308e1a6f4a1d309573eea9827741"
