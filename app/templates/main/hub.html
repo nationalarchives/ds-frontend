@@ -35,7 +35,7 @@
     {{ global_alert_banner(page_data.global_alert, None, 'm') }}
     {{ tnaHero({
       'title': page_data.title,
-      'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html | safe) if page_data.intro else None,
+      'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html | safe) if page_data.intro else '',
       'imageSrc': page_data.hero_image.jpeg.full_url,
       'imageAlt': '',
       'imageWidth': page_data.hero_image.jpeg.width,
