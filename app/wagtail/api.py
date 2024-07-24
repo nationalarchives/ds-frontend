@@ -103,6 +103,27 @@ def page_preview(content_type, token, params={}):
 
 
 def global_alert():
-    global_alert_data = page_details(3, {"fields": "_,global_alert"})
-    # global_alert_data = page_details_by_uri("/", {"fields": "_,global_alert"})
-    return global_alert_data["global_alert"] or None
+    try:
+        global_alert_data = page_details_by_uri(
+            "/", {"fields": "_,global_alert"}
+        )
+        return (
+            global_alert_data["global_alert"]
+            if "global_alert" in global_alert_data
+            else None
+        )
+    except ApiResourceNotFound:
+        current_app.logger.warn(
+            "Global alert could not be retrieved (ApiResourceNotFound)"
+        )
+        return None
+    except ConnectionError:
+        current_app.logger.warn(
+            "Global alert could not be retrieved (ConnectionError)"
+        )
+        return None
+    except Exception:
+        current_app.logger.warn(
+            "Global alert could not be retrieved (Exception)"
+        )
+        return None
