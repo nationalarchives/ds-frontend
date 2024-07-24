@@ -14,14 +14,14 @@
       'title': i.descriptive_title,
       'href': url_for('catalogue.details', id=i.record),
       'date': i.record_dates
-    }) or "" }}
+    }) or '' }}
     {%- else %}
     {{ items.append({
       'collection': 'parent.identifier',
       'title': i.descriptive_title,
       'href': url_for('catalogue.details', id=i.record),
       'date': i.record_dates
-    }) or "" }}
+    }) or '' }}
     {%- endif %}
     {# {% endwith %} #}
   {%- endfor %}

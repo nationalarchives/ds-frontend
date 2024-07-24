@@ -11,8 +11,8 @@
 {%- set theme = request.cookies.get('theme') or 'light' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {
-  'data-ga4id': app_config.GA4_ID or "",
-  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ""
+  'data-ga4id': app_config.GA4_ID or '',
+  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ''
 } -%}
 
 {% block headIcons %}

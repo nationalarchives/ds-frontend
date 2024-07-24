@@ -15,38 +15,80 @@
 
 {% block main %}
   {% if breadcrumbs and breadcrumbs | length > 0 %}
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': breadcrumbs,
-        'structuredData': True
-      }) }}
+    {% if not page_data.hero_image %}
+    <div class="tna-background-accent">
+    {% endif %}
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        {{ tnaBreadcrumbs({
+          'items': breadcrumbs,
+          'structuredData': True
+        }) }}
+      </div>
     </div>
-  </div>
+    {% if not page_data.hero_image %}
+    </div>
+    {% endif %}
   {% endif %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
-    {% if page_data.teaser_image %}
+    {% if page_data.hero_image %}
     {{ global_alert_banner(page_data.global_alert, None, 'm') }}
     {{ tnaHero({
       'title': page_data.title,
-      'text': (page_data.intro or "") | tna_html | safe,
-      'imageSrc': page_data.teaser_image.jpeg.full_url,
+      'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html | safe) if page_data.intro else None,
+      'imageSrc': page_data.hero_image.jpeg.full_url,
       'imageAlt': '',
-      'imageWidth': page_data.teaser_image.jpeg.width,
-      'imageHeight': page_data.teaser_image.jpeg.height,
+      'imageWidth': page_data.hero_image.jpeg.width,
+      'imageHeight': page_data.hero_image.jpeg.height,
+      'imageCaption': page_data.hero_image_caption or None,
+      'imageSources': [
+        {
+          'src': page_data.hero_image_small.webp.full_url,
+          'width': page_data.hero_image_small.webp.width,
+          'height': page_data.hero_image_small.webp.height,
+          'type': 'image/webp',
+          'media': '(max-width: 48em)'
+        },
+        {
+          'src': page_data.hero_image_small.jpeg.full_url,
+          'width': page_data.hero_image_small.jpeg.width,
+          'height': page_data.hero_image_small.jpeg.height,
+          'type': 'image/jpeg',
+          'media': '(max-width: 48em)'
+        },
+        {
+          'src': page_data.hero_image.webp.full_url,
+          'width': page_data.hero_image.webp.width,
+          'height': page_data.hero_image.webp.height,
+          'type': 'image/webp'
+        }
+      ],
       'narrow': True,
       'style': 'accent',
-      'layout': 'split'
+      'layout': 'shift'
     }) }}
     {% else %}
-    {{ global_alert_banner(page_data.global_alert) }}
+    <div class="tna-background-accent">
+      {{ global_alert_banner(page_data.global_alert) }}
+      <div class="tna-section">
+        <div class="tna-container">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+            <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+            {% if page_data.intro %}
+            <div class="tna-large-paragraph tna-!--margin-top-s">
+              {{ page_data.intro | tna_html | safe }}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if page_data.body %}
     <div class="tna-section">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-          {% if page_data.intro %}
-          <p class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</p>
-          {% endif %}
+          {{ page_data.body | tna_html | safe }}
         </div>
       </div>
     </div>
