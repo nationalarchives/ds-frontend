@@ -4,14 +4,18 @@ from pydash import objects
 
 
 def general_page(page_data):
-    siblings = []
+    page_siblings = []
     if (True or page_data["show_siblings"]) and objects.get(
         page_data, "meta.parent.id"
     ):
         try:
-            sibling_items = page_children(page_data["meta"]["parent"]["id"])
-            siblings = (
-                sibling_items["items"] if "items" in sibling_items else []
+            page_sibling_items = page_children(
+                page_data["meta"]["parent"]["id"]
+            )
+            page_siblings = (
+                page_sibling_items["items"]
+                if "items" in page_sibling_items
+                else []
             )
         except ConnectionError:
             current_app.logger.error(
@@ -25,5 +29,5 @@ def general_page(page_data):
         "main/general.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
-        siblings=siblings,
+        page_siblings=page_siblings,
     )
