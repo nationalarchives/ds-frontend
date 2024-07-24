@@ -20,7 +20,16 @@ def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     if content_type and token:
-        page_data = page_preview(content_type, token)
+        try:
+            page_data = page_preview(content_type, token)
+        except ConnectionError as e:
+            current_app.logger.error(e)
+            return render_template("errors/api.html"), 502
+        except ApiResourceNotFound:
+            return render_template("errors/page-not-found.html"), 404
+        except Exception as e:
+            current_app.logger.error(e)
+            return render_template("errors/api.html"), 502
         return render_content_page(page_data | {"page_preview": True})
     return render_template("errors/page-not-found.html"), 404
 
