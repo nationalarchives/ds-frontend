@@ -70,6 +70,8 @@
         {{ wagtail_block(block, ns.next_heading_level, True) }}
         {% if block.type == 'sub_heading' %}
           {% set ns.next_heading_level = 4 %}
+        {% elif block.type == 'sub_sub_heading' %}
+          {% set ns.next_heading_level = 5 %}
         {% endif %}
       {% endfor %}
     {% endfor %}
