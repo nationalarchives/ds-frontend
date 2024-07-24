@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
 {%- from 'macros/meta.html' import meta -%}
@@ -30,26 +31,6 @@
     {% endif %}
 {% endblock %}
 
-{% block beforeContent %}
-{% if breadcrumbs and breadcrumbs | length > 0 %}
-<div class="tna-background-accent">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': breadcrumbs,
-        'structuredData': True
-      }) }}
-    </div>
-  </div>
-</div>
-{% endif %}
-{% if page_data.global_alert %}
-<div class="tna-background-accent">
-  {{ global_alert_banner(page_data.global_alert) }}
-</div>
-{% endif %}
-{% endblock %}
-
 {% set page_sections = [] %}
 {% for section in page_data.body %}
   {% if section.type == 'content_section' %}
@@ -70,96 +51,163 @@
   {% endif %}
 {% endfor %}
 
-{% block content %}
-<div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      {% if page_data.intro %}
-      <p class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</p>
-      {% endif %}
-    </div>
-  </div>
-</div>
-{% if not showSidebar and page_data.body | length > 1 %}
-<div class="tna-section tna-!--no-padding-bottom tna-container">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
-    <h2 class="tna-heading-m">Contents</h2>
-    <ul class="tna-ul tna-ul--dashed">
-    {% for section in page_sections %}
-      <li>
-        <a href="{{ section.href }}">{{ section.text }}</a>
-      </li>
-    {% endfor %}
-    </ul>
-  </div>
-</div>
-{% endif %}
-<div class="tna-!--padding-top-s">
-  <div class="tna-container">
-    {% if showSidebar and not sidebarPositionRight %}
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
-      {{ tnaSidebar({
-        'title': 'Contents' if page_data.page_sidebar == 'contents' else 'On this page' if page_data.page_sidebar == 'sections' else 'Index',
-        'headingLevel': 2,
-        'items': page_sections,
-        'type': page_data.page_sidebar,
-        'sticky': True
-      }) }}
-    </div>
+{% block main %}
+  {% if breadcrumbs and breadcrumbs | length > 0 %}
+    {% if not page_data.hero_image %}
+    <div class="tna-background-accent">
     {% endif %}
-    <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny tna-!--padding-top-m etna-!--full-width-on-print">
-    {% for section in page_data.body %}
-      {%- set ns = namespace(next_heading_level=3) %}
-      <h2 class="tna-heading-l" id="{{ section.value.heading | slugify }}">{{ section.value.heading }}</h2>
-      {% for block in section.value.content %}
-        {{ wagtail_block(block, ns.next_heading_level, True) }}
-        {% if block.type == 'sub_heading' %}
-          {% set ns.next_heading_level = 4 %}
-        {% elif block.type == 'sub_sub_heading' %}
-          {% set ns.next_heading_level = 5 %}
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
-    </div>
-    {% if showSidebar and sidebarPositionRight %}
-    <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-!--hide-on-print">
-      {% set sidebarItems = [] %}
-      {% for sibling in page_siblings %}
-        {% set sidebarItem = {
-          'text': sibling.title,
-          'href': sibling.url
-        } %}
-        {% if sibling.url == page_data.meta.url %}
-          {% set sidebarItem = dict(sidebarItem, **{
-            'current': True,
-            'children': page_sections
-          }) %}
-        {% endif %}
-        {% set sidebarItems = sidebarItems.append(sidebarItem) %}
-      {% endfor %}
-      {{ tnaSidebar({
-        'title': page_data.meta.parent.title,
-        'headingLevel': 2,
-        'items': sidebarItems,
-        'type': 'pages'
-      }) }}
-    </div>
-    {% endif %}
-    <div class="tna-column tna-column--full tna-hide-on-print">
-      <hr class="tna-!--margin-top-xl">
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Back to top',
-          'href': '#top',
-          'icon': 'arrow-up',
-          'small': True,
-          'plain': True
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        {{ tnaBreadcrumbs({
+          'items': breadcrumbs,
+          'structuredData': True
         }) }}
       </div>
     </div>
+    {% if not page_data.hero_image %}
+    </div>
+    {% endif %}
+  {% endif %}
+  <main class="tna-main {{ mainClasses }}" id="main-content">
+  {% if page_data.hero_image %}
+    {{ global_alert_banner(page_data.global_alert, None, 'm') }}
+    {% set hero_image_caption = page_data.hero_image_caption or '' %}
+    {% if page_data.hero_image.copyright %}
+      {% set hero_image_caption = hero_image_caption + '<p>' + page_data.hero_image.copyright + '</p>' %}
+    {% endif %}
+    {{ tnaHero({
+      'title': page_data.title,
+      'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html | safe) if page_data.intro else '',
+      'imageSrc': page_data.hero_image.jpeg.full_url,
+      'imageAlt': '',
+      'imageWidth': page_data.hero_image.jpeg.width,
+      'imageHeight': page_data.hero_image.jpeg.height,
+      'imageCaption': hero_image_caption,
+      'imageSources': [
+        {
+          'src': page_data.hero_image_small.webp.full_url,
+          'width': page_data.hero_image_small.webp.width,
+          'height': page_data.hero_image_small.webp.height,
+          'type': 'image/webp',
+          'media': '(max-width: 48em)'
+        },
+        {
+          'src': page_data.hero_image_small.jpeg.full_url,
+          'width': page_data.hero_image_small.jpeg.width,
+          'height': page_data.hero_image_small.jpeg.height,
+          'type': 'image/jpeg',
+          'media': '(max-width: 48em)'
+        },
+        {
+          'src': page_data.hero_image.webp.full_url,
+          'width': page_data.hero_image.webp.width,
+          'height': page_data.hero_image.webp.height,
+          'type': 'image/webp'
+        }
+      ],
+      'narrow': True,
+      'style': 'accent',
+      'layout': 'shift'
+    }) }}
+  {% else %}
+    {% if page_data.global_alert %}
+    <div class="tna-background-accent">
+      {{ global_alert_banner(page_data.global_alert) }}
+    </div>
+    {% endif %}
+    <div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
+      <div class="tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+          {% if page_data.intro %}
+          <div class="tna-large-paragraph tna-!--margin-top-s">
+            {{ page_data.intro | tna_html | safe }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% if not showSidebar and page_data.body | length > 1 %}
+  <div class="tna-section tna-!--no-padding-bottom tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
+      <h2 class="tna-heading-m">Contents</h2>
+      <ul class="tna-ul tna-ul--dashed">
+      {% for section in page_sections %}
+        <li>
+          <a href="{{ section.href }}">{{ section.text }}</a>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
   </div>
-</div>
+  {% endif %}
+  <div class="tna-!--padding-top-s">
+    <div class="tna-container">
+      {% if showSidebar and not sidebarPositionRight %}
+      <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
+        {{ tnaSidebar({
+          'title': 'Contents' if page_data.page_sidebar == 'contents' else 'On this page' if page_data.page_sidebar == 'sections' else 'Index',
+          'headingLevel': 2,
+          'items': page_sections,
+          'type': page_data.page_sidebar,
+          'sticky': True
+        }) }}
+      </div>
+      {% endif %}
+      <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny tna-!--padding-top-m etna-!--full-width-on-print">
+      {% for section in page_data.body %}
+        {%- set ns = namespace(next_heading_level=3) %}
+        <h2 class="tna-heading-l" id="{{ section.value.heading | slugify }}">{{ section.value.heading }}</h2>
+        {% for block in section.value.content %}
+          {{ wagtail_block(block, ns.next_heading_level, True) }}
+          {% if block.type == 'sub_heading' %}
+            {% set ns.next_heading_level = 4 %}
+          {% elif block.type == 'sub_sub_heading' %}
+            {% set ns.next_heading_level = 5 %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      </div>
+      {% if showSidebar and sidebarPositionRight %}
+      <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-!--hide-on-print">
+        {% set sidebarItems = [] %}
+        {% for sibling in page_siblings %}
+          {% set sidebarItem = {
+            'text': sibling.title,
+            'href': sibling.url
+          } %}
+          {% if sibling.url == page_data.meta.url %}
+            {% set sidebarItem = dict(sidebarItem, **{
+              'current': True,
+              'children': page_sections
+            }) %}
+          {% endif %}
+          {% set sidebarItems = sidebarItems.append(sidebarItem) %}
+        {% endfor %}
+        {{ tnaSidebar({
+          'title': page_data.meta.parent.title,
+          'headingLevel': 2,
+          'items': sidebarItems,
+          'type': 'pages'
+        }) }}
+      </div>
+      {% endif %}
+      <div class="tna-column tna-column--full tna-hide-on-print">
+        <hr class="tna-!--margin-top-xl">
+        <div class="tna-button-group tna-!--margin-top-s">
+          {{ tnaButton({
+            'text': 'Back to top',
+            'href': '#top',
+            'icon': 'arrow-up',
+            'small': True,
+            'plain': True
+          }) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 {% endblock %}
 
 {% block bodyEnd %}
