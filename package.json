@@ -11,7 +11,7 @@
     "test:lint": "prettier --check src && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.2.1",
+    "@nationalarchives/frontend": "0.2.2",
     "@sentry/browser": "^8.11.0",
     "plyr": "^3.7.8"
   },
