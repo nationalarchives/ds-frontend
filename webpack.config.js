@@ -10,6 +10,7 @@ module.exports = {
     offline: "./src/scripts/offline.js",
     "record-article": "./src/scripts/record-article.js",
     search: "./src/scripts/search.js",
+    "sections-sidebar": "./src/scripts/sections-sidebar.js",
     sentry: "./src/scripts/sentry.js",
     "service-worker": "./src/scripts/service-worker.js",
     video: "./src/scripts/video.js",

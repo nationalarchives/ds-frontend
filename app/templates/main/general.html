@@ -155,18 +155,20 @@
         }) }}
       </div>
       {% endif %}
-      <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny tna-!--padding-top-m etna-!--full-width-on-print">
+      <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections tna-!--padding-top-s">
       {% for section in page_data.body %}
-        {%- set ns = namespace(next_heading_level=3) %}
-        <h2 class="tna-heading-l" id="{{ section.value.heading | slugify }}">{{ section.value.heading }}</h2>
-        {% for block in section.value.content %}
-          {{ wagtail_block(block, ns.next_heading_level, True) }}
-          {% if block.type == 'sub_heading' %}
-            {% set ns.next_heading_level = 4 %}
-          {% elif block.type == 'sub_sub_heading' %}
-            {% set ns.next_heading_level = 5 %}
-          {% endif %}
-        {% endfor %}
+        <section class="etna-article__section etna-space-above">
+          {%- set ns = namespace(next_heading_level=3) %}
+          <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ section.value.heading | slugify }}">{{ section.value.heading }}</h2>
+          {% for block in section.value.content %}
+            {{ wagtail_block(block, ns.next_heading_level, True) }}
+            {% if block.type == 'sub_heading' %}
+              {% set ns.next_heading_level = 4 %}
+            {% elif block.type == 'sub_sub_heading' %}
+              {% set ns.next_heading_level = 5 %}
+            {% endif %}
+          {% endfor %}
+        </section>
       {% endfor %}
       </div>
       {% if showSidebar and sidebarPositionRight %}
@@ -214,5 +216,8 @@
 {{ super() }}
     {% if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
+    {% endif %}
+    {% if page_data.page_sidebar == 'sections' %}
+    <script src="{{ url_for('static', filename='sections-sidebar.min.js') }}" defer></script>
     {% endif %}
 {% endblock %}
