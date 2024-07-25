@@ -40,6 +40,9 @@ class Base(object):
     SENTRY_SAMPLE_RATE: float = float(os.getenv("SENTRY_SAMPLE_RATE", "1.0"))
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
+    WAGTAILAPI_LIMIT_MAX: int = int(
+        os.environ.get("WAGTAILAPI_LIMIT_MAX", "20")
+    )
     SEARCH_API_URL: str = os.environ.get("SEARCH_API_URL", "").rstrip("/")
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")

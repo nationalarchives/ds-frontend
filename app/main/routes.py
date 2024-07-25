@@ -33,6 +33,7 @@ def sitemap():
             not str(rule).startswith("/preview")
             and not str(rule).startswith("/healthcheck")
             and not str(rule).startswith("/sitemap.xml")
+            and not str(rule).startswith("/service-worker.min.js")
         ):
             if "GET" in rule.methods and len(rule.arguments) == 0:
                 url = {"loc": f"{host_base}{str(rule)}"}
@@ -43,7 +44,7 @@ def sitemap():
     wagtail_pages_added = 0
     while wagtail_pages_added < wagtail_pages_count:
         page_batch = page_batch + 1
-        wagtail_pages = all_pages(page_batch)
+        wagtail_pages = all_pages(batch=page_batch)
         wagtail_pages_count = wagtail_pages["meta"]["total_count"]
         for page in wagtail_pages["items"]:
             html_url = page["full_url"]
@@ -56,7 +57,6 @@ def sitemap():
                 }
                 dynamic_urls.append(url)
         wagtail_pages_added = wagtail_pages_added + len(wagtail_pages["items"])
-
     xml_sitemap = render_template(
         "main/sitemap.xml",
         static_urls=static_urls,

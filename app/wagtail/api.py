@@ -31,7 +31,9 @@ def breadcrumbs(page_id):
     try:
         ancestors = page_ancestors(page_id)
     except Exception:
-        current_app.logger.warning(f"Page {page_id} failed to get ancestors")
+        current_app.logger.warning(
+            f"Failed to get ancestors for page {page_id}"
+        )
         return []
     return (
         [
@@ -52,10 +54,11 @@ def breadcrumbs(page_id):
     )
 
 
-def all_pages(batch=1, params={}):
-    children_per_page = 20
-    offset = (batch - 1) * children_per_page
-    params = params | {"offset": offset, "limit": children_per_page}
+def all_pages(params={}, batch=1, limit=None):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (batch - 1) * limit
+    params = params | {"offset": offset, "limit": limit}
     uri = "pages/"
     return wagtail_request_handler(uri, params)
 
@@ -65,32 +68,43 @@ def page_details(page_id, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_details_by_uri(page_uri, params={}):
+def page_details_by_uri(page_uri, params={}, limit=None):
     uri = "pages/find/"
-    params = params | {"html_path": page_uri}
+    params = params | {
+        "html_path": page_uri,
+        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+    }
     return wagtail_request_handler(uri, params)
 
 
-def page_children(page_id, params={}):
+def page_children(page_id, params={}, limit=None):
     uri = "pages/"
-    params = params | {"child_of": page_id}
+    params = params | {
+        "child_of": page_id,
+        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+    }
     return wagtail_request_handler(uri, params)
 
 
-def page_ancestors(page_id, params={}):
+def page_ancestors(page_id, params={}, limit=None):
     uri = "pages/"
-    params = params | {"ancestor_of": page_id}
+    params = params | {
+        "ancestor_of": page_id,
+        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+    }
     return wagtail_request_handler(uri, params)
 
 
-def page_children_paginated(page_id, page, children_per_page, params={}):
-    offset = (page - 1) * children_per_page
+def page_children_paginated(page_id, page, limit=None, params={}):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
     uri = "pages/"
     order = "-first_published_at"
     params = params | {
         "child_of": page_id,
         "offset": offset,
-        "limit": children_per_page,
+        "limit": limit,
         "order": order,
     }
     return wagtail_request_handler(uri, params)
