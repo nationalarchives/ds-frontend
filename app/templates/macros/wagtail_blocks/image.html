@@ -36,6 +36,8 @@
       }
     ],
     'caption': image_caption,
+    'microdataCaption': (block_value.caption | striptags) or '',
+    'microdataCopyright': block_value.image.copyright,
     'information': picture_information,
     'classes': 'tna-picture--plain' if plain_image else ''
   }) }}
