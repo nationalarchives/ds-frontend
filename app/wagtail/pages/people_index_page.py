@@ -2,7 +2,7 @@ from app.wagtail.api import breadcrumbs, page_children
 from flask import current_app, render_template
 
 
-def author_index_page(page_data):
+def people_index_page(page_data):
     try:
         children = page_children(
             page_data["id"],
@@ -23,7 +23,7 @@ def author_index_page(page_data):
         )
         return render_template("errors/server.html"), 500
     return render_template(
-        "authors/index.html",
+        "people/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         children=children["items"],
         page_data=page_data,

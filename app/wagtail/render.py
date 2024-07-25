@@ -4,8 +4,6 @@ from .pages import (
     article_index_page,
     article_page,
     article_page_focused,
-    author_index_page,
-    author_page,
     categories_page,
     category_index_page,
     explore_index_page,
@@ -13,25 +11,31 @@ from .pages import (
     highlight_gallery_page,
     home_page,
     hub_page,
+    people_index_page,
+    person_page,
     record_article_page,
 )
 
 page_type_templates = {
+    # General
     "home.HomePage": home_page,
     "generic_pages.GeneralPage": general_page,
     "generic_pages.HubPage": hub_page,
+    # Explore the collection
     "collections.ExplorerIndexPage": explore_index_page,
-    "collections.TopicExplorerIndexPage": category_index_page,
-    "collections.TimePeriodExplorerIndexPage": category_index_page,
-    "collections.TopicExplorerPage": categories_page,
-    "collections.TimePeriodExplorerPage": categories_page,
     "collections.HighlightGalleryPage": highlight_gallery_page,
+    "collections.TimePeriodExplorerIndexPage": category_index_page,
+    "collections.TimePeriodExplorerPage": categories_page,
+    "collections.TopicExplorerIndexPage": category_index_page,
+    "collections.TopicExplorerPage": categories_page,
+    # Articles
     "articles.ArticleIndexPage": article_index_page,
     "articles.ArticlePage": article_page,
-    "articles.RecordArticlePage": record_article_page,
     "articles.FocusedArticlePage": article_page_focused,
-    "authors.AuthorIndexPage": author_index_page,
-    "authors.AuthorPage": author_page,
+    "articles.RecordArticlePage": record_article_page,
+    # People
+    "authors.AuthorIndexPage": people_index_page,
+    "authors.AuthorPage": person_page,
 }
 
 
