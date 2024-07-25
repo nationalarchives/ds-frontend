@@ -40,7 +40,11 @@
       <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else params.imageWidth }}" height="{{ source.height if source.height else params.imageHeight }}"{% if source.media %} media="{{ source.media }}"{% endif %}>
       {%- endfor %}
       {%- endif -%}
-      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}" itemprop="contentUrl">
+      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}">
+      <meta itemprop="url" content="{{ params.imageSrc }}">
+      <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
+      <meta itemprop="width" content="{{ params.imageWidth }}">
+      <meta itemprop="height" content="{{ params.imageHeight }}">
     </picture>
     {%- if hasContent -%}
     <div class="tna-container tna-hero__inner">
