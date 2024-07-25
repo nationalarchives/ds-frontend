@@ -133,7 +133,7 @@ def index():
 @cache.cached(key_prefix=cache_key_prefix)
 def page(path):
     try:
-        page_data = page_details_by_uri(path)
+        page_data = page_details_by_uri(f"/{path}/")
     except ConnectionError as e:
         current_app.logger.error(e)
         return CachedResponse(
