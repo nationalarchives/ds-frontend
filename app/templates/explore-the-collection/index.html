@@ -68,11 +68,13 @@
             </form>
           </div>
           <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--align-bottom tna-!--padding-top-s">
-            {{ tnaButton({
-              'text': 'Advanced search',
-              'href': app_config.DISCOVERY_URL + '/advanced-search',
-              'plain': True
-            }) }}
+            <div class="tna-button-group">
+              {{ tnaButton({
+                'text': 'Advanced search',
+                'href': app_config.DISCOVERY_URL + '/advanced-search',
+                'plain': True
+              }) }}
+            </div>
           </div>
         </div>
       </div>

@@ -52,3 +52,9 @@
   @include spacing.space-above;
   min-height: 0;
 }
+
+.tna-search-field {
+  &__input {
+    width: 0;
+  }
+}
