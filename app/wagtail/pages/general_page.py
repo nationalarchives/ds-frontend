@@ -5,12 +5,12 @@ from pydash import objects
 
 def general_page(page_data):
     page_siblings = []
-    if (True or page_data["show_siblings"]) and objects.get(
+    if (page_data["page_sidebar"] == "pages") and objects.get(
         page_data, "meta.parent.id"
     ):
         try:
             page_sibling_items = page_children(
-                page_data["meta"]["parent"]["id"]
+                page_data["meta"]["parent"]["id"], limit=50
             )
             page_siblings = (
                 page_sibling_items["items"]
