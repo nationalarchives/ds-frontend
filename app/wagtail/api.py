@@ -68,11 +68,10 @@ def page_details(page_id, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_details_by_uri(page_uri, params={}, limit=None):
+def page_details_by_uri(page_uri, params={}):
     uri = "pages/find/"
     params = params | {
         "html_path": page_uri,
-        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
     }
     return wagtail_request_handler(uri, params)
 
