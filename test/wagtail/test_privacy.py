@@ -15,7 +15,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
     @requests_mock.Mocker()
     def test_private_page_preview_redirection(self, m):
         mock_endpoint = (
-            f"{self.mock_api_url}/pages/find/?html_path=foobar&format=json"
+            f"{self.mock_api_url}/pages/find/?html_path=/foobar/&format=json"
         )
         mock_respsone = {
             "id": 352,

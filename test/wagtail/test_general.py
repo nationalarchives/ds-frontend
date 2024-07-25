@@ -23,7 +23,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
     @requests_mock.Mocker()
     def test_page_not_found(self, m):
         mock_endpoint = (
-            f"{self.mock_api_url}/pages/find/?html_path=foobar&format=json"
+            f"{self.mock_api_url}/pages/find/?html_path=/foobar/&format=json"
         )
         mock_respsone = {"message": "not found"}
         m.get(mock_endpoint, json=mock_respsone, status_code=404)

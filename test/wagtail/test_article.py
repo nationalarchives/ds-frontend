@@ -28,10 +28,10 @@ class ArticleTemplateTestCase(unittest.TestCase):
                 .replace("POSTWAR_ID", "6")
             )
             page_data = json.loads(page_data_json)
-            mock_endpoint_slug = "test-article"
+            mock_endpoint_slug = "/test-article/"
             mock_endpoint = f"{self.mock_api_url}/pages/find/?html_path={mock_endpoint_slug}&format=json"
             m.get(mock_endpoint, json=page_data)
-            rv = self.app.get(f"/{mock_endpoint_slug}/")
+            rv = self.app.get(mock_endpoint_slug)
             self.assertEqual(rv.status_code, 200)
             self.assertIn(
                 f"<title>{page_data['title']} - The National Archives</title>",
