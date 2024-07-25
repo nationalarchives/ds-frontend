@@ -49,6 +49,7 @@
 {% block content %}
 <article class="etna-article" itemscope itemtype="https://schema.org/Article">
   <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
+  <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
   {%- if page_data.hero_image and page_data.hero_image_small %}
   {%- if page_data.global_alert %}
   <div class="tna-background-accent">
