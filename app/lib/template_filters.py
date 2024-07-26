@@ -148,3 +148,43 @@ def wagtail_streamfield_contains_media(body):
             if block["type"] == "youtube_video":
                 return True
     return False
+
+
+def wagtail_table_parser(table_data):
+    cell_alignment_regex = re.compile(r"^ht")
+
+    def wagtail_cell_alignment_parser(classes, cell_alignment_regex):
+        return [
+            re.sub(cell_alignment_regex, "", class_name).lower()
+            for class_name in classes.split(" ")
+        ]
+
+    alignment = [
+        [[] for column in range(len(table_data["data"][0]))]
+        for row in range(len(table_data["data"]))
+    ]
+    for cell in table_data["cell"]:
+        classes = wagtail_cell_alignment_parser(
+            cell["className"], cell_alignment_regex
+        )
+        alignment[cell["row"]][cell["col"]] = classes
+    data = {"head": [], "body": [], "alignment": alignment}
+    for row_index, row in enumerate(table_data["data"]):
+        row_data = [
+            {
+                "head": (
+                    column_index == 0 and table_data["first_col_is_header"]
+                )
+                or (row_index == 0 and table_data["first_row_is_table_header"]),
+                "data": cell,
+                "row_index": row_index,
+                "column_index": column_index,
+                "align": (alignment[row_index][column_index]),
+            }
+            for column_index, cell in enumerate(row)
+        ]
+        if row_index == 0 and table_data["first_row_is_table_header"]:
+            data["head"].append(row_data)
+        else:
+            data["body"].append(row_data)
+    return data

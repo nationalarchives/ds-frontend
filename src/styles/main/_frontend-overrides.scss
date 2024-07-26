@@ -58,3 +58,40 @@
     width: 0;
   }
 }
+
+.tna-table {
+  &__header--align-left,
+  &__cell--align-left {
+    text-align: left;
+  }
+
+  &__header--align-centre,
+  &__cell--align-centre {
+    text-align: center;
+  }
+
+  &__header--align-right,
+  &__cell--align-right {
+    text-align: right;
+  }
+
+  &__header--align-justify,
+  &__cell--align-justify {
+    text-align: justify;
+  }
+
+  &__header--align-top,
+  &__cell--align-top {
+    vertical-align: top;
+  }
+
+  &__header--align-middle,
+  &__cell--align-middle {
+    vertical-align: middle;
+  }
+
+  &__header--align-bottom,
+  &__cell--align-bottom {
+    vertical-align: bottom;
+  }
+}

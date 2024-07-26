@@ -19,6 +19,7 @@ from app.lib.template_filters import (
     tna_html,
     url_encode,
     wagtail_streamfield_contains_media,
+    wagtail_table_parser,
 )
 from flask import Flask
 from flask_talisman import Talisman
@@ -159,6 +160,7 @@ def create_app(config_class):
     app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(url_encode)
     app.add_template_filter(wagtail_streamfield_contains_media)
+    app.add_template_filter(wagtail_table_parser)
 
     @app.context_processor
     def context_processor():
