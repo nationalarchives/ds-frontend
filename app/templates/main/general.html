@@ -36,7 +36,7 @@
   {% if section.type == 'content_section' %}
     {% set section_children = [] %}
     {% for block in section.value.content %}
-    {% if block.type == 'sub_heading' %}
+      {% if block.type == 'sub_heading' %}
         {% set section_children = section_children.append({
           'text': block.value.heading,
           'href': '#' + (block.value.heading | slugify)
@@ -156,11 +156,13 @@
       </div>
       {% endif %}
       <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections tna-!--padding-top-s">
-      {% for section in page_data.body %}
+      {%- set ns = namespace(next_heading_level=2) %}
+      {% for body_item in page_data.body %}
+        {% if body_item.type == 'content_section' %}
+        {% set ns.next_heading_level = 3 %}
         <section class="etna-article__section etna-space-above">
-          {%- set ns = namespace(next_heading_level=3) %}
-          <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ section.value.heading | slugify }}">{{ section.value.heading }}</h2>
-          {% for block in section.value.content %}
+          <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ body_item.value.heading | slugify }}">{{ body_item.value.heading }}</h2>
+          {% for block in body_item.value.content %}
             {{ wagtail_block(block, ns.next_heading_level, True) }}
             {% if block.type == 'sub_heading' %}
               {% set ns.next_heading_level = 4 %}
@@ -169,6 +171,14 @@
             {% endif %}
           {% endfor %}
         </section>
+        {% else %}
+        {{ wagtail_block(body_item, ns.next_heading_level, True) }}
+        {% if body_item.type == 'sub_heading' %}
+          {% set ns.next_heading_level = 3 %}
+        {% elif body_item.type == 'sub_sub_heading' %}
+          {% set ns.next_heading_level = 4 %}
+        {% endif %}
+        {% endif %}
       {% endfor %}
       </div>
       {% if showSidebar and sidebarPositionRight %}

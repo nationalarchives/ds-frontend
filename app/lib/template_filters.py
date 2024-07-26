@@ -143,10 +143,13 @@ def url_encode(s):
 
 
 def wagtail_streamfield_contains_media(body):
-    for section in body:
-        for block in section["value"]["content"]:
-            if block["type"] == "youtube_video":
-                return True
+    for body_item in body:
+        if body_item["type"] == "content_section":
+            for block in body_item["value"]["content"]:
+                if block["type"] == "youtube_video":
+                    return True
+        elif body_item["type"] == "youtube_video":
+            return True
     return False
 
 
