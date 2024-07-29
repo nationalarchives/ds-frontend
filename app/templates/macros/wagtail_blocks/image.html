@@ -1,3 +1,4 @@
+{%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
 {% macro wagtailImage(block_value, id, plain_image) %}
@@ -22,7 +23,7 @@
   {% if block_value.image.copyright %}
     {% set image_caption = image_caption + '<p>&copy; ' + block_value.image.copyright + '</p>' %}
   {% endif %}
-  {{ tnaPicture({
+  {% set picture = tnaPicture({
     'src': block_value.image.jpeg.full_url,
     'alt': block_value.alt_text,
     'width': block_value.image.jpeg.width,
@@ -40,5 +41,13 @@
     'microdataCopyright': block_value.image.copyright,
     'information': picture_information,
     'classes': 'tna-picture--plain' if plain_image else ''
-  }) }}
+  }) %}
+  {% if block_value.image.is_sensitive %}
+    {{ tnaDetails({
+      'title': block_value.image.custom_sensitive_image_warning or 'This image has been marked as potentially sensitive',
+      'body': picture | safe
+    }) }}
+  {% else %}
+    {{ picture }}
+  {% endif %}
 {% endmacro %}
