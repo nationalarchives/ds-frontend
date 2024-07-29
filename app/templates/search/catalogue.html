@@ -65,7 +65,7 @@
   {% if request.args.view == 'grid' %}
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l" id="search-results">
     <h2 class="tna-heading-xl tna-!--hide-on-large tna-!--hide-on-medium tna-!--margin-bottom-m tna-column">Search results</h2>
-    <ul class=" tna-ul tna-ul--plain tna-container tna-container--no-padding">
+    <ul class="tna-container tna-container--no-padding">
       {% for result in results.results %}
       <li class="tna-column tna-column--width-1-2 tna-column--full-tiny">
         {{ tnaCard({
