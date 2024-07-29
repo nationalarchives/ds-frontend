@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
-{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set breadcrumbs = [
   {
@@ -51,7 +51,7 @@
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banner(global_alert) }}
+{{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice) }}
 <section class="tna-container tna-section" itemscope itemtype="https://schema.org/Organization">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <hgroup class="tna-hgroup-xl">

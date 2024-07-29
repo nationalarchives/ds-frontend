@@ -1,7 +1,7 @@
 from app.lib import cache, cache_key_prefix, pagination_object
 from app.lib.query import parse_args
 from app.search import bp
-from app.wagtail.api import global_alert
+from app.wagtail.api import global_alerts
 from flask import render_template, request, url_for
 
 from .api import ArticlesAPI, RecordsAPI
@@ -16,7 +16,7 @@ def index():
         "search/index.html",
         query=query,
         search_path=url_for("search.catalogue"),
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
 
 
@@ -28,7 +28,7 @@ def featured():
         "search/featured.html",
         query=query,
         search_path=url_for("search.catalogue"),
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
 
 
@@ -66,7 +66,7 @@ def catalogue():
         page=page,
         pages=results["pages"],
         pagination=pagination_object(page, results["pages"], request.args),
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
 
 
@@ -112,5 +112,5 @@ def website():
         page=page,
         pages=results["pages"],
         pagination=pagination_object(page, results["pages"], request.args),
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )

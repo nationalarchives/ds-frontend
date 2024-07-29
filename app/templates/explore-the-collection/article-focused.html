@@ -7,7 +7,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'pink' -%}
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
@@ -53,7 +53,7 @@
   {%- if page_data.hero_image and page_data.hero_image_small %}
   {%- if page_data.global_alert %}
   <div class="tna-background-accent">
-    {{ global_alert_banner(page_data.global_alert, None, 'm') }}
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
   </div>
   {%- endif %}
   <div class="tna-background-accent-light">
@@ -104,7 +104,7 @@
   </div>
   {%- else %}
   <div class="tna-background-accent">
-    {{ global_alert_banner(page_data.global_alert) }}
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3{{ ' tna-column--width-5-6-medium' if not page_data.authors | length }} tna-column--full-small tna-column--full-tiny">

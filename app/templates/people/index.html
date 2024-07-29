@@ -2,7 +2,7 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banner(page_data.global_alert) }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-m-">

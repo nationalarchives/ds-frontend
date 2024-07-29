@@ -29,7 +29,10 @@ class MainBlueprintTestCase(unittest.TestCase):
                 "title": "TEST",
                 "message": '<p data-block-key="bvk08">This is some test text</p>',
                 "alert_level": "high",
-            }
+                "cascade": True,
+                "uid": 123456,
+            },
+            "mourning_notice": None,
         }
         m.get(mock_endpoint, json=mock_respsone)
         rv = self.app.get("/browse/")

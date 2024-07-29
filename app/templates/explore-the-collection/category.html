@@ -4,7 +4,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {% block head %}
 {{ super() }}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banner(page_data.global_alert, None, 'm') }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {% set hero_image_caption = page_data.hero_image_caption or '' %}
 {% if page_data.hero_image.copyright %}
   {% set hero_image_caption = hero_image_caption + '<p>' + page_data.hero_image.copyright + '</p>' %}

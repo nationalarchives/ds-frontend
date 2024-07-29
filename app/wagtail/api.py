@@ -41,11 +41,7 @@ def breadcrumbs(page_id):
                 "text": (
                     "Home" if ancestor["url"] == "/" else ancestor["title"]
                 ),
-                "href": (
-                    "https://www.nationalarchives.gov.uk/"
-                    if ancestor["url"] == "/"
-                    else ancestor["url"]
-                ),
+                "href": (ancestor["url"]),
             }
             for ancestor in ancestors["items"]
         ]
@@ -115,28 +111,38 @@ def page_preview(content_type, token, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def global_alert():
+def global_alerts():
+    # "/", {"fields": "_,global_alert,mourning_notice"}
     try:
-        global_alert_data = page_details_by_uri(
+        home_page_alerts = page_details_by_uri(
             "/", {"fields": "_,global_alert"}
         )
-        return (
-            global_alert_data["global_alert"]
-            if "global_alert" in global_alert_data
-            else None
-        )
+        global_alerts_data = {}
+        if (
+            "global_alert" in home_page_alerts
+            and home_page_alerts["global_alert"]["cascade"]
+        ):
+            global_alerts_data["global_alert"] = home_page_alerts[
+                "global_alert"
+            ]
+        if "mourning_notice" in home_page_alerts:
+            global_alerts_data["mourning_notice"] = home_page_alerts[
+                "mourning_notice"
+            ]
+        return global_alerts_data
+
     except ApiResourceNotFound:
         current_app.logger.warn(
-            "Global alert could not be retrieved (ApiResourceNotFound)"
+            "Global alerts could not be retrieved (ApiResourceNotFound)"
         )
         return None
     except ConnectionError:
         current_app.logger.warn(
-            "Global alert could not be retrieved (ConnectionError)"
+            "Global alerts could not be retrieved (ConnectionError)"
         )
         return None
     except Exception:
         current_app.logger.warn(
-            "Global alert could not be retrieved (Exception)"
+            "Global alerts could not be retrieved (Exception)"
         )
         return None

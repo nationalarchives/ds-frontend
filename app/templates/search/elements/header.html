@@ -1,6 +1,6 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
-{%- from 'macros/global_alert_banner.html' import global_alert_banner -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 <section class="tna-background-accent">
   <div class="tna-container">
@@ -20,7 +20,7 @@
       }) }}
     </div>
   </div>
-  {{ global_alert_banner(global_alert, None, 'm') }}
+  {{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice, None, 'm') }}
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m-">
       <form action="{{ search_path or '/search/featured/' }}" method="get" class="tna-!--margin-bottom-m">

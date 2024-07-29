@@ -1,3 +1,4 @@
+import json
 import re
 import urllib.parse
 from datetime import datetime
@@ -140,6 +141,14 @@ def remove_all_whitespace(s):
 
 def url_encode(s):
     return urllib.parse.quote(s, safe="")
+
+
+def parse_json(s):
+    try:
+        unquoted_string = urllib.parse.unquote(s)
+        return json.loads(unquoted_string)
+    except Exception:
+        return {}
 
 
 def wagtail_streamfield_contains_media(body):

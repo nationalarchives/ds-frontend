@@ -44,7 +44,6 @@ class ContentParserTestCase(unittest.TestCase):
                 "{{ wagtailTable(table_block_data) }}",
                 table_block_data=table_block_data,
             )
-            print(result)
             self.assertEqual(
                 result,
                 """  <div class="tna-table-wrapper">

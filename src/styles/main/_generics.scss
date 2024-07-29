@@ -21,6 +21,8 @@
 
   padding: spacing.space(0.75) spacing.space(1);
 
+  position: relative;
+
   &--high {
     @include colour.thick-keyline-error;
   }
@@ -40,6 +42,8 @@
   &__heading {
     @include colour.thick-keyline-dark(bottom);
 
+    margin-right: 9rem;
+
     display: inline-block;
   }
 
@@ -50,6 +54,56 @@
 
     p + p {
       margin-top: spacing.space(0.25);
+    }
+  }
+
+  &__dismiss {
+    height: 1.5rem;
+    padding: 0 1.75rem 0 0.25rem;
+
+    position: absolute;
+    top: spacing.space(0.5);
+    right: spacing.space(0.5);
+
+    // font-size: 0;
+    font-family: inherit;
+
+    background: transparent;
+
+    border: none;
+
+    opacity: 0.5;
+
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      content: "";
+
+      width: 1.5rem;
+      height: 4px;
+
+      position: absolute;
+      top: calc(50% - 2px);
+      right: 0;
+
+      @include colour.colour-background("font-dark");
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+
+      opacity: 1;
+      @include typography.interacted-text-decoration;
     }
   }
 }

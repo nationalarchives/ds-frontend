@@ -10,6 +10,7 @@ from app.lib.context_processor import (
 from app.lib.template_filters import (
     headings_list,
     iso_date,
+    parse_json,
     pretty_date,
     pretty_number,
     remove_all_whitespace,
@@ -155,6 +156,7 @@ def create_app(config_class):
     app.add_template_filter(iso_date)
     app.add_template_filter(pretty_number)
     app.add_template_filter(headings_list)
+    app.add_template_filter(parse_json)
     app.add_template_filter(replace_ref)
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)

@@ -3,7 +3,7 @@ import re
 from app.catalogue import bp
 from app.lib import cache, cache_key_prefix
 from app.lib.api import ApiResourceNotFound
-from app.wagtail.api import global_alert
+from app.wagtail.api import global_alerts
 from flask import current_app, render_template, url_for
 
 from .api import RecordAPI
@@ -59,7 +59,7 @@ def render_record(id, record_data):
         id=id,
         data=record_data,
         hierarchy_breadcrumb_items=hierarchy_breadcrumb_items,
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
 
 
@@ -81,7 +81,7 @@ def render_archive(id, record_data):
         id=id,
         data=record_data,
         address_parts=address_parts,
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
 
 
@@ -90,7 +90,7 @@ def render_creator(id, record_data):
         "catalogue/creator.html",
         id=id,
         data=record_data,
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
 
 
@@ -99,5 +99,5 @@ def render_person(id, record_data):
         "catalogue/person.html",
         id=id,
         data=record_data,
-        global_alert=global_alert(),
+        global_alerts=global_alerts(),
     )
