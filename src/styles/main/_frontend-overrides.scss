@@ -38,6 +38,14 @@
   }
 }
 
+.tna-hero {
+  &__information {
+    p + p {
+      margin-top: spacing.space(0.5);
+    }
+  }
+}
+
 .tna-picture {
   &--plain &__image-wrapper {
     padding: 0;
