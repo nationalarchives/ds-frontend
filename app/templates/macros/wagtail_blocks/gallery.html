@@ -3,12 +3,16 @@
 {% macro wagtailGallery(block_value, id, headingLevel) %}
   {% set items = [] %}
   {% for item in block_value.images %}
+    {% set image_caption = (item.caption | tna_html) or '' %}
+    {% if item.image.copyright %}
+      {% set image_caption = image_caption + '<p>&copy; ' + item.image.copyright + '</p>' %}
+    {% endif %}
     {% set items = items.append({
       'src': item.image.jpeg.full_url,
       'alt': item.alt_text,
       'width': item.image.jpeg.width,
       'height': item.image.jpeg.height,
-      'description': item.caption | safe
+      'description': image_caption | safe
     }) %}
   {% endfor %}
   {{ tnaGallery({
