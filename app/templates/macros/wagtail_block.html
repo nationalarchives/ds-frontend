@@ -1,4 +1,5 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/wagtail_blocks/accordion.html' import wagtailAccordion -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
@@ -97,6 +98,12 @@
   {{ tnaWarning({
     'heading': content_item.value.heading or '',
     'headingLevel': 2,
+    'body': content_item.value.body | tna_html | safe
+  }) }}
+  
+  {%- elif content_item.type == 'details' %}
+  {{ tnaDetails({
+    'title': content_item.value.title,
     'body': content_item.value.body | tna_html | safe
   }) }}
   
