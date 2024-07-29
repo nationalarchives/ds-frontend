@@ -35,7 +35,7 @@
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
     {% if page_data.hero_image.copyright %}
-      {% set hero_image_caption = hero_image_caption + '<p>' + page_data.hero_image.copyright + '</p>' %}
+      {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
     {% endif %}
     {{ tnaHero({
       'title': page_data.title,

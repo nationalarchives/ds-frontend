@@ -20,7 +20,7 @@
   {%- endif %}
   {% set image_caption = (block_value.caption | tna_html) or '' %}
   {% if block_value.image.copyright %}
-    {% set image_caption = image_caption + '<p>' + block_value.image.copyright + '</p>' %}
+    {% set image_caption = image_caption + '<p>&copy; ' + block_value.image.copyright + '</p>' %}
   {% endif %}
   {{ tnaPicture({
     'src': block_value.image.jpeg.full_url,
