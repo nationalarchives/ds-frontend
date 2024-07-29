@@ -188,6 +188,25 @@
       margin-left: 0;
     }
   }
+
+  @media (display-mode: fullscreen) {
+    .tna-picture {
+      &__image-wrapper {
+        padding: 0;
+
+        background-color: #010101;
+
+        box-shadow: none;
+      }
+
+      &__image {
+        width: 100vw;
+        height: 100vh;
+        max-height: none;
+        object-fit: contain;
+      }
+    }
+  }
 }
 
 .etna-author-list {

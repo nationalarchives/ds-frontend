@@ -159,15 +159,15 @@ $articles.forEach(($article) => {
     window.addEventListener("resize", highlightCurrentSection);
   }
 
-  // $article
-  //   .querySelectorAll(".tna-picture__image-wrapper")
-  //   .forEach(($imageWrapper) => {
-  //     $imageWrapper.addEventListener("dblclick", () => {
-  //       if (!document.fullscreenElement) {
-  //         $imageWrapper.requestFullscreen();
-  //       } else if (document.exitFullscreen) {
-  //         document.exitFullscreen();
-  //       }
-  //     });
-  //   });
+  $article
+    .querySelectorAll(".tna-picture__image-wrapper")
+    .forEach(($imageWrapper) => {
+      $imageWrapper.addEventListener("dblclick", () => {
+        if (!document.fullscreenElement) {
+          $imageWrapper.requestFullscreen();
+        } else if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      });
+    });
 });
