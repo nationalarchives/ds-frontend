@@ -1,6 +1,7 @@
 import requests
 from app.lib.api import ApiResourceNotFound
 from flask import current_app
+from pydash import objects
 
 
 def wagtail_request_handler(uri, params={}):
@@ -112,25 +113,18 @@ def page_preview(content_type, token, params={}):
 
 
 def global_alerts():
-    # "/", {"fields": "_,global_alert,mourning_notice"}
     try:
         home_page_alerts = page_details_by_uri(
-            "/", {"fields": "_,global_alert"}
+            "/", {"fields": "_,global_alert,mourning_notice"}
         )
-        global_alerts_data = {}
-        if (
-            "global_alert" in home_page_alerts
-            and home_page_alerts["global_alert"]["cascade"]
-        ):
+        global_alerts_data = {
+            "mourning_notice": home_page_alerts["mourning_notice"]
+        }
+        if objects.get(home_page_alerts, "global_alert.cascade"):
             global_alerts_data["global_alert"] = home_page_alerts[
                 "global_alert"
             ]
-        if "mourning_notice" in home_page_alerts:
-            global_alerts_data["mourning_notice"] = home_page_alerts[
-                "mourning_notice"
-            ]
         return global_alerts_data
-
     except ApiResourceNotFound:
         current_app.logger.warn(
             "Global alerts could not be retrieved (ApiResourceNotFound)"
