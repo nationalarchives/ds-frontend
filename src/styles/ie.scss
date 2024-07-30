@@ -35,6 +35,20 @@
   .tna-logo {
     height: 96px;
   }
+
+  &__licence-logo {
+    height: 24px;
+  }
+
+  &__govuk-logotype-crown {
+    height: 30px;
+  }
+}
+
+.tna-breadcrumbs {
+  &__link {
+    color: #343338;
+  }
 }
 
 .tna-hero {
@@ -44,6 +58,16 @@
     bottom: 0;
     right: 0;
   }
+
+  &__content-inner {
+    background: #fff;
+  }
+}
+
+.tna-files-list {
+  &__icon {
+    height: 3rem;
+  }
 }
 
 .tna-form__group-contents {
@@ -52,4 +76,8 @@
 
 .tna-chip {
   background: #fff;
+}
+
+.etna-video {
+  padding-bottom: 56.25%;
 }
