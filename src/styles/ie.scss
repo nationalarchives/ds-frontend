@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 .tna-global-header__logo--link,
 .tna-global-header__navigation-item-link {
   &,
@@ -8,7 +10,7 @@
 }
 
 .tna-global-header__navigation-item-link {
-  border-bottom: 0.5px rgb(255 255 255 / 50%) solid;
+  border-bottom: 0.5px rgba(255, 255, 255, 0.5) solid;
 }
 
 .tna-global-header__top-navigation-item {
@@ -21,7 +23,7 @@
   &,
   &:link,
   &:visited {
-    color: rgb(255 255 255 / 58%);
+    color: rgba(255, 255, 255, 0.58);
 
     &:hover {
       color: #fff;
@@ -35,6 +37,19 @@
   }
 }
 
+.tna-hero {
+  &__image {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
+
 .tna-form__group-contents {
   flex: none;
+}
+
+.tna-chip {
+  background: #fff;
 }
