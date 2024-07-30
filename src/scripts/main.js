@@ -32,6 +32,7 @@ const initNotifications = () =>
         cookies.set(
           "dismissed_notifications",
           JSON.stringify(Array.from(dismissedNotificationsSet)),
+          { session: true },
         );
         const $globalAlertWrapper = $globalAlert.closest(
           ".etna-global-alert-wrapper",
