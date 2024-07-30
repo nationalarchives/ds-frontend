@@ -1,24 +1,39 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+
 {% macro global_alert_banners(global_alert, mourning_notice, padding_top, padding_bottom) %}
   {% set dismissed_notifications = (request.cookies.get('dismissed_notifications') | parse_json) or [] %}
   {% if (global_alert and global_alert.uid not in dismissed_notifications) or mourning_notice %}
   <div class="etna-global-alert-wrapper tna-container{% if padding_top %} tna-!--padding-top-{{ padding_top }}{% endif %}{% if padding_bottom %} tna-!--padding-bottom-{{ padding_bottom }}{% endif %}">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {% if mourning_notice %}
-      <div class="etna-mourning-notice tna-accent-black tna-background-accent tna-aside tna-aside--tight">
+      <section class="etna-mourning-notice tna-accent-black tna-background-accent tna-aside tna-aside--tight">
         <h2 class="tna-heading-s">{{ mourning_notice.name }}</h2>
         <p class="tna-!--no-margin-top">
           <small>{{ mourning_notice.birth_date }} to {{ mourning_notice.death_date }}</small>
         </p>
-      </div>
+      </section>
       {% endif %}
       {% if global_alert and global_alert.uid not in dismissed_notifications %}
-      <div class="etna-global-alert{% if global_alert.alert_level == 'high' %} etna-global-alert--high{% elif global_alert.alert_level == 'medium' %} etna-global-alert--medium{% elif global_alert.alert_level == 'low' %} etna-global-alert--low{% endif %}">
+      <section class="etna-global-alert{% if global_alert.alert_level == 'high' %} etna-global-alert--high{% elif global_alert.alert_level == 'medium' %} etna-global-alert--medium{% elif global_alert.alert_level == 'low' %} etna-global-alert--low{% endif %}">
         <h2 class="tna-heading-s etna-global-alert__heading">{{ global_alert.title }}</h2>
         <div class="etna-global-alert__body">
           {{ global_alert.message | tna_html | safe }}
         </div>
-        <button class="etna-global-alert__dismiss" value="{{ global_alert.uid }}" hidden>Dismiss notification</button>
-      </div>
+        <!-- <button class="etna-global-alert__dismiss" value="{{ global_alert.uid }}" hidden>Dismiss notification</button> -->
+        <div class="tna-button-group tna-!--no-margin-top-large tna-!--no-margin-top-medium tna-!--margin-top-xs">
+          {{ tnaButton({
+            'text': 'Dismiss notification',
+            'small': True,
+            'plain': True,
+            'buttonElement': True,
+            'classes': 'etna-global-alert__dismiss',
+            'attributes': {
+              'hidden': '',
+              'value': global_alert.uid
+            }
+          }) }}
+        </div>
+      </section>
       {% endif %}
     </div>
   </div>
