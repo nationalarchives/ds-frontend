@@ -189,22 +189,18 @@
     }
   }
 
-  @media (display-mode: fullscreen) {
-    .tna-picture {
-      &__image-wrapper {
-        padding: 0;
+  .tna-picture__image-wrapper:fullscreen {
+    padding: 0;
 
-        background-color: #010101;
+    background-color: #010101;
 
-        box-shadow: none;
-      }
+    box-shadow: none;
 
-      &__image {
-        width: 100vw;
-        height: 100vh;
-        max-height: none;
-        object-fit: contain;
-      }
+    .tna-picture__image {
+      width: 100vw;
+      height: 100vh;
+      max-height: none;
+      object-fit: contain;
     }
   }
 }
