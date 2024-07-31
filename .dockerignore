@@ -9,4 +9,5 @@ tmp
 .eslintrc.js
 .flake8
 .gitignore
-.stylelintrc
+.prettierignore
+stylelint.config.mjs
