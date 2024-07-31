@@ -37,7 +37,7 @@
     <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
     <meta name="tna.app.tna-frontend" content="{{ app_config.TNA_FRONTEND_VERSION }}">
-    <meta name="tna.app.ds-etna-frontend" content="{{ app_config.BUILD_VERSION }}">
+    <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
 {% endblock %}
 
@@ -65,7 +65,7 @@
 {% endblock %}
 
 {% block header %}
-{% if app_config.FEATURE_PHASE_BANNER %}
+{% if feature.PHASE_BANNER %}
 {{ tnaPhaseBanner({
   'phase': 'Alpha',
   'message': 'This is a new user interface to the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current ETNA beta site</a>.',
