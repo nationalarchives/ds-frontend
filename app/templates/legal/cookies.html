@@ -4,6 +4,7 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/radios/macro.html' import tnaRadios -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
 {%- set pageTitle = 'Cookies' -%}
@@ -31,13 +32,11 @@
       }) }}
     </div>
   </div>
+  {{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice) }}
 {% endblock %}
 
 {% block contentHeader %}
-<hgroup class="tna-hgroup-xl">
-  <p class="tna-hgroup__supertitle">Legal</p>
-  <h1 class="tna-hgroup__title">Cookies</h1>
-</hgroup>
+<h1 class="tna-heading-xl">Cookies</h1>
 <p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
 <p>We use cookies to collect and store information about how you use National Archives websites which means any page with nationalarchives.gov.uk in the URL.</p>
 <p>This page has a brief explanation of each type of cookie we use. If you want more details, <a href="{{ url_for('legal.cookie_details') }}">our detailed cookie information</a>.</p>

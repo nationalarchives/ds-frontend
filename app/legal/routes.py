@@ -4,6 +4,7 @@ from urllib.parse import quote, unquote
 from app.legal import bp
 from app.lib import cache, cache_key_prefix
 from app.lib.util import strtobool
+from app.wagtail.api import global_alerts
 from flask import (
     current_app,
     make_response,
@@ -74,10 +75,12 @@ def cookies():
                 if cookie.startswith("_ga"):
                     response.set_cookie(cookie, "", expires=0)
         return response
-    return render_template("legal/cookies.html")
+    return render_template("legal/cookies.html", global_alerts=global_alerts())
 
 
 @bp.route("/cookie-details/")
 @cache.cached(key_prefix=cache_key_prefix)
 def cookie_details():
-    return render_template("legal/cookie-details.html")
+    return render_template(
+        "legal/cookie-details.html", global_alerts=global_alerts()
+    )

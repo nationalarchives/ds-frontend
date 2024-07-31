@@ -2,6 +2,7 @@
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
 {%- set pageTitle = 'Details about cookies' -%}
@@ -24,13 +25,11 @@
       }) }}
     </div>
   </div>
+  {{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice) }}
 {% endblock %}
 
 {% block contentHeader %}
-<hgroup class="tna-hgroup-xl">
-  <p class="tna-hgroup__supertitle">Legal</p>
-  <h1 class="tna-hgroup__title">Details about our cookies</h1>
-</hgroup>
+<h1 class="tna-heading-xl">Details about our cookies</h1>
 <p>The National Archives put small files (known as ‘cookies’) onto your computer to collect information about how you browse the site. Find out more about the cookies we use, what they’re for and when they expire.</p>
 {% endblock %}
 
