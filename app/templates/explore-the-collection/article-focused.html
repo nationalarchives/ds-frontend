@@ -9,7 +9,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'pink' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'pink' -%}
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
 {%- set og_type = 'article' -%}
 

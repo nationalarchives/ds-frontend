@@ -7,7 +7,7 @@
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_block.html' import wagtail_block -%}
 
-{%- set themeAccent = 'blue' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'blue' -%}
 {%- set pageTitle = page_data.title -%}
 {%- set showSidebar = page_data.page_sidebar and ((page_data.page_sidebar == 'pages' and (page_siblings | length > 1)) or page_data.page_sidebar != 'pages') -%}
 {%- set sidebarPositionRight = page_data.page_sidebar == 'pages' -%}
@@ -110,7 +110,7 @@
       'layout': 'shift'
     }) }}
   {% else %}
-    {% if page_data.global_alert %}
+    {% if page_data.global_alert or page_data.mourning_notice %}
     <div class="tna-background-accent">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>

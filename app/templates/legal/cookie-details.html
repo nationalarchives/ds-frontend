@@ -3,7 +3,7 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{%- set themeAccent = 'blue' -%}
+{%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
 {%- set pageTitle = 'Details about cookies' -%}
 
 {% block beforeContent %}

@@ -62,3 +62,9 @@
     }
   }
 }
+
+.etna-mourning-notice {
+  .tna-background-accent & {
+    @include colour.contrast;
+  }
+}

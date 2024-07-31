@@ -5,8 +5,9 @@
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-
 {%- from 'macros/feedback.html' import feedback -%}
+
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
 
 {% block head %}
 {{ super() }}

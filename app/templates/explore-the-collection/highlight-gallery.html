@@ -6,7 +6,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'orange' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
 
 {% block head %}
 {{ super() }}

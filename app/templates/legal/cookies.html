@@ -5,7 +5,7 @@
 {%- from 'components/radios/macro.html' import tnaRadios -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 
-{%- set themeAccent = 'blue' -%}
+{%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
 {%- set pageTitle = 'Cookies' -%}
 
 {% block stylesheets %}
