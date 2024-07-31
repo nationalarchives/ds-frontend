@@ -170,7 +170,22 @@ def create_app(config_class):
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
-            app_config=app.config,
+            app_config={
+                "ENVIRONMENT": app.config.get("ENVIRONMENT"),
+                "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),
+                "BUILD_VERSION": app.config.get("BUILD_VERSION"),
+                "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
+                "GA4_ID": app.config.get("GA4_ID"),
+                "SENTRY_JS_ID": app.config.get("SENTRY_JS_ID"),
+                "SENTRY_SAMPLE_RATE": app.config.get("SENTRY_SAMPLE_RATE"),
+                "ARCHIVE_RECORDS_URL": app.config.get("ARCHIVE_RECORDS_URL"),
+                "DISCOVERY_URL": app.config.get("DISCOVERY_URL"),
+                "SEARCH_DISCOVERY_URL": app.config.get("SEARCH_DISCOVERY_URL"),
+                "SEARCH_WEBSITE_URL": app.config.get("SEARCH_WEBSITE_URL"),
+            },
+            feature={
+                "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
+            },
         )
 
     from .catalogue import bp as catalogue_bp
