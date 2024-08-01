@@ -67,4 +67,12 @@
   .tna-background-accent & {
     @include colour.contrast;
   }
+
+  &__body {
+    @include typography.font-size(16);
+
+    p + p {
+      margin-top: spacing.space(0.25);
+    }
+  }
 }

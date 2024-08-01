@@ -7,10 +7,10 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {% if mourning_notice %}
       <section class="etna-mourning-notice tna-accent-black tna-background-accent tna-aside tna-aside--tight">
-        <h2 class="tna-heading-s">{{ mourning_notice.name }}</h2>
-        <p class="tna-!--no-margin-top">
-          <small>{{ mourning_notice.birth_date }} to {{ mourning_notice.death_date }}</small>
-        </p>
+        <h2 class="tna-heading-s">{{ mourning_notice.title }}</h2>
+        <div class="etna-mourning-notice__body">
+          {{ mourning_notice.message | tna_html | safe }}
+        </div>
       </section>
       {% endif %}
       {% if global_alert and global_alert.uid not in dismissed_notifications %}
