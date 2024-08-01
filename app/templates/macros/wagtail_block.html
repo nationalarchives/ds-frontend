@@ -18,24 +18,16 @@
   {%- if content_item.type == 'paragraph' %}
   {{ content_item.value.text | tna_html | safe }}
 
-  {% elif content_item.type == 'sub_heading' %}
-
-  {% if next_heading_level == 2 %}
+  {% elif content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
+  {% if next_heading_level == 3 %}
   <h2 class="tna-heading-l" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h2>
-  {% elif next_heading_level == 3 %}
+  {% elif next_heading_level == 4 %}
   <h3 class="tna-heading-m" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h3>
-  {% elif next_heading_level == 4 %}
+  {% elif next_heading_level == 5 %}
   <h4 class="tna-heading-s" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h4>
-  {% endif %}  
-
-  {% elif content_item.type == 'sub_sub_heading' %}
-  {% if next_heading_level == 2 %}
-  <h2 class="tna-heading-m" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h2>
-  {% elif next_heading_level == 3 %}
-  <h3 class="tna-heading-s" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h3>
-  {% elif next_heading_level == 4 %}
-  <h4 class="tna-heading-s" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h4>
-  {% endif %}  
+  {% elif next_heading_level == 6 %}
+  <h5 class="tna-heading-s" id="{{ content_item.value.heading | slugify }}">{{ content_item.value.heading }}</h5>
+  {% endif %}
 
   {% elif content_item.type == 'button' %}
   <div class="tna-button-group">

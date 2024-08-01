@@ -14,12 +14,12 @@
     <h2 class="tna-heading-l tna-!--padding-top-s etna-article__section-heading" id="{{ block.value.heading | slugify }}">{{ block.value.heading }}</h2>
     {%- for content_item in block.value.content %}
       {%- set ns = namespace(next_heading_level=3) %}
-      {{ wagtail_block(content_item, ns.next_heading_level) }}
       {% if content_item.type == 'sub_heading' %}
         {% set ns.next_heading_level = 4 %}
       {% elif content_item.type == 'sub_sub_heading' %}
         {% set ns.next_heading_level = 5 %}
       {% endif %}
+      {{ wagtail_block(content_item, ns.next_heading_level) }}
     {%- endfor %}
   </section>
   {%- endfor %}

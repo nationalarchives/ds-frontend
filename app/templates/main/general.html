@@ -163,21 +163,21 @@
         <section class="etna-article__section etna-space-above">
           <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ body_item.value.heading | slugify }}">{{ body_item.value.heading }}</h2>
           {% for block in body_item.value.content %}
-            {{ wagtail_block(block, ns.next_heading_level, True) }}
             {% if block.type == 'sub_heading' %}
               {% set ns.next_heading_level = 4 %}
             {% elif block.type == 'sub_sub_heading' %}
               {% set ns.next_heading_level = 5 %}
             {% endif %}
+            {{ wagtail_block(block, ns.next_heading_level, True) }}
           {% endfor %}
         </section>
         {% else %}
-        {{ wagtail_block(body_item, ns.next_heading_level, True) }}
         {% if body_item.type == 'sub_heading' %}
           {% set ns.next_heading_level = 3 %}
         {% elif body_item.type == 'sub_sub_heading' %}
           {% set ns.next_heading_level = 4 %}
         {% endif %}
+        {{ wagtail_block(body_item, ns.next_heading_level, True) }}
         {% endif %}
       {% endfor %}
       </div>
