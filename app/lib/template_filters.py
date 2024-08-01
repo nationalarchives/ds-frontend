@@ -9,6 +9,7 @@ from .content_parser import (
     b_to_strong,
     lists_to_tna_lists,
     strip_wagtail_attributes,
+    replace_line_breaks,
 )
 
 
@@ -16,6 +17,7 @@ def tna_html(s):
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
+    s = replace_line_breaks(s)
     return s
 
 

@@ -1,6 +1,7 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .tna-template--touched:not(.tna-template--tabbed) *:focus {
   outline: none;
@@ -64,6 +65,34 @@
   &__input {
     width: 0;
   }
+}
+
+.tna-dl {
+  &.tna-dl--icon-padding dt .fa-solid {
+    margin-top: 0;
+
+    top: 0;
+
+    line-height: inherit;
+
+    transform: none;
+  }
+
+  dd {
+    @include typography.font-size(16);
+
+    p {
+      margin-top: spacing.space(0.25);
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+address {
+  font-style: inherit;
 }
 
 .tna-table {

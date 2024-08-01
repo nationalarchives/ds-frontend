@@ -1,0 +1,62 @@
+{% macro wagtailContact(block_value, next_heading_level) %}
+  <div class="tna-aside tna-background-tint">
+    <h{{ next_heading_level }} class="tna-heading-m">{{ block_value.title }}</h{{ next_heading_level }}>
+    <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding">
+      {% if block_value.address %}
+      <dt>
+        <i class="fa-solid fa-building" aria-hidden="true"></i>
+        Address
+      </dt>
+      <dd>
+        <address>{{ block_value.address | tna_html | safe }}</address>
+      </dd>
+      {% endif %}
+      {% if block_value.telephone %}
+      <dt>
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        Telephone
+      </dt>
+      <dd>
+        <a href="tel:{{ block_value.telephone }}">{{ block_value.telephone }}</a>
+      </dd>
+      {% endif %}
+      {% if block_value.chat_link %}
+      <dt>
+        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+        Live chat
+      </dt>
+      <dd>
+        <a href="{{ block_value.chat_link }}">{{ block_value.chat_link }}</a>
+        {{ block_value.chat_note | tna_html | safe }}
+      </dd>
+      {% endif %}
+      {% if block_value.email %}
+      <dt>
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        Email
+      </dt>
+      <dd>
+        Email us at <a href="mailto:{{ block_value.email }}">{{ block_value.email }}</a>
+      </dd>
+      {% endif %}
+      {% if block_value.website_link %}
+      <dt>
+        <i class="fa-solid fa-globe" aria-hidden="true"></i>
+        Website
+      </dt>
+      <dd>
+        <a href="mailto:{{ block_value.website_link }}">{{ block_value.website_link }}</a>
+      </dd>
+      {% endif %}
+      {% if block_value.social_media %}
+      <dt>
+        <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
+        Social media
+      </dt>
+      <dd>
+        {{ block_value.social_media | tna_html | safe }}
+      </dd>
+      {% endif %}
+    </dl>
+  </div>
+{% endmacro %}

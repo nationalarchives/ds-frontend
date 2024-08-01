@@ -20,3 +20,8 @@ def lists_to_tna_lists(html):
 def strip_wagtail_attributes(html):
     html = re.sub(r' data-block-key="([^"]*)"', "", html)
     return html
+
+
+def replace_line_breaks(html):
+    html = html.replace("\r\n", "<br>")
+    return html

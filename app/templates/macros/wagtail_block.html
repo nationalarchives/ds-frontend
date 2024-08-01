@@ -2,6 +2,7 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/wagtail_blocks/accordion.html' import wagtailAccordion -%}
+{%- from 'macros/wagtail_blocks/contact.html' import wagtailContact -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
@@ -57,9 +58,9 @@
 
   {% elif content_item.type == 'description_list' %}
   <dl class="tna-dl tna-dl--plain">
-    {% for item in content_item.value %}
+    {% for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
-    <dd>{{ item.detail }}</dd>
+    <dd>{{ item.detail | safe }}</dd>
     {% endfor %}
   </dl>
 
@@ -121,6 +122,9 @@
   
   {%- elif content_item.type == 'image_gallery' %}
   {{ wagtailGallery(content_item.value, content_item.id, next_heading_level) }}
+
+  {%- elif content_item.type == 'contact' %}
+  {{ wagtailContact( content_item.value, next_heading_level ) }}
 
   {%- else %}
   <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>
