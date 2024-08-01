@@ -55,6 +55,14 @@
     {{ content_item.value.text | tna_html | safe }}
   </aside>
 
+  {% elif content_item.type == 'description_list' %}
+  <dl class="tna-dl tna-dl--plain">
+    {% for item in content_item.value %}
+    <dt>{{ item.term }}</dt>
+    <dd>{{ item.detail }}</dd>
+    {% endfor %}
+  </dl>
+
   {%- elif content_item.type == 'image' %}
   {{ wagtailImage(content_item.value, content_item.id, plain_images) }}
 
