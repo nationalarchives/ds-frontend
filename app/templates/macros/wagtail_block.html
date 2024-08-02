@@ -40,7 +40,7 @@
   </div>
 
   {% elif content_item.type == 'call_to_action' %}
-  <aside class="tna-aside tna-aside--tight tna-background-tint etna-cta">
+  <aside class="tna-aside tna-background-tint etna-cta">
     {{ content_item.value.body | tna_html | safe }}
     <div class="tna-button-group">
       {{ tnaButton({
@@ -57,7 +57,7 @@
   </aside>
 
   {% elif content_item.type == 'description_list' %}
-  <dl class="tna-dl tna-dl--plain">
+  <dl class="tna-dl tna-dl--plain tna-dl--spaced">
     {% for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
     <dd>{{ item.detail | safe }}</dd>
