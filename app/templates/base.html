@@ -8,7 +8,7 @@
 {%- from 'components/header/macro.html' import tnaHeader -%}
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
-{%- set theme = request.cookies.get('theme') or 'light' -%}
+{%- set theme = request.cookies.get('theme') or 'system' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
