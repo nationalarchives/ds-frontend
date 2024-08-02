@@ -16,7 +16,7 @@ from flask import (
 
 
 @bp.route("/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def index():
     return render_template("legal/index.html")
 
@@ -79,7 +79,7 @@ def cookies():
 
 
 @bp.route("/cookie-details/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def cookie_details():
     return render_template(
         "legal/cookie-details.html", global_alerts=global_alerts()

@@ -9,7 +9,7 @@ from .lib import get_filters, get_selected_filters
 
 
 @bp.route("/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def index():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -21,7 +21,7 @@ def index():
 
 
 @bp.route("/featured/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def featured():
     query = request.args["q"] if "q" in request.args else ""
     return render_template(
@@ -33,7 +33,7 @@ def featured():
 
 
 @bp.route("/catalogue/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def catalogue():
     query = request.args["q"] if "q" in request.args else ""
     page = (
@@ -71,7 +71,7 @@ def catalogue():
 
 
 @bp.route("/website/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def website():
     query = request.args["q"] if "q" in request.args else ""
     page = (

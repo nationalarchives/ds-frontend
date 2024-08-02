@@ -7,7 +7,7 @@ from flask import current_app, make_response, render_template, request
 
 
 @bp.route("/browse/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def browse():
     return render_template("main/browse.html", global_alerts=global_alerts())
 
@@ -69,6 +69,6 @@ def sitemap():
 
 
 @bp.route("/new-homepage/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def new_homepage():
     return render_template("main/new_home.html")

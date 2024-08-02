@@ -10,7 +10,7 @@ from .api import RecordAPI
 
 
 @bp.route("/id/<id>/")
-@cache.cached(key_prefix=cache_key_prefix)
+# @cache.cached(key_prefix=cache_key_prefix)
 def details(id):
     records_api = RecordAPI(id)
     try:
