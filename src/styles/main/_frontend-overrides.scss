@@ -96,6 +96,14 @@
   }
 }
 
+.tna-sidebar {
+  &--sticky {
+    @include media.on-mobile {
+      max-height: none;
+    }
+  }
+}
+
 address {
   font-style: inherit;
 }
