@@ -6,10 +6,11 @@ from datetime import datetime
 from flask import url_for
 
 from .content_parser import (
+    add_abbreviations,
     b_to_strong,
     lists_to_tna_lists,
-    strip_wagtail_attributes,
     replace_line_breaks,
+    strip_wagtail_attributes,
 )
 
 
@@ -18,6 +19,7 @@ def tna_html(s):
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
+    s = add_abbreviations(s)
     return s
 
 

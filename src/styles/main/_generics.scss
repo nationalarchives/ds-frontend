@@ -11,6 +11,10 @@
   @include colour.thick-keyline-accent(top);
 }
 
+abbr {
+  cursor: help;
+}
+
 .etna-cta {
   @include spacing.space-above;
 
