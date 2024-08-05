@@ -97,6 +97,18 @@
   }
 }
 
+.etna-etc-search .tna-form__hint {
+  margin-top: spacing.space(0.25);
+  margin-bottom: spacing.space(0.5);
+  
+  @include colour.colour-font("font-base");
+  @include typography.font-size(18);
+
+  @include media.on-mobile {
+    @include typography.font-size(17);
+  }
+}
+
 .etna-do-dont-list {
   @include spacing.space-above;
 
