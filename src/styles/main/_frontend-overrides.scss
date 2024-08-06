@@ -80,6 +80,16 @@
 
 .tna-gallery {
   @include spacing.space-above;
+
+  max-height: none;
+
+  &__navigation {
+    max-height: clamp(15rem, calc(100vh - #{spacing.space(2)}), 40rem);
+  }
+
+  &:fullscreen &__navigation {
+    max-height: none;
+  }
 }
 
 .tna-dl {
