@@ -7,7 +7,7 @@ def people_index_page(page_data):
         children = page_children(
             page_data["id"],
             {
-                "type": "authors.AuthorPage",
+                "type": "people.PersonPage",
                 "fields": "_,title,teaser_image,role,html_url",
                 "order": "title",
             },
