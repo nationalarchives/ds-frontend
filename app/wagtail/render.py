@@ -34,8 +34,8 @@ page_type_templates = {
     "articles.FocusedArticlePage": article_page_focused,
     "articles.RecordArticlePage": record_article_page,
     # People
-    "authors.AuthorIndexPage": people_index_page,
-    "authors.AuthorPage": person_page,
+    "people.PeopleIndexPage": people_index_page,
+    "people.PersonPage": person_page,
 }
 
 
