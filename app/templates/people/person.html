@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/feedback.html' import feedback -%}
@@ -68,6 +69,14 @@
               </dd>
             </dl>
             <p class="tna-large-paragraph tna-!--margin-top-s" itemprop="jobTitle">{{ page_data.role | safe }}</p>
+            <div class="tna-button-group">
+              {{ tnaButton({
+                'text': 'Contact',
+                'href': '#contact',
+                'icon': 'envelope',
+                'small': True
+              }) }}
+            </div>
           </div>
         </div>
       </div>
@@ -175,6 +184,58 @@
                 </div>
                 {# {%- endif %} #}
                 {%- endfor %}
+              </div>
+            </section>
+            <hr>
+            <section class="tna-section tna-!--padding-top-m etna-article__section">
+              <h2 id="contact" class="tna-heading-l tna-!--padding-top-s">Contact</h2>
+              <div class="tna-aside tna-background-tint">
+                <h4 class="tna-heading-m">Contact us</h4>
+                <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding">
+                  <dt>
+                    <i class="fa-solid fa-building" aria-hidden="true"></i>
+                    Address
+                  </dt>
+                  <dd>
+                    <address>The National Archives<br>Kew<br>Richmond<br>Surrey<br>TW9 4DU</address>
+                  </dd>
+                  <dt>
+                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                    Telephone
+                  </dt>
+                  <dd>
+                    <a href="tel:+44 (0) 20 8876 3444">+44 (0) 20 8876 3444</a>
+                  </dd>
+                  <dt>
+                    <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+                    Live chat
+                  </dt>
+                  <dd>
+                    <a href="https://www.nationalarchives.gov.uk/contact-us/">https://www.nationalarchives.gov.uk/contact-us/</a>
+                    <p>Tuesday to Saturday (excluding bank holiday weekends)<br>09:00 to 17:00</p>
+                  </dd>
+                  <dt>
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    Email
+                  </dt>
+                  <dd>
+                    Email us at <a href="mailto:webmaster@nationalarchives.gov.uk">webmaster@nationalarchives.gov.uk</a>
+                  </dd>
+                  <dt>
+                    <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                    Website
+                  </dt>
+                  <dd>
+                    <a href="mailto:https://www.nationalarchives.gov.uk/">https://www.nationalarchives.gov.uk/</a>
+                  </dd>
+                  <dt>
+                    <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
+                    Social media
+                  </dt>
+                  <dd>
+                    <p><a href="https://twitter.com/@UKNatArchives">X: @UKNatArchives</a><br><a href="https://www.facebook.com/TheNationalArchives">Facebook: TheNationalArchives</a><br><a href="https://www.instagram.com/nationalarchivesuk/">Instagram: @nationalarchivesuk</a></p>
+                  </dd>
+                </dl>
               </div>
             </section>
           </div>
