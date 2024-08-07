@@ -25,6 +25,20 @@
   }
 }
 
+.tna-container {
+  &--nested {
+    width: auto;
+    // TODO: This should use grid.gutter-width()
+    margin-right: -#{spacing.space(2)};
+    margin-left: -#{spacing.space(2)};
+
+    @include media.on-tiny {
+      margin-right: -#{spacing.space(1)};
+      margin-left: -#{spacing.space(1)};
+    }
+  }
+}
+
 .tna-card {
   &__promoted-item {
     @include colour.thick-keyline-accent(top);
