@@ -3,24 +3,27 @@
 {% set title = page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' %}
 {% set description = page_data.meta.search_description if page_data.meta else '' %}
 {% set url = page_data.meta.html_url if page_data.meta else request.url %}
-
     <meta property="og:logo" content="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
     <meta name="apple-mobile-web-app-title" content="{{ siteName }}">
     <meta name="apple-mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta property="og:site_name" content="{{ siteName }}">
     <meta property="og:type" content="{{ og_type | default('website') }}">
-    <meta property="og:locale" content="{{ page_data.language | default('en_GB') }}">
+    <meta property="og:locale" content="en_GB">
     <meta name="twitter:card" content="summary">
 {% if title %}
     <meta property="og:title" content="{{ title }}">
-    <meta name="twitter:title" content="{{ title }}">
+{% endif %}
+{%- if page_data.meta and page_data.meta.twitter_og_title %}
+    <meta name="twitter:title" content="{{ page_data.meta.twitter_og_title }}">
 {% endif %}
 
 {%- if description %}
     <meta name="description" content="{{ description }}">
     <meta property="og:description" content="{{ description }}">
-    <meta name="twitter:description" content="{{ description }}">
+{% endif %}
+{%- if page_data.meta and page_data.meta.twitter_og_description %}
+    <meta name="twitter:description" content="{{ page_data.meta.twitter_og_description }}">
 {% endif %}
 
 {%- if url %}
@@ -35,11 +38,11 @@
         'height': page_data.facebook_og_image.jpeg.height,
         'type': 'image/jpeg'
       } %}
-{% elif page_data.teaser_image %}
+{% elif page_data.meta.teaser_image %}
 {%- set og_image = {
-    'src': page_data.teaser_image.jpeg.full_url,
-    'width': page_data.teaser_image.jpeg.width,
-    'height': page_data.teaser_image.jpeg.height,
+    'src': page_data.meta.teaser_image.jpeg.full_url,
+    'width': page_data.meta.teaser_image.jpeg.width,
+    'height': page_data.meta.teaser_image.jpeg.height,
     'type': 'image/jpeg'
   } %}
 {% endif %}
@@ -52,18 +55,17 @@
 {% endif %}
 
 {%- set og_image_twitter = None %}
-{%- if page_data.twitter_og_image %}
+{%- if page_data.meta.twitter_og_image %}
     {% set og_image_twitter = {
-        'src': page_data.twitter_og_image.jpeg.full_url
+        'src': page_data.meta.twitter_og_image.jpeg.full_url
       } %}
 {% elif og_image %}
     {% set og_image_twitter = og_image %}
-{% elif page_data.teaser_image %}
+{% elif page_data.meta.teaser_image %}
     {% set og_image_twitter = {
-        'src': page_data.teaser_image.jpeg.full_url
+        'src': page_data.meta.teaser_image.jpeg.full_url
     } %}
 {% endif %}
-
 {%- if og_image_twitter %}
     <meta name="twitter:image" content="{{ og_image_twitter.src }}">
 {% endif %}
