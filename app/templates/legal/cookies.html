@@ -108,55 +108,53 @@
 {% endblock %}
 
 {% block contentSidebar %}
-<div class="etna-sidebar etna-sidebar--right">
-  {{ tnaSidebar({
-    'heading': 'Related content',
-    'headingLevel': 2,
-    'items': [
-      {
-        'text': 'Fair and reasonable use',
-        'href': '#'
-      },
-      {
-        'text': 'Use of bulk downloads and web crawlers',
-        'href': '#'
-      },
-      {
-        'text': 'Privacy notice',
-        'href': '#'
-      },
-      {
-        'text': 'Copyright',
-        'href': '#'
-      },
-      {
-        'text': 'Takedown and reclosure policy',
-        'href': '#'
-      },
-      {
-        'text': 'Record copying',
-        'href': '#'
-      },
-      {
-        'text': 'Booking events and visits',
-        'href': '#'
-      },
-      {
-        'text': 'User participation',
-        'href': '#'
-      },
-      {
-        'text': 'Our fees',
-        'href': '#'
-      },
-      {
-        'text': 'Information we collect online',
-        'href': '#'
-      }
-    ],
-    'type': 'pages'
-  }) }}
-</div>
+{{ tnaSidebar({
+  'title': 'Related content',
+  'headingLevel': 2,
+  'items': [
+    {
+      'text': 'Fair and reasonable use',
+      'href': '#'
+    },
+    {
+      'text': 'Use of bulk downloads and web crawlers',
+      'href': '#'
+    },
+    {
+      'text': 'Privacy notice',
+      'href': '#'
+    },
+    {
+      'text': 'Copyright',
+      'href': '#'
+    },
+    {
+      'text': 'Takedown and reclosure policy',
+      'href': '#'
+    },
+    {
+      'text': 'Record copying',
+      'href': '#'
+    },
+    {
+      'text': 'Booking events and visits',
+      'href': '#'
+    },
+    {
+      'text': 'User participation',
+      'href': '#'
+    },
+    {
+      'text': 'Our fees',
+      'href': '#'
+    },
+    {
+      'text': 'Information we collect online',
+      'href': '#'
+    }
+  ],
+  'type': 'pages'
+}) }}
 {% endblock %}
 
 {% block bodyEnd %}

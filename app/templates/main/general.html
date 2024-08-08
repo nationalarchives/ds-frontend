@@ -159,16 +159,18 @@
           'items': page_sections,
           'type': page_data.page_sidebar,
           'sticky': True,
-          'classes': 'tna-!--padding-top-s'
+          'classes': 'tna-!--padding-top-s',
+          'attributes': {
+            'id': 'page-sidebar'
+          }
         }) }}
       </div>
       {% endif %}
-      <div class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections">
+      <div id="page-body" class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
       {%- set ns = namespace(next_heading_level=2) %}
       {% for body_item in page_data.body %}
         {% if body_item.type == 'content_section' %}
-        {% set ns.next_heading_level = 3 %}
-        <section class="etna-article__section etna-space-above">
+          {% set ns.next_heading_level = 3 %}
           <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ body_item.value.heading | slugify }}">{{ body_item.value.heading }}</h2>
           {% for block in body_item.value.content %}
             {% if block.type == 'sub_heading' %}
@@ -178,14 +180,13 @@
             {% endif %}
             {{ wagtail_block(block, ns.next_heading_level, True) }}
           {% endfor %}
-        </section>
         {% else %}
-        {% if body_item.type == 'sub_heading' %}
-          {% set ns.next_heading_level = 3 %}
-        {% elif body_item.type == 'sub_sub_heading' %}
-          {% set ns.next_heading_level = 4 %}
-        {% endif %}
-        {{ wagtail_block(body_item, ns.next_heading_level, True) }}
+          {% if body_item.type == 'sub_heading' %}
+            {% set ns.next_heading_level = 3 %}
+          {% elif body_item.type == 'sub_sub_heading' %}
+            {% set ns.next_heading_level = 4 %}
+          {% endif %}
+          {{ wagtail_block(body_item, ns.next_heading_level, True) }}
         {% endif %}
       {% endfor %}
       </div>
@@ -236,6 +237,6 @@
     <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
     {% endif %}
     {% if page_data.page_sidebar == 'sections' %}
-    <script src="{{ url_for('static', filename='sections-sidebar.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='sidebar.min.js') }}" defer></script>
     {% endif %}
 {% endblock %}

@@ -1,12 +1,22 @@
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+
 {% macro articleSidebar(blocks) %}
-  <nav aria-label="Article sections" class="etna-article__sidebar tna-!--padding-top-s">
-    <h2 class="tna-heading-m">On this page</h2>
-    <ol class="tna-ol tna-ol--plain etna-article__sidebar-items">
-      {%- for block in blocks %}
-      <li>
-        <a href="#{{ block.value.heading | slugify }}" class="etna-article__sidebar-item">{{ block.value.heading }}</a>
-      </li>
-      {%- endfor %}
-    </ol>
-  </nav>
+  {% set items = [] %}
+  {%- for block in blocks %}
+    {% set items = items.append({
+      'text': block.value.heading,
+      'href': '#' + (block.value.heading | slugify)
+    }) %}
+  {%- endfor %}
+  {{ tnaSidebar({
+    'title': 'On this page',
+    'headingLevel': 2,
+    'items': items,
+    'type': 'sections',
+    'sticky': True,
+    'classes': 'tna-!--padding-top-s tna-!--hide-on-small tna-!--hide-on-tiny',
+    'attributes': {
+      'id': 'page-sidebar'
+    }
+  }) }}
 {% endmacro %}

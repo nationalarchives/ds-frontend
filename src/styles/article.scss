@@ -5,55 +5,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-article {
-  &__sidebar {
-    max-height: 100vh;
-    max-height: 100dvh;
-
-    display: flex;
-    flex-direction: column;
-
-    box-sizing: border-box;
-
-    position: sticky;
-    top: 0;
-  }
-
-  &__sidebar-items {
-    width: 100%;
-    margin: 0;
-    padding: spacing.space(0.5);
-
-    box-sizing: content-box;
-
-    overflow-y: auto;
-
-    position: relative;
-    left: -#{spacing.space(0.5)};
-
-    flex: 1;
-  }
-
-  &__sidebar-item {
-    margin-bottom: spacing.space(0.25);
-    padding: spacing.space(0.25) spacing.space(0.625);
-
-    display: block;
-
-    // text-decoration: none;
-    @include typography.font-size(16);
-
-    &,
-    &:link,
-    &:visited {
-      // @include colour.colour-font("font-base");
-      @include colour.colour-font("link");
-    }
-
-    &--current {
-      @include colour.accent;
-    }
-  }
-
   &__sections {
     @include media.on-mobile {
       &::after {
@@ -158,7 +109,6 @@
   }
 
   @include media.on-mobile {
-    &--interactive &__sidebar,
     &__section--hidden {
       display: none;
     }

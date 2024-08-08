@@ -3,7 +3,7 @@
 {% macro global_alert_banners(global_alert, mourning_notice, padding_top, padding_bottom) %}
   {% set dismissed_notifications = (request.cookies.get('dismissed_notifications') | parse_json) or [] %}
   {% if (global_alert and global_alert.uid not in dismissed_notifications) or mourning_notice %}
-  <div class="etna-global-alert-wrapper tna-container{% if padding_top %} tna-!--padding-top-{{ padding_top }}{% endif %}{% if padding_bottom %} tna-!--padding-bottom-{{ padding_bottom }}{% endif %}">
+  <div class="etna-global-alert-wrapper tna-container{% if padding_top %} tna-!--padding-top-{{ padding_top }}{% endif %}{% if padding_bottom %} tna-!--padding-bottom-{{ padding_bottom }}{% endif %} tna-!--hide-on-print">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {% if mourning_notice %}
       <section class="etna-mourning-notice tna-accent-black tna-background-accent tna-aside tna-aside--tight">
