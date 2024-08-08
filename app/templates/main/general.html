@@ -34,19 +34,26 @@
 {% set page_sections = [] %}
 {% for section in page_data.body %}
   {% if section.type == 'content_section' %}
-    {% set section_children = [] %}
-    {% for block in section.value.content %}
+    {% set page_sections_ns = namespace(section_children=[], section_grandchildren=[]) %}
+    {% for block in section.value.content | reverse %}
       {% if block.type == 'sub_heading' %}
-        {% set section_children = section_children.append({
+        {% set page_sections_ns.section_children = page_sections_ns.section_children + [{
+          'text': block.value.heading,
+          'href': '#' + (block.value.heading | slugify),
+          'children': page_sections_ns.section_grandchildren | reverse if page_sections_ns.section_grandchildren else None
+        }] %}
+        {% set page_sections_ns.section_grandchildren = [] %}
+      {% elif block.type == 'sub_sub_heading' %}
+        {% set page_sections_ns.section_grandchildren = page_sections_ns.section_grandchildren + [{
           'text': block.value.heading,
           'href': '#' + (block.value.heading | slugify)
-        }) %}
+        }] %}
       {% endif %}
     {% endfor %}
     {% set page_sections = page_sections.append({
       'text': section.value.heading,
       'href': '#' + (section.value.heading | slugify),
-      'children': section_children
+      'children': page_sections_ns.section_children | reverse if page_sections_ns.section_children else None
     }) %}
   {% endif %}
 {% endfor %}
