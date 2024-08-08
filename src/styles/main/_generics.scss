@@ -101,6 +101,15 @@ abbr {
   }
 }
 
+.tna-sidebar {
+  &--sticky {
+    max-height: 100vh;
+    max-height: 100dvh;
+    
+    top: 0;
+  }
+}
+
 .etna-etc-search .tna-form__hint {
   margin-top: spacing.space(0.25);
   margin-bottom: spacing.space(0.5);
