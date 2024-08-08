@@ -1,3 +1,5 @@
+{%- from 'components/details/macro.html' import tnaDetails -%}
+
 {% macro wagtailMedia(block_value, itemHeadingLevel) %}
   {%- if block_value.media.type == 'audio' %}
   <aside class="etna-space-above" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
@@ -19,11 +21,11 @@
       <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     </div>
     {% if block_value.media.transcript %}
-    <div class="tna-aside tna-background-contrast tna-!--no-margin-top">
-      <h{{ itemHeadingLevel + 1 }} class="tna-heading-m tna-!--padding-bottom-s">Transcript</h{{ itemHeadingLevel + 1 }}>
-      <div itemprop="transcript">
-        {{ block_value.media.transcript | tna_html | safe }}
-      </div>
+    <div class="tna-aside tna-aside--tight tna-background-contrast tna-!--no-margin-top">
+      {{ tnaDetails({
+        'title': 'Transcript',
+        'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
+      }) }}
     </div>
     {% endif %}
   </aside>
