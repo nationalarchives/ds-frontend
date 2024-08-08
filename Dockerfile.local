@@ -1,0 +1,29 @@
+ARG IMAGE=ghcr.io/nationalarchives/tna-python
+ARG IMAGE_TAG=latest
+
+FROM "$IMAGE":"$IMAGE_TAG"
+
+ENV NPM_BUILD_COMMAND=compile
+ARG BUILD_VERSION
+ENV BUILD_VERSION="$BUILD_VERSION"
+
+# Copy in the dependencies config
+COPY --chown=app package.json package-lock.json pyproject.toml poetry.lock webpack.config.js .nvmrc ./
+COPY --chown=app src src
+
+# Install dependencies
+RUN tna-build
+
+# Copy in the application code
+COPY --chown=app . .
+
+# Copy in the static assets
+RUN mkdir -p /app/app/static/assets; \
+    cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets; \
+    cp -r /app/node_modules/plyr/dist/plyr.svg /app/app/static/assets/images
+
+# Delete source files and tests
+RUN rm -fR /app/src /app/test
+
+# Run the application
+CMD ["tna-run", "etna:app"]
