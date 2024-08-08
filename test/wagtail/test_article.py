@@ -71,6 +71,6 @@ class ArticleTemplateTestCase(unittest.TestCase):
                 rv.text,
             )
             self.assertIn(
-                f"<a href=\"#heading-text\" class=\"etna-article__sidebar-item\">{page_data['body'][0]['value']['heading']}</a>",
+                f"<a href=\"#heading-text\" class=\"tna-sidebar__link\">{page_data['body'][0]['value']['heading']}</a>",
                 rv.text,
             )
