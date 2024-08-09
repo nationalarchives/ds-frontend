@@ -4,7 +4,7 @@
 .etna-secondary-navigation {
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
-  &.tna-background-accent {
+  .tna-background-accent & {
     border-bottom: none;
   }
 
