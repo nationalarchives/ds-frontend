@@ -186,6 +186,12 @@ p.etna-small-paragraph {
   @include typography.font-size(16);
 }
 
+.etna-email {
+  display: inline-flex;
+  align-items: baseline;
+  gap: spacing.space(0.75);
+}
+
 // TEMP FIX
 // .tna-heading-s,
 // .tna-heading-m,

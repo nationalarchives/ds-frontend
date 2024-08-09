@@ -57,3 +57,24 @@ if (cookies.isPolicyAccepted("settings")) {
     }
   });
 }
+
+document
+  .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
+  .forEach(($emailButton) => {
+    $emailButton.removeAttribute("hidden");
+    $emailButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(
+          $emailButton.previousElementSibling
+            .getAttribute("href")
+            .replace(/^mailto:/, ""),
+        );
+      } catch (err) {
+        console.error("Failed to copy: ", err);
+      }
+      $emailButton.innerText = "Copied";
+    });
+    $emailButton.addEventListener("blur", () => {
+      $emailButton.innerText = "Copy";
+    });
+  });

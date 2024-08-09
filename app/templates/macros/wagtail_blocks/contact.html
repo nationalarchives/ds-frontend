@@ -1,3 +1,5 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+
 {% macro wagtailContact(block_value, next_heading_level) %}
   <div class="tna-aside tna-background-tint">
     <h{{ next_heading_level }} class="tna-heading-m">{{ block_value.title }}</h{{ next_heading_level }}>
@@ -36,7 +38,16 @@
         Email
       </dt>
       <dd>
-        Email us at <a href="mailto:{{ block_value.email }}">{{ block_value.email }}</a>
+        Email us at <span class="etna-email"><a href="mailto:{{ block_value.email }}">{{ block_value.email }}</a> {{ tnaButton({
+          'text': 'Copy',
+          'small': True,
+          'buttonElement': True,
+          'classes': 'etna-email__button',
+          'attributes': {
+            'hidden': True,
+            'aria-live': 'assertive'
+          }
+        }) }}</span>
       </dd>
       {% endif %}
       {% if block_value.website_link %}
