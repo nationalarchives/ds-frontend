@@ -7,6 +7,11 @@
 {%- set themeAccent = 'blue' -%}
 {%- set pageTitle = person.first_name + ' ' + person.last_name -%}
 
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}">
+{% endblock %}
+
 {% block beforeContent %}
 <div class="tna-container">
   <div class="tna-column tna-column--full">
@@ -33,6 +38,39 @@
   <h1 class="tna-hgroup__title">{{ person.first_name }} {{ person.last_name }}</h1>
 </hgroup>
 <p class="tna-large-paragraph">{{ person.role }}</p>
+{% endblock %}
+
+{% block afterContentHeader %}
+<nav class="etna-secondary-navigation tna-background-accent">
+  <div class="tna-container">
+    <ul class="tna-column tna-column--full etna-secondary-navigation__items">
+      <li class="etna-secondary-navigation__item etna-secondary-navigation__item--current">
+        <a href="#" class="etna-secondary-navigation__link">Alpha</a>
+      </li>
+      <li class="etna-secondary-navigation__item">
+        <a href="#" class="etna-secondary-navigation__link">Beta</a>
+      </li>
+      <li class="etna-secondary-navigation__item">
+        <a href="#" class="etna-secondary-navigation__link">Gamma</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<nav class="etna-secondary-navigation tna-!--margin-top-m">
+  <div class="tna-container">
+    <ul class="tna-column tna-column--full etna-secondary-navigation__items">
+      <li class="etna-secondary-navigation__item etna-secondary-navigation__item--current">
+        <a href="#" class="etna-secondary-navigation__link">Alpha</a>
+      </li>
+      <li class="etna-secondary-navigation__item">
+        <a href="#" class="etna-secondary-navigation__link">Beta</a>
+      </li>
+      <li class="etna-secondary-navigation__item">
+        <a href="#" class="etna-secondary-navigation__link">Gamma</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 {% endblock %}
 
 {% block content %}
