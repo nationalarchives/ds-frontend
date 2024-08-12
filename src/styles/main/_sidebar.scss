@@ -41,14 +41,8 @@
   }
 
   @include media.on-larger-than-mobile {
-    padding-right: spacing.space(1);
-
-    &--right {
-      padding-right: 0;
-      padding-left: spacing.space(1);
-
-      border-right: none;
-      @include colour.thick-keyline(left);
+    &--a-z {
+      padding-right: spacing.space(1);
     }
   }
 }
