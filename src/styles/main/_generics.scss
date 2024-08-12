@@ -188,6 +188,7 @@ p.etna-small-paragraph {
 
 .etna-email {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: spacing.space(0.75);
 }
