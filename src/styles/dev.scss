@@ -1,4 +1,5 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .etna-secondary-navigation {
@@ -10,12 +11,17 @@
 
   &__items {
     display: flex;
+    align-items: flex-end;
     gap: spacing.space(2);
 
     list-style: none;
   }
 
   &__item {
+    // TODO
+    // @include colour.thick-keyline-transparent(bottom);
+    border-bottom: 5px transparent solid;
+
     &--current {
       @include colour.thick-keyline-accent(bottom);
     }
@@ -30,5 +36,33 @@
   &__item--current &__link {
     text-decoration: none;
     @include colour.colour-font("base-font");
+  }
+
+  @include media.on-mobile {
+    &__items {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    &__item {
+      border-bottom: none;
+      // TODO
+      // @include colour.thick-keyline-transparent(left);
+      border-left: 5px transparent solid;
+
+      &--current {
+        @include colour.thick-keyline-accent(left);
+      }
+    }
+
+    &__link {
+      padding: spacing.space(0.25) spacing.space(0.75);
+      @include colour.colour-border("keyline", 1px, solid, bottom);
+    }
+
+    &__item:last-child &__link {
+      border-bottom: none;
+    }
   }
 }
