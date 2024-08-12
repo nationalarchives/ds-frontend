@@ -2,7 +2,7 @@ import Plyr from "plyr";
 
 const cookies = window.TNAFrontendCookies;
 
-if (cookies.isPolicyAccepted("usage")) {
+if (cookies.isPolicyAccepted("marketing")) {
   document
     .querySelectorAll(
       '.etna-video--youtube:has([data-plyr-provider="youtube"][data-plyr-embed-id])',
