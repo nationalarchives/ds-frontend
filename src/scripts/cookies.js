@@ -7,6 +7,7 @@ if (cookies) {
     const formData = new FormData($form);
     cookies.setPolicy("usage", formData.get("usage") === "true");
     cookies.setPolicy("settings", formData.get("settings") === "true");
+    cookies.setPolicy("marketing", formData.get("marketing") === "true");
     $successMessage.removeAttribute("hidden");
     $successMessage.setAttribute("tabindex", "-1");
     $successMessage.focus();

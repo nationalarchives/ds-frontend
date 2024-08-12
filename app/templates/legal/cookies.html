@@ -93,6 +93,25 @@
     ],
     'selected': 'true' if cookie_preference('settings') else 'false'
   }) }}
+  {{ tnaRadios({
+    'label': 'Cookies that are used for marketing',
+    'headingLevel': 3,
+    'headingSize': 'm',
+    'hint': 'These cookies track your preferences for marketing purposes. They are often used by third party services such as YouTube to allow better video suggestions.',
+    'id': 'marketing',
+    'name': 'marketing',
+    'items': [
+      {
+        'text': 'Use cookies are for marketing purposes',
+        'value': 'true'
+      },
+      {
+        'text': 'Do not use cookies that are for marketing purposes',
+        'value': 'false'
+      }
+    ],
+    'selected': 'true' if cookie_preference('marketing') else 'false'
+  }) }}
   <h3 class="tna-heading-m">Strictly necessary cookies</h3>
   <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
   <p>They always need to be on.</p>

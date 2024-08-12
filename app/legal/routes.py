@@ -27,6 +27,7 @@ def cookies():
         current_cookies_policy = {
             "usage": False,
             "settings": False,
+            "marketing": False,
             "essential": True,
         }
         if "cookies_policy" in request.cookies:
@@ -42,9 +43,15 @@ def cookies():
             if "settings" in request.form
             else current_cookies_policy["settings"]
         )
+        marketing = (
+            strtobool(request.form["marketing"])
+            if "marketing" in request.form
+            else current_cookies_policy["marketing"]
+        )
         new_cookies_policy = {
             "usage": usage,
             "settings": settings,
+            "marketing": marketing,
             "essential": True,
         }
         response = make_response(
