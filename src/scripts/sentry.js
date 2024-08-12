@@ -5,7 +5,7 @@ if (document.currentScript?.dataset?.id) {
     dsn: `https://${document.currentScript.dataset.id}@o1230303.ingest.us.sentry.io/4507458004910080`,
     environment: document.currentScript?.dataset?.environment || "production",
     release: document.currentScript?.dataset?.version
-      ? `ds-etna-frontend@${document.currentScript.dataset.version}`
+      ? `ds-frontend@${document.currentScript.dataset.version}`
       : null,
     integrations: [
       Sentry.browserTracingIntegration(),

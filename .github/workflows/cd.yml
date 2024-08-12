@@ -65,7 +65,7 @@ jobs:
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: Set up git config
         run: |
-          git config user.name "ds-etna-frontend"
+          git config user.name "ds-frontend"
           git config user.email "<>"
       - name: Install jq
         run: sudo apt-get install jq
@@ -91,7 +91,7 @@ jobs:
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: Set up git config
         run: |
-          git config user.name "ds-etna-frontend"
+          git config user.name "ds-frontend"
           git config user.email "<>"
       - name: Install yq
         uses: dcarbone/install-yq-action@v1.1.1

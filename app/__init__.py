@@ -36,7 +36,7 @@ def create_app(config_class):
             dsn=app.config.get("SENTRY_DSN"),
             environment=app.config.get("ENVIRONMENT"),
             release=(
-                f"ds-etna-frontend@{app.config.get('BUILD_VERSION')}"
+                f"ds-frontend@{app.config.get('BUILD_VERSION')}"
                 if app.config.get("BUILD_VERSION")
                 else ""
             ),
