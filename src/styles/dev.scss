@@ -2,6 +2,24 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
+// <div class="tna-background-accent tna-!--margin-bottom-m">
+//   <nav class="etna-secondary-navigation">
+//     <div class="tna-container">
+//       <ul class="tna-column tna-column--full etna-secondary-navigation__items">
+//         <li class="etna-secondary-navigation__item etna-secondary-navigation__item--current">
+//           <a href="#" class="etna-secondary-navigation__link">Alpha</a>
+//         </li>
+//         <li class="etna-secondary-navigation__item">
+//           <a href="#" class="etna-secondary-navigation__link">Beta</a>
+//         </li>
+//         <li class="etna-secondary-navigation__item">
+//           <a href="#" class="etna-secondary-navigation__link">Gamma</a>
+//         </li>
+//       </ul>
+//     </div>
+//   </nav>
+// </div>
+
 .etna-secondary-navigation {
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
@@ -63,6 +81,102 @@
 
     &__item:last-child &__link {
       border-bottom: none;
+    }
+  }
+}
+
+.etna-pictures {
+  @include spacing.space-above;
+
+  aspect-ratio: 3 / 2;
+
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  place-items: stretch;
+  gap: spacing.space(1);
+
+  img {
+    object-fit: cover;
+
+    position: relative;
+    z-index: 1;
+
+    @include colour.colour-border("keyline", 1px);
+  }
+
+  &--layout-1 {
+    img:nth-child(1) {
+      grid-column: 2 / 6;
+      grid-row: 2 / 5;
+    }
+
+    img:nth-child(2) {
+      grid-column: 7 / 11;
+      grid-row: 1 / 5;
+
+      z-index: 3;
+    }
+
+    img:nth-child(3) {
+      grid-column: 4 / 10;
+      grid-row: 3 / 11;
+
+      z-index: 2;
+    }
+
+    img:nth-child(4) {
+      grid-column: 1 / 5;
+      grid-row: 5 / 10;
+
+      z-index: 3;
+    }
+  }
+
+  &--layout-2 {
+    img:nth-child(1) {
+      grid-column: 1 / 5;
+      grid-row: 2 / 9;
+    }
+
+    img:nth-child(2) {
+      grid-column: 4 / 8;
+      grid-row: 3 / 8;
+
+      z-index: 2;
+    }
+
+    img:nth-child(3) {
+      grid-column: 7 / 10;
+      grid-row: 1 / 4;
+
+      z-index: 3;
+    }
+
+    img:nth-child(4) {
+      grid-column: 6 / 11;
+      grid-row: 5 / 11;
+    }
+  }
+
+  &--layout-3 {
+    img:nth-child(1) {
+      grid-column: 1 / 6;
+      grid-row: 2 / 7;
+
+      z-index: 3;
+    }
+
+    img:nth-child(2) {
+      grid-column: 4 / 9;
+      grid-row: 4 / 11;
+
+      z-index: 2;
+    }
+
+    img:nth-child(3) {
+      grid-column: 7 / 11;
+      grid-row: 1 / 6;
     }
   }
 }

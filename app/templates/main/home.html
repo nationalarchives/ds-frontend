@@ -10,6 +10,11 @@
 {{ meta(page_data) }}
 {% endblock %}
 
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}">
+{% endblock %}
+
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'l') }}
 <div class="tna-section">
@@ -23,6 +28,28 @@
       {{ content_item.value.paragraph | tna_html | safe }}
       {%- endif %}
       {%- endfor %}
+
+      <h2 class="tna-heading-l">Compound image examples</h2>
+      <h3 class="tna-heading-m">Layout 1</h3>
+      <div class="etna-pictures etna-pictures--layout-1">
+        <img src="https://picsum.photos/600/400?1">
+        <img src="https://picsum.photos/600/400?2">
+        <img src="https://picsum.photos/600/400?3">
+        <img src="https://picsum.photos/600/600?4">
+      </div>
+      <h3 class="tna-heading-m">Layout 2</h3>
+      <div class="etna-pictures etna-pictures--layout-2">
+        <img src="https://picsum.photos/600/600?5">
+        <img src="https://picsum.photos/600/400?6">
+        <img src="https://picsum.photos/400/400?7">
+        <img src="https://picsum.photos/600/400?8">
+      </div>
+      <h3 class="tna-heading-m">Layout 3</h3>
+      <div class="etna-pictures etna-pictures--layout-3">
+        <img src="https://picsum.photos/600/400?9">
+        <img src="https://picsum.photos/600/400?10">
+        <img src="https://picsum.photos/600/400?11">
+      </div>
     </div>
   </div>
 </div>
