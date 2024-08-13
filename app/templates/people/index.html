@@ -7,7 +7,7 @@
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
-{%- set themeAccent = 'blue' -%}
+{%- set themeAccent = 'green' -%}
 {%- set noPadding = True -%}
 {%- set aToZSidebar = True -%}
 
@@ -48,7 +48,7 @@
       <h2 class="tna-heading-s">Filter people by role</h2>
       {% set roles_list = [{
         'label': 'All people',
-        'href': '?',
+        'href': page_data.meta.url,
         'selected': not request.args.get('role')
       }] %}
       {% for role in roles %}
@@ -67,7 +67,7 @@
 </div>
 {% endblock %}
 
-{% set sidebarTitle = 'Filter by last name' %}
+{% set sidebarTitle = 'Filter people by last name' %}
 {% set sidebarHeadingSize = 's' %}
 {% block content %}
   {% if request.args.get('role') %}
