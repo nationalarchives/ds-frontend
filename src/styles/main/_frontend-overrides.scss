@@ -60,7 +60,11 @@
     overflow: hidden;
 
     border-radius: 100%;
-    @include colour.thick-keyline-brand("", "white");
+    @include colour.thick-keyline;
+  }
+
+  &--person:hover &__image {
+    @include colour.colour-border("keyline-dark");
   }
 }
 

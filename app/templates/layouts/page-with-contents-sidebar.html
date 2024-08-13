@@ -18,7 +18,7 @@
       'headingLevel': 2,
       'headingSize': sidebarHeadingSize or 'm',
       'items': headings,
-      'type': 'contents',
+      'type': 'sections' if aToZSidebar else 'contents',
       'classes': 'tna-!--padding-top-s' + (' tna-sidebar--a-z' if aToZSidebar else ''),
       'sticky': True
     }) }}
