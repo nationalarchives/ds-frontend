@@ -1,58 +1,134 @@
-{% extends 'base.html' %}
+{% extends 'layouts/page-with-contents-sidebar.html' %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
+{%- set themeAccent = 'blue' -%}
+{%- set noPadding = True -%}
+{%- set aToZSidebar = True -%}
+
+{% block skipLink %}
+{{ super() }}
+{{ tnaSkipLink({
+  'href': 'people',
+  'text': 'Skip to list of people'
+}) }}
+{% endblock %}
 
 {% block head %}
 {{ super() }}
 {{ meta(page_data) }}
 {% endblock %}
 
-{% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-<section class="tna-section">
+{% block beforeContent %}
   <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-m-">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      {{ page_data.intro | safe }}
+    <div class="tna-column tna-column--full">
+      {{ tnaBreadcrumbs({
+        'items': breadcrumbs,
+        'structuredData': True
+      }) }}
     </div>
   </div>
-  <ul class="tna-container tna-!--margin-top-m">
-    {%- for child in children %}
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+{% endblock %}
+
+{% block contentHeader %}
+<h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+{{ page_data.intro | safe }}
+{% endblock %}
+
+{% block afterContentHeader %}
+<div class="tna-background-tint tna-!--padding-vertical-s">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-s">Filter people by role</h2>
+      {% set roles_list = [{
+        'label': 'All people',
+        'href': '?',
+        'selected': not request.args.get('role')
+      }] %}
+      {% for role in roles %}
+        {% set roles_list = roles_list.append({
+          'label': role + 's',
+          'href': '?role=' + (role | lower),
+          'selected': request.args.get('role') == (role | lower)
+        }) %}
+      {% endfor %}
+      {{ tnaQuickFilters({
+        'items': roles_list,
+        'classes': 'tna-!--margin-top-s'
+      }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% set sidebarTitle = 'Filter by last name' %}
+{% set sidebarHeadingSize = 's' %}
+{% block content %}
+  {% if request.args.get('role') %}
+  <div class="tna-container tna-container--no-padding">
+    <div class="tna-column tna-column--full">
+      <p class="tna-!--margin-bottom-m">Showing {{ people | length }} of {{ people_total }} people.</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <nav aria-label="People" id="people">
+  {%- set ns = namespace(first_letter='') %}
+  {%- for person in people %}
+  {# {%- if ns.first_letter != person.last_name.0 %} #}
+  {%- if ns.first_letter != person.title.0 %}
+    
+    {%- if ns.first_letter != '' %}
+      </ul>
+    {%- endif %}
+
+    {# {%- set ns.first_letter = person.last_name.0 | upper %} #}
+    {%- set ns.first_letter = person.title.0 | upper %}
+    <div class="tna-container tna-container--no-padding">
+      <div class="tna-column tna-column--full">
+        <h2 id="{{ ns.first_letter | lower }}" class="tna-heading-l tna-!--padding-top-s">{{ ns.first_letter }}</h2>
+      </div>
+    </div>
+    <ul class="tna-container tna-container--no-padding tna-!--margin-top-m-">
+  {%- endif %}
+
     <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
       {% set card_content = {
-        'title': child.title,
+        'title': person.title,
         'headingLevel': 2,
         'headingSize': 's',
-        'body': child.role,
-        'href': child.url,
-        'label': 'New' if child.is_newly_published,
-        'text': child.teaser_text,
-        'classes': 'tna-!--margin-top-l'
+        'href': person.url,
+        'text': person.role,
+        'meta-': [
+          {
+            'title': 'Group',
+            'text': 'Researcher'
+          },
+          {
+            'title': 'Group',
+            'text': 'Author'
+          }
+        ],
+        'classes': 'tna-!--margin-top-l tna-card--person'
       } %}
-      {% if child.image %}
+      {% if person.image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': child.image.jpeg.full_url,
-          'imageAlt': child.image.alt or '',
-          'imageWidth': child.image.jpeg.width,
-          'imageHeight': child.image.jpeg.height
-        }) %}
-      {% elif child.teaser_image %}
-        {% set card_content = dict(card_content, **{
-          'imageSrc': child.teaser_image.jpeg.full_url,
-          'imageAlt': child.teaser_image.alt or '',
-          'imageWidth': child.teaser_image.jpeg.width,
-          'imageHeight': child.teaser_image.jpeg.height,
+          'imageSrc': person.image.jpeg.full_url,
+          'imageAlt': person.image.alt or '',
+          'imageWidth': person.image.jpeg.width,
+          'imageHeight': person.image.jpeg.height,
           'imageSources': [
             {
-              'src': child.teaser_image.webp.full_url,
+              'src': person.image.webp.full_url,
               'type': 'image/webp',
-              'width': child.teaser_image.webp.width,
-              'height': child.teaser_image.webp.height
+              'width': person.image.webp.width,
+              'height': person.image.webp.height
             }
           ]
         }) %}
@@ -61,6 +137,5 @@
     </li>
     {%- endfor %}
   </ul>
-</section>
-{{ feedback() }}
+  </nav>
 {% endblock %}

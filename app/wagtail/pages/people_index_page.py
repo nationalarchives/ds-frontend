@@ -8,7 +8,7 @@ def people_index_page(page_data):
             page_data["id"],
             {
                 "type": "people.PersonPage",
-                "fields": "_,title,teaser_image,role,html_url",
+                # "fields": "_,title,image,role,url,image",
                 "order": "title",
             },
         )
@@ -25,6 +25,7 @@ def people_index_page(page_data):
     return render_template(
         "people/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
-        children=children["items"],
+        people=children["items"],
+        people_total=children["meta"]["total_count"],
         page_data=page_data,
     )

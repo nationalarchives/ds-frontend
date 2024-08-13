@@ -51,6 +51,17 @@
       }
     }
   }
+
+  &--person &__image-container {
+    padding-bottom: 100%;
+  }
+
+  &--person &__image {
+    overflow: hidden;
+
+    border-radius: 100%;
+    @include colour.thick-keyline-brand("", "white");
+  }
 }
 
 .tna-details {
