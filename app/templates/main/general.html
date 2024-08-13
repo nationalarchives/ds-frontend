@@ -39,20 +39,20 @@
       {% if block.type == 'sub_heading' %}
         {% set page_sections_ns.section_children = page_sections_ns.section_children + [{
           'text': block.value.heading,
-          'href': '#' + (block.value.heading | slugify),
+          'href': '#' + (block.value.heading | slugify) + '-' + block.id,
           'children': page_sections_ns.section_grandchildren | reverse if page_sections_ns.section_grandchildren else None
         }] %}
         {% set page_sections_ns.section_grandchildren = [] %}
       {% elif block.type == 'sub_sub_heading' %}
         {% set page_sections_ns.section_grandchildren = page_sections_ns.section_grandchildren + [{
           'text': block.value.heading,
-          'href': '#' + (block.value.heading | slugify)
+          'href': '#' + (block.value.heading | slugify) + '-' + block.id
         }] %}
       {% endif %}
     {% endfor %}
     {% set page_sections = page_sections.append({
       'text': section.value.heading,
-      'href': '#' + (section.value.heading | slugify),
+      'href': '#' + (section.value.heading | slugify) + '-' + section.id,
       'children': page_sections_ns.section_children | reverse if page_sections_ns.section_children else None
     }) %}
   {% endif %}
