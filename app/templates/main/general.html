@@ -31,32 +31,7 @@
     {% endif %}
 {% endblock %}
 
-{% set page_sections = [] %}
-{% for section in page_data.body %}
-  {% if section.type == 'content_section' %}
-    {% set page_sections_ns = namespace(section_children=[], section_grandchildren=[]) %}
-    {% for block in section.value.content | reverse %}
-      {% if block.type == 'sub_heading' %}
-        {% set page_sections_ns.section_children = page_sections_ns.section_children + [{
-          'text': block.value.heading,
-          'href': '#' + (block.value.heading | slugify) + '-' + block.id,
-          'children': page_sections_ns.section_grandchildren | reverse if page_sections_ns.section_grandchildren else None
-        }] %}
-        {% set page_sections_ns.section_grandchildren = [] %}
-      {% elif block.type == 'sub_sub_heading' %}
-        {% set page_sections_ns.section_grandchildren = page_sections_ns.section_grandchildren + [{
-          'text': block.value.heading,
-          'href': '#' + (block.value.heading | slugify) + '-' + block.id
-        }] %}
-      {% endif %}
-    {% endfor %}
-    {% set page_sections = page_sections.append({
-      'text': section.value.heading,
-      'href': '#' + (section.value.heading | slugify) + '-' + section.id,
-      'children': page_sections_ns.section_children | reverse if page_sections_ns.section_children else None
-    }) %}
-  {% endif %}
-{% endfor %}
+{% set sidebar_items = page_data.body | sidebar_items_from_wagtail_body %}
 
 {% block main %}
   {% if breadcrumbs and breadcrumbs | length > 0 %}
@@ -140,7 +115,7 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
       <h2 class="tna-heading-m">Contents</h2>
       <ul class="tna-ul tna-ul--dashed">
-      {% for section in page_sections %}
+      {% for section in sidebar_items %}
         <li>
           <a href="{{ section.href }}">{{ section.text }}</a>
         </li>
@@ -149,7 +124,7 @@
     </div>
   </div>
   {% else %}
-  <div class="tna-!--padding-top-m"><!-- TODO: BETTER SPACER --> </div>
+  <div class="tna-!--padding-top-m"><!-- TODO: BETTER SPACER --></div>
   {% endif %}
   <div class="tna-!--padding-top-s">
     <div class="tna-container">
@@ -158,7 +133,7 @@
         {{ tnaSidebar({
           'title': 'Contents' if page_data.page_sidebar == 'contents' else 'On this page' if page_data.page_sidebar == 'sections' else 'Index',
           'headingLevel': 2,
-          'items': page_sections,
+          'items': sidebar_items,
           'type': page_data.page_sidebar,
           'sticky': True,
           'classes': 'tna-!--padding-top-s',
@@ -203,7 +178,7 @@
           {% if sibling.url == page_data.meta.url %}
             {% set sidebarItem = dict(sidebarItem, **{
               'current': True,
-              'children': page_sections
+              'children': sidebar_items
             }) %}
           {% endif %}
           {% set sidebarItems = sidebarItems.append(sidebarItem) %}

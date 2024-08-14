@@ -16,6 +16,7 @@ from app.lib.template_filters import (
     remove_all_whitespace,
     replace_ext_ref,
     replace_ref,
+    sidebar_items_from_wagtail_body,
     slugify,
     tna_html,
     url_encode,
@@ -160,6 +161,7 @@ def create_app(config_class):
     app.add_template_filter(replace_ref)
     app.add_template_filter(replace_ext_ref)
     app.add_template_filter(remove_all_whitespace)
+    app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(url_encode)
     app.add_template_filter(wagtail_streamfield_contains_media)
     app.add_template_filter(wagtail_table_parser)

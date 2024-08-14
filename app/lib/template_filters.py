@@ -159,11 +159,61 @@ def wagtail_streamfield_contains_media(body):
     for body_item in body:
         if body_item["type"] == "content_section":
             for block in body_item["value"]["content"]:
-                if block["type"] == "youtube_video":
+                if block["type"] == "youtube_video" or block["type"] == "media":
                     return True
-        elif body_item["type"] == "youtube_video":
+        elif (
+            body_item["type"] == "youtube_video" or body_item["type"] == "media"
+        ):
             return True
     return False
+
+
+def sidebar_items_from_wagtail_body(body):
+    page_sections = []
+    for section in body:
+        if section["type"] == "content_section":
+            section_children = []
+            section_grandchildren = []
+            for block in reversed(section["value"]["content"]):
+                if block["type"] == "sub_heading":
+                    section_children.append(
+                        {
+                            "text": block["value"]["heading"],
+                            "href": "#"
+                            + slugify(block["value"]["heading"])
+                            + "-"
+                            + block["id"],
+                            "children": (
+                                reversed(section_grandchildren)
+                                if section_grandchildren
+                                else None
+                            ),
+                        }
+                    )
+                    section_grandchildren = []
+                elif block["type"] == "sub_sub_heading":
+                    section_grandchildren.append(
+                        {
+                            "text": block["value"]["heading"],
+                            "href": "#"
+                            + slugify(block["value"]["heading"])
+                            + "-"
+                            + block["id"],
+                        }
+                    )
+            page_sections.append(
+                {
+                    "text": section["value"]["heading"],
+                    "href": "#"
+                    + slugify(section["value"]["heading"])
+                    + "-"
+                    + section["id"],
+                    "children": (
+                        reversed(section_children) if section_children else None
+                    ),
+                }
+            )
+    return page_sections
 
 
 def wagtail_table_parser(table_data):
