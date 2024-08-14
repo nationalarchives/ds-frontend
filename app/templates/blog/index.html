@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
+
+{% block content %}
+<div class="tna-container">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">Blog</p>
+      <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+    </hgroup>
+    <p>Page {{ page }} of {{ pages }}</p>
+    <p>Total posts found: {{ children }}</p>
+    <ul class="tna-ul">
+      {% for child in children %}
+      <li>
+        <a href="{{ child.url }}">{{ child.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="tna-column tna-column--full tna-!--margin-top-xl">
+    {{ tnaPagination(pagination) }}
+  </div>
+</div>
+{% endblock %}

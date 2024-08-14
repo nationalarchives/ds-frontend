@@ -78,7 +78,7 @@
   </blockquote>
 
   {%- elif content_item.type == 'promoted_list' %}
-  {{ wagtailPromotedList(content_item.value) }}
+  {{ wagtailPromotedList(content_item.value, next_heading_level) }}
 
   {%- elif content_item.type == 'promoted_item' %}
   {{ wagtailPromotedItem(content_item.value, next_heading_level) }}

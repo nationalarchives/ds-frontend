@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_body.html' import wagtail_body -%}
+
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
+{%- set pageTitle = page_data.title -%}
+
+{%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
+
+{% block head %}
+{{ super() }}
+{{ meta(page_data) }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ super() }}
+    {% if bodyContainsMedia %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='video.css') }}">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if page_data.global_alert or page_data.mourning_notice %}
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+  {% endif %}
+  <div class="tna-section">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <hgroup class="tna-hgroup-xl">
+          <p class="tna-hgroup__supertitle">Blog post</p>
+          <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+        </hgroup>
+        {% if page_data.intro %}
+        <div class="tna-large-paragraph tna-!--margin-top-s">
+          {{ page_data.intro | tna_html | safe }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="tna-section">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
+        {{ wagtail_body(page_data.body, 2) }}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+    {% if bodyContainsMedia %}
+    <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
+    {% endif %}
+{% endblock %}

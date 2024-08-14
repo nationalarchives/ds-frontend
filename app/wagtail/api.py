@@ -91,14 +91,31 @@ def page_ancestors(page_id, params={}, limit=None):
     return wagtail_request_handler(uri, params)
 
 
-def page_children_paginated(page_id, page, limit=None, params={}):
+def page_children_paginated(
+    page_id, page, limit=None, order="-first_published_at", params={}
+):
     if not limit:
         limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
     offset = (page - 1) * limit
     uri = "pages/"
-    order = "-first_published_at"
     params = params | {
         "child_of": page_id,
+        "offset": offset,
+        "limit": limit,
+        "order": order,
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def pages_by_type_paginated(
+    types, page, limit=None, order="-first_published_at", params={}
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "pages/"
+    params = params | {
+        "type": ",".join(types),
         "offset": offset,
         "limit": limit,
         "order": order,

@@ -4,6 +4,9 @@ from .pages import (
     article_index_page,
     article_page,
     article_page_focused,
+    blog_all_page,
+    blog_index_page,
+    blog_post_page,
     categories_page,
     category_index_page,
     explore_index_page,
@@ -36,6 +39,10 @@ page_type_templates = {
     # People
     "people.PeopleIndexPage": people_index_page,
     "people.PersonPage": person_page,
+    # Blog
+    "blog.BlogAllPage": blog_all_page,
+    "blog.BlogIndexPage": blog_index_page,
+    "blog.BlogPostPage": blog_post_page,
 }
 
 

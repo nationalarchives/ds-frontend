@@ -232,7 +232,7 @@ def sidebar_items_from_wagtail_body(body):
                 }
             )
             page_grandchildren = []
-        # This shouldn't be needed as sub_sub_heading can't yet go directly into the body
+        # This shouldn't be needed as sub_sub_headings can't yet go directly into the body
         elif item["type"] == "sub_sub_heading":
             page_grandchildren.append(
                 {

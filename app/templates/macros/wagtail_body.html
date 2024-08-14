@@ -1,0 +1,27 @@
+{%- from 'macros/wagtail_block.html' import wagtail_block -%}
+
+{% macro wagtail_body(body, initial_next_heading_level) %}
+  {%- set ns = namespace(next_heading_level=initial_next_heading_level) %}
+  {% for body_item in body %}
+    {% if body_item.type == 'content_section' %}
+      {% set ns.next_heading_level = 3 %}
+      <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ body_item.value.heading | slugify }}-{{ body_item.id }}">{{ body_item.value.heading }}</h2>
+      {% for block in body_item.value.content %}
+        {% if block.type == 'sub_heading' %}
+          {% set ns.next_heading_level = 4 %}
+        {% elif block.type == 'sub_sub_heading' %}
+          {% set ns.next_heading_level = 5 %}
+        {% endif %}
+        {{ wagtail_block(block, ns.next_heading_level, True) }}
+      {% endfor %}
+    {% else %}
+      {# This shouldn't be needed as sub_headings and sub_sub_headings can't yet go directly into the body #}
+      {% if body_item.type == 'sub_heading' %}
+        {% set ns.next_heading_level = 3 %}
+      {% elif body_item.type == 'sub_sub_heading' %}
+        {% set ns.next_heading_level = 4 %}
+      {% endif %}
+      {{ wagtail_block(body_item, ns.next_heading_level, True) }}
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
