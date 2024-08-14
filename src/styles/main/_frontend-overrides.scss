@@ -98,6 +98,18 @@
 }
 
 .tna-picture {
+  &--plain {
+    @include media.on-larger-than-mobile {
+      margin-right: spacing.space(2);
+      margin-left: spacing.space(2);
+    }
+    
+    @include media.on-small {
+      margin-right: spacing.space(1);
+      margin-left: spacing.space(1);
+    }
+  }
+
   &--plain &__image-wrapper {
     padding: 0;
   }
