@@ -85,6 +85,24 @@
   }
 }
 
+// <div class="etna-pictures etna-pictures--layout-1">
+//   <img src="https://picsum.photos/600/400?1">
+//   <img src="https://picsum.photos/600/400?2">
+//   <img src="https://picsum.photos/600/400?3">
+//   <img src="https://picsum.photos/600/600?4">
+// </div>
+// <div class="etna-pictures etna-pictures--layout-2">
+//   <img src="https://picsum.photos/600/600?5">
+//   <img src="https://picsum.photos/600/400?6">
+//   <img src="https://picsum.photos/400/400?7">
+//   <img src="https://picsum.photos/600/400?8">
+// </div>
+// <div class="etna-pictures etna-pictures--layout-3">
+//   <img src="https://picsum.photos/600/400?9">
+//   <img src="https://picsum.photos/600/400?10">
+//   <img src="https://picsum.photos/600/400?11">
+// </div>
+
 .etna-pictures {
   @include spacing.space-above;
 
