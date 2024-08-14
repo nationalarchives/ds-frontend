@@ -170,11 +170,13 @@ def wagtail_streamfield_contains_media(body):
 
 def sidebar_items_from_wagtail_body(body):
     page_sections = []
-    for section in body:
-        if section["type"] == "content_section":
+    page_children = []
+    page_grandchildren = []
+    for item in body:
+        if item["type"] == "content_section":
             section_children = []
             section_grandchildren = []
-            for block in reversed(section["value"]["content"]):
+            for block in reversed(item["value"]["content"]):
                 if block["type"] == "sub_heading":
                     section_children.append(
                         {
@@ -203,14 +205,42 @@ def sidebar_items_from_wagtail_body(body):
                     )
             page_sections.append(
                 {
-                    "text": section["value"]["heading"],
+                    "text": item["value"]["heading"],
                     "href": "#"
-                    + slugify(section["value"]["heading"])
+                    + slugify(item["value"]["heading"])
                     + "-"
-                    + section["id"],
+                    + item["id"],
                     "children": (
                         reversed(section_children) if section_children else None
                     ),
+                }
+            )
+        # This shouldn't be needed as sub_headings can't yet go directly into the body
+        elif item["type"] == "sub_heading":
+            page_children.append(
+                {
+                    "text": item["value"]["heading"],
+                    "href": "#"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
+                    "children": (
+                        reversed(page_grandchildren)
+                        if page_grandchildren
+                        else None
+                    ),
+                }
+            )
+            page_grandchildren = []
+        # This shouldn't be needed as sub_sub_heading can't yet go directly into the body
+        elif item["type"] == "sub_sub_heading":
+            page_grandchildren.append(
+                {
+                    "text": item["value"]["heading"],
+                    "href": "#"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                 }
             )
     return page_sections
