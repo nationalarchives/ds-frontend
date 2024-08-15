@@ -42,6 +42,7 @@
 {% endblock %}
 
 {% block afterContentHeader %}
+{#
 <div class="tna-background-tint tna-!--padding-vertical-s">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
@@ -65,11 +66,13 @@
     </div>
   </div>
 </div>
+#}
 {% endblock %}
 
 {% set sidebarTitle = 'Filter people by last name' %}
 {% set sidebarHeadingSize = 's' %}
 {% block content %}
+  {#
   {% if request.args.get('role') %}
   <div class="tna-container tna-container--no-padding">
     <div class="tna-column tna-column--full">
@@ -77,19 +80,18 @@
     </div>
   </div>
   {% endif %}
+  #}
 
   <nav aria-label="People" id="people">
   {%- set ns = namespace(first_letter='') %}
-  {%- for person in people %}
-  {# {%- if ns.first_letter != person.last_name.0 %} #}
-  {%- if ns.first_letter != person.title.0 %}
+  {%- for person in page_data.people_pages %}
+  {%- if ns.first_letter != person.last_name.0 | upper %}
     
     {%- if ns.first_letter != '' %}
       </ul>
     {%- endif %}
 
-    {# {%- set ns.first_letter = person.last_name.0 | upper %} #}
-    {%- set ns.first_letter = person.title.0 | upper %}
+    {%- set ns.first_letter = person.last_name.0 | upper %}
     <div class="tna-container tna-container--no-padding">
       <div class="tna-column tna-column--full">
         <h2 id="{{ ns.first_letter | lower }}" class="tna-heading-l tna-!--padding-top-s">{{ ns.first_letter }}</h2>
