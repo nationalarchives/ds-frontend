@@ -11,8 +11,10 @@ from flask import (
     url_for,
 )
 from flask_caching import CachedResponse
+from pydash import objects
 
 from .api import page_details, page_details_by_uri, page_preview
+from .pages import blog_all_page, blog_index_page, blog_post_page
 
 
 @bp.route("/preview/")
@@ -22,8 +24,7 @@ def preview_page():
     if content_type and token:
         try:
             page_data = page_preview(content_type, token)
-        except ConnectionError as e:
-            current_app.logger.error(e)
+        except ConnectionError:
             return render_template("errors/api.html"), 502
         except ApiResourceNotFound:
             return render_template("errors/page-not-found.html"), 404
@@ -129,13 +130,72 @@ def index():
     )
 
 
+# @bp.route("/<path:path>/<int:year>/")
+# def year(path, year):
+#     try:
+#         page_data = page_details_by_uri(f"/{path}/")
+#     except Exception:
+#         return render_template("errors/page-not-found.html"), 404
+#     page_type = objects.get(page_data, "meta.type")
+#     if page_type == "blog.BlogAllPage":
+#         return blog_all_page(page_data, year)
+#     if page_type == "blog.BlogIndexPage" or True:
+#         return blog_index_page(page_data, year)
+#     return render_template("errors/page-not-found.html"), 404
+
+
+# @bp.route("/<path:path>/<int:year>/<int:month>/")
+# def month(path, year, month):
+#     try:
+#         page_data = page_details_by_uri(f"/{path}/")
+#     except Exception:
+#         return render_template("errors/page-not-found.html"), 404
+#     page_type = objects.get(page_data, "meta.type")
+#     if page_type == "blog.BlogAllPage":
+#         return blog_all_page(page_data, year, month)
+#     if page_type == "blog.BlogIndexPage" or True:
+#         return blog_index_page(page_data, year, month)
+#     return render_template("errors/page-not-found.html"), 404
+
+
+# @bp.route("/<path:path>/<int:year>/<int:month>/<int:day>/")
+# def day(path, year, month, day):
+#     try:
+#         page_data = page_details_by_uri(f"/{path}/")
+#     except Exception:
+#         return render_template("errors/page-not-found.html"), 404
+#     page_type = objects.get(page_data, "meta.type")
+#     if page_type == "blog.BlogAllPage":
+#         return blog_all_page(page_data, year, month, day)
+#     if page_type == "blog.BlogIndexPage" or True:
+#         return blog_index_page(page_data, year, month, day)
+#     return render_template("errors/page-not-found.html"), 404
+
+
+# @bp.route("/<path:path>/<int:year>/<int:month>/<int:day>/<path:post>/")
+# def post(path, year, month, day, post):
+#     try:
+#         page_data = page_details_by_uri(f"/{path}/{post}/")
+#     except Exception:
+#         return render_template("errors/page-not-found.html"), 404
+#     page_type = objects.get(page_data, "meta.type")
+#     if (
+#         True
+#         or page_type == "blog.BlogPostPage"
+#         and page_data["year"] == year
+#         and page_data["month"] == month
+#         and page_data["day"] == day
+#     ):
+#         return blog_post_page(page_data)
+#     return render_template("errors/page-not-found.html"), 404
+
+
 @bp.route("/<path:path>/")
 # @cache.cached(key_prefix=cache_key_prefix)
 def page(path):
     try:
         page_data = page_details_by_uri(f"/{path}/")
-    except ConnectionError as e:
-        current_app.logger.error(e)
+    except ConnectionError:
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,

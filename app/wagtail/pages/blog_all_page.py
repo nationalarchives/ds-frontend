@@ -5,7 +5,7 @@ from app.wagtail.api import breadcrumbs, pages_by_type_paginated
 from flask import current_app, render_template, request
 
 
-def blog_all_page(page_data):
+def blog_all_page(page_data, year=None, month=None, day=None):
     children_per_page = 24
     page = (
         int(request.args.get("page"))
@@ -14,6 +14,7 @@ def blog_all_page(page_data):
     )
     try:
         blogs_data = pages_by_type_paginated(["blog.BlogIndexPage"], page)
+        # TODO: Filter children_data by year, month and day
         children_data = pages_by_type_paginated(
             ["blog.BlogPostPage"], page, children_per_page
         )
@@ -35,8 +36,10 @@ def blog_all_page(page_data):
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children_data["items"],
+        total_children=children_data["meta"]["total_count"],
         blogs=blogs_data["items"],
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
+        date_filter={"year": year, "month": month, "day": day},
     )

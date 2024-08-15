@@ -1,4 +1,5 @@
 from flask import current_app, render_template
+from pydash import objects
 
 from .pages import (
     article_index_page,
@@ -47,8 +48,8 @@ page_type_templates = {
 
 
 def render_content_page(page_data):
-    if "meta" in page_data and "type" in page_data["meta"]:
-        page_type = page_data["meta"]["type"]
+    page_type = objects.get(page_data, "meta.type")
+    if page_type:
         if page_type in page_type_templates:
             return page_type_templates[page_type](page_data)
         current_app.logger.error(f"Template for {page_type} not handled")
