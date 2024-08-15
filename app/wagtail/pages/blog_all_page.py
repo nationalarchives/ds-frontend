@@ -13,6 +13,7 @@ def blog_all_page(page_data):
         else 1
     )
     try:
+        blogs_data = pages_by_type_paginated(["blog.BlogIndexPage"], page)
         children_data = pages_by_type_paginated(
             ["blog.BlogPostPage"], page, children_per_page
         )
@@ -34,6 +35,7 @@ def blog_all_page(page_data):
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children_data["items"],
+        blogs=blogs_data["items"],
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,

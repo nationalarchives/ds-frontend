@@ -9,8 +9,22 @@
       <p class="tna-hgroup__supertitle">Blog</p>
       <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
     </hgroup>
+    
     <p>Page {{ page }} of {{ pages }}</p>
     <p>Total posts found: {{ children }}</p>
+
+    {% if blogs %}
+    <h2 class="tna-heading-l">Blogs</h2>
+    <ul class="tna-ul">
+      {% for blog in blogs %}
+      <li>
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h2 class="tna-heading-l">Posts</h2>
     <ul class="tna-ul">
       {% for child in children %}
       <li>
