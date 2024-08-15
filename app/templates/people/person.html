@@ -57,16 +57,13 @@
             <h1 class="tna-heading-xl" itemprop="name">{{ page_data.title }}</h1>
             <dl class="tna-dl-chips tna-!--margin-top-s">
               <dt>Member of groups</dt>
+              {% for role in page_data.role_tags %}
               <dd>
                 <span class="tna-dl-chips__item">
-                  Researcher
+                  {{ role }}
                 </span>
               </dd>
-              <dd>
-                <span class="tna-dl-chips__item">
-                  Author
-                </span>
-              </dd>
+              {% endfor %}
             </dl>
             <p class="tna-large-paragraph tna-!--margin-top-xs" itemprop="jobTitle">{{ page_data.role | safe }}</p>
             <div class="tna-button-group">
