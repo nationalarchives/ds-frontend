@@ -69,14 +69,14 @@
 #}
 {% endblock %}
 
-{% set sidebarTitle = 'Filter people by last name' %}
+{% set sidebarTitle = 'People by last name' %}
 {% set sidebarHeadingSize = 's' %}
 {% block content %}
   {#
   {% if request.args.get('role') %}
   <div class="tna-container tna-container--no-padding">
     <div class="tna-column tna-column--full">
-      <p class="tna-!--margin-bottom-m">Showing {{ people | length }} of {{ people_total }} people.</p>
+      <p class="tna-!--margin-bottom-m">Showing {{ page_data.people_pages | length }} of ??? people.</p>
     </div>
   </div>
   {% endif %}
@@ -101,22 +101,21 @@
   {%- endif %}
 
     <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+      {% set role_tags = [] %}
+      {% for role_tag in person.role_tags %}
+        {% set role_tags = role_tags.append({
+          'title': 'Group',
+          'text': role_tag.name
+        }) %}
+      {% endfor %}
       {% set card_content = {
         'title': person.title,
         'headingLevel': 2,
         'headingSize': 's',
         'href': person.url,
         'text': person.role,
-        'meta-': [
-          {
-            'title': 'Group',
-            'text': 'Researcher'
-          },
-          {
-            'title': 'Group',
-            'text': 'Author'
-          }
-        ],
+        'meta': role_tags,
+        'accentMeta': True,
         'fullAreaClick': True,
         'classes': 'tna-!--margin-top-l tna-card--person'
       } %}
