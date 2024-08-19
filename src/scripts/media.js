@@ -8,6 +8,10 @@ if (cookies.isPolicyAccepted("marketing")) {
       '.etna-video--youtube:has([data-plyr-provider="youtube"][data-plyr-embed-id])',
     )
     .forEach(($video) => {
+      const $nextButtonGroup = $video.nextElementSibling;
+      if ($nextButtonGroup.classList.contains("tna-button-group")) {
+        $nextButtonGroup.removeAttribute("hidden");
+      }
       const iconUrl = $video.dataset["plyrSvg"] || null;
       const $videoEl = $video.querySelector(
         '[data-plyr-provider="youtube"][data-plyr-embed-id]',

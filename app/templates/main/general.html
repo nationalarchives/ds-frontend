@@ -191,7 +191,7 @@
 {% block bodyEnd %}
 {{ super() }}
     {% if bodyContainsMedia %}
-    <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
     {% endif %}
     {% if page_data.page_sidebar == 'sections' %}
     <script src="{{ url_for('static', filename='sidebar.min.js') }}" defer></script>
