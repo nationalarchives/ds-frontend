@@ -25,20 +25,6 @@
   }
 }
 
-.tna-container {
-  &--nested {
-    width: auto;
-    // TODO: This should use grid.gutter-width()
-    margin-right: -#{spacing.space(2)};
-    margin-left: -#{spacing.space(2)};
-
-    @include media.on-tiny {
-      margin-right: -#{spacing.space(1)};
-      margin-left: -#{spacing.space(1)};
-    }
-  }
-}
-
 .tna-card {
   &__promoted-item {
     @include colour.thick-keyline-accent(top);
@@ -68,14 +54,6 @@
   }
 }
 
-.tna-details {
-  margin-top: spacing.space(1);
-
-  &:first-child {
-    margin-top: 0;
-  }
-}
-
 .tna-files-list {
   &__items {
     padding-bottom: 0;
@@ -89,75 +67,10 @@
   }
 }
 
-.tna-hero {
-  &__information {
-    p + p {
-      margin-top: spacing.space(0.5);
-    }
-  }
-}
-
-.tna-picture {
-  &--plain {
-    @include media.on-larger-than-mobile {
-      margin-right: spacing.space(2);
-      margin-left: spacing.space(2);
-    }
-
-    @include media.on-small {
-      margin-right: spacing.space(1);
-      margin-left: spacing.space(1);
-    }
-  }
-
-  &--plain &__image-wrapper {
-    padding: 0;
-  }
-
-  &--plain &__image {
-    box-shadow: none;
-  }
-}
-
-.tna-gallery {
-  @include spacing.space-above;
-
-  max-height: none;
-
-  &__navigation {
-    max-height: clamp(15rem, calc(100vh - #{spacing.space(2)}), 40rem);
-  }
-
-  &:fullscreen &__navigation {
-    max-height: none;
-  }
-}
-
 .tna-dl {
   dd {
     @include typography.font-size(16);
-
-    p {
-      margin-top: spacing.space(0.25);
-
-      &:first-child {
-        margin-top: 0;
-      }
-    }
   }
-}
-
-.tna-sidebar {
-  &--sticky {
-    @include media.on-mobile {
-      max-height: none;
-    }
-  }
-}
-
-address {
-  line-height: 1.375;
-  font-style: inherit;
 }
 
 .tna-table {
