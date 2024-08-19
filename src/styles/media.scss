@@ -108,3 +108,23 @@ $plyr-tooltip-radius: 0;
     }
   }
 }
+
+.etna-media-block {
+  @include spacing.space-above;
+
+  .tna-details {
+    padding-top: spacing.space(0.25);
+
+    &__summary {
+      padding: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    &__content {
+      margin-top: spacing.space(0.5);
+    }
+  }
+}
