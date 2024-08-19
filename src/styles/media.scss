@@ -1,4 +1,5 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
@@ -105,6 +106,18 @@ $plyr-tooltip-radius: 0;
       &::-ms-track {
         @include a11y.focus-outline;
       }
+    }
+  }
+
+  @include media.on-tiny {
+    &__volume input[type="range"] {
+      min-width: 30px;
+      max-width: 40px;
+    }
+
+    &__controls__item#{&}__menu,
+    [data-plyr="pip"] {
+      display: none;
     }
   }
 }
