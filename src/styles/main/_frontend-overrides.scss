@@ -56,6 +56,10 @@
   }
 }
 
+.tna-warning {
+  @include colour.always-light;
+}
+
 .tna-files-list {
   &__items {
     padding-bottom: 0;
