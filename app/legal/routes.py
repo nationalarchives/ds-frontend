@@ -82,12 +82,16 @@ def cookies():
                 if cookie.startswith("_ga"):
                     response.set_cookie(cookie, "", expires=0)
         return response
-    return render_template("legal/cookies.html", global_alerts=global_alerts(), page_data={
-        'title': 'Cookies',
-        'intro': f'''<p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
+    return render_template(
+        "legal/cookies.html",
+        global_alerts=global_alerts(),
+        page_data={
+            "title": "Cookies",
+            "intro": f"""<p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
 <p>We use cookies to collect and store information about how you use National Archives websites which means any page with nationalarchives.gov.uk in the URL.</p>
-<p>This page has a brief explanation of each type of cookie we use. If you want more details, <a href="{url_for('legal.cookie_details')}">our detailed cookie information</a>.</p>'''
-    })
+<p>This page has a brief explanation of each type of cookie we use. If you want more details, <a href="{url_for('legal.cookie_details')}">our detailed cookie information</a>.</p>""",
+        },
+    )
 
 
 @bp.route("/cookie-details/")

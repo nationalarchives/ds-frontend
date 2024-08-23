@@ -57,7 +57,7 @@
       <div class="tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
         <div class="tna-container">
           <div class="tna-column tna-column--flex-1 tna-!--padding-top-s">
-            <form method="get" action="{{ app_config.SEARCH_DISCOVERY_URL }}">
+            <form method="get" action="https://discovery.nationalarchives.gov.uk">
               {{ tnaSearchField({
                 'label': 'Looking for particular records? Search our catalogue',
                 'headingLevel': 2,
@@ -73,7 +73,7 @@
             <div class="tna-button-group">
               {{ tnaButton({
                 'text': 'Advanced search',
-                'href': app_config.DISCOVERY_URL + '/advanced-search',
+                'href': 'https://discovery.nationalarchives.gov.uk/advanced-search',
                 'plain': True
               }) }}
             </div>
