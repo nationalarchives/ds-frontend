@@ -3,14 +3,23 @@
 {% macro wagtailMedia(block_value, itemHeadingLevel) %}
   {%- if block_value.media.type == 'audio' %}
   <aside class="etna-media-block tna-aside tna-background-contrast" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
-    <hgroup class="tna-hgroup-l">
-      <p class="tna-hgroup__supertitle">Listen</p>
-      <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
-        {{ block_value.title }}
-      </h{{ itemHeadingLevel }}>
-    </hgroup>
-    <div itemprop="description" class="tna-!--margin-top-s">
-      {{ block_value.media.description | tna_html | safe }}
+    <div class="tna-container tna-container--nested">
+      {% if block_value.background_image %}
+      <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
+        <img src="{{ block_value.background_image.jpeg.full_url }}" alt="">
+      </div>
+      {% endif %}
+      <div class="tna-column tna-column--flex-1">
+        <hgroup class="tna-hgroup-l">
+          <p class="tna-hgroup__supertitle">Listen</p>
+          <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
+            {{ block_value.title }}
+          </h{{ itemHeadingLevel }}>
+        </hgroup>
+        <div itemprop="description" class="tna-!--margin-top-s">
+          {{ block_value.media.description | tna_html | safe }}
+        </div>
+      </div>
     </div>
     <audio class="etna-audio" controls{% if block_value.media.transcript %} aria-label="Transcript provided below"{% endif %} data-plyr-svg="{{ url_for('static', filename='assets/images/plyr.svg') }}">
       <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
