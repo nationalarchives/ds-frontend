@@ -1,4 +1,4 @@
-{% extends 'layouts/page-with-sidebar-right.html' %}
+{% extends 'main/general.html' %}
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -7,39 +7,12 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
-{%- set pageTitle = 'Cookies' -%}
+{%- set showSidebar = True -%}
+{%- set sidebarPositionRight = True -%}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
-{% endblock %}
-
-{% block beforeContent %}
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': [
-          {
-            'text': 'Home',
-            'href': '/'
-          },
-          {
-            'text': 'Legal',
-            'href': url_for('legal.index')
-          }
-        ],
-        'structuredData': True
-      }) }}
-    </div>
-  </div>
-  {{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice) }}
-{% endblock %}
-
-{% block contentHeader %}
-<h1 class="tna-heading-xl">Cookies</h1>
-<p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
-<p>We use cookies to collect and store information about how you use National Archives websites which means any page with nationalarchives.gov.uk in the URL.</p>
-<p>This page has a brief explanation of each type of cookie we use. If you want more details, <a href="{{ url_for('legal.cookie_details') }}">our detailed cookie information</a>.</p>
 {% endblock %}
 
 {% block content %}
@@ -124,56 +97,6 @@
     }) }}
   </div>
 </form>
-{% endblock %}
-
-{% block contentSidebar %}
-{{ tnaSidebar({
-  'title': 'Related content',
-  'headingLevel': 2,
-  'items': [
-    {
-      'text': 'Fair and reasonable use',
-      'href': '#'
-    },
-    {
-      'text': 'Use of bulk downloads and web crawlers',
-      'href': '#'
-    },
-    {
-      'text': 'Privacy notice',
-      'href': '#'
-    },
-    {
-      'text': 'Copyright',
-      'href': '#'
-    },
-    {
-      'text': 'Takedown and reclosure policy',
-      'href': '#'
-    },
-    {
-      'text': 'Record copying',
-      'href': '#'
-    },
-    {
-      'text': 'Booking events and visits',
-      'href': '#'
-    },
-    {
-      'text': 'User participation',
-      'href': '#'
-    },
-    {
-      'text': 'Our fees',
-      'href': '#'
-    },
-    {
-      'text': 'Information we collect online',
-      'href': '#'
-    }
-  ],
-  'type': 'pages'
-}) }}
 {% endblock %}
 
 {% block bodyEnd %}

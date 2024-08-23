@@ -6,6 +6,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.title -%}
@@ -55,161 +56,135 @@
           {%- endif %}
           <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-column--align-centre">
             <h1 class="tna-heading-xl" itemprop="name">{{ page_data.title }}</h1>
+            {% if page_data.role_tags %}
             <dl class="tna-dl-chips tna-!--margin-top-s">
               <dt>Member of groups</dt>
+              {% for role in page_data.role_tags %}
               <dd>
                 <span class="tna-dl-chips__item">
-                  Researcher
+                  {{ role.name }}
                 </span>
               </dd>
-              <dd>
-                <span class="tna-dl-chips__item">
-                  Author
-                </span>
-              </dd>
+              {% endfor %}
             </dl>
+            {% endif %}
             <p class="tna-large-paragraph tna-!--margin-top-xs" itemprop="jobTitle">{{ page_data.role | safe }}</p>
-            <div class="tna-button-group">
-              {{ tnaButton({
-                'text': 'Contact',
-                'href': '#contact',
-                'icon': 'envelope'
-              }) }}
-            </div>
           </div>
         </div>
       </div>
-      <div class="tna-!--padding-top-s">
-        <div class="tna-container">
-          <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
-            {{ tnaSidebar({
-              'title': 'On this page',
-              'headingLevel': 2,
-              'items': [
-                {
-                  'text': 'About',
-                  'href': '#about'
-                },
-                {
-                  'text': 'Research activity',
-                  'href': '#research-activity'
-                },
-                {
-                  'text': 'Articles',
-                  'href': '#articles'
-                }
-              ],
-              'type': 'sections',
-              'sticky': True,
-              'classes': 'tna-sidebar--static-on-mobile'
-            }) }}
-          </div>
-          <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections etna-article__sections">
-            <section class="tna-section tna-!--padding-top-m etna-article__section">
-              <h2 id="about" class="tna-heading-l tna-!--padding-top-s">About</h2>
-              {{ page_data.summary | tna_html | safe }}
-            </section>
-            <hr>
-            <section class="tna-section tna-!--padding-top-m etna-article__section">
-              <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
-              <div class="tna-container tna-container--nested">
-                <div class="tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-tiny tna-!--padding-top-s">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare in nisi vel efficitur. Quisque ultrices leo quis pulvinar convallis. Quisque id nisl scelerisque mi consequat feugiat at id dui. Mauris at molestie orci. Vivamus vitae viverra ante. Pellentesque imperdiet sollicitudin lectus ut ultrices. Vivamus eu convallis nisi.</p>
-                  <p>Nulla facilisi. Praesent eget nibh vitae sem efficitur sollicitudin. Suspendisse ac rhoncus est. Mauris vitae odio a tortor ornare eleifend vel sit amet justo. Donec id ornare neque. Sed eget est ac tellus mollis malesuada eu id enim. Aenean nec posuere eros. Maecenas arcu nisi, venenatis sagittis nulla sed, fringilla vulputate leo. Ut eleifend sit amet metus sed tempus. Ut diam ligula, varius nec placerat in, condimentum id nulla. Proin iaculis nisl a magna placerat, sed interdum velit ullamcorper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse porttitor sed odio at ornare. Fusce quis felis lacus. Morbi nec consequat odio, non vestibulum libero. Donec sed consequat ante, non vulputate arcu.</p>
-                </div>
-                <div class="tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-tiny tna-!--padding-top-s">
-                  <h3 class="tna-heading-m">Specialism</h3>
-                  <dl class="tna-dl-chips tna-!--margin-top-s">
-                    <dt>Specialisms</dt>
-                    <dd>
-                      <span class="tna-dl-chips__item">
-                        Gender
-                      </span>
-                    </dd>
-                    <dd>
-                      <span class="tna-dl-chips__item">
-                        Women's history
-                      </span>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <h3 class="tna-heading-m">Select publications</h3>
-              <aside class="etna-inset tna-!--no-padding-vertical">
-                <p>
-                  <small>Wouters, Thomas (9 April 2024). <a href="#">&quot;Python Insider: Python 3.12.3 and 3.13.0a6 released&quot;</a>. Python Insider. Retrieved 29 April 2024.</small>
-                </p>
-              </aside>
-              <aside class="etna-inset tna-!--no-padding-vertical tna-!--margin-top-s">
-                <p>
-                  <small><a href="#">&quot;Organizations Using Python&quot;</a>. Python Software Foundation. Archived from the original on 21 August 2018. Retrieved 15 January 2009.</small>
-                </p>
-              </aside>
-            </section>
-            <hr>
-            <section class="tna-section tna-!--padding-top-m etna-article__section">
-              <h2 id="articles" class="tna-heading-l tna-!--padding-top-s">Articles</h2>
-              <div class="tna-container tna-container--nested">
-                {%- for article in page_data.authored_focused_articles %}
-                {# {%- if article.id != page_data.id %} #}
-                <div class="tna-column tna-column--width-1-2 tna-column--full-tiny">
-                  {% set card_content = {
-                    'supertitle': article.type_label,
-                    'title': article.title,
-                    'headingLevel': 3,
-                    'headingSize': 's',
-                    'href': article.url,
-                    'body': article.teaser_text,
-                    'label': 'New' if article.is_newly_published,
-                    'classes': 'tna-!--margin-top-l'
-                  } %}
-                  {% if article.teaser_image %}
-                    {% set card_content = dict(card_content, **{
-                      'imageSrc': article.teaser_image.jpeg.full_url,
-                      'imageAlt': article.teaser_image.alt_text or article.teaser_image.title,
-                      'imageWidth': article.teaser_image.jpeg.width,
-                      'imageHeight': article.teaser_image.jpeg.height,
-                      'imageSources': [
-                        {
-                          'src': article.teaser_image.webp.full_url,
-                          'type': 'image/webp',
-                          'width': article.teaser_image.webp.width,
-                          'height': article.teaser_image.webp.height
-                        }
-                      ]
-                    }) %}
-                  {% endif %}
-                  {{ tnaCard(card_content) }}
-                  <meta itemprop="significantLink" content="{{ article.url }}">
-                </div>
-                {# {%- endif %} #}
-                {%- endfor %}
-              </div>
-            </section>
-            <hr>
-            <section class="tna-section tna-!--padding-top-m etna-article__section">
-              <h2 id="contact" class="tna-heading-l tna-!--padding-top-s">Contact</h2>
-              <div class="tna-aside tna-background-tint">
-                <h4 class="tna-heading-m">Contact us</h4>
-                <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding">
-                  <dt>
-                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                    Email
-                  </dt>
-                  <dd>
-                    Email me at <a href="mailto:webmaster@nationalarchives.gov.uk">webmaster@nationalarchives.gov.uk</a>
-                  </dd>
-                  <dt>
-                    <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
-                    Social media
-                  </dt>
-                  <dd>
-                    <p><a href="https://twitter.com/@UKNatArchives">X: @UKNatArchives</a><br><a href="https://www.facebook.com/TheNationalArchives">Facebook: TheNationalArchives</a><br><a href="https://www.instagram.com/nationalarchivesuk/">Instagram: @nationalarchivesuk</a></p>
-                  </dd>
-                </dl>
-              </div>
-            </section>
-          </div>
+      <div class="tna-container tna-container--centred">
+        {% set sidebar_items = [] %}
+        {% set sidebar_items = sidebar_items + [{
+          'text': 'About',
+          'href': '#about'
+        }] %}
+        {% if page_data.research_summary %}
+          {% set sidebar_items = sidebar_items + [{
+            'text': 'Research activity',
+            'href': '#research-activity'
+          }] %}
+        {% endif %}
+        {% if page_data.authored_focused_articles %}
+          {% set sidebar_items = sidebar_items + [{
+            'text': 'Articles',
+            'href': '#articles'
+          }] %}
+        {% endif %}
+        {% if page_data.shop_items %}
+          {% set sidebar_items = sidebar_items + [{
+            'text': 'Shop items',
+            'href': '#shop-items'
+          }] %}
+        {% endif %}
+        {% if sidebar_items | length > 1 %}
+        <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
+          {{ tnaSidebar({
+            'title': 'On this page',
+            'headingLevel': 2,
+            'items': sidebar_items,
+            'type': 'sections',
+            'sticky': True,
+            'classes': 'tna-sidebar--static-on-mobile tna-!--padding-top-s'
+          }) }}
+        </div>
+        {% endif %}
+        <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections etna-article__sections">
+          <section class="tna-section tna-!--padding-top-m etna-article__section">
+            <h2 id="about" class="tna-heading-l tna-!--padding-top-s">About</h2>
+            {{ page_data.summary | tna_html | safe }}
+          </section>
+          {% if page_data.research_summary %}
+          <hr>
+          <section class="tna-section tna-!--padding-top-m etna-article__section">
+            <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
+            {{ wagtail_body(page_data.research_summary, 3) }}
+          </section>
+          {% endif %}
+          {% if page_data.authored_focused_articles %}
+          <hr>
+          <section class="tna-section tna-!--padding-top-m etna-article__section">
+            <h2 id="articles" class="tna-heading-l tna-!--padding-top-s">Articles</h2>
+            <ul class="tna-container tna-container--nested">
+              {%- for article in page_data.authored_focused_articles %}
+              <li class="tna-column tna-column--width-1-2 tna-column--full-tiny">
+                {% set card_content = {
+                  'supertitle': article.type_label,
+                  'title': article.title,
+                  'headingLevel': 3,
+                  'headingSize': 's',
+                  'href': article.url,
+                  'body': article.teaser_text,
+                  'label': 'New' if article.is_newly_published,
+                  'classes': 'tna-!--margin-top-l'
+                } %}
+                {% if article.teaser_image %}
+                  {% set card_content = dict(card_content, **{
+                    'imageSrc': article.teaser_image.jpeg.full_url,
+                    'imageAlt': article.teaser_image.alt_text or article.teaser_image.title,
+                    'imageWidth': article.teaser_image.jpeg.width,
+                    'imageHeight': article.teaser_image.jpeg.height,
+                    'imageSources': [
+                      {
+                        'src': article.teaser_image.webp.full_url,
+                        'type': 'image/webp',
+                        'width': article.teaser_image.webp.width,
+                        'height': article.teaser_image.webp.height
+                      }
+                    ]
+                  }) %}
+                {% endif %}
+                {{ tnaCard(card_content) }}
+                <meta itemprop="significantLink" content="{{ article.url }}">
+              </li>
+              {%- endfor %}
+            </ul>
+          </section>
+          {% endif %}
+          {% if page_data.shop_items %}
+          <hr>
+          <section class="tna-section tna-!--padding-top-m etna-article__section">
+            <h2 id="shop-items" class="tna-heading-l tna-!--padding-top-s">Shop items</h2>
+            <ul class="tna-container tna-container--nested">
+              {% for item in page_data.shop_items %}
+              <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny"></li>
+                {{ tnaCard({
+                  'title': item.title,
+                  'headingLevel': 3,
+                  'headingSize': 's',
+                  'href': item.url,
+                  'label': ('&pound;' | safe) + item.price,
+                  'imageSrc': item.image.jpeg.full_url,
+                  'imageAlt': '',
+                  'imageWidth': item.image.jpeg.width,
+                  'imageHeight': item.image.jpeg.height,
+                  'fullAreaClick': True,
+                  'classes': 'tna-!--margin-top-l'
+                }) }}
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+          {% endif %}
         </div>
       </div>
     </article>

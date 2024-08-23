@@ -122,8 +122,9 @@
   {%- endif %}
 
   {%- if page_data.authors | length %}
-  <div class="tna-background-accent-light tna-!--padding-top-s tna-!--padding-bottom-xs">
-    <div class="tna-container">
+  <div class="tna-background-accent-light">
+    <hr>
+    <div class="tna-container tna-!--padding-top-s tna-!--padding-bottom-xs">
       <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
         <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if page_data.authors | length > 1 }}</h2>
         <ul class="etna-author-list__items">

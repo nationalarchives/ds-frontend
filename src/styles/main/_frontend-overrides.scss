@@ -41,6 +41,8 @@
 
   &--person &__image-container {
     padding-bottom: 100%;
+
+    background: none;
   }
 
   &--person &__image {
@@ -52,6 +54,23 @@
 
   &--person:hover &__image {
     @include colour.colour-border("keyline-dark");
+  }
+}
+
+.tna-warning {
+  @include colour.always-light;
+}
+
+.tna-form {
+  &__hint {
+    p,
+    .tna-ul {
+      margin-top: spacing.space(0.5);
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
 }
 

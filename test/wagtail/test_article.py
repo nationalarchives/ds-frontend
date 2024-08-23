@@ -50,7 +50,7 @@ class ArticleTemplateTestCase(unittest.TestCase):
                 rv.text,
             )
             self.assertIn(
-                f"<meta name=\"tna.page.wagtail.title\" content=\"{page_data['title']}\">",
+                f"<meta name=\"tna.page.title\" content=\"{page_data['title']}\">",
                 rv.text,
             )
             self.assertIn(

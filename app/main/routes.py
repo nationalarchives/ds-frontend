@@ -22,6 +22,11 @@ def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
+@bp.route("/robots.txt")
+def robots():
+    return current_app.send_static_file("robots.txt")
+
+
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=3600)
 def sitemap():
