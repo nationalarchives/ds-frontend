@@ -23,7 +23,7 @@
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
     {% if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='video.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
     {% endif %}
 {% endblock %}
 
@@ -110,6 +110,6 @@
     <script src="{{ url_for('static', filename='article.min.js') }}" defer></script>
     <script src="{{ url_for('static', filename='sidebar.min.js') }}" defer></script>
     {% if bodyContainsMedia %}
-    <script src="{{ url_for('static', filename='video.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
     {% endif %}
 {% endblock %}

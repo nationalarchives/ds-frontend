@@ -1,4 +1,5 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/grid";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
@@ -86,9 +87,26 @@
   }
 }
 
-.tna-dl {
-  dd {
-    @include typography.font-size(16);
+// .tna-dl {
+//   dd {
+//     @include typography.font-size(16);
+//   }
+// }
+
+.tna-picture {
+  @include media.on-small {
+    .tna-column & {
+      width: calc(100% + #{grid.gutter-width-double()});
+      margin-right: 0;
+      margin-left: 0;
+
+      position: relative;
+      left: -#{grid.gutter-width()};
+    }
+
+    .tna-column &__image {
+      width: 100%;
+    }
   }
 }
 
