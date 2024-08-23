@@ -180,26 +180,18 @@ def create_app(config_class):
                 "GA4_ID": app.config.get("GA4_ID"),
                 "SENTRY_JS_ID": app.config.get("SENTRY_JS_ID"),
                 "SENTRY_SAMPLE_RATE": app.config.get("SENTRY_SAMPLE_RATE"),
-                "ARCHIVE_RECORDS_URL": app.config.get("ARCHIVE_RECORDS_URL"),
-                "DISCOVERY_URL": app.config.get("DISCOVERY_URL"),
-                "SEARCH_DISCOVERY_URL": app.config.get("SEARCH_DISCOVERY_URL"),
-                "SEARCH_WEBSITE_URL": app.config.get("SEARCH_WEBSITE_URL"),
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
             },
         )
 
-    from .catalogue import bp as catalogue_bp
     from .legal import bp as legal_bp
     from .main import bp as site_bp
-    from .search import bp as search_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
     app.register_blueprint(legal_bp, url_prefix="/legal")
-    app.register_blueprint(search_bp, url_prefix="/search")
-    app.register_blueprint(catalogue_bp, url_prefix="/catalogue")
     app.register_blueprint(wagtail_bp)
 
     return app

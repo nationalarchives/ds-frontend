@@ -30,7 +30,6 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SENTRY_SAMPLE_RATE`             | How often to sample traces and profiles (0-1.0)                             | production: `0.1`, staging: `0.25`, develop: `1`, test: `0` |
 | `WAGTAIL_API_URL`                | The base URL of the content API, including the `/api/v2` path               | _none_                                                      |
 | `WAGTAILAPI_LIMIT_MAX`           | The maximum number of items requested from the Wagtail API in one call      | `20`                                                        |
-| `SEARCH_API_URL`                 | The base URL of the search API                                              | _none_                                                      |
 | `COOKIE_DOMAIN`                  | The domain to save cookie preferences against                               | _none_                                                      |
 | `CSP_IMG_SRC`                    | A comma separated list of CSP rules for `img-src`                           | `'self'`                                                    |
 | `CSP_SCRIPT_SRC`                 | A comma separated list of CSP rules for `script-src`                        | `'self'`                                                    |
@@ -50,10 +49,6 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_DEFAULT_TIMEOUT`          | The number of seconds to cache pages for                                    | production: `300`, staging: `60`, develop: `0`, test: `0`   |
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                      |
 | `CACHE_HEADER_DURATION`          | The time to return in the `Cache-Control` header                            | production: `604800`, staging/develop/test: `1`             |
-| `DISCOVERY_URL`                  | The base URL to allow records to have a link to Discovery                   | `https://discovery.nationalarchives.gov.uk`                 |
-| `ARCHIVE_RECORDS_URL`            | The URL to allow records to have a direct link to their page in Discovery   | `https://discovery.nationalarchives.gov.uk/browse/r/h`      |
-| `SEARCH_DISCOVERY_URL`           | The URL that accepts form posts to search discovery                         | `https://discovery.nationalarchives.gov.uk/results/r`       |
-| `SEARCH_WEBSITE_URL`             | The URL that accepts form posts to search the website                       | `https://www.nationalarchives.gov.uk/search/results`        |
 | `GA4_ID`                         | The Google Analytics 4 ID                                                   | _none_                                                      |
 | `APPLY_REDIRECTS`                | If true, redirect pages based on Wagtail redirects (false just displays)    | production/staging/develop: `True`, test: `False`           |
 

@@ -43,7 +43,6 @@ class Base(object):
     WAGTAILAPI_LIMIT_MAX: int = int(
         os.environ.get("WAGTAILAPI_LIMIT_MAX", "20")
     )
-    SEARCH_API_URL: str = os.environ.get("SEARCH_API_URL", "").rstrip("/")
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
     SESSION_COOKIE_DOMAIN: str | None = COOKIE_DOMAIN or None
@@ -93,23 +92,6 @@ class Base(object):
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
     CACHE_HEADER_DURATION: int = int(os.getenv("CACHE_HEADER_DURATION", "1"))
 
-    DISCOVERY_URL: str = os.environ.get(
-        "DISCOVERY_URL",
-        "https://discovery.nationalarchives.gov.uk",
-    ).rstrip("/")
-    ARCHIVE_RECORDS_URL: str = os.environ.get(
-        "SEARCH_DISCOVERY_URL",
-        (f"{DISCOVERY_URL}/browse/r/h"),
-    ).rstrip("/")
-    SEARCH_DISCOVERY_URL: str = os.environ.get(
-        "SEARCH_DISCOVERY_URL",
-        (f"{DISCOVERY_URL}/results/r"),
-    ).rstrip("/")
-    SEARCH_WEBSITE_URL: str = os.environ.get(
-        "SEARCH_WEBSITE_URL",
-        "https://www.nationalarchives.gov.uk/search/results",
-    ).rstrip("/")
-
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
     APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
@@ -152,7 +134,6 @@ class Test(Base, Features):
     SENTRY_SAMPLE_RATE = 0
 
     WAGTAIL_API_URL = "http://wagtail.test/api/v2"
-    SEARCH_API_URL = "http://search.test/api/v1"
 
     CACHE_TYPE = "SimpleCache"
     CACHE_DEFAULT_TIMEOUT = 1
