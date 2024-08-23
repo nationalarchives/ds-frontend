@@ -60,6 +60,19 @@
   @include colour.always-light;
 }
 
+.tna-form {
+  &__hint {
+    p,
+    .tna-ul {
+      margin-top: spacing.space(0.5);
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
 .tna-files-list {
   &__items {
     padding-bottom: 0;

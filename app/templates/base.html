@@ -34,7 +34,6 @@
 
 {% block head %}
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="tna.request.url" content="{{ request.path }}">
     <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
     <meta name="tna.app.tna-frontend" content="{{ app_config.TNA_FRONTEND_VERSION }}">
