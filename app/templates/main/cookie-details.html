@@ -15,10 +15,6 @@
           {
             'text': 'Home',
             'href': '/'
-          },
-          {
-            'text': 'Legal',
-            'href': url_for('legal.index')
           }
         ],
         'structuredData': True
@@ -160,5 +156,5 @@
   </table>
 </div>
 <h2 class="tna-heading-l">Change your settings</h2>    
-<p>You can <a href="{{ url_for('legal.cookies') }}">change which cookies you’re happy for us to use</a>.</p>
+<p>You can <a href="{{ url_for('main.cookies') }}">change which cookies you’re happy for us to use</a>.</p>
 {% endblock %}

@@ -9,17 +9,11 @@ from app.lib.context_processor import (
 )
 from app.lib.template_filters import (
     headings_list,
-    iso_date,
     parse_json,
     pretty_date,
-    pretty_number,
-    remove_all_whitespace,
-    replace_ext_ref,
-    replace_ref,
     sidebar_items_from_wagtail_body,
     slugify,
     tna_html,
-    url_encode,
     wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
@@ -154,15 +148,9 @@ def create_app(config_class):
     app.add_template_filter(tna_html)
     app.add_template_filter(slugify)
     app.add_template_filter(pretty_date)
-    app.add_template_filter(iso_date)
-    app.add_template_filter(pretty_number)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
-    app.add_template_filter(replace_ref)
-    app.add_template_filter(replace_ext_ref)
-    app.add_template_filter(remove_all_whitespace)
     app.add_template_filter(sidebar_items_from_wagtail_body)
-    app.add_template_filter(url_encode)
     app.add_template_filter(wagtail_streamfield_contains_media)
     app.add_template_filter(wagtail_table_parser)
 
@@ -186,12 +174,10 @@ def create_app(config_class):
             },
         )
 
-    from .legal import bp as legal_bp
     from .main import bp as site_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
-    app.register_blueprint(legal_bp, url_prefix="/legal")
     app.register_blueprint(wagtail_bp)
 
     return app

@@ -55,16 +55,6 @@ def pretty_date(s):
     return s
 
 
-def iso_date(s):
-    date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-    new_date = date.strftime("%Y-%m-%dT%H:%M:%SZ")
-    return new_date
-
-
-def pretty_number(s):
-    return f"{s:,}"
-
-
 def headings_list(s):
     headings_regex = re.findall(
         r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*([^<]+)\s*</', s
@@ -117,34 +107,6 @@ def headings_list(s):
 
     headings = group_headings(0, [])
     return headings
-
-
-def replace_ref(s):
-    # TODO: Where do these link to?
-    return s
-    ext_ref_pattern = re.compile(
-        r'(<span class="ref" (href="([\w\d\-]+)" )?target="([\w\d\-]+)">([^<]*)</span>)'
-    )
-    for link, href, href_value, target, text in re.findall(ext_ref_pattern, s):
-        new_link = url_for("catalogue.details", id=target)
-        s = s.replace(link, f'<a href="{new_link}">{text}</a>')
-    return s
-
-
-def replace_ext_ref(s):
-    ext_ref_pattern = re.compile(r'(<a class="extref" href="([\w\d\-]+)\.?">)')
-    for link, id in re.findall(ext_ref_pattern, s):
-        new_link = url_for("catalogue.details", id=id)
-        s = s.replace(link, f'<a href="{new_link}">')
-    return s
-
-
-def remove_all_whitespace(s):
-    return s.replace(" ", "")
-
-
-def url_encode(s):
-    return urllib.parse.quote(s, safe="")
 
 
 def parse_json(s):
