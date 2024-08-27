@@ -2,7 +2,7 @@
 
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if global_alerts.mourning_notice else 'yellow' -%}
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'yellow' -%}
 
 {%- set pageTitle = 'Browse' -%}
 
@@ -21,7 +21,7 @@
       }) }}
     </div>
   </div>
-  {{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice) }}
+  {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
 </div>
 <div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
   <div class="tna-container">
