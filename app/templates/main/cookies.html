@@ -6,7 +6,7 @@
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
+{%- set themeAccent = 'black' if page_data.global_alert.mourning_notice else 'blue' -%}
 {%- set showSidebar = True -%}
 {%- set sidebarPositionRight = True -%}
 
@@ -14,6 +14,13 @@
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
 {% endblock %}
+
+{% set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  }
+] %}
 
 {% block content %}
 <form method="post" action="{{ url_for('main.cookies') }}" id="cookie-settings">

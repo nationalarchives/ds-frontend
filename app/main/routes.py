@@ -15,15 +15,15 @@ from flask import (
 )
 
 
-@bp.route("/browse/")
-# @cache.cached(key_prefix=cache_key_prefix)
-def browse():
-    return render_template("main/browse.html", global_alerts=global_alerts())
-
-
 @bp.route("/healthcheck/live/")
 def healthcheck():
     return "ok"
+
+
+@bp.route("/browse/")
+# @cache.cached(key_prefix=cache_key_prefix)
+def browse():
+    return render_template("main/browse.html", global_alert=global_alerts())
 
 
 @bp.route("/cookies/", methods=["GET", "POST"])
@@ -87,14 +87,16 @@ def cookies():
                 if cookie.startswith("_ga"):
                     response.set_cookie(cookie, "", expires=0)
         return response
+    global_alerts_data = global_alerts()
     return render_template(
         "main/cookies.html",
-        global_alerts=global_alerts(),
         page_data={
             "title": "Cookies",
             "intro": f"""<p>Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
 <p>We use cookies to collect and store information about how you use National Archives websites which means any page with nationalarchives.gov.uk in the URL.</p>
 <p>This page has a brief explanation of each type of cookie we use. If you want more details, <a href="{url_for('main.cookie_details')}">our detailed cookie information</a>.</p>""",
+            "global_alert": global_alerts_data["global_alert"],
+            "mourning_notice": global_alerts_data["mourning_notice"],
         },
     )
 
@@ -103,7 +105,7 @@ def cookies():
 # @cache.cached(key_prefix=cache_key_prefix)
 def cookie_details():
     return render_template(
-        "main/cookie-details.html", global_alerts=global_alerts()
+        "main/cookie-details.html", global_alert=global_alerts()
     )
 
 
@@ -167,3 +169,11 @@ def sitemap():
 # @cache.cached(key_prefix=cache_key_prefix)
 def new_homepage():
     return render_template("main/new_home.html")
+
+
+@bp.route("/search/")
+@cache.cached(timeout=86400)
+def search():
+    return (
+        "Replaced with the contents of ds-search in dev, staging and production"
+    )

@@ -4,7 +4,7 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if global_alerts.mourning_notice else 'blue' -%}
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'blue' -%}
 {%- set pageTitle = 'Details about cookies' -%}
 
 {% block beforeContent %}
@@ -15,13 +15,17 @@
           {
             'text': 'Home',
             'href': '/'
+          },
+          {
+            'text': 'Cookies',
+            'href': url_for('main.cookies')
           }
         ],
         'structuredData': True
       }) }}
     </div>
   </div>
-  {{ global_alert_banners(global_alerts.global_alert, global_alerts.mourning_notice) }}
+  {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
 {% endblock %}
 
 {% block contentHeader %}

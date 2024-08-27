@@ -34,9 +34,10 @@
 {% set sidebar_items = page_data.body | sidebar_items_from_wagtail_body %}
 
 {% block main %}
+  {% block beforeContent %}
   {% if breadcrumbs and breadcrumbs | length > 0 %}
     {% if not page_data.hero_image %}
-    <div class="tna-background-accent">
+    <div class="tna-background-accent-light">
     {% endif %}
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -50,7 +51,9 @@
     </div>
     {% endif %}
   {% endif %}
+  {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
+  {% block hero %}
   {% if page_data.hero_image %}
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
@@ -93,11 +96,11 @@
     }) }}
   {% else %}
     {% if page_data.global_alert or page_data.mourning_notice %}
-    <div class="tna-background-accent">
+    <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {% endif %}
-    <div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
+    <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
@@ -110,6 +113,7 @@
       </div>
     </div>
   {% endif %}
+  {% endblock %}
   {% if not showSidebar and page_data.body | length > 1 %}
   <div class="tna-section tna-!--no-padding-bottom tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
