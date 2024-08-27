@@ -169,11 +169,3 @@ def sitemap():
 # @cache.cached(key_prefix=cache_key_prefix)
 def new_homepage():
     return render_template("main/new_home.html")
-
-
-@bp.route("/search/")
-@cache.cached(timeout=86400)
-def search():
-    return (
-        "Replaced with the contents of ds-search in dev, staging and production"
-    )

@@ -14,7 +14,7 @@
       'height': i.thumbnail_image.jpeg.height,
       'collection': 'parent.identifier',
       'title': i.descriptive_title,
-      'href': url_for('catalogue.details', id=i.record),
+      'href': url_for('search.catalogue_item', id=i.record),
       'date': i.record_dates
     }) or '' }}
     #}
@@ -23,7 +23,7 @@
     {{ items.append({
       'collection': 'parent.identifier',
       'title': i.descriptive_title,
-      'href': url_for('catalogue.details', id=i.record),
+      'href': url_for('search.catalogue_item', id=i.record),
       'date': i.record_dates
     }) or '' }}
     #}

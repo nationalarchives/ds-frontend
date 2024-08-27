@@ -62,7 +62,7 @@
             {% with parent = highlight.record_data.hierarchy | last %}
             <dt>Catalogue reference</dt>
             <dd>
-              <a href="{{ url_for('catalogue.details', id=parent.id) }}">{{ parent.identifier }}</a>
+              <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
             </dd>
             {% endwith %}
             {% endif %}
@@ -71,7 +71,7 @@
             {{ highlight.image.description | safe }}
           </div>
           <div class="tna-button-group tna-button-group--small">
-            <a href="{{ url_for('catalogue.details', id=highlight.image.record) }}" class="tna-button" itemprop="url">View record details</a>
+            <a href="{{ url_for('search.catalogue_item', id=highlight.image.record) }}" class="tna-button" itemprop="url">View record details</a>
           </div>
         </div>
       </div>

@@ -109,7 +109,7 @@
           {% with parent = page_data.record_data.hierarchy | last %}
           <dt>Catalogue reference</dt>
           <dd>
-            <a href="{{ url_for('catalogue.details', id=parent.id) }}">{{ parent.identifier }}</a>
+            <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
           </dd>
           {% endwith %}
           {% endif %}
@@ -119,7 +119,7 @@
           {# TODO #}
           {{ tnaButton({
             'text': 'View record details',
-            'href': "url_for('catalogue.details', id=page_data.record)",
+            'href': url_for('search.catalogue_item', id=page_data.record),
             'accent': True
           }) }}
           {% if page_data.image_library_link %}
