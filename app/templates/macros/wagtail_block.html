@@ -127,6 +127,6 @@
   {{ wagtailContact( content_item.value, next_heading_level ) }}
 
   {%- else %}
-  <p class="tna-heading-xl">===== TODO: {{ content_item.type }} =====</p>
+  <p class="tna-heading-xl">===== {{ content_item.type }} =====</p>
   {%- endif %}
 {% endmacro %}

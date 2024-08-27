@@ -36,9 +36,7 @@
   }
 
   &__item {
-    // TODO
-    // @include colour.thick-keyline-transparent(bottom);
-    border-bottom: 5px transparent solid;
+    @include colour.thick-keyline-transparent(bottom);
 
     &--current {
       @include colour.thick-keyline-accent(bottom);
@@ -65,9 +63,7 @@
 
     &__item {
       border-bottom: none;
-      // TODO
-      // @include colour.thick-keyline-transparent(left);
-      border-left: 5px transparent solid;
+      @include colour.thick-keyline-transparent(left);
 
       &--current {
         @include colour.thick-keyline-accent(left);
