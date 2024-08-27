@@ -15,8 +15,7 @@ def pages_to_index_grid_items(pages):
             "label": page["type_label"],
             "title": page["title"],
             "src": page["teaser_image"]["jpeg"]["full_url"],
-            # TODO
-            # "alt": page["teaser_image"]["alt_text"],
+            "alt": "",
             "width": page["teaser_image"]["jpeg"]["width"],
             "height": page["teaser_image"]["jpeg"]["height"],
         }

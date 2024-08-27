@@ -9,22 +9,8 @@ def highlight_gallery_page(page_data):
     time_periods = pages_to_index_grid_items(page_data["time_periods"])
     categories = pick_top_two(topics, time_periods)
     for highlight in page_data["highlights"]:
+        # TODO: Remove once coming from the CMS
         highlight["record_data"] = {}
-        # TODO
-        # if "record" in highlight["image"]:
-        #     record_id = highlight["image"]["record"]
-        #     records_api = RecordAPI(record_id)
-        #     try:
-        #         record_data = records_api.get_results()
-        #         highlight["record_data"] = record_data
-        #     except ApiResourceNotFound:
-        #         current_app.logger.error(
-        #             f"No record details found for record {record_id} in page {page_data['id']}"
-        #         )
-        #     except Exception:
-        #         current_app.logger.error(
-        #             f"Can't get record details for record {record_id} in page {page_data['id']}"
-        #         )
     return render_template(
         "explore-the-collection/highlight-gallery.html",
         breadcrumbs=breadcrumbs(page_data["id"]),

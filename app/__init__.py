@@ -108,7 +108,6 @@ def create_app(config_class):
                 else {}
             ),
         },
-        # content_security_policy_nonce_in=["script-src", "style-src"],
         feature_policy={
             "camera": csp_none,
             "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN") or csp_self,

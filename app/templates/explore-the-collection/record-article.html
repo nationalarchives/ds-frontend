@@ -105,6 +105,7 @@
         <dl class="tna-dl tna-dl--plain">
           <dt>Date</dt>
           <dd>{{ page_data.date_text }}</dd>
+          {# TODO: get record_data from CMS #}
           {% if page_data.record_data and page_data.record_data.hierarchy | length %}
           {% with parent = page_data.record_data.hierarchy | last %}
           <dt>Catalogue reference</dt>
@@ -116,7 +117,6 @@
         </dl>
         {{ page_data.about | tna_html | safe }}
         <div class="tna-button-group tna-button-group--full">
-          {# TODO #}
           {{ tnaButton({
             'text': 'View record details',
             'href': url_for('search.catalogue_item', id=page_data.record),

@@ -2,7 +2,7 @@
 
 {% macro wagtailFeaturedRecordArticle(block_value, itemHeadingLevel) %}
   {%- if block_value.page %}
-  {# TODO: Date #}
+  {# TODO: Get date_text from CMS #}
   <aside class="etna-space-above">
     {% set card_content = {
       'supertitle': block_value.page.type_label,
