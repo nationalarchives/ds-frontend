@@ -9,7 +9,7 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'blue' -%}
 {%- set pageTitle = page_data.title -%}
-{%- set showSidebar = page_data.page_sidebar and ((page_data.page_sidebar == 'pages' and (page_siblings | length > 1)) or page_data.page_sidebar != 'pages') -%}
+{%- set showSidebar = page_data.page_sidebar == 'contents' or page_data.page_sidebar == 'sections' or (page_data.page_sidebar == 'pages' and page_siblings | length > 1) -%}
 {%- set sidebarPositionRight = page_data.page_sidebar == 'pages' -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
@@ -29,6 +29,7 @@
     {% if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
     {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}">
 {% endblock %}
 
 {% set sidebar_items = page_data.body | sidebar_items_from_wagtail_body %}
@@ -114,8 +115,8 @@
     </div>
   {% endif %}
   {% endblock %}
-  {% if not showSidebar and page_data.body | length > 1 %}
-  <div class="tna-section tna-!--no-padding-bottom tna-container">
+  {% if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'top_sections' %}
+  <div class="tna-!--padding-top-m tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
       <h2 class="tna-heading-m">Contents</h2>
       <ul class="tna-ul tna-ul--dashed">
@@ -127,8 +128,20 @@
       </ul>
     </div>
   </div>
-  {% else %}
-  <div class="tna-!--padding-top-m"><!-- TODO: BETTER SPACER --></div>
+  {% elif page_data.page_sidebar == 'top_sections' %}
+  <div class="tna-!--padding-top-m tna-!--margin-bottom-m" hidden>
+    <nav class="etna-secondary-navigation">
+      <div class="tna-container">
+        <ul class="tna-column tna-column--full etna-secondary-navigation__items">
+        {% for section in sidebar_items %}
+          <li class="etna-secondary-navigation__item{% if loop.first %} etna-secondary-navigation__item--current{% endif %}">
+            <a href="{{ section.href }}" class="etna-secondary-navigation__link">{{ section.text }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  </div>
   {% endif %}
   <div class="tna-!--padding-top-s">
     <div class="tna-container">

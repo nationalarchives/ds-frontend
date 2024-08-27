@@ -47,11 +47,16 @@
     padding: spacing.space(0.5) 0;
 
     display: block;
+
+    &,
+    &:link,
+    &:visited {
+      @include colour.colour-font("font-base");
+    }
   }
 
   &__item--current &__link {
     text-decoration: none;
-    @include colour.colour-font("base-font");
   }
 
   @include media.on-mobile {
