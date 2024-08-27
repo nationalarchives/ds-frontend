@@ -17,7 +17,7 @@
 {% block main %}
   {% if breadcrumbs and breadcrumbs | length > 0 %}
     {% if not page_data.hero_image %}
-    <div class="tna-background-accent">
+    <div class="tna-background-accent-light">
     {% endif %}
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -73,7 +73,7 @@
       'layout': 'shift'
     }) }}
     {% else %}
-    <div class="tna-background-accent">
+    <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
       <div class="tna-section">
         <div class="tna-container">
