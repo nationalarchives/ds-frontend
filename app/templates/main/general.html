@@ -96,7 +96,7 @@
       'layout': 'shift'
     }) }}
     {% if page_data.page_sidebar == 'section_tabs' %}
-    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" hidden>
+    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" aria-label="Page sections" hidden>
       <div class="tna-container">
         <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
         {% for section in sidebar_items %}
@@ -128,7 +128,7 @@
     </div>
     <div class="tna-background-accent-light">
       {% if page_data.page_sidebar == 'section_tabs' %}
-      <nav id="secondary-navigation" class="etna-secondary-navigation" hidden>
+      <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Page sections" hidden>
         <div class="tna-container">
           <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
           {% for section in sidebar_items %}
