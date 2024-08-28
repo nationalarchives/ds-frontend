@@ -104,7 +104,7 @@
       {% set role_tags = [] %}
       {% for role_tag in person.role_tags %}
         {% set role_tags = role_tags.append({
-          'title': 'Group',
+          'title': 'Role',
           'text': role_tag.name
         }) %}
       {% endfor %}

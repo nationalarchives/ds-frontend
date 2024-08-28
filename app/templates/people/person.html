@@ -58,7 +58,7 @@
             <h1 class="tna-heading-xl" itemprop="name">{{ page_data.title }}</h1>
             {% if page_data.role_tags %}
             <dl class="tna-dl-chips tna-!--margin-top-s">
-              <dt>Member of groups</dt>
+              <dt>Role{{ 's' if page_data.role_tags | length > 1 }}</dt>
               {% for role in page_data.role_tags %}
               <dd>
                 <span class="tna-dl-chips__item">
