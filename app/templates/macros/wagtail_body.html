@@ -4,23 +4,24 @@
   {%- set ns = namespace(next_heading_level=initial_next_heading_level) %}
   {% for body_item in body %}
     {% if body_item.type == 'content_section' %}
-      {% set ns.next_heading_level = initial_next_heading_level + 1 %}
-      <!-- <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ body_item.value.heading | slugify }}-{{ body_item.id }}">{{ body_item.value.heading }}</h2> -->
-      {{ wagtail_block({
-        'type': 'sub_heading',
-        'id': body_item.id,
-        'value': {
-          'heading': body_item.value.heading
-        }
-      }, ns.next_heading_level, false, 'tna-!--padding-top-s') }}
-      {% for block in body_item.value.content %}
-        {% if block.type == 'sub_heading' %}
-          {% set ns.next_heading_level = initial_next_heading_level + 2 %}
-        {% elif block.type == 'sub_sub_heading' %}
-          {% set ns.next_heading_level = initial_next_heading_level + 3 %}
-        {% endif %}
-        {{ wagtail_block(block, ns.next_heading_level, True) }}
-      {% endfor %}
+      <section class="tna-!--margin-top-m" data-sectionfor="{{ body_item.value.heading | slugify }}-{{ body_item.id }}">
+        {% set ns.next_heading_level = initial_next_heading_level + 1 %}
+        {{ wagtail_block({
+          'type': 'sub_heading',
+          'id': body_item.id,
+          'value': {
+            'heading': body_item.value.heading
+          }
+        }, ns.next_heading_level, false, 'tna-!--padding-top-s') }}
+        {% for block in body_item.value.content %}
+          {% if block.type == 'sub_heading' %}
+            {% set ns.next_heading_level = initial_next_heading_level + 2 %}
+          {% elif block.type == 'sub_sub_heading' %}
+            {% set ns.next_heading_level = initial_next_heading_level + 3 %}
+          {% endif %}
+          {{ wagtail_block(block, ns.next_heading_level, True) }}
+        {% endfor %}
+      </section>
     {% else %}
       {# This shouldn't be needed as sub_headings and sub_sub_headings can't yet go directly into the body #}
       {% if body_item.type == 'sub_heading' %}

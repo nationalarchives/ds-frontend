@@ -1,29 +1,13 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
-
-// <div class="tna-background-accent tna-!--margin-bottom-m">
-//   <nav class="etna-secondary-navigation">
-//     <div class="tna-container">
-//       <ul class="tna-column tna-column--full etna-secondary-navigation__items">
-//         <li class="etna-secondary-navigation__item etna-secondary-navigation__item--current">
-//           <a href="#" class="etna-secondary-navigation__link">Alpha</a>
-//         </li>
-//         <li class="etna-secondary-navigation__item">
-//           <a href="#" class="etna-secondary-navigation__link">Beta</a>
-//         </li>
-//         <li class="etna-secondary-navigation__item">
-//           <a href="#" class="etna-secondary-navigation__link">Gamma</a>
-//         </li>
-//       </ul>
-//     </div>
-//   </nav>
-// </div>
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-secondary-navigation {
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
-  .tna-background-accent & {
+  .tna-background-accent &,
+  .tna-background-accent-light & {
     border-bottom: none;
   }
 
@@ -44,15 +28,20 @@
   }
 
   &__link {
+    width: 100%;
     padding: spacing.space(0.5) 0;
 
     display: block;
 
-    &,
-    &:link,
-    &:visited {
-      @include colour.colour-font("font-base");
-    }
+    text-align: left;
+    @include colour.colour-font("font-base");
+    @include typography.main-font-weight-medium;
+
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
   }
 
   &__item--current &__link {
@@ -76,7 +65,7 @@
     }
 
     &__link {
-      padding: spacing.space(0.25) spacing.space(0.75);
+      padding: spacing.space(0.5) spacing.space(0.75);
       @include colour.colour-border("keyline", 1px, solid, bottom);
     }
 
@@ -84,6 +73,10 @@
       border-bottom: none;
     }
   }
+}
+
+[data-sectionfor] {
+  border-radius: 0.1px;
 }
 
 // <div class="etna-pictures etna-pictures--layout-1">
