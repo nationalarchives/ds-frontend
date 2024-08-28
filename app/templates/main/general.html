@@ -107,6 +107,18 @@
         </ul>
       </div>
     </nav>
+    {% elif page_data.page_sidebar == 'pages_tabs' %}
+    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" aria-label="Sibling pages">
+      <div class="tna-container">
+        <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
+        {% for sibling in page_siblings %}
+          <li class="etna-secondary-navigation__item{% if sibling.url == request.path %} etna-secondary-navigation__item--current{% endif %}">
+            <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </nav>
     {% endif %}
   {% else %}
     {% if page_data.global_alert or page_data.mourning_notice %}
@@ -126,8 +138,8 @@
         </div>
       </div>
     </div>
+    {% if page_data.page_sidebar == 'section_tabs' %}
     <div class="tna-background-accent-light">
-      {% if page_data.page_sidebar == 'section_tabs' %}
       <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Page sections" hidden>
         <div class="tna-container">
           <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
@@ -139,11 +151,25 @@
           </ul>
         </div>
       </nav>
-      {% endif %}
     </div>
+    {% elif page_data.page_sidebar == 'pages_tabs' %}
+    <div class="tna-background-accent-light">
+      <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Sibling pages">
+        <div class="tna-container">
+          <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
+          {% for sibling in page_siblings %}
+            <li class="etna-secondary-navigation__item{% if sibling.url == request.path %} etna-secondary-navigation__item--current{% endif %}">
+              <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </nav>
+    </div>
+    {% endif %}
   {% endif %}
   {% endblock %}
-  {% if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'section_tabs' %}
+  {% if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'section_tabs' and page_data.page_sidebar != 'pages_tabs' %}
   <div class="tna-!--padding-top-l tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
       <h2 class="tna-heading-m">Contents</h2>

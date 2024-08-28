@@ -34,7 +34,6 @@
     display: block;
 
     text-align: left;
-    @include colour.colour-font("font-base");
     @include typography.main-font-weight-medium;
 
     background: none;
@@ -42,6 +41,12 @@
     border: none;
 
     cursor: pointer;
+
+    &,
+    &:link,
+    &:visited {
+      @include colour.colour-font("font-base");
+    }
   }
 
   &__item--current &__link {
