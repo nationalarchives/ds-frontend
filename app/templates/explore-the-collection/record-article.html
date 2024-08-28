@@ -19,7 +19,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}" media="screen,print">
 {% endblock %}
 
 {% block content %}

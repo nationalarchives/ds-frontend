@@ -46,12 +46,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap"> -->
-    <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='print.css') }}" media="print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css') }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}" media="screen"> -->
 {% endblock %}
 
 {% block cookies %}

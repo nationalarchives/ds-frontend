@@ -12,7 +12,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}" media="screen,print">
 {% endblock %}
 
 {% set breadcrumbs = [

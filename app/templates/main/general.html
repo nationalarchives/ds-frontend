@@ -27,9 +27,9 @@
 {% block stylesheets %}
 {{ super() }}
     {% if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
     {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}" media="screen,print">
 {% endblock %}
 
 {% set sidebar_items = page_data.body | sidebar_items_from_wagtail_body %}

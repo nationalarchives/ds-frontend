@@ -25,9 +25,9 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}" media="screen,print">
     {% if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
     {% endif %}
 {% endblock %}
 
