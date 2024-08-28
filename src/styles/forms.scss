@@ -1,1 +1,11 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+
 @use "@nationalarchives/frontend/nationalarchives/components/forms";
+
+#cookie-settings-success {
+  border-radius: 0.1px;
+
+  &[tabindex="0"]:focus {
+    @include a11y.focus-outline;
+  }
+}

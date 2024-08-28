@@ -10,6 +10,8 @@ from .pages import (
     blog_post_page,
     categories_page,
     category_index_page,
+    cookie_details_page,
+    cookies_page,
     explore_index_page,
     general_page,
     highlight_gallery_page,
@@ -25,6 +27,8 @@ page_type_templates = {
     "home.HomePage": home_page,
     "generic_pages.GeneralPage": general_page,
     "generic_pages.HubPage": hub_page,
+    "cookies.CookiesPage": cookies_page,
+    "cookies.CookieDetailsPage": cookie_details_page,
     # Explore the collection
     "collections.ExplorerIndexPage": explore_index_page,
     "collections.HighlightGalleryPage": highlight_gallery_page,

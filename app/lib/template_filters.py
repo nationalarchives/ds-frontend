@@ -205,7 +205,7 @@ def sidebar_items_from_wagtail_body(body):
                     + item["id"],
                 }
             )
-    return page_sections
+    return page_sections or page_children
 
 
 def wagtail_table_parser(table_data):
