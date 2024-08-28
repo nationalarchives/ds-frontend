@@ -26,10 +26,12 @@
 
 {% block stylesheets %}
 {{ super() }}
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
-    {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}" media="screen,print">
+    {%- endif %}
+    {%- if page_data.page_sidebar == 'section_tabs' or page_data.page_sidebar == 'pages_tabs' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='secondary-navigation.css') }}" media="screen,print">
+    {%- endif %}
 {% endblock %}
 
 {% set sidebar_items = page_data.body | sidebar_items_from_wagtail_body %}
