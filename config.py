@@ -90,7 +90,6 @@ class Base(object):
     )
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
-    CACHE_HEADER_DURATION: int = int(os.getenv("CACHE_HEADER_DURATION", "1"))
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
@@ -99,10 +98,6 @@ class Base(object):
 
 class Production(Base, Features):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
-
-    CACHE_HEADER_DURATION = int(
-        os.environ.get("CACHE_HEADER_DURATION", "604800")
-    )  # 1 week
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
 
@@ -135,7 +130,6 @@ class Test(Base, Features):
 
     CACHE_TYPE = "SimpleCache"
     CACHE_DEFAULT_TIMEOUT = 1
-    CACHE_HEADER_DURATION = 0
 
     FORCE_HTTPS = False
 

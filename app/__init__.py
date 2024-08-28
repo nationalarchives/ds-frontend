@@ -130,9 +130,6 @@ def create_app(config_class):
         response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
         response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-        response.headers["Cache-Control"] = (
-            f"public, max-age={app.config.get('CACHE_HEADER_DURATION')}"
-        )
         return response
 
     app.jinja_env.trim_blocks = True
