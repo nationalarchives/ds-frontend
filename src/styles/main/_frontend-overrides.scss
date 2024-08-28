@@ -93,6 +93,17 @@
 //   }
 // }
 
+.tna-sidebar {
+  &--sections &__items {
+    line-height: 1.35;
+  }
+
+  &--sections &__link {
+    padding-top: spacing.space(0.25);
+    padding-bottom: spacing.space(0.25);
+  }
+}
+
 .tna-picture {
   @include media.on-small {
     .tna-column & {

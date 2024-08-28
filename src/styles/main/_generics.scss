@@ -188,6 +188,12 @@ p.etna-small-paragraph {
   }
 }
 
+#page-body {
+  > :first-child {
+    margin-top: spacing.space(3);
+  }
+}
+
 .tna-background-accent-light + .tna-background-accent,
 .tna-background-accent + .tna-background-accent-light {
   .tna-template--dark-theme & {
