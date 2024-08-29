@@ -1,4 +1,5 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/grid";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
@@ -9,6 +10,12 @@
   .tna-background-accent &,
   .tna-background-accent-light & {
     border-bottom: none;
+  }
+
+  &__heading {
+    align-self: center;
+
+    @include colour.thick-keyline-transparent(bottom);
   }
 
   &__items {
@@ -38,7 +45,6 @@
 
     text-align: left;
     text-decoration: underline;
-    @include typography.main-font-weight-medium;
 
     background: none;
 
@@ -47,9 +53,12 @@
     cursor: pointer;
 
     &,
-    &:link,
+    &:link {
+      @include colour.colour-font("link");
+    }
+
     &:visited {
-      @include colour.colour-font("font-base");
+      @include colour.colour-font("link-visited");
     }
 
     &:hover {
@@ -58,6 +67,7 @@
   }
 
   &__item--current &__link {
+    @include colour.colour-font("font-base");
     text-decoration: none;
   }
 
@@ -66,6 +76,8 @@
       flex-direction: column;
       align-items: stretch;
       gap: 0;
+
+      position: relative;
     }
 
     &__item {
@@ -88,12 +100,30 @@
     }
 
     &__link {
-      padding: spacing.space(0.5) spacing.space(0.75) spacing.space(0.5)
-        spacing.space(1.25);
+      padding: spacing.space(0.5) grid.gutter-width();
     }
 
     &__item:last-child &__link {
       border-bottom: none;
+    }
+  }
+
+  @include media.on-small {
+    &__items {
+      margin-right: -#{grid.gutter-width()};
+      margin-left: -#{grid.gutter-width()};
+    }
+  }
+
+  @include media.on-tiny {
+    &__items {
+      margin-right: -#{grid.gutter-width-tiny()};
+      margin-left: -#{grid.gutter-width-tiny()};
+    }
+
+    &__link {
+      padding-right: grid.gutter-width-tiny();
+      padding-left: grid.gutter-width-tiny();
     }
   }
 }

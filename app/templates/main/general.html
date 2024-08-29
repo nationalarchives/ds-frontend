@@ -100,25 +100,35 @@
     {%- if page_data.page_sidebar == 'section_tabs' %}
     <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" aria-label="Page sections" hidden>
       <div class="tna-container">
-        <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
-        {% for section in sidebar_items %}
-          <li class="etna-secondary-navigation__item">
-            <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
-          </li>
-        {% endfor %}
-        </ul>
+        <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+          On this page
+        </h2>
+        <div class="tna-column tna-column--flex-1">
+          <ul class="etna-secondary-navigation__items" role="tablist">
+          {% for section in sidebar_items %}
+            <li class="etna-secondary-navigation__item">
+              <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
       </div>
     </nav>
     {%- elif page_data.page_sidebar == 'pages_tabs' %}
-    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" aria-label="Sibling pages">
+    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--margin-top-m" aria-label="Sibling pages">
       <div class="tna-container">
-        <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
-        {% for sibling in page_siblings %}
-          <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
-            <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
-          </li>
-        {% endfor %}
-        </ul>
+        <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+          {{ page_data.meta.parent.title }}
+        </h2>
+        <div class="tna-column tna-column--flex-1">
+          <ul class="etna-secondary-navigation__items" role="tablist">
+          {% for sibling in page_siblings %}
+            <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
+              <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
       </div>
     </nav>
     {%- endif %}
@@ -144,13 +154,18 @@
     <div class="tna-background-accent-light">
       <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Page sections" hidden>
         <div class="tna-container">
-          <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
-          {% for section in sidebar_items %}
-            <li class="etna-secondary-navigation__item">
-              <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
-            </li>
-          {% endfor %}
-          </ul>
+          <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+            On this page
+          </h2>
+          <div class="tna-column tna-column--flex-1">
+            <ul class="etna-secondary-navigation__items" role="tablist">
+            {% for section in sidebar_items %}
+              <li class="etna-secondary-navigation__item">
+                <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
         </div>
       </nav>
     </div>
@@ -158,21 +173,26 @@
     <div class="tna-background-accent-light">
       <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Sibling pages">
         <div class="tna-container">
-          <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
-          {% for sibling in page_siblings %}
-            <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
-              <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
-            </li>
-          {% endfor %}
-          </ul>
+          <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+            {{ page_data.meta.parent.title }}
+          </h2>
+          <div class="tna-column tna-column--flex-1">
+            <ul class="etna-secondary-navigation__items" role="tablist">
+            {% for sibling in page_siblings %}
+              <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
+                <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
         </div>
       </nav>
     </div>
     {%- endif %}
   {%- endif %}
   {% endblock %}
-  {%- if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'section_tabs' and page_data.page_sidebar != 'pages_tabs' %}
-  <div class="tna-!--padding-top-l tna-container">
+  {%- if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'pages_tabs' %}
+  <div id="page-contents-list" class="tna-!--padding-top-l tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
       <h2 class="tna-heading-m">Contents</h2>
       <ul class="tna-ul tna-ul--dashed">
