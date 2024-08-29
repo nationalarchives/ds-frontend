@@ -26,9 +26,9 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}" media="screen,print">
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
-    {% endif %}
+    {%- endif %}
 {% endblock %}
 
 {% block beforeContent %}
@@ -51,16 +51,16 @@
   <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
   <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
   {%- if page_data.hero_image and page_data.hero_image_small %}
-  {%- if page_data.global_alert %}
-  <div class="tna-background-accent">
+  {%- if page_data.global_alert or page_data.mourning_notice %}
+  <div class="tna-background-accent-light">
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
   </div>
   {%- endif %}
   <div class="tna-background-accent-light">
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
-    {% if page_data.hero_image.copyright %}
+    {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
-    {% endif %}
+    {%- endif %}
     {{ tnaHero({
       'supertitle': page_data.type_label,
       'title': page_data.title,
@@ -176,7 +176,7 @@
 {{ super() }}
     <script src="{{ url_for('static', filename='article.min.js') }}" defer></script>
     <script src="{{ url_for('static', filename='sidebar.min.js') }}" defer></script>
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
-    {% endif %}
+    {%- endif %}
 {% endblock %}

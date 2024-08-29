@@ -22,7 +22,7 @@
       'lazyImage': True,
       'style': 'contrast'
     } %}
-    {% if block_value.page.teaser_image %}
+    {%- if block_value.page.teaser_image %}
       {% set card_content = dict(card_content, **{
         'imageSrc': block_value.page.teaser_image.jpeg.full_url,
         'imageAlt': block_value.page.teaser_image.alt or block_value.page.title,
@@ -38,7 +38,7 @@
         ],
         'horizontal': True
       }) %}
-    {% endif %}
+    {%- endif %}
     {{ tnaCard(card_content) }}
   {%- endif %}
   </aside>

@@ -16,7 +16,7 @@
       Filtering by month: {{ date_filter.month }}<br>
       Filtering by day: {{ date_filter.day }}</p>
 
-    {% if blogs %}
+    {%- if blogs %}
     <h2 class="tna-heading-l">Blogs</h2>
     <ul class="tna-ul">
       {% for blog in blogs %}
@@ -25,7 +25,7 @@
       </li>
       {% endfor %}
     </ul>
-    {% endif %}
+    {%- endif %}
 
     <h2 class="tna-heading-l">Posts</h2>
     <ul class="tna-ul">

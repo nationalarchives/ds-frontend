@@ -25,7 +25,7 @@
           'label': 'New' if page.is_newly_published,
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         } %}
-        {% if page.teaser_image %}
+        {%- if page.teaser_image %}
           {% set card_content = dict(card_content, **{
             'imageSrc': page.teaser_image.jpeg.full_url,
             'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
@@ -82,7 +82,7 @@
           'label': 'New' if page.is_newly_published,
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         } %}
-        {% if page.teaser_image %}
+        {%- if page.teaser_image %}
           {% set card_content = dict(card_content, **{
             'imageSrc': page.teaser_image.jpeg.full_url,
             'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,

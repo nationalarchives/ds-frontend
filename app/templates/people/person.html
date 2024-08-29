@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block main %}
-  {% if breadcrumbs and breadcrumbs | length > 0 %}
+  {%- if breadcrumbs and breadcrumbs | length > 0 %}
   <div class="tna-background-accent-light">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -33,15 +33,15 @@
       </div>
     </div>
   </div>
-  {% endif %}
+  {%- endif %}
   <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/ProfilePage">
     <meta itemprop="dateCreated" content="{{ page_data.meta.first_published_at }}">
     <!-- <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}"> -->
-    {% if page_data.global_alert or page_data.mourning_notice %}
+    {%- if page_data.global_alert or page_data.mourning_notice %}
     <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
-    {% endif %}
+    {%- endif %}
     <article itemprop="mainEntity" itemtype="https://schema.org/Person">
       <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-xl">
         <div class="tna-container">
@@ -56,7 +56,7 @@
           {%- endif %}
           <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-column--align-centre">
             <h1 class="tna-heading-xl" itemprop="name">{{ page_data.title }}</h1>
-            {% if page_data.role_tags %}
+            {%- if page_data.role_tags %}
             <dl class="tna-dl-chips tna-!--margin-top-s">
               <dt>Role{{ 's' if page_data.role_tags | length > 1 }}</dt>
               {% for role in page_data.role_tags %}
@@ -67,7 +67,7 @@
               </dd>
               {% endfor %}
             </dl>
-            {% endif %}
+            {%- endif %}
             <p class="tna-large-paragraph tna-!--margin-top-xs" itemprop="jobTitle">{{ page_data.role | safe }}</p>
           </div>
         </div>
@@ -78,25 +78,25 @@
           'text': 'About',
           'href': '#about'
         }] %}
-        {% if page_data.research_summary %}
+        {%- if page_data.research_summary %}
           {% set sidebar_items = sidebar_items + [{
             'text': 'Research activity',
             'href': '#research-activity'
           }] %}
-        {% endif %}
-        {% if page_data.authored_focused_articles %}
+        {%- endif %}
+        {%- if page_data.authored_focused_articles %}
           {% set sidebar_items = sidebar_items + [{
             'text': 'Articles',
             'href': '#articles'
           }] %}
-        {% endif %}
-        {% if page_data.shop_items %}
+        {%- endif %}
+        {%- if page_data.shop_items %}
           {% set sidebar_items = sidebar_items + [{
             'text': 'Shop items',
             'href': '#shop-items'
           }] %}
-        {% endif %}
-        {% if sidebar_items | length > 1 %}
+        {%- endif %}
+        {%- if sidebar_items | length > 1 %}
         <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
           {{ tnaSidebar({
             'title': 'On this page',
@@ -107,20 +107,20 @@
             'classes': 'tna-sidebar--static-on-mobile tna-!--padding-top-s'
           }) }}
         </div>
-        {% endif %}
+        {%- endif %}
         <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections etna-article__sections">
           <section class="tna-section tna-!--padding-top-m etna-article__section">
             <h2 id="about" class="tna-heading-l tna-!--padding-top-s">About</h2>
             {{ page_data.summary | tna_html | safe }}
           </section>
-          {% if page_data.research_summary %}
+          {%- if page_data.research_summary %}
           <hr>
           <section class="tna-section tna-!--padding-top-m etna-article__section">
             <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
             {{ wagtail_body(page_data.research_summary, 3) }}
           </section>
-          {% endif %}
-          {% if page_data.authored_focused_articles %}
+          {%- endif %}
+          {%- if page_data.authored_focused_articles %}
           <hr>
           <section class="tna-section tna-!--padding-top-m etna-article__section">
             <h2 id="articles" class="tna-heading-l tna-!--padding-top-s">Articles</h2>
@@ -137,7 +137,7 @@
                   'label': 'New' if article.is_newly_published,
                   'classes': 'tna-!--margin-top-l'
                 } %}
-                {% if article.teaser_image %}
+                {%- if article.teaser_image %}
                   {% set card_content = dict(card_content, **{
                     'imageSrc': article.teaser_image.jpeg.full_url,
                     'imageAlt': article.teaser_image.alt_text or article.teaser_image.title,
@@ -152,15 +152,15 @@
                       }
                     ]
                   }) %}
-                {% endif %}
+                {%- endif %}
                 {{ tnaCard(card_content) }}
                 <meta itemprop="significantLink" content="{{ article.url }}">
               </li>
               {%- endfor %}
             </ul>
           </section>
-          {% endif %}
-          {% if page_data.shop_items %}
+          {%- endif %}
+          {%- if page_data.shop_items %}
           <hr>
           <section class="tna-section tna-!--padding-top-m etna-article__section">
             <h2 id="shop-items" class="tna-heading-l tna-!--padding-top-s">Shop items</h2>
@@ -184,7 +184,7 @@
               {% endfor %}
             </ul>
           </section>
-          {% endif %}
+          {%- endif %}
         </div>
       </div>
     </article>

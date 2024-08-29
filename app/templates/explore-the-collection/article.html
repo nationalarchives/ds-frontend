@@ -22,9 +22,9 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}" media="screen,print">
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
-    {% endif %}
+    {%- endif %}
 {% endblock %}
 
 {% block content %}
@@ -46,11 +46,11 @@
     </div>
   </header>
 
-  {% if 'hero_image' in page_data %}
+  {%- if 'hero_image' in page_data %}
   {% set hero_image_caption = page_data.hero_image_caption or '' %}
-  {% if page_data.hero_image.copyright %}
+  {%- if page_data.hero_image.copyright %}
     {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
-  {% endif %}
+  {%- endif %}
   {{ tnaHero({
     'imageSrc': page_data.hero_image.jpeg.full_url,
     'imageAlt': page_data.hero_image.alt_text,
@@ -80,7 +80,7 @@
       }
     ]
   }) }}
-  {% endif %}
+  {%- endif %}
   
   <div class="tna-section tna-!--padding-top-m">
     <div class="tna-container">
@@ -88,13 +88,13 @@
         {{ articleSidebar(page_data.body) }}
       </div>
       <div id="page-body" class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections etna-!--full-width-on-print" itemprop="articleBody">
-        {% if page_data.display_content_warning %}
+        {%- if page_data.display_content_warning %}
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
-        {% endif %}
+        {%- endif %}
         {{ articleBlocks(page_data.body) }}
       </div>
     </div>
@@ -109,7 +109,7 @@
 {{ super() }}
     <script src="{{ url_for('static', filename='article.min.js') }}" defer></script>
     <script src="{{ url_for('static', filename='sidebar.min.js') }}" defer></script>
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
-    {% endif %}
+    {%- endif %}
 {% endblock %}

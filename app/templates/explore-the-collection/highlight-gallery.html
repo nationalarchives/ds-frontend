@@ -58,14 +58,14 @@
           <dl class="tna-dl tna-dl--plain tna-dl--stacked">
             <dt>Date</dt>
             <dd>{{ highlight.image.record_dates }}</dd>
-            {% if highlight.record_data and highlight.record_data.hierarchy | length %}
+            {%- if highlight.record_data and highlight.record_data.hierarchy | length %}
             {% with parent = highlight.record_data.hierarchy | last %}
             <dt>Catalogue reference</dt>
             <dd>
               <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
             </dd>
             {% endwith %}
-            {% endif %}
+            {%- endif %}
           </dl>
           <div class="etna-space-above" itemprop="description">
             {{ highlight.image.description | safe }}
@@ -79,7 +79,7 @@
     {%- endfor %}
   </section>
 
-  {% if page_data.featured_article %}
+  {%- if page_data.featured_article %}
   <aside>
     <section class="tna-section">
       <div class="tna-container">
@@ -100,7 +100,7 @@
             'style': 'accent',
             'classes': 'tna-!--margin-top-m'
           } %}
-          {% if page_data.featured_article.teaser_image %}
+          {%- if page_data.featured_article.teaser_image %}
             {% set card_content = dict(card_content, **{
               'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
               'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
@@ -122,7 +122,7 @@
       </div>
     </section>
   </aside>
-  {% endif %}
+  {%- endif %}
   {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>
 

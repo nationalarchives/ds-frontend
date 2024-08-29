@@ -7,13 +7,13 @@
   {% for item in block_value['items'] %}
     {% set body_items = [] %}
     {% for body_item in item.body %}
-      {% if body_item.type == 'text' %}
+      {%- if body_item.type == 'text' %}
         {% set body_items = body_items.append(body_item.value | tna_html | safe) %}
-      {% elif body_item.type == 'table' %}
+      {%- elif body_item.type == 'table' %}
         {% set body_items = body_items.append(wagtailTable({'table': body_item.value})) %}
-      {% elif body_item.type == 'documents' %}
+      {%- elif body_item.type == 'documents' %}
         {% set body_items = body_items.append(wagtailDocuments(body_item.value)) %}
-      {% endif %}
+      {%- endif %}
     {% endfor %}
     {% set items = items.append({
       'title': item.title,
