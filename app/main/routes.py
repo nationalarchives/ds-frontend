@@ -35,22 +35,23 @@ def set_cookies():
         "essential": True,
     }
     if "cookies_policy" in request.cookies:
-        cookies_policy = request.cookies["cookies_policy"]
-        current_cookies_policy = json.loads(unquote(cookies_policy))
+        current_cookies_policy = json.loads(
+            unquote(request.cookies["cookies_policy"])
+        )
     usage = (
         strtobool(request.form["usage"])
         if "usage" in request.form
-        else current_cookies_policy["usage"]
+        else bool(current_cookies_policy["usage"])
     )
     settings = (
         strtobool(request.form["settings"])
         if "settings" in request.form
-        else current_cookies_policy["settings"]
+        else bool(current_cookies_policy["settings"])
     )
     marketing = (
         strtobool(request.form["marketing"])
         if "marketing" in request.form
-        else current_cookies_policy["marketing"]
+        else bool(current_cookies_policy["marketing"])
     )
     new_cookies_policy = {
         "usage": usage,
