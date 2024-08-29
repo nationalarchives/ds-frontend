@@ -1,7 +1,7 @@
 const cookies = window.TNAFrontendCookies;
+const $successMessage = document.getElementById("cookie-settings-success");
 if (cookies) {
   const $form = document.getElementById("cookie-settings");
-  const $successMessage = document.getElementById("cookie-settings-success");
   if ($form && $successMessage) {
     $form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -17,8 +17,8 @@ if (cookies) {
         .querySelector('[data-module="tna-cookie-banner"]')
         ?.setAttribute("hidden", true);
     });
-    $successMessage.addEventListener("blur", () => {
-      $successMessage.setAttribute("tabindex", "-1");
-    });
   }
 }
+$successMessage.addEventListener("blur", () => {
+  $successMessage.setAttribute("tabindex", "-1");
+});
