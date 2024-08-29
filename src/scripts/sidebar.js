@@ -14,7 +14,10 @@ const $secondaryNavigation = document.getElementById("secondary-navigation");
 const $pageBody = document.getElementById("page-body");
 if ($secondaryNavigation && $pageBody) {
   $secondaryNavigation.removeAttribute("hidden");
-  let selectedIndex = 0;
+  const $pageContentsList = document.getElementById("page-contents-list");
+  if ($pageContentsList) {
+    $pageContentsList.setAttribute("hidden", true);
+  }
   const sections = Array.from(
     $secondaryNavigation.querySelectorAll("li:has(button[aria-controls])"),
   ).map(($pageSectionItem) => {
@@ -27,6 +30,12 @@ if ($secondaryNavigation && $pageBody) {
       section: $pageBody.querySelector(`[data-sectionfor="${id}"]`),
     };
   });
+  let selectedIndex = sections.findIndex(
+    (section) => `#${section.id}` === window.location.hash,
+  );
+  if (selectedIndex < 0) {
+    selectedIndex = 0;
+  }
   const showSectionByIndex = (indexToShow, switchFocus = false) => {
     selectedIndex = indexToShow;
     sections.forEach((section, index) => {
@@ -67,9 +76,9 @@ if ($secondaryNavigation && $pageBody) {
   sections.forEach((section, index) => {
     section.section.setAttribute("role", "tabpanel");
     section.section.setAttribute("aria-labelledby", section.button.id);
-    section.button.addEventListener("click", (e) => {
-      e.preventDefault();
+    section.button.addEventListener("click", () => {
       showSectionByIndex(index, true);
+      window.history.replaceState(null, null, `#${section.id}`);
     });
   });
   showSectionByIndex(selectedIndex);

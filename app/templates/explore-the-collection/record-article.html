@@ -19,7 +19,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
@@ -43,11 +43,11 @@
         }) }}
         {%- endif %}
       </div>
-      {% if page_data.intro_image %}
+      {%- if page_data.intro_image %}
       <div class="tna-column tna-column--width-1-3 tna-!--hide-on-small tna-!--hide-on-tiny etna-tilted-image-wrapper">
         <img src="{{ page_data.intro_image.webp.full_url }}" width="{{ page_data.intro_image.webp.width }}" height="{{ page_data.intro_image.webp.height }}" alt="{{ page_data.intro_image.alt_text }}" class="etna-tilted-image">
       </div>
-      {% endif %}
+      {%- endif %}
     </div>
   </section>
   <section class="etna-record-gallery">
@@ -81,11 +81,11 @@
         </div>
         <figure class="etna-record-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
           <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
-          {% if item.caption %}
+          {%- if item.caption %}
           <figcaption class="etna-record-gallery__item-description">
             {{ item.caption | safe }}
           </figcaption>
-          {% endif %}
+          {%- endif %}
         </figure>
         {%- if picture_information | length %}
         <div class="etna-record-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
@@ -106,14 +106,14 @@
           <dt>Date</dt>
           <dd>{{ page_data.date_text }}</dd>
           {# TODO: get record_data from CMS #}
-          {% if page_data.record_data and page_data.record_data.hierarchy | length %}
+          {%- if page_data.record_data and page_data.record_data.hierarchy | length %}
           {% with parent = page_data.record_data.hierarchy | last %}
           <dt>Catalogue reference</dt>
           <dd>
             <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
           </dd>
           {% endwith %}
-          {% endif %}
+          {%- endif %}
         </dl>
         {{ page_data.about | tna_html | safe }}
         <div class="tna-button-group tna-button-group--full">
@@ -122,7 +122,7 @@
             'href': url_for('search.catalogue_item', id=page_data.record),
             'accent': True
           }) }}
-          {% if page_data.image_library_link %}
+          {%- if page_data.image_library_link %}
           {{ tnaButton({
             'text': 'Use this image',
             'href': page_data.image_library_link,
@@ -131,8 +131,8 @@
               'rel': 'noopener noreferrer'
             }
           }) }}
-          {% endif %}
-          {% if page_data.print_on_demand_link %}
+          {%- endif %}
+          {%- if page_data.print_on_demand_link %}
           {{ tnaButton({
             'text': 'Buy an art print',
             'href': page_data.print_on_demand_link,
@@ -141,7 +141,7 @@
               'rel': 'noopener noreferrer'
             }
           }) }}
-          {% endif %}
+          {%- endif %}
         </div>
       </div>
     </div>
@@ -202,34 +202,34 @@
       <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
         {% set supertitle = '' %}
         {% set title = item.title %}
-        {% if 'blog.nationalarchives.gov.uk' in item.url %}
+        {%- if 'blog.nationalarchives.gov.uk' in item.url %}
           {% set supertitle = 'Blog' %}
           {% set title = title.removeprefix('Blog: ') %}
-        {% elif 'www.nationalarchives.gov.uk/help-with-your-research/research-guides' in item.url %}
+        {%- elif 'www.nationalarchives.gov.uk/help-with-your-research/research-guides' in item.url %}
           {% set supertitle = 'Research guide' %}
           {% set title = title.removeprefix('Research guide: ').removeprefix('Research Guide: ') %}
-        {% elif 'www.nationalarchives.gov.uk/education/resources' in item.url %}
-          {% if title.startswith('Teaching resource') %}
+        {%- elif 'www.nationalarchives.gov.uk/education/resources' in item.url %}
+          {%- if title.startswith('Teaching resource') %}
             {% set supertitle = 'Teaching resource' %}
             {% set title = title.removeprefix('Teaching resource: ').removeprefix('Teaching Resource: ') %}
-          {% elif title.startswith('Classroom resource') %}
+          {%- elif title.startswith('Classroom resource') %}
             {% set supertitle = 'Classroom resource' %}
             {% set title = title.removeprefix('Classroom resource: ').removeprefix('Classroom Resource: ') %}
-          {% endif %}
-        {% elif 'media.nationalarchives.gov.uk' in item.url %}
+          {%- endif %}
+        {%- elif 'media.nationalarchives.gov.uk' in item.url %}
           {% set supertitle = 'Podcast' %}
           {% set title = title.removeprefix('Podcast: ') %}
-        {% elif 'youtube.com' in item.url %}
+        {%- elif 'youtube.com' in item.url %}
           {% set supertitle = 'Film' %}
           {% set title = title.removeprefix('Film: ') %}
-        {% endif %}
+        {%- endif %}
         {% set meta = [] %}
-        {% if item.author %}
+        {%- if item.author %}
         {% set meta = meta + [{ 'title': 'Author', 'text': item.author }] %}
-        {% endif %}
-        {% if item.publication_date %}
+        {%- endif %}
+        {%- if item.publication_date %}
         {% set meta = meta + [{ 'title': 'Published', 'text': item.publication_date }] %}
-        {% endif %}
+        {%- endif %}
         {{ tnaCard({
           'supertitle': supertitle,
           'title': title,

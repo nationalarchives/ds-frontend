@@ -26,20 +26,22 @@
 
 {% block stylesheets %}
 {{ super() }}
-    {% if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
-    {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='dev.css') }}">
+    {%- if bodyContainsMedia %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
+    {%- endif %}
+    {%- if page_data.page_sidebar == 'section_tabs' or page_data.page_sidebar == 'pages_tabs' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='secondary-navigation.css') }}" media="screen,print">
+    {%- endif %}
 {% endblock %}
 
 {% set sidebar_items = page_data.body | sidebar_items_from_wagtail_body %}
 
 {% block main %}
   {% block beforeContent %}
-  {% if breadcrumbs and breadcrumbs | length > 0 %}
-    {% if not page_data.hero_image %}
+  {%- if breadcrumbs and breadcrumbs | length > 0 %}
+    {%- if not page_data.hero_image %}
     <div class="tna-background-accent-light">
-    {% endif %}
+    {%- endif %}
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         {{ tnaBreadcrumbs({
@@ -48,19 +50,19 @@
         }) }}
       </div>
     </div>
-    {% if not page_data.hero_image %}
+    {%- if not page_data.hero_image %}
     </div>
-    {% endif %}
-  {% endif %}
+    {%- endif %}
+  {%- endif %}
   {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
   {% block hero %}
-  {% if page_data.hero_image %}
+  {%- if page_data.hero_image %}
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
-    {% if page_data.hero_image.copyright %}
+    {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
-    {% endif %}
+    {%- endif %}
     {{ tnaHero({
       'title': page_data.title,
       'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html | safe) if page_data.intro else '',
@@ -95,42 +97,14 @@
       'style': 'accent',
       'layout': 'shift'
     }) }}
-    {% if page_data.page_sidebar == 'section_tabs' %}
-    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" hidden>
+    {%- if page_data.page_sidebar == 'section_tabs' %}
+    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" aria-label="Page sections" hidden>
       <div class="tna-container">
-        <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
-        {% for section in sidebar_items %}
-          <li class="etna-secondary-navigation__item">
-            <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
-          </li>
-        {% endfor %}
-        </ul>
-      </div>
-    </nav>
-    {% endif %}
-  {% else %}
-    {% if page_data.global_alert or page_data.mourning_notice %}
-    <div class="tna-background-accent-light">
-      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-    </div>
-    {% endif %}
-    <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
-      <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-          {% if page_data.intro %}
-          <div class="tna-large-paragraph tna-!--margin-top-s">
-            {{ page_data.intro | tna_html | safe }}
-          </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="tna-background-accent-light">
-      {% if page_data.page_sidebar == 'section_tabs' %}
-      <nav id="secondary-navigation" class="etna-secondary-navigation" hidden>
-        <div class="tna-container">
-          <ul class="tna-column tna-column--full etna-secondary-navigation__items" role="tablist">
+        <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+          On this page
+        </h2>
+        <div class="tna-column tna-column--flex-1">
+          <ul class="etna-secondary-navigation__items" role="tablist">
           {% for section in sidebar_items %}
             <li class="etna-secondary-navigation__item">
               <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
@@ -138,13 +112,87 @@
           {% endfor %}
           </ul>
         </div>
-      </nav>
-      {% endif %}
+      </div>
+    </nav>
+    {%- elif page_data.page_sidebar == 'pages_tabs' %}
+    <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--margin-top-m" aria-label="Sibling pages">
+      <div class="tna-container">
+        <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+          {{ page_data.meta.parent.title }}
+        </h2>
+        <div class="tna-column tna-column--flex-1">
+          <ul class="etna-secondary-navigation__items">
+          {% for sibling in page_siblings %}
+            <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
+              <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {%- endif %}
+  {%- else %}
+    {%- if page_data.global_alert or page_data.mourning_notice %}
+    <div class="tna-background-accent-light">
+      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
-  {% endif %}
+    {%- endif %}
+    <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
+      <div class="tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+          {%- if page_data.intro %}
+          <div class="tna-large-paragraph tna-!--margin-top-s">
+            {{ page_data.intro | tna_html | safe }}
+          </div>
+          {%- endif %}
+        </div>
+      </div>
+    </div>
+    {%- if page_data.page_sidebar == 'section_tabs' %}
+    <div class="tna-background-accent-light">
+      <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Page sections" hidden>
+        <div class="tna-container">
+          <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+            On this page
+          </h2>
+          <div class="tna-column tna-column--flex-1">
+            <ul class="etna-secondary-navigation__items" role="tablist">
+            {% for section in sidebar_items %}
+              <li class="etna-secondary-navigation__item">
+                <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab">{{ section.text }}</button>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    {%- elif page_data.page_sidebar == 'pages_tabs' %}
+    <div class="tna-background-accent-light">
+      <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Sibling pages">
+        <div class="tna-container">
+          <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
+            {{ page_data.meta.parent.title }}
+          </h2>
+          <div class="tna-column tna-column--flex-1">
+            <ul class="etna-secondary-navigation__items">
+            {% for sibling in page_siblings %}
+              <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
+                <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    {%- endif %}
+  {%- endif %}
   {% endblock %}
-  {% if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'section_tabs' %}
-  <div class="tna-!--padding-top-l tna-container">
+  {%- if (not showSidebar and page_data.body | length > 1) and page_data.page_sidebar != 'pages_tabs' %}
+  <div id="page-contents-list" class="tna-!--padding-top-l tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hide-on-print">
       <h2 class="tna-heading-m">Contents</h2>
       <ul class="tna-ul tna-ul--dashed">
@@ -156,9 +204,9 @@
       </ul>
     </div>
   </div>
-  {% endif %}
+  {%- endif %}
   <div class="tna-container">
-    {% if showSidebar and not sidebarPositionRight %}
+    {%- if showSidebar and not sidebarPositionRight %}
     <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--hide-on-print tna-!--margin-bottom-l">
       {{ tnaSidebar({
         'title': 'Contents' if page_data.page_sidebar == 'contents' else 'On this page' if page_data.page_sidebar == 'sections' else 'Index',
@@ -172,13 +220,13 @@
         }
       }) }}
     </div>
-    {% endif %}
-    <div id="page-body" class="tna-column tna-column--width-2-3{% if not showSidebar %} tna-column--width-5-6-medium{% endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
+    {%- endif %}
+    <div id="page-body" class="tna-column tna-column--width-2-3{%- if not showSidebar %} tna-column--width-5-6-medium{%- endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
     {% block content %}
     {{ wagtail_body(page_data.body, 2) }}
     {% endblock %}
     </div>
-    {% if showSidebar and sidebarPositionRight %}
+    {%- if showSidebar and sidebarPositionRight %}
     <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--margin-bottom-l tna-!--hide-on-print">
       {% set sidebarItems = [] %}
       {% for sibling in page_siblings %}
@@ -186,12 +234,12 @@
           'text': sibling.title,
           'href': sibling.url
         } %}
-        {% if sibling.url == page_data.meta.url %}
+        {%- if sibling.url == page_data.meta.url %}
           {% set sidebarItem = dict(sidebarItem, **{
             'current': True,
             'children': sidebar_items
           }) %}
-        {% endif %}
+        {%- endif %}
         {% set sidebarItems = sidebarItems.append(sidebarItem) %}
       {% endfor %}
       {{ tnaSidebar({
@@ -202,7 +250,7 @@
         'classes': 'tna-!--padding-top-s tna-!--margin-top-m'
       }) }}
     </div>
-    {% endif %}
+    {%- endif %}
     <div class="tna-column tna-column--full tna-hide-on-print">
       <hr class="tna-!--margin-top-xl">
       <div class="tna-button-group tna-!--margin-top-s">
@@ -221,10 +269,10 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
-    {% endif %}
-    {% if page_data.page_sidebar == 'sections' or page_data.page_sidebar == 'section_tabs' %}
+    {%- endif %}
+    {%- if page_data.page_sidebar == 'sections' or page_data.page_sidebar == 'section_tabs' %}
     <script src="{{ url_for('static', filename='sidebar.min.js') }}" defer></script>
-    {% endif %}
+    {%- endif %}
 {% endblock %}

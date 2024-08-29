@@ -48,7 +48,6 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_TYPE`                     | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching   | _none_                                                      |
 | `CACHE_DEFAULT_TIMEOUT`          | The number of seconds to cache pages for                                    | production: `300`, staging: `60`, develop: `0`, test: `0`   |
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                      |
-| `CACHE_HEADER_DURATION`          | The time to return in the `Cache-Control` header                            | production: `604800`, staging/develop/test: `1`             |
 | `GA4_ID`                         | The Google Analytics 4 ID                                                   | _none_                                                      |
 | `APPLY_REDIRECTS`                | If true, redirect pages based on Wagtail redirects (false just displays)    | production/staging/develop: `True`, test: `False`           |
 

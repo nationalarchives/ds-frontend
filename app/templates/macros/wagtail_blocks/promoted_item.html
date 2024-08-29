@@ -19,7 +19,7 @@
       ],
       'style': 'tint'
     } %}
-    {% if block_value.image.image %}
+    {%- if block_value.image.image %}
       {% set card_content = dict(card_content, **{
         'horizontal': True,
         'imageSrc': block_value.image.image.jpeg.full_url,
@@ -36,7 +36,7 @@
         ],
         'classes': 'tna-card__promoted-item'
       }) %}
-    {% endif %}
+    {%- endif %}
     {{ tnaCard(card_content) }}
   </aside>
 {% endmacro %}

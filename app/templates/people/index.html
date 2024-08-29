@@ -73,13 +73,13 @@
 {% set sidebarHeadingSize = 's' %}
 {% block content %}
   {#
-  {% if request.args.get('role') %}
+  {%- if request.args.get('role') %}
   <div class="tna-container tna-container--no-padding">
     <div class="tna-column tna-column--full">
       <p class="tna-!--margin-bottom-m">Showing {{ page_data.people_pages | length }} of ??? people.</p>
     </div>
   </div>
-  {% endif %}
+  {%- endif %}
   #}
 
   <nav aria-label="People" id="people">
@@ -119,7 +119,7 @@
         'fullAreaClick': True,
         'classes': 'tna-!--margin-top-l tna-card--person'
       } %}
-      {% if person.image %}
+      {%- if person.image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': person.image.jpeg.full_url,
           'imageAlt': person.image.alt or '',
@@ -134,7 +134,7 @@
             }
           ]
         }) %}
-      {% endif %}
+      {%- endif %}
       {{ tnaCard(card_content) }}
     </li>
     {%- endfor %}

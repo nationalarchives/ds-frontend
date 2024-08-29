@@ -46,35 +46,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap"> -->
-    <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='print.css') }}" media="print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css') }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}" media="screen"> -->
 {% endblock %}
 
 {% block cookies %}
-{% if not page_data or not page_data.page_preview %}
-{% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
+{%- if not page_data or not page_data.page_preview %}
+{%- if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': '/cookies/',
   'cookiesDomain': app_config.COOKIE_DOMAIN,
   'policies': 'marketing'
 }) | indent(6) }}
-{% endif %}
-{% endif %}
+{%- endif %}
+{%- endif %}
 {% endblock %}
 
 {% block header %}
-{% if feature.PHASE_BANNER %}
+{%- if feature.PHASE_BANNER %}
 {{ tnaPhaseBanner({
   'phase': 'Alpha',
   'message': 'This is a new design for the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current beta site</a>.',
   'classes': 'tna-background-contrast'
 }) | indent(6) }}
-{% endif %}
+{%- endif %}
 {{ tnaGlobalHeader({
   'logo': {
     'href': '/',
@@ -122,7 +122,7 @@
 {% endblock %}
 
 {% block beforeContent %}
-{% if breadcrumbs and breadcrumbs | length > 0 %}
+{%- if breadcrumbs and breadcrumbs | length > 0 %}
       <div class="tna-container">
         <div class="tna-column tna-column--full">
           {{ tnaBreadcrumbs({
@@ -131,7 +131,7 @@
           }) }}
         </div>
       </div>
-{% endif %}
+{%- endif %}
 {% endblock %}
 
 {% block footer %}
@@ -274,9 +274,9 @@
 {% endblock %}
 
 {% block bodyEnd %}
-{% if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
+{%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
     <script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
-{% endif %}
+{%- endif %}
     <script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
 {% endblock %}

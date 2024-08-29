@@ -16,15 +16,15 @@
 
 {% block stylesheets %}
 {{ super() }}
-    {% if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}">
-    {% endif %}
+    {%- if bodyContainsMedia %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
+    {%- endif %}
 {% endblock %}
 
 {% block content %}
-  {% if page_data.global_alert or page_data.mourning_notice %}
+  {%- if page_data.global_alert or page_data.mourning_notice %}
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-  {% endif %}
+  {%- endif %}
   <div class="tna-section">
     <div class="tna-container">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -32,11 +32,11 @@
           <p class="tna-hgroup__supertitle">Blog post</p>
           <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
         </hgroup>
-        {% if page_data.intro %}
+        {%- if page_data.intro %}
         <div class="tna-large-paragraph tna-!--margin-top-s">
           {{ page_data.intro | tna_html | safe }}
         </div>
-        {% endif %}
+        {%- endif %}
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    {% if bodyContainsMedia %}
+    {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
-    {% endif %}
+    {%- endif %}
 {% endblock %}

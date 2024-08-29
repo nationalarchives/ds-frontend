@@ -20,9 +20,9 @@
     {%- endif %}
   {%- endif %}
   {% set image_caption = (block_value.caption | tna_html) or '' %}
-  {% if block_value.image.copyright %}
+  {%- if block_value.image.copyright %}
     {% set image_caption = image_caption + '<p>&copy; ' + block_value.image.copyright + '</p>' %}
-  {% endif %}
+  {%- endif %}
   {% set picture = tnaPicture({
     'src': block_value.image.jpeg.full_url,
     'alt': block_value.alt_text,
@@ -42,12 +42,12 @@
     'information': picture_information,
     'classes': 'tna-picture--plain' if plain_image else ''
   }) %}
-  {% if block_value.image.is_sensitive %}
+  {%- if block_value.image.is_sensitive %}
     {{ tnaDetails({
       'title': block_value.image.custom_sensitive_image_warning or 'This image has been marked as potentially sensitive',
       'body': picture | safe
     }) }}
-  {% else %}
+  {%- else %}
     {{ picture }}
-  {% endif %}
+  {%- endif %}
 {% endmacro %}

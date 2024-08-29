@@ -15,10 +15,10 @@
 {% endblock %}
 
 {% block main %}
-  {% if breadcrumbs and breadcrumbs | length > 0 %}
-    {% if not page_data.hero_image %}
+  {%- if breadcrumbs and breadcrumbs | length > 0 %}
+    {%- if not page_data.hero_image %}
     <div class="tna-background-accent-light">
-    {% endif %}
+    {%- endif %}
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         {{ tnaBreadcrumbs({
@@ -27,17 +27,17 @@
         }) }}
       </div>
     </div>
-    {% if not page_data.hero_image %}
+    {%- if not page_data.hero_image %}
     </div>
-    {% endif %}
-  {% endif %}
+    {%- endif %}
+  {%- endif %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
-    {% if page_data.hero_image %}
+    {%- if page_data.hero_image %}
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
-    {% if page_data.hero_image.copyright %}
+    {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
-    {% endif %}
+    {%- endif %}
     {{ tnaHero({
       'title': page_data.title,
       'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html | safe) if page_data.intro else '',
@@ -72,24 +72,24 @@
       'style': 'accent',
       'layout': 'shift'
     }) }}
-    {% else %}
+    {%- else %}
     <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
       <div class="tna-section">
         <div class="tna-container">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
             <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-            {% if page_data.intro %}
+            {%- if page_data.intro %}
             <div class="tna-large-paragraph tna-!--margin-top-s">
               {{ page_data.intro | tna_html | safe }}
             </div>
-            {% endif %}
+            {%- endif %}
           </div>
         </div>
       </div>
     </div>
-    {% endif %}
-    {% if page_data.body %}
+    {%- endif %}
+    {%- if page_data.body %}
     <div class="tna-section">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -97,7 +97,7 @@
         </div>
       </div>
     </div>
-    {% endif %}
+    {%- endif %}
     <nav class="tna-section" aria-label="Child pages">
       <ul class="tna-container">
         {% for child in page_data.links or children %}
@@ -109,7 +109,7 @@
             'href': child.url,
             'text': child.teaser_text
           } %}
-          {% if not page_data.plain_cards_list and child.teaser_image %}
+          {%- if not page_data.plain_cards_list and child.teaser_image %}
             {% set card_content = dict(card_content, **{
               'imageSrc': child.teaser_image.jpeg.full_url,
               'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,

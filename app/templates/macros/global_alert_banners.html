@@ -2,19 +2,19 @@
 
 {% macro global_alert_banners(global_alert, mourning_notice, padding_top, padding_bottom) %}
   {% set dismissed_notifications = (request.cookies.get('dismissed_notifications') | parse_json) or [] %}
-  {% if (global_alert and global_alert.uid not in dismissed_notifications) or mourning_notice %}
-  <div class="etna-global-alert-wrapper tna-container{% if padding_top %} tna-!--padding-top-{{ padding_top }}{% endif %}{% if padding_bottom %} tna-!--padding-bottom-{{ padding_bottom }}{% endif %} tna-!--hide-on-print">
+  {%- if (global_alert and global_alert.uid not in dismissed_notifications) or mourning_notice %}
+  <div class="etna-global-alert-wrapper tna-container{%- if padding_top %} tna-!--padding-top-{{ padding_top }}{%- endif %}{%- if padding_bottom %} tna-!--padding-bottom-{{ padding_bottom }}{%- endif %} tna-!--hide-on-print">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      {% if mourning_notice %}
+      {%- if mourning_notice %}
       <section class="etna-mourning-notice tna-accent-black tna-background-accent tna-aside tna-aside--tight">
         <h2 class="tna-heading-s">{{ mourning_notice.title }}</h2>
         <div class="etna-mourning-notice__body">
           {{ mourning_notice.message | tna_html | safe }}
         </div>
       </section>
-      {% endif %}
-      {% if global_alert and global_alert.uid not in dismissed_notifications %}
-      <section class="etna-global-alert{% if global_alert.alert_level == 'high' %} etna-global-alert--high{% elif global_alert.alert_level == 'medium' %} etna-global-alert--medium{% elif global_alert.alert_level == 'low' %} etna-global-alert--low{% endif %}">
+      {%- endif %}
+      {%- if global_alert and global_alert.uid not in dismissed_notifications %}
+      <section class="etna-global-alert{%- if global_alert.alert_level == 'high' %} etna-global-alert--high{% elif global_alert.alert_level == 'medium' %} etna-global-alert--medium{% elif global_alert.alert_level == 'low' %} etna-global-alert--low{%- endif %}">
         <h2 class="tna-heading-s etna-global-alert__heading">{{ global_alert.title }}</h2>
         <div class="etna-global-alert__body">
           {{ global_alert.message | tna_html | safe }}
@@ -34,8 +34,8 @@
           }) }}
         </div>
       </section>
-      {% endif %}
+      {%- endif %}
     </div>
   </div>
-  {% endif %}
+  {%- endif %}
 {% endmacro %}
