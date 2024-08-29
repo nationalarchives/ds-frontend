@@ -121,7 +121,7 @@
           {{ page_data.meta.parent.title }}
         </h2>
         <div class="tna-column tna-column--flex-1">
-          <ul class="etna-secondary-navigation__items" role="tablist">
+          <ul class="etna-secondary-navigation__items">
           {% for sibling in page_siblings %}
             <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
               <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
@@ -177,7 +177,7 @@
             {{ page_data.meta.parent.title }}
           </h2>
           <div class="tna-column tna-column--flex-1">
-            <ul class="etna-secondary-navigation__items" role="tablist">
+            <ul class="etna-secondary-navigation__items">
             {% for sibling in page_siblings %}
               <li class="etna-secondary-navigation__item{%- if sibling.url == request.path %} etna-secondary-navigation__item--current{%- endif %}">
                 <a href="{{ sibling.url }}" class="etna-secondary-navigation__link">{{ sibling.title }}</a>
