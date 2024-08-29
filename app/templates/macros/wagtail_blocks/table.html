@@ -1,42 +1,42 @@
 {% macro wagtailTable(block_value) %}
-  {%- if block_value.table %}
+  {% if block_value.table %}
   {% set table_data = block_value.table | wagtail_table_parser %}
   <div class="tna-table-wrapper">
     <table class="tna-table">
-    {%- if block_value.table.table_caption %}
+    {% if block_value.table.table_caption %}
       <caption class="tna-table__caption">
         {{ block_value.table.table_caption }}
       </caption>
-    {%- endif %}
-    {%- if table_data.head %}
+    {% endif %}
+    {% if table_data.head %}
       <thead class="tna-table__head">
       {% for row in table_data.head %}
         <tr class="tna-table__row">
         {% for cell in row %}
-        {%- if cell.head %}
+        {% if cell.head %}
           <th class="tna-table__header{% for alignment in cell.align %} tna-table__header--align-{{ alignment }}{% endfor %}">{{ cell.data }}</th>
-        {%- else %}
+        {% else %}
           <td class="tna-table__cell{% for alignment in cell.align %} tna-table__cell--align-{{ alignment }}{% endfor %}">{{ cell.data }}</td>
-        {%- endif %}
+        {% endif %}
         {% endfor %}
         </tr>
       {% endfor %}
       </thead>
-    {%- endif %}
+    {% endif %}
       <tbody class="tna-table__body">
       {% for row in table_data.body %}
         <tr class="tna-table__row">
         {% for cell in row %}
-        {%- if cell.head %}
+        {% if cell.head %}
           <th class="tna-table__header{% for alignment in cell.align %} tna-table__header--align-{{ alignment }}{% endfor %}">{{ cell.data }}</th>
-        {%- else %}
+        {% else %}
           <td class="tna-table__cell{% for alignment in cell.align %} tna-table__cell--align-{{ alignment }}{% endfor %}">{{ cell.data }}</td>
-        {%- endif %}
+        {% endif %}
         {% endfor %}
         </tr>
       {% endfor %}
       </tbody>
     </table>
   </div>
-  {%- endif %}
+  {% endif %}
 {% endmacro %}
