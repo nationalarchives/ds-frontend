@@ -16,20 +16,16 @@
 
 {% block main %}
   {%- if breadcrumbs and breadcrumbs | length > 0 %}
-    {%- if not page_data.hero_image %}
-    <div class="tna-background-accent-light">
-    {%- endif %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--full tna-!--padding-vertical-s">
-        {{ tnaBreadcrumbs({
-          'items': breadcrumbs,
-          'structuredData': True
-        }) }}
+    <div class="{% if not page_data.hero_image %}tna-background-accent-light{% endif %}">
+      <div class="tna-container">
+        <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+          {{ tnaBreadcrumbs({
+            'items': breadcrumbs,
+            'structuredData': True
+          }) }}
+        </div>
       </div>
     </div>
-    {%- if not page_data.hero_image %}
-    </div>
-    {%- endif %}
   {%- endif %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.hero_image %}
