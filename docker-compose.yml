@@ -2,7 +2,6 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.local
       args:
         IMAGE: ghcr.io/nationalarchives/tna-python
         IMAGE_TAG: preview
