@@ -4,7 +4,7 @@
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
 {%- set pageTitle = page_data.title -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
@@ -16,6 +16,7 @@
 
 {% block stylesheets %}
 {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}" media="screen,print">
     {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
     {%- endif %}
@@ -41,7 +42,7 @@
     </div>
   </div>
   <div class="tna-section">
-    <div class="tna-container">
+    <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
         {{ wagtail_body(page_data.body, 2) }}
       </div>
