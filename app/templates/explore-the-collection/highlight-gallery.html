@@ -58,8 +58,8 @@
           <dl class="tna-dl tna-dl--plain tna-dl--stacked">
             <dt>Date</dt>
             <dd>{{ highlight.image.record_dates }}</dd>
-            {%- if highlight.record_data and highlight.record_data.hierarchy | length %}
-            {% with parent = highlight.record_data.hierarchy | last %}
+            {%- if highlight.record %}
+            {% with parent = highlight.record.reference_number %}
             <dt>Catalogue reference</dt>
             <dd>
               <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
@@ -71,7 +71,7 @@
             {{ highlight.image.description | safe }}
           </div>
           <div class="tna-button-group tna-button-group--small">
-            <a href="{{ url_for('search.catalogue_item', id=highlight.image.record) }}" class="tna-button" itemprop="url">View record details</a>
+            <a href="{{ url_for('search.catalogue_item', id=highlight.image.record.iaid) }}" class="tna-button" itemprop="url">View record details</a>
           </div>
         </div>
       </div>

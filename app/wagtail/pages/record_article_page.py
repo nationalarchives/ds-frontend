@@ -8,8 +8,6 @@ def record_article_page(page_data):
     topics = pages_to_index_grid_items(page_data["topics"])
     time_periods = pages_to_index_grid_items(page_data["time_periods"])
     categories = pick_top_two(topics, time_periods)
-    # TODO: Remove once coming from the CMS
-    page_data["record_data"] = {}
     return render_template(
         "explore-the-collection/record-article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),

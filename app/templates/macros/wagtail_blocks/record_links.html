@@ -3,8 +3,6 @@
 {% macro wagtailRecordLinks(block_value) %}
   {% set items = [] %}
   {%- for i in block_value['items'] %}
-    {# {% with parent = i.record_data.hierarchy | last %} #}
-    {# TODO: Get parent.identifier from CMS #}
     {%- if i.thumbnail_image %}
     {{ items.append({
       'imageSrc': i.thumbnail_image.jpeg.full_url,
@@ -12,14 +10,14 @@
       'height': i.thumbnail_image.jpeg.height,
       'collection': 'parent.identifier',
       'title': i.descriptive_title,
-      'href': url_for('search.catalogue_item', id=i.record),
+      'href': url_for('search.catalogue_item', id=i.record.iaid),
       'date': i.record_dates
     }) or '' }}
     {%- else %}
     {{ items.append({
       'collection': 'parent.identifier',
       'title': i.descriptive_title,
-      'href': url_for('search.catalogue_item', id=i.record),
+      'href': url_for('search.catalogue_item', id=i.record.iaid),
       'date': i.record_dates
     }) or '' }}
     {%- endif %}
