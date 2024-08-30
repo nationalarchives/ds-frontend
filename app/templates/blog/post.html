@@ -16,9 +16,9 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
 {% endblock %}
 
@@ -54,6 +54,6 @@
 {% block bodyEnd %}
 {{ super() }}
     {%- if bodyContainsMedia %}
-    <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
 {% endblock %}

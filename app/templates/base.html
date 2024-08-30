@@ -45,12 +45,12 @@
     <link rel="preconnect" href="https://use.typekit.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap"> -->
     <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css" media="screen,print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" media="screen,print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='print.css') }}" media="print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css') }}" media="screen,print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='ie.css') }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='print.css', v=app_config.BUILD_VERSION) }}" media="print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}" media="screen"> -->
 {% endblock %}
 
@@ -275,8 +275,8 @@
 
 {% block bodyEnd %}
 {%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
-    <script src="{{ url_for('static', filename='sentry.min.js') }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
+    <script src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
 {%- endif %}
-    <script src="{{ url_for('static', filename='main.min.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='analytics.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock %}

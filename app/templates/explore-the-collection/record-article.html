@@ -19,7 +19,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
@@ -267,5 +267,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='record-article.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='record-article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock %}

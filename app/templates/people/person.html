@@ -18,7 +18,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='person-profile.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='person-profile.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block main %}
@@ -193,5 +193,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='sections-sidebar.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='sections-sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock %}

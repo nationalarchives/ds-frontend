@@ -5,7 +5,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
@@ -92,5 +92,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-<script src="{{ url_for('static', filename='cookies.min.js') }}" defer></script>
+<script src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock %}

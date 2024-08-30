@@ -9,7 +9,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
