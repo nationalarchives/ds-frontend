@@ -5,6 +5,8 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-secondary-navigation {
+  line-height: 1.5;
+
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
   .tna-background-accent &,
@@ -13,9 +15,10 @@
   }
 
   &__heading {
-    align-self: center;
+    padding-top: spacing.space(0.5) !important;
+    padding-bottom: spacing.space(0.5) !important;
 
-    @include colour.thick-keyline-transparent(bottom);
+    line-height: inherit;
   }
 
   &__items {
@@ -42,6 +45,8 @@
     display: block;
 
     box-sizing: border-box;
+
+    line-height: inherit;
 
     text-align: left;
     text-decoration: underline;
