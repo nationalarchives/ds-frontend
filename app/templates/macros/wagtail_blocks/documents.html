@@ -5,7 +5,7 @@
   {% for document in block_value.documents %}
     {% set files = files.append({
       'text': document.file.title,
-      'href': document.file.url,
+      'href': document.file.full_url,
       'fileType': document.file.type | upper,
       'fileSize': document.file.pretty_file_size,
       'fileExtent': document.file.extent,
