@@ -18,8 +18,8 @@ RUN mkdir /app/app/static/assets; \
     cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets; \
     cp -r /app/node_modules/plyr/dist/plyr.svg /app/app/static/assets/images
 
-# Delete source files and tests
-RUN rm -fR /app/src /app/test
+# Delete source files, tests and docs
+RUN rm -fR /app/src /app/test /app/docs
 
 # Run the application
 CMD ["tna-run", "etna:app"]

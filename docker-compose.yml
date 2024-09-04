@@ -34,3 +34,10 @@ services:
     volumes:
       - ./:/app
       # - ../ds-wagtail:/app/tmp/ds-wagtail
+
+  docs:
+    image: squidfunk/mkdocs-material
+    volumes:
+      - .:/docs
+    ports:
+      - 65534:8000
