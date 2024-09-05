@@ -57,10 +57,6 @@
   }
 }
 
-.tna-warning {
-  @include colour.always-light;
-}
-
 .tna-form {
   &__hint {
     p,
@@ -74,35 +70,11 @@
   }
 }
 
-.tna-files-list {
-  &__items {
-    padding-bottom: 0;
-
-    gap: spacing.space(1.5) spacing.space(4);
-  }
-
-  &__item-meta,
-  &__item-description {
-    margin-top: spacing.space(0.25);
-  }
-}
-
 // .tna-dl {
 //   dd {
 //     @include typography.font-size(16);
 //   }
 // }
-
-.tna-sidebar {
-  &--sections &__items {
-    line-height: 1.35;
-  }
-
-  &--sections &__link {
-    padding-top: spacing.space(0.25);
-    padding-bottom: spacing.space(0.25);
-  }
-}
 
 .tna-picture {
   @include media.on-small {

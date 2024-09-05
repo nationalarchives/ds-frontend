@@ -115,7 +115,7 @@
   {{ wagtailTable(content_item.value) }}
   
   {%- elif content_item.type == 'document' %}
-  {{ wagtailDocuments(content_item.value, next_heading_level) }}
+  {{ wagtailDocuments(content_item.value, content_item.id, next_heading_level) }}
   
   {%- elif content_item.type == 'accordions' %}
   {{ wagtailAccordion(content_item.value, content_item.id, next_heading_level) }}
