@@ -3,12 +3,11 @@ import re
 import urllib.parse
 from datetime import datetime
 
-from flask import url_for
-
 from .content_parser import (
     add_abbreviations,
     b_to_strong,
     lists_to_tna_lists,
+    replace_footnotes,
     replace_line_breaks,
     strip_wagtail_attributes,
 )
@@ -19,6 +18,7 @@ def tna_html(s):
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
+    s = replace_footnotes(s)
     s = add_abbreviations(s)
     return s
 
@@ -107,6 +107,16 @@ def headings_list(s):
 
     headings = group_headings(0, [])
     return headings
+
+
+def footnotes_list(s):
+    footnotes_regex = re.findall(
+        r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</', s
+    )
+    return [
+        {"reference": heading[1], "id": heading[0]}
+        for heading in footnotes_regex
+    ]
 
 
 def parse_json(s):

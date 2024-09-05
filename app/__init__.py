@@ -8,6 +8,7 @@ from app.lib.context_processor import (
     pretty_date_range,
 )
 from app.lib.template_filters import (
+    footnotes_list,
     headings_list,
     parse_json,
     pretty_date,
@@ -141,12 +142,13 @@ def create_app(config_class):
         ]
     )
 
-    app.add_template_filter(tna_html)
-    app.add_template_filter(slugify)
-    app.add_template_filter(pretty_date)
+    app.add_template_filter(footnotes_list)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
+    app.add_template_filter(pretty_date)
     app.add_template_filter(sidebar_items_from_wagtail_body)
+    app.add_template_filter(slugify)
+    app.add_template_filter(tna_html)
     app.add_template_filter(wagtail_streamfield_contains_media)
     app.add_template_filter(wagtail_table_parser)
 
