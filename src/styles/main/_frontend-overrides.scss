@@ -1,3 +1,4 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/grid";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
@@ -85,7 +86,25 @@
   }
 }
 
+.tna-table-wrapper {
+  &[tabindex="0"] {
+    border-radius: 0.1px;
+
+    &:active {
+      @include a11y.focus-outline;
+    }
+  }
+}
+
 .tna-table {
+  &__caption {
+    &--scroll {
+      &::after {
+        content: " (scroll to see more)";
+      }
+    }
+  }
+
   &__header--align-left,
   &__cell--align-left {
     text-align: left;

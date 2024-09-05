@@ -112,7 +112,7 @@
   {{ wagtailYouTubeVideo(content_item.value) }}
 
   {%- elif content_item.type == 'table' %}
-  {{ wagtailTable(content_item.value) }}
+  {{ wagtailTable(content_item.value, content_item.id) }}
   
   {%- elif content_item.type == 'document' %}
   {{ wagtailDocuments(content_item.value, content_item.id, next_heading_level) }}
