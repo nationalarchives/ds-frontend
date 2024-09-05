@@ -66,7 +66,8 @@
       @include colour.colour-font("link-visited");
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       @include typography.interacted-text-decoration;
     }
   }

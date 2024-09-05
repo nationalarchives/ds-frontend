@@ -101,6 +101,7 @@
     }
 
     &:hover,
+    &:focus,
     &:active {
       .etna-article__section-button-label {
         @include typography.interacted-text-decoration;

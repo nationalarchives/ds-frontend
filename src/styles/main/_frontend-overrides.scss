@@ -4,10 +4,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
-.tna-template--touched:not(.tna-template--tabbed) *:focus {
-  outline: none;
-}
-
 .tna-button-group {
   &--full {
     justify-content: stretch;
@@ -52,7 +48,8 @@
     @include colour.thick-keyline;
   }
 
-  &--person:hover &__image {
+  &--person:hover &__image,
+  &--person:focus &__image {
     @include colour.colour-border("keyline-dark");
   }
 }
@@ -70,12 +67,6 @@
   }
 }
 
-// .tna-dl {
-//   dd {
-//     @include typography.font-size(16);
-//   }
-// }
-
 .tna-picture {
   @include media.on-small {
     .tna-column & {
@@ -89,6 +80,7 @@
 
     .tna-column &__image {
       width: 100%;
+      max-height: none;
     }
   }
 }
