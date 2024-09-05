@@ -60,7 +60,7 @@
     'subtitle': (child.highlight_image_count | string) + ' images',
     'href': child.url,
     'src': child.teaser_image.jpeg.full_url,
-    'alt': child.teaser_image.alt_text or child.teaser_image.title,
+    'alt': child.teaser_image.alt_text or '',
     'width': child.teaser_image.jpeg.width,
     'height': child.teaser_image.jpeg.height
   }) %}
@@ -92,7 +92,7 @@
         'text': page_data.featured_article.teaser_text,
         'label': 'New' if page_data.featured_article.is_newly_published,
         'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
-        'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+        'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
         'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'imageSources': [
@@ -121,7 +121,7 @@
         'body': page.teaser_text,
         'label': 'New' if page.is_newly_published,
         'imageSrc': page.teaser_image.jpeg.full_url,
-        'imageAlt': page.teaser_image.alt_text or page.teaser_image.title,
+        'imageAlt': page.teaser_image.alt_text or '',
         'imageWidth': page.teaser_image.jpeg.width,
         'imageHeight': page.teaser_image.jpeg.height,
         'imageSources': [

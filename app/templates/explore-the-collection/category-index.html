@@ -62,7 +62,7 @@
         'title': item.value.page_1.title,
         'href': item.value.page_1.url,
         'src': item.value.page_1.teaser_image.jpeg.full_url,
-        'alt': item.value.page_1.teaser_image.alt_text or item.value.page_1.teaser_image.title,
+        'alt': item.value.page_1.teaser_image.alt_text or '',
         'width': item.value.page_1.teaser_image.jpeg.width,
         'height': item.value.page_1.teaser_image.jpeg.height
       },
@@ -71,7 +71,7 @@
         'title': item.value.page_2.title,
         'href': item.value.page_2.url,
         'src': item.value.page_2.teaser_image.jpeg.full_url,
-        'alt': item.value.page_2.teaser_image.alt_text or item.value.page_2.teaser_image.title,
+        'alt': item.value.page_2.teaser_image.alt_text or '',
         'width': item.value.page_2.teaser_image.jpeg.width,
         'height': item.value.page_2.teaser_image.jpeg.height
       }

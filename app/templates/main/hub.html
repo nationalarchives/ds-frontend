@@ -108,7 +108,7 @@
           {%- if not page_data.plain_cards_list and child.teaser_image %}
             {% set card_content = dict(card_content, **{
               'imageSrc': child.teaser_image.jpeg.full_url,
-              'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,
+              'imageAlt': child.teaser_image.alt_text or '',
               'imageWidth': child.teaser_image.jpeg.width,
               'imageHeight': child.teaser_image.jpeg.height,
               'imageSources': [

@@ -35,7 +35,7 @@
         'text': page_data.featured_article.teaser_text,
         'label': 'New' if page_data.featured_article.is_newly_published,
         'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
-        'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+        'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
         'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'imageSources': [
@@ -125,7 +125,7 @@
       {%- if child.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': child.teaser_image.jpeg.full_url,
-          'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,
+          'imageAlt': child.teaser_image.alt_text or '',
           'imageWidth': child.teaser_image.jpeg.width,
           'imageHeight': child.teaser_image.jpeg.height,
           'imageSources': [
