@@ -135,6 +135,7 @@
                   'href': article.url,
                   'body': article.teaser_text,
                   'label': 'New' if article.is_newly_published,
+                  'fullAreaClick': True,
                   'classes': 'tna-!--margin-bottom-l'
                 } %}
                 {%- if article.teaser_image %}
@@ -187,6 +188,7 @@
                   'horizontalOnSmall': True,
                   'horizontalSmallImage': True,
                   'style': 'tint',
+                  'fullAreaClick': True,
                   'classes': 'tna-!--margin-top-m'
                 }) }}
               </li>

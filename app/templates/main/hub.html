@@ -103,7 +103,8 @@
             'headingLevel': 2,
             'headingSize': 's',
             'href': child.url,
-            'text': child.teaser_text
+            'text': child.teaser_text,
+            'fullAreaClick': True
           } %}
           {%- if not page_data.plain_cards_list and child.teaser_image %}
             {% set card_content = dict(card_content, **{

@@ -25,7 +25,7 @@
   {%- endif %}
   {% set picture = tnaPicture({
     'src': block_value.image.jpeg.full_url,
-    'alt': block_value.alt_text,
+    'alt': block_value.alt_text or '',
     'width': block_value.image.jpeg.width,
     'height': block_value.image.jpeg.height,
     'sources': [

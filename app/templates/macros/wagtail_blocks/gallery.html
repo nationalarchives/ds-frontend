@@ -9,7 +9,7 @@
     {%- endif %}
     {% set items = items.append({
       'src': item.image.jpeg.full_url,
-      'alt': item.alt_text,
+      'alt': item.alt_text or '',
       'width': item.image.jpeg.width,
       'height': item.image.jpeg.height,
       'description': image_caption | safe

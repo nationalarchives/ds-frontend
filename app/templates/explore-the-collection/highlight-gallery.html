@@ -95,9 +95,9 @@
             'href': page_data.featured_article.url,
             'text': page_data.featured_article.teaser_text,
             'label': 'New' if page_data.featured_article.is_newly_published,
-
             'horizontal': True,
             'style': 'accent',
+            'fullAreaClick': True,
             'classes': 'tna-!--margin-top-m'
           } %}
           {%- if page_data.featured_article.teaser_image %}

@@ -20,6 +20,7 @@
       'label': 'New' if block_value.page.is_newly_published else None,
       'text': block_value.page.teaser_text,
       'lazyImage': True,
+      'fullAreaClick': True,
       'style': 'contrast'
     } %}
     {%- if block_value.page.teaser_image %}
