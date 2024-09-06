@@ -41,14 +41,14 @@ class ContentParserTestCase(unittest.TestCase):
         with self.app.application.app_context():
             result = render_template_string(
                 "{% from 'macros/wagtail_blocks/table.html' import wagtailTable %}"
-                "{{ wagtailTable(table_block_data) }}",
+                "{{ wagtailTable(table_block_data, 'table_id') }}",
                 table_block_data=table_block_data,
             )
             self.assertEqual(
                 result,
-                """  <div class="tna-table-wrapper">
+                """  <div class="tna-table-wrapper" role="group" aria-describedby="table-caption-table_id">
     <table class="tna-table">
-      <caption class="tna-table__caption">
+      <caption class="tna-table__caption" id="table-caption-table_id">
         Ages of members of the Doe family
       </caption>
       <thead class="tna-table__head">

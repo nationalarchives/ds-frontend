@@ -135,12 +135,13 @@
                   'href': article.url,
                   'body': article.teaser_text,
                   'label': 'New' if article.is_newly_published,
+                  'fullAreaClick': True,
                   'classes': 'tna-!--margin-bottom-l'
                 } %}
                 {%- if article.teaser_image %}
                   {% set card_content = dict(card_content, **{
                     'imageSrc': article.teaser_image.jpeg.full_url,
-                    'imageAlt': article.teaser_image.alt_text or article.teaser_image.title,
+                    'imageAlt': article.teaser_image.alt_text or '',
                     'imageWidth': article.teaser_image.jpeg.width,
                     'imageHeight': article.teaser_image.jpeg.height,
                     'imageSources': [
@@ -187,6 +188,7 @@
                   'horizontalOnSmall': True,
                   'horizontalSmallImage': True,
                   'style': 'tint',
+                  'fullAreaClick': True,
                   'classes': 'tna-!--margin-top-m'
                 }) }}
               </li>

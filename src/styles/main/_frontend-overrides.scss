@@ -1,12 +1,9 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/grid";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
-
-.tna-template--touched:not(.tna-template--tabbed) *:focus {
-  outline: none;
-}
 
 .tna-button-group {
   &--full {
@@ -109,13 +106,10 @@
     @include colour.thick-keyline;
   }
 
-  &--person:hover &__image {
+  &--person:hover &__image,
+  &--person:focus &__image {
     @include colour.colour-border("keyline-dark");
   }
-}
-
-.tna-warning {
-  @include colour.always-light;
 }
 
 .tna-form {
@@ -128,36 +122,6 @@
         margin-top: 0;
       }
     }
-  }
-}
-
-.tna-files-list {
-  &__items {
-    padding-bottom: 0;
-
-    gap: spacing.space(1.5) spacing.space(4);
-  }
-
-  &__item-meta,
-  &__item-description {
-    margin-top: spacing.space(0.25);
-  }
-}
-
-// .tna-dl {
-//   dd {
-//     @include typography.font-size(16);
-//   }
-// }
-
-.tna-sidebar {
-  &--sections &__items {
-    line-height: 1.35;
-  }
-
-  &--sections &__link {
-    padding-top: spacing.space(0.25);
-    padding-bottom: spacing.space(0.25);
   }
 }
 
@@ -174,11 +138,30 @@
 
     .tna-column &__image {
       width: 100%;
+      max-height: none;
+    }
+  }
+}
+
+.tna-table-wrapper {
+  &[tabindex="0"] {
+    border-radius: 0.1px;
+
+    &:active {
+      @include a11y.focus-outline;
     }
   }
 }
 
 .tna-table {
+  &__caption {
+    &--scroll {
+      &::after {
+        content: " (scroll to see more)";
+      }
+    }
+  }
+
   &__header--align-left,
   &__cell--align-left {
     text-align: left;

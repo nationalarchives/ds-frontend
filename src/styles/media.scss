@@ -65,7 +65,8 @@ $plyr-tooltip-radius: 0;
     z-index: 2;
   }
 
-  &:hover &__label {
+  &:hover &__label,
+  &:focus &__label {
     @include typography.interacted-text-decoration;
   }
 }
