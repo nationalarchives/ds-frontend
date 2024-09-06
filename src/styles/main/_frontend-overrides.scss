@@ -23,51 +23,21 @@
   }
 }
 
-// <ol class="tna-ol tna-ol--footnotes">
-//   <li id="footnote-111">
-//     <!-- <a href="#footnote-cite-111">^</a> -->
-//     Something
-//   </li>
-//   <li id="footnote-27">
-//     <!-- <a href="#footnote-cite-27">^</a> -->
-//     Something
-//   </li>
-//   <li id="footnote-385">
-//     <!-- <a href="#footnote-cite-385">^</a> -->
-//     Something
-//   </li>
-//   <li>
-//     <a href="#">Item 1</a>
-//   </li>
-//   <li>
-//     <a href="#">Item 1</a>
-//   </li>
-//   <li>
-//     <a href="#">Item 1</a>
-//   </li>
-//   <li>
-//     <a href="#">Item 1</a>
-//   </li>
-//   <li>
-//     <a href="#">Item 1</a>
-//   </li>
-// </ol>
-
 .tna-ol {
   &--footnotes {
     @include typography.font-size(16);
 
-    counter-reset: footnote;
+    counter-reset: footnotes;
 
     li {
-      counter-increment: footnote;
+      counter-increment: footnotes;
 
       &::marker {
         @include colour.colour-font("font-base");
 
-        content: "[" counter(footnote) "] ";
+        content: "[" counter(footnotes) "] ";
 
-        font-size: 80%;
+        // font-size: 80%;
         @include typography.main-font-weight;
       }
 

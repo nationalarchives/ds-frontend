@@ -225,6 +225,16 @@
     {% block content %}
     {{ wagtail_body(page_data.body, 2) }}
     {% endblock %}
+    {% if page_data.footnotes %}
+      <h2 class="tna-heading-l">Footnotes</h2>
+      <ol id="footnotes" class="tna-ol tna-ol--footnotes">
+        {% for footnote in page_data.footnotes %}
+        <li id="footnote-{{ footnote.id }}" data-footnoteid="{{ footnote.id }}">
+          {{ footnote.text }}
+        </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
     </div>
     {%- if showSidebar and sidebarPositionRight %}
     <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--margin-bottom-l tna-!--hide-on-print">
@@ -271,6 +281,9 @@
 {{ super() }}
     {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {%- endif %}
+    {%- if page_data.footnotes %}
+    <script src="{{ url_for('static', filename='footnotes.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
     {%- if page_data.page_sidebar == 'sections' or page_data.page_sidebar == 'section_tabs' %}
     <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
