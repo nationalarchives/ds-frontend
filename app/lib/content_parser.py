@@ -29,11 +29,9 @@ def replace_line_breaks(html):
 
 
 def replace_footnotes(html):
-    # html = html.replace("</p>", f'<sup id="footnote-cite-{len(html)}"><a href="#footnote-{len(html)}" class="tna-footnote-cite">[abcdef]</a></sup></p>')  # TEMP
-    # html = re.sub(r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</footnote>', r'<sup id="footnote-cite-\g<1>"><a href="#footnote-\g<1>" class="tna-footnote">\g<2></a></sup>', html)
     html = re.sub(
         r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</footnote>',
-        r'<sup><a href="#footnote-\g<1>" class="tna-footnote">[\g<2>]</a></sup>',
+        r'<sup data-footnoteid="\g<1>"><a href="#footnote-\g<1>" class="tna-footnote">[\g<2>]</a></sup>',
         html,
     )
     return html

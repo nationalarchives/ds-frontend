@@ -109,16 +109,6 @@ def headings_list(s):
     return headings
 
 
-def footnotes_list(s):
-    footnotes_regex = re.findall(
-        r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</', s
-    )
-    return [
-        {"reference": heading[1], "id": heading[0]}
-        for heading in footnotes_regex
-    ]
-
-
 def parse_json(s):
     try:
         unquoted_string = urllib.parse.unquote(s)
