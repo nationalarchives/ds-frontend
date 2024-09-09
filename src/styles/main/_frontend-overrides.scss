@@ -30,21 +30,36 @@
     counter-reset: footnotes;
 
     li {
+      padding-right: spacing.space(0.375);
+      padding-left: spacing.space(0.375);
       counter-increment: footnotes;
+
+      clear: both;
 
       &::marker {
         @include colour.colour-font("font-base");
 
         content: "[" counter(footnotes) "] ";
 
-        // font-size: 80%;
+        font-size: 80%;
         @include typography.main-font-weight;
       }
 
       &:target {
-        padding-right: spacing.space(0.375);
-        padding-left: spacing.space(0.375);
         @include colour.tint;
+      }
+
+      a[href^="#footnote-"] {
+        margin-right: spacing.space(0.25);
+
+        display: inline-block;
+
+        float: left;
+
+        &:focus {
+          position: relative;
+          z-index: 1;
+        }
       }
     }
   }

@@ -130,7 +130,9 @@ def wagtail_streamfield_contains_media(body):
     return False
 
 
-def sidebar_items_from_wagtail_body(body):
+def sidebar_items_from_wagtail_body(content):
+    body = content["body"]
+    footnotes = content["footnotes"]
     page_sections = []
     page_children = []
     page_grandchildren = []
@@ -205,6 +207,13 @@ def sidebar_items_from_wagtail_body(body):
                     + item["id"],
                 }
             )
+    if footnotes:
+        page_sections.append(
+            {
+                "text": "Footnotes",
+                "href": "#footnotes",
+            }
+        )
     return page_sections or page_children
 
 

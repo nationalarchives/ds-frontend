@@ -1,31 +1,8 @@
-/*
-<h1>Content</h1>
-<p>Lorem ipsum 1<sup data-footnoteid="first"><a href="#footnote-first">[first]</a></sup></p>
-<p>Lorem ipsum 2<sup data-footnoteid="second"><a href="#footnote-second">[second]</a></sup> lorem ipsum 2a<sup data-footnoteid="third"><a href="#footnote-third">[third]</a></sup></p>
-<p>Lorem ipsum 3<sup data-footnoteid="second"><a href="#footnote-second">[second]</a></sup></p>
-<hr>
-<h2>Footnotes</h2>
-<ol id="footnotes">
-  <li id="footnote-first" data-footnoteid="first">
-    Something first
-  </li>
-  <li id="footnote-forth" data-footnoteid="forth">
-    Something forth
-  </li>
-  <li id="footnote-third" data-footnoteid="third">
-    Something third
-  </li>
-  <li id="footnote-second" data-footnoteid="second">
-    Something second
-  </li>
-</ol>
-*/
-
 const footnotePrefix = "footnote-";
 const footnoteIdDataAttribute = "footnoteid";
 const footnoteCitePrefix = "footnote-cite-";
 const footnoteCiteIdDataAttribute = "footnoteid";
-const $footnotes = document.getElementById("footnotes");
+const $footnotes = document.getElementById("footnotes-list");
 const $footnoteCites = Array.from(
   document.querySelectorAll(
     `[data-${footnoteCiteIdDataAttribute}]:has(a[href^="#${footnotePrefix}"])`,
@@ -82,6 +59,7 @@ footnoteCites.forEach((footnoteCite) => {
   const newId =
     footnotes.findIndex((footnote) => footnote.id === footnoteCite.id) + 1;
   footnoteCite.$link.innerText = `[${newId}]`;
+  footnoteCite.$link.title = `See footnote ${newId}`;
   footnoteCite.$el.id = `${footnoteCitePrefix}${footnoteCite.group}${letters[footnoteCite.instance]}`;
 });
 
@@ -90,9 +68,9 @@ $footnotes.innerHTML = footnotes.reduce(
     `${html}<li id="${footnotePrefix}${footnote.id}">${footnoteCites.reduce(
       (footnoteCitesHtml, footnoteCite) =>
         footnoteCite.id === footnote.id
-          ? `${footnoteCitesHtml}<a href="#${footnoteCitePrefix}${footnoteCite.group}${letters[footnoteCite.instance]}">${letters[footnoteCite.instance]}</a> `
+          ? `${footnoteCitesHtml}<a href="#${footnoteCitePrefix}${footnoteCite.group}${letters[footnoteCite.instance]}" title="Footnote ${footnoteCite.group}, cite ${letters[footnoteCite.instance]}">${letters[footnoteCite.instance]}</a> `
           : footnoteCitesHtml,
       "",
-    )} ${footnote.html}</li>`,
+    )} <cite>${footnote.html}</cite></li>`,
   "",
 );

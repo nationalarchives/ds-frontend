@@ -117,7 +117,7 @@
           <hr class="tna-!--margin-top-s">
           <section class="tna-section tna-!--padding-top-m etna-article__section">
             <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
-            {{ wagtail_body(page_data.research_summary, 3) }}
+            {{ wagtail_body(page_data.research_summary, 3, page_data.footnotes) }}
           </section>
           {%- endif %}
           {%- if page_data.authored_focused_articles %}
