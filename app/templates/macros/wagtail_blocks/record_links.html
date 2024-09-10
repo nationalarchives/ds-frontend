@@ -2,20 +2,21 @@
 
 {% macro wagtailRecordLinks(block_value) %}
   {% set items = [] %}
+  {{ block_value }}
   {%- for i in block_value['items'] %}
     {%- if i.thumbnail_image %}
     {{ items.append({
       'imageSrc': i.thumbnail_image.jpeg.full_url,
       'width': i.thumbnail_image.jpeg.width,
       'height': i.thumbnail_image.jpeg.height,
-      'collection': record.reference_number,
+      'collection': i.record.reference_number,
       'title': i.descriptive_title,
       'href': url_for('search.catalogue_item', id=i.record.iaid),
       'date': i.record_dates
     }) or '' }}
     {%- else %}
     {{ items.append({
-      'collection': record.reference_number,
+      'collection': i.record.reference_number,
       'title': i.descriptive_title,
       'href': url_for('search.catalogue_item', id=i.record.iaid),
       'date': i.record_dates
