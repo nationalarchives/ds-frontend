@@ -8,14 +8,14 @@
       'imageSrc': i.thumbnail_image.jpeg.full_url,
       'width': i.thumbnail_image.jpeg.width,
       'height': i.thumbnail_image.jpeg.height,
-      'collection': 'parent.identifier',
+      'collection': record.reference_number,
       'title': i.descriptive_title,
       'href': url_for('search.catalogue_item', id=i.record.iaid),
       'date': i.record_dates
     }) or '' }}
     {%- else %}
     {{ items.append({
-      'collection': 'parent.identifier',
+      'collection': record.reference_number,
       'title': i.descriptive_title,
       'href': url_for('search.catalogue_item', id=i.record.iaid),
       'date': i.record_dates

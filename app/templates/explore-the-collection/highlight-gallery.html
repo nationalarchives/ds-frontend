@@ -59,10 +59,9 @@
             <dt>Date</dt>
             <dd>{{ highlight.image.record_dates }}</dd>
             {%- if highlight.record %}
-            {% with parent = highlight.record.reference_number %}
             <dt>Catalogue reference</dt>
             <dd>
-              <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
+              <a href="{{ url_for('search.catalogue_item', id=highlight.record.iaid) }}">{{ highlight.record.reference_number }}</a>
             </dd>
             {% endwith %}
             {%- endif %}
