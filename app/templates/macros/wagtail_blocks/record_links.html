@@ -2,7 +2,6 @@
 
 {% macro wagtailRecordLinks(block_value) %}
   {% set items = [] %}
-  {{ block_value }}
   {%- for i in block_value['items'] %}
     {%- if i.thumbnail_image %}
     {{ items.append({
