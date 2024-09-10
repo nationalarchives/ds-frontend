@@ -16,9 +16,9 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- if bodyContainsMedia %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='media.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
 {% endblock %}
 
@@ -44,7 +44,7 @@
   <div class="tna-section">
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
-        {{ wagtail_body(page_data.body, 2) }}
+        {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
       </div>
     </div>
   </div>
@@ -54,6 +54,6 @@
 {% block bodyEnd %}
 {{ super() }}
     {%- if bodyContainsMedia %}
-    <script src="{{ url_for('static', filename='media.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
 {% endblock %}

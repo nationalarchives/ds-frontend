@@ -1,6 +1,6 @@
 {%- from 'macros/wagtail_block.html' import wagtail_block -%}
 
-{% macro wagtail_body(body, initial_next_heading_level) %}
+{% macro wagtail_body(body, initial_next_heading_level, footnotes) %}
   {%- set ns = namespace(next_heading_level=initial_next_heading_level) %}
   {% for body_item in body %}
     {%- if body_item.type == 'content_section' %}
@@ -32,4 +32,14 @@
       {{ wagtail_block(body_item, ns.next_heading_level, True) }}
     {%- endif %}
   {% endfor %}
+  {% if footnotes %}
+    <h2 class="tna-heading-l" id="footnotes">Footnotes</h2>
+    <ol id="footnotes-list" class="tna-ol tna-ol--footnotes">
+      {% for footnote in footnotes %}
+      <li id="footnote-{{ footnote.uuid }}" data-footnoteid="{{ footnote.uuid }}">
+        {{ footnote.text | safe }}
+      </li>
+      {% endfor %}
+    </ol>
+  {% endif %}
 {% endmacro %}

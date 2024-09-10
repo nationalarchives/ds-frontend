@@ -19,7 +19,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
@@ -154,7 +154,7 @@
       'title': gallery.image.title,
       'href': page_data.featured_highlight_gallery.url + '#gallery-image-' + (loop.index | string),
       'src': gallery.image.jpeg.full_url,
-      'alt': gallery.alt_text,
+      'alt': gallery.alt_text or '',
       'width': gallery.image.jpeg.width,
       'height': gallery.image.jpeg.height
     }) %}
@@ -248,6 +248,7 @@
             }
           ],
           'lazyImage': True,
+          'fullAreaClick': True,
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
       </li>
@@ -264,5 +265,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='record-article.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='record-article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock %}

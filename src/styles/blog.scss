@@ -2,3 +2,53 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+.tna-blockquote {
+  margin-right: spacing.space(2);
+  margin-left: spacing.space(2);
+  padding: spacing.space(2) spacing.space(3);
+
+  border-left: none;
+
+  @include colour.accent;
+
+  &::before {
+    content: "\f10e";
+
+    margin-bottom: spacing.space(0.5);
+
+    display: block;
+
+    font-family: "Font Awesome 6 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+    line-height: 1;
+    text-align: center;
+    font-style: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-variant: normal;
+    @include typography.font-size(30);
+  }
+
+  &__quote {
+    @include typography.font-size(21);
+    @include typography.main-font-weight;
+  }
+
+  &__citation {
+    padding-top: spacing.space(1);
+
+    @include typography.main-font-weight-medium;
+
+    @include colour.colour-border("keyline", 1px, solid, top);
+  }
+
+  @include media.on-tiny {
+    margin-right: spacing.space(1);
+    margin-left: spacing.space(1);
+    padding: spacing.space(1.5);
+
+    &__quote {
+      @include typography.font-size(19);
+    }
+  }
+}

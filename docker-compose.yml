@@ -2,7 +2,6 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.local
       args:
         IMAGE: ghcr.io/nationalarchives/tna-python
         IMAGE_TAG: preview
@@ -34,4 +33,11 @@ services:
     image: ghcr.io/nationalarchives/tna-python-dev:preview
     volumes:
       - ./:/app
-      - ../ds-wagtail:/app/tmp/ds-wagtail
+      # - ../ds-wagtail:/app/tmp/ds-wagtail
+
+  docs:
+    image: squidfunk/mkdocs-material
+    volumes:
+      - .:/docs
+    ports:
+      - 65534:8000

@@ -26,7 +26,8 @@
       @include colour.colour-border("keyline", 1px);
       border-radius: 100%;
 
-      &:hover {
+      &:hover,
+      &:focus {
         @include colour.tint;
       }
     }

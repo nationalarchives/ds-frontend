@@ -15,7 +15,7 @@
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='highlight-gallery.css') }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='highlight-gallery.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
@@ -95,15 +95,15 @@
             'href': page_data.featured_article.url,
             'text': page_data.featured_article.teaser_text,
             'label': 'New' if page_data.featured_article.is_newly_published,
-
             'horizontal': True,
             'style': 'accent',
+            'fullAreaClick': True,
             'classes': 'tna-!--margin-top-m'
           } %}
           {%- if page_data.featured_article.teaser_image %}
             {% set card_content = dict(card_content, **{
               'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
-              'imageAlt': page_data.featured_article.teaser_image.alt_text or page_data.featured_article.teaser_image.title,
+              'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
               'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
               'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
               'imageSources': [

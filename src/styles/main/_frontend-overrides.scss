@@ -1,12 +1,9 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/grid";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
-
-.tna-template--touched:not(.tna-template--tabbed) *:focus {
-  outline: none;
-}
 
 .tna-button-group {
   &--full {
@@ -26,6 +23,48 @@
   }
 }
 
+.tna-ol {
+  &--footnotes {
+    @include typography.font-size(16);
+
+    counter-reset: footnotes;
+
+    li {
+      padding-right: spacing.space(0.375);
+      padding-left: spacing.space(0.375);
+      counter-increment: footnotes;
+
+      clear: both;
+
+      &::marker {
+        @include colour.colour-font("font-base");
+
+        content: "[" counter(footnotes) "] ";
+
+        font-size: 80%;
+        @include typography.main-font-weight;
+      }
+
+      &:target {
+        @include colour.tint;
+      }
+
+      a[href^="#footnote-"] {
+        margin-right: spacing.space(0.25);
+
+        display: inline-block;
+
+        float: left;
+
+        &:focus {
+          position: relative;
+          z-index: 1;
+        }
+      }
+    }
+  }
+}
+
 .tna-card {
   &__promoted-item {
     @include colour.thick-keyline-accent(top);
@@ -40,7 +79,7 @@
   }
 
   &--person &__image-container {
-    padding-bottom: 100%;
+    aspect-ratio: 1;
 
     background: none;
   }
@@ -52,13 +91,10 @@
     @include colour.thick-keyline;
   }
 
-  &--person:hover &__image {
+  &--person:hover &__image,
+  &--person:focus &__image {
     @include colour.colour-border("keyline-dark");
   }
-}
-
-.tna-warning {
-  @include colour.always-light;
 }
 
 .tna-form {
@@ -71,36 +107,6 @@
         margin-top: 0;
       }
     }
-  }
-}
-
-.tna-files-list {
-  &__items {
-    padding-bottom: 0;
-
-    gap: spacing.space(1.5) spacing.space(4);
-  }
-
-  &__item-meta,
-  &__item-description {
-    margin-top: spacing.space(0.25);
-  }
-}
-
-// .tna-dl {
-//   dd {
-//     @include typography.font-size(16);
-//   }
-// }
-
-.tna-sidebar {
-  &--sections &__items {
-    line-height: 1.35;
-  }
-
-  &--sections &__link {
-    padding-top: spacing.space(0.25);
-    padding-bottom: spacing.space(0.25);
   }
 }
 
@@ -117,11 +123,30 @@
 
     .tna-column &__image {
       width: 100%;
+      max-height: none;
+    }
+  }
+}
+
+.tna-table-wrapper {
+  &[tabindex="0"] {
+    border-radius: 0.1px;
+
+    &:active {
+      @include a11y.focus-outline;
     }
   }
 }
 
 .tna-table {
+  &__caption {
+    &--scroll {
+      &::after {
+        content: " (scroll to see more)";
+      }
+    }
+  }
+
   &__header--align-left,
   &__cell--align-left {
     text-align: left;

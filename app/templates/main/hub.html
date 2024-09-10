@@ -16,20 +16,16 @@
 
 {% block main %}
   {%- if breadcrumbs and breadcrumbs | length > 0 %}
-    {%- if not page_data.hero_image %}
-    <div class="tna-background-accent-light">
-    {%- endif %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        {{ tnaBreadcrumbs({
-          'items': breadcrumbs,
-          'structuredData': True
-        }) }}
+    <div class="{% if not page_data.hero_image %}tna-background-accent-light{% endif %}">
+      <div class="tna-container">
+        <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+          {{ tnaBreadcrumbs({
+            'items': breadcrumbs,
+            'structuredData': True
+          }) }}
+        </div>
       </div>
     </div>
-    {%- if not page_data.hero_image %}
-    </div>
-    {%- endif %}
   {%- endif %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.hero_image %}
@@ -107,12 +103,13 @@
             'headingLevel': 2,
             'headingSize': 's',
             'href': child.url,
-            'text': child.teaser_text
+            'text': child.teaser_text,
+            'fullAreaClick': True
           } %}
           {%- if not page_data.plain_cards_list and child.teaser_image %}
             {% set card_content = dict(card_content, **{
               'imageSrc': child.teaser_image.jpeg.full_url,
-              'imageAlt': child.teaser_image.alt_text or child.teaser_image.title,
+              'imageAlt': child.teaser_image.alt_text or '',
               'imageWidth': child.teaser_image.jpeg.width,
               'imageHeight': child.teaser_image.jpeg.height,
               'imageSources': [

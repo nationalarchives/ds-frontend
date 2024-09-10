@@ -10,9 +10,9 @@
       {%- if body_item.type == 'text' %}
         {% set body_items = body_items.append(body_item.value | tna_html | safe) %}
       {%- elif body_item.type == 'table' %}
-        {% set body_items = body_items.append(wagtailTable({'table': body_item.value})) %}
+        {% set body_items = body_items.append(wagtailTable({'table': body_item.value}, id + '-' + (loop.index | string))) %}
       {%- elif body_item.type == 'documents' %}
-        {% set body_items = body_items.append(wagtailDocuments(body_item.value)) %}
+        {% set body_items = body_items.append(wagtailDocuments(body_item.value, id, itemHeadingLevel + 1)) %}
       {%- endif %}
     {% endfor %}
     {% set items = items.append({

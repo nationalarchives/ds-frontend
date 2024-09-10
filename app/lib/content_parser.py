@@ -28,6 +28,15 @@ def replace_line_breaks(html):
     return html
 
 
+def replace_footnotes(html):
+    html = re.sub(
+        r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</footnote>',
+        r'<sup data-footnoteid="\g<1>"><a href="#footnote-\g<1>" class="tna-footnote" title="Footnote \g<2>">[\g<2>]</a></sup>',
+        html,
+    )
+    return html
+
+
 def add_abbreviations(html):
     for item in abbreviations:
         html = re.sub(
