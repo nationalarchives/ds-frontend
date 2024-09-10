@@ -29,6 +29,10 @@
 
     counter-reset: footnotes;
 
+    &:has(li[data-footnoteidshort]) {
+      padding-left: spacing.space(4);
+    }
+
     li {
       padding-right: spacing.space(0.375);
       padding-left: spacing.space(0.375);
@@ -47,6 +51,12 @@
 
       &:target {
         @include colour.tint;
+      }
+
+      &[data-footnoteidshort] {
+        &::marker {
+          content: "[" attr(data-footnoteidshort) "] ";
+        }
       }
 
       a[href^="#footnote-"] {
