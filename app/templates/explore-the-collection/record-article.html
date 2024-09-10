@@ -105,21 +105,18 @@
         <dl class="tna-dl tna-dl--plain">
           <dt>Date</dt>
           <dd>{{ page_data.date_text }}</dd>
-          {# TODO: get record_data from CMS #}
-          {%- if page_data.record_data and page_data.record_data.hierarchy | length %}
-          {% with parent = page_data.record_data.hierarchy | last %}
+          {%- if page_data.record %}
           <dt>Catalogue reference</dt>
           <dd>
-            <a href="{{ url_for('search.catalogue_item', id=parent.id) }}">{{ parent.identifier }}</a>
+            <a href="{{ url_for('search.catalogue_item', id=page_data.record.reference_number) }}">{{ page_data.record.reference_number }}</a>
           </dd>
-          {% endwith %}
           {%- endif %}
         </dl>
         {{ page_data.about | tna_html | safe }}
         <div class="tna-button-group tna-button-group--full">
           {{ tnaButton({
             'text': 'View record details',
-            'href': url_for('search.catalogue_item', id=page_data.record),
+            'href': url_for('search.catalogue_item', id=page_data.record.iaid),
             'accent': True
           }) }}
           {%- if page_data.image_library_link %}
