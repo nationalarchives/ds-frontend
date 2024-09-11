@@ -75,6 +75,14 @@
   }
 }
 
+sup[data-footnoteid] {
+  border-radius: 0.1px;
+
+  &:target a.tna-footnote {
+    @include a11y.focus-outline-without-offset;
+  }
+}
+
 .tna-card {
   &__promoted-item {
     @include colour.thick-keyline-accent(top);
