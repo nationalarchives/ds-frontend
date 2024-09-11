@@ -19,6 +19,12 @@ abbr {
   @include spacing.space-above;
 
   @include colour.thick-keyline-accent(left);
+
+  @include media.on-mobile {
+    .tna-button-group {
+      margin-top: spacing.space(1);
+    }
+  }
 }
 
 .etna-inset {
