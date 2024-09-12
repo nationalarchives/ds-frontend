@@ -3,9 +3,13 @@ import {
   Cookies,
 } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
+// Set the cookies domain and extra policies even when the cookie banner is not shown
 const cookiesDomain =
   document.documentElement.getAttribute("data-cookiesdomain");
-const cookies = new Cookies({ domain: cookiesDomain });
+const cookies = new Cookies({
+  domain: cookiesDomain,
+  extraPolicies: ["marketing"],
+});
 
 // if ("serviceWorker" in navigator) {
 //   navigator.serviceWorker.register("/service-worker.min.js");
