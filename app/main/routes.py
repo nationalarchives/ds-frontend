@@ -136,13 +136,13 @@ def sitemap():
 
 
 @bp.route("/test/new-homepage/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=cache_key_prefix, timeout=3600)
 def new_homepage():
     return render_template("main/test-new-home.html")
 
 
 @bp.route("/test/whats-on/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=cache_key_prefix, timeout=3600)
 def whats_on():
     event_ids = [
         # Main events for testing
@@ -151,19 +151,19 @@ def whats_on():
         998387051547,
         953481136747,
         # Additional events
-        # 1000012633707,
-        # 998381103757,
-        # 953390846687,
-        # 998406218877,
-        # 998417723287,
-        # 998434022037,
-        # 998435867557,
-        # 998444222547,
-        # 998447141277,
-        # 998456719927,
-        # 998461674747,
-        # 998463821167,
-        # 998466248427,
+        1000012633707,
+        998381103757,
+        953390846687,
+        998406218877,
+        998417723287,
+        998434022037,
+        998435867557,
+        998444222547,
+        998447141277,
+        998456719927,
+        998461674747,
+        998463821167,
+        998466248427,
     ]
     events = [event_details(event_id) for event_id in event_ids]
     # events = all_tna_events()["events"]
