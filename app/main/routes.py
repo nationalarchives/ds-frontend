@@ -3,6 +3,7 @@ from urllib.parse import quote, unquote, urlparse
 
 from app.eventbrite.api import event_details
 from app.lib import cache, cache_key_prefix
+from app.lib.template_filters import slugify
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import all_pages, global_alerts
@@ -150,27 +151,32 @@ def whats_on():
         998387051547,
         953481136747,
         # Additional events
-        1000012633707,
-        998381103757,
-        953390846687,
-        998406218877,
-        998417723287,
-        998434022037,
-        998435867557,
-        998444222547,
-        998447141277,
-        998456719927,
-        998461674747,
-        998463821167,
-        998466248427,
+        # 1000012633707,
+        # 998381103757,
+        # 953390846687,
+        # 998406218877,
+        # 998417723287,
+        # 998434022037,
+        # 998435867557,
+        # 998444222547,
+        # 998447141277,
+        # 998456719927,
+        # 998461674747,
+        # 998463821167,
+        # 998466248427,
     ]
     events = [event_details(event_id) for event_id in event_ids]
     # events = all_tna_events()["events"]
     return render_template("main/test-whats-on.html", events=events)
 
 
-@bp.route("/test/whats-on/<event_id>")
+@bp.route("/test/whats-on/<string:slug>-<int:event_id>/")
 @cache.cached(key_prefix=cache_key_prefix)
-def event(event_id):
+def event(slug, event_id):
     event = event_details(event_id)
+    if slug != slugify(event["name"]["text"]):
+        return render_template("errors/page-not-found.html"), 404
+        # return redirect(
+        #     url_for("main.event", slug=slugify(event["name"]["text"]), event_id=event_id)
+        # )
     return render_template("main/test-whats-on-event.html", event=event)

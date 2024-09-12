@@ -20,7 +20,7 @@
       <h1 class="tna-heading-xl">Events</h1>
       {% for event in events %}
       <h2 class="tna-heading-l">
-        <a href="{{ url_for('main.event', event_id=event.id) }}">{{ event.name.text }}</a>
+        <a href="{{ url_for('main.event', slug=(event.name.text | slugify), event_id=event.id) }}">{{ event.name.text }}</a>
       </h2>
       <dl class="tna-dl-chips">
         {% if event.ticket_availability and event.ticket_availability.is_sold_out %}

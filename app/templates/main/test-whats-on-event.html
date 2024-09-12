@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ request.url_root.strip('/') }}{{ url_for('main.event', slug=(event.name.text | slugify), event_id=event.id) }}">
+{% endblock %}
+
 {% block content %}
 <div class="tna-container">
   <div class="tna-column tna-column--full tna-!--padding-vertical-s">
