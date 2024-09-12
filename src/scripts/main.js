@@ -74,7 +74,9 @@ const checkTableForScroll = ($tableWrapper) => {
   }
 };
 
-const $tableWrappers = document.querySelectorAll(".tna-table-wrapper");
+const $tableWrappers = document.querySelectorAll(
+  ".tna-table-wrapper:has(.tna-table__caption)",
+);
 $tableWrappers.forEach(($tableWrapper) => checkTableForScroll($tableWrapper));
 window.addEventListener("resize", () => {
   $tableWrappers.forEach(($tableWrapper) => checkTableForScroll($tableWrapper));
