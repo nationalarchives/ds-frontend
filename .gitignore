@@ -1,4 +1,5 @@
 .DS_Store
+.env
 __pycache__
 /node_modules
 /app/static/assets

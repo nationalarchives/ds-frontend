@@ -1,6 +1,7 @@
 import json
 from urllib.parse import quote, unquote, urlparse
 
+from app.eventbrite.api import event_details
 from app.lib import cache, cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
@@ -133,7 +134,43 @@ def sitemap():
     return response
 
 
-@bp.route("/new-homepage/")
+@bp.route("/test/new-homepage/")
 @cache.cached(key_prefix=cache_key_prefix)
 def new_homepage():
-    return render_template("main/new_home.html")
+    return render_template("main/test-new-home.html")
+
+
+@bp.route("/test/whats-on/")
+@cache.cached(key_prefix=cache_key_prefix)
+def whats_on():
+    event_ids = [
+        # Main events for testing
+        948911348387,
+        998391775677,
+        998387051547,
+        953481136747,
+        # Additional events
+        1000012633707,
+        998381103757,
+        953390846687,
+        998406218877,
+        998417723287,
+        998434022037,
+        998435867557,
+        998444222547,
+        998447141277,
+        998456719927,
+        998461674747,
+        998463821167,
+        998466248427,
+    ]
+    events = [event_details(event_id) for event_id in event_ids]
+    # events = all_tna_events()["events"]
+    return render_template("main/test-whats-on.html", events=events)
+
+
+@bp.route("/test/whats-on/<event_id>")
+@cache.cached(key_prefix=cache_key_prefix)
+def event(event_id):
+    event = event_details(event_id)
+    return render_template("main/test-whats-on-event.html", event=event)

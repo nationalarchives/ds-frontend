@@ -95,6 +95,13 @@ class Base(object):
 
     APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
 
+    EVENTBRITE_API_URL: str = os.environ.get(
+        "EVENTBRITE_API_URL", "https://www.eventbriteapi.com/v3"
+    ).rstrip("/")
+    EVENTBRITE_API_PRIVATE_TOKEN: str = os.environ.get(
+        "EVENTBRITE_API_PRIVATE_TOKEN", ""
+    )
+
 
 class Production(Base, Features):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
@@ -134,3 +141,5 @@ class Test(Base, Features):
     FORCE_HTTPS = False
 
     APPLY_REDIRECTS = False
+
+    EVENTBRITE_API_URL = "http://eventbrite.test/v3"

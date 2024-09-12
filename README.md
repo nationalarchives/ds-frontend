@@ -50,6 +50,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                      |
 | `GA4_ID`                         | The Google Analytics 4 ID                                                   | _none_                                                      |
 | `APPLY_REDIRECTS`                | If true, redirect pages based on Wagtail redirects (false just displays)    | production/staging/develop: `True`, test: `False`           |
+| `EVENTBRITE_API_URL`             | The base URL of the Eventbrite API, including the `/v3` path                | `https://www.eventbriteapi.com/v3`                          |
+| `EVENTBRITE_API_PRIVATE_TOKEN`   | A private token to access the Eventbrite API                                | _none_                                                      |
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)
 

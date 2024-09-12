@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="tna-container">
+  <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+    {{ tnaBreadcrumbs({
+    'items': [
+      {
+        'text': 'Home',
+        'href': '/'
+      }
+    ],
+    'structuredData': True
+    }) }}
+  </div>
+</div>
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">Events</h1>
+      {% for event in events %}
+      <h2 class="tna-heading-l">
+        <a href="{{ url_for('main.event', event_id=event.id) }}">{{ event.name.text }}</a>
+      </h2>
+      <dl class="tna-dl-chips">
+        {% if event.ticket_availability and event.ticket_availability.is_sold_out %}
+        <dt>Availability</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            Sold out
+          </span>
+        </dd>
+        {% elif event.ticket_availability %}
+        <dt>Price</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            {% if event.is_free %}
+            Free
+            {% elif event.ticket_availability.minimum_ticket_price.major_value == '0.00' %}
+            Free option
+            {% else %}
+            From &pound;{{ event.ticket_availability.minimum_ticket_price.major_value }}
+            {% endif %}
+          </span>
+        </dd>
+        {% endif %}
+        {% if event.online_event %}
+        <dt>Type</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            Online
+          </span>
+        </dd>
+        {% endif %}
+      </dl>
+      <p class="tna-large-paragraph">{{ event.description.text }}</p>
+      <img src="{{ event.logo.url }}" width="{{ event.logo.crop_mask.width }}" height="{{ event.logo.crop_mask.height }}">
+      <dl class="tna-dl">
+        <dt>Date/time</dt>
+        <dd>
+          <time datetime="{{ event.start.local }}">{{ pretty_date_range('' if event.hide_start_date else event.start.local, '' if event.hide_end_date else event.end.local, True) }}</time><br>({{ event.start.timezone }} timezone)
+        </dd>
+        <dt>Cost</dt>
+        <dd>
+          {% if event.is_free %}
+          Free
+          {% elif event.ticket_availability %}
+            {% if event.ticket_availability.minimum_ticket_price.value == event.ticket_availability.maximum_ticket_price.value %}
+            &pound;{{ event.ticket_availability.minimum_ticket_price.major_value }}
+            {% elif event.ticket_availability.minimum_ticket_price.major_value | int %}
+            &pound;{{ event.ticket_availability.minimum_ticket_price.major_value }}&mdash;{{ event.ticket_availability.maximum_ticket_price.major_value }}
+            {% else %}
+            Free&mdash;&pound;{{ event.ticket_availability.maximum_ticket_price.major_value }}
+            {% endif %}
+          {% else %}
+          [UNKNOWN]
+          {% endif %}
+        </dd>
+        {% if event.venue %}
+        <dt>Venue</dt>
+        <dd>{{ event.venue.name }}</dd>
+        {% if event.venue.capacity %}
+        <dt>Venue capacity</dt>
+        <dd>{{ event.venue.capacity }}</dd>
+        {% endif %}
+        {% endif %}
+      </dl>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
