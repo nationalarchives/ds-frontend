@@ -145,12 +145,10 @@ def new_homepage():
 @cache.cached(key_prefix=cache_key_prefix)
 def whats_on():
     event_ids = [
-        # Main events for testing
         948911348387,
         998391775677,
         998387051547,
         953481136747,
-        # Additional events
         1000012633707,
         998381103757,
         953390846687,
@@ -165,7 +163,7 @@ def whats_on():
         998463821167,
         998466248427,
     ]
-    children_per_page = 5
+    children_per_page = 12
     page = (
         int(request.args.get("page"))
         if "page" in request.args and request.args["page"].isnumeric()

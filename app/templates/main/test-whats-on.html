@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 
 {% block content %}
@@ -20,8 +21,51 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">What’s on</h1>
-      {% for event in events %}
-      <h2 class="tna-heading-l">
+    </div>
+  </div>
+  <ul class="tna-container">
+    {% for event in events %}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-l">
+      {% set cost = '' %}
+      {% if event.is_free %}
+        {% set cost = 'Free' %}
+      {% elif event.ticket_availability.minimum_ticket_price.major_value == '0.00' %}
+        {% set cost = 'Pay what you can' %}
+      {% elif event.ticket_availability.minimum_ticket_price.major_value != event.ticket_availability.maximum_ticket_price.major_value %}
+        {% set cost = '&pound;' + event.ticket_availability.minimum_ticket_price.major_value + '&mdash;' + event.ticket_availability.maximum_ticket_price.major_value %}
+      {% else %}
+        {% set cost = '&pound;' + event.ticket_availability.minimum_ticket_price.major_value %}
+      {% endif %}
+
+      {{ tnaCard({
+        'supertitle': 'Event',
+        'title': event.name.text,
+        'href': url_for('main.event', slug=(event.name.text | slugify), event_id=event.id),
+        'headingLevel': 2,
+        'headingSize': 'm',
+        'label': 'Sold out' if event.ticket_availability and event.ticket_availability.is_sold_out else '',
+        'labelColour': 'pink',
+        'text': event.description.text,
+        'meta': [
+          {
+            'title': 'Cost',
+            'text': cost | safe,
+            'icon': 'money-bill'
+          },
+          {
+            'title': 'Location',
+            'text': 'Online' if event.online_event else (event.venue.name or 'UNKNOWN'),
+            'icon': 'location-dot'
+          }
+        ],
+        'imageSrc': event.logo.url,
+        'imageAlt': '',
+        'imageWidth': event.logo.crop_mask.width,
+        'imageHeight': event.logo.crop_mask.height,
+        'fullAreaClick': True,
+        'classes': 'tna-card--full-height'
+      }) }}
+      <!-- <h2 class="tna-heading-l">
         <a href="{{ url_for('main.event', slug=(event.name.text | slugify), event_id=event.id) }}">{{ event.name.text }}</a>
       </h2>
       <dl class="tna-dl-chips">
@@ -88,8 +132,12 @@
         <dd>{{ event.venue.capacity }}</dd>
         {% endif %}
         {% endif %}
-      </dl>
-      {% endfor %}
+      </dl> -->
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="tna-container tna-!--padding-top-l">
+    <div class="tna-column tna-column--full">
       {{ tnaPagination(pagination) }}
     </div>
   </div>
