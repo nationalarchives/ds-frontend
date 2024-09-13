@@ -96,6 +96,16 @@ sup[data-footnoteid] {
     }
   }
 
+  &--full-height {
+    height: 100%;
+  }
+
+  &--person {
+    &:hover {
+      outline: none;
+    }
+  }
+
   &--person &__image-container {
     aspect-ratio: 1;
 
