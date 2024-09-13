@@ -481,13 +481,13 @@ tornado = ["tornado (>=6)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.2.12"
+version = "0.2.13"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tna_frontend_jinja-0.2.12-py3-none-any.whl", hash = "sha256:cc9ce70ae4b9035b55429fb20222d611a5966d27bba67095fe645e6d3a217340"},
-    {file = "tna_frontend_jinja-0.2.12.tar.gz", hash = "sha256:d65ebd57b44e1a4dd21e3ec066ef7fb966a3df4ab3f84ed957c537829a37a18c"},
+    {file = "tna_frontend_jinja-0.2.13-py3-none-any.whl", hash = "sha256:8eff5a1106cdd79cf09da5d50d93a94c495a58855911bc4311bab64e46d5c46c"},
+    {file = "tna_frontend_jinja-0.2.13.tar.gz", hash = "sha256:70180f414a68f3c4a3a8a90cc870f814ffbc239f0e7399a81d5a8cc4c551262b"},
 ]
 
 [package.dependencies]
@@ -541,4 +541,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "7ad4929a3ffc5c688bac012742e825045931834fe1f3a889190154221647449b"
+content-hash = "c0a06e690980c93084d48b6e20e368f76b0a54e7660df079ce5f0a73f8e1b37e"

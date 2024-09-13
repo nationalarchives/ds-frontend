@@ -126,7 +126,7 @@
             <h2 id="articles" class="tna-heading-l tna-!--padding-bottom-m">Articles</h2>
             <ul class="tna-container tna-container--nested">
               {%- for article in page_data.authored_focused_articles %}
-              <li class="tna-column tna-column--width-1-2 tna-column--full-tiny">
+              <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-bottom-l">
                 {% set card_content = {
                   'supertitle': article.type_label,
                   'title': article.title,
@@ -136,7 +136,7 @@
                   'body': article.teaser_text,
                   'label': 'New' if article.is_newly_published,
                   'fullAreaClick': True,
-                  'classes': 'tna-!--margin-bottom-l'
+                  'classes': 'tna-card--full-height'
                 } %}
                 {%- if article.teaser_image %}
                   {% set card_content = dict(card_content, **{
@@ -167,7 +167,7 @@
             <h2 id="shop-items" class="tna-heading-l tna-!--padding-top-s">Shop items</h2>
             <ul class="tna-container tna-container--nested">
               {% for item in page_data.shop_items %}
-              <li class="tna-column tna-column--full">
+              <li class="tna-column tna-column--full tna-!--margin-top-m">
                 {{ tnaCard({
                   'title': item.title,
                   'headingLevel': 3,
@@ -189,7 +189,7 @@
                   'horizontalSmallImage': True,
                   'style': 'tint',
                   'fullAreaClick': True,
-                  'classes': 'tna-!--margin-top-m'
+                  'classes': 'tna-card--full-height'
                 }) }}
               </li>
               {% endfor %}
