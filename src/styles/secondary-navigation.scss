@@ -137,3 +137,31 @@
 [data-sectionfor] {
   border-radius: 0.1px;
 }
+
+#page-section-navigation {
+  .tna-pagination__prev,
+  .tna-pagination__next {
+    flex: 1;
+  }
+
+  .tna-pagination__padder {
+    flex: 1;
+  }
+
+  .tna-pagination__next {
+    text-align: right;
+  }
+
+  @include media.on-mobile {
+    align-items: flex-start;
+    gap: 0;
+
+    .tna-pagination__prev {
+      // align-self: flex-start;
+    }
+
+    .tna-pagination__next {
+      align-self: flex-end;
+    }
+  }
+}
