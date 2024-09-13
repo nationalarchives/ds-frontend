@@ -1,8 +1,8 @@
 import json
 from urllib.parse import quote, unquote, urlparse
 
-from app.eventbrite.api import event_details
-from app.lib import cache, cache_key_prefix
+from app.eventbrite.api import event_details, tna_events
+from app.lib import cache, cache_key_prefix, pagination_object
 from app.lib.template_filters import slugify
 from app.lib.util import strtobool
 from app.main import bp
@@ -136,13 +136,13 @@ def sitemap():
 
 
 @bp.route("/test/new-homepage/")
-@cache.cached(key_prefix=cache_key_prefix, timeout=3600)
+@cache.cached(key_prefix=cache_key_prefix)
 def new_homepage():
     return render_template("main/test-new-home.html")
 
 
 @bp.route("/test/whats-on/")
-@cache.cached(key_prefix=cache_key_prefix, timeout=3600)
+@cache.cached(key_prefix=cache_key_prefix)
 def whats_on():
     event_ids = [
         # Main events for testing
@@ -165,9 +165,25 @@ def whats_on():
         998463821167,
         998466248427,
     ]
-    events = [event_details(event_id) for event_id in event_ids]
-    # events = all_tna_events()["events"]
-    return render_template("main/test-whats-on.html", events=events)
+    children_per_page = 5
+    page = (
+        int(request.args.get("page"))
+        if "page" in request.args and request.args["page"].isnumeric()
+        else 1
+    )
+    all_events = tna_events(
+        page,
+        children_per_page,
+        {"event_ids": ",".join([str(id) for id in event_ids])},
+    )
+    pages = all_events["pagination"]["page_count"]
+    if page > pages:
+        return render_template("errors/page-not-found.html"), 404
+    pagination = pagination_object(page, pages, request.args)
+    events = all_events["events"]
+    return render_template(
+        "main/test-whats-on.html", events=events, pagination=pagination
+    )
 
 
 @bp.route("/test/whats-on/<string:slug>-<int:event_id>/")

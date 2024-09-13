@@ -60,7 +60,9 @@
         {% endif %}
       </dl>
       <p class="tna-large-paragraph">{{ event.description.text }}</p>
+      {% if event.logo %}
       <img src="{{ event.logo.url }}" width="{{ event.logo.crop_mask.width }}" height="{{ event.logo.crop_mask.height }}">
+      {% endif %}
       <dl class="tna-dl">
         <dt>Date/time</dt>
         <dd>
@@ -94,7 +96,9 @@
 
 
       
+      {% if not event.ticket_availability or not event.ticket_availability.is_sold_out %}
       <div id="example-widget-trigger" class="etna-space-above" data-eventid="{{ event.id }}"></div>
+      {% endif %}
     </div>
   </div>
 </section>

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
+
 {% block content %}
 <div class="tna-container">
   <div class="tna-column tna-column--full tna-!--padding-vertical-s">
@@ -17,7 +19,7 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">Events</h1>
+      <h1 class="tna-heading-xl">What’s on</h1>
       {% for event in events %}
       <h2 class="tna-heading-l">
         <a href="{{ url_for('main.event', slug=(event.name.text | slugify), event_id=event.id) }}">{{ event.name.text }}</a>
@@ -54,7 +56,9 @@
         {% endif %}
       </dl>
       <p class="tna-large-paragraph">{{ event.description.text }}</p>
+      {% if event.logo %}
       <img src="{{ event.logo.url }}" width="{{ event.logo.crop_mask.width }}" height="{{ event.logo.crop_mask.height }}">
+      {% endif %}
       <dl class="tna-dl">
         <dt>Date/time</dt>
         <dd>
@@ -86,6 +90,7 @@
         {% endif %}
       </dl>
       {% endfor %}
+      {{ tnaPagination(pagination) }}
     </div>
   </div>
 </section>

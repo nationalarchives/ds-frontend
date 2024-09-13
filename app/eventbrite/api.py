@@ -25,19 +25,23 @@ def eventbrite_api_request_handler(uri, params={}):
     raise ConnectionError("Request to API failed")
 
 
-# def all_tna_events(params={}):
-#     uri = f"organizations/TODO/events/"
-#     params = params | {
-#         "order_by": "start_asc",
-#         "status": "live",
-#         "expand": "venue,ticket_availability,logo",
-#     }
-#     return eventbrite_api_request_handler(uri, params)
+def tna_events(page, children_per_page, params={}):
+    uri = "organizations/32190014757/events/"  # TODO
+    params = params | {
+        "page": page,
+        "page_size": children_per_page,
+        "order_by": "start_asc",
+        "status": "live",
+        "time_filter": "current_future",
+        "expand": "logo,venue,ticket_availability,logo",
+    }
+    print(params)
+    return eventbrite_api_request_handler(uri, params)
 
 
 def event_details(event_id, params={}):
     uri = f"events/{event_id}"
     params = params | {
-        "expand": "venue,ticket_availability,logo,organizer,checkout_settings"
+        "expand": "logo,venue,ticket_availability,logo,organizer,checkout_settings"
     }
     return eventbrite_api_request_handler(uri, params)
