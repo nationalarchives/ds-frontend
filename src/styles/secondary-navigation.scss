@@ -139,26 +139,31 @@
 }
 
 #page-section-navigation {
+  gap: spacing.space(2);
+
   .tna-pagination__prev,
   .tna-pagination__next {
+    flex: 2;
+  }
+
+  .tna-pagination__prev .tna-button {
+    text-align: left;
+  }
+
+  .tna-pagination__current-item-text {
+    align-self: center;
+
+    text-align: center;
     flex: 1;
   }
 
-  .tna-pagination__padder {
-    flex: 1;
-  }
-
-  .tna-pagination__next {
+  .tna-pagination__next .tna-button {
     text-align: right;
   }
 
   @include media.on-mobile {
     align-items: flex-start;
     gap: 0;
-
-    .tna-pagination__prev {
-      // align-self: flex-start;
-    }
 
     .tna-pagination__next {
       align-self: flex-end;

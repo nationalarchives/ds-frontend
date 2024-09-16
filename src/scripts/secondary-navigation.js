@@ -72,6 +72,9 @@ if ($secondaryNavigation && $pageBody) {
   const $sectionsPaginationPreviousText = document.getElementById(
     "page-section-navigation__previous-text",
   );
+  // const $sectionsPaginationCurrentText = document.getElementById(
+  //   "page-section-navigation__current-item-text",
+  // );
   const $sectionsPaginationNext = document.getElementById(
     "page-section-navigation__next",
   );
@@ -85,8 +88,9 @@ if ($secondaryNavigation && $pageBody) {
         "aria-controls",
         sections[selectedIndex - 1].id,
       );
-      $sectionsPaginationPreviousText.innerText =
-        sections[selectedIndex - 1].$button.innerText;
+      // $sectionsPaginationPreviousText.innerHTML =
+      //   `Previous:<br>${sections[selectedIndex - 1].$button.innerText}`;
+      $sectionsPaginationPreviousText.innerText = `Previous: ${sections[selectedIndex - 1].$button.innerText}`;
     } else {
       $sectionsPaginationPrevious.setAttribute("hidden", true);
     }
@@ -96,11 +100,14 @@ if ($secondaryNavigation && $pageBody) {
         "aria-controls",
         sections[selectedIndex + 1].id,
       );
-      $sectionsPaginationNextText.innerText =
-        sections[selectedIndex + 1].$button.innerText;
+      // $sectionsPaginationNextText.innerHTML =
+      //   `Next:<br>${sections[selectedIndex + 1].$button.innerText}`;
+      $sectionsPaginationNextText.innerText = `Next: ${sections[selectedIndex + 1].$button.innerText}`;
     } else {
       $sectionsPaginationNext.setAttribute("hidden", true);
     }
+    // $sectionsPaginationCurrentText.innerText = sections[selectedIndex].$button.innerText;
+    // $sectionsPaginationCurrentText.innerText = `Section ${selectedIndex + 1} of ${sections.length}`;
   };
   sections.forEach((section, index) => {
     section.$section.setAttribute("role", "tabpanel");
