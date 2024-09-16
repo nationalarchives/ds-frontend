@@ -123,6 +123,23 @@ sup[data-footnoteid] {
   &--person:focus &__image {
     @include colour.colour-border("keyline-dark");
   }
+
+  &--banner-label &__image-container {
+    overflow: hidden;
+  }
+
+  &--banner-label &__image-label {
+    max-width: none;
+
+    justify-content: center;
+
+    top: 50%;
+    right: -25%;
+    left: -25%;
+
+    transform: translateY(-50%) rotate(-30deg);
+    @include typography.font-size(24);
+  }
 }
 
 .tna-form {
