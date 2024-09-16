@@ -11,11 +11,12 @@ if ($secondaryNavigation && $pageBody) {
   ).map(($pageSectionItem) => {
     const $pageSectionItemLink = $pageSectionItem.querySelector("button");
     const id = $pageSectionItemLink.getAttribute("aria-controls");
+    const $section = $pageBody.querySelector(`[data-sectionfor="${id}"]`);
     return {
-      listItem: $pageSectionItem,
-      button: $pageSectionItemLink,
+      $listItem: $pageSectionItem,
+      $button: $pageSectionItemLink,
       id,
-      section: $pageBody.querySelector(`[data-sectionfor="${id}"]`),
+      $section: $section,
     };
   });
   let selectedIndex = sections.findIndex(
@@ -28,20 +29,20 @@ if ($secondaryNavigation && $pageBody) {
     selectedIndex = indexToShow;
     sections.forEach((section, index) => {
       if (index === indexToShow) {
-        section.section.removeAttribute("hidden");
-        section.section.setAttribute("tabindex", "0");
-        section.button.setAttribute("tabindex", "0");
+        section.$section.removeAttribute("hidden");
+        section.$section.setAttribute("tabindex", "0");
+        section.$button.setAttribute("tabindex", "0");
         if (switchFocus) {
-          section.button.focus();
+          section.$button.focus();
         }
-        section.listItem.classList.add(
+        section.$listItem.classList.add(
           "etna-secondary-navigation__item--current",
         );
       } else {
-        section.section.setAttribute("hidden", "until-found");
-        section.section.setAttribute("tabindex", "-1");
-        section.button.setAttribute("tabindex", "-1");
-        section.listItem.classList.remove(
+        section.$section.setAttribute("hidden", "until-found");
+        section.$section.setAttribute("tabindex", "-1");
+        section.$button.setAttribute("tabindex", "-1");
+        section.$listItem.classList.remove(
           "etna-secondary-navigation__item--current",
         );
       }
@@ -85,7 +86,7 @@ if ($secondaryNavigation && $pageBody) {
         sections[selectedIndex - 1].id,
       );
       $sectionsPaginationPreviousText.innerText =
-        sections[selectedIndex - 1].button.innerText;
+        sections[selectedIndex - 1].$button.innerText;
     } else {
       $sectionsPaginationPrevious.setAttribute("hidden", true);
     }
@@ -96,15 +97,15 @@ if ($secondaryNavigation && $pageBody) {
         sections[selectedIndex + 1].id,
       );
       $sectionsPaginationNextText.innerText =
-        sections[selectedIndex + 1].button.innerText;
+        sections[selectedIndex + 1].$button.innerText;
     } else {
       $sectionsPaginationNext.setAttribute("hidden", true);
     }
   };
   sections.forEach((section, index) => {
-    section.section.setAttribute("role", "tabpanel");
-    section.section.setAttribute("aria-labelledby", section.button.id);
-    section.button.addEventListener("click", () => {
+    section.$section.setAttribute("role", "tabpanel");
+    section.$section.setAttribute("aria-labelledby", section.$button.id);
+    section.$button.addEventListener("click", () => {
       showSectionByIndex(index, true);
       window.history.replaceState(null, null, `#${section.id}`);
     });
@@ -140,15 +141,21 @@ if ($secondaryNavigation && $pageBody) {
     }
   });
   $sectionsPagination?.removeAttribute("hidden");
+  const postSectionsPaginationClick = () => {
+    updatePaginationLabels();
+    const $section = sections[selectedIndex].$section;
+    const $heading = $section.querySelector("h2:first-child[id]");
+    window.history.replaceState(null, null, `#${$heading.id}`);
+    $heading.scrollIntoView({ block: "nearest" });
+    $section.focus();
+  };
   $sectionsPaginationPrevious?.addEventListener("click", () => {
     previousSection(false);
-    updatePaginationLabels();
-    sections[selectedIndex].section.focus();
+    postSectionsPaginationClick();
   });
   $sectionsPaginationNext?.addEventListener("click", () => {
     nextSection(false);
-    updatePaginationLabels();
-    sections[selectedIndex].section.focus();
+    postSectionsPaginationClick();
   });
   updatePaginationLabels();
 }
