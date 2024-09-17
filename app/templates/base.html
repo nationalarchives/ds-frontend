@@ -70,8 +70,8 @@
 {% block header %}
 {%- if feature.PHASE_BANNER %}
 {{ tnaPhaseBanner({
-  'phase': 'Alpha',
-  'message': 'This is a new design for the current ETNA beta. See <a href="https://beta.nationalarchives.gov.uk' + request.full_path + '" target="_blank" rel="noreferrer nofollow">this page on the current beta site</a>.',
+  'phase': 'Beta',
+  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/YPVLNT/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
 }) | indent(6) }}
 {%- endif %}
