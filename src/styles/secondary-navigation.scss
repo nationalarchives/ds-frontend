@@ -5,7 +5,9 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-secondary-navigation {
-  line-height: 1.5;
+  overflow-x: auto;
+
+  line-height: 1.35;
 
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
@@ -15,10 +17,13 @@
   }
 
   &__heading {
-    padding-top: spacing.space(0.5) !important;
-    padding-bottom: spacing.space(0.5) !important;
+    padding-bottom: spacing.space(0.5);
 
     line-height: inherit;
+
+    @include media.on-large {
+      padding-top: spacing.space(0.5) !important;
+    }
   }
 
   &__items {
@@ -104,20 +109,16 @@
         }
       }
     }
-
-    &__link {
-      padding: spacing.space(0.5) grid.gutter-width();
-    }
-
-    &__item:last-child &__link {
-      border-bottom: none;
-    }
   }
 
   @include media.on-small {
     &__items {
       margin-right: -#{grid.gutter-width()};
       margin-left: -#{grid.gutter-width()};
+    }
+
+    &__link {
+      padding: spacing.space(0.5) grid.gutter-width();
     }
   }
 
@@ -128,8 +129,7 @@
     }
 
     &__link {
-      padding-right: grid.gutter-width-tiny();
-      padding-left: grid.gutter-width-tiny();
+      padding: spacing.space(0.5) grid.gutter-width-tiny();
     }
   }
 }
@@ -148,6 +148,10 @@
 
   .tna-pagination__prev .tna-button {
     text-align: left;
+  }
+
+  .tna-pagination__next {
+    text-align: right;
   }
 
   .tna-pagination__current-item-text {
