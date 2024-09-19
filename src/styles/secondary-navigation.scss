@@ -83,6 +83,11 @@
     @include colour.colour-font("font-base");
     text-decoration: none;
     @include colour.thick-keyline-accent(bottom);
+
+    &:hover,
+    &:focus {
+      @include typography.interacted-text-decoration;
+    }
   }
 
   @include media.on-mobile {
