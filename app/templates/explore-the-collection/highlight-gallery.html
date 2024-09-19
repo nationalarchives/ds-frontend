@@ -61,7 +61,8 @@
             {%- if highlight.record %}
             <dt>Catalogue reference</dt>
             <dd>
-              <a href="{{ url_for('search.catalogue_item', id=highlight.record.iaid) }}">{{ highlight.record.reference_number }}</a>
+              <!-- <a href="{{ url_for('search.catalogue_item', id=highlight.record.iaid) }}">{{ highlight.record.reference_number }}</a> -->
+              <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.record.iaid }}">{{ highlight.record.reference_number }}</a>
             </dd>
             {%- endif %}
           </dl>
@@ -69,7 +70,8 @@
             {{ highlight.image.description | safe }}
           </div>
           <div class="tna-button-group tna-button-group--small">
-            <a href="{{ url_for('search.catalogue_item', id=highlight.image.record.iaid) }}" class="tna-button" itemprop="url">View record details</a>
+            <!-- <a href="{{ url_for('search.catalogue_item', id=highlight.image.record.iaid) }}" class="tna-button" itemprop="url">View record details</a> -->
+            <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.image.record.iaid }}" class="tna-button" itemprop="url">View record details</a>
           </div>
         </div>
       </div>
