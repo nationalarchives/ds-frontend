@@ -93,7 +93,7 @@ def robots():
 @cache.cached(timeout=3600)
 def sitemap():
     host_components = urlparse(request.host_url)
-    host_base = host_components.scheme + "://" + host_components.netloc
+    host_base = "https://" + host_components.netloc
     static_urls = list()
     for rule in current_app.url_map.iter_rules():
         if (
@@ -122,7 +122,8 @@ def sitemap():
                     "loc": html_url,
                     # "lastmod": post.date_published.strftime("%Y-%m-%dT%H:%M:%SZ")
                 }
-                dynamic_urls.append(url)
+                if url not in static_urls:
+                    dynamic_urls.append(url)
         wagtail_pages_added = wagtail_pages_added + len(wagtail_pages["items"])
     xml_sitemap = render_template(
         "main/sitemap.xml",

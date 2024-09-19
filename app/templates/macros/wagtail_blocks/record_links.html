@@ -10,14 +10,16 @@
       'height': i.thumbnail_image.jpeg.height,
       'collection': i.record.reference_number,
       'title': i.descriptive_title,
-      'href': url_for('search.catalogue_item', id=i.record.iaid),
+      '_href': url_for('search.catalogue_item', id=i.record.iaid),
+      'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + i.record.iaid,
       'date': i.record_dates
     }) or '' }}
     {%- else %}
     {{ items.append({
       'collection': i.record.reference_number,
       'title': i.descriptive_title,
-      'href': url_for('search.catalogue_item', id=i.record.iaid),
+      '_href': url_for('search.catalogue_item', id=i.record.iaid),
+      'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + i.record.iaid,
       'date': i.record_dates
     }) or '' }}
     {%- endif %}

@@ -86,7 +86,7 @@
     </div>
     {%- endif %}
     {%- if page_data.body %}
-    <div class="tna-section">
+    <div class="tna-section tna-!--no-padding-bottom">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           {{ page_data.body | tna_html | safe }}
@@ -94,7 +94,7 @@
       </div>
     </div>
     {%- endif %}
-    <nav class="tna-section" aria-label="Child pages">
+    <nav class="tna-section tna-!--no-padding-top" aria-label="Child pages">
       <ul class="tna-container">
         {% for child in page_data.links or children %}
         <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-l">

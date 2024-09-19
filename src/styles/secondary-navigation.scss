@@ -5,7 +5,7 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-secondary-navigation {
-  line-height: 1.5;
+  line-height: 1.35;
 
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
@@ -15,10 +15,15 @@
   }
 
   &__heading {
-    padding-top: spacing.space(0.5) !important;
-    padding-bottom: spacing.space(0.5) !important;
+    padding-bottom: spacing.space(0.5);
+
+    align-self: flex-end;
 
     line-height: inherit;
+
+    @include media.on-large {
+      @include colour.thick-keyline-transparent(bottom);
+    }
   }
 
   &__items {
@@ -31,11 +36,6 @@
   }
 
   &__item {
-    @include colour.thick-keyline-transparent(bottom);
-
-    &--current {
-      @include colour.thick-keyline-accent(bottom);
-    }
   }
 
   &__link {
@@ -54,6 +54,8 @@
     background: none;
 
     border: none;
+    @include colour.thick-keyline-transparent(top);
+    @include colour.thick-keyline-transparent(bottom);
 
     cursor: pointer;
 
@@ -75,6 +77,12 @@
   &__item--current &__link {
     @include colour.colour-font("font-base");
     text-decoration: none;
+    @include colour.thick-keyline-accent(bottom);
+
+    &:hover,
+    &:focus {
+      @include typography.interacted-text-decoration;
+    }
   }
 
   @include media.on-mobile {
@@ -90,7 +98,6 @@
       position: relative;
 
       @include colour.colour-border("keyline", 1px, solid, top);
-      border-bottom: none;
 
       &--current {
         &::before {
@@ -105,11 +112,9 @@
       }
     }
 
-    &__link {
-      padding: spacing.space(0.5) grid.gutter-width();
-    }
-
-    &__item:last-child &__link {
+    &__link,
+    &__item--current &__link {
+      border-top: none;
       border-bottom: none;
     }
   }
@@ -118,6 +123,10 @@
     &__items {
       margin-right: -#{grid.gutter-width()};
       margin-left: -#{grid.gutter-width()};
+    }
+
+    &__link {
+      padding: spacing.space(0.5) grid.gutter-width();
     }
   }
 
@@ -128,9 +137,12 @@
     }
 
     &__link {
-      padding-right: grid.gutter-width-tiny();
-      padding-left: grid.gutter-width-tiny();
+      padding: spacing.space(0.5) grid.gutter-width-tiny();
     }
+  }
+
+  &--overflow {
+    overflow-x: auto;
   }
 }
 
@@ -139,26 +151,35 @@
 }
 
 #page-section-navigation {
+  gap: spacing.space(2);
+
   .tna-pagination__prev,
   .tna-pagination__next {
-    flex: 1;
+    flex: 2;
   }
 
-  .tna-pagination__padder {
-    flex: 1;
+  .tna-pagination__prev .tna-button {
+    text-align: left;
   }
 
   .tna-pagination__next {
     text-align: right;
   }
 
+  .tna-pagination__current-item-text {
+    align-self: center;
+
+    text-align: center;
+    flex: 1;
+  }
+
+  .tna-pagination__next .tna-button {
+    text-align: right;
+  }
+
   @include media.on-mobile {
     align-items: flex-start;
     gap: 0;
-
-    .tna-pagination__prev {
-      // align-self: flex-start;
-    }
 
     .tna-pagination__next {
       align-self: flex-end;
