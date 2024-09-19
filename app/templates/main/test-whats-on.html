@@ -38,7 +38,7 @@
       {% endif %}
 
       {{ tnaCard({
-        'supertitle': 'Event',
+        'supertitle': 'Online event' if event.online_event else 'Event',
         'title': event.name.text,
         'href': url_for('main.event', slug=(event.name.text | slugify), event_id=event.id),
         'headingLevel': 2,
@@ -47,6 +47,11 @@
         'labelColour': 'pink',
         'text': event.description.text,
         'meta': [
+          {
+            'title': 'Date/time',
+            'text': '<time datetime="{{ event.start.local }}">' | safe + pretty_date_range('' if event.hide_start_date else event.start.local, '' if event.hide_end_date else event.end.local, True) + '</time>' | safe,
+            'icon': 'calendar'
+          },
           {
             'title': 'Cost',
             'text': cost | safe,
