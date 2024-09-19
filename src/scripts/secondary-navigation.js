@@ -171,14 +171,9 @@ if ($secondaryNavigation && $pageBody) {
   }
 
   const checkSecondaryNavigationForScroll = ($secondaryNavigationToCheck) => {
-    console.log("checkSecondaryNavigationForScroll");
-    console.log($secondaryNavigationToCheck);
-    console.log($secondaryNavigationToCheck.scrollWidth);
-    console.log($secondaryNavigationToCheck.clientWidth);
     const scrollable =
       $secondaryNavigationToCheck.scrollWidth >
       $secondaryNavigationToCheck.clientWidth;
-    console.log(scrollable);
     if (scrollable) {
       $secondaryNavigationToCheck.classList.add(
         "etna-secondary-navigation--overflow",
