@@ -296,7 +296,7 @@
     {%- if page_data.page_sidebar == 'sections' %}
     <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-    {%- if page_data.page_sidebar == 'section_tabs' %}
+    {%- if page_data.page_sidebar == 'section_tabs' or page_data.page_sidebar == 'pages_tabs' %}
     <script src="{{ url_for('static', filename='secondary-navigation.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
 {% endblock %}

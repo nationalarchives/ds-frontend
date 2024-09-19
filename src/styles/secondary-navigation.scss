@@ -5,8 +5,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .etna-secondary-navigation {
-  overflow-x: auto;
-
   line-height: 1.35;
 
   @include colour.colour-border("keyline", 1px, solid, bottom);
@@ -16,13 +14,15 @@
     border-bottom: none;
   }
 
-  &__heading {
+  h2#{&}__heading {
     padding-bottom: spacing.space(0.5);
 
     line-height: inherit;
 
     @include media.on-large {
-      padding-top: spacing.space(0.5) !important;
+      padding-top: spacing.space(0.5);
+      @include colour.thick-keyline-transparent(top);
+      @include colour.thick-keyline-transparent(bottom);
     }
   }
 
@@ -36,10 +36,10 @@
   }
 
   &__item {
-    @include colour.thick-keyline-transparent(bottom);
+    // @include colour.thick-keyline-transparent(bottom);
 
     &--current {
-      @include colour.thick-keyline-accent(bottom);
+      // @include colour.thick-keyline-accent(bottom);
     }
   }
 
@@ -59,6 +59,8 @@
     background: none;
 
     border: none;
+    @include colour.thick-keyline-transparent(top);
+    @include colour.thick-keyline-transparent(bottom);
 
     cursor: pointer;
 
@@ -80,6 +82,7 @@
   &__item--current &__link {
     @include colour.colour-font("font-base");
     text-decoration: none;
+    @include colour.thick-keyline-accent(bottom);
   }
 
   @include media.on-mobile {
@@ -95,7 +98,6 @@
       position: relative;
 
       @include colour.colour-border("keyline", 1px, solid, top);
-      border-bottom: none;
 
       &--current {
         &::before {
@@ -108,6 +110,12 @@
           @include colour.thick-keyline-accent(left);
         }
       }
+    }
+
+    &__link,
+    &__item--current &__link {
+      border-top: none;
+      border-bottom: none;
     }
   }
 
@@ -131,6 +139,10 @@
     &__link {
       padding: spacing.space(0.5) grid.gutter-width-tiny();
     }
+  }
+
+  &--overflow {
+    overflow-x: auto;
   }
 }
 
