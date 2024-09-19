@@ -14,14 +14,14 @@
     border-bottom: none;
   }
 
-  h2#{&}__heading {
+  &__heading {
     padding-bottom: spacing.space(0.5);
+
+    align-self: flex-end;
 
     line-height: inherit;
 
     @include media.on-large {
-      padding-top: spacing.space(0.5);
-      @include colour.thick-keyline-transparent(top);
       @include colour.thick-keyline-transparent(bottom);
     }
   }
