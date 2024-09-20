@@ -4,6 +4,8 @@ import sentry_sdk
 from app.lib import cache
 from app.lib.context_processor import (
     cookie_preference,
+    get_month_year_from_date_string,
+    get_year_from_date_string,
     now_iso_8601,
     pretty_date_range,
 )
@@ -156,6 +158,8 @@ def create_app(config_class):
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             pretty_date_range=pretty_date_range,
+            get_month_year_from_date_string=get_month_year_from_date_string,
+            get_year_from_date_string=get_year_from_date_string,
             app_config={
                 "ENVIRONMENT": app.config.get("ENVIRONMENT"),
                 "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),

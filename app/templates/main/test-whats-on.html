@@ -21,11 +21,27 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">What’s on</h1>
+      <p>Showing {{ ((page - 1) * events_per_page) + 1 }}&ndash;{{ ((page - 1) * events_per_page) + (events | length) }} of {{ total_events }} events</p>
     </div>
   </div>
-  <ul class="tna-container">
-    {% for event in events %}
-    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-l">
+
+  {% set ns = namespace(current_month='') %}
+  {% for event in events %}
+    {% set this_month = get_month_year_from_date_string(event.start.local) %}
+    {% if this_month != ns.current_month %}
+    {% if ns.current_month != '' %}
+    </ul>
+    {% endif %}
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+        <h2 class="tna-heading-l tna-!--margin-top-s">{{ this_month }}</h2>
+      </div>
+    </div>
+    <ul class="tna-container">
+    {% set ns.current_month = this_month %}
+    {% endif %}
+    <li class="tna-column tna-column--full tna-column--width-3-4-small tna-!--margin-top-m">
+      
       {% set cost = '' %}
       {% if event.is_free %}
         {% set cost = 'Free' %}
@@ -69,6 +85,9 @@
         'imageAlt': '',
         'imageWidth': event.logo.crop_mask.width,
         'imageHeight': event.logo.crop_mask.height,
+        'horizontal': True,
+        'horizontalOnSmall': False,
+        'horizontalSmallImage': True,
         'fullAreaClick': True,
         'classes': 'tna-card--full-height'
       }) }}
@@ -140,8 +159,9 @@
         {% endif %}
         {% endif %}
       </dl> -->
+
     </li>
-    {% endfor %}
+  {% endfor %}
   </ul>
   <div class="tna-container tna-!--padding-top-l">
     <div class="tna-column tna-column--full">

@@ -180,8 +180,14 @@ def whats_on():
         return render_template("errors/page-not-found.html"), 404
     pagination = pagination_object(page, pages, request.args)
     events = all_events["events"]
+    print(all_events["pagination"])
     return render_template(
-        "main/test-whats-on.html", events=events, pagination=pagination
+        "main/test-whats-on.html",
+        events=events,
+        page=page,
+        events_per_page=children_per_page,
+        total_events=all_events["pagination"]["object_count"],
+        pagination=pagination,
     )
 
 

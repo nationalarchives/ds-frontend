@@ -43,6 +43,20 @@ def get_date_from_string(s):
     return None
 
 
+def get_year_from_date_string(s):
+    date = get_date_from_string(s)
+    if date:
+        return date.strftime("%Y")
+    return None
+
+
+def get_month_year_from_date_string(s):
+    date = get_date_from_string(s)
+    if date:
+        return date.strftime("%B %Y")
+    return None
+
+
 def pretty_date_range(s_from, s_to, include_time=False):
     date_from = get_date_from_string(s_from)
     date_to = get_date_from_string(s_to)

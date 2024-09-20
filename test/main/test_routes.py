@@ -112,9 +112,7 @@ class MainBlueprintTestCase(unittest.TestCase):
         rv = self.app.get("/sitemap.xml")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(f"<loc>{domain}/</loc>", rv.text)
-        self.assertIn(
-            f"<loc>{domain}/explore-the-collection/</loc>", rv.text
-        )
+        self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
         self.assertIn(
             f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
             rv.text,

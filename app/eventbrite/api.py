@@ -7,7 +7,6 @@ def eventbrite_api_request_handler(uri, params={}):
     api_url = current_app.config.get("EVENTBRITE_API_URL")
     params["token"] = current_app.config.get("EVENTBRITE_API_PRIVATE_TOKEN")
     url = f"{api_url}/{uri}"
-    print(url)
     current_app.logger.debug(f"API endpoint requested: {url} (params {params})")
     r = requests.get(url, params=params)
     if r.status_code == 404:
@@ -35,7 +34,6 @@ def tna_events(page, children_per_page, params={}):
         "time_filter": "current_future",
         "expand": "logo,venue,ticket_availability,logo",
     }
-    print(params)
     return eventbrite_api_request_handler(uri, params)
 
 
