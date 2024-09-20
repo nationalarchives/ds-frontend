@@ -29,12 +29,14 @@
       {% set cost = '' %}
       {% if event.is_free %}
         {% set cost = 'Free' %}
-      {% elif event.ticket_availability.minimum_ticket_price.major_value == '0.00' %}
-        {% set cost = 'Pay what you can' %}
-      {% elif event.ticket_availability.minimum_ticket_price.major_value != event.ticket_availability.maximum_ticket_price.major_value %}
-        {% set cost = '&pound;' + event.ticket_availability.minimum_ticket_price.major_value + '&mdash;' + event.ticket_availability.maximum_ticket_price.major_value %}
-      {% else %}
-        {% set cost = '&pound;' + event.ticket_availability.minimum_ticket_price.major_value %}
+      {% elif event.ticket_availability and event.ticket_availability.minimum_ticket_price and event.ticket_availability.minimum_ticket_price.major_value and event.ticket_availability.maximum_ticket_price and event.ticket_availability.maximum_ticket_price.major_value %}
+        {% if event.ticket_availability.minimum_ticket_price.major_value == '0.00' %}
+          {% set cost = 'Pay what you can' %}
+        {% elif event.ticket_availability.minimum_ticket_price.major_value != event.ticket_availability.maximum_ticket_price.major_value %}
+          {% set cost = '&pound;' + event.ticket_availability.minimum_ticket_price.major_value + '&mdash;' + event.ticket_availability.maximum_ticket_price.major_value %}
+        {% else %}
+          {% set cost = '&pound;' + event.ticket_availability.minimum_ticket_price.major_value %}
+        {% endif %}
       {% endif %}
 
       {{ tnaCard({
