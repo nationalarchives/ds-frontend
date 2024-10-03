@@ -6,7 +6,7 @@
 .etna-global-alert {
   @include spacing.space-above;
 
-  @include colour.always-light;
+  // @include colour.always-light;
   @include colour.thick-keyline;
   @include colour.colour-font("font-base");
   @include colour.colour-background("background");
