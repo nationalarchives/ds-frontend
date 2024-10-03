@@ -98,7 +98,7 @@
   {%- elif content_item.type == 'warning_text' %}
   {{ tnaWarning({
     'heading': content_item.value.heading or '',
-    'headingLevel': 2,
+    'headingLevel': next_heading_level,
     'body': content_item.value.body | tna_html | safe
   }) }}
   
