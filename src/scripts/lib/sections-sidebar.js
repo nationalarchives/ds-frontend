@@ -38,7 +38,8 @@ export default class SectionsSidebarHighlighter {
         ? $sidebarItem.classList.add("tna-sidebar__item--current")
         : $sidebarItem.classList.remove("tna-sidebar__item--current");
       if (isCurrentItem) {
-        $sidebarItem.scrollIntoView({ block: "nearest" });
+        // TODO: This confuses the focus
+        // $sidebarItem.scrollIntoView({ block: "nearest" });
       }
     });
     // if (history.replaceState) {
@@ -66,6 +67,8 @@ export default class SectionsSidebarHighlighter {
         this.currentSectionId = topHeadingId;
         if ($topHeading) {
           this.switchItemById(this.currentSectionId);
+          // TODO: This is only needed to fix the focus when using $sidebarItem.scrollIntoView()
+          // $topHeading.scrollIntoView({ block: "nearest" });
           // if (history.replaceState) {
           //   history.replaceState(null, null, `#${this.currentSectionId}`);
           // }
