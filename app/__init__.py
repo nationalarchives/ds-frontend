@@ -8,6 +8,7 @@ from app.lib.context_processor import (
     pretty_date_range,
 )
 from app.lib.template_filters import (
+    get_url_domain,
     headings_list,
     parse_json,
     pretty_date,
@@ -141,6 +142,7 @@ def create_app(config_class):
         ]
     )
 
+    app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)

@@ -31,6 +31,14 @@ def slugify(s):
     return s
 
 
+def get_url_domain(s):
+    try:
+        domain = urllib.parse.urlparse(s).netloc
+        return domain
+    except Exception:
+        return s
+
+
 def pretty_date(s):
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")

@@ -20,6 +20,14 @@
       'fullAreaClick': True,
       'style': 'tint'
     } %}
+    {%- if block_value.type_label == 'External' %}
+      {# TODO: Check with CMS #}
+      {% set card_content = dict(card_content, **{
+        'hrefAttributes': {
+          'aria-label': block_value.title + ' (opens ' + (block_value.url | get_url_domain) + ')'
+        }
+      }) %}
+    {%- endif %}
     {%- if block_value.image.image %}
       {% set card_content = dict(card_content, **{
         'horizontal': True,
