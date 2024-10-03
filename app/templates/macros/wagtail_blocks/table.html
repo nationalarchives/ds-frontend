@@ -1,7 +1,7 @@
 {% macro wagtailTable(block_value, id) %}
   {% if block_value.table %}
   {% set table_data = block_value.table | wagtail_table_parser %}
-  <div class="tna-table-wrapper" role="group" aria-describedby="table-caption-{{ id }}">
+  <div class="tna-table-wrapper" role="group"{% if block_value.table.table_caption %} aria-describedby="table-caption-{{ id }}"{% endif %}>
     <table class="tna-table">
     {% if block_value.table.table_caption %}
       <caption class="tna-table__caption" id="table-caption-{{ id }}">
