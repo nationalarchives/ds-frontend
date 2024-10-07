@@ -85,6 +85,7 @@ window.addEventListener("resize", () => {
 document
   .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
   .forEach(($emailButton) => {
+    const originalEmailButtonHTML = $emailButton.innerHTML;
     $emailButton.removeAttribute("hidden");
     $emailButton.addEventListener("click", async () => {
       try {
@@ -96,9 +97,9 @@ document
       } catch (err) {
         console.error("Failed to copy: ", err);
       }
-      $emailButton.innerText = "Copied";
+      $emailButton.innerHTML = "Copied";
     });
     $emailButton.addEventListener("blur", () => {
-      $emailButton.innerText = "Copy";
+      $emailButton.innerHTML = originalEmailButtonHTML;
     });
   });
