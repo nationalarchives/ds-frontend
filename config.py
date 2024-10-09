@@ -56,13 +56,20 @@ class Base(object):
     ).split(",")
     CSP_STYLE_SRC: list[str] = os.environ.get("CSP_STYLE_SRC", "'self'").split(
         ","
-    )
+    ) + [
+        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # Video.js
+        # "'sha256-wPXhisdsFu1DtHYH1D9W5isSGqS5vIPn6QJWSNLqfCM='",  # Video.js
+        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # Video.js
+        # "'sha256-pP95eS7TJ9o+gIqBpRX/cON2EB8iBc3nsQWEX/LaWHI='",  # Video.js
+    ]
     CSP_STYLE_SRC_ELEM: list[str] = os.environ.get(
         "CSP_STYLE_SRC_ELEM", "'self'"
     ).split(",")
     CSP_FONT_SRC: list[str] = os.environ.get("CSP_FONT_SRC", "'self'").split(
         ","
-    )
+    ) + [
+        "data:"  # Video.js
+    ]
     CSP_CONNECT_SRC: list[str] = os.environ.get(
         "CSP_CONNECT_SRC", "'self'"
     ).split(",")

@@ -1,4 +1,5 @@
 import Plyr from "plyr";
+import videojs from "video.js";
 
 const cookies = window.TNAFrontendCookies;
 
@@ -25,13 +26,32 @@ if (cookies.isPolicyAccepted("marketing")) {
 }
 
 document.querySelectorAll(".etna-audio").forEach(($audio) => {
-  new Plyr($audio, {
-    iconUrl: $audio.dataset["plyrSvg"] || null,
+  // new Plyr($audio, {
+  //   iconUrl: $audio.dataset["plyrSvg"] || null,
+  // });
+  videojs($audio, {
+    audioOnlyMode: true,
+    enableSmoothSeeking: true,
+    experimentalSvgIcons: true,
+    controlBar: {
+      skipButtons: {
+        forward: 10,
+        backward: 10,
+      },
+      volumePanel: false,
+    },
   });
 });
 
 document.querySelectorAll(".etna-video--selfhosted").forEach(($video) => {
-  new Plyr($video, {
-    iconUrl: $video.dataset["plyrSvg"] || null,
+  // new Plyr($video, {
+  //   iconUrl: $video.dataset["plyrSvg"] || null,
+  // });
+  videojs($video, {
+    experimentalSvgIcons: true,
+    enableSmoothSeeking: true,
+    controlBar: {
+      volumePanel: false,
+    },
   });
 });

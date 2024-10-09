@@ -103,3 +103,5 @@ document
       $emailButton.innerHTML = originalEmailButtonHTML;
     });
   });
+
+window.VIDEOJS_NO_DYNAMIC_STYLE = true;
