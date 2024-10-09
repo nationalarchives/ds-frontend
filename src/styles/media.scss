@@ -73,6 +73,10 @@ $plyr-tooltip-radius: 0;
 
 .plyr {
   --plyr-color-main: var(--accent-background, $plyr-color-main);
+  --plyr-audio-control-color-hover: var(
+    --accent-font-dark,
+    $plyr-audio-control-color-hover
+  );
 
   &__control--overlaid {
     border-radius: 0;
