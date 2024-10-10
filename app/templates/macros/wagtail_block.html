@@ -90,7 +90,7 @@
   {{ wagtailFeaturedRecordArticle(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'media' %}
-  {{ wagtailMedia(content_item.value, next_heading_level) }}
+  {{ wagtailMedia(content_item.value, content_item.id, next_heading_level) }}
   
   {%- elif content_item.type == 'do_dont_list' %}
   {{ wagtailDoDontList(content_item.value, next_heading_level) }}
@@ -109,7 +109,7 @@
   }) }}
   
   {%- elif content_item.type == 'youtube_video' %}
-  {{ wagtailYouTubeVideo(content_item.value) }}
+  {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
 
   {%- elif content_item.type == 'table' %}
   {{ wagtailTable(content_item.value, content_item.id) }}

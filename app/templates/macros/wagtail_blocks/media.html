@@ -1,6 +1,6 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 
-{% macro wagtailMedia(block_value, itemHeadingLevel) %}
+{% macro wagtailMedia(block_value, id, itemHeadingLevel) %}
   {%- if block_value.media.type == 'audio' %}
   <aside class="etna-media-block tna-aside tna-background-contrast" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
     <div class="tna-container tna-container--nested">
@@ -21,10 +21,56 @@
         </div>
       </div>
     </div>
-    <audio class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+    <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
       <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
       <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
     </audio>
+    {% if id == '06a7f21f-aedd-41f7-86f1-cf4d44cc0db4' %}
+    <h{{ itemHeadingLevel + 1 }} class="tna-heading-m">
+      Chapters
+    </h{{ itemHeadingLevel + 1 }}>
+    <ol class="tna-ol tna-ol--spaced tna-ol--plain">
+      <li>
+        <button class="tna-button tna-button--accent media-chapter" type="button" value="0" aria-controls="{{ id }}">
+          [{{ 0 | seconds_to_time }}] Introduction
+        </button>
+        <div class="etna-inset tna-!--margin-top-s tna-!--margin-bottom-m">
+          <p>Matt Norman: On the morning of Wednesday, May 7th, 1913, in the hours before the morning service began at St. Paul’s Cathedral in London, Mr. Harrison, one of the church’s bell ringers, was cleaning out the choir when he discovered something out of the ordinary. A ticking sound coming from a small package wrapped in brown paper and newsprint. Mr. Harrison was suspicious …and cautious…enough to place the package in a bucket of water and carry it out to the garden. It was shortly taken to the police station, where it was examined by Major A Cooper-Key, His Majesty’s Chief Inspector of Explosives.</p>
+          <p>&hellip;</p>
+        </div>
+      </li>
+      <li>
+        <button class="tna-button tna-button--accent media-chapter" type="button" value="172" aria-controls="{{ id }}">
+          [{{ 172 | seconds_to_time }}] Katie
+        </button>
+        <div class="etna-inset tna-!--margin-top-s tna-!--margin-bottom-m">
+          <p>Matt: Ok, Katie, I know the women’s fight for suffrage in England is remembered as being particularly militant, right? Were they using violent tactics from the start of their campaign? And if not, how did they end up bombing churches and parlimentarian’s houses?</p>
+          <p>Katie: Good question, Matt.</p>
+          <p>&hellip;</p>
+        </div>
+      </li>
+      <li>
+        <button class="tna-button tna-button--accent media-chapter" type="button" value="1355" aria-controls="{{ id }}">
+          [{{ 1355 | seconds_to_time }}] 300 suffragettes
+        </button>
+        <div class="etna-inset tna-!--margin-top-s tna-!--margin-bottom-m">
+          <p>Three hundred Suffragettes, led by Emmeline and Christabel Pankhurst, were already gathered for a peaceful march to Parliament when they heard about the decision.</p>
+          <p>The peaceful march quickly devolved into chaos as the women and men marching in support of women’s suffrage were met with lines of police.</p>
+          <p>&hellip;</p>
+        </div>
+      </li>
+      <li>
+        <button class="tna-button tna-button--accent media-chapter" type="button" value="1767" aria-controls="{{ id }}">
+          [{{ 1767 | seconds_to_time }}] Thank you
+        </button>
+        <div class="etna-inset tna-!--margin-top-s tna-!--margin-bottom-m">
+          <p>Matt: Thanks for listening to On the Record, a production of The National Archives at Kew.</p>
+          <p>In the next episode of On the Record, we’re going to share another story of protest, this one about how Black people in Britain used the law and the spectacle of the courtroom to fight racial discrimination.</p>
+          <p>&hellip;</p>
+        </div>
+      </li>
+    </ol>
+    {% endif %}
     <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     {%- if block_value.media.transcript %}
     {{ tnaDetails({
@@ -44,9 +90,9 @@
     <div itemprop="description" class="tna-!--margin-top-s">
       {{ block_value.media.description | tna_html | safe }}
     </div>
-    <video class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+    <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
       <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
-      <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
+      <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the video file</a>.</p>
     </video>
     <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     {%- if block_value.media.transcript %}

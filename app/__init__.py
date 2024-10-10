@@ -12,6 +12,7 @@ from app.lib.template_filters import (
     headings_list,
     parse_json,
     pretty_date,
+    seconds_to_time,
     sidebar_items_from_wagtail_body,
     slugify,
     tna_html,
@@ -146,6 +147,7 @@ def create_app(config_class):
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
+    app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)

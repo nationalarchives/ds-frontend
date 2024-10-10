@@ -4,14 +4,15 @@ import "./lib/videojs-youtube-modified";
 
 const cookies = window.TNAFrontendCookies;
 
-let videoJsInstances = [];
+let videoJsInstances = {};
 
 if (cookies.isPolicyAccepted("marketing")) {
   document
     .querySelectorAll(
-      '.etna-video--youtube[href^="https://www.youtube.com/watch?v="]',
+      '.etna-video--youtube[id][href^="https://www.youtube.com/watch?v="]',
     )
     .forEach(($video) => {
+      const id = $video.getAttribute("id");
       const $nextButtonGroup = $video.nextElementSibling;
       if ($nextButtonGroup.classList.contains("tna-button-group")) {
         $nextButtonGroup.removeAttribute("hidden");
@@ -24,6 +25,7 @@ if (cookies.isPolicyAccepted("marketing")) {
         "vjs-16-9",
       );
       $newVideo.setAttribute("controls", true);
+      $newVideo.setAttribute("id", id);
       $video.replaceWith($newVideo);
       const video = videojs($newVideo, {
         techOrder: ["youtube"],
@@ -48,11 +50,12 @@ if (cookies.isPolicyAccepted("marketing")) {
           rel: 0,
         },
       });
-      videoJsInstances.push(video);
+      videoJsInstances[id] = video;
     });
 }
 
-document.querySelectorAll(".etna-video--selfhosted").forEach(($video) => {
+document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
+  const id = $video.getAttribute("id");
   const video = videojs($video, {
     experimentalSvgIcons: true,
     enableSmoothSeeking: true,
@@ -60,10 +63,11 @@ document.querySelectorAll(".etna-video--selfhosted").forEach(($video) => {
       volumePanel: false,
     },
   });
-  videoJsInstances.push(video);
+  videoJsInstances[id] = video;
 });
 
-document.querySelectorAll(".etna-audio").forEach(($audio) => {
+document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
+  const id = $audio.getAttribute("id");
   const audio = videojs($audio, {
     audioOnlyMode: true,
     enableSmoothSeeking: true,
@@ -76,13 +80,30 @@ document.querySelectorAll(".etna-audio").forEach(($audio) => {
       volumePanel: false,
     },
   });
-  videoJsInstances.push(audio);
+  videoJsInstances[id] = audio;
 });
 
-videoJsInstances.forEach((instance, index) => {
+console.log(videoJsInstances);
+
+Object.entries(videoJsInstances).forEach(([key, instance]) => {
   instance.on("play", () =>
-    videoJsInstances.forEach((instance2, index2) =>
-      index2 !== index ? instance2.pause() : null,
+    Object.entries(videoJsInstances).forEach(([key2, instance2]) =>
+      key2 !== key ? instance2.pause() : null,
     ),
   );
 });
+
+document
+  .querySelectorAll("button.media-chapter[value][aria-controls]")
+  .forEach(($chapterButton) => {
+    $chapterButton.addEventListener("click", () => {
+      const id = $chapterButton.getAttribute("aria-controls");
+      const time = $chapterButton.getAttribute("value");
+      if (videoJsInstances[id]) {
+        videoJsInstances[id].currentTime(time);
+        videoJsInstances[id].play();
+      } else {
+        console.error(`Can't find ID ${id}`);
+      }
+    });
+  });
