@@ -9,15 +9,15 @@
 
 .etna-video {
   width: 100%;
-  @include spacing.space-above;
 
   display: block;
+
+  position: relative;
+  @include spacing.space-above;
 
   + .tna-details {
     margin-top: 0;
   }
-
-  position: relative;
 
   &__preview-image {
     width: 100%;

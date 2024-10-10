@@ -29,10 +29,12 @@ ADDED:
   https://github.com/videojs/videojs-youtube/pull/623
 */
 
+import videojs from "video.js";
+
 /* eslint-disable */
 (function (root, factory) {
   if (typeof exports === "object" && typeof module !== "undefined") {
-    var videojs = require("video.js");
+    // var videojs = require("video.js");
     module.exports = factory(videojs.default || videojs);
   } else if (typeof define === "function" && define.amd) {
     define(["videojs"], function (videojs) {
