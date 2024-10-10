@@ -57,10 +57,14 @@ class Base(object):
     CSP_STYLE_SRC: list[str] = os.environ.get("CSP_STYLE_SRC", "'self'").split(
         ","
     ) + [
-        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # Video.js
-        # "'sha256-wPXhisdsFu1DtHYH1D9W5isSGqS5vIPn6QJWSNLqfCM='",  # Video.js
-        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # Video.js
-        # "'sha256-pP95eS7TJ9o+gIqBpRX/cON2EB8iBc3nsQWEX/LaWHI='",  # Video.js
+        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # video.js
+        # "'sha256-wPXhisdsFu1DtHYH1D9W5isSGqS5vIPn6QJWSNLqfCM='",  # video.js
+        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # video.js
+        # "'sha256-pP95eS7TJ9o+gIqBpRX/cON2EB8iBc3nsQWEX/LaWHI='",  # video.js
+        # "'sha256-NJ45L53GQHjbanjFYsFzNI6wUt9suktEt2cgKsSVXPI='",  # videojs-youtube
+        # "'sha256-SVjBEOYxPZO2u+Gcpbm1SdP/P3ktmXPZqOBJ8Xc+tvk='",  # videojs-youtube
+        # "'sha256-9HL4vp7bq4U9RJm/Zh9RmPSGkj8jBSU/W7lwcaP944g='",  # videojs-youtube
+        # "'unsafe-hashes'",
     ]
     CSP_STYLE_SRC_ELEM: list[str] = os.environ.get(
         "CSP_STYLE_SRC_ELEM", "'self'"
@@ -68,7 +72,7 @@ class Base(object):
     CSP_FONT_SRC: list[str] = os.environ.get("CSP_FONT_SRC", "'self'").split(
         ","
     ) + [
-        "data:"  # Video.js
+        "data:"  # video.js
     ]
     CSP_CONNECT_SRC: list[str] = os.environ.get(
         "CSP_CONNECT_SRC", "'self'"

@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <audio class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %} data-plyr-svg="{{ url_for('static', filename='assets/images/plyr.svg') }}">
+    <audio class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
       <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
       <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
     </audio>
@@ -44,7 +44,7 @@
     <div itemprop="description" class="tna-!--margin-top-s">
       {{ block_value.media.description | tna_html | safe }}
     </div>
-    <video class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %} data-plyr-svg="{{ url_for('static', filename='assets/images/plyr.svg') }}">
+    <video class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
       <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
       <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
     </video>

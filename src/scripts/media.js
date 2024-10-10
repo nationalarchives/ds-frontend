@@ -1,35 +1,70 @@
-import Plyr from "plyr";
 import videojs from "video.js";
+// import "videojs-youtube";
+import "./lib/videojs-youtube-modified";
 
 const cookies = window.TNAFrontendCookies;
+
+let videoJsInstances = [];
 
 if (cookies.isPolicyAccepted("marketing")) {
   document
     .querySelectorAll(
-      '.etna-video--youtube:has([data-plyr-provider="youtube"][data-plyr-embed-id])',
+      '.etna-video--youtube[href^="https://www.youtube.com/watch?v="]',
     )
     .forEach(($video) => {
       const $nextButtonGroup = $video.nextElementSibling;
       if ($nextButtonGroup.classList.contains("tna-button-group")) {
         $nextButtonGroup.removeAttribute("hidden");
       }
-      const iconUrl = $video.dataset["plyrSvg"] || null;
-      const $videoEl = $video.querySelector(
-        '[data-plyr-provider="youtube"][data-plyr-embed-id]',
+      const $newVideo = document.createElement("video");
+      $newVideo.classList.add(
+        "etna-video",
+        "etna-video--youtube",
+        "video-js",
+        "vjs-16-9",
       );
-      $video.replaceWith($videoEl);
-      new Plyr($videoEl, {
-        iconUrl,
-        youtube: { noCookie: true },
+      $newVideo.setAttribute("controls", true);
+      $video.replaceWith($newVideo);
+      const video = videojs($newVideo, {
+        techOrder: ["youtube"],
+        sources: [
+          {
+            type: "video/youtube",
+            src: $video.getAttribute("href"),
+          },
+        ],
+        experimentalSvgIcons: true,
+        disablePictureInPicture: true,
+        enableDocumentPictureInPicture: false,
+        controlBar: {
+          pictureInPictureToggle: false,
+          volumePanel: false,
+        },
+        youtube: {
+          ytControls: 0,
+          color: "white",
+          enablePrivacyEnhancedMode: true,
+          iv_load_policy: 3,
+          rel: 0,
+        },
       });
+      videoJsInstances.push(video);
     });
 }
 
+document.querySelectorAll(".etna-video--selfhosted").forEach(($video) => {
+  const video = videojs($video, {
+    experimentalSvgIcons: true,
+    enableSmoothSeeking: true,
+    controlBar: {
+      volumePanel: false,
+    },
+  });
+  videoJsInstances.push(video);
+});
+
 document.querySelectorAll(".etna-audio").forEach(($audio) => {
-  // new Plyr($audio, {
-  //   iconUrl: $audio.dataset["plyrSvg"] || null,
-  // });
-  videojs($audio, {
+  const audio = videojs($audio, {
     audioOnlyMode: true,
     enableSmoothSeeking: true,
     experimentalSvgIcons: true,
@@ -41,17 +76,13 @@ document.querySelectorAll(".etna-audio").forEach(($audio) => {
       volumePanel: false,
     },
   });
+  videoJsInstances.push(audio);
 });
 
-document.querySelectorAll(".etna-video--selfhosted").forEach(($video) => {
-  // new Plyr($video, {
-  //   iconUrl: $video.dataset["plyrSvg"] || null,
-  // });
-  videojs($video, {
-    experimentalSvgIcons: true,
-    enableSmoothSeeking: true,
-    controlBar: {
-      volumePanel: false,
-    },
-  });
+videoJsInstances.forEach((instance, index) => {
+  instance.on("play", () =>
+    videoJsInstances.forEach((instance2, index2) =>
+      index2 !== index ? instance2.pause() : null,
+    ),
+  );
 });

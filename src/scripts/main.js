@@ -3,6 +3,8 @@ import {
   Cookies,
 } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
+window.VIDEOJS_NO_DYNAMIC_STYLE = true;
+
 // Set the cookies domain and extra policies even when the cookie banner is not shown
 const cookiesDomain =
   document.documentElement.getAttribute("data-cookiesdomain");
@@ -103,5 +105,3 @@ document
       $emailButton.innerHTML = originalEmailButtonHTML;
     });
   });
-
-window.VIDEOJS_NO_DYNAMIC_STYLE = true;

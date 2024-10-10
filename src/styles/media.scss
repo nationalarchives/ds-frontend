@@ -1,21 +1,13 @@
+@use "sass:math";
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
-$plyr-color-main: #010101;
-$plyr-badge-border-radius: 0;
-$plyr-control-radius: 0;
-$plyr-menu-radius: 0;
-$plyr-tooltip-radius: 0;
-
-@import "plyr/src/sass/plyr";
 @import "video.js/src/css/vjs";
 
-.etna-video,
-.plyr,
-.video-js {
+.etna-video {
   width: 100%;
   @include spacing.space-above;
 
@@ -24,10 +16,6 @@ $plyr-tooltip-radius: 0;
   + .tna-details {
     margin-top: 0;
   }
-}
-
-.etna-video {
-  // aspect-ratio: 16/9;
 
   position: relative;
 
@@ -43,13 +31,14 @@ $plyr-tooltip-radius: 0;
   }
 
   &__label {
-    padding: 0.5rem 1rem;
+    padding: 1rem;
 
     position: absolute;
     inset: 0;
     z-index: 1;
 
     color: #fff;
+    @include typography.font-size(18);
     @include typography.main-font-weight-bold;
     text-decoration: underline;
 
@@ -71,62 +60,6 @@ $plyr-tooltip-radius: 0;
   &:hover &__label,
   &:focus &__label {
     @include typography.interacted-text-decoration;
-  }
-}
-
-.plyr {
-  --plyr-color-main: var(--accent-background, $plyr-color-main);
-  --plyr-audio-control-color-hover: var(
-    --accent-font-dark,
-    $plyr-audio-control-color-hover
-  );
-
-  &__control--overlaid {
-    border-radius: 0;
-
-    svg {
-      fill: var(--accent-font-dark, currentColor);
-    }
-  }
-
-  &__control {
-    transition: none;
-
-    &:focus-visible {
-      @include a11y.focus-outline;
-
-      &:active {
-        @include a11y.active-outline;
-      }
-    }
-  }
-
-  &--full-ui input[type="range"] {
-    &:focus-visible {
-      &::-webkit-slider-runnable-track {
-        @include a11y.focus-outline;
-      }
-
-      &::-moz-range-track {
-        @include a11y.focus-outline;
-      }
-
-      &::-ms-track {
-        @include a11y.focus-outline;
-      }
-    }
-  }
-
-  @include media.on-tiny {
-    &__volume input[type="range"] {
-      min-width: 30px;
-      max-width: 40px;
-    }
-
-    &__controls__item#{&}__menu,
-    [data-plyr="pip"] {
-      display: none;
-    }
   }
 }
 
@@ -152,6 +85,19 @@ $videojs-track-height: 0.5em;
     width: $videojs-control-bar-height;
   }
 
+  .vjs-button {
+    &:hover {
+      &::after {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        @include colour.thick-keyline-accent(bottom);
+      }
+    }
+  }
+
   .vjs-volume-bar {
     margin: calc(50% - 0.15em) 0 0;
   }
@@ -169,23 +115,13 @@ $videojs-track-height: 0.5em;
     height: $videojs-icon-size;
   }
 
-  .vjs-progress-control .vjs-progress-holder {
-    height: $videojs-track-height;
-  }
-
   .vjs-play-progress .vjs-svg-icon {
-    top: -#{($videojs-icon-size / 2) - ($videojs-track-height / 2)};
-    right: -#{($videojs-icon-size / 2)};
+    top: -#{math.div($videojs-icon-size, 2) - math.div(
+        $videojs-track-height,
+        2
+      )};
+    right: -#{math.div($videojs-icon-size, 2)};
   }
-
-  .vjs-progress-control:hover .vjs-time-tooltip,
-  .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
-    @include typography.font-size(14);
-  }
-}
-
-.etna-video.video-js {
-  cursor: pointer;
 
   .vjs-big-play-button {
     height: 2em;
@@ -202,11 +138,19 @@ $videojs-track-height: 0.5em;
     }
   }
 
-  .vjs-control-bar {
-    height: $videojs-control-bar-height + 1rem;
-    padding-top: 1rem;
+  .vjs-svg-icon:hover,
+  .vjs-control:focus .vjs-svg-icon {
+    -webkit-filter: none;
+    filter: none;
+  }
 
-    background: linear-gradient(rgb(0 0 0 / 0%), rgb(0 0 0 / 80%));
+  .vjs-progress-control .vjs-progress-holder {
+    height: $videojs-track-height;
+  }
+
+  .vjs-progress-control:hover .vjs-time-tooltip,
+  .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+    @include typography.font-size(14);
   }
 }
 
@@ -216,17 +160,8 @@ $videojs-track-height: 0.5em;
   .vjs-control-bar {
     height: 100%;
 
-    @include colour.colour-background("font-base");
     @include colour.colour-font("background");
-  }
-
-  .vjs-button {
-    &:hover {
-      .vjs-svg-icon {
-        width: ($videojs-icon-size * 1.25);
-        height: ($videojs-icon-size * 1.25);
-      }
-    }
+    @include colour.colour-background("font-base");
   }
 
   .vjs-slider {
@@ -238,6 +173,51 @@ $videojs-track-height: 0.5em;
 
     div {
       @include colour.colour-background("accent-background-light");
+    }
+  }
+}
+
+.etna-video.video-js {
+  cursor: pointer;
+
+  &:hover .vjs-big-play-button,
+  .vjs-big-play-button:focus {
+    @include colour.colour-font("background");
+    @include colour.colour-background("font-base");
+  }
+
+  .vjs-control-bar {
+    height: $videojs-control-bar-height;
+
+    background: linear-gradient(
+      0deg,
+      rgb(0% 0% 0% / 90%) 0%,
+      rgb(0% 0% 0% / 89.1%) 6.25%,
+      rgb(0% 0% 0% / 86.6%) 12.5%,
+      rgb(0% 0% 0% / 82.4%) 18.75%,
+      rgb(0% 0% 0% / 76.8%) 25%,
+      rgb(0% 0% 0% / 70%) 31.25%,
+      rgb(0% 0% 0% / 62.2%) 37.5%,
+      rgb(0% 0% 0% / 53.8%) 43.75%,
+      rgb(0% 0% 0% / 45%) 50%,
+      rgb(0% 0% 0% / 36.2%) 56.25%,
+      rgb(0% 0% 0% / 27.8%) 62.5%,
+      rgb(0% 0% 0% / 20%) 68.75%,
+      rgb(0% 0% 0% / 13.2%) 75%,
+      rgb(0% 0% 0% / 7.58%) 81.25%,
+      rgb(0% 0% 0% / 3.43%) 87.5%,
+      rgb(0% 0% 0% / 0.865%) 93.75%,
+      rgb(0% 0% 0% / 0%) 100%
+    );
+  }
+
+  &.etna-video--youtube {
+    aspect-ratio: 16/9;
+
+    .vjs-control-bar {
+      text-shadow: 0 0 0.75em #000;
+
+      @include colour.colour-background("contrast-background");
     }
   }
 }
@@ -260,4 +240,9 @@ $videojs-track-height: 0.5em;
       margin-top: spacing.space(0.5);
     }
   }
+}
+
+.youtube-embed {
+  width: 100%;
+  aspect-ratio: 16/9;
 }

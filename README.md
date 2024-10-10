@@ -14,7 +14,6 @@ mkdir app/static/assets
 
 # Copy in the static assets from TNA Frontend and Plyr
 cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
-cp -r node_modules/plyr/dist/plyr.svg app/static/assets/images
 ```
 
 ## Environment variables
