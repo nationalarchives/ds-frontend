@@ -148,6 +148,10 @@ $videojs-track-height: 0.5em;
     height: 100%;
   }
 
+  .vjs-control {
+    width: $videojs-control-bar-height;
+  }
+
   .vjs-volume-bar {
     margin: calc(50% - 0.15em) 0 0;
   }
@@ -172,10 +176,6 @@ $videojs-track-height: 0.5em;
   .vjs-play-progress .vjs-svg-icon {
     top: -#{($videojs-icon-size / 2) - ($videojs-track-height / 2)};
     right: -#{($videojs-icon-size / 2)};
-  }
-
-  .vjs-control {
-    width: $videojs-control-bar-height;
   }
 
   .vjs-progress-control:hover .vjs-time-tooltip,
