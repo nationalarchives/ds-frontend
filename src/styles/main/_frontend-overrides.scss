@@ -139,6 +139,10 @@ sup[data-footnoteid] {
 }
 
 .tna-picture {
+  &__image {
+    display: block;
+  }
+
   @include media.on-small {
     .tna-column & {
       width: calc(100% + #{grid.gutter-width-double()});
@@ -156,25 +160,7 @@ sup[data-footnoteid] {
   }
 }
 
-.tna-table-wrapper {
-  &[tabindex="0"] {
-    border-radius: 0.1px;
-
-    &:active {
-      @include a11y.focus-outline;
-    }
-  }
-}
-
 .tna-table {
-  &__caption {
-    &--scroll {
-      &::after {
-        content: " (scroll to see more)";
-      }
-    }
-  }
-
   &__header--align-left,
   &__cell--align-left {
     text-align: left;

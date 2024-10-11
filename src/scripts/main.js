@@ -64,26 +64,6 @@ if (cookies.isPolicyAccepted("settings")) {
   });
 }
 
-const checkTableForScroll = ($tableWrapper) => {
-  const scrollable = $tableWrapper.scrollWidth > $tableWrapper.clientWidth;
-  const $tableCaption = $tableWrapper.querySelector(".tna-table__caption");
-  if (scrollable) {
-    $tableWrapper.setAttribute("tabindex", "0");
-    $tableCaption?.classList.add("tna-table__caption--scroll");
-  } else {
-    $tableWrapper.removeAttribute("tabindex");
-    $tableCaption?.classList.remove("tna-table__caption--scroll");
-  }
-};
-
-const $tableWrappers = document.querySelectorAll(
-  ".tna-table-wrapper:has(.tna-table__caption)",
-);
-$tableWrappers.forEach(($tableWrapper) => checkTableForScroll($tableWrapper));
-window.addEventListener("resize", () => {
-  $tableWrappers.forEach(($tableWrapper) => checkTableForScroll($tableWrapper));
-});
-
 document
   .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
   .forEach(($emailButton) => {

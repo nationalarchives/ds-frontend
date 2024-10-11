@@ -36,9 +36,10 @@ def slugify(s):
 
 def seconds_to_time(s):
     total_seconds = int(s)
-    minutes = math.floor(total_seconds / 60)
-    seconds = total_seconds - (minutes * 60)
-    return f"{str(minutes).rjust(2, '0')}:{str(seconds).rjust(2, '0')}"
+    hours = math.floor(total_seconds / 3600)
+    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
+    seconds = total_seconds - (hours * 3600) - (minutes * 60)
+    return f"{str(hours).rjust(2, '0')}:{str(minutes).rjust(2, '0')}:{str(seconds).rjust(2, '0')}"
 
 
 def get_url_domain(s):

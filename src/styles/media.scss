@@ -146,6 +146,8 @@ $videojs-track-height: 0.5em;
 
   .vjs-progress-control .vjs-progress-holder {
     height: $videojs-track-height;
+
+    border-radius: 0.1px;
   }
 
   .vjs-progress-control:hover .vjs-time-tooltip,
@@ -226,18 +228,35 @@ $videojs-track-height: 0.5em;
   @include spacing.space-above;
 
   .tna-details {
-    padding-top: spacing.space(0.25);
+    // margin-top: spacing.space(0.5);
 
     &__summary {
-      padding: 0;
+      padding-top: 0;
+      padding-bottom: 0;
 
-      &::before {
-        display: none;
-      }
+      // &::before {
+      //   display: none;
+      // }
     }
 
     &__content {
-      margin-top: spacing.space(0.5);
+      margin-top: spacing.space(1);
+      margin-bottom: spacing.space(1);
+    }
+
+    .tna-dl dt {
+      .tna-button {
+        width: 100%;
+
+        position: sticky;
+        top: spacing.space(1);
+      }
+    }
+
+    .tna-ol {
+      > li + li {
+        margin-top: spacing.space(1);
+      }
     }
   }
 }
