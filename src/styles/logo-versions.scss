@@ -84,9 +84,9 @@
   }
 
   &--logo-remembrance &__logo::after {
-    height: 44%;
+    height: 46%;
 
-    top: -6%;
+    top: -8%;
 
     z-index: 4;
 
@@ -94,6 +94,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 75%));
   }
 
   &--logo-comic-relief &__logo::before {
@@ -107,9 +108,13 @@
 
     background-color: red;
 
-    border-right: rgb(0 0 0 / 0.25) 5px solid;
-    transform: rotate(45deg);
     border-radius: 100%;
+
+    box-shadow: 3px 0 3px rgb(0 0 0 / 65%);
+
+    transform: rotate(45deg);
+
+    border-right: rgb(0 0 0 / 25%) 5px solid;
   }
 
   &--logo-comic-relief &__logo::after {
@@ -121,7 +126,7 @@
 
     z-index: 5;
 
-    background-color: rgb(255 255 255 / 0.5);
+    background-color: rgb(255 255 255 / 50%);
 
     border-radius: 100%;
 
