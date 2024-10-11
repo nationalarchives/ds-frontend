@@ -1,7 +1,9 @@
+import calendar
 import json
 from datetime import datetime
 from urllib.parse import unquote
 
+from app.lib import cache
 from flask import request
 
 
@@ -70,3 +72,38 @@ def pretty_date_range(s_from, s_to):
     if date_to:
         return f"To {date_to.strftime('%d %B %Y')}"
     return f"{s_from}–{s_to}"
+
+
+@cache.cached(timeout=3600, key_prefix="logo_adornment")
+def logo_adornment():
+    now = datetime.now()
+    now_day = now.day
+    now_month = now.month
+    now_year = now.year
+
+    cal = calendar.Calendar(firstweekday=calendar.MONDAY)
+    november_calendar_this_year = cal.monthdatescalendar(now.year, 11)
+    second_sunday_in_november_this_year = [
+        day
+        for week in november_calendar_this_year
+        for day in week
+        if day.weekday() == calendar.SUNDAY and day.month == 11
+    ][1].day
+
+    if (
+        now_month == 11
+        and now_day >= 2
+        and (now_day <= max(11, second_sunday_in_november_this_year))
+    ):
+        return "remembrance"
+    # elif now_month == 2:
+    #     return "progress"
+    # elif now_month == 6:
+    #     return "pride"
+    # elif now_month == 10:
+    #     return "black_history"
+    elif now_day == 15 and now_month == 3 and now_year == 2025:
+        return "comic_relief"
+    # elif now_day == 22 and now_month == 4 and now_year == 2025:
+    #     return "earth_day"
+    return ""

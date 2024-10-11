@@ -51,7 +51,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}" media="screen"> -->
+    {%- if feature.LOGO_ADORNMENTS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}" media="screen">
+    {%- endif %}
 {% endblock %}
 
 {% block cookies %}
@@ -74,6 +76,23 @@
   'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/YPVLNT/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
 }) | indent(6) }}
+{%- endif %}
+{% set global_header_classes = '' %}
+{%- if feature.LOGO_ADORNMENTS %}
+  {% set adornment = logo_adornment() %}
+  {%- if adornment == 'remembrance' %}
+    {% set global_header_classes = 'tna-global-header--logo-remembrance' %}
+  {%- elif adornment == 'progress' %}
+    {% set global_header_classes = 'tna-global-header--logo-flag-progress' %}
+  {%- elif adornment == 'pride' %}
+    {% set global_header_classes = 'tna-global-header--logo-flag-pride' %}
+  {%- elif adornment == 'black_history' %}
+    {% set global_header_classes = 'tna-global-header--logo-flag-black-history' %}
+  {%- elif adornment == 'comic_relief' or True %}
+    {% set global_header_classes = 'tna-global-header--logo-comic-relief' %}
+  {%- elif adornment == 'earth_day' %}
+    {% set global_header_classes = 'tna-global-header--logo-earth-day' %}
+  {%- endif %}
 {%- endif %}
 {{ tnaGlobalHeader({
   'logo': {
@@ -117,7 +136,8 @@
       'text': 'Professional guidance and services',
       'href': 'https://www.nationalarchives.gov.uk/professional-guidance-and-services/'
     },
-  ]
+  ],
+  'classes': global_header_classes
 }) | indent(6) }}
 {% endblock %}
 

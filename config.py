@@ -8,6 +8,9 @@ class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(
         os.getenv("FEATURE_PHASE_BANNER", "True")
     )
+    FEATURE_LOGO_ADORNMENTS: bool = strtobool(
+        os.getenv("FEATURE_LOGO_ADORNMENTS", "False")
+    )
 
 
 class Base(object):
@@ -56,16 +59,7 @@ class Base(object):
     ).split(",")
     CSP_STYLE_SRC: list[str] = os.environ.get("CSP_STYLE_SRC", "'self'").split(
         ","
-    ) + [
-        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # video.js
-        # "'sha256-wPXhisdsFu1DtHYH1D9W5isSGqS5vIPn6QJWSNLqfCM='",  # video.js
-        # "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",  # video.js
-        # "'sha256-pP95eS7TJ9o+gIqBpRX/cON2EB8iBc3nsQWEX/LaWHI='",  # video.js
-        # "'sha256-NJ45L53GQHjbanjFYsFzNI6wUt9suktEt2cgKsSVXPI='",  # videojs-youtube
-        # "'sha256-SVjBEOYxPZO2u+Gcpbm1SdP/P3ktmXPZqOBJ8Xc+tvk='",  # videojs-youtube
-        # "'sha256-9HL4vp7bq4U9RJm/Zh9RmPSGkj8jBSU/W7lwcaP944g='",  # videojs-youtube
-        # "'unsafe-hashes'",
-    ]
+    )
     CSP_STYLE_SRC_ELEM: list[str] = os.environ.get(
         "CSP_STYLE_SRC_ELEM", "'self'"
     ).split(",")

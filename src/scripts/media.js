@@ -83,8 +83,6 @@ document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
   videoJsInstances[id] = audio;
 });
 
-console.log(videoJsInstances);
-
 Object.entries(videoJsInstances).forEach(([key, instance]) => {
   instance.on("play", () =>
     Object.entries(videoJsInstances).forEach(([key2, instance2]) =>

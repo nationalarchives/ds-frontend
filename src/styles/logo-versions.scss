@@ -1,26 +1,33 @@
 .tna-global-header {
-  &--logo-flag &__logo {
+  &__logo {
     position: relative;
 
     .tna-logo {
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
+    &::before,
     &::after {
       content: "";
 
       width: 49%;
       height: 32.3%;
 
+      overflow: hidden;
+
       position: absolute;
       top: 1%;
       right: 1%;
+      z-index: 2;
+    }
+
+    &::before {
       z-index: 1;
     }
   }
 
-  &--logo-flag#{&}--logo-flag-pride &__logo::after {
+  &--logo-flag-pride &__logo::after {
     background: linear-gradient(
       red 16.66%,
       orange 0 33.33%,
@@ -31,7 +38,7 @@
     );
   }
 
-  &--logo-flag#{&}--logo-flag-progress &__logo::after {
+  &--logo-flag-progress &__logo::after {
     background: conic-gradient(
         at 14% 50%,
         #0000 221.25deg,
@@ -70,5 +77,54 @@
         blue 0 83.33%,
         indigo 0
       );
+  }
+
+  &--logo-flag-black-history &__logo::after {
+    background: linear-gradient(#c12029 0 33.33%, #e1a223 0 66.66%, #206031 0);
+  }
+
+  &--logo-remembrance &__logo::after {
+    height: 44%;
+
+    top: -6%;
+
+    z-index: 4;
+
+    background-image: url("/static/images/logo-adornments/poppy.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &--logo-comic-relief &__logo::before {
+    width: calc(43% - 5px);
+    height: 43%;
+
+    top: -5%;
+    right: 4%;
+
+    z-index: 4;
+
+    background-color: red;
+
+    border-right: rgb(0 0 0 / 0.25) 5px solid;
+    transform: rotate(45deg);
+    border-radius: 100%;
+  }
+
+  &--logo-comic-relief &__logo::after {
+    width: 19%;
+    height: 9%;
+
+    top: 1%;
+    right: 25%;
+
+    z-index: 5;
+
+    background-color: rgb(255 255 255 / 0.5);
+
+    border-radius: 100%;
+
+    transform: rotate(-45deg);
   }
 }

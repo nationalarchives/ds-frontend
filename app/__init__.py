@@ -4,6 +4,7 @@ import sentry_sdk
 from app.lib import cache
 from app.lib.context_processor import (
     cookie_preference,
+    logo_adornment,
     now_iso_8601,
     pretty_date_range,
 )
@@ -159,6 +160,7 @@ def create_app(config_class):
         return dict(
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
+            logo_adornment=logo_adornment,
             pretty_date_range=pretty_date_range,
             app_config={
                 "ENVIRONMENT": app.config.get("ENVIRONMENT"),
@@ -171,6 +173,7 @@ def create_app(config_class):
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
+                "LOGO_ADORNMENTS": app.config.get("FEATURE_LOGO_ADORNMENTS"),
             },
         )
 
