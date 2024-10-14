@@ -228,15 +228,9 @@ $videojs-track-height: 0.5em;
   @include spacing.space-above;
 
   .tna-details {
-    // margin-top: spacing.space(0.5);
-
     &__summary {
       padding-top: 0;
       padding-bottom: 0;
-
-      // &::before {
-      //   display: none;
-      // }
     }
 
     &__content {
