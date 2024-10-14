@@ -1,7 +1,10 @@
 import json
+import math
 import re
 import urllib.parse
 from datetime import datetime
+
+from markupsafe import Markup
 
 from .content_parser import (
     add_abbreviations,
@@ -29,6 +32,14 @@ def slugify(s):
     s = re.sub(r"[\s_-]+", "-", s)
     s = re.sub(r"^-+|-+$", "", s)
     return s
+
+
+def seconds_to_time(s):
+    total_seconds = int(s)
+    hours = math.floor(total_seconds / 3600)
+    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
+    seconds = total_seconds - (hours * 3600) - (minutes * 60)
+    return f"{str(hours).rjust(2, '0')}:{str(minutes).rjust(2, '0')}:{str(seconds).rjust(2, '0')}"
 
 
 def get_url_domain(s):
@@ -65,11 +76,11 @@ def pretty_date(s):
 
 def headings_list(s):
     headings_regex = re.findall(
-        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*([^<]+)\s*</', s
+        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
     )
     headings_raw = [
         {
-            "text": heading[2],
+            "text": Markup(heading[2]),
             "href": "#" + heading[1],
             "level": int(heading[0]),
             "children": [],

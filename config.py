@@ -8,6 +8,9 @@ class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(
         os.getenv("FEATURE_PHASE_BANNER", "True")
     )
+    FEATURE_LOGO_ADORNMENTS: bool = strtobool(
+        os.getenv("FEATURE_LOGO_ADORNMENTS", "False")
+    )
 
 
 class Base(object):
@@ -62,7 +65,9 @@ class Base(object):
     ).split(",")
     CSP_FONT_SRC: list[str] = os.environ.get("CSP_FONT_SRC", "'self'").split(
         ","
-    )
+    ) + [
+        "data:"  # video.js
+    ]
     CSP_CONNECT_SRC: list[str] = os.environ.get(
         "CSP_CONNECT_SRC", "'self'"
     ).split(",")

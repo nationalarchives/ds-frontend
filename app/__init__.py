@@ -4,6 +4,7 @@ import sentry_sdk
 from app.lib import cache
 from app.lib.context_processor import (
     cookie_preference,
+    logo_adornment,
     now_iso_8601,
     pretty_date_range,
 )
@@ -12,6 +13,7 @@ from app.lib.template_filters import (
     headings_list,
     parse_json,
     pretty_date,
+    seconds_to_time,
     sidebar_items_from_wagtail_body,
     slugify,
     tna_html,
@@ -146,6 +148,7 @@ def create_app(config_class):
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
+    app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)
@@ -157,6 +160,7 @@ def create_app(config_class):
         return dict(
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
+            logo_adornment=logo_adornment,
             pretty_date_range=pretty_date_range,
             app_config={
                 "ENVIRONMENT": app.config.get("ENVIRONMENT"),
@@ -169,6 +173,7 @@ def create_app(config_class):
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
+                "LOGO_ADORNMENTS": app.config.get("FEATURE_LOGO_ADORNMENTS"),
             },
         )
 

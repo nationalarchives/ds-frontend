@@ -1,60 +1,92 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 
-{% macro wagtailMedia(block_value, itemHeadingLevel) %}
-  {%- if block_value.media.type == 'audio' %}
-  <aside class="etna-media-block tna-aside tna-background-contrast" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
-    <div class="tna-container tna-container--nested">
-      {%- if block_value.background_image %}
-      <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
-        <img src="{{ block_value.background_image.jpeg.full_url }}" alt="">
-      </div>
-      {%- endif %}
-      <div class="tna-column tna-column--flex-1">
-        <hgroup class="tna-hgroup-l">
-          <p class="tna-hgroup__supertitle">Listen</p>
-          <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
-            {{ block_value.title }}
-          </h{{ itemHeadingLevel }}>
-        </hgroup>
-        <div itemprop="description" class="tna-!--margin-top-s">
-          {{ block_value.media.description | tna_html | safe }}
+{% macro wagtailMedia(block_value, id, itemHeadingLevel) %}
+  <div class="etna-media-block">
+    {%- if block_value.media.type == 'audio' %}
+    <div class="tna-aside tna-background-contrast" itemprop="audio" itemscope itemtype="https://schema.org/AudioObject">
+      <div class="tna-container tna-container--nested">
+        {%- if block_value.background_image %}
+        <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
+          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="">
+        </div>
+        {%- endif %}
+        <div class="tna-column tna-column--flex-1">
+          <hgroup class="tna-hgroup-l">
+            <p class="tna-hgroup__supertitle">Listen</p>
+            <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
+              {{ block_value.title }}
+            </h{{ itemHeadingLevel }}>
+          </hgroup>
+          <div itemprop="description" class="tna-!--margin-top-s">
+            {{ block_value.media.description | tna_html | safe }}
+          </div>
         </div>
       </div>
+      <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+        <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
+      </audio>
+      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     </div>
-    <audio class="etna-audio" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %} data-plyr-svg="{{ url_for('static', filename='assets/images/plyr.svg') }}">
-      <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
-      <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
-    </audio>
-    <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
-    {%- if block_value.media.transcript %}
-    {{ tnaDetails({
-      'title': 'Transcript',
-      'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
-    }) }}
-    {%- endif %}
-  </aside>
-  {%- elif block_value.media.type == 'video' %}
-  <aside class="etna-media-block tna-aside tna-background-contrast" itemprop="video" itemscope itemtype="https://schema.org/VideoObject">
-    <hgroup class="tna-hgroup-l">
-      <p class="tna-hgroup__supertitle">Watch</p>
-      <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
-        {{ block_value.title }}
-      </h{{ itemHeadingLevel }}>
-    </hgroup>
-    <div itemprop="description" class="tna-!--margin-top-s">
-      {{ block_value.media.description | tna_html | safe }}
-    </div>
-    <video class="etna-video etna-video--selfhosted" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %} data-plyr-svg="{{ url_for('static', filename='assets/images/plyr.svg') }}">
-      <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
-      <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
-    </video>
-    <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
-    {%- if block_value.media.transcript %}
-    <h{{ itemHeadingLevel + 1 }} class="tna-heading-m tna-!--padding-bottom-s">Transcript</h{{ itemHeadingLevel + 1 }}>
-    <div itemprop="transcript">
-      {{ block_value.media.transcript | tna_html | safe }}
+    {%- elif block_value.media.type == 'video' %}
+    <div class="tna-aside tna-background-contrast" itemprop="video" itemscope itemtype="https://schema.org/VideoObject">
+      <hgroup class="tna-hgroup-l">
+        <p class="tna-hgroup__supertitle">Watch</p>
+        <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
+          {{ block_value.title }}
+        </h{{ itemHeadingLevel }}>
+      </hgroup>
+      <div itemprop="description" class="tna-!--margin-top-s">
+        {{ block_value.media.description | tna_html | safe }}
+      </div>
+      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+        <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the video file</a>.</p>
+      </video>
+      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     </div>
     {%- endif %}
-  </aside>
-  {%- endif %}
+    {%- if block_value.media.chapters %}
+    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint">
+      <div class="tna-details">
+        <details class="tna-details__details">
+          <summary class="tna-details__summary">Chapters and transcript</summary>
+          <div class="tna-details__content">
+            <ol class="tna-ol tna-ol--spaced tna-ol--plain">
+              {%- for chapter in block_value.media.chapters %}
+              <li>
+                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.value.time }}" aria-controls="{{ id }}">
+                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.value.time | seconds_to_time }} - {{ chapter.value.heading }}</span>
+                </button>
+                {{ chapter.value.transcript | safe }}
+              </li>
+              {%- endfor %}
+            </ol>
+            <!-- <dl class="tna-dl tna-dl--spaced tna-dl--plain">
+              {%- for chapter in block_value.media.chapters %}
+              <dt>
+                <button class="tna-button tna-button--accent- tna-button--small media-chapter" type="button" value="{{ chapter.value.time }}" aria-controls="{{ id }}">
+                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.value.time | seconds_to_time }} - {{ chapter.value.heading }}</span>
+                </button>
+              </dt>
+              <dd>
+                {{ (chapter.value.transcript or '<span class="tna-visually-hidden">No transcript</span>') | safe }}
+              </dd>
+              {%- endfor %}
+            </dl> -->
+          </div>
+        </details>
+      </div>
+    </div>
+    {%- elif block_value.media.transcript %}
+    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint">
+      {{ tnaDetails({
+        'title': 'Transcript',
+        'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
+      }) }}
+    </div>
+    {%- endif %}
+  </div>
 {% endmacro %}

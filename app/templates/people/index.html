@@ -94,7 +94,7 @@
     {%- set ns.first_letter = person.last_name.0 | upper %}
     <div class="tna-container tna-container--no-padding">
       <div class="tna-column tna-column--full">
-        <h2 id="{{ ns.first_letter | lower }}" class="tna-heading-l tna-!--padding-top-s">{{ ns.first_letter }}</h2>
+        <h2 id="{{ ns.first_letter | lower }}" class="tna-heading-l tna-!--padding-top-s tna-!--padding-bottom-m"><span class="tna-visually-hidden">Last names starting with </span>{{ ns.first_letter }}</h2>
       </div>
     </div>
     <ul class="tna-container tna-container--no-padding tna-!--margin-top-m-">
@@ -110,14 +110,14 @@
       {% endfor %}
       {% set card_content = {
         'title': person.title,
-        'headingLevel': 2,
+        'headingLevel': 3,
         'headingSize': 's',
         'href': person.url,
         'text': person.role,
         'meta': role_tags,
         'accentMeta': True,
         'fullAreaClick': True,
-        'classes': 'tna-!--margin-top-l tna-card--person'
+        'classes': 'tna-card--person'
       } %}
       {%- if person.image %}
         {% set card_content = dict(card_content, **{

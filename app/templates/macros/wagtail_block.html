@@ -5,6 +5,7 @@
 {%- from 'macros/wagtail_blocks/contact.html' import wagtailContact -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
+{%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
 {%- from 'macros/wagtail_blocks/gallery.html' import wagtailGallery -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
@@ -86,11 +87,14 @@
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}
 
+  {%- elif content_item.type == 'featured_page' %}
+  {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
+
   {%- elif content_item.type == 'featured_record_article' %}
   {{ wagtailFeaturedRecordArticle(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'media' %}
-  {{ wagtailMedia(content_item.value, next_heading_level) }}
+  {{ wagtailMedia(content_item.value, content_item.id, next_heading_level) }}
   
   {%- elif content_item.type == 'do_dont_list' %}
   {{ wagtailDoDontList(content_item.value, next_heading_level) }}
@@ -109,7 +113,7 @@
   }) }}
   
   {%- elif content_item.type == 'youtube_video' %}
-  {{ wagtailYouTubeVideo(content_item.value) }}
+  {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
 
   {%- elif content_item.type == 'table' %}
   {{ wagtailTable(content_item.value, content_item.id) }}
