@@ -92,11 +92,16 @@ def page_ancestors(page_id, params={}, limit=None):
 
 
 def page_children_paginated(
-    page_id, page, limit=None, order="-first_published_at", params={}
+    page_id,
+    page,
+    limit=None,
+    initial_offset=0,
+    order="-first_published_at",
+    params={},
 ):
     if not limit:
         limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
-    offset = (page - 1) * limit
+    offset = ((page - 1) * limit) + initial_offset
     uri = "pages/"
     params = params | {
         "child_of": page_id,
@@ -107,12 +112,26 @@ def page_children_paginated(
     return wagtail_request_handler(uri, params)
 
 
+def pages_by_type(types, order="-first_published_at", params={}):
+    uri = "pages/"
+    params = params | {
+        "type": ",".join(types),
+        "order": order,
+    }
+    return wagtail_request_handler(uri, params)
+
+
 def pages_by_type_paginated(
-    types, page, limit=None, order="-first_published_at", params={}
+    types,
+    page,
+    limit=None,
+    initial_offset=0,
+    order="-first_published_at",
+    params={},
 ):
     if not limit:
         limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
-    offset = (page - 1) * limit
+    offset = ((page - 1) * limit) + initial_offset
     uri = "pages/"
     params = params | {
         "type": ",".join(types),

@@ -14,7 +14,7 @@ from flask_caching import CachedResponse
 from pydash import objects
 
 from .api import page_details, page_details_by_uri, page_preview
-from .pages import blog_all_page, blog_index_page, blog_post_page
+from .pages import blog_index_page, blog_page, blog_post_page
 
 
 @bp.route("/preview/")
@@ -137,10 +137,10 @@ def index():
 #     except Exception:
 #         return render_template("errors/page-not-found.html"), 404
 #     page_type = objects.get(page_data, "meta.type")
-#     if page_type == "blog.BlogAllPage":
-#         return blog_all_page(page_data, year)
-#     if page_type == "blog.BlogIndexPage" or True:
+#     if page_type == "blog.BlogIndexPage":
 #         return blog_index_page(page_data, year)
+#     if page_type == "blog.BlogPage" or True:
+#         return blog_page(page_data, year)
 #     return render_template("errors/page-not-found.html"), 404
 
 
@@ -151,10 +151,10 @@ def index():
 #     except Exception:
 #         return render_template("errors/page-not-found.html"), 404
 #     page_type = objects.get(page_data, "meta.type")
-#     if page_type == "blog.BlogAllPage":
-#         return blog_all_page(page_data, year, month)
-#     if page_type == "blog.BlogIndexPage" or True:
+#     if page_type == "blog.BlogIndexPage":
 #         return blog_index_page(page_data, year, month)
+#     if page_type == "blog.BlogPage" or True:
+#         return blog_page(page_data, year, month)
 #     return render_template("errors/page-not-found.html"), 404
 
 
@@ -165,10 +165,10 @@ def index():
 #     except Exception:
 #         return render_template("errors/page-not-found.html"), 404
 #     page_type = objects.get(page_data, "meta.type")
-#     if page_type == "blog.BlogAllPage":
-#         return blog_all_page(page_data, year, month, day)
-#     if page_type == "blog.BlogIndexPage" or True:
+#     if page_type == "blog.BlogIndexPage":
 #         return blog_index_page(page_data, year, month, day)
+#     if page_type == "blog.BlogPage" or True:
+#         return blog_page(page_data, year, month, day)
 #     return render_template("errors/page-not-found.html"), 404
 
 

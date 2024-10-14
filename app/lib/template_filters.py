@@ -50,28 +50,49 @@ def get_url_domain(s):
         return s
 
 
-def pretty_date(s):
+def pretty_date(s, show_day=False):
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%d %B %Y")
+        return (
+            date.strftime("%A %d %B %Y")
+            if show_day
+            else date.strftime("%d %B %Y")
+        )
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        return (
+            date.strftime("%A %d %B %Y")
+            if show_day
+            else date.strftime("%d %B %Y")
+        )
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%d")
-        return date.strftime("%d %B %Y")
+        return (
+            date.strftime("%A %d %B %Y")
+            if show_day
+            else date.strftime("%d %B %Y")
+        )
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m")
-        return date.strftime("%B %Y")
+        return date.strftime("%A %B %Y") if show_day else date.strftime("%B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y")
-        return date.strftime("%Y")
+        return date.strftime("%A %Y") if show_day else date.strftime("%Y")
     except ValueError:
         pass
     return s
+
+
+def pretty_date_with_day(s):
+    return pretty_date(s, True)
 
 
 def headings_list(s):

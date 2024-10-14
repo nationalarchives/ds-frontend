@@ -3,6 +3,23 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
+.etna-background-accent-light-half {
+  position: relative;
+
+  &::before {
+    content: "";
+
+    height: 50%;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    @include colour.accent-light;
+  }
+}
+
 .tna-blockquote {
   margin-right: spacing.space(2);
   margin-left: spacing.space(2);
