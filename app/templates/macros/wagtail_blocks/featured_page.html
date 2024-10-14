@@ -16,7 +16,17 @@
     'style': 'tint',
     'classes': 'tna-card--featured-page'
   } %}
-  {% if block_value.page.type_label not in ['Hub', 'General', 'Cookies'] %}
+  {# TODO: Will be fixed in the API #}
+  {% if block_value.page.type_label not in [
+    'Hub',
+    'General',
+    'Cookies',
+    'Person',
+    'People',
+    'Explorer index',
+    'Topic period explorer index',
+    'Time period explorer index'
+  ] %}
     {% set card_content = dict(card_content, **{
       'supertitle': block_value.page.type_label
     }) %}

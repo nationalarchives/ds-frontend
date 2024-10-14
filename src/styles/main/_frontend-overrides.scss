@@ -112,9 +112,9 @@ sup[data-footnoteid] {
   }
 
   @include media.on-larger-than-tiny {
-    grid-template-columns: 1fr max(10rem, 25%) !important;
-
     &--featured-page {
+      grid-template-columns: 1fr max(10rem, 25%) !important;
+
       &:not(:has(.tna-card__image-container)) {
         padding-top: 0;
 
