@@ -9,19 +9,20 @@
     'label': 'New' if block_value.page.is_newly_published,
     'body': block_value.page.teaser_text | tna_html | safe,
     'fullAreaClick': True,
-    'style': 'tint'
+    'horizontal': True,
+    'horizontalSmallImage': True,
+    'horizontalOnSmall': True,
+    'horizontalFlipped': True,
+    'style': 'tint',
+    'classes': 'tna-card--featured-page'
   } %}
-  {% if block_value.page.type_label in ['The story of'] %}
+  {% if block_value.page.type_label not in ['Hub', 'General', 'Cookies'] %}
     {% set card_content = dict(card_content, **{
       'supertitle': block_value.page.type_label
     }) %}
   {% endif %}
   {%- if block_value.page.teaser_image %}
     {% set card_content = dict(card_content, **{
-      'horizontal': True,
-      'horizontalSmallImage': True,
-      'horizontalOnSmall': True,
-      'horizontalFlipped': True,
       'lazyImage': True,
       'imageSrc': block_value.page.teaser_image.jpeg.full_url,
       'imageAlt': block_value.page.teaser_image.alt_text or '',
@@ -34,8 +35,7 @@
           'width': block_value.page.teaser_image.webp.width,
           'height': block_value.page.teaser_image.webp.height
         }
-      ],
-      'classes': 'tna-card--featured-page'
+      ]
     }) %}
   {%- endif %}
   {{ tnaCard(card_content) }}

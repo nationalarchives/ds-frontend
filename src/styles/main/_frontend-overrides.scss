@@ -98,6 +98,10 @@ sup[data-footnoteid] {
   }
 
   &--featured-page {
+    &:not(:has(.tna-card__image-container)) {
+      border-top: none;
+    }
+
     & + & {
       margin-top: spacing.space(1);
     }
@@ -111,6 +115,12 @@ sup[data-footnoteid] {
     grid-template-columns: 1fr max(10rem, 25%) !important;
 
     &--featured-page {
+      &:not(:has(.tna-card__image-container)) {
+        padding-top: 0;
+
+        grid-template-columns: 1fr 0 !important;
+      }
+
       > * + * {
         margin-top: spacing.space(0.5) !important;
       }
