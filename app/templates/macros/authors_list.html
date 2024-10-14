@@ -1,8 +1,8 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{% macro authors_list(authors) %}
-  <div class="tna-container tna-!--padding-top-s tna-!--padding-bottom-xs">
-    <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
+{% macro authors_list(authors, horizontal) %}
+  <div class="tna-container">
+    <div class="etna-author-list{% if horizontal %} etna-author-list--horizontal{% endif %} tna-column tna-column--full">
       <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if authors | length > 1 }}</h2>
       <ul class="etna-author-list__items">
         {%- for author in authors %}

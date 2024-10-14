@@ -49,7 +49,7 @@
     </div>
     {%- endif %}
     <article class="etna-article" itemscope itemtype="https://schema.org/Article">
-      <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
+      <meta itemprop="datePublished" content="{{ page_data.published_date.value }}">
       <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
       <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
         <div class="tna-container">
@@ -58,19 +58,22 @@
               <p class="tna-hgroup__supertitle">Blog post</p>
               <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
             </hgroup>
+            <p class="tna-scene-setter">{{ page_data.published_date.value | pretty_date_with_day }}</p>
             {%- if page_data.intro %}
-            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
+            <p itemprop="headline">
               {{ page_data.intro | tna_html | safe }}
-            </div>
+            </p>
+            {%- endif %}
+            {%- if page_data.authors | length %}
+            <p>Posted by
+              {% for author in page_data.authors -%}
+                {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}<a href="{{ author.url }}">{{ author.title }}</a>
+              {%- endfor -%}
+            </ul>
             {%- endif %}
           </div>
         </div>
       </div>
-      {%- if page_data.authors | length %}
-      <div class="tna-background-accent-light">
-        {{ authors_list(page_data.authors) }}
-      </div>
-      {%- endif %}
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
@@ -78,6 +81,11 @@
           </div>
         </div>
       </div>
+      {%- if page_data.authors | length %}
+      <div class="tna-section">
+        {{ authors_list(page_data.authors) }}
+      </div>
+      {%- endif %}
     </article>
   </div>
 </main>
