@@ -7,7 +7,6 @@ from flask import current_app, render_template, request
 
 def blog_index_page(page_data, year=None, month=None, day=None):
     children_per_page = 24
-    children_per_page = 2
     page = (
         int(request.args.get("page"))
         if "page" in request.args and request.args["page"].isnumeric()
@@ -20,7 +19,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
             ["blog.BlogPostPage"],
             page,
             children_per_page + 1 if page == 1 else children_per_page,
-            initial_offset=1,
+            initial_offset=0 if page == 1 else 1,
         )
     except ConnectionError:
         current_app.logger.error(
