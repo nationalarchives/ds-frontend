@@ -4,6 +4,7 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
+@use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
 .tna-button-group {
   &--full {
@@ -84,7 +85,7 @@ sup[data-footnoteid] {
 }
 
 .tna-card {
-  &__promoted-item {
+  &--promoted-item {
     @include colour.thick-keyline-accent(top);
 
     .tna-card__inner {
@@ -94,6 +95,30 @@ sup[data-footnoteid] {
         border-top: none;
       }
     }
+  }
+
+  &--featured-page {
+    & + & {
+      margin-top: spacing.space(1);
+    }
+  }
+
+  &--featured-page &__image-container {
+    margin-top: 0 !important;
+  }
+
+  @include media.on-larger-than-tiny {
+    grid-template-columns: 1fr max(10rem, 25%) !important;
+
+    &--featured-page {
+      > * + * {
+        margin-top: spacing.space(0.5) !important;
+      }
+    }
+  }
+
+  @include media.on-larger-than-mobile {
+    @include card.horizontal-card-layout("--featured-page", 1);
   }
 
   &--full-height {
