@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/authors_list.html' import authors_list -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
@@ -22,31 +23,62 @@
     {%- endif %}
 {% endblock %}
 
-{% block content %}
-  {%- if page_data.global_alert or page_data.mourning_notice %}
-    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-  {%- endif %}
-  <div class="tna-section">
+{% block main %}
+  {% block beforeContent %}
+  {%- if breadcrumbs and breadcrumbs | length > 0 %}
+    {%- if not page_data.hero_image %}
+    <div class="tna-background-accent-light">
+    {%- endif %}
     <div class="tna-container">
-      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-        <hgroup class="tna-hgroup-xl">
-          <p class="tna-hgroup__supertitle">Blog post</p>
-          <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
-        </hgroup>
-        {%- if page_data.intro %}
-        <div class="tna-large-paragraph tna-!--margin-top-s">
-          {{ page_data.intro | tna_html | safe }}
+      <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+        {{ tnaBreadcrumbs({
+          'items': breadcrumbs,
+          'structuredData': True
+        }) }}
+      </div>
+    </div>
+    {%- if not page_data.hero_image %}
+    </div>
+    {%- endif %}
+  {%- endif %}
+  {% endblock %}
+  <main class="tna-main {{ mainClasses }}" id="main-content">
+    {%- if page_data.global_alert or page_data.mourning_notice %}
+    <div class="tna-background-accent-light">
+      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+    </div>
+    {%- endif %}
+    <article class="etna-article" itemscope itemtype="https://schema.org/Article">
+      <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
+      <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
+      <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
+        <div class="tna-container">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+            <hgroup class="tna-hgroup-xl">
+              <p class="tna-hgroup__supertitle">Blog post</p>
+              <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
+            </hgroup>
+            {%- if page_data.intro %}
+            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
+              {{ page_data.intro | tna_html | safe }}
+            </div>
+            {%- endif %}
+          </div>
         </div>
-        {%- endif %}
       </div>
-    </div>
-  </div>
-  <div class="tna-section">
-    <div class="tna-container tna-container--centred">
-      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
-        {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
+      {%- if page_data.authors | length %}
+      <div class="tna-background-accent-light">
+        {{ authors_list(page_data.authors) }}
       </div>
-    </div>
+      {%- endif %}
+      <div class="tna-section">
+        <div class="tna-container tna-container--centred">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
+            {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
+          </div>
+        </div>
+      </div>
+    </article>
   </div>
 </main>
 {% endblock %}

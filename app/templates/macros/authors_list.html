@@ -1,0 +1,27 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{% macro authors_list(authors) %}
+  <div class="tna-container tna-!--padding-top-s tna-!--padding-bottom-xs">
+    <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
+      <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if authors | length > 1 }}</h2>
+      <ul class="etna-author-list__items">
+        {%- for author in authors %}
+        <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img src="{{ author.image_small.jpeg.full_url }}" alt="{{ author.image_small.alt_text }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+          <div class="etna-author-list__details">
+            <p class="etna-author-list__name">
+              <strong>
+                <link itemprop="url" href="{{ author.url }}">
+                <a href="{{ author.url }}" rel="author">
+                  <span itemprop="name">{{ author.title }}</span>
+                </a>
+              </strong>
+            </p>
+            <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
+          </div>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+{% endmacro %}

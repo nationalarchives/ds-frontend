@@ -6,6 +6,7 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/authors_list.html' import authors_list -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
@@ -123,29 +124,7 @@
 
   {%- if page_data.authors | length %}
   <div class="tna-background-accent-light">
-    <div class="tna-container tna-!--padding-top-s tna-!--padding-bottom-xs">
-      <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
-        <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if page_data.authors | length > 1 }}</h2>
-        <ul class="etna-author-list__items">
-          {%- for author in page_data.authors %}
-          <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <img src="{{ author.image_small.jpeg.full_url }}" alt="{{ author.image_small.alt_text }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
-            <div class="etna-author-list__details">
-              <p class="etna-author-list__name">
-                <strong>
-                  <link itemprop="url" href="{{ author.url }}">
-                  <a href="{{ author.url }}" rel="author">
-                    <span itemprop="name">{{ author.title }}</span>
-                  </a>
-                </strong>
-              </p>
-              <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
-            </div>
-          </li>
-          {%- endfor %}
-        </ul>
-      </div>
-    </div>
+    {{ authors_list(page_data.authors) }}
   </div>
   {%- endif %}
 
