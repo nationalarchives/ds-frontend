@@ -1,7 +1,13 @@
+import datetime
 import math
 
 from app.lib import pagination_object
-from app.wagtail.api import breadcrumbs, pages_by_type, pages_by_type_paginated
+from app.wagtail.api import (
+    blog_post_counts,
+    blog_posts_paginated,
+    blogs,
+    breadcrumbs,
+)
 from flask import current_app, render_template, request
 
 
@@ -12,13 +18,24 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         if "page" in request.args and request.args["page"].isnumeric()
         else 1
     )
+    year = (
+        int(request.args.get("year"))
+        if "year" in request.args and request.args["year"].isnumeric()
+        else None
+    )
+    month = (
+        int(request.args.get("month"))
+        if "month" in request.args and request.args["month"].isnumeric()
+        else None
+    )
     try:
-        blogs_data = pages_by_type(["blog.BlogPage"], order="title")
-        # TODO: Filter children_data by year, month and day
-        blog_posts_data = pages_by_type_paginated(
-            ["blog.BlogPostPage"],
-            page,
-            children_per_page + 1 if page == 1 else children_per_page,
+        blogs_data = blogs()
+        blog_post_counts_data = blog_post_counts()
+        blog_posts_data = blog_posts_paginated(
+            page=page,
+            year=year,
+            month=month,
+            limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
     except ConnectionError:
@@ -31,9 +48,46 @@ def blog_index_page(page_data, year=None, month=None, day=None):
             f"Exception getting all blog posts for page {page_data['id']}"
         )
         return render_template("errors/server.html"), 500
-    pages = math.ceil(
-        blog_posts_data["meta"]["total_count"] / children_per_page
-    )
+    total_blog_posts = blog_posts_data["meta"]["total_count"]
+    pages = math.ceil(total_blog_posts / children_per_page)
+    date_filters = [
+        {
+            "label": "Any date",
+            "href": page_data["meta"]["url"],
+            "selected": not year,
+        }
+    ]
+    if year:
+        for year_count in reversed(blog_post_counts_data):
+            if year_count["year"] == year:
+                date_filters.append(
+                    {
+                        "label": f"All {year_count['year']} ({year_count['posts']})",
+                        "href": f"?year={year_count['year']}",
+                        "selected": not month,
+                    }
+                )
+                for month_count in reversed(year_count["months"]):
+                    month_name = datetime.date(
+                        year, month_count["month"], 1
+                    ).strftime("%B")
+                    date_filters.append(
+                        {
+                            "label": f"{month_name} {year_count['year']} ({month_count['posts']})",
+                            "href": f"?year={year_count['year']}&month={month_count['month']}",
+                            "selected": year == year_count["year"]
+                            and month == month_count["month"],
+                        }
+                    )
+    else:
+        for year_count in reversed(blog_post_counts_data):
+            date_filters.append(
+                {
+                    "label": f"{year_count['year']} ({year_count['posts']})",
+                    "href": f"?year={year_count['year']}",
+                    "selected": False,
+                }
+            )
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
     return render_template(
@@ -41,8 +95,9 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         blog_posts=blog_posts_data["items"],
-        total_blog_posts=blog_posts_data["meta"]["total_count"],
-        blogs=blogs_data["items"],
+        date_filters=date_filters,
+        total_blog_posts=total_blog_posts,
+        blogs=blogs_data,
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
