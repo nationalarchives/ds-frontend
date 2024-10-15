@@ -87,6 +87,24 @@ def page_ancestors(page_id, params={}, limit=None):
     params = params | {
         "ancestor_of": page_id,
         "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "order": "id",  # TODO: Order by url/depth (or similar)
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def pages_paginated(
+    page,
+    limit=None,
+    initial_offset=0,
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = ((page - 1) * limit) + initial_offset
+    uri = "pages/"
+    params = params | {
+        "offset": offset,
+        "limit": limit,
     }
     return wagtail_request_handler(uri, params)
 
@@ -99,17 +117,37 @@ def page_children_paginated(
     order="-first_published_at",
     params={},
 ):
-    if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
-    offset = ((page - 1) * limit) + initial_offset
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        initial_offset=initial_offset,
+        params=params | {"child_of": page_id, "order": order},
+    )
+
+
+def page_descendants(
+    page_id,
+    params={},
+):
     uri = "pages/"
-    params = params | {
-        "child_of": page_id,
-        "offset": offset,
-        "limit": limit,
-        "order": order,
-    }
+    params = params | {"descendant_of": page_id}
     return wagtail_request_handler(uri, params)
+
+
+def page_descendants_paginated(
+    page_id,
+    page,
+    limit=None,
+    initial_offset=0,
+    order="-first_published_at",
+    params={},
+):
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        initial_offset=initial_offset,
+        params=params | {"descendant_of": page_id, "order": order},
+    )
 
 
 def pages_by_type(types, order="-first_published_at", params={}):
@@ -129,17 +167,16 @@ def pages_by_type_paginated(
     order="-first_published_at",
     params={},
 ):
-    if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
-    offset = ((page - 1) * limit) + initial_offset
-    uri = "pages/"
-    params = params | {
-        "type": ",".join(types),
-        "offset": offset,
-        "limit": limit,
-        "order": order,
-    }
-    return wagtail_request_handler(uri, params)
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        initial_offset=initial_offset,
+        params=params
+        | {
+            "type": ",".join(types),
+            "order": order,
+        },
+    )
 
 
 def page_preview(content_type, token, params={}):

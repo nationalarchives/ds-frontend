@@ -3,6 +3,7 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/authors_list.html' import authors_list -%}
 {%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
@@ -83,7 +84,25 @@
       </div>
       {%- if page_data.authors | length %}
       <div class="tna-section">
-        {{ authors_list(page_data.authors) }}
+        <div class="tna-container tna-container--centred">
+          {{ authors_list(page_data.authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print') }}
+        </div>
+      </div>
+      {%- endif %}
+      {%- if blogs_index and blogs_index[0] %}
+      <div class="tna-section">
+        <div class="tna-container tna-container--centred">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
+            {%- if blogs_index and blogs_index[0] %}
+              {{ wagtailFeaturedPage({'page': blogs_index[0]}, 2) }}
+            {%- endif %}
+            {%- for blog in blogs %}
+            {%- if blog.id != page_data.id %}
+              {{ wagtailFeaturedPage({'page': blog}, 3) }}
+            {%- endif %}
+            {%- endfor %}
+          </div>
+        </div>
       </div>
       {%- endif %}
     </article>

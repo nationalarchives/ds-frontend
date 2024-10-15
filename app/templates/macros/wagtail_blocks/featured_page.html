@@ -2,6 +2,7 @@
 
 {% macro wagtailFeaturedPage(block_value, itemHeadingLevel) %}
   {% set card_content = {
+    'supertitle': block_value.page.type_label,
     'title': block_value.page.title,
     'headingLevel': itemHeadingLevel,
     'headingSize': 's',
@@ -16,21 +17,6 @@
     'style': 'tint',
     'classes': 'tna-card--featured-page'
   } %}
-  {# TODO: Will be fixed in the API #}
-  {% if block_value.page.type_label not in [
-    'Hub',
-    'General',
-    'Cookies',
-    'Person',
-    'People',
-    'Explorer index',
-    'Topic period explorer index',
-    'Time period explorer index'
-  ] %}
-    {% set card_content = dict(card_content, **{
-      'supertitle': block_value.page.type_label
-    }) %}
-  {% endif %}
   {%- if block_value.page.teaser_image %}
     {% set card_content = dict(card_content, **{
       'lazyImage': True,

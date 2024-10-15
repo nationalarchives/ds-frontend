@@ -124,7 +124,9 @@
 
   {%- if page_data.authors | length %}
   <div class="tna-background-accent-light tna-!--padding-top-s tna-!--padding-bottom-xs">
-    {{ authors_list(page_data.authors, True) }}
+    <div class="tna-container">
+      {{ authors_list(page_data.authors, True) }}
+    </div>
   </div>
   {%- endif %}
 
