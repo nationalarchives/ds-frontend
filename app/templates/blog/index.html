@@ -13,6 +13,14 @@
 {% block head %}
 {{ super() }}
 {{ meta(page_data) }}
+    {% if 'page' in request.args %}
+    <!-- TODO: Escape? -->
+    <link rel="canonical" href="{{ request.url }}">
+    {% elif (request.args | length) %}
+    <link rel="canonical" href="{{ request.url }}&page={{ page }}">
+    {% else %}
+    <link rel="canonical" href="{{ request.url }}?page={{ page }}">
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
@@ -100,17 +108,16 @@
     {%- endif %}
     <div class="tna-container tna-!--padding-top-m">
       <div class="tna-column tna-column--full">
-        {%- if blogs and request.path == '/blog/' %}
+
+        
+
+        {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
         {%- if request.path == '/blog/' %}
-        <h2 class="tna-heading-m">All blogs and categories</h2>
+        <h2 class="tna-heading-m">All blogs</h2>
         {%- else %}
         <h2 class="tna-heading-m">Other blogs</h2>
         {%- endif %}
-        {% set blogs_list = [{
-          'label': 'All blog posts',
-          'href': '/blog/',
-          'selected': request.path == '/blog/'
-        }] %}
+        {% set blogs_list = [] %}
         {% for blog in blogs %}
           {% set blogs_list = blogs_list.append({
             'label': blog.title,
@@ -123,8 +130,22 @@
           'classes': 'tna-!--margin-top-s'
         }) }}
         {%- endif %}
+
+        {%- if date_filters %}
+        <h2 class="tna-heading-m">Filter posts by date</h2>
+        {{ tnaQuickFilters({
+          'items': date_filters,
+          'classes': 'tna-!--margin-top-s'
+        }) }}
+        {%- endif %}
+
+
+
+
+
+
         {%- if categories %}
-        <h2 class="tna-heading-m">Categories in {{ page_data.title | lower }}</h2>
+        <h2 class="tna-heading-m">Categories in {{ page_data.title }}</h2>
         {% set categories_list = [] %}
         {% for category in categories %}
           {% set categories_list = categories_list.append({
@@ -157,6 +178,12 @@
           'href': blog_post.full_url,
           'body': blog_post.teaser_text,
           'label': 'New' if blog_post.is_newly_published,
+          'meta': [
+            {
+              'title': 'Published',
+              'text':  blog_post.published_date.value | pretty_date_with_day
+            }
+          ],
           'fullAreaClick': True,
           'classes': 'tna-card--full-height'
         } %}
@@ -196,7 +223,7 @@
         {{ tnaPagination(pagination) }}
       </div>
       {% endif %}
-      {%- if blogs and request.path != '/blog/' %}
+      {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
         <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
         {%- if blogs_index and blogs_index[0] %}

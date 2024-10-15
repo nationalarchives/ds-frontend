@@ -39,6 +39,7 @@
     <meta name="tna.app.tna-frontend" content="{{ app_config.TNA_FRONTEND_VERSION }}">
     <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
+    <meta name="tna.page.route" content="{{ request.url_rule }}">
 {% endblock %}
 
 {% block stylesheets %}

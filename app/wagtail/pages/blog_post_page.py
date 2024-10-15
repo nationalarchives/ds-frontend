@@ -1,10 +1,10 @@
-from app.wagtail.api import breadcrumbs, pages_by_type
+from app.wagtail.api import breadcrumbs, blogs
 from flask import current_app, render_template
 
 
 def blog_post_page(page_data):
     try:
-        blogs_index_data = pages_by_type(["blog.BlogIndexPage"])
+        blogs_data = blogs()
     except ConnectionError:
         current_app.logger.error(
             f"API error getting children for page {page_data['id']}"
@@ -18,6 +18,6 @@ def blog_post_page(page_data):
     return render_template(
         "blog/post.html",
         page_data=page_data,
-        blogs_index=blogs_index_data["items"],
+        blogs=blogs_data,
         breadcrumbs=breadcrumbs(page_data["id"]),
     )

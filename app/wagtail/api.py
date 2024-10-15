@@ -179,6 +179,57 @@ def pages_by_type_paginated(
     )
 
 
+def blogs(params={}):
+    uri = "blogs/"
+    return wagtail_request_handler(uri, params)
+
+
+def blog_posts_paginated(
+    page,
+    blog_id=None,
+    year=None,
+    month=None,
+    day=None,
+    limit=None,
+    initial_offset=0,
+    order="-published_date",
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = ((page - 1) * limit) + initial_offset
+    uri = "blog_posts/"
+    params = params | {
+        "order": order,
+        "offset": offset,
+        "limit": limit,
+        "year": year,
+        "month": month,
+        "day": day,
+    }
+    if blog_id:
+        params["descendant_of"] = blog_id
+    return wagtail_request_handler(uri, params)
+
+
+def blog_post_counts(
+    blog_id=None,
+    year=None,
+    month=None,
+    day=None,
+    params={},
+):
+    uri = "blog_posts/count/"
+    params = params | {
+        "year": year,
+        "month": month,
+        "day": day,
+    }
+    if blog_id:
+        params["descendant_of"] = blog_id
+    return wagtail_request_handler(uri, params)
+
+
 def page_preview(content_type, token, params={}):
     uri = "page_preview/1/"
     params = params | {"content_type": content_type, "token": token}
