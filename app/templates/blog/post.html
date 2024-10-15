@@ -59,26 +59,28 @@
               <p class="tna-hgroup__supertitle">Blog post</p>
               <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
             </hgroup>
-            <p class="tna-scene-setter">{{ page_data.published_date.value | pretty_date_with_day }}</p>
             {%- if page_data.intro %}
-            <p itemprop="headline">
+            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
               {{ page_data.intro | tna_html | safe }}
+            </div>
+            {%- endif %}
+            <p>
+              <small>Published {{ page_data.published_date.value | pretty_date_with_day }}
+                {%- if page_data.authors | length %}
+                by
+                {% for author in page_data.authors -%}
+                  {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}<a href="{{ author.url }}">{{ author.title }}</a>
+                {%- endfor -%}
+                {%- endif %}
+              </small>
             </p>
-            {%- endif %}
-            {%- if page_data.authors | length %}
-            <p>Posted by
-              {% for author in page_data.authors -%}
-                {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}<a href="{{ author.url }}">{{ author.title }}</a>
-              {%- endfor -%}
-            </ul>
-            {%- endif %}
           </div>
         </div>
       </div>
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
-            {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
+            {{ wagtail_body(page_data.body, 2) }}
           </div>
         </div>
       </div>
@@ -93,6 +95,7 @@
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
+            <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
             {%- for blog in blogs %}
               {{ wagtailFeaturedPage({'page': blog}, 3) }}
             {%- endfor %}
