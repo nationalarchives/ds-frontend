@@ -105,26 +105,20 @@ sup[data-footnoteid] {
     & + & {
       margin-top: spacing.space(1);
     }
-  }
 
-  &--featured-page &__image-container {
-    margin-top: 0 !important;
-  }
-
-  @include media.on-larger-than-tiny {
-    &--featured-page {
-      grid-template-columns: 1fr max(10rem, 25%) !important;
-
+    @include media.on-larger-than-tiny {
       &:not(:has(.tna-card__image-container)) {
         padding-top: 0;
-
-        grid-template-columns: 1fr 0 !important;
       }
 
       > * + * {
         margin-top: spacing.space(0.5) !important;
       }
     }
+  }
+
+  &--featured-page &__image-container {
+    margin-top: 0 !important;
   }
 
   @include media.on-larger-than-mobile {

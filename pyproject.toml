@@ -11,7 +11,7 @@ python = "^3.12"
 flask = "^2.3.2"
 requests = "^2.31.0"
 flask-caching = "^2.1.0"
-tna-frontend-jinja = "0.2.15"
+tna-frontend-jinja = "0.2.16"
 flask-talisman = "^1.1.0"
 sentry-sdk = {extras = ["flask"], version = "^2.8.0"}
 pydash = "^8.0.3"
