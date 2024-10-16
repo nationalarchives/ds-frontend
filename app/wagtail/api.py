@@ -1,5 +1,4 @@
-import requests
-from app.lib.api import ApiResourceNotFound
+from app.lib.api import ApiResourceNotFound, JSONAPIClient
 from flask import current_app
 from pydash import objects
 
@@ -9,23 +8,11 @@ def wagtail_request_handler(uri, params={}):
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
-    params["format"] = "json"
-    url = f"{api_url}/{uri}"
-    current_app.logger.debug(f"API endpoint requested: {url} (params {params})")
-    r = requests.get(url, params=params)
-    if r.status_code == 404:
-        current_app.logger.warning(f"Resource not found: {url}")
-        raise ApiResourceNotFound("Resource not found")
-    if r.status_code == requests.codes.ok:
-        try:
-            return r.json()
-        except requests.exceptions.JSONDecodeError:
-            current_app.logger.error("API provided non-JSON response")
-            raise ConnectionError("API provided non-JSON response")
-    current_app.logger.error(
-        f"API responded with {r.status_code} status for {url}"
-    )
-    raise ConnectionError("Request to API failed")
+    client = JSONAPIClient(api_url)
+    client.add_parameter("format", "json")
+    client.add_parameters(params)
+    data = client.get(uri)
+    return data
 
 
 def breadcrumbs(page_id):
@@ -134,49 +121,49 @@ def page_descendants(
     return wagtail_request_handler(uri, params)
 
 
-def page_descendants_paginated(
-    page_id,
-    page,
-    limit=None,
-    initial_offset=0,
-    order="-first_published_at",
-    params={},
-):
-    return pages_paginated(
-        page=page,
-        limit=limit,
-        initial_offset=initial_offset,
-        params=params | {"descendant_of": page_id, "order": order},
-    )
+# def page_descendants_paginated(
+#     page_id,
+#     page,
+#     limit=None,
+#     initial_offset=0,
+#     order="-first_published_at",
+#     params={},
+# ):
+#     return pages_paginated(
+#         page=page,
+#         limit=limit,
+#         initial_offset=initial_offset,
+#         params=params | {"descendant_of": page_id, "order": order},
+#     )
 
 
-def pages_by_type(types, order="-first_published_at", params={}):
-    uri = "pages/"
-    params = params | {
-        "type": ",".join(types),
-        "order": order,
-    }
-    return wagtail_request_handler(uri, params)
+# def pages_by_type(types, order="-first_published_at", params={}):
+#     uri = "pages/"
+#     params = params | {
+#         "type": ",".join(types),
+#         "order": order,
+#     }
+#     return wagtail_request_handler(uri, params)
 
 
-def pages_by_type_paginated(
-    types,
-    page,
-    limit=None,
-    initial_offset=0,
-    order="-first_published_at",
-    params={},
-):
-    return pages_paginated(
-        page=page,
-        limit=limit,
-        initial_offset=initial_offset,
-        params=params
-        | {
-            "type": ",".join(types),
-            "order": order,
-        },
-    )
+# def pages_by_type_paginated(
+#     types,
+#     page,
+#     limit=None,
+#     initial_offset=0,
+#     order="-first_published_at",
+#     params={},
+# ):
+#     return pages_paginated(
+#         page=page,
+#         limit=limit,
+#         initial_offset=initial_offset,
+#         params=params
+#         | {
+#             "type": ",".join(types),
+#             "order": order,
+#         },
+#     )
 
 
 def blogs(params={}):

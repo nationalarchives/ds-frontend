@@ -9,6 +9,13 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
 {%- set pageTitle = page_data.title -%}
+{%- if year %}
+  {%- if month_name %}
+    {%- set pageTitle = pageTitle + ' - ' + month_name + ' ' + (year | string) -%}
+    {%- else %}
+    {%- set pageTitle = pageTitle + ' - ' + (year | string) -%}
+  {%- endif %}
+{%- endif %}
 
 {% block head %}
 {{ super() }}
@@ -52,7 +59,14 @@
     <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+          <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+          {%- else %}
+          <hgroup class="tna-hgroup-xl">
+            <p class="tna-hgroup__supertitle">Blog</p>
+            <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitle }}</h1>
+          </hgroup>
+          {%- endif %}
           {%- if page_data.intro %}
           <div class="tna-large-paragraph tna-!--margin-top-s">
             {{ page_data.intro | tna_html | safe }}
@@ -108,9 +122,6 @@
     {%- endif %}
     <div class="tna-container tna-!--padding-top-m">
       <div class="tna-column tna-column--full">
-
-        
-
         {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
         {%- if request.path == '/blog/' %}
         <h2 class="tna-heading-m">All blogs</h2>
@@ -130,7 +141,6 @@
           'classes': 'tna-!--margin-top-s'
         }) }}
         {%- endif %}
-
         {%- if date_filters %}
         <h2 class="tna-heading-m">Filter posts by date</h2>
         {{ tnaQuickFilters({
@@ -138,12 +148,6 @@
           'classes': 'tna-!--margin-top-s'
         }) }}
         {%- endif %}
-
-
-
-
-
-
         {%- if categories %}
         <h2 class="tna-heading-m">Categories in {{ page_data.title }}</h2>
         {% set categories_list = [] %}
@@ -209,15 +213,6 @@
       {% endfor %}
     </ul>
     <div class="tna-container">
-      <!--
-      <div class="tna-column tna-column--full">
-        <p>Page <strong>{{ page }}</strong> of <strong>{{ pages }}</strong></p>
-        <p>Total posts: <strong>{{ total_blog_posts }}</strong></p>
-        <p>Filtering by year: {{ date_filter.year }}<br>
-          Filtering by month: {{ date_filter.month }}<br>
-          Filtering by day: {{ date_filter.day }}</p>
-      </div>
-      -->
       {% if pages > 1 %}
       <div class="tna-column tna-column--full tna-!--margin-top-l">
         {{ tnaPagination(pagination) }}
@@ -236,7 +231,7 @@
         {%- endfor %}
       </div>
       {%- endif %}
-      <!-- <div class="tna-column tna-column--full tna-hide-on-print">
+      <div class="tna-column tna-column--full tna-hide-on-print">
         <hr class="tna-!--margin-top-l">
         <div class="tna-button-group tna-!--margin-top-s">
           {{ tnaButton({
@@ -247,7 +242,7 @@
             'plain': True
           }) }}
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </main>

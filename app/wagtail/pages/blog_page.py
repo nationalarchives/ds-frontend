@@ -1,5 +1,5 @@
-import math
 import datetime
+import math
 
 from app.lib import pagination_object
 from app.wagtail.api import (
@@ -8,7 +8,6 @@ from app.wagtail.api import (
     blogs,
     breadcrumbs,
     page_descendants,
-    pages_by_type,
 )
 from flask import current_app, render_template, request
 
@@ -30,6 +29,9 @@ def blog_page(page_data, year=None, month=None, day=None):
         if "month" in request.args and request.args["month"].isnumeric()
         else None
     )
+    month_name = (
+        datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
+    )
     try:
         blogs_data = blogs()
         blog_post_counts_data = blog_post_counts(
@@ -43,9 +45,9 @@ def blog_page(page_data, year=None, month=None, day=None):
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
-        child_blogs_data = page_descendants(
+        categories = page_descendants(
             page_id=page_data["id"], params={"type": "blog.BlogPage"}
-        )  # CATEGORIES
+        )
     except ConnectionError:
         current_app.logger.error(
             f"API error getting children for page {page_data['id']}"
@@ -76,12 +78,12 @@ def blog_page(page_data, year=None, month=None, day=None):
                     }
                 )
                 for month_count in reversed(year_count["months"]):
-                    month_name = datetime.date(
+                    each_month_name = datetime.date(
                         year, month_count["month"], 1
                     ).strftime("%B")
                     date_filters.append(
                         {
-                            "label": f"{month_name} {year_count['year']} ({month_count['posts']})",
+                            "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
                             "href": f"?year={year_count['year']}&month={month_count['month']}",
                             "selected": year == year_count["year"]
                             and month == month_count["month"],
@@ -104,11 +106,13 @@ def blog_page(page_data, year=None, month=None, day=None):
         page_data=page_data,
         blog_posts=blog_posts_data["items"],
         date_filters=date_filters,
-        categories=child_blogs_data['items'],
+        categories=categories["items"],
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
-        date_filter={"year": year, "month": month, "day": day},
+        year=year,
+        month=month,
+        month_name=month_name,
     )

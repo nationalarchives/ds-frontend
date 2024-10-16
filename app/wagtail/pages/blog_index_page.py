@@ -28,6 +28,9 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         if "month" in request.args and request.args["month"].isnumeric()
         else None
     )
+    month_name = (
+        datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
+    )
     try:
         blogs_data = blogs()
         blog_post_counts_data = blog_post_counts()
@@ -68,12 +71,12 @@ def blog_index_page(page_data, year=None, month=None, day=None):
                     }
                 )
                 for month_count in reversed(year_count["months"]):
-                    month_name = datetime.date(
+                    each_month_name = datetime.date(
                         year, month_count["month"], 1
                     ).strftime("%B")
                     date_filters.append(
                         {
-                            "label": f"{month_name} {year_count['year']} ({month_count['posts']})",
+                            "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
                             "href": f"?year={year_count['year']}&month={month_count['month']}",
                             "selected": year == year_count["year"]
                             and month == month_count["month"],
@@ -101,5 +104,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
-        date_filter={"year": year, "month": month, "day": day},
+        year=year,
+        month=month,
+        month_name=month_name,
     )

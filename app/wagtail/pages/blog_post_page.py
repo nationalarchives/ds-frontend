@@ -1,4 +1,4 @@
-from app.wagtail.api import breadcrumbs, blogs
+from app.wagtail.api import blogs, breadcrumbs
 from flask import current_app, render_template
 
 
