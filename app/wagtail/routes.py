@@ -11,10 +11,12 @@ from flask import (
     url_for,
 )
 from flask_caching import CachedResponse
-from pydash import objects
 
 from .api import page_details, page_details_by_uri, page_preview
-from .pages import blog_index_page, blog_page, blog_post_page
+
+# from pydash import objects
+
+# from .pages import blog_index_page, blog_page, blog_post_page
 
 
 @bp.route("/preview/")
@@ -139,7 +141,7 @@ def index():
 #     page_type = objects.get(page_data, "meta.type")
 #     if page_type == "blog.BlogIndexPage":
 #         return blog_index_page(page_data, year)
-#     if page_type == "blog.BlogPage" or True:
+#     if page_type == "blog.BlogPage":
 #         return blog_page(page_data, year)
 #     return render_template("errors/page-not-found.html"), 404
 
@@ -153,7 +155,7 @@ def index():
 #     page_type = objects.get(page_data, "meta.type")
 #     if page_type == "blog.BlogIndexPage":
 #         return blog_index_page(page_data, year, month)
-#     if page_type == "blog.BlogPage" or True:
+#     if page_type == "blog.BlogPage":
 #         return blog_page(page_data, year, month)
 #     return render_template("errors/page-not-found.html"), 404
 
@@ -167,7 +169,7 @@ def index():
 #     page_type = objects.get(page_data, "meta.type")
 #     if page_type == "blog.BlogIndexPage":
 #         return blog_index_page(page_data, year, month, day)
-#     if page_type == "blog.BlogPage" or True:
+#     if page_type == "blog.BlogPage":
 #         return blog_page(page_data, year, month, day)
 #     return render_template("errors/page-not-found.html"), 404
 
@@ -180,11 +182,10 @@ def index():
 #         return render_template("errors/page-not-found.html"), 404
 #     page_type = objects.get(page_data, "meta.type")
 #     if (
-#         True
-#         or page_type == "blog.BlogPostPage"
-#         and page_data["year"] == year
-#         and page_data["month"] == month
-#         and page_data["day"] == day
+#         page_type == "blog.BlogPostPage"
+#         and page_data["published_date"]["year"] == year
+#         and page_data["published_date"]["month"] == month
+#         and page_data["published_date"]["day"] == day
 #     ):
 #         return blog_post_page(page_data)
 #     return render_template("errors/page-not-found.html"), 404

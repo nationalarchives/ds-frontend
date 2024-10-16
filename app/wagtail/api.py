@@ -121,51 +121,6 @@ def page_descendants(
     return wagtail_request_handler(uri, params)
 
 
-# def page_descendants_paginated(
-#     page_id,
-#     page,
-#     limit=None,
-#     initial_offset=0,
-#     order="-first_published_at",
-#     params={},
-# ):
-#     return pages_paginated(
-#         page=page,
-#         limit=limit,
-#         initial_offset=initial_offset,
-#         params=params | {"descendant_of": page_id, "order": order},
-#     )
-
-
-# def pages_by_type(types, order="-first_published_at", params={}):
-#     uri = "pages/"
-#     params = params | {
-#         "type": ",".join(types),
-#         "order": order,
-#     }
-#     return wagtail_request_handler(uri, params)
-
-
-# def pages_by_type_paginated(
-#     types,
-#     page,
-#     limit=None,
-#     initial_offset=0,
-#     order="-first_published_at",
-#     params={},
-# ):
-#     return pages_paginated(
-#         page=page,
-#         limit=limit,
-#         initial_offset=initial_offset,
-#         params=params
-#         | {
-#             "type": ",".join(types),
-#             "order": order,
-#         },
-#     )
-
-
 def blogs(params={}):
     uri = "blogs/"
     return wagtail_request_handler(uri, params)
@@ -176,7 +131,8 @@ def blog_posts_paginated(
     blog_id=None,
     year=None,
     month=None,
-    day=None,
+    author=None,
+    search=None,
     limit=None,
     initial_offset=0,
     order="-published_date",
@@ -187,15 +143,15 @@ def blog_posts_paginated(
     offset = ((page - 1) * limit) + initial_offset
     uri = "blog_posts/"
     params = params | {
-        "order": order,
         "offset": offset,
         "limit": limit,
+        "order": order,
         "year": year,
         "month": month,
-        "day": day,
+        "author": author,
+        # "search": search,
+        "descendant_of": blog_id,
     }
-    if blog_id:
-        params["descendant_of"] = blog_id
     return wagtail_request_handler(uri, params)
 
 
@@ -203,17 +159,29 @@ def blog_post_counts(
     blog_id=None,
     year=None,
     month=None,
-    day=None,
+    author=None,
+    search=None,
     params={},
 ):
     uri = "blog_posts/count/"
     params = params | {
         "year": year,
         "month": month,
-        "day": day,
+        "author": author,
+        # "search": search,
+        "descendant_of": blog_id,
     }
-    if blog_id:
-        params["descendant_of"] = blog_id
+    return wagtail_request_handler(uri, params)
+
+
+def blog_authors(
+    blog_id=None,
+    params={},
+):
+    uri = "blog_posts/authors/"
+    params = params | {
+        "descendant_of": blog_id,
+    }
     return wagtail_request_handler(uri, params)
 
 

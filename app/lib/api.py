@@ -10,8 +10,9 @@ class JSONAPIClient:
     api_url = ""
     params = {}
 
-    def __init__(self, api_url):
+    def __init__(self, api_url, params={}):
         self.api_url = api_url
+        self.params = params
 
     def add_parameter(self, key, value):
         self.params[key] = value
@@ -22,7 +23,11 @@ class JSONAPIClient:
     def get(self, path="/"):
         url = f"{self.api_url}/{path.lstrip(" / ")}"
         try:
-            response = requests.get(url, params=self.params)
+            response = requests.get(
+                url,
+                params=self.params,
+                headers={"Cache-Control": "no-cache"},
+            )
         except ConnectionError:
             current_app.logger.error(
                 f"JSON API connection error for: {response.url}"

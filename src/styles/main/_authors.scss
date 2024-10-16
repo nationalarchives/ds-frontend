@@ -19,8 +19,6 @@
   }
 
   &__item {
-    padding-bottom: spacing.space(1);
-
     display: flex;
     gap: spacing.space(1);
   }
@@ -49,17 +47,17 @@
 
   &--horizontal &__items {
     display: block;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 
-    columns: 3;
-    column-gap: spacing.space(2);
-    column-fill: balance;
+    gap: spacing.space(1) spacing.space(3);
 
     @include media.on-medium {
-      columns: 2;
+      grid-template-columns: repeat(2, 1fr);
     }
 
     @include media.on-mobile {
-      columns: 1;
+      grid-template-columns: 1fr;
     }
   }
 

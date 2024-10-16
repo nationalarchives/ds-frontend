@@ -3,6 +3,7 @@ import math
 
 from app.lib import pagination_object
 from app.wagtail.api import (
+    blog_authors,
     blog_post_counts,
     blog_posts_paginated,
     blogs,
@@ -19,12 +20,12 @@ def blog_page(page_data, year=None, month=None, day=None):
         if "page" in request.args and request.args["page"].isnumeric()
         else 1
     )
-    year = (
+    year = year or (
         int(request.args.get("year"))
         if "year" in request.args and request.args["year"].isnumeric()
         else None
     )
-    month = (
+    month = month or (
         int(request.args.get("month"))
         if "month" in request.args and request.args["month"].isnumeric()
         else None
@@ -32,22 +33,35 @@ def blog_page(page_data, year=None, month=None, day=None):
     month_name = (
         datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
     )
+    day = day or (
+        int(request.args.get("day"))
+        if "day" in request.args and request.args["day"].isnumeric()
+        else None
+    )
+    author = request.args.get("author") if "author" in request.args else None
+    search = request.args.get("search") if "search" in request.args else None
+    search = None  # TODO
     try:
         blogs_data = blogs()
         blog_post_counts_data = blog_post_counts(
             blog_id=page_data["id"],
+            author=author,
+            # search=search,  # TODO
         )
         blog_posts_data = blog_posts_paginated(
             page=page,
             blog_id=page_data["id"],
             year=year,
             month=month,
+            author=author,
+            search=search,
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
         categories = page_descendants(
             page_id=page_data["id"], params={"type": "blog.BlogPage"}
         )
+        authors = blog_authors(blog_id=page_data["id"])
     except ConnectionError:
         current_app.logger.error(
             f"API error getting children for page {page_data['id']}"
@@ -60,6 +74,8 @@ def blog_page(page_data, year=None, month=None, day=None):
         return render_template("errors/server.html"), 500
     total_blog_posts = blog_posts_data["meta"]["total_count"]
     pages = math.ceil(total_blog_posts / children_per_page)
+    if page > pages:
+        return render_template("errors/page-not-found.html"), 404
     date_filters = [
         {
             "label": "Any date",
@@ -98,8 +114,6 @@ def blog_page(page_data, year=None, month=None, day=None):
                     "selected": False,
                 }
             )
-    if page > pages:
-        return render_template("errors/page-not-found.html"), 404
     return render_template(
         "blog/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
@@ -109,10 +123,15 @@ def blog_page(page_data, year=None, month=None, day=None):
         categories=categories["items"],
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
+        authors=authors,
+        current_author=next(
+            (item for item in authors if item["author"]["slug"] == author), None
+        ),
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
         year=year,
         month=month,
         month_name=month_name,
+        search=search,
     )
