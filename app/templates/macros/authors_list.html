@@ -6,7 +6,9 @@
     <ul class="etna-author-list__items">
       {%- for author in authors %}
       <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+        {%- if author.image_small %}
         <img src="{{ author.image_small.jpeg.full_url }}" alt="{{ author.image_small.alt_text }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+        {%- endif %}
         <div class="etna-author-list__details">
           <p class="etna-author-list__name">
             <strong>
