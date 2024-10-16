@@ -221,12 +221,9 @@
       {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
         <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
-        {%- if blogs_index and blogs_index[0] %}
-          {{ wagtailFeaturedPage({'page': blogs_index[0]}, 3) }}
-        {%- endif %}
         {%- for blog in blogs %}
         {%- if blog.id != page_data.id %}
-          {{ wagtailFeaturedPage({'page': blog}, 3) }}
+          {{ wagtailFeaturedPage({'page': blog}, 3, loop.first) }}
         {%- endif %}
         {%- endfor %}
       </div>

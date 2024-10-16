@@ -97,7 +97,7 @@
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
             <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
             {%- for blog in blogs %}
-              {{ wagtailFeaturedPage({'page': blog}, 3) }}
+              {{ wagtailFeaturedPage({'page': blog}, 3, loop.first) }}
             {%- endfor %}
           </div>
         </div>

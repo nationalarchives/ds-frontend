@@ -1,6 +1,6 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 
-{% macro wagtailFeaturedPage(block_value, itemHeadingLevel) %}
+{% macro wagtailFeaturedPage(block_value, itemHeadingLevel, accent) %}
   {% set card_content = {
     'supertitle': block_value.page.type_label,
     'title': block_value.page.title,
@@ -14,7 +14,7 @@
     'horizontalSmallImage': True,
     'horizontalOnSmall': True,
     'horizontalFlipped': True,
-    'style': 'tint',
+    'style': 'accent' if accent else 'tint',
     'classes': 'tna-card--featured-page'
   } %}
   {%- if block_value.page.teaser_image %}
