@@ -59,10 +59,10 @@
 
   {%- elif content_item.type == 'description_list' %}
   <dl class="tna-dl tna-dl--plain tna-dl--spaced">
-    {% for item in content_item.value['items'] %}
+    {%- for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
     <dd>{{ item.detail | safe }}</dd>
-    {% endfor %}
+    {%- endfor %}
   </dl>
 
   {%- elif content_item.type == 'image' %}
@@ -131,6 +131,6 @@
   {{ wagtailContact( content_item.value, next_heading_level ) }}
 
   {%- else %}
-  <p class="tna-heading-xl">===== {{ content_item.type }} =====</p>
+  <p class="tna-heading-xl" aria-hidden="true">===== {{ content_item.type }} =====</p>
   {%- endif %}
 {% endmacro %}
