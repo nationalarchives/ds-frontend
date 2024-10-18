@@ -97,7 +97,7 @@ sup[data-footnoteid] {
     }
   }
 
-  &--featured-page {
+  &--featured-link {
     &:not(:has(.tna-card__image-container)) {
       border-top: none;
     }
@@ -117,12 +117,12 @@ sup[data-footnoteid] {
     }
   }
 
-  &--featured-page &__image-container {
+  &--featured-link &__image-container {
     margin-top: 0 !important;
   }
 
   @include media.on-larger-than-mobile {
-    @include card.horizontal-card-layout("--featured-page", 1);
+    @include card.horizontal-card-layout("--featured-link", 1);
   }
 
   &--full-height {
