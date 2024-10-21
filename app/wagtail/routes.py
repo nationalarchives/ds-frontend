@@ -14,10 +14,6 @@ from flask_caching import CachedResponse
 
 from .api import page_details, page_details_by_uri, page_preview
 
-# from pydash import objects
-
-# from .pages import blog_index_page, blog_page, blog_post_page
-
 
 @bp.route("/preview/")
 def preview_page():
@@ -164,65 +160,6 @@ def index():
         response=make_response(render_content_page(page_data)),
         timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )
-
-
-# @bp.route("/<path:path>/<int:year>/")
-# def year(path, year):
-#     try:
-#         page_data = page_details_by_uri(f"/{path}/")
-#     except Exception:
-#         return render_template("errors/page-not-found.html"), 404
-#     page_type = objects.get(page_data, "meta.type")
-#     if page_type == "blog.BlogIndexPage":
-#         return blog_index_page(page_data, year)
-#     if page_type == "blog.BlogPage":
-#         return blog_page(page_data, year)
-#     return render_template("errors/page-not-found.html"), 404
-
-
-# @bp.route("/<path:path>/<int:year>/<int:month>/")
-# def month(path, year, month):
-#     try:
-#         page_data = page_details_by_uri(f"/{path}/")
-#     except Exception:
-#         return render_template("errors/page-not-found.html"), 404
-#     page_type = objects.get(page_data, "meta.type")
-#     if page_type == "blog.BlogIndexPage":
-#         return blog_index_page(page_data, year, month)
-#     if page_type == "blog.BlogPage":
-#         return blog_page(page_data, year, month)
-#     return render_template("errors/page-not-found.html"), 404
-
-
-# @bp.route("/<path:path>/<int:year>/<int:month>/<int:day>/")
-# def day(path, year, month, day):
-#     try:
-#         page_data = page_details_by_uri(f"/{path}/")
-#     except Exception:
-#         return render_template("errors/page-not-found.html"), 404
-#     page_type = objects.get(page_data, "meta.type")
-#     if page_type == "blog.BlogIndexPage":
-#         return blog_index_page(page_data, year, month, day)
-#     if page_type == "blog.BlogPage":
-#         return blog_page(page_data, year, month, day)
-#     return render_template("errors/page-not-found.html"), 404
-
-
-# @bp.route("/<path:path>/<int:year>/<int:month>/<int:day>/<path:post>/")
-# def post(path, year, month, day, post):
-#     try:
-#         page_data = page_details_by_uri(f"/{path}/{post}/")
-#     except Exception:
-#         return render_template("errors/page-not-found.html"), 404
-#     page_type = objects.get(page_data, "meta.type")
-#     if (
-#         page_type == "blog.BlogPostPage"
-#         and page_data["published_date"]["year"] == year
-#         and page_data["published_date"]["month"] == month
-#         and page_data["published_date"]["day"] == day
-#     ):
-#         return blog_post_page(page_data)
-#     return render_template("errors/page-not-found.html"), 404
 
 
 @bp.route("/<path:path>/")
