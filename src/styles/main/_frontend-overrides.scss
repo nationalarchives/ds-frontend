@@ -101,6 +101,10 @@ sup[data-footnoteid] {
     &:not(:has(.tna-card__image-container)) {
       padding-top: spacing.space(1);
       border-top: none;
+
+      .tna-card__heading-link::before {
+        top: 0;
+      }
     }
 
     & + & {
