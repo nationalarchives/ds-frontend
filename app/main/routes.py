@@ -11,9 +11,15 @@ from app.wagtail.api import (
     global_alerts,
     page_details,
     page_details_by_type,
+)
+from flask import (
+    current_app,
+    make_response,
+    redirect,
+    render_template,
+    request,
     url_for,
 )
-from flask import current_app, make_response, redirect, render_template, request
 from flask_caching import CachedResponse
 
 
