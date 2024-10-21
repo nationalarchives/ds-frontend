@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>{{ blog_data.title }}</title>
+  <title>The National Archives - {{ blog_data.title }}</title>
   <subtitle>{{ blog_data.teaser_text }}</subtitle>
   <link href="{{ request.url }}" rel="self" />
   <link href="{{ blog_data.full_url }}" />

@@ -9,6 +9,7 @@ from app.wagtail.api import (
     all_pages,
     blog_posts_paginated,
     global_alerts,
+    page_details,
     page_details_by_type,
 )
 from flask import current_app, make_response, redirect, render_template, request
@@ -173,8 +174,7 @@ def blog_all_rss():
 @cache.cached(key_prefix=cache_key_prefix)
 def blog_rss(blog_id):
     try:
-        blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_data = blog_data["items"][0]
+        blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=100)
         blog_posts = blog_posts["items"]
     except ConnectionError:
