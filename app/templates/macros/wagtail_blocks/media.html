@@ -55,24 +55,24 @@
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
               <li>
-                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.value.time }}" aria-controls="{{ id }}">
+                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
                   <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.value.time | seconds_to_time }} - {{ chapter.value.heading }}</span>
+                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
-                {{ chapter.value.transcript | safe }}
+                {{ chapter.transcript | safe }}
               </li>
               {%- endfor %}
             </ol>
             <!-- <dl class="tna-dl tna-dl--spaced tna-dl--plain">
               {%- for chapter in block_value.media.chapters %}
               <dt>
-                <button class="tna-button tna-button--accent- tna-button--small media-chapter" type="button" value="{{ chapter.value.time }}" aria-controls="{{ id }}">
+                <button class="tna-button tna-button--accent- tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
                   <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.value.time | seconds_to_time }} - {{ chapter.value.heading }}</span>
+                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
               </dt>
               <dd>
-                {{ (chapter.value.transcript or '<span class="tna-visually-hidden">No transcript</span>') | safe }}
+                {{ (chapter.transcript or '<span class="tna-visually-hidden">No transcript</span>') | safe }}
               </dd>
               {%- endfor %}
             </dl> -->
