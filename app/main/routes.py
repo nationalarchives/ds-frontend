@@ -11,6 +11,7 @@ from app.wagtail.api import (
     global_alerts,
     page_details,
     page_details_by_type,
+    url_for,
 )
 from flask import current_app, make_response, redirect, render_template, request
 from flask_caching import CachedResponse
@@ -162,6 +163,7 @@ def blog_all_rss():
         )
     xml_rss = render_template(
         "main/rss.xml",
+        url=url_for("main.blog_all_rss", _external=True, _scheme="https"),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )
@@ -196,6 +198,9 @@ def blog_rss(blog_id):
         )
     xml_rss = render_template(
         "main/rss.xml",
+        url=url_for(
+            "main.blog_rss", blog_id=blog_id, _external=True, _scheme="https"
+        ),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )

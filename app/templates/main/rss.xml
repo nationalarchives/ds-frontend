@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>The National Archives - {{ blog_data.title }}</title>
   <subtitle>{{ blog_data.teaser_text }}</subtitle>
-  <link href="{{ request.url }}" rel="self" />
+  <link href="{{ url }}" rel="self" />
   <link href="{{ blog_data.full_url }}" />
   <updated>{{ now_iso_8601() }}</updated>
   <id>{{ url_for('wagtail.page_permalink', page_id=blog_data.id, _external=True, _scheme='https') }}</id>
