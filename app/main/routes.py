@@ -2,17 +2,17 @@ import json
 from urllib.parse import quote, unquote, urlparse
 
 from app.lib import cache, cache_key_prefix
+from app.lib.api import ApiResourceNotFound
 from app.lib.util import strtobool
 from app.main import bp
-from app.wagtail.api import all_pages, global_alerts
-from flask import (
-    current_app,
-    make_response,
-    redirect,
-    render_template,
-    request,
-    url_for,
+from app.wagtail.api import (
+    all_pages,
+    blog_posts_paginated,
+    global_alerts,
+    page_details_by_type,
 )
+from flask import current_app, make_response, redirect, render_template, request
+from flask_caching import CachedResponse
 
 
 @bp.route("/healthcheck/live/")
@@ -131,6 +131,76 @@ def sitemap():
     )
     response = make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
+    return response
+
+
+@bp.route("/rss/all.xml")
+@cache.cached(key_prefix=cache_key_prefix)
+def blog_all_rss():
+    try:
+        blog_data = page_details_by_type("blog.BlogIndexPage")
+        blog_data = blog_data["items"][0]
+        blog_posts = blog_posts_paginated(1, limit=100)
+        blog_posts = blog_posts["items"]
+    except ConnectionError:
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
+    except ApiResourceNotFound:
+        return CachedResponse(
+            response=make_response(
+                render_template("errors/page-not-found.html"), 404
+            ),
+            timeout=1,
+        )
+    except Exception:
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
+    xml_rss = render_template(
+        "main/rss.xml",
+        blog_data=blog_data,
+        blog_posts=blog_posts,
+    )
+    response = make_response(xml_rss)
+    response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
+    return response
+
+
+@bp.route("/rss/<int:blog_id>.xml")
+@cache.cached(key_prefix=cache_key_prefix)
+def blog_rss(blog_id):
+    try:
+        blog_data = page_details_by_type("blog.BlogIndexPage")
+        blog_data = blog_data["items"][0]
+        blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=100)
+        blog_posts = blog_posts["items"]
+    except ConnectionError:
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
+    except ApiResourceNotFound:
+        return CachedResponse(
+            response=make_response(
+                render_template("errors/page-not-found.html"), 404
+            ),
+            timeout=1,
+        )
+    except Exception:
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
+    xml_rss = render_template(
+        "main/rss.xml",
+        blog_data=blog_data,
+        blog_posts=blog_posts,
+    )
+    response = make_response(xml_rss)
+    response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
     return response
 
 
