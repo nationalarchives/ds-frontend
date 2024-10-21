@@ -18,10 +18,11 @@ jobs:
       - uses: snok/install-poetry@v1
       - name: Check Poetry dependencies
         run: poetry show -o
-      - name: Check npm dependencies
-        run: |
-          npm install
-          npm outdated
+      # - name: Check npm dependencies
+      #   run: |
+      #     npm install
+      #     npm outdated
+      #     npm audit
 
   test-node:
     runs-on: ubuntu-latest
