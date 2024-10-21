@@ -45,6 +45,7 @@ def seconds_to_time(s):
 def get_url_domain(s):
     try:
         domain = urllib.parse.urlparse(s).netloc
+        domain = re.sub(r"^www\.", "", domain)
         return domain
     except Exception:
         return s
