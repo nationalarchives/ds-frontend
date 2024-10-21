@@ -88,6 +88,7 @@ class Base(object):
     ).split(",")
     FRAME_DOMAIN_ALLOW: str = os.environ.get("FRAME_DOMAIN_ALLOW", "")
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
+    PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
     CACHE_TYPE: str = "FileSystemCache"
     CACHE_DEFAULT_TIMEOUT: int = int(
@@ -119,6 +120,7 @@ class Develop(Base, Features):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
+    PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
 
 
 class Test(Base, Features):
@@ -137,5 +139,6 @@ class Test(Base, Features):
     CACHE_DEFAULT_TIMEOUT = 1
 
     FORCE_HTTPS = False
+    PREFERRED_URL_SCHEME = "http"
 
     APPLY_REDIRECTS = False
