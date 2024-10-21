@@ -16,7 +16,7 @@ jobs:
         run: poetry show -o
       - name: Check npm dependencies
         run: npm outdated
-  
+
   test-node:
     runs-on: ubuntu-latest
     steps:
