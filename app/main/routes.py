@@ -212,40 +212,6 @@ def blog_rss(blog_id):
     return response
 
 
-@bp.route("/page/<int:page_id>/")
-def page_permalink(page_id):
-    try:
-        page_data = page_details(page_id)
-    except ConnectionError:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    except ApiResourceNotFound:
-        return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
-            timeout=1,
-        )
-    except Exception as e:
-        current_app.logger.error(e)
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    if "meta" in page_data and "url" in page_data["meta"]:
-        return redirect(
-            url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
-            code=302,
-        )
-    current_app.logger.error(f"Cannot generate permalink for page: {page_id}")
-    return CachedResponse(
-        response=make_response(render_template("errors/api.html"), 502),
-        timeout=1,
-    )
-
-
 @bp.route("/new-homepage/")
 @cache.cached(key_prefix=cache_key_prefix)
 def new_homepage():
