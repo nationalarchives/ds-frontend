@@ -60,6 +60,14 @@ def page_details_by_uri(page_uri, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def page_details_by_type(type, params={}):
+    uri = "pages/"
+    params = params | {
+        "type": type,
+    }
+    return wagtail_request_handler(uri, params)
+
+
 def page_children(page_id, params={}, limit=None):
     uri = "pages/"
     params = params | {

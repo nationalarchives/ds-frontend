@@ -29,6 +29,11 @@
     {% else %}
     <link rel="canonical" href="{{ request.url }}?page={{ page }}">
     {% endif %}
+    {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
+    <link rel="alternate" type="application/atom+xml" href="{{ url_for('main.blog_all_rss', _external=True) }}" title="Sitewide Atom feed">
+    {%- elif page_data.meta.type == 'blog.BlogPage' %}
+    <link rel="alternate" type="application/atom+xml" href="{{ url_for('main.blog_rss', blog_id=page_data.id, _external=True) }}" title="Atom feed for {{ page_data.title }}">
+    {%- endif %}
 {% endblock %}
 
 {% block stylesheets %}
