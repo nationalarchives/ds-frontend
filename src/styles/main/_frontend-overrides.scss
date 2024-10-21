@@ -99,6 +99,7 @@ sup[data-footnoteid] {
 
   &--featured-link {
     &:not(:has(.tna-card__image-container)) {
+      padding-top: spacing.space(1);
       border-top: none;
     }
 
