@@ -8,14 +8,19 @@
       <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
         {%- if author.image_small %}
         <img src="{{ author.image_small.jpeg.full_url }}" alt="{{ author.image_small.alt_text }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+        {%- else %}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="etna-author-list__image">
+          <path fill="#ccc" d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1
+          1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
+        </svg>
         {%- endif %}
         <div class="etna-author-list__details">
           <p class="etna-author-list__name">
             <strong>
-              <link itemprop="url" href="{{ author.url }}">
               <a href="{{ author.url }}" rel="author">
                 <span itemprop="name">{{ author.title }}</span>
               </a>
+              <link itemprop="url" href="{{ author.url }}">
             </strong>
           </p>
           <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
