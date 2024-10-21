@@ -27,3 +27,44 @@
   </div>
 </div>
 {% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "GovernmentOrganization",
+        "name": "The National Archives",
+        "url": "https://www.nationalarchives.gov.uk/",
+        "areaServed": {
+          "@type": "AdministrativeArea",
+          "name": "England and Wales"
+        },
+        "foundingDate": "2003-04",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Kew",
+          "addressRegion": "Richmond, London",
+          "addressCountry": "UK",
+          "postalCode": "TW9 4DU",
+          "streetAddress": "Bessant Drive"
+        },
+        "parentOrganization": {
+          "@type": "Organization",
+          "name": "Department for Culture, Media and Sport",
+          "url": "https://www.gov.uk/government/organisations/department-for-culture-media-and-sport"
+        },
+        "logo": "{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}",
+        "sameAs": [
+            "https://twitter.com/UKNatArchives",
+            "https://www.youtube.com/c/TheNationalArchivesUK",
+            "https://www.facebook.com/TheNationalArchives",
+            "https://www.flickr.com/photos/nationalarchives",
+            "https://www.instagram.com/nationalarchivesuk/",
+            "https://www.tiktok.com/@uknatarchives",
+            "https://en.wikipedia.org/wiki/The_National_Archives_(United_Kingdom)",
+            "https://www.gov.uk/government/organisations/the-national-archives"
+        ]
+      }
+    </script>
+{% endblock %}
