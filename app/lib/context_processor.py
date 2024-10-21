@@ -96,14 +96,14 @@ def logo_adornment():
         and (now_day <= max(11, second_sunday_in_november_this_year))
     ):
         return "remembrance"
-    # elif now_month == 2:
-    #     return "progress"
-    # elif now_month == 6:
-    #     return "pride"
-    # elif now_month == 10:
-    #     return "black_history"
+    elif now_month == 2:
+        return "progress"
+    elif now_month == 6:
+        return "pride"
+    elif now_month == 10:
+        return "black_history"
     elif now_day == 15 and now_month == 3 and now_year == 2025:
         return "comic_relief"
-    # elif now_day == 22 and now_month == 4 and now_year == 2025:
-    #     return "earth_day"
+    elif now_day == 22 and now_month == 4 and now_year == 2025:
+        return "earth_day"
     return ""
