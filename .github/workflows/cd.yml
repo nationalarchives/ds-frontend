@@ -8,6 +8,15 @@ concurrency:
   group: cd-${{ github.ref }}
 
 jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Poetry dependencies
+        run: poetry show -o
+      - name: Check npm dependencies
+        run: npm outdated
+  
   test-node:
     runs-on: ubuntu-latest
     steps:
@@ -37,6 +46,7 @@ jobs:
     needs:
       - test-python
       - test-node
+      - check-dependencies
       - version
     permissions:
       packages: write
