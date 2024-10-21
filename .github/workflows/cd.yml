@@ -19,7 +19,9 @@ jobs:
       - name: Check Poetry dependencies
         run: poetry show -o
       - name: Check npm dependencies
-        run: npm outdated
+        run: |
+          npm install
+          npm outdated
 
   test-node:
     runs-on: ubuntu-latest
