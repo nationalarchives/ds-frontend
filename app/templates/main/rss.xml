@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>The National Archives - {{ blog_data.title }}</title>
-  <subtitle>{{ blog_data.teaser_text or blog_data.teaser_text.meta.teaser_text }}</subtitle>
+  {%- if blog_data.teaser_text %}
+  <subtitle>{{ blog_data.teaser_text }}</subtitle>
+  {%- else if 'meta' in blog_data and 'teaser_text' in blog_data.meta %}
+  <subtitle>{{ blog_data.meta.teaser_text }}</subtitle>
+  {%- endif %}
   <link href="{{ url }}" rel="self" />
   <link href="{{ blog_data.full_url }}" />
   <updated>{{ now_iso_8601() }}</updated>
