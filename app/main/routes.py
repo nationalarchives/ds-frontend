@@ -255,6 +255,7 @@ def logo_adornments_css():
     )
     response = make_response(css)
     response.headers["Content-Type"] = "text/css; charset=UTF-8"
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 
