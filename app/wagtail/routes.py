@@ -1,3 +1,5 @@
+from urllib.parse import unquote
+
 from app.lib import cache, cache_key_prefix
 from app.lib.api import ApiResourceNotFound
 from app.wagtail import bp
@@ -203,7 +205,7 @@ def page(path):
     if (
         current_app.config.get("APPLY_REDIRECTS")
         and "url" in page_data["meta"]
-        and page_data["meta"]["url"] != f"/{path}/"
+        and (unquote(page_data["meta"]["url"]) != unquote(f"/{path}/"))
     ):
         return redirect(
             url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),

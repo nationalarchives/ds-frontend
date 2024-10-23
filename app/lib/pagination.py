@@ -1,4 +1,4 @@
-import urllib.parse
+from urllib.parse import urlencode
 
 
 def pagination_list(current_page, total_pages, boundaries=1, around=1):
@@ -58,7 +58,7 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
 
 def generate_new_page_query_string(args, page):
     args_dict = args.to_dict(flat=False) | {"page": page}
-    return f"?{urllib.parse.urlencode(args_dict, doseq=True)}"
+    return f"?{urlencode(args_dict, doseq=True)}"
 
 
 def pagination_object(
