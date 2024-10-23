@@ -126,7 +126,10 @@ def page_permalink(page_id):
         )
     if "meta" in page_data and "url" in page_data["meta"]:
         return redirect(
-            url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
+            url_for(
+                "wagtail.page",
+                path=unquote(page_data["meta"]["url"].strip("/")),
+            ),
             code=302,
         )
     current_app.logger.error(f"Cannot generate permalink for page: {page_id}")
