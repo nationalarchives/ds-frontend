@@ -1,4 +1,4 @@
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 from app.lib import cache, cache_key_prefix
 from app.lib.api import ApiResourceNotFound
@@ -107,28 +107,18 @@ def page_permalink(page_id):
     try:
         page_data = page_details(page_id)
     except ConnectionError:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
+        return render_template("errors/api.html"), 502
     except ApiResourceNotFound:
-        return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
-            timeout=1,
-        )
+        return render_template("errors/page-not-found.html"), 404
     except Exception as e:
         current_app.logger.error(e)
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
+        return render_template("errors/api.html"), 502
     if "meta" in page_data and "url" in page_data["meta"]:
+        # return page(page_data["meta"]["url"].strip("/"))
         return redirect(
             url_for(
                 "wagtail.page",
-                path=unquote(page_data["meta"]["url"].strip("/")),
+                path=page_data["meta"]["url"].strip("/"),
             ),
             code=302,
         )
@@ -171,7 +161,7 @@ def index():
 @cache.cached(key_prefix=cache_key_prefix)
 def page(path):
     try:
-        page_data = page_details_by_uri(f"/{path}/")
+        page_data = page_details_by_uri(unquote(f"/{path}/"))
     except ConnectionError:
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
@@ -208,7 +198,7 @@ def page(path):
     if (
         current_app.config.get("APPLY_REDIRECTS")
         and "url" in page_data["meta"]
-        and (unquote(page_data["meta"]["url"]) != unquote(f"/{path}/"))
+        and (quote(page_data["meta"]["url"]) != quote(f"/{path}/"))
     ):
         return redirect(
             url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),

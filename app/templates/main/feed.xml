@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>The National Archives - {{ blog_data.title }}</title>
-  {%- if blog_data.teaser_text %}
+  {% if blog_data.teaser_text %}
   <subtitle>{{ blog_data.teaser_text }}</subtitle>
-  {%- elif 'meta' in blog_data and 'teaser_text' in blog_data.meta %}
+  {% elif 'meta' in blog_data and 'teaser_text' in blog_data.meta %}
   <subtitle>{{ blog_data.meta.teaser_text }}</subtitle>
-  {%- endif %}
+  {% endif %}
   <link href="{{ url }}" rel="self" />
+  {% if blog_data.full_url %}
   <link href="{{ blog_data.full_url }}" />
+  {% elif 'meta' in blog_data and 'full_url' in blog_data.meta %}
+  <link href="{{ blog_data.meta.full_url }}" />
+  {% endif %}
   <updated>{{ now_iso_8601() }}</updated>
   <id>{{ url_for('wagtail.page_permalink', page_id=blog_data.id, _external=True, _scheme='https') }}</id>
   <icon>{{ url_for('static', filename='assets/images/icon-128x128.png', _external=True, _scheme='https') }}</icon>

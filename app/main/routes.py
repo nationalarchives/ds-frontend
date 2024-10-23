@@ -167,13 +167,13 @@ def blog_all_feed():
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    xml_rss = render_template(
-        "main/rss.xml",
+    xml = render_template(
+        "main/feed.xml",
         url=url_for("main.blog_all_feed", _external=True, _scheme="https"),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )
-    response = make_response(xml_rss)
+    response = make_response(xml)
     response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
     return response
 
@@ -202,15 +202,15 @@ def blog_feed(blog_id):
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    xml_rss = render_template(
-        "main/rss.xml",
+    xml = render_template(
+        "main/feed.xml",
         url=url_for(
             "main.blog_feed", blog_id=blog_id, _external=True, _scheme="https"
         ),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )
-    response = make_response(xml_rss)
+    response = make_response(xml)
     response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
     return response
 
