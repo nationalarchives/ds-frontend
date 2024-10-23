@@ -1,8 +1,7 @@
 @use "common";
 
-.tna-global-header,
-.tna-header {
-  &__logo::after {
+.tna-logo--adornable {
+  &::after {
     background: conic-gradient(
         at 14% 50%,
         #0000 221.25deg,

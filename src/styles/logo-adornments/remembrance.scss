@@ -1,8 +1,7 @@
 @use "common";
 
-.tna-global-header,
-.tna-header {
-  &__logo::after {
+.tna-logo--adornable {
+  &::after {
     height: 46%;
 
     top: -8%;

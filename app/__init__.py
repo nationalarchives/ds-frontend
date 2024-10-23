@@ -130,10 +130,20 @@ def create_app(config_class):
 
     @app.after_request
     def apply_extra_headers(response):
-        response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
-        response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
-        response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        if "X-Permitted-Cross-Domain-Policies" not in response.headers:
+            response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+        if "Cross-Origin-Embedder-Policy" not in response.headers:
+            response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
+        if "Cross-Origin-Opener-Policy" not in response.headers:
+            response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        if "Cross-Origin-Resource-Policy" not in response.headers:
+            response.headers["Cross-Origin-Resource-Policy"] = (
+                "unsafe-none"
+                if response.mimetype == "text/css"
+                else "same-origin"
+            )
+        if response.mimetype == "text/css":
+            response.headers["Access-Control-Allow-Origin"] = "*"
         return response
 
     app.jinja_env.trim_blocks = True

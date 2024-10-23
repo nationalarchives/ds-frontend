@@ -1,8 +1,7 @@
 @use "common";
 
-.tna-global-header,
-.tna-header {
-  &__logo::before {
+.tna-logo--adornable {
+  &::before {
     width: calc(43% - 5px);
     height: 43%;
 
@@ -22,7 +21,7 @@
     border-right: rgb(0 0 0 / 25%) 5px solid;
   }
 
-  &__logo::after {
+  &::after {
     width: 19%;
     height: 9%;
 

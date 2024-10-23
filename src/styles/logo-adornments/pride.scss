@@ -1,8 +1,7 @@
 @use "common";
 
-.tna-global-header,
-.tna-header {
-  &__logo::after {
+.tna-logo--adornable {
+  &::after {
     background: linear-gradient(
       red 16.66%,
       orange 0 33.33%,
