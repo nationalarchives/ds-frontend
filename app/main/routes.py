@@ -142,9 +142,9 @@ def sitemap():
     return response
 
 
-@bp.route("/rss/all.xml")
+@bp.route("/feeds/all.xml")
 @cache.cached(key_prefix=cache_key_prefix)
-def blog_all_rss():
+def blog_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
         blog_data = blog_data["items"][0]
@@ -169,7 +169,7 @@ def blog_all_rss():
         )
     xml_rss = render_template(
         "main/rss.xml",
-        url=url_for("main.blog_all_rss", _external=True, _scheme="https"),
+        url=url_for("main.blog_all_feed", _external=True, _scheme="https"),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )
@@ -178,9 +178,9 @@ def blog_all_rss():
     return response
 
 
-@bp.route("/rss/<int:blog_id>.xml")
+@bp.route("/feeds/<int:blog_id>.xml")
 @cache.cached(key_prefix=cache_key_prefix)
-def blog_rss(blog_id):
+def blog_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=100)
@@ -205,7 +205,7 @@ def blog_rss(blog_id):
     xml_rss = render_template(
         "main/rss.xml",
         url=url_for(
-            "main.blog_rss", blog_id=blog_id, _external=True, _scheme="https"
+            "main.blog_feed", blog_id=blog_id, _external=True, _scheme="https"
         ),
         blog_data=blog_data,
         blog_posts=blog_posts,
