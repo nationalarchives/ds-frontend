@@ -14,7 +14,7 @@ from flask import current_app, render_template, request
 
 
 def blog_page(page_data, year=None, month=None, day=None):
-    children_per_page = 24
+    children_per_page = 12
     page = (
         int(request.args.get("page"))
         if "page" in request.args and request.args["page"].isnumeric()
