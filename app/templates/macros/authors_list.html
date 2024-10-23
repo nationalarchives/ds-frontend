@@ -1,8 +1,8 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{% macro authors_list(authors, horizontal, width_classes) %}
+{% macro authors_list(authors, horizontal, width_classes, external_authors) %}
   <div class="etna-author-list{% if horizontal %} etna-author-list--horizontal{% endif %} tna-column{% if width_classes %} {{ width_classes }} {% else %} tna-column--full{% endif %}">
-    <h2 class="etna-author-list__heading tna-heading-s">Author{{ 's' if authors | length > 1 }}</h2>
+    <h2 class="etna-author-list__heading{% if horizontal %} tna-heading-s{% else %} tna-heading-m{% endif %}">Author{{ 's' if authors | length > 1 or (authors and external_authors) or external_authors | length > 1 }}</h2>
     <ul class="etna-author-list__items">
       {%- for author in authors %}
       <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
@@ -27,6 +27,28 @@
         </div>
       </li>
       {%- endfor %}
+      {%- if external_authors %}
+      {%- for author in external_authors %}
+      <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+        {%- if author.image %}
+        <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+        {%- else %}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="etna-author-list__image">
+          <path fill="#ccc" d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1
+          1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
+        </svg>
+        {%- endif %}
+        <div class="etna-author-list__details">
+          <p class="etna-author-list__name">
+            <strong>
+              <span itemprop="name">{{ author.name }}</span> (collaborator)
+            </strong>
+          </p>
+          <p class="etna-author-list__description" itemprop="jobTitle">{{ author.description }}</p>
+        </div>
+      </li>
+      {%- endfor %}
+      {%- endif %}
     </ul>
   </div>
 {% endmacro %}

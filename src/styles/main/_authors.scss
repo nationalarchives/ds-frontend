@@ -8,7 +8,7 @@
 
 .etna-author-list {
   &__heading {
-    padding-bottom: spacing.space(0.5);
+    padding-bottom: spacing.space(1);
   }
 
   &__items {
@@ -98,6 +98,10 @@
   }
 
   &--horizontal {
+  }
+
+  &--horizontal &__heading {
+    padding-bottom: spacing.space(0.5);
   }
 
   &--horizontal &__items {
