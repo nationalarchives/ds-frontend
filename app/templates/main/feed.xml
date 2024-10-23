@@ -3,6 +3,7 @@
   <title>The National Archives - {{ blog_data.title }}</title>
   {% if blog_data.teaser_text %}
   <subtitle>{{ blog_data.teaser_text }}</subtitle>
+  <description>{{ blog_data.teaser_text }}</description>
   {% elif 'meta' in blog_data and 'teaser_text' in blog_data.meta %}
   <subtitle>{{ blog_data.meta.teaser_text }}</subtitle>
   {% endif %}
