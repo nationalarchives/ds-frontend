@@ -143,7 +143,7 @@ def sitemap():
 
 
 @bp.route("/feeds/all.xml")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(timeout=3600)
 def blog_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
@@ -179,7 +179,7 @@ def blog_all_feed():
 
 
 @bp.route("/feeds/<int:blog_id>.xml")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(timeout=3600)
 def blog_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
