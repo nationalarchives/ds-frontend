@@ -22,7 +22,7 @@
     <link href="{{ blog_post.full_url }}" />
     <published>{{ blog_post.published_date.value }}</published>
     <updated>{{ blog_post.last_published_at }}</updated>
-    {#- {% if blog_post.teaser_image %}
+    {# {% if blog_post.teaser_image %}
     <logo>{{ blog_post.teaser_image.jpeg.full_url }}</logo>
     <icon>{{ blog_post.teaser_image.jpeg.full_url }}</icon>
     {% endif %} #}

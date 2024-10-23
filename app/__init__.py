@@ -4,8 +4,8 @@ import sentry_sdk
 from app.lib import cache
 from app.lib.context_processor import (
     cookie_preference,
-    logo_adornment,
     now_iso_8601,
+    now_iso_8601_no_time,
     pretty_date_range,
 )
 from app.lib.template_filters import (
@@ -162,7 +162,7 @@ def create_app(config_class):
         return dict(
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
-            logo_adornment=logo_adornment,
+            now_iso_8601_no_time=now_iso_8601_no_time,
             pretty_date_range=pretty_date_range,
             app_config={
                 "ENVIRONMENT": app.config.get("ENVIRONMENT"),

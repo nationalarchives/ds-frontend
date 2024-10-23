@@ -1,0 +1,18 @@
+@use "common";
+
+.tna-global-header,
+.tna-header {
+  &__logo::after {
+    height: 46%;
+
+    top: -8%;
+
+    z-index: 4;
+
+    background-image: url("/static/images/logo-adornments/poppy.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 75%));
+  }
+}

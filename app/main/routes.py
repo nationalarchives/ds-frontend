@@ -1,4 +1,6 @@
+import calendar
 import json
+from datetime import datetime
 from urllib.parse import quote, unquote, urlparse
 
 from app.lib import cache, cache_key_prefix
@@ -138,12 +140,12 @@ def sitemap():
         host_base=host_base,
     )
     response = make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml"
+    response.headers["Content-Type"] = "application/xml; charset=UTF-8"
     return response
 
 
 @bp.route("/feeds/all.xml")
-@cache.cached(timeout=3600)
+# @cache.cached(timeout=3600)
 def blog_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
@@ -179,7 +181,7 @@ def blog_all_feed():
 
 
 @bp.route("/feeds/<int:blog_id>.xml")
-@cache.cached(timeout=3600)
+# @cache.cached(timeout=3600)
 def blog_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
@@ -212,6 +214,47 @@ def blog_feed(blog_id):
     )
     response = make_response(xml)
     response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
+    return response
+
+
+@bp.route("/logo-adornments.css")
+@cache.cached(timeout=3600)
+def logo_adornments_css():
+    now = datetime.now()
+    now_day = now.day
+    now_month = now.month
+    now_year = now.year
+    cal = calendar.Calendar(firstweekday=calendar.MONDAY)
+    november_calendar_this_year = cal.monthdatescalendar(now.year, 11)
+    second_sunday_in_november_this_year = [
+        day
+        for week in november_calendar_this_year
+        for day in week
+        if day.weekday() == calendar.SUNDAY and day.month == 11
+    ][1].day
+    logo_adornment = ""
+    if (
+        now_month == 11
+        and now_day >= 2
+        and (now_day <= max(11, second_sunday_in_november_this_year))
+    ):
+        logo_adornment = "remembrance"
+    elif now_month == 2:
+        logo_adornment = "progress"
+    elif now_month == 6:
+        logo_adornment = "pride"
+    elif now_month == 10:
+        logo_adornment = "black-history"
+    elif now_day == 15 and now_month == 3 and now_year == 2025:
+        logo_adornment = "comic-relief"
+    elif now_day == 22 and now_month == 4 and now_year == 2025:
+        logo_adornment = "earth-day"
+    css = render_template(
+        "main/logo-adornments.css",
+        logo_adornment=logo_adornment,
+    )
+    response = make_response(css)
+    response.headers["Content-Type"] = "text/css; charset=UTF-8"
     return response
 
 
