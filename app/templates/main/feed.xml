@@ -21,6 +21,10 @@
     <link href="{{ blog_post.full_url }}" />
     <published>{{ blog_post.published_date.value }}</published>
     <updated>{{ blog_post.last_published_at }}</updated>
+    {% if blog_post.teaser_image %}
+    <logo>{{ blog_post.teaser_image.jpeg.full_url }}</logo>
+    <icon>{{ blog_post.teaser_image.jpeg.full_url }}</icon>
+    {% endif %}
     <id>{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</id>
     <summary>{{ blog_post.teaser_text }}</summary>
     {% if blog_post.authors %}
