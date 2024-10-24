@@ -64,7 +64,7 @@
             </div>
             {%- endif %}
             <p>
-              <small>Published {{ page_data.published_date.value | pretty_date_with_day }}
+              <small>Published {{ page_data.published_date.value | pretty_date }}
                 {% set authors_list_top = [] %}
                 {% for author in page_data.authors -%}
                   {% set authors_list_top = authors_list_top.append({

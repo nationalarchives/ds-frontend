@@ -99,7 +99,7 @@
             'meta': [
               {
                 'title': 'Published',
-                'text':  blog_posts[0].published_date.value | pretty_date_with_day
+                'text':  blog_posts[0].published_date.value | pretty_date
               }
             ],
             'body': blog_posts[0].teaser_text | tna_html | safe,
@@ -202,7 +202,7 @@
           'meta': [
             {
               'title': 'Published',
-              'text':  blog_post.published_date.value | pretty_date_with_day
+              'text':  blog_post.published_date.value | pretty_date
             }
           ],
           'fullAreaClick': True,
