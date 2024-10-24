@@ -64,10 +64,23 @@
             {%- endif %}
             <p>
               <small>Published {{ page_data.published_date.value | pretty_date_with_day }}
-                {%- if page_data.authors | length %}
-                by
+                {% set authors_list_top = [] %}
                 {% for author in page_data.authors -%}
-                  {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}<a href="{{ author.url }}">{{ author.title }}</a>
+                  {% set authors_list_top = authors_list_top.append({
+                    'name': author.title,
+                    'url': author.url
+                  }) %}
+                {%- endfor -%}
+                {% for author in page_data.external_authors -%}
+                  {% set authors_list_top = authors_list_top.append({
+                    'name': author.name,
+                    'url': None
+                  }) %}
+                {%- endfor -%}
+                {%- if authors_list_top | length %}
+                by
+                {% for author in authors_list_top -%}
+                  {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}{% if author.url %}<a href="{{ author.url }}">{{ author.name }}</a>{% else %}{{ author.name }}{% endif %}
                 {%- endfor -%}
                 {%- endif %}
               </small>
