@@ -69,6 +69,8 @@ $videojs-track-height: 0.5em;
 
 .etna-video.video-js,
 .etna-audio.video-js {
+  font-family: inherit;
+
   .vjs-volume-panel.vjs-hover .vjs-volume-control.vjs-volume-horizontal,
   .vjs-volume-panel:active .vjs-volume-control.vjs-volume-horizontal,
   .vjs-volume-panel:focus .vjs-volume-control.vjs-volume-horizontal,
@@ -154,6 +156,14 @@ $videojs-track-height: 0.5em;
   .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
     @include typography.font-size(14);
   }
+
+  .vjs-text-track-display div {
+    font-family: inherit !important;
+  }
+
+  .vjs-menu li {
+    text-transform: none;
+  }
 }
 
 .etna-audio.video-js {
@@ -222,6 +232,10 @@ $videojs-track-height: 0.5em;
       @include colour.colour-background("contrast-background");
     }
   }
+}
+
+.vjs-texttrack-settings {
+  display: none;
 }
 
 .etna-media-block {

@@ -59,6 +59,7 @@ document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
   const video = videojs($video, {
     experimentalSvgIcons: true,
     enableSmoothSeeking: true,
+    textTrackSettings: false,
     controlBar: {
       volumePanel: false,
     },
