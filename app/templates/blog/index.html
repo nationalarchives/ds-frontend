@@ -70,10 +70,9 @@
           {%- else %}
           <hgroup class="tna-hgroup-xl">
             <p class="tna-hgroup__supertitle">Blog</p>
-            <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitle }}</h1>
+            <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
           </hgroup>
           {%- endif %}
-
           {%- if current_author %}
           <p class="tna-large-paragraph tna-!--margin-top-s">All posts by {{ current_author.author.title }}.</p>
           <p><a href="{{ page_data.meta.url }}">Show posts from all authors</a>.</p>
@@ -229,44 +228,50 @@
       {% endif %}
       {% endfor %}
     </ul>
+    {% if pages > 1 %}
     <div class="tna-container">
-      {% if pages > 1 %}
       <div class="tna-column tna-column--full tna-!--margin-top-l">
         {{ tnaPagination(pagination) }}
       </div>
-      {% endif %}
-      {%- if authors and not current_author and not year %}
-      <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full tna-!--margin-top-l">
-        <h2 class="etna-author-list__heading tna-heading-l">Authors</h2>
-        <ul class="etna-author-list__items">
-          {%- for author in authors %}
-          <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-            {%- if author.author.image_small %}
-            <img src="{{ author.author.image_small.jpeg.full_url }}" alt="{{ author.author.image_small.alt_text }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
-            {%- else %}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="etna-author-list__image">
-              <path fill="#ccc" d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1
-              1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
-            </svg>
-            {%- endif %}
-            <div class="etna-author-list__details">
-              <p class="etna-author-list__name">
-                <strong>
-                  <link itemprop="url" href="{{ author.author.url }}">
-                  <meta itemprop="jobTitle" content="{{ author.author.role }}">
-                  <a href="?author={{ author.author.slug }}" rel="author">
-                    <span class="tna-visually-hidden">Posts by</span>
-                    <span itemprop="name">{{ author.author.title }}</span>
-                  </a>
-                </strong>
-              </p>
-              <p class="etna-author-list__description">{{ author.posts }} posts</p>
-            </div>
-          </li>
-          {%- endfor %}
-        </ul>
+    </div>
+    {% endif %}
+    {%- if authors and not current_author and not year %}
+    <div class="tna-background-tint tna-!--margin-top-l tna-section">
+      <div class="tna-container">
+        <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
+          <h2 class="etna-author-list__heading tna-heading-l">Authors</h2>
+          <ul class="etna-author-list__items tna-!--margin-top-s">
+            {%- for author in authors[:12] %}
+            <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
+              {%- if author.author.image_small %}
+              <img src="{{ author.author.image_small.jpeg.full_url }}" alt="{{ author.author.image_small.alt_text }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+              {%- else %}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="etna-author-list__image">
+                <path fill="#ccc" d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1
+                1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
+              </svg>
+              {%- endif %}
+              <div class="etna-author-list__details">
+                <p class="etna-author-list__name">
+                  <strong>
+                    <link itemprop="url" href="{{ author.author.url }}">
+                    <meta itemprop="jobTitle" content="{{ author.author.role }}">
+                    <a href="?author={{ author.author.slug }}" rel="author">
+                      <span class="tna-visually-hidden">Posts by</span>
+                      <span itemprop="name">{{ author.author.title }}</span>
+                    </a>
+                  </strong>
+                </p>
+                <p class="etna-author-list__description">{{ author.posts }} posts</p>
+              </div>
+            </li>
+            {%- endfor %}
+          </ul>
+        </div>
       </div>
-      {%- endif %}
+    </div>
+    {%- endif %}
+    <div class="tna-container">
       {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
         <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
