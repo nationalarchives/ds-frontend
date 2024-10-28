@@ -9,7 +9,7 @@
 {% block content %}
 <div class="tna-background-accent">
   <div class="tna-container">
-    <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+    <div class="tna-column tna-column--full">
       {{ tnaBreadcrumbs({
         'items': [
           {
@@ -17,7 +17,8 @@
             'href': '/'
           }
         ],
-        'structuredData': True
+        'structuredData': True,
+        'classes': 'tna-!--padding-vertical-s'
       }) }}
     </div>
   </div>

@@ -46,10 +46,11 @@
   {%- if breadcrumbs and breadcrumbs | length > 0 %}
     <div class="tna-background-accent-light">
       <div class="tna-container">
-        <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+        <div class="tna-column tna-column--full">
           {{ tnaBreadcrumbs({
             'items': breadcrumbs,
-            'structuredData': True
+            'structuredData': True,
+            'classes': 'tna-!--padding-vertical-s'
           }) }}
         </div>
       </div>
@@ -282,7 +283,7 @@
         {%- endfor %}
       </div>
       {%- endif %}
-      <div class="tna-column tna-column--full tna-hide-on-print">
+      <div class="tna-column tna-column--full tna-!--hide-on-print">
         <hr class="tna-!--margin-top-l">
         <div class="tna-button-group tna-!--margin-top-s">
           {{ tnaButton({

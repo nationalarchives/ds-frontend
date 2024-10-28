@@ -7,36 +7,15 @@
   width: 100% !important;
 }
 
-.plyr {
-  aspect-ratio: 16 / 9;
-
-  position: relative;
-
-  &__control,
-  &__controls,
-  &__video-wrapper {
-    display: none !important;
-  }
-
-  &::after {
-    content: "[VIDEO]";
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-
-    @include typography.font-size(48);
-    @include typography.main-font-weight-bold;
-
-    @include colour.colour-border("keyline-dark", 0.5rem, dashed);
-  }
-}
-
-a:not([href^="#"], [href^="?"], [href^="/"]) {
+a:not(
+    [href^="#"],
+    [href^="?"],
+    [href^="/"],
+    .tna-card__heading-link,
+    .tna-files-list__link,
+    .tna-skip-link,
+    #top
+  ) {
   &::after {
     content: " (" attr(href) ")";
 
