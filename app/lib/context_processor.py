@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from urllib.parse import unquote
 
-from app.lib import cache
+from app.lib.cache import cache
 from flask import request
 
 

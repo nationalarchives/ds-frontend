@@ -1,7 +1,7 @@
 import datetime
 import math
 
-from app.lib import pagination_object
+from app.lib.pagination import pagination_object
 from app.wagtail.api import (
     blog_authors,
     blog_post_counts,

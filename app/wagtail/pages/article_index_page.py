@@ -1,6 +1,6 @@
 import math
 
-from app.lib import pagination_object
+from app.lib.pagination import pagination_object
 from app.wagtail.api import breadcrumbs, page_children_paginated
 from flask import current_app, render_template, request
 

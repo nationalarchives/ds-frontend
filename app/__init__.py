@@ -1,7 +1,7 @@
 import logging
 
 import sentry_sdk
-from app.lib import cache
+from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     now_iso_8601,
@@ -137,13 +137,7 @@ def create_app(config_class):
         if "Cross-Origin-Opener-Policy" not in response.headers:
             response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
         if "Cross-Origin-Resource-Policy" not in response.headers:
-            response.headers["Cross-Origin-Resource-Policy"] = (
-                "unsafe-none"
-                if response.mimetype == "text/css"
-                else "same-origin"
-            )
-        if response.mimetype == "text/css":
-            response.headers["Access-Control-Allow-Origin"] = "*"
+            response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         return response
 
     app.jinja_env.trim_blocks = True
@@ -185,7 +179,9 @@ def create_app(config_class):
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
-                "LOGO_ADORNMENTS": app.config.get("FEATURE_LOGO_ADORNMENTS"),
+                "LOGO_ADORNMENTS_CSS": app.config.get(
+                    "FEATURE_LOGO_ADORNMENTS_CSS"
+                ),
             },
         )
 

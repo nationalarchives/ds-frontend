@@ -1,5 +1,0 @@
-{% if logo_adornment %}
-@import "{{ url_for('static', filename='logo-adornments/' + logo_adornment + '.css') }}";
-{% else %}
-/* No logo adornments available */
-{% endif %}

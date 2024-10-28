@@ -8,8 +8,8 @@ class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(
         os.getenv("FEATURE_PHASE_BANNER", "True")
     )
-    FEATURE_LOGO_ADORNMENTS: bool = strtobool(
-        os.getenv("FEATURE_LOGO_ADORNMENTS", "False")
+    FEATURE_LOGO_ADORNMENTS_CSS: bool = os.getenv(
+        "FEATURE_LOGO_ADORNMENTS_CSS", ""
     )
 
 
