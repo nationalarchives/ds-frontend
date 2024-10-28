@@ -9,6 +9,7 @@ from app.main import bp
 from app.wagtail.api import (
     all_pages,
     blog_posts_paginated,
+    blogs,
     global_alerts,
     page_details,
     page_details_by_type,
@@ -143,8 +144,25 @@ def sitemap():
     return response
 
 
+@bp.route("/feeds/")
+def blog_feeds():
+    try:
+        blogs_data = blogs()
+    except ConnectionError:
+        current_app.logger.error("API error getting all blogs for /feeds/ page")
+        return render_template("errors/api.html"), 502
+    except Exception:
+        current_app.logger.error(
+            "Exception getting all blog posts for /feeds/ page"
+        )
+        return render_template("errors/server.html"), 500
+    return render_template(
+        "main/feeds.html", global_alert=global_alerts(), blogs=blogs_data
+    )
+
+
 @bp.route("/feeds/all.xml")
-# @cache.cached(timeout=3600)
+@cache.cached(timeout=3600)
 def blog_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
@@ -180,7 +198,7 @@ def blog_all_feed():
 
 
 @bp.route("/feeds/<int:blog_id>.xml")
-# @cache.cached(timeout=3600)
+@cache.cached(timeout=3600)
 def blog_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
