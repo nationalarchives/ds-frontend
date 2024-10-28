@@ -6,6 +6,7 @@ from app.lib.context_processor import (
     cookie_preference,
     now_iso_8601,
     now_iso_8601_no_time,
+    now_rfc_822,
     pretty_date_range,
 )
 from app.lib.template_filters import (
@@ -14,6 +15,7 @@ from app.lib.template_filters import (
     parse_json,
     pretty_date,
     pretty_date_with_day,
+    rfc_822_format,
     seconds_to_time,
     sidebar_items_from_wagtail_body,
     slugify,
@@ -154,6 +156,7 @@ def create_app(config_class):
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
     app.add_template_filter(pretty_date_with_day)
+    app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)
@@ -167,6 +170,7 @@ def create_app(config_class):
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             now_iso_8601_no_time=now_iso_8601_no_time,
+            now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
             app_config={
                 "ENVIRONMENT": app.config.get("ENVIRONMENT"),

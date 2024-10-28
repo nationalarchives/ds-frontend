@@ -30,12 +30,12 @@
       <dl class="tna-dl">
         <dt>All blog posts</dt>
         <dd>
-          <a href="{{ url_for('main.blog_all_feed') }}" aria-label="Atom feed for all blogs" title="Atom feed for all blogs">{{ url_for('main.blog_all_feed', _external=True) }}</a>
+          <a href="{{ url_for('main.rss_all_feed') }}" aria-label="Atom feed for all blogs" title="Atom feed for all blogs">{{ url_for('main.rss_all_feed', _external=True) }}</a>
         </dd>
         {%- for blog in blogs %}
         <dt>{{ blog.title }}</dt>
         <dd>
-          <a href="{{ url_for('main.blog_feed', blog_id=blog.id) }}" aria-label="Atom feed for {{ blog.title }}" title="Atom feed for {{ blog.title }}">{{ url_for('main.blog_feed', blog_id=blog.id, _external=True) }}</a>
+          <a href="{{ url_for('main.rss_feed', blog_id=blog.id) }}" aria-label="Atom feed for {{ blog.title }}" title="Atom feed for {{ blog.title }}">{{ url_for('main.rss_feed', blog_id=blog.id, _external=True) }}</a>
         </dd>
         {%- endfor %}
       </dl>

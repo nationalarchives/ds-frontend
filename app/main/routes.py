@@ -144,8 +144,8 @@ def sitemap():
     return response
 
 
-@bp.route("/feeds/")
-def blog_feeds():
+@bp.route("/rss/")
+def rss_feeds():
     try:
         blogs_data = blogs()
     except ConnectionError:
@@ -157,13 +157,13 @@ def blog_feeds():
         )
         return render_template("errors/server.html"), 500
     return render_template(
-        "main/feeds.html", global_alert=global_alerts(), blogs=blogs_data
+        "main/rss.html", global_alert=global_alerts(), blogs=blogs_data
     )
 
 
-@bp.route("/feeds/all.xml")
-@cache.cached(timeout=3600)
-def blog_all_feed():
+@bp.route("/rss/all/")
+# @cache.cached(timeout=3600)
+def rss_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
         blog_data = blog_data["items"][0]
@@ -187,19 +187,19 @@ def blog_all_feed():
             timeout=1,
         )
     xml = render_template(
-        "main/feed.xml",
-        url=url_for("main.blog_all_feed", _external=True, _scheme="https"),
+        "main/rss_feed.xml",
+        url=url_for("main.rss_all_feed", _external=True, _scheme="https"),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )
     response = make_response(xml)
-    response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
+    response.headers["Content-Type"] = "text/xml; charset=utf-8"
     return response
 
 
-@bp.route("/feeds/<int:blog_id>.xml")
-@cache.cached(timeout=3600)
-def blog_feed(blog_id):
+@bp.route("/rss/<int:blog_id>/")
+# @cache.cached(timeout=3600)
+def rss_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=100)
@@ -222,15 +222,15 @@ def blog_feed(blog_id):
             timeout=1,
         )
     xml = render_template(
-        "main/feed.xml",
+        "main/rss_feed.xml",
         url=url_for(
-            "main.blog_feed", blog_id=blog_id, _external=True, _scheme="https"
+            "main.rss_feed", blog_id=blog_id, _external=True, _scheme="https"
         ),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )
     response = make_response(xml)
-    response.headers["Content-Type"] = "application/atom+xml; charset=UTF-8"
+    response.headers["Content-Type"] = "text/xml; charset=utf-8"
     return response
 
 

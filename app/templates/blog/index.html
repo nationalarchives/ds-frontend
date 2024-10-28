@@ -30,9 +30,9 @@
     <link rel="canonical" href="{{ request.url }}?page={{ page }}">
     {% endif %}
     {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
-    <link rel="alternate" type="application/atom+xml" href="{{ url_for('main.blog_all_feed') }}" title="Sitewide Atom feed">
+    <link rel="alternate" type="application/rss+xml" href="{{ url_for('main.rss_all_feed') }}" title="The National Archives RSS feed">
     {%- elif page_data.meta.type == 'blog.BlogPage' %}
-    <link rel="alternate" type="application/atom+xml" href="{{ url_for('main.blog_feed', blog_id=page_data.id) }}" title="Atom feed for {{ page_data.title }}">
+    <link rel="alternate" type="application/rss+xml" href="{{ url_for('main.rss_feed', blog_id=page_data.id) }}" title="{{ page_data.title }}">
     {%- endif %}
 {% endblock %}
 

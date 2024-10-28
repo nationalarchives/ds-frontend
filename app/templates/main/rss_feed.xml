@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+  <channel>
+    <title>
+      <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
+    </title>
+    {% if blog_data.teaser_text %}
+    <description>
+      <![CDATA[ {{ blog_data.teaser_text }} ]]>
+    </description>
+    {% elif 'meta' in blog_data and 'teaser_text' in blog_data.meta %}
+    <description>
+      <![CDATA[ {{ blog_data.meta.teaser_text }} ]]>
+    </description>
+    {% endif %}
+    {% if blog_data.full_url %}
+    <link>{{ blog_data.full_url }}</link>
+    {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
+    <link>{{ blog_data.meta.html_url }}</link>
+    {% endif %}
+    <image>
+      <url>{{ url_for('static', filename='assets/images/icon-1024x1024.png', _external=True, _scheme='https') }}</url>
+      <title>The National Archives - {{ blog_data.title }}</title>
+      {% if blog_data.full_url %}
+      <link>{{ blog_data.full_url }}</link>
+      {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
+      <link>{{ blog_data.meta.html_url }}</link>
+      {% endif %}
+    </image>
+    <generator>ds-frontend</generator>
+    <lastBuildDate>{{ now_rfc_822() }}</lastBuildDate>
+    <atom:link href="{{ url }}" rel="self" type="application/rss+xml"/>
+    <ttl>3600</ttl>
+    {% for blog_post in blog_posts %}
+    <item>
+      <title>
+        <![CDATA[ {{ blog_post.title }} ]]>
+      </title>
+      <description>
+        <![CDATA[ {{ blog_post.teaser_text }} ]]>
+      </description>
+      <link>{{ blog_post.full_url }}</link>
+      <guid isPermaLink="false">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
+      {% if blog_post.authors %}
+      <dc:creator>
+        <![CDATA[ {% for author in blog_post.authors -%}
+            {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}{% if author.full_url %}<a href="{{ author.full_url }}">{{ author.title }}</a>{% else %}{{ author.title }}{% endif %}
+          {%- endfor %} ]]>
+      </dc:creator>
+      {% else %}
+      <dc:creator>
+        <![CDATA[ The National Archives ]]>
+      </dc:creator>
+      {% endif %}
+      <pubDate>{{ blog_post.published_date.value | rfc_822_format }}</pubDate>
+      {% if blog_post.teaser_image %}
+      <media:content url="{{ blog_post.teaser_image.jpeg.full_url }}" medium="image"/>
+      {% endif %}
+      <!-- <content:encoded>
+        <![CDATA[  ]]>
+      </content:encoded> -->
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

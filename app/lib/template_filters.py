@@ -96,6 +96,20 @@ def pretty_date_with_day(s):
     return pretty_date(s, True)
 
 
+def rfc_822_format(s):
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    except ValueError:
+        pass
+    return s
+
+
 def headings_list(s):
     headings_regex = re.findall(
         r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s

@@ -18,6 +18,12 @@ def now_iso_8601_no_time():
     return now_date
 
 
+def now_rfc_822():
+    now = datetime.now()
+    now_date = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    return now_date
+
+
 def cookie_preference(policy):
     if "cookies_policy" in request.cookies:
         cookies_policy = request.cookies["cookies_policy"]
