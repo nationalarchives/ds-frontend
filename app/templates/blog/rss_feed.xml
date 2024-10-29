@@ -20,7 +20,9 @@
     {% endif %}
     <image>
       <url>{{ url_for('static', filename='assets/images/icon-1024x1024.png', _external=True, _scheme='https') }}</url>
-      <title>The National Archives - {{ blog_data.title }}</title>
+      <title>
+        <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
+      </title>
       {% if blog_data.full_url %}
       <link>{{ blog_data.full_url }}</link>
       {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
@@ -30,7 +32,7 @@
     <generator>ds-frontend</generator>
     <lastBuildDate>{{ now_rfc_822() }}</lastBuildDate>
     <atom:link href="{{ url }}" rel="self" type="application/rss+xml"/>
-    <ttl>3600</ttl>
+    <ttl>60</ttl>
     {% for blog_post in blog_posts %}
     <item>
       <title>

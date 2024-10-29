@@ -38,20 +38,16 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         else None
     )
     author = request.args.get("author") if "author" in request.args else None
-    search = request.args.get("search") if "search" in request.args else None
-    search = None  # TODO
     try:
         blogs_data = blogs()
         blog_post_counts_data = blog_post_counts(
             author=author,
-            # search=search,  # TODO
         )
         blog_posts_data = blog_posts_paginated(
             page=page,
             year=year,
             month=month,
             author=author,
-            search=search,
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
@@ -130,5 +126,4 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         year=year,
         month=month,
         month_name=month_name,
-        search=search,
     )

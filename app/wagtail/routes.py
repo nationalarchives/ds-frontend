@@ -1,8 +1,7 @@
 from urllib.parse import quote, unquote
 
 from app.lib.api import ApiResourceNotFound
-from app.lib.cache import cache
-from app.lib.cache_key_prefix import cache_key_prefix
+from app.lib.cache import cache, cache_key_prefix
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
 from flask import (

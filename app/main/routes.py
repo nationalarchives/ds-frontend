@@ -1,28 +1,11 @@
 import json
 from urllib.parse import quote, unquote, urlparse
 
-from app.lib.api import ApiResourceNotFound
-from app.lib.cache import cache
-from app.lib.cache_key_prefix import cache_key_prefix
+from app.lib.cache import cache, cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
-from app.wagtail.api import (
-    all_pages,
-    blog_posts_paginated,
-    blogs,
-    global_alerts,
-    page_details,
-    page_details_by_type,
-)
-from flask import (
-    current_app,
-    make_response,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
-from flask_caching import CachedResponse
+from app.wagtail.api import all_pages, global_alerts
+from flask import current_app, make_response, redirect, render_template, request
 
 
 @bp.route("/healthcheck/live/")
@@ -141,96 +124,6 @@ def sitemap():
     )
     response = make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml; charset=UTF-8"
-    return response
-
-
-@bp.route("/rss/")
-def rss_feeds():
-    try:
-        blogs_data = blogs()
-    except ConnectionError:
-        current_app.logger.error("API error getting all blogs for /feeds/ page")
-        return render_template("errors/api.html"), 502
-    except Exception:
-        current_app.logger.error(
-            "Exception getting all blog posts for /feeds/ page"
-        )
-        return render_template("errors/server.html"), 500
-    return render_template(
-        "main/rss.html", global_alert=global_alerts(), blogs=blogs_data
-    )
-
-
-@bp.route("/rss/all/")
-# @cache.cached(timeout=3600)
-def rss_all_feed():
-    try:
-        blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_data = blog_data["items"][0]
-        blog_posts = blog_posts_paginated(1, limit=100)
-        blog_posts = blog_posts["items"]
-    except ConnectionError:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    except ApiResourceNotFound:
-        return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
-            timeout=1,
-        )
-    except Exception:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    xml = render_template(
-        "main/rss_feed.xml",
-        url=url_for("main.rss_all_feed", _external=True, _scheme="https"),
-        blog_data=blog_data,
-        blog_posts=blog_posts,
-    )
-    response = make_response(xml)
-    response.headers["Content-Type"] = "text/xml; charset=utf-8"
-    return response
-
-
-@bp.route("/rss/<int:blog_id>/")
-# @cache.cached(timeout=3600)
-def rss_feed(blog_id):
-    try:
-        blog_data = page_details(blog_id)
-        blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=100)
-        blog_posts = blog_posts["items"]
-    except ConnectionError:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    except ApiResourceNotFound:
-        return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
-            timeout=1,
-        )
-    except Exception:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    xml = render_template(
-        "main/rss_feed.xml",
-        url=url_for(
-            "main.rss_feed", blog_id=blog_id, _external=True, _scheme="https"
-        ),
-        blog_data=blog_data,
-        blog_posts=blog_posts,
-    )
-    response = make_response(xml)
-    response.headers["Content-Type"] = "text/xml; charset=utf-8"
     return response
 
 

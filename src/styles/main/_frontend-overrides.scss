@@ -76,6 +76,20 @@
   }
 }
 
+.tna-dl {
+  &--left-biased {
+    @include media.on-larger-than-tiny {
+      dt {
+        width: 60%;
+      }
+
+      dd {
+        width: 40%;
+      }
+    }
+  }
+}
+
 sup[data-footnoteid] {
   border-radius: 0.1px;
 

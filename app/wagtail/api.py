@@ -140,7 +140,6 @@ def blog_posts_paginated(
     year=None,
     month=None,
     author=None,
-    search=None,
     limit=None,
     initial_offset=0,
     order="-published_date",
@@ -157,7 +156,6 @@ def blog_posts_paginated(
         "year": year,
         "month": month,
         "author": author,
-        # "search": search,
         "descendant_of": blog_id,
     }
     return wagtail_request_handler(uri, params)
@@ -168,7 +166,6 @@ def blog_post_counts(
     year=None,
     month=None,
     author=None,
-    search=None,
     params={},
 ):
     uri = "blog_posts/count/"
@@ -176,7 +173,6 @@ def blog_post_counts(
         "year": year,
         "month": month,
         "author": author,
-        # "search": search,
         "descendant_of": blog_id,
     }
     return wagtail_request_handler(uri, params)

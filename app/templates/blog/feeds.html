@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
+{%- set pageTitle = 'Blog feeds' -%}
+
+{% block content %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">Blog feeds</h1>
+      <dl class="tna-dl tna-dl--left-biased">
+        <dt>{{ blog_data.title }}</dt>
+        <dd>
+          <a href="{{ blog_data.url }}" aria-label="{{ blog_data.title }}" title="{{ blog_data.title }}">HTML</a> |
+          <a href="{{ url_for('feeds.rss_all_feed') }}" aria-label="RSS feed for all blogs" title="RSS feed for all blogs">RSS</a> |
+          <a href="{{ url_for('feeds.rss_all_feed', format='atom') }}" aria-label="Atom feed for all blogs" title="Atom feed for all blogs">Atom</a>
+        </dd>
+        {%- for blog in blogs %}
+        <dt>{{ blog.title }}</dt>
+        <dd>
+          <a href="{{ blog.url }}" aria-label="{{ blog.title }}" title="{{ blog.title }}">HTML</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" aria-label="RSS feed for {{ blog.title }}" title="RSS feed for {{ blog.title }}">RSS</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" aria-label="Atom feed for {{ blog.title }}" title="Atom feed for {{ blog.title }}">Atom</a>
+        </dd>
+        {%- endfor %}
+      </dl>
+    </div>
+  </div>
+</div>
+{% endblock %}
