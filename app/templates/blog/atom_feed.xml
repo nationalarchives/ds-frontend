@@ -14,7 +14,7 @@
   {% endif %}
   <updated>{{ now_iso_8601() }}</updated>
   <id>{{ url_for('wagtail.page_permalink', page_id=blog_data.id, _external=True, _scheme='https') }}</id>
-  <icon>{{ url_for('static', filename='assets/images/icon-128x128.png', _external=True, _scheme='https') }}</icon>
+  <icon>{{ url_for('static', filename='assets/images/icon-256x256.png', _external=True, _scheme='https') }}</icon>
   {% for blog_post in blog_posts %}
   <entry>
     <title>{{ blog_post.title }}</title>
@@ -39,6 +39,11 @@
       <name>The National Archives</name>
     </author>
     {% endif %}
+		<!-- <content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				<p>This is the entry content.</p>
+			</div>
+		</content> -->
   </entry>
   {% endfor %}
 </feed>

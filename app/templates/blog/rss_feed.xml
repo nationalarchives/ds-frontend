@@ -19,7 +19,7 @@
     <link>{{ blog_data.meta.html_url }}</link>
     {% endif %}
     <image>
-      <url>{{ url_for('static', filename='assets/images/icon-1024x1024.png', _external=True, _scheme='https') }}</url>
+      <url>{{ url_for('static', filename='assets/images/icon-256x256.png', _external=True, _scheme='https') }}</url>
       <title>
         <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
       </title>
@@ -42,7 +42,7 @@
         <![CDATA[ {{ blog_post.teaser_text }} ]]>
       </description>
       <link>{{ blog_post.full_url }}</link>
-      <guid isPermaLink="false">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
+      <guid>{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
       {% if blog_post.authors %}
       <dc:creator>
         <![CDATA[ {% for author in blog_post.authors -%}
