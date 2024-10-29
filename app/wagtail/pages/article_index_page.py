@@ -14,7 +14,10 @@ def article_index_page(page_data):
     )
     try:
         children_data = page_children_paginated(
-            page_data["id"], page, children_per_page
+            page_data["id"],
+            page,
+            children_per_page,
+            params={"order": "-first_published_at"},
         )
     except ConnectionError:
         current_app.logger.error(
