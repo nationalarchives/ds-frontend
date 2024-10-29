@@ -17,7 +17,8 @@ def wagtail_request_handler(uri, params={}):
 
 def breadcrumbs(page_id):
     try:
-        ancestors = page_ancestors(page_id)
+        # ancestors = page_ancestors(page_id, params={"order": "depth"})  # TODO: Use once available
+        ancestors = page_ancestors(page_id, params={"order": "id"})
     except Exception:
         current_app.logger.warning(
             f"Failed to get ancestors for page {page_id}"
@@ -82,7 +83,6 @@ def page_ancestors(page_id, params={}, limit=None):
     params = params | {
         "ancestor_of": page_id,
         "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
-        "order": "id",  # TODO: Order by url/depth (or similar)
     }
     return wagtail_request_handler(uri, params)
 
@@ -109,14 +109,13 @@ def page_children_paginated(
     page,
     limit=None,
     initial_offset=0,
-    order="-first_published_at",
     params={},
 ):
     return pages_paginated(
         page=page,
         limit=limit,
         initial_offset=initial_offset,
-        params=params | {"child_of": page_id, "order": order},
+        params=params | {"child_of": page_id},
     )
 
 
