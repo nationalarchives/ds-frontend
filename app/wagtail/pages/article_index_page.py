@@ -9,7 +9,7 @@ def article_index_page(page_data):
     children_per_page = 12
     page = (
         int(request.args.get("page"))
-        if "page" in request.args and request.args["page"].isnumeric()
+        if request.args.get("page") and request.args.get("page").isnumeric()
         else 1
     )
     try:

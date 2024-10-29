@@ -17,17 +17,17 @@ def blog_page(page_data, year=None, month=None, day=None):
     children_per_page = 12
     page = (
         int(request.args.get("page"))
-        if "page" in request.args and request.args["page"].isnumeric()
+        if request.args.get("page") and request.args.get("page").isnumeric()
         else 1
     )
     year = year or (
         int(request.args.get("year"))
-        if "year" in request.args and request.args["year"].isnumeric()
+        if request.args.get("year") and request.args.get("year").isnumeric()
         else None
     )
     month = month or (
         int(request.args.get("month"))
-        if "month" in request.args and request.args["month"].isnumeric()
+        if request.args.get("month") and request.args.get("month").isnumeric()
         else None
     )
     month_name = (
@@ -35,10 +35,10 @@ def blog_page(page_data, year=None, month=None, day=None):
     )
     day = day or (
         int(request.args.get("day"))
-        if "day" in request.args and request.args["day"].isnumeric()
+        if request.args.get("day") and request.args.get("day").isnumeric()
         else None
     )
-    author = request.args.get("author") if "author" in request.args else None
+    author = request.args.get("author")
     try:
         blogs_data = blogs()
         blog_post_counts_data = blog_post_counts(
