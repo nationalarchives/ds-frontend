@@ -17,8 +17,7 @@ def wagtail_request_handler(uri, params={}):
 
 def breadcrumbs(page_id):
     try:
-        # ancestors = page_ancestors(page_id, params={"order": "depth"})  # TODO: Use once available
-        ancestors = page_ancestors(page_id, params={"order": "id"})
+        ancestors = page_ancestors(page_id, params={"order": "depth"})
     except Exception:
         current_app.logger.warning(
             f"Failed to get ancestors for page {page_id}"
