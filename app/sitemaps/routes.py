@@ -70,11 +70,16 @@ def sitemap_static():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cache.cached(timeout=3600)
+# @cache.cached(timeout=3600)
 def sitemap_dynamic(sitemap_page):
+    sitemap_page = sitemap_page - 1
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
-    wagtail_pages = all_pages(batch=sitemap_page, limit=items_per_sitemap)
+    wagtail_pages = all_pages(
+        batch=sitemap_page,
+        limit=items_per_sitemap,
+        params={"order": "depth,slug"},
+    )
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
