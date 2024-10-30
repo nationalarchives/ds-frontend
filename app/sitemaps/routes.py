@@ -70,7 +70,7 @@ def sitemap_static():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-# @cache.cached(timeout=3600)
+@cache.cached(timeout=3600)
 def sitemap_dynamic(sitemap_page):
     sitemap_page = sitemap_page - 1
     dynamic_urls = list()
