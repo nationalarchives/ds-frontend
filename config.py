@@ -46,6 +46,7 @@ class Base(object):
     WAGTAILAPI_LIMIT_MAX: int = int(
         os.environ.get("WAGTAILAPI_LIMIT_MAX", "20")
     )
+    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "100"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
     SESSION_COOKIE_DOMAIN: str | None = COOKIE_DOMAIN or None

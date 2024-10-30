@@ -7,6 +7,10 @@
 @use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
 .tna-button-group {
+  &--centred {
+    justify-content: center;
+  }
+
   &--full {
     justify-content: stretch;
 

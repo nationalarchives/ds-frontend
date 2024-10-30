@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-      {% if page > 1 %}
+      {% if page %}
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
           <div class="tna-button-group">
@@ -217,20 +217,14 @@
               </li>
               {%- endfor %}
             </ul>
-
-
-
-            {% if pages > 1 %}
-            <div class="tna-!--margin-bottom-l">
-              {{ tnaPagination(pagination) }}
+            {% if pages %}
+            <div class="tna-button-group tna-button-group--centred tna-!--margin-bottom-l">
+              {{ tnaButton({
+                'text': 'Browse all ' + page_data.first_name + '’s articles',
+                'href': '?page=1'
+              }) }}
             </div>
             {% endif %}
-
-
-
-
-
-
           </section>
           {%- endif %}
           {%- if page_data.shop_items %}

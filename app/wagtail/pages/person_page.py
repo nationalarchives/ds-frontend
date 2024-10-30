@@ -7,9 +7,9 @@ def person_page(page_data):
     page = (
         int(request.args.get("page"))
         if request.args.get("page") and request.args.get("page").isnumeric()
-        else 1
+        else 0
     )
-    pages = 1  # TODO
+    pages = 0  # TODO
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
     return render_template(
