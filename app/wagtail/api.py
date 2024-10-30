@@ -16,6 +16,8 @@ def wagtail_request_handler(uri, params={}):
 
 
 def breadcrumbs(page_id):
+    if not page_id:
+        return []
     try:
         ancestors = page_ancestors(page_id, params={"order": "depth"})
     except Exception:
