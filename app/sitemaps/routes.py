@@ -43,6 +43,7 @@ def static_uris():
             and not str(rule).startswith("/healthcheck")
             and not str(rule).startswith("/blog/feeds")
             and not str(rule).startswith("/sitemap.xml")
+            and not str(rule).startswith("/robots.txt")
             and not str(rule).startswith("/sitemaps")
             and not str(rule).startswith("/service-worker.min.js")
         ):
