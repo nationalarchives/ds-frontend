@@ -4,14 +4,29 @@
 
 {%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
 {%- set pageTitle = 'Blog feeds' -%}
+{%- set accentedBreadcrumbs = True -%}
 
 {% block content %}
-<div class="tna-section">
+<div class="tna-section tna-!--padding-top-m tna-background-accent">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">Blog feeds</h1>
+    </div>
+  </div>
+</div>
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">What is a feed?</h2>
+      <p>An Atom or RSS feed is a data format that contains the latest content from a website, blog, or podcast. You can use feeds to subscribe to websites and get the latest content in one place.</p>
+      <ul class="tna-ul">
+        <li>Feeds put you in control. Unlike social media apps, there is no algorithm deciding what you see or read. You always get the latest content.</li>
+        <li>Feed are open and public by design. No one is harvesting your personal information and profiting by selling it to advertisers.</li>
+        <li>Feeds are spam-proof. Had enough? Easy, just unsubscribe from the feed.</li>
+      </ul>
+      <h2 class="tna-heading-l">Feed links</h2>
       <dl class="tna-dl tna-dl--left-biased">
-        <dt>{{ blog_data.title }}</dt>
+        <dt>{{ blog_data.title }} (all posts)</dt>
         <dd>
           <a href="{{ blog_data.url }}" aria-label="{{ blog_data.title }}" title="{{ blog_data.title }}">HTML</a> |
           <a href="{{ url_for('feeds.rss_all_feed') }}" aria-label="RSS feed for all blogs" title="RSS feed for all blogs">RSS</a> |

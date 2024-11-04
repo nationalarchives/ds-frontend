@@ -9,7 +9,8 @@
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
-{%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
+{%- set themeAccent = themeAccent or 'yellow' -%}
+{%- set accentedBreadcrumbs = accentedBreadcrumbs or False -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
   'data-cookiesdomain': app_config.COOKIE_DOMAIN or ''
@@ -126,6 +127,9 @@
 
 {% block beforeContent %}
 {%- if breadcrumbs and breadcrumbs | length > 0 %}
+      {% if accentedBreadcrumbs %}
+      <div class="tna-background-accent">
+      {% endif %}
       <div class="tna-container">
         <div class="tna-column tna-column--full">
           {{ tnaBreadcrumbs({
@@ -135,6 +139,9 @@
           }) }}
         </div>
       </div>
+      {% if accentedBreadcrumbs %}
+      </div>
+      {% endif %}
 {%- endif %}
 {% endblock %}
 
