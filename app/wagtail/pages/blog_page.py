@@ -11,6 +11,7 @@ from app.wagtail.api import (
     page_descendants,
 )
 from flask import current_app, render_template, request
+from pydash import objects
 
 
 def blog_page(page_data, year=None, month=None, day=None):
@@ -75,7 +76,7 @@ def blog_page(page_data, year=None, month=None, day=None):
     date_filters = [
         {
             "label": "Any date",
-            "href": page_data["meta"]["url"],
+            "href": objects.get(page_data, "meta.url"),
             "title": "Blog posts from any date",
             "selected": not year,
         }
