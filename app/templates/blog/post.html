@@ -10,7 +10,6 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
 {%- set pageTitle = page_data.title -%}
-{%- set accentedBreadcrumbs = True -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
 
@@ -29,111 +28,127 @@
     {%- endif %}
 {% endblock %}
 
-{% block content %}
-  {%- if page_data.global_alert or page_data.mourning_notice %}
-  <div class="tna-background-accent-light">
-    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-  </div>
-  {%- endif %}
-  <article class="etna-article" itemscope itemtype="https://schema.org/Article">
-    <meta itemprop="datePublished" content="{{ page_data.published_date.value }}">
-    <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
-    <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
-      <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">Blog post</p>
-            <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
-          </hgroup>
-          {%- if page_data.intro %}
-          <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
-            {{ page_data.intro | tna_html | safe }}
-          </div>
-          {%- endif %}
-          <p>
-            <small>Published {{ page_data.published_date.value | pretty_date }}
-              {% set authors_list_top = [] %}
-              {% for author in page_data.authors -%}
-                {% set authors_list_top = authors_list_top.append({
-                  'name': author.title,
-                  'url': author.url
-                }) %}
-              {%- endfor -%}
-              {% for author in page_data.external_authors -%}
-                {% set authors_list_top = authors_list_top.append({
-                  'name': author.name,
-                  'url': None
-                }) %}
-              {%- endfor -%}
-              {%- if authors_list_top | length %}
-              by
-              {% for author in authors_list_top -%}
-                {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}{% if author.url %}<a href="{{ author.url }}">{{ author.name }}</a>{% else %}{{ author.name }}{% endif %}
-              {%- endfor -%}
-              {%- endif %}
-            </small>
-          </p>
-        </div>
-      </div>
-    </div>
-    {%- if page_data.hero_image %}
-    <div class="etna-background-accent-light-half">
+{% block main %}
+  {% block beforeContent %}
+  {%- if breadcrumbs and breadcrumbs | length > 0 %}
+    <div class="tna-background-accent-light">
       <div class="tna-container">
         <div class="tna-column tna-column--full">
-          {% set hero_image_caption = page_data.hero_image_caption or '' %}
-          {%- if page_data.hero_image.copyright %}
-            {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
-          {%- endif %}
-          {{ tnaHero({
-            'imageSrc': page_data.hero_image.jpeg.full_url,
-            'imageAlt': page_data.hero_image.alt_text or '',
-            'imageWidth': page_data.hero_image.jpeg.width,
-            'imageHeight': page_data.hero_image.jpeg.height,
-            'imageCaption': hero_image_caption,
-            'imageSources': [
-              {
-                'src': page_data.hero_image_small.webp.full_url,
-                'width': page_data.hero_image_small.webp.width,
-                'height': page_data.hero_image_small.webp.height,
-                'type': 'image/webp',
-                'media': '(max-width: 48em)'
-              },
-              {
-                'src': page_data.hero_image_small.jpeg.full_url,
-                'width': page_data.hero_image_small.jpeg.width,
-                'height': page_data.hero_image_small.jpeg.height,
-                'type': 'image/jpeg',
-                'media': '(max-width: 48em)'
-              },
-              {
-                'src': page_data.hero_image.webp.full_url,
-                'width': page_data.hero_image.webp.width,
-                'height': page_data.hero_image.webp.height,
-                'type': 'image/webp'
-              }
-            ],
-            'narrow': True
+          {{ tnaBreadcrumbs({
+            'items': breadcrumbs,
+            'structuredData': True,
+            'classes': 'tna-!--padding-vertical-s'
           }) }}
         </div>
       </div>
     </div>
+  {%- endif %}
+  {% endblock %}
+  <main class="tna-main {{ mainClasses }}" id="main-content">
+    {%- if page_data.global_alert or page_data.mourning_notice %}
+    <div class="tna-background-accent-light">
+      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+    </div>
     {%- endif %}
-    <div class="tna-section">
-      <div class="tna-container tna-container--centred">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
-          {{ wagtail_body(page_data.body, 2) }}
+    <article class="etna-article" itemscope itemtype="https://schema.org/Article">
+      <meta itemprop="datePublished" content="{{ page_data.published_date.value }}">
+      <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
+      <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
+        <div class="tna-container">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+            <hgroup class="tna-hgroup-xl">
+              <p class="tna-hgroup__supertitle">Blog post</p>
+              <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
+            </hgroup>
+            {%- if page_data.intro %}
+            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
+              {{ page_data.intro | tna_html | safe }}
+            </div>
+            {%- endif %}
+            <p>
+              <small>Published {{ page_data.published_date.value | pretty_date }}
+                {% set authors_list_top = [] %}
+                {% for author in page_data.authors -%}
+                  {% set authors_list_top = authors_list_top.append({
+                    'name': author.title,
+                    'url': author.url
+                  }) %}
+                {%- endfor -%}
+                {% for author in page_data.external_authors -%}
+                  {% set authors_list_top = authors_list_top.append({
+                    'name': author.name,
+                    'url': None
+                  }) %}
+                {%- endfor -%}
+                {%- if authors_list_top | length %}
+                by
+                {% for author in authors_list_top -%}
+                  {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}{% if author.url %}<a href="{{ author.url }}">{{ author.name }}</a>{% else %}{{ author.name }}{% endif %}
+                {%- endfor -%}
+                {%- endif %}
+              </small>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    {%- if page_data.authors | length %}
-    <div class="tna-section">
-      <div class="tna-container tna-container--centred">
-        {{ authors_list(page_data.authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print', page_data.external_authors) }}
+      {%- if page_data.hero_image %}
+      <div class="etna-background-accent-light-half">
+        <div class="tna-container">
+          <div class="tna-column tna-column--full">
+            {% set hero_image_caption = page_data.hero_image_caption or '' %}
+            {%- if page_data.hero_image.copyright %}
+              {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+            {%- endif %}
+            {{ tnaHero({
+              'imageSrc': page_data.hero_image.jpeg.full_url,
+              'imageAlt': page_data.hero_image.alt_text or '',
+              'imageWidth': page_data.hero_image.jpeg.width,
+              'imageHeight': page_data.hero_image.jpeg.height,
+              'imageCaption': hero_image_caption,
+              'imageSources': [
+                {
+                  'src': page_data.hero_image_small.webp.full_url,
+                  'width': page_data.hero_image_small.webp.width,
+                  'height': page_data.hero_image_small.webp.height,
+                  'type': 'image/webp',
+                  'media': '(max-width: 48em)'
+                },
+                {
+                  'src': page_data.hero_image_small.jpeg.full_url,
+                  'width': page_data.hero_image_small.jpeg.width,
+                  'height': page_data.hero_image_small.jpeg.height,
+                  'type': 'image/jpeg',
+                  'media': '(max-width: 48em)'
+                },
+                {
+                  'src': page_data.hero_image.webp.full_url,
+                  'width': page_data.hero_image.webp.width,
+                  'height': page_data.hero_image.webp.height,
+                  'type': 'image/webp'
+                }
+              ],
+              'narrow': True
+            }) }}
+          </div>
+        </div>
       </div>
-    </div>
-    {%- endif %}
-  </article>
-</div>
+      {%- endif %}
+      <div class="tna-section">
+        <div class="tna-container tna-container--centred">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
+            {{ wagtail_body(page_data.body, 2) }}
+          </div>
+        </div>
+      </div>
+      {%- if page_data.authors | length %}
+      <div class="tna-section">
+        <div class="tna-container tna-container--centred">
+          {{ authors_list(page_data.authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print', page_data.external_authors) }}
+        </div>
+      </div>
+      {%- endif %}
+    </article>
+  </main>
 {% endblock %}
 
 {% block bodyEnd %}
