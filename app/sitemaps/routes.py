@@ -1,4 +1,5 @@
 import math
+from datetime import datetime
 from urllib.parse import urlparse
 
 from app.lib.cache import cache
@@ -86,9 +87,18 @@ def sitemap_dynamic(sitemap_page):
     if sitemap_page > pages:
         return render_template("errors/page-not-found.html"), 404
     for page in wagtail_pages["items"]:
+        try:
+            lastmodified_date = datetime.strptime(
+                page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
+            )
+            lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
+        except KeyError:
+            lastmodified_date = None
+        except ValueError:
+            lastmodified_date = None
         url = {
             "loc": page["full_url"],
-            # "lastmod": post.date_published.strftime("%Y-%m-%dT%H:%M:%SZ")
+            "lastmod": lastmodified_date,
         }
         dynamic_urls.append(url)
     xml_sitemap = render_template(
