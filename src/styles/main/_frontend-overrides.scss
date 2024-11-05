@@ -158,18 +158,15 @@ sup[data-footnoteid] {
     margin-right: auto;
     margin-left: auto;
 
+    overflow: hidden;
+
     background: none;
+
+    border-radius: 100%;
 
     @include media.on-tiny {
       width: 50%;
     }
-  }
-
-  &--person &__image {
-    overflow: hidden;
-
-    border-radius: 100%;
-    @include colour.thick-keyline-dark;
   }
 }
 
