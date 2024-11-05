@@ -19,7 +19,10 @@ const cookies = new Cookies({
 
 initAll();
 
-const initNotifications = () =>
+const initNotifications = () => {
+  const initialDismissedNotifications = JSON.parse(
+    cookies.get("dismissed_notifications") || "[]",
+  );
   document
     .querySelectorAll(
       ".etna-global-alert:has(.etna-global-alert__dismiss[value][hidden])",
@@ -28,31 +31,37 @@ const initNotifications = () =>
       const $alertDismissButton = $globalAlert.querySelector(
         ".etna-global-alert__dismiss",
       );
-      $alertDismissButton.hidden = false;
-      $alertDismissButton.addEventListener("click", (e) => {
-        const dismissedNotifications = JSON.parse(
-          cookies.get("dismissed_notifications") || "[]",
-        );
-        const dismissedNotificationsSet = new Set(dismissedNotifications);
-        dismissedNotificationsSet.add(parseInt(e.target.value));
-        cookies.set(
-          "dismissed_notifications",
-          JSON.stringify(Array.from(dismissedNotificationsSet)),
-          { session: true },
-        );
-        const $globalAlertWrapper = $globalAlert.closest(
-          ".etna-global-alert-wrapper",
-        );
-        $globalAlert.remove();
-        if (
-          !$globalAlertWrapper.querySelector(
-            ".etna-global-alert, .etna-mourning-notice",
-          )
-        ) {
-          $globalAlertWrapper.remove();
-        }
-      });
+      const alertUid = parseInt($alertDismissButton.value);
+      if (initialDismissedNotifications.includes(alertUid)) {
+        $globalAlert.hidden = true;
+      } else {
+        $alertDismissButton.hidden = false;
+        $alertDismissButton.addEventListener("click", () => {
+          const dismissedNotifications = JSON.parse(
+            cookies.get("dismissed_notifications") || "[]",
+          );
+          const dismissedNotificationsSet = new Set(dismissedNotifications);
+          dismissedNotificationsSet.add(parseInt(alertUid));
+          cookies.set(
+            "dismissed_notifications",
+            JSON.stringify(Array.from(dismissedNotificationsSet)),
+            { session: true },
+          );
+          const $globalAlertWrapper = $globalAlert.closest(
+            ".etna-global-alert-wrapper",
+          );
+          $globalAlert.remove();
+          if (
+            !$globalAlertWrapper.querySelector(
+              ".etna-global-alert, .etna-mourning-notice",
+            )
+          ) {
+            $globalAlertWrapper.remove();
+          }
+        });
+      }
     });
+};
 
 if (cookies.isPolicyAccepted("settings")) {
   initNotifications();

@@ -4,10 +4,14 @@ from flask_caching import Cache
 cache = Cache()
 
 
-def cache_key_prefix():
-    """Make a key that includes GET parameters."""
-    return f"{request.full_path}{request.cookies.get('cookie_preferences_set' or '')}{request.cookies.get('dismissed_notifications' or '')}{request.cookies.get('theme' or '')}"
+def page_cache_key_prefix():
+    keys = [
+        request.full_path,
+        request.cookies.get("cookie_preferences_set") or "",
+        request.cookies.get("theme") or "",
+    ]
+    return "_".join(keys)
 
 
-def rss_feedcache_key_prefix():
-    return f"{request.full_path}{request.cookies.get('format' or '')}"
+def rss_feed_cache_key_prefix():
+    return f"{request.full_path}{request.cookies.get('format') or ''}"

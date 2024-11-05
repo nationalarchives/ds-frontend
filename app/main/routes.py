@@ -1,7 +1,7 @@
 import json
 from urllib.parse import quote, unquote
 
-from app.lib.cache import cache, cache_key_prefix
+from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
@@ -14,7 +14,7 @@ def healthcheck():
 
 
 @bp.route("/browse/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=page_cache_key_prefix)
 def browse():
     return render_template("main/browse.html", global_alert=global_alerts())
 
@@ -81,6 +81,6 @@ def robots():
 
 
 @bp.route("/new-homepage/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=page_cache_key_prefix)
 def new_homepage():
     return render_template("main/new_home.html")

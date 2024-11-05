@@ -1,6 +1,10 @@
 from app.feeds import bp
 from app.lib.api import ApiResourceNotFound
-from app.lib.cache import cache, cache_key_prefix, rss_feedcache_key_prefix
+from app.lib.cache import (
+    cache,
+    page_cache_key_prefix,
+    rss_feed_cache_key_prefix,
+)
 from app.wagtail.api import (
     blog_posts_paginated,
     blogs,
@@ -14,7 +18,7 @@ from flask_caching import CachedResponse
 
 
 @bp.route("/blog/feeds/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=page_cache_key_prefix)
 def rss_feeds():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
@@ -42,7 +46,7 @@ def rss_feeds():
 
 
 @bp.route("/blog/feeds/all/")
-@cache.cached(timeout=3600, key_prefix=rss_feedcache_key_prefix)
+@cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
 def rss_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
@@ -82,7 +86,7 @@ def rss_all_feed():
 
 
 @bp.route("/blog/feeds/<int:blog_id>/")
-@cache.cached(timeout=3600, key_prefix=rss_feedcache_key_prefix)
+@cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
 def rss_feed(blog_id):
     try:
         blog_data = page_details(blog_id)

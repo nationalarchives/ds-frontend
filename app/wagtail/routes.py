@@ -1,7 +1,7 @@
 from urllib.parse import quote, unquote
 
 from app.lib.api import ApiResourceNotFound
-from app.lib.cache import cache, cache_key_prefix
+from app.lib.cache import cache, page_cache_key_prefix
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
 from flask import (
@@ -130,7 +130,7 @@ def page_permalink(page_id):
 
 
 @bp.route("/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=page_cache_key_prefix)
 def index():
     try:
         page_data = page_details_by_uri("/")
@@ -158,7 +158,7 @@ def index():
 
 
 @bp.route("/<path:path>/")
-@cache.cached(key_prefix=cache_key_prefix)
+@cache.cached(key_prefix=page_cache_key_prefix)
 def page(path):
     try:
         page_data = page_details_by_uri(unquote(f"/{path}/"))

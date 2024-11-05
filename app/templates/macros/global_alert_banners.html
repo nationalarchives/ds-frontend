@@ -19,13 +19,13 @@
         <div class="etna-global-alert__body">
           {{ global_alert.message | tna_html | safe }}
         </div>
-        <div class="tna-button-group tna-!--no-margin-top-large tna-!--no-margin-top-medium tna-!--margin-top-xs">
+        <div class="tna-button-group tna-!--no-margin-top">
           {{ tnaButton({
             'text': 'Dismiss notification',
             'small': True,
             'plain': True,
             'buttonElement': True,
-            'classes': 'etna-global-alert__dismiss',
+            'classes': 'etna-global-alert__dismiss tna-!--margin-top-xs tna-!--no-margin-top-large tna-!--no-margin-top-medium',
             'attributes': {
               'hidden': '',
               'value': global_alert.uid
