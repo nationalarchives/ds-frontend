@@ -135,6 +135,13 @@
             }
           ]
         }) %}
+      {%- else %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': url_for('static', filename='images/blank-profile.svg'),
+          'imageAlt': '',
+          'imageWidth': 512,
+          'imageHeight': 512
+        }) %}
       {%- endif %}
       {{ tnaCard(card_content) }}
     </li>

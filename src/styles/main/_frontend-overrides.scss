@@ -152,28 +152,24 @@ sup[data-footnoteid] {
     height: 100%;
   }
 
-  &--person {
-    &:hover {
-      outline: none;
-    }
-  }
-
   &--person &__image-container {
+    width: 75%;
     aspect-ratio: 1;
+    margin-right: auto;
+    margin-left: auto;
 
     background: none;
+
+    @include media.on-tiny {
+      width: 50%;
+    }
   }
 
   &--person &__image {
     overflow: hidden;
 
     border-radius: 100%;
-    @include colour.thick-keyline;
-  }
-
-  &--person:hover &__image,
-  &--person:focus &__image {
-    @include colour.colour-border("keyline-dark");
+    @include colour.thick-keyline-dark;
   }
 }
 

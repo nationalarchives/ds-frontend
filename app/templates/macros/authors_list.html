@@ -9,10 +9,7 @@
         {%- if author.image_small %}
         <img src="{{ author.image_small.jpeg.full_url }}" alt="{{ author.image_small.alt_text }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
         {%- else %}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="etna-author-list__image">
-          <path fill="#ccc" d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1
-          1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
-        </svg>
+        <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image">
         {%- endif %}
         <div class="etna-author-list__details">
           <p class="etna-author-list__name">
@@ -33,10 +30,7 @@
         {%- if author.image %}
         <img src="{{ author.image.jpeg.full_url }}" alt="{{ author.image.alt_text }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
         {%- else %}
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="etna-author-list__image">
-          <path fill="#ccc" d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1
-          1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
-        </svg>
+        <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image">
         {%- endif %}
         <div class="etna-author-list__details">
           <p class="etna-author-list__name">
