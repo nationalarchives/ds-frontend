@@ -79,7 +79,7 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages = all_pages(
         batch=sitemap_page,
         limit=items_per_sitemap,
-        params={"order": "depth,slug"},
+        params={"order": "id"},
     )
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
