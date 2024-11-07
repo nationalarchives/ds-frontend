@@ -33,6 +33,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
     def test_sitemap_page_1_xml(self, m):
         domain = self.domain.replace("http://", "https://")
         rv = self.app.get("/sitemaps/sitemap_1.xml")
+        self.assertIn(f"<loc>{domain}/</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/browse/</loc>", rv.text)
 
     @requests_mock.Mocker()
@@ -114,12 +115,9 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
         m.get(mock_endpoint, json=mock_respsone)
         rv = self.app.get("/sitemaps/sitemap_2.xml")
         self.assertEqual(rv.status_code, 200)
-        # self.assertIn(f"<loc>{domain}/</loc>", rv.text)
-        # self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
-        # self.assertIn(
-        #     f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
-        #     rv.text,
-        # )
-        # self.assertIn(f"<loc>{domain}/browse/</loc>", rv.text)
-        # self.assertIn(f"<loc>{domain}/cookies/</loc>", rv.text)
-        # self.assertIn(f"<loc>{domain}/cookies/details/</loc>", rv.text)
+        self.assertIn(f"<loc>{domain}/</loc>", rv.text)
+        self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
+        self.assertIn(
+            f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
+            rv.text,
+        )
