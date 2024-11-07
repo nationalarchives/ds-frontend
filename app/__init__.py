@@ -9,6 +9,7 @@ from app.lib.context_processor import (
     now_rfc_822,
     pretty_date_range,
 )
+from app.lib.talisman import talisman
 from app.lib.template_filters import (
     get_url_domain,
     headings_list,
@@ -24,7 +25,6 @@ from app.lib.template_filters import (
     wagtail_table_parser,
 )
 from flask import Flask
-from flask_talisman import Talisman
 from jinja2 import ChoiceLoader, PackageLoader
 
 
@@ -62,7 +62,7 @@ def create_app(config_class):
 
     csp_self = "'self'"
     csp_none = "'none'"
-    Talisman(
+    talisman.init_app(
         app,
         content_security_policy={
             "default-src": csp_self,
