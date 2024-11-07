@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>
       <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
     </title>
+    {% if blog_data.full_url %}
+    <link>{{ blog_data.full_url }}</link>
+    {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
+    <link>{{ blog_data.meta.html_url }}</link>
+    {% endif %}
     {% if blog_data.teaser_text %}
     <description>
       <![CDATA[ {{ blog_data.teaser_text }} ]]>
@@ -12,11 +17,6 @@
     <description>
       <![CDATA[ {{ blog_data.meta.teaser_text }} ]]>
     </description>
-    {% endif %}
-    {% if blog_data.full_url %}
-    <link>{{ blog_data.full_url }}</link>
-    {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-    <link>{{ blog_data.meta.html_url }}</link>
     {% endif %}
     <image>
       <url>{{ url_for('static', filename='assets/images/icon-256x256.png', _external=True, _scheme='https') }}</url>
@@ -42,7 +42,7 @@
         <![CDATA[ {{ blog_post.teaser_text }} ]]>
       </description>
       <link>{{ blog_post.full_url }}</link>
-      <guid>{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
+      <guid isPermaLink="true">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
       {% if blog_post.authors %}
       <dc:creator>
         <![CDATA[ {% for author in blog_post.authors -%}
@@ -56,9 +56,9 @@
       {% endif %}
       <pubDate>{{ blog_post.published_date.value | rfc_822_format }}</pubDate>
       {% if blog_post.teaser_image %}
-      <media:content url="{{ blog_post.teaser_image.jpeg.full_url }}" medium="image"/>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="{{ blog_post.teaser_image.jpeg.full_url }}" medium="image"/>
       {% endif %}
-      <!-- <content:encoded>
+      <!-- <content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/">
         <![CDATA[  ]]>
       </content:encoded> -->
     </item>
