@@ -119,6 +119,7 @@ def page_permalink(page_id):
             url_for(
                 "wagtail.page",
                 path=page_data["meta"]["url"].strip("/"),
+                **request.args.to_dict(),
             ),
             code=302,
         )

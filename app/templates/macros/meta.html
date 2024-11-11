@@ -13,22 +13,22 @@
     <meta name="twitter:card" content="summary">
 {% if title %}
     <meta property="og:title" content="{{ title }}">
-{% endif %}
+{%- endif %}
 {% if page_data.meta and page_data.meta.twitter_og_title %}
     <meta name="twitter:title" content="{{ page_data.meta.twitter_og_title }}">
-{% endif %}
+{%- endif %}
 
 {% if description %}
     <meta name="description" content="{{ description }}">
     <meta property="og:description" content="{{ description }}">
-{% endif %}
+{%- endif %}
 {% if page_data.meta and page_data.meta.twitter_og_description %}
     <meta name="twitter:description" content="{{ page_data.meta.twitter_og_description }}">
-{% endif %}
+{%- endif %}
 
 {% if url %}
     <meta property="og:url" content="{{ url }}">
-{% endif %}
+{%- endif %}
 
 {%- set og_image = None %}
 {% if page_data.meta and page_data.meta.facebook_og_image %}
@@ -45,14 +45,14 @@
     'height': page_data.meta.teaser_image.jpeg.height,
     'type': 'image/jpeg'
   } %}
-{% endif %}
+{%- endif %}
 
 {% if og_image %}
     <meta property="og:image" content="{{ og_image.src }}">
     <meta property="og:image:width" content="{{ og_image.width }}">
     <meta property="og:image:height" content="{{ og_image.height }}">
     <meta property="og:image:type" content="{{ og_image.type }}">
-{% endif %}
+{%- endif %}
 
 {%- set og_image_twitter = None %}
 {% if page_data.meta and page_data.meta.twitter_og_image %}
@@ -65,26 +65,26 @@
     {% set og_image_twitter = {
         'src': page_data.meta.teaser_image.jpeg.full_url
     } %}
-{% endif %}
+{%- endif %}
 {% if og_image_twitter %}
     <meta name="twitter:image" content="{{ og_image_twitter.src }}">
-{% endif %}
+{%- endif %}
 
 {% if page_data.id %}
     <meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
-{% endif %}
+{%- endif %}
 
 {% if page_data.title %}
     <meta name="tna.page.title" content="{{ page_data.title }}">
-{% endif %}
+{%- endif %}
 
 {% if page_data.meta and page_data.meta.type %}
     <meta name="tna.page.wagtail.type" content="{{ page_data.meta.type }}">
     <meta name="page_type" content="{{ page_data.meta.type.split('.')[1] }}">
-{% endif %}
+{%- endif %}
 
 {% if page_data.tags and page_data.tags | length %}
     <meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
     <meta name="taxonom_tags" content="{{ page_data.tags | join('; ') }}">
-{% endif %}
+{%- endif %}
 {% endmacro %}

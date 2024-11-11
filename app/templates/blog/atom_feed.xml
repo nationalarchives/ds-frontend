@@ -25,7 +25,7 @@
     <logo>{{ blog_post.teaser_image.jpeg.full_url }}</logo>
     <icon>{{ blog_post.teaser_image.jpeg.full_url }}</icon>
     {% endif %} #}
-    <id>{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</id>
+    <id>{{ url_for('wagtail.page_permalink', page_id=blog_post.id, source='atom', _external=True, _scheme='https') }}</id>
     <summary>{{ blog_post.teaser_text }}</summary>
     {% if blog_post.authors %}
     {% for author in blog_post.authors %}

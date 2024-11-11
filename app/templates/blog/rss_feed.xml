@@ -42,7 +42,7 @@
         <![CDATA[ {{ blog_post.teaser_text }} ]]>
       </description>
       <link>{{ blog_post.full_url }}</link>
-      <guid isPermaLink="true">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
+      <guid isPermaLink="true">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, source='rss', _external=True, _scheme='https') }}</guid>
       {% if blog_post.authors %}
       <dc:creator>
         <![CDATA[ {% for author in blog_post.authors -%}
