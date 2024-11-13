@@ -132,8 +132,75 @@
       </div>
     </div>
     {%- endif %}
-    <div class="tna-container tna-!--padding-top-m">
-      <div class="tna-column tna-column--full">
+
+
+
+
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+        <div class="tna-container tna-container--nested">
+          <div class="tna-column tna-column--full">
+            {%- if page > 1 %}
+              {%- if current_author %}
+            <h2 class="tna-heading-l">Blog posts by {{ current_author.author.title }}, page {{ page }} of {{ pages }}</h2>
+              {%- else %}
+            <h2 class="tna-heading-l">Blog posts, page {{ page }} of {{ pages }}</h2>
+              {%- endif %}
+            {%- else %}
+              {%- if current_author %}
+            <h2 class="tna-heading-l">Most recent posts by {{ current_author.author.title }}</h2>
+              {%- else %}
+            <h2 class="tna-heading-l">Most recent posts</h2>
+              {%- endif %}
+            {%- endif %}
+          </div>
+          <div class="tna-container tna-container--nested">
+            <ul class="tna-container">
+              {% for blog_post in blog_posts %}
+              {% if page > 1 or loop.index > 1 %}
+              <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-m tna-!--margin-bottom-l">
+                {% set card_content = {
+                  'supertitle-': blog_post.type_label,
+                  'title': blog_post.title,
+                  'headingLevel': 3,
+                  'headingSize': 's',
+                  'href': blog_post.full_url,
+                  'body': blog_post.teaser_text,
+                  'label': 'New' if blog_post.is_newly_published,
+                  'meta': [
+                    {
+                      'title': 'Published',
+                      'text':  blog_post.published_date.value | pretty_date
+                    }
+                  ],
+                  'fullAreaClick': True,
+                  'classes': 'tna-card--full-height'
+                } %}
+                {%- if blog_post.teaser_image %}
+                  {% set card_content = dict(card_content, **{
+                    'imageSrc': blog_post.teaser_image.jpeg.full_url,
+                    'imageAlt': blog_post.teaser_image.alt_text or '',
+                    'imageWidth': blog_post.teaser_image.jpeg.width,
+                    'imageHeight': blog_post.teaser_image.jpeg.height,
+                    'imageSources': [
+                      {
+                        'src': blog_post.teaser_image.webp.full_url,
+                        'type': 'image/webp',
+                        'width': blog_post.teaser_image.webp.width,
+                        'height': blog_post.teaser_image.webp.height
+                      }
+                    ]
+                  }) %}
+                {%- endif %}
+                {{ tnaCard(card_content) }}
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
         {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' and not current_author %}
         <h2 class="tna-heading-m">All blogs</h2>
         {% set blogs_list = [] %}
@@ -173,64 +240,8 @@
           'classes': 'tna-!--margin-top-s'
         }) }}
         {%- endif %}
-
-        {%- if page > 1 %}
-        {%- if current_author %}
-        <h2 class="tna-heading-l">Blog posts by {{ current_author.author.title }}, page {{ page }} of {{ pages }}</h2>
-        {%- else %}
-        <h2 class="tna-heading-l">Blog posts, page {{ page }} of {{ pages }}</h2>
-        {%- endif %}
-        {%- else %}
-        {%- if current_author %}
-        <h2 class="tna-heading-l">Most recent posts by {{ current_author.author.title }}</h2>
-        {%- else %}
-        <h2 class="tna-heading-l">Most recent posts</h2>
-        {%- endif %}
-        {%- endif %}
       </div>
     </div>
-    <ul class="tna-container">
-      {% for blog_post in blog_posts %}
-      {% if page > 1 or loop.index > 1 %}
-      <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m tna-!--margin-bottom-l">
-        {% set card_content = {
-          'supertitle-': blog_post.type_label,
-          'title': blog_post.title,
-          'headingLevel': 3,
-          'headingSize': 's',
-          'href': blog_post.full_url,
-          'body': blog_post.teaser_text,
-          'label': 'New' if blog_post.is_newly_published,
-          'meta': [
-            {
-              'title': 'Published',
-              'text':  blog_post.published_date.value | pretty_date
-            }
-          ],
-          'fullAreaClick': True,
-          'classes': 'tna-card--full-height'
-        } %}
-        {%- if blog_post.teaser_image %}
-          {% set card_content = dict(card_content, **{
-            'imageSrc': blog_post.teaser_image.jpeg.full_url,
-            'imageAlt': blog_post.teaser_image.alt_text or '',
-            'imageWidth': blog_post.teaser_image.jpeg.width,
-            'imageHeight': blog_post.teaser_image.jpeg.height,
-            'imageSources': [
-              {
-                'src': blog_post.teaser_image.webp.full_url,
-                'type': 'image/webp',
-                'width': blog_post.teaser_image.webp.width,
-                'height': blog_post.teaser_image.webp.height
-              }
-            ]
-          }) %}
-        {%- endif %}
-        {{ tnaCard(card_content) }}
-      </li>
-      {% endif %}
-      {% endfor %}
-    </ul>
     {% if pages > 1 %}
     <div class="tna-container">
       <div class="tna-column tna-column--full tna-!--margin-top-l">
@@ -256,8 +267,12 @@
                   <strong>
                     <link itemprop="url" href="{{ author.author.url }}">
                     <meta itemprop="jobTitle" content="{{ author.author.role }}">
-                    <a href="?author={{ author.author.slug }}" rel="author">
+                    <!-- <a href="?author={{ author.author.slug }}" rel="author">
                       <span class="tna-visually-hidden">Posts by</span>
+                      <span itemprop="name">{{ author.author.title }}</span>
+                    </a> -->
+                    <a href="{{ author.author.full_url }}#articles" rel="author">
+                      <span class="tna-visually-hidden">Articles by</span>
                       <span itemprop="name">{{ author.author.title }}</span>
                     </a>
                   </strong>
