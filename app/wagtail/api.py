@@ -134,6 +134,23 @@ def blogs(params={}):
     return wagtail_request_handler(uri, params)
 
 
+def blog_index(params={}):
+    uri = "blogs/index/"
+    return wagtail_request_handler(uri, params)
+
+
+def top_blogs(params={}):
+    uri = "blogs/top/"
+    try:
+        return wagtail_request_handler(uri, params)
+    except ConnectionError:
+        current_app.logger.error("API error getting all blogs")
+        return []
+    except Exception:
+        current_app.logger.error("Exception getting all blogs")
+        return []
+
+
 def blog_posts_paginated(
     page,
     blog_id=None,
@@ -175,7 +192,14 @@ def blog_post_counts(
         "author": author,
         "descendant_of": blog_id,
     }
-    return wagtail_request_handler(uri, params)
+    try:
+        return wagtail_request_handler(uri, params)
+    except ConnectionError:
+        current_app.logger.error("API error getting blog post counts")
+        return []
+    except Exception:
+        current_app.logger.error("Exception getting blog post counts")
+        return []
 
 
 def blog_authors(
@@ -185,6 +209,31 @@ def blog_authors(
     uri = "blog_posts/authors/"
     params = params | {
         "descendant_of": blog_id,
+    }
+    try:
+        return wagtail_request_handler(uri, params)
+    except ConnectionError:
+        current_app.logger.error("API error getting blog post authors")
+        return []
+    except Exception:
+        current_app.logger.error("Exception getting blog post authors")
+        return []
+
+
+def authors_paginated(
+    author_id,
+    page,
+    limit=None,
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "authors/"
+    params = params | {
+        "author": author_id,
+        "offset": offset,
+        "limit": limit,
     }
     return wagtail_request_handler(uri, params)
 

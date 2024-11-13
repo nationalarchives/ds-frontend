@@ -6,6 +6,7 @@ from app.lib.cache import (
     rss_feed_cache_key_prefix,
 )
 from app.wagtail.api import (
+    blog_index,
     blog_posts_paginated,
     blogs,
     breadcrumbs,
@@ -21,12 +22,9 @@ from flask_caching import CachedResponse
 @cache.cached(key_prefix=page_cache_key_prefix)
 def rss_feeds():
     try:
-        blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_data = blog_data["items"][0]
+        blog_data = blog_index()
         blogs_data = blogs()
-        blogs_data = [
-            blog for blog in blogs_data if blog["id"] != blog_data["id"]
-        ]
+        blogs_data = blogs_data["items"]
     except ConnectionError:
         current_app.logger.error("API error getting all blogs for /feeds/ page")
         return render_template("errors/api.html"), 502
@@ -38,8 +36,8 @@ def rss_feeds():
     return render_template(
         "blog/feeds.html",
         global_alert=global_alerts(),
-        blogs=blogs_data,
         blog_data=blog_data,
+        blogs=blogs_data,
         breadcrumbs=breadcrumbs(blog_data["id"])
         + [{"text": blog_data["title"], "href": blog_data["url"]}],
     )

@@ -6,8 +6,8 @@ from app.wagtail.api import (
     blog_authors,
     blog_post_counts,
     blog_posts_paginated,
-    blogs,
     breadcrumbs,
+    top_blogs,
 )
 from flask import current_app, render_template, request
 from pydash import objects
@@ -39,11 +39,12 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         else None
     )
     author = request.args.get("author")
+    blogs_data = top_blogs()
+    blog_post_counts_data = blog_post_counts(
+        author=author,
+    )
+    authors = blog_authors()
     try:
-        blogs_data = blogs()
-        blog_post_counts_data = blog_post_counts(
-            author=author,
-        )
         blog_posts_data = blog_posts_paginated(
             page=page,
             year=year,
@@ -52,7 +53,6 @@ def blog_index_page(page_data, year=None, month=None, day=None):
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
-        authors = blog_authors()
     except ConnectionError:
         current_app.logger.error(
             f"API error getting all blog posts for page {page_data['id']}"
