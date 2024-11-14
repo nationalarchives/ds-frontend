@@ -194,7 +194,7 @@ def page(path):
         and page_data["meta"]["privacy"] == "password"
     ):
         return redirect(
-            url_for("wagtail.preview_protected_page", id=page_data["id"])
+            url_for("wagtail.preview_protected_page", page_id=page_data["id"])
         )
     if (
         current_app.config.get("APPLY_REDIRECTS")
