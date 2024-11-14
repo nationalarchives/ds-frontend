@@ -35,11 +35,11 @@ def preview_page():
     return render_template("errors/page-not-found.html"), 404
 
 
-@bp.route("/preview/<int:id>/", methods=["GET", "POST"])
-def preview_protected_page(id):
+@bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
+def preview_protected_page(page_id):
     try:
         page_data = page_details(
-            id,
+            page_id,
             {
                 "password": (
                     request.form["password"]

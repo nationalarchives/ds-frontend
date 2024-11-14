@@ -27,6 +27,7 @@ page_type_templates = {
     "home.HomePage": home_page,
     "generic_pages.GeneralPage": general_page,
     "generic_pages.HubPage": hub_page,
+    # Cookies
     "cookies.CookiesPage": cookies_page,
     "cookies.CookieDetailsPage": cookie_details_page,
     # Explore the collection
