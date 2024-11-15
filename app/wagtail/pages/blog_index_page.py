@@ -82,7 +82,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
                     {
                         "label": f"All {year_count['year']} ({year_count['posts']})",
                         "href": f"?year={year_count['year']}",
-                        "title": f"Blog posts from {year_count['year']}",
+                        "title": f"Blog posts from {year_count['year']} ({year_count['posts']} post{'s' if year_count['posts'] > 1 else ''})",
                         "selected": not month,
                     }
                 )
@@ -94,7 +94,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
                         {
                             "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
                             "href": f"?year={year_count['year']}&month={month_count['month']}",
-                            "title": f"Blog posts from {each_month_name} {year_count['year']}",
+                            "title": f"Blog posts from {each_month_name} {year_count['year']} ({month_count['posts']} post{'s' if month_count['posts'] > 1 else ''})",
                             "selected": year == year_count["year"]
                             and month == month_count["month"],
                         }
