@@ -1,8 +1,8 @@
 import json
 import math
 import re
-import urllib.parse
 from datetime import datetime
+from urllib.parse import unquote, urlencode, urlparse
 
 from markupsafe import Markup
 
@@ -44,7 +44,7 @@ def seconds_to_time(s):
 
 def get_url_domain(s):
     try:
-        domain = urllib.parse.urlparse(s).netloc
+        domain = urlparse(s).netloc
         domain = re.sub(r"^www\.", "", domain)
         return domain
     except Exception:
@@ -166,7 +166,7 @@ def headings_list(s):
 
 def parse_json(s):
     try:
-        unquoted_string = urllib.parse.unquote(s)
+        unquoted_string = unquote(s)
         return json.loads(unquoted_string)
     except Exception:
         return {}
@@ -310,3 +310,29 @@ def wagtail_table_parser(table_data):
         else:
             data["body"].append(row_data)
     return data
+
+
+def qs_active(existing_qs, filter, by):
+    """Active when identical key/value in existing query string."""
+    qs_set = {(filter, str(by))}
+    # Not active if either are empty.
+    if not existing_qs or not qs_set:
+        return False
+    # See if the intersection of sets is the same.
+    existing_qs_set = set(existing_qs.items())
+    return existing_qs_set.intersection(qs_set) == qs_set
+
+
+def qs_toggler(existing_qs, filter, by):
+    """Resolve filter against an existing query string."""
+    qs = {filter: by}
+    # Don't change the currently rendering existing query string!
+    rtn_qs = existing_qs.copy()
+    # Test for identical key and value in existing query string.
+    if qs_active(existing_qs, filter, by):
+        # Remove so that buttons toggle their own value on and off.
+        rtn_qs.pop(filter)
+    else:
+        # Update or add the query string.
+        rtn_qs.update(qs)
+    return urlencode(rtn_qs)

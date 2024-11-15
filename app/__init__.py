@@ -16,6 +16,8 @@ from app.lib.template_filters import (
     parse_json,
     pretty_date,
     pretty_date_with_day,
+    qs_active,
+    qs_toggler,
     rfc_822_format,
     seconds_to_time,
     sidebar_items_from_wagtail_body,
@@ -156,6 +158,8 @@ def create_app(config_class):
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
     app.add_template_filter(pretty_date_with_day)
+    app.add_template_filter(qs_active)
+    app.add_template_filter(qs_toggler)
     app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
