@@ -3,9 +3,9 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
-{%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'explore-the-collection/partials/discovery-search.html' import discoverySearch -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
 
@@ -54,32 +54,7 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <div class="tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
-        <div class="tna-container">
-          <div class="tna-column tna-column--flex-1 tna-!--padding-top-s">
-            <form method="get" action="https://discovery.nationalarchives.gov.uk">
-              {{ tnaSearchField({
-                'label': 'Looking for particular records? Search our catalogue',
-                'headingLevel': 2,
-                'headingSize': 'l',
-                'hint': 'Our catalogue, Discovery, holds more than 37 million descriptions of records held by The National Archives and archives across the country.',
-                'id': 'search-catalogue',
-                'name': '_q',
-                'formGroupClasses': 'etna-etc-search'
-              }) }}
-            </form>
-          </div>
-          <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--align-bottom tna-!--padding-top-s">
-            <div class="tna-button-group">
-              {{ tnaButton({
-                'text': 'Advanced search',
-                'href': 'https://discovery.nationalarchives.gov.uk/advanced-search',
-                'plain': True
-              }) }}
-            </div>
-          </div>
-        </div>
-      </div>
+      {{ discoverySearch() }}
     </div>
   </div>
 </section>
