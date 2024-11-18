@@ -120,7 +120,9 @@ def whats_on():
     all_events = tna_events(
         page,
         children_per_page,
-        {"event_ids": ",".join([str(id) for id in event_ids])},
+        {
+            # "event_ids": ",".join([str(id) for id in event_ids])
+        },
     )
     pages = all_events["pagination"]["page_count"]
     if page > pages:

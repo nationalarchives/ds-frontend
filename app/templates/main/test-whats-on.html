@@ -55,7 +55,7 @@
         {% endif %}
       {% endif %}
 
-      {{ tnaCard({
+      {% set card_content = {
         'supertitle': 'Online event' if event.online_event else 'Event',
         'title': event.name.text,
         'href': url_for('main.event', slug=(event.name.text | slugify), event_id=event.id),
@@ -81,16 +81,25 @@
             'icon': 'location-dot'
           }
         ],
-        'imageSrc': event.logo.url,
-        'imageAlt': '',
-        'imageWidth': event.logo.crop_mask.width,
-        'imageHeight': event.logo.crop_mask.height,
         'horizontal': True,
         'horizontalOnSmall': False,
         'horizontalSmallImage': True,
         'fullAreaClick': True,
-        'classes': 'tna-card--full-height'
-      }) }}
+        'classes': 'tna-card--full-height tna-card--banner-label'
+      } %}
+
+      {%- if event.logo %}
+      {% set card_content = dict(card_content, **{
+        'imageSrc': event.logo.url,
+        'imageAlt': '',
+        'imageWidth': event.logo.crop_mask.width,
+        'imageHeight': event.logo.crop_mask.height,
+      }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+
+
+
       <!-- <h2 class="tna-heading-l">
         <a href="{{ url_for('main.event', slug=(event.name.text | slugify), event_id=event.id) }}">{{ event.name.text }}</a>
       </h2>
