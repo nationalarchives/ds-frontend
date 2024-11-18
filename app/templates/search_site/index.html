@@ -47,7 +47,7 @@
   {% if total_results %}
   <div class="tna-container">
     <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
-      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} pages</p>
+      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results</p>
     </div>
   </div>
   {% endif %}
