@@ -2,9 +2,9 @@ import json
 from urllib.parse import quote, unquote
 
 from app.eventbrite.api import event_details, tna_events
+from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.pagination import pagination_object
 from app.lib.template_filters import slugify
-from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
@@ -120,9 +120,7 @@ def whats_on():
     all_events = tna_events(
         page,
         children_per_page,
-        {
-            # "event_ids": ",".join([str(id) for id in event_ids])
-        },
+        {"event_ids": ",".join([str(id) for id in event_ids])},
     )
     pages = all_events["pagination"]["page_count"]
     if page > pages:
