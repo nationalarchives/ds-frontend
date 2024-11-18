@@ -4,8 +4,13 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
+@use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
 .tna-button-group {
+  &--centred {
+    justify-content: center;
+  }
+
   &--full {
     justify-content: stretch;
 
@@ -75,6 +80,20 @@
   }
 }
 
+.tna-dl {
+  &--left-biased {
+    @include media.on-larger-than-tiny {
+      dt {
+        width: 60%;
+      }
+
+      dd {
+        width: 40%;
+      }
+    }
+  }
+}
+
 sup[data-footnoteid] {
   border-radius: 0.1px;
 
@@ -84,7 +103,7 @@ sup[data-footnoteid] {
 }
 
 .tna-card {
-  &__promoted-item {
+  &--promoted-item {
     @include colour.thick-keyline-accent(top);
 
     .tna-card__inner {
@@ -96,13 +115,64 @@ sup[data-footnoteid] {
     }
   }
 
+  &--featured-link {
+    &:not(:has(.tna-card__image-container)) {
+      padding-top: spacing.space(1);
+      border-top: none;
+
+      .tna-card__heading-link::before {
+        top: 0;
+      }
+    }
+
+    & + & {
+      margin-top: spacing.space(1);
+    }
+
+    @include media.on-larger-than-tiny {
+      &:not(:has(.tna-card__image-container)) {
+        padding-top: 0;
+      }
+
+      > * + * {
+        margin-top: spacing.space(0.5) !important;
+      }
+    }
+  }
+
+  &--featured-link &__image-container {
+    margin-top: 0 !important;
+  }
+
+  @include media.on-larger-than-mobile {
+    @include card.horizontal-card-layout("--featured-link", 1);
+  }
+
   &--full-height {
     height: 100%;
   }
 
-  &--person {
-    &:hover {
-      outline: none;
+  // &--person {
+  //   padding-bottom: 0;
+
+  //   box-shadow: 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 12%), 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 50%);
+  // }
+
+  &--person &__image-container {
+    width: 75%;
+    aspect-ratio: 1;
+    // margin-top: spacing.space(1);
+    margin-right: auto;
+    margin-left: auto;
+
+    overflow: hidden;
+
+    background: none;
+
+    border-radius: 100%;
+
+    @include media.on-tiny {
+      width: 50%;
     }
   }
 
@@ -156,6 +226,10 @@ sup[data-footnoteid] {
 }
 
 .tna-picture {
+  &__image {
+    display: block;
+  }
+
   @include media.on-small {
     .tna-column & {
       width: calc(100% + #{grid.gutter-width-double()});
@@ -173,25 +247,7 @@ sup[data-footnoteid] {
   }
 }
 
-.tna-table-wrapper {
-  &[tabindex="0"] {
-    border-radius: 0.1px;
-
-    &:active {
-      @include a11y.focus-outline;
-    }
-  }
-}
-
 .tna-table {
-  &__caption {
-    &--scroll {
-      &::after {
-        content: " (scroll to see more)";
-      }
-    }
-  }
-
   &__header--align-left,
   &__cell--align-left {
     text-align: left;

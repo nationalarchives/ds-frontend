@@ -1,5 +1,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 
+{# TODO: Delete when "Featured link" block is deprecated #}
+
 {% macro wagtailPromotedItem(block_value, itemHeadingLevel) %}
   <aside class="etna-space-above">
     {% set card_content = {
@@ -20,6 +22,13 @@
       'fullAreaClick': True,
       'style': 'tint'
     } %}
+    {%- if block_value.type_label == 'External' %}
+      {% set card_content = dict(card_content, **{
+        'hrefAttributes': {
+          'aria-label': block_value.title + ' (opens ' + (block_value.url | get_url_domain) + ')'
+        }
+      }) %}
+    {%- endif %}
     {%- if block_value.image.image %}
       {% set card_content = dict(card_content, **{
         'horizontal': True,
@@ -35,7 +44,7 @@
             'height': block_value.image.image.webp.height
           }
         ],
-        'classes': 'tna-card__promoted-item'
+        'classes': 'tna-card--promoted-item'
       }) %}
     {%- endif %}
     {{ tnaCard(card_content) }}

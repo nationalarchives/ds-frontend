@@ -3,23 +3,23 @@
     <div class="etna-do-dont-list__block">
       <h{{ itemHeadingLevel }} class="tna-heading-m etna-do-dont-list__heading">Do</h{{ itemHeadingLevel }}>
       <ul class="tna-ul etna-ul-ticks">
-        {% for item in block_value.do %}
+        {%- for item in block_value.do %}
         <li>
           <i class="fa-solid fa-check" aria-hidden="true"></i>
           {{ item.text | tna_html | safe }}
         </li>
-        {% endfor %}
+        {%- endfor %}
       </ul>
     </div>
     <div class="etna-do-dont-list__block">
       <h{{ itemHeadingLevel }} class="tna-heading-m etna-do-dont-list__heading">Don't</h{{ itemHeadingLevel }}>
       <ul class="tna-ul etna-ul-crosses">
-        {% for item in block_value.dont %}
+        {%- for item in block_value.dont %}
         <li>
           <i class="fa-solid fa-xmark" aria-hidden="true"></i>
           {{ item.text | tna_html | safe }}
         </li>
-        {% endfor %}
+        {%- endfor %}
       </ul>
     </div>
   </div>

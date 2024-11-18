@@ -8,6 +8,9 @@ class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(
         os.getenv("FEATURE_PHASE_BANNER", "True")
     )
+    FEATURE_LOGO_ADORNMENTS_CSS: bool = os.getenv(
+        "FEATURE_LOGO_ADORNMENTS_CSS", ""
+    )
 
 
 class Base(object):
@@ -43,6 +46,7 @@ class Base(object):
     WAGTAILAPI_LIMIT_MAX: int = int(
         os.environ.get("WAGTAILAPI_LIMIT_MAX", "20")
     )
+    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "100"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
     SESSION_COOKIE_DOMAIN: str | None = COOKIE_DOMAIN or None
@@ -62,7 +66,9 @@ class Base(object):
     ).split(",")
     CSP_FONT_SRC: list[str] = os.environ.get("CSP_FONT_SRC", "'self'").split(
         ","
-    )
+    ) + [
+        "data:"  # video.js
+    ]
     CSP_CONNECT_SRC: list[str] = os.environ.get(
         "CSP_CONNECT_SRC", "'self'"
     ).split(",")
@@ -83,6 +89,7 @@ class Base(object):
     ).split(",")
     FRAME_DOMAIN_ALLOW: str = os.environ.get("FRAME_DOMAIN_ALLOW", "")
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
+    PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
     CACHE_TYPE: str = "FileSystemCache"
     CACHE_DEFAULT_TIMEOUT: int = int(
@@ -121,6 +128,7 @@ class Develop(Base, Features):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
+    PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
 
 
 class Test(Base, Features):
@@ -139,6 +147,7 @@ class Test(Base, Features):
     CACHE_DEFAULT_TIMEOUT = 1
 
     FORCE_HTTPS = False
+    PREFERRED_URL_SCHEME = "http"
 
     APPLY_REDIRECTS = False
 

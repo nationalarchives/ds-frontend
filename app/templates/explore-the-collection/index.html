@@ -151,7 +151,11 @@
   </div>
   <div class="tna-container tna-container--centred tna-!--margin-top-l">
     <div class="tna-column">
-      <a href="/explore-the-collection/stories/" class="tna-button">Browse all stories</a>
+      {# TODO: Don't hard code the href #}
+      {{ tnaButton({
+        'text': 'Browse all stories',
+        'href': '/explore-the-collection/stories/'
+      }) }}
     </div>
   </div>
 </section>

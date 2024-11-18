@@ -9,7 +9,7 @@
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
-{%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
+{%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
   'data-cookiesdomain': app_config.COOKIE_DOMAIN or ''
@@ -39,6 +39,10 @@
     <meta name="tna.app.tna-frontend" content="{{ app_config.TNA_FRONTEND_VERSION }}">
     <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
+    <meta name="tna.page.route" content="{{ request.url_rule }}">
+    {% if request.args.get('source') %}
+    <meta name="tna.source" content="{{ request.args.get('source') }}">
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
@@ -51,7 +55,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='logo-versions.css') }}" media="screen"> -->
+    {% if feature.LOGO_ADORNMENTS_CSS %}
+    <link rel="stylesheet" href="{{ feature.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_no_time() }}" media="screen">
+    {% endif %}
 {% endblock %}
 
 {% block cookies %}
@@ -124,10 +130,11 @@
 {% block beforeContent %}
 {%- if breadcrumbs and breadcrumbs | length > 0 %}
       <div class="tna-container">
-        <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+        <div class="tna-column tna-column--full">
           {{ tnaBreadcrumbs({
             'items': breadcrumbs,
-            'structuredData': True
+            'structuredData': True,
+            'classes': 'tna-!--padding-vertical-s'
           }) }}
         </div>
       </div>
@@ -228,7 +235,7 @@
           'href': 'https://www.legislation.gov.uk/'
         },
         {
-          'text': 'Find case law',
+          'text': 'Find Case Law',
           'href': 'https://caselaw.nationalarchives.gov.uk/'
         },
         {

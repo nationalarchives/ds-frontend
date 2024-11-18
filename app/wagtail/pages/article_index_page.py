@@ -1,6 +1,6 @@
 import math
 
-from app.lib import pagination_object
+from app.lib.pagination import pagination_object
 from app.wagtail.api import breadcrumbs, page_children_paginated
 from flask import current_app, render_template, request
 
@@ -9,12 +9,15 @@ def article_index_page(page_data):
     children_per_page = 12
     page = (
         int(request.args.get("page"))
-        if "page" in request.args and request.args["page"].isnumeric()
+        if request.args.get("page") and request.args.get("page").isnumeric()
         else 1
     )
     try:
         children_data = page_children_paginated(
-            page_data["id"], page, children_per_page
+            page_data["id"],
+            page,
+            children_per_page,
+            params={"order": "-first_published_at"},
         )
     except ConnectionError:
         current_app.logger.error(

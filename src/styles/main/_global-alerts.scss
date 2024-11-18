@@ -6,7 +6,7 @@
 .etna-global-alert {
   @include spacing.space-above;
 
-  @include colour.always-light;
+  // @include colour.always-light;
   @include colour.thick-keyline;
   @include colour.colour-font("font-base");
   @include colour.colour-background("background");
@@ -57,7 +57,7 @@
 
     &__dismiss {
       position: absolute;
-      top: spacing.space(0.5);
+      top: spacing.space(0.25);
       right: spacing.space(0.25);
     }
   }

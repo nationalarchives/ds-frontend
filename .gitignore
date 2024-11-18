@@ -3,6 +3,7 @@
 __pycache__
 /node_modules
 /app/static/assets
+/app/static/logo-adornments
 /app/static/*.css
 /app/static/*.css.map
 /app/static/*.min.js

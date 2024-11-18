@@ -1,9 +1,8 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/details/macro.html' import tnaDetails -%}
 
-{% macro wagtailYouTubeVideo(block_value) %}
-  <a href="https://www.youtube.com/watch?v={{ block_value.video_id }}" class="etna-video etna-video--youtube" data-plyr-svg="{{ url_for('static', filename='assets/images/plyr.svg') }}">
-    <div data-plyr-provider="youtube" data-plyr-embed-id="{{ block_value.video_id }}"></div>
+{% macro wagtailYouTubeVideo(block_value, id) %}
+  <a href="https://www.youtube.com/watch?v={{ block_value.video_id }}" id="{{ id }}" class="etna-video etna-video--youtube video-js">
     {%- if block_value.preview_image %}
     <img src="{{ block_value.preview_image.jpeg.full_url }}" width="{{ block_value.preview_image.jpeg.width }}" height="{{ block_value.preview_image.jpeg.height }}" class="etna-video__preview-image" alt="">
     {%- else %}

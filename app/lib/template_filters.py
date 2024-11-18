@@ -1,7 +1,10 @@
 import json
+import math
 import re
-import urllib.parse
 from datetime import datetime
+from urllib.parse import unquote, urlencode, urlparse
+
+from markupsafe import Markup
 
 from .content_parser import (
     add_abbreviations,
@@ -31,25 +34,77 @@ def slugify(s):
     return s
 
 
-def pretty_date(s):
+def seconds_to_time(s):
+    total_seconds = int(s)
+    hours = math.floor(total_seconds / 3600)
+    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
+    seconds = total_seconds - (hours * 3600) - (minutes * 60)
+    return f"{str(hours).rjust(2, '0')}:{str(minutes).rjust(2, '0')}:{str(seconds).rjust(2, '0')}"
+
+
+def get_url_domain(s):
+    try:
+        domain = urlparse(s).netloc
+        domain = re.sub(r"^www\.", "", domain)
+        return domain
+    except Exception:
+        return s
+
+
+def pretty_date(s, show_day=False):
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%d %B %Y")
+        return (
+            date.strftime("%A %d %B %Y")
+            if show_day
+            else date.strftime("%d %B %Y")
+        )
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        return (
+            date.strftime("%A %d %B %Y")
+            if show_day
+            else date.strftime("%d %B %Y")
+        )
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%d")
-        return date.strftime("%d %B %Y")
+        return (
+            date.strftime("%A %d %B %Y")
+            if show_day
+            else date.strftime("%d %B %Y")
+        )
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m")
-        return date.strftime("%B %Y")
+        return date.strftime("%A %B %Y") if show_day else date.strftime("%B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y")
-        return date.strftime("%Y")
+        return date.strftime("%A %Y") if show_day else date.strftime("%Y")
+    except ValueError:
+        pass
+    return s
+
+
+def pretty_date_with_day(s):
+    return pretty_date(s, True)
+
+
+def rfc_822_format(s):
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     return s
@@ -57,11 +112,11 @@ def pretty_date(s):
 
 def headings_list(s):
     headings_regex = re.findall(
-        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*([^<]+)\s*</', s
+        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
     )
     headings_raw = [
         {
-            "text": heading[2],
+            "text": Markup(heading[2]),
             "href": "#" + heading[1],
             "level": int(heading[0]),
             "children": [],
@@ -111,7 +166,7 @@ def headings_list(s):
 
 def parse_json(s):
     try:
-        unquoted_string = urllib.parse.unquote(s)
+        unquoted_string = unquote(s)
         return json.loads(unquoted_string)
     except Exception:
         return {}
@@ -255,3 +310,29 @@ def wagtail_table_parser(table_data):
         else:
             data["body"].append(row_data)
     return data
+
+
+def qs_active(existing_qs, filter, by):
+    """Active when identical key/value in existing query string."""
+    qs_set = {(filter, str(by))}
+    # Not active if either are empty.
+    if not existing_qs or not qs_set:
+        return False
+    # See if the intersection of sets is the same.
+    existing_qs_set = set(existing_qs.items())
+    return existing_qs_set.intersection(qs_set) == qs_set
+
+
+def qs_toggler(existing_qs, filter, by):
+    """Resolve filter against an existing query string."""
+    qs = {filter: by}
+    # Don't change the currently rendering existing query string!
+    rtn_qs = existing_qs.copy()
+    # Test for identical key and value in existing query string.
+    if qs_active(existing_qs, filter, by):
+        # Remove so that buttons toggle their own value on and off.
+        rtn_qs.pop(filter)
+    else:
+        # Update or add the query string.
+        rtn_qs.update(qs)
+    return urlencode(rtn_qs)

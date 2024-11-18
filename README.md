@@ -12,9 +12,8 @@ npm install
 # Create a static assets directory
 mkdir app/static/assets
 
-# Copy in the static assets from TNA Frontend and Plyr
+# Copy in the static assets from TNA Frontend
 cp -r node_modules/@nationalarchives/frontend/nationalarchives/assets/* app/static/assets
-cp -r node_modules/plyr/dist/plyr.svg app/static/assets/images
 ```
 
 ## Environment variables
@@ -30,6 +29,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SENTRY_SAMPLE_RATE`             | How often to sample traces and profiles (0-1.0)                             | production: `0.1`, staging: `0.25`, develop: `1`, test: `0` |
 | `WAGTAIL_API_URL`                | The base URL of the content API, including the `/api/v2` path               | _none_                                                      |
 | `WAGTAILAPI_LIMIT_MAX`           | The maximum number of items requested from the Wagtail API in one call      | `20`                                                        |
+| `ITEMS_PER_SITEMAP`              | The maximum number of items to add to a single sitemap XML file             | `100`                                                       |
 | `COOKIE_DOMAIN`                  | The domain to save cookie preferences against                               | _none_                                                      |
 | `CSP_IMG_SRC`                    | A comma separated list of CSP rules for `img-src`                           | `'self'`                                                    |
 | `CSP_SCRIPT_SRC`                 | A comma separated list of CSP rules for `script-src`                        | `'self'`                                                    |
@@ -45,6 +45,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CSP_FEATURE_PICTURE_IN_PICTURE` | A comma separated list of rules for the `picture-in-picture` feature policy | `'self'`                                                    |
 | `FRAME_DOMAIN_ALLOW`             | A domain from which to allow frame embedding (used in CMS previews)         | _none_                                                      |
 | `FORCE_HTTPS`                    | Redirect requests to HTTPS as part of the CSP                               | _none_                                                      |
+| `PREFERRED_URL_SCHEME`           | Set the default protocol for generating links                               | production/staging: `https`, develop/test: `http`           |
 | `CACHE_TYPE`                     | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching   | _none_                                                      |
 | `CACHE_DEFAULT_TIMEOUT`          | The number of seconds to cache pages for                                    | production: `300`, staging: `60`, develop: `0`, test: `0`   |
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                      |

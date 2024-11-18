@@ -1,2 +1,3 @@
 **/*.html
 tmp/**/*
+app/templates/main/logo-adornments.css

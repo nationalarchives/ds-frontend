@@ -8,6 +8,22 @@ concurrency:
   group: cd-${{ github.ref }}
 
 jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - uses: snok/install-poetry@v1
+      - name: Check Poetry dependencies
+        run: poetry show -o
+      # - name: Check npm dependencies
+      #   run: |
+      #     npm install
+      #     npm outdated
+      #     npm audit
+
   test-node:
     runs-on: ubuntu-latest
     steps:
@@ -37,6 +53,7 @@ jobs:
     needs:
       - test-python
       - test-node
+      - check-dependencies
       - version
     permissions:
       packages: write

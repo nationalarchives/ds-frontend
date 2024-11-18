@@ -2,12 +2,25 @@ import json
 from datetime import datetime
 from urllib.parse import unquote
 
+from app.lib.cache import cache
 from flask import request
 
 
 def now_iso_8601():
     now = datetime.now()
     now_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return now_date
+
+
+def now_iso_8601_no_time():
+    now = datetime.now()
+    now_date = now.strftime("%Y-%m-%d")
+    return now_date
+
+
+def now_rfc_822():
+    now = datetime.now()
+    now_date = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
     return now_date
 
 

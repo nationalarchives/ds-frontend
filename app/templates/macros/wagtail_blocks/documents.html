@@ -2,7 +2,7 @@
 
 {% macro wagtailDocuments(block_value, block_id, itemHeadingLevel) %}
   {% set files = [] %}
-  {% for document in block_value.documents %}
+  {%- for document in block_value.documents %}
     {% set files = files.append({
       'id': block_id + '-' + (document.file.id | string) + '-' + (loop.index | string),
       'text': document.file.title,
@@ -12,7 +12,7 @@
       'fileExtent': document.file.extent,
       'description': document.file.description
     }) %}
-  {% endfor %}
+  {%- endfor %}
   {{ tnaFilesList({
     'itemHeadingLevel': itemHeadingLevel,
     'items': files,

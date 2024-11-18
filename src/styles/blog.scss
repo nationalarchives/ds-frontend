@@ -3,6 +3,32 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
+.etna-background-accent-light-half {
+  position: relative;
+
+  &::before {
+    content: "";
+
+    height: 50%;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+
+    @include colour.accent-light;
+  }
+}
+
+.tna-hero {
+  // overflow: hidden;
+
+  // border-radius: 1.5rem;
+
+  // box-shadow: 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 25%), 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 75%);
+}
+
 .tna-blockquote {
   margin-right: spacing.space(2);
   margin-left: spacing.space(2);

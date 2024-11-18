@@ -5,12 +5,13 @@
 {%- from 'macros/wagtail_blocks/contact.html' import wagtailContact -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
+{%- from 'macros/wagtail_blocks/featured_external_link.html' import wagtailFeaturedExternalLink -%}
+{%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
 {%- from 'macros/wagtail_blocks/gallery.html' import wagtailGallery -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/promoted_item.html' import wagtailPromotedItem -%}
-{%- from 'macros/wagtail_blocks/promoted_list.html' import wagtailPromotedList -%}
 {%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
@@ -58,10 +59,10 @@
 
   {%- elif content_item.type == 'description_list' %}
   <dl class="tna-dl tna-dl--plain tna-dl--spaced">
-    {% for item in content_item.value['items'] %}
+    {%- for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
     <dd>{{ item.detail | safe }}</dd>
-    {% endfor %}
+    {%- endfor %}
   </dl>
 
   {%- elif content_item.type == 'image' %}
@@ -77,8 +78,8 @@
     {%- endif %}
   </blockquote>
 
-  {%- elif content_item.type == 'promoted_list' %}
-  {{ wagtailPromotedList(content_item.value, next_heading_level) }}
+  {%- elif content_item.type == 'featured_external_link' %}
+  {{ wagtailFeaturedExternalLink(content_item.value, next_heading_level) }}
 
   {%- elif content_item.type == 'promoted_item' %}
   {{ wagtailPromotedItem(content_item.value, next_heading_level) }}
@@ -86,11 +87,14 @@
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}
 
+  {%- elif content_item.type == 'featured_page' %}
+  {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
+
   {%- elif content_item.type == 'featured_record_article' %}
   {{ wagtailFeaturedRecordArticle(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'media' %}
-  {{ wagtailMedia(content_item.value, next_heading_level) }}
+  {{ wagtailMedia(content_item.value, content_item.id, next_heading_level) }}
   
   {%- elif content_item.type == 'do_dont_list' %}
   {{ wagtailDoDontList(content_item.value, next_heading_level) }}
@@ -98,7 +102,7 @@
   {%- elif content_item.type == 'warning_text' %}
   {{ tnaWarning({
     'heading': content_item.value.heading or '',
-    'headingLevel': 2,
+    'headingLevel': next_heading_level,
     'body': content_item.value.body | tna_html | safe
   }) }}
   
@@ -109,7 +113,7 @@
   }) }}
   
   {%- elif content_item.type == 'youtube_video' %}
-  {{ wagtailYouTubeVideo(content_item.value) }}
+  {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
 
   {%- elif content_item.type == 'table' %}
   {{ wagtailTable(content_item.value, content_item.id) }}
@@ -127,6 +131,6 @@
   {{ wagtailContact( content_item.value, next_heading_level ) }}
 
   {%- else %}
-  <p class="tna-heading-xl">===== {{ content_item.type }} =====</p>
+  <p class="tna-heading-xl" aria-hidden="true">===== {{ content_item.type }} =====</p>
   {%- endif %}
 {% endmacro %}

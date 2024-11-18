@@ -1,18 +1,27 @@
 import logging
 
 import sentry_sdk
-from app.lib import cache
+from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     get_month_year_from_date_string,
     get_year_from_date_string,
     now_iso_8601,
+    now_iso_8601_no_time,
+    now_rfc_822,
     pretty_date_range,
 )
+from app.lib.talisman import talisman
 from app.lib.template_filters import (
+    get_url_domain,
     headings_list,
     parse_json,
     pretty_date,
+    pretty_date_with_day,
+    qs_active,
+    qs_toggler,
+    rfc_822_format,
+    seconds_to_time,
     sidebar_items_from_wagtail_body,
     slugify,
     tna_html,
@@ -20,7 +29,6 @@ from app.lib.template_filters import (
     wagtail_table_parser,
 )
 from flask import Flask
-from flask_talisman import Talisman
 from jinja2 import ChoiceLoader, PackageLoader
 
 
@@ -58,7 +66,7 @@ def create_app(config_class):
 
     csp_self = "'self'"
     csp_none = "'none'"
-    Talisman(
+    talisman.init_app(
         app,
         content_security_policy={
             "default-src": csp_self,
@@ -128,10 +136,14 @@ def create_app(config_class):
 
     @app.after_request
     def apply_extra_headers(response):
-        response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
-        response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
-        response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        if "X-Permitted-Cross-Domain-Policies" not in response.headers:
+            response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+        if "Cross-Origin-Embedder-Policy" not in response.headers:
+            response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
+        if "Cross-Origin-Opener-Policy" not in response.headers:
+            response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        if "Cross-Origin-Resource-Policy" not in response.headers:
+            response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
         return response
 
     app.jinja_env.trim_blocks = True
@@ -143,9 +155,15 @@ def create_app(config_class):
         ]
     )
 
+    app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
+    app.add_template_filter(pretty_date_with_day)
+    app.add_template_filter(qs_active)
+    app.add_template_filter(qs_toggler)
+    app.add_template_filter(rfc_822_format)
+    app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)
@@ -157,6 +175,8 @@ def create_app(config_class):
         return dict(
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
+            now_iso_8601_no_time=now_iso_8601_no_time,
+            now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
             get_month_year_from_date_string=get_month_year_from_date_string,
             get_year_from_date_string=get_year_from_date_string,
@@ -171,14 +191,21 @@ def create_app(config_class):
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
+                "LOGO_ADORNMENTS_CSS": app.config.get(
+                    "FEATURE_LOGO_ADORNMENTS_CSS"
+                ),
             },
         )
 
+    from .feeds import bp as feeds_bp
     from .main import bp as site_bp
     from .search import bp as search_bp
+    from .sitemaps import bp as sitemaps_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
+    app.register_blueprint(feeds_bp)
+    app.register_blueprint(sitemaps_bp)
     app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(wagtail_bp)
 

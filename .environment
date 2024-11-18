@@ -1,3 +1,0 @@
-if [ -n "$POETRY_VERSION" ]; then
-    export PATH="/app/.local/bin:$PATH"
-fi

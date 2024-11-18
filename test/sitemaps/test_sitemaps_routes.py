@@ -5,46 +5,50 @@ import requests_mock
 from app import create_app
 
 
-class MainBlueprintTestCase(unittest.TestCase):
+class SitemapsBlueprintTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test").test_client()
         self.domain = "http://localhost"
         self.mock_api_url = self.app.application.config.get("WAGTAIL_API_URL")
 
-    def test_trailing_slash_redirects(self):
-        rv = self.app.get("/healthcheck/live")
-        self.assertEqual(rv.status_code, 308)
-        self.assertEqual(rv.location, f"{self.domain}/healthcheck/live/")
-
-    def test_healthcheck_live(self):
-        rv = self.app.get("/healthcheck/live/")
-        self.assertEqual(rv.status_code, 200)
-        self.assertIn("ok", rv.text)
-
     @requests_mock.Mocker()
-    def test_browse(self, m):
-        mock_endpoint = f"{self.mock_api_url}/pages/find/?html_path=/&fields=_,global_alert,mourning_notice&format=json"
-        mock_respsone = {
-            "global_alert": {
-                "title": "TEST",
-                "message": '<p data-block-key="bvk08">This is some test text</p>',
-                "alert_level": "high",
-                "cascade": True,
-                "uid": 123456,
-            },
-            "mourning_notice": None,
-        }
-        m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/browse/")
-        self.assertEqual(rv.status_code, 200)
-        self.assertIn("Explore 1,000 years of history", rv.text)
-        self.assertIn("This is some test text", rv.text)
-
-    @requests_mock.Mocker()
-    def test_sitemap_xml(self, m):
+    def test_sitemap_index(self, m):
         domain = self.domain.replace("http://", "https://")
         mock_endpoint = (
-            f"{self.mock_api_url}/pages/?offset=0&limit=20&format=json"
+            f"{self.mock_api_url}/pages/?offset=0&limit=1&format=json"
+        )
+        mock_respsone = {
+            "meta": {"total_count": 250},
+            "items": [],
+        }
+        m.get(mock_endpoint, json=mock_respsone)
+        rv = self.app.get("/sitemap.xml")
+        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_1.xml</loc>", rv.text)
+        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_2.xml</loc>", rv.text)
+        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_3.xml</loc>", rv.text)
+        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_4.xml</loc>", rv.text)
+        self.assertNotIn(f"<loc>{domain}/sitemaps/sitemap_5.xml</loc>", rv.text)
+
+    @requests_mock.Mocker()
+    def test_sitemap_page_1_xml(self, m):
+        domain = self.domain.replace("http://", "https://")
+        rv = self.app.get("/sitemaps/sitemap_1.xml")
+        self.assertIn(f"<loc>{domain}/</loc>", rv.text)
+        self.assertIn(f"<loc>{domain}/browse/</loc>", rv.text)
+
+    @requests_mock.Mocker()
+    def test_sitemap_page_2_xml(self, m):
+        domain = self.domain.replace("http://", "https://")
+        mock_index_endpoint = (
+            f"{self.mock_api_url}/pages/?offset=0&limit=1&format=json"
+        )
+        mock_index_respsone = {
+            "meta": {"total_count": 250},
+            "items": [],
+        }
+        m.get(mock_index_endpoint, json=mock_index_respsone)
+        mock_endpoint = (
+            f"{self.mock_api_url}/pages/?offset=0&limit=100&format=json"
         )
         mock_respsone = {
             "meta": {"total_count": 3},
@@ -109,7 +113,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             ],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/sitemap.xml")
+        rv = self.app.get("/sitemaps/sitemap_2.xml")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(f"<loc>{domain}/</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
@@ -117,6 +121,3 @@ class MainBlueprintTestCase(unittest.TestCase):
             f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
             rv.text,
         )
-        self.assertIn(f"<loc>{domain}/browse/</loc>", rv.text)
-        # self.assertIn(f"<loc>{domain}/cookies/</loc>", rv.text)
-        # self.assertIn(f"<loc>{domain}/cookies/details/</loc>", rv.text)

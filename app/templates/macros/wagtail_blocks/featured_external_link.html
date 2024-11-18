@@ -1,0 +1,37 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{% macro wagtailFeaturedExternalLink(block_value, itemHeadingLevel) %}
+  {% set card_content = {
+    'supertitle': (block_value.url | get_url_domain) if 'nationalarchives.gov.uk' not in block_value.url else '',
+    'title': block_value.title,
+    'headingLevel': itemHeadingLevel,
+    'headingSize': 's',
+    'href': block_value.url,
+    'text': block_value.description,
+    'fullAreaClick': True,
+    'horizontal': True,
+    'horizontalSmallImage': True,
+    'horizontalOnSmall': True,
+    'horizontalFlipped': True,
+    'style': 'tint',
+    'classes': 'tna-card--featured-link'
+  } %}
+  {%- if block_value.image %}
+    {% set card_content = dict(card_content, **{
+      'lazyImage': True,
+      'imageSrc': block_value.image.jpeg.full_url,
+      'imageAlt': block_value.image.alt_text or '',
+      'imageWidth': block_value.image.jpeg.width,
+      'imageHeight': block_value.image.jpeg.height,
+      'imageSources': [
+        {
+          'src': block_value.image.webp.full_url,
+          'type': 'image/webp',
+          'width': block_value.image.webp.width,
+          'height': block_value.image.webp.height
+        }
+      ]
+    }) %}
+  {%- endif %}
+  {{ tnaCard(card_content) }}
+{% endmacro %}

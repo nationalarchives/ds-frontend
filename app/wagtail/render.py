@@ -5,8 +5,8 @@ from .pages import (
     article_index_page,
     article_page,
     article_page_focused,
-    blog_all_page,
     blog_index_page,
+    blog_page,
     blog_post_page,
     categories_page,
     category_index_page,
@@ -27,6 +27,7 @@ page_type_templates = {
     "home.HomePage": home_page,
     "generic_pages.GeneralPage": general_page,
     "generic_pages.HubPage": hub_page,
+    # Cookies
     "cookies.CookiesPage": cookies_page,
     "cookies.CookieDetailsPage": cookie_details_page,
     # Explore the collection
@@ -45,8 +46,8 @@ page_type_templates = {
     "people.PeopleIndexPage": people_index_page,
     "people.PersonPage": person_page,
     # Blog
-    "blog.BlogAllPage": blog_all_page,
     "blog.BlogIndexPage": blog_index_page,
+    "blog.BlogPage": blog_page,
     "blog.BlogPostPage": blog_post_page,
 }
 
