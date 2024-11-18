@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
-{%- from 'components/compound-filters/macro.html' import tnaCompoundFilters -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
@@ -40,26 +39,6 @@
         'name': 'q',
         'value': q
       }) }}
-      <!-- {{ tnaCompoundFilters({
-        'items': [
-          {
-            'label': "AIR - Air Ministry and Royal Air Force records",
-            'href': "#",
-            'title': "Remove Air Ministry and Royal Air Force records filter"
-          },
-          {
-            'label': "Item",
-            'href': "#",
-            'title': "Remove item filter"
-          },
-          {
-            'label': "Closed Or Retained Document, Open Description",
-            'href': "#",
-            'title': "Remove filter for Closed Or Retained Document, Open Description"
-          }
-        ],
-        'removeAllHref': url_for('search_site.index')
-      }) }} -->
     </form>
   </div>
 </div>
@@ -68,7 +47,7 @@
   {% if total_results %}
   <div class="tna-container">
     <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
-      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results</p>
+      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} pages</p>
     </div>
   </div>
   {% endif %}
