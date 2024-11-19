@@ -1,7 +1,7 @@
 import math
 
 from app.lib.pagination import pagination_object
-from app.search_site import bp
+from app.site_search import bp
 from app.wagtail.api import global_alerts, search
 from flask import render_template, request, url_for
 from pydash import objects
@@ -27,7 +27,7 @@ def index():
     # if query and page > pages:
     #     return render_template("errors/page-not-found.html"), 404
     return render_template(
-        "search_site/index.html",
+        "site_search/index.html",
         q=query,
         global_alert=global_alerts(),
         breadcrumbs=breadcrumbs,

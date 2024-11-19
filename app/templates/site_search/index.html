@@ -21,15 +21,15 @@
 {% endblock %}
 
 {% block beforeContent %}
-<div class="tna-background-accent">
+<div class="tna-background-accent-light">
   {{ super() }}
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
+<div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-xl">
   <div class="tna-container">
-    <form class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('search_site.index') }}">
+    <form class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('site_search.index') }}">
       {{ tnaSearchField({
         'label': 'Search The National Archives website',
         'headingLevel': 1,
@@ -47,7 +47,7 @@
   {% if total_results %}
   <div class="tna-container">
     <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
-      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results</p>
+      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
     </div>
   </div>
   {% endif %}
