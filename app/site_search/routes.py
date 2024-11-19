@@ -1,4 +1,5 @@
 import math
+from urllib.parse import unquote
 
 from app.lib.pagination import pagination_object
 from app.site_search import bp
@@ -19,7 +20,8 @@ def index():
         if request.args.get("page") and request.args.get("page").isnumeric()
         else 1
     )
-    query = request.args.get("q", "")
+    query = unquote(request.args.get("q", "")).strip(" ")
+    existing_qs_as_dict = request.args.to_dict()
     # results = search(query, page, children_per_page) if query else []
     results = search(query, page, children_per_page)
     total_results = objects.get(results, "meta.total_count", 0)
@@ -29,6 +31,7 @@ def index():
     return render_template(
         "site_search/index.html",
         q=query,
+        existing_qs=existing_qs_as_dict,
         global_alert=global_alerts(),
         breadcrumbs=breadcrumbs,
         results=results,
