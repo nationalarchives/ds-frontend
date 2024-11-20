@@ -34,6 +34,7 @@
         'headingSize': 'l',
         'text': page_data.featured_article.teaser_text,
         'label': 'New' if page_data.featured_article.is_newly_published,
+        'labelColour': 'green',
         'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
         'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
@@ -73,6 +74,7 @@
         'href': page.url,
         'text': page.teaser_text,
         'label': 'New' if page.is_newly_published,
+        'labelColour': 'green',
         'fullAreaClick': True,
         'classes': 'tna-card--full-height'
       } %}
@@ -122,6 +124,7 @@
         'href': child.url,
         'text': child.teaser_text,
         'label': 'New' if child.is_newly_published,
+        'labelColour': 'green',
         'fullAreaClick': True,
         'classes': 'tna-card--full-height'
       } %}
