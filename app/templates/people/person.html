@@ -85,49 +85,51 @@
               'icon': 'arrow-left'
             }) }}
           </div>
-          <h2 class="tna-heading-l tna-!--no-margin-top">Articles by {{ page_data.first_name }}, page {{ page }} of {{ pages }}</h2>
+          <h2 class="tna-heading-l tna-!--no-margin-top">Articles by {{ page_data.first_name }}{% if pages > 1 %}, page {{ page }} of {{ pages }}{% endif %}</h2>
         </div>
       </div>
       <ul class="tna-container">
         {%- for article in articles %}
         <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--small-tiny tna-column--full-tiny tna-!--margin-top-l">
           {% set card_content = {
-            'supertitle': article.page.type_label,
-            'title': article.page.title,
+            'supertitle': article.type_label,
+            'title': article.title,
             'headingLevel': 3,
             'headingSize': 's',
-            'href': article.page.url,
-            'body': article.page.teaser_text,
-            'label': 'New' if article.page.is_newly_published,
+            'href': article.url,
+            'body': article.teaser_text,
+            'label': 'New' if article.is_newly_published,
             'labelColour': 'green',
             'fullAreaClick': True,
             'classes': 'tna-card--full-height'
           } %}
-          {%- if article.page.teaser_image %}
+          {%- if article.teaser_image %}
             {% set card_content = dict(card_content, **{
-              'imageSrc': article.page.teaser_image.jpeg.full_url,
-              'imageAlt': article.page.teaser_image.alt_text or '',
-              'imageWidth': article.page.teaser_image.jpeg.width,
-              'imageHeight': article.page.teaser_image.jpeg.height,
+              'imageSrc': article.teaser_image.jpeg.full_url,
+              'imageAlt': article.teaser_image.alt_text or '',
+              'imageWidth': article.teaser_image.jpeg.width,
+              'imageHeight': article.teaser_image.jpeg.height,
               'imageSources': [
                 {
-                  'src': article.page.teaser_image.webp.full_url,
+                  'src': article.teaser_image.webp.full_url,
                   'type': 'image/webp',
-                  'width': article.page.teaser_image.webp.width,
-                  'height': article.page.teaser_image.webp.height
+                  'width': article.teaser_image.webp.width,
+                  'height': article.teaser_image.webp.height
                 }
               ]
             }) %}
           {%- endif %}
           {{ tnaCard(card_content) }}
-          <meta itemprop="significantLink" content="{{ article.page.url }}">
+          <meta itemprop="significantLink" content="{{ article.url }}">
         </li>
         {%- endfor %}
       </ul>
-      <div class="tna-container">
-        <div class="tna-column tna-column--full tna-!--margin-top-xl">
+      <div class="tna-container tna-!--margin-top-xl">
+        {% if pages > 1 %}
+        <div class="tna-column tna-column--full">
           {{ tnaPagination(pagination) }}
         </div>
+        {% endif %}
       </div>
       {% else %}
       <div class="tna-container tna-container--centred">
@@ -186,40 +188,39 @@
               {%- for article in articles %}
               <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-bottom-l">
                 {% set card_content = {
-                  'supertitle': article.page.type_label,
-                  'title': article.page.title,
+                  'supertitle': article.type_label,
+                  'title': article.title,
                   'headingLevel': 3,
                   'headingSize': 's',
-                  'href': article.page.url,
-                  'body': article.page.teaser_text,
-                  'label': 'New' if article.page.is_newly_published,
+                  'href': article.url,
+                  'body': article.teaser_text,
+                  'label': 'New' if article.is_newly_published,
                   'labelColour': 'green',
                   'fullAreaClick': True,
                   'classes': 'tna-card--full-height'
                 } %}
-                {%- if article.page.teaser_image %}
+                {%- if article.teaser_image %}
                   {% set card_content = dict(card_content, **{
-                    'imageSrc': article.page.teaser_image.jpeg.full_url,
-                    'imageAlt': article.page.teaser_image.alt_text or '',
-                    'imageWidth': article.page.teaser_image.jpeg.width,
-                    'imageHeight': article.page.teaser_image.jpeg.height,
+                    'imageSrc': article.teaser_image.jpeg.full_url,
+                    'imageAlt': article.teaser_image.alt_text or '',
+                    'imageWidth': article.teaser_image.jpeg.width,
+                    'imageHeight': article.teaser_image.jpeg.height,
                     'imageSources': [
                       {
-                        'src': article.page.teaser_image.webp.full_url,
+                        'src': article.teaser_image.webp.full_url,
                         'type': 'image/webp',
-                        'width': article.page.teaser_image.webp.width,
-                        'height': article.page.teaser_image.webp.height
+                        'width': article.teaser_image.webp.width,
+                        'height': article.teaser_image.webp.height
                       }
                     ],
                     'lazyImage': True
                   }) %}
                 {%- endif %}
                 {{ tnaCard(card_content) }}
-                <meta itemprop="significantLink" content="{{ article.page.url }}">
+                <meta itemprop="significantLink" content="{{ article.url }}">
               </li>
               {%- endfor %}
             </ul>
-            {{ more_articles }}
             {% if more_articles %}
             <div class="tna-button-group tna-button-group--centred tna-!--margin-bottom-l">
               {{ tnaButton({

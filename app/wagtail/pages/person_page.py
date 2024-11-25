@@ -1,21 +1,25 @@
 import math
 
 from app.lib.pagination import pagination_object
-from app.wagtail.api import authors_paginated, breadcrumbs
+from app.wagtail.api import authored_pages_paginated, breadcrumbs
 from flask import current_app, render_template, request
 from pydash import objects
 
 
 def person_page(page_data):
-    articles_preview_list = 2
-    articles_per_page = 1
+    articles_preview_list = 4
+    articles_per_page = 12
     page = (
         int(request.args.get("page"))
         if request.args.get("page") and request.args.get("page").isnumeric()
         else 0
     )
     try:
-        articles = authors_paginated(page_data["id"], page or 1)
+        articles = authored_pages_paginated(
+            page_data["id"],
+            page or 1,
+            articles_per_page if page else articles_preview_list,
+        )
     except ConnectionError:
         current_app.logger.error(
             f"API error getting author articles for page {page_data['id']}"
@@ -39,6 +43,6 @@ def person_page(page_data):
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
-        articles=articles if page else articles[0:articles_preview_list],
+        articles=articles,
         more_articles=total_article_count > articles_preview_list,
     )
