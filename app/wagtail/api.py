@@ -120,6 +120,19 @@ def page_children_paginated(
     )
 
 
+def authored_pages_paginated(
+    author_id,
+    page,
+    limit=None,
+    params={},
+):
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        params=params | {"author": author_id},
+    )
+
+
 def page_descendants(
     page_id,
     params={},
