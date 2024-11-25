@@ -223,3 +223,23 @@ def global_alerts():
             "Global alerts could not be retrieved (Exception)"
         )
         return None
+
+
+def search(query, page, limit=None, params={}):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "pages/"
+    params = params | {
+        "offset": offset,
+        "limit": limit,
+    }
+    if query:
+        params = params | {
+            "search": query,
+        }
+    else:
+        params = params | {
+            "order": "-id",
+        }
+    return wagtail_request_handler(uri, params)

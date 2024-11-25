@@ -118,7 +118,7 @@
         'meta': role_tags,
         'accentMeta': True,
         'fullAreaClick': True,
-        'classes': 'tna-card--person'
+        'classes': 'tna-card--person tna-card--padded- tna-card--full-height-'
       } %}
       {%- if person.image %}
         {% set card_content = dict(card_content, **{
@@ -138,7 +138,7 @@
       {%- else %}
         {% set card_content = dict(card_content, **{
           'imageSrc': url_for('static', filename='images/blank-profile.svg'),
-          'imageAlt': '',
+          'imageAlt': 'Profile photo for ' + person.title,
           'imageWidth': 512,
           'imageHeight': 512
         }) %}

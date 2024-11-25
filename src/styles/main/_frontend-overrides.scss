@@ -152,9 +152,16 @@ sup[data-footnoteid] {
     height: 100%;
   }
 
+  // &--person {
+  //   padding-bottom: 0;
+
+  //   box-shadow: 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 12%), 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 50%);
+  // }
+
   &--person &__image-container {
     width: 75%;
     aspect-ratio: 1;
+    // margin-top: spacing.space(1);
     margin-right: auto;
     margin-left: auto;
 
@@ -168,6 +175,10 @@ sup[data-footnoteid] {
       width: 50%;
     }
   }
+
+  // &--person &__body {
+  //   margin-bottom: spacing.space(1);
+  // }
 }
 
 .tna-form {

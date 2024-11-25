@@ -12,6 +12,7 @@
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/promoted_item.html' import wagtailPromotedItem -%}
+{%- from 'macros/wagtail_blocks/promoted_list.html' import wagtailPromotedList -%}
 {%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
@@ -83,6 +84,9 @@
 
   {%- elif content_item.type == 'promoted_item' %}
   {{ wagtailPromotedItem(content_item.value, next_heading_level) }}
+
+  {%- elif content_item.type == 'promoted_list' %}
+  {{ wagtailPromotedList(content_item.value, next_heading_level) }}
 
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}

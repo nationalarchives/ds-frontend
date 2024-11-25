@@ -3,6 +3,7 @@
 {% macro wagtailRecordLinks(block_value) %}
   {% set items = [] %}
   {%- for i in block_value['items'] %}
+  {%- if i.record and i.record.iaid %}
     {%- if i.thumbnail_image %}
     {{ items.append({
       'imageSrc': i.thumbnail_image.jpeg.full_url,
@@ -23,7 +24,7 @@
       'date': i.record_dates
     }) or '' }}
     {%- endif %}
-    {# {% endwith %} #}
+    {%- endif %}
   {%- endfor %}
   {{ tnaRecordsList({
     'items': items
