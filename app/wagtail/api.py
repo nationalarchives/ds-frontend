@@ -120,6 +120,19 @@ def page_children_paginated(
     )
 
 
+def authored_pages_paginated(
+    author_id,
+    page,
+    limit=None,
+    params={},
+):
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        params=params | {"author": author_id},
+    )
+
+
 def page_descendants(
     page_id,
     params={},
@@ -272,3 +285,23 @@ def global_alerts():
             "Global alerts could not be retrieved (Exception)"
         )
         return None
+
+
+def search(query, page, limit=None, params={}):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "pages/"
+    params = params | {
+        "offset": offset,
+        "limit": limit,
+    }
+    if query:
+        params = params | {
+            "search": query,
+        }
+    else:
+        params = params | {
+            "order": "-id",
+        }
+    return wagtail_request_handler(uri, params)

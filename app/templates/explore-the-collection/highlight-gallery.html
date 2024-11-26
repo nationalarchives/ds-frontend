@@ -69,10 +69,12 @@
           <div class="etna-space-above" itemprop="description">
             {{ highlight.image.description | safe }}
           </div>
+          {%- if highlight.record %}
           <div class="tna-button-group tna-button-group--small">
             <!-- <a href="{{ url_for('search.catalogue_item', id=highlight.image.record.iaid) }}" class="tna-button" itemprop="url">View record details</a> -->
             <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.image.record.iaid }}" class="tna-button" itemprop="url">View record details</a>
           </div>
+          {%- endif %}
         </div>
       </div>
     </div>
@@ -95,6 +97,7 @@
             'href': page_data.featured_article.url,
             'text': page_data.featured_article.teaser_text,
             'label': 'New' if page_data.featured_article.is_newly_published,
+            'labelColour': 'green',
             'horizontal': True,
             'style': 'accent',
             'fullAreaClick': True,

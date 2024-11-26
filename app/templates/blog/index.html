@@ -98,6 +98,7 @@
             'headingSize': 'l',
             'href': blog_posts[0].full_url,
             'label': 'New' if blog_posts[0].is_newly_published,
+            'labelColour': 'green',
             'meta': [
               {
                 'title': 'Published',
@@ -132,10 +133,6 @@
       </div>
     </div>
     {%- endif %}
-
-
-
-
     <div class="tna-container">
       <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
         <div class="tna-container tna-container--nested">
@@ -167,6 +164,7 @@
                   'href': blog_post.full_url,
                   'body': blog_post.teaser_text,
                   'label': 'New' if blog_post.is_newly_published,
+                  'labelColour': 'green',
                   'meta': [
                     {
                       'title': 'Published',
@@ -259,9 +257,9 @@
             {%- for author in authors[:12] %}
             <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
               {%- if author.author.image_small %}
-              <img src="{{ author.author.image_small.jpeg.full_url }}" alt="{{ author.author.image_small.alt_text }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+              <img src="{{ author.author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
               {%- else %}
-              <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image">
+              <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
               {%- endif %}
               <div class="etna-author-list__details">
                 <p class="etna-author-list__name">

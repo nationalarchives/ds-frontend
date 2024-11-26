@@ -2,6 +2,7 @@ import datetime
 import math
 
 from app.lib.pagination import pagination_object
+from app.lib.template_filters import qs_active, qs_toggler
 from app.wagtail.api import (
     blog_authors,
     blog_post_counts,
@@ -67,6 +68,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
     pages = math.ceil(total_blog_posts / children_per_page)
     if page > pages:
         return render_template("errors/page-not-found.html"), 404
+    existing_qs_as_dict = request.args.to_dict()
     date_filters = [
         {
             "label": "Any date",
@@ -75,40 +77,50 @@ def blog_index_page(page_data, year=None, month=None, day=None):
             "selected": not year,
         }
     ]
-    if year:
-        for year_count in reversed(blog_post_counts_data):
-            if year_count["year"] == year:
+    for year_count in reversed(blog_post_counts_data):
+        date_filters.append(
+            {
+                "label": f"All {year_count['year']} ({year_count['posts']})",
+                "href": "?"
+                + (
+                    qs_toggler(existing_qs_as_dict, "month", month)
+                    if year == year_count["year"] and month
+                    else f"year={year_count['year']}"
+                ),
+                "title": f"Blog posts from {year_count['year']}",
+                "selected": qs_active(
+                    existing_qs_as_dict, "year", year_count["year"]
+                )
+                and not month,
+            }
+        )
+        if year == year_count["year"]:
+            for month_count in reversed(year_count["months"]):
+                each_month_name = datetime.date(
+                    year, month_count["month"], 1
+                ).strftime("%B")
                 date_filters.append(
                     {
-                        "label": f"All {year_count['year']} ({year_count['posts']})",
-                        "href": f"?year={year_count['year']}",
-                        "title": f"Blog posts from {year_count['year']} ({year_count['posts']} post{'s' if year_count['posts'] > 1 else ''})",
-                        "selected": not month,
+                        "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
+                        "href": "?"
+                        + (
+                            f"year={year_count['year']}&month={month_count['month']}"
+                            if month == month_count["month"]
+                            else qs_toggler(
+                                existing_qs_as_dict,
+                                "month",
+                                month_count["month"],
+                            )
+                        ),
+                        "title": f"Blog posts from {each_month_name} {year_count['year']}",
+                        "selected": qs_active(
+                            existing_qs_as_dict, "year", year_count["year"]
+                        )
+                        and qs_active(
+                            existing_qs_as_dict, "month", month_count["month"]
+                        ),
                     }
                 )
-                for month_count in reversed(year_count["months"]):
-                    each_month_name = datetime.date(
-                        year, month_count["month"], 1
-                    ).strftime("%B")
-                    date_filters.append(
-                        {
-                            "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
-                            "href": f"?year={year_count['year']}&month={month_count['month']}",
-                            "title": f"Blog posts from {each_month_name} {year_count['year']} ({month_count['posts']} post{'s' if month_count['posts'] > 1 else ''})",
-                            "selected": year == year_count["year"]
-                            and month == month_count["month"],
-                        }
-                    )
-    else:
-        for year_count in reversed(blog_post_counts_data):
-            date_filters.append(
-                {
-                    "label": f"{year_count['year']} ({year_count['posts']})",
-                    "href": f"?year={year_count['year']}",
-                    "title": f"Blog posts from {year_count['year']}",
-                    "selected": False,
-                }
-            )
     return render_template(
         "blog/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
