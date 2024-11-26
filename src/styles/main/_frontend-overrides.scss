@@ -194,6 +194,10 @@ sup[data-footnoteid] {
   }
 }
 
+.tna-quick-filters {
+  @include typography.font-size(16);
+}
+
 .tna-picture {
   &__image {
     display: block;
