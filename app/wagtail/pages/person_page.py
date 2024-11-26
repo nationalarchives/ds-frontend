@@ -16,9 +16,12 @@ def person_page(page_data):
     )
     try:
         articles = authored_pages_paginated(
-            page_data["id"],
-            page or 1,
-            articles_per_page if page else articles_preview_list,
+            author_id=page_data["id"],
+            page=page or 1,
+            limit=articles_per_page if page else articles_preview_list,
+            params={
+                "order": "-id",
+            },
         )
     except ConnectionError:
         current_app.logger.error(
