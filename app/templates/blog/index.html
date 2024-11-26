@@ -76,10 +76,7 @@
             <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
           </hgroup>
           {%- endif %}
-          {%- if current_author %}
-          <p class="tna-large-paragraph tna-!--margin-top-s">All posts by {{ current_author.author.title }}.</p>
-          <p><a href="{{ page_data.meta.url }}">Show posts from all authors</a>.</p>
-          {%- elif page_data.intro %}
+          {%- if page_data.intro %}
           <div class="tna-large-paragraph tna-!--margin-top-s">
             {{ page_data.intro | tna_html | safe }}
           </div>
@@ -138,17 +135,9 @@
         <div class="tna-container tna-container--nested">
           <div class="tna-column tna-column--full">
             {%- if page > 1 %}
-              {%- if current_author %}
-            <h2 class="tna-heading-l">Blog posts by {{ current_author.author.title }}, page {{ page }} of {{ pages }}</h2>
-              {%- else %}
             <h2 class="tna-heading-l">Blog posts, page {{ page }} of {{ pages }}</h2>
-              {%- endif %}
             {%- else %}
-              {%- if current_author %}
-            <h2 class="tna-heading-l">Most recent posts by {{ current_author.author.title }}</h2>
-              {%- else %}
             <h2 class="tna-heading-l">Most recent posts</h2>
-              {%- endif %}
             {%- endif %}
           </div>
           <div class="tna-container tna-container--nested">
@@ -248,7 +237,7 @@
       </div>
     </div>
     {% endif %}
-    {%- if authors and not current_author and not year %}
+    {%- if authors %}
     <div class="tna-background-tint tna-!--margin-top-l tna-section">
       <div class="tna-container">
         <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
@@ -264,19 +253,15 @@
               <div class="etna-author-list__details">
                 <p class="etna-author-list__name">
                   <strong>
-                    <link itemprop="url" href="{{ author.author.url }}">
+                    <link itemprop="url" href="{{ author.author.full_url }}">
                     <meta itemprop="jobTitle" content="{{ author.author.role }}">
-                    <!-- <a href="?author={{ author.author.slug }}" rel="author">
-                      <span class="tna-visually-hidden">Posts by</span>
-                      <span itemprop="name">{{ author.author.title }}</span>
-                    </a> -->
-                    <a href="{{ author.author.full_url }}#articles" rel="author">
+                    <a href="{{ url_for('wagtail.page', path=author.author.url.strip('/'), page=1) }}" rel="author">
                       <span class="tna-visually-hidden">Articles by</span>
                       <span itemprop="name">{{ author.author.title }}</span>
                     </a>
                   </strong>
                 </p>
-                <p class="etna-author-list__description">{{ author.posts }} posts</p>
+                <p class="etna-author-list__description">{{ author.posts }} blog post{{ 's' if author.posts > 1 else '' }}</p>
               </div>
             </li>
             {%- endfor %}

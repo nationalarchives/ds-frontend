@@ -39,18 +39,14 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         if request.args.get("day") and request.args.get("day").isnumeric()
         else None
     )
-    author = request.args.get("author")
     blogs_data = top_blogs()
-    blog_post_counts_data = blog_post_counts(
-        author=author,
-    )
+    blog_post_counts_data = blog_post_counts()
     authors = blog_authors()
     try:
         blog_posts_data = blog_posts_paginated(
             page=page,
             year=year,
             month=month,
-            author=author,
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
@@ -130,9 +126,6 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
         authors=authors,
-        current_author=next(
-            (item for item in authors if item["author"]["slug"] == author), None
-        ),
         pagination=pagination_object(page, pages, request.args),
         page=page,
         pages=pages,
