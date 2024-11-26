@@ -7,9 +7,9 @@ from app.wagtail.api import (
     blog_authors,
     blog_post_counts,
     blog_posts_paginated,
-    blogs,
     breadcrumbs,
     page_descendants,
+    top_blogs,
 )
 from flask import current_app, render_template, request
 from pydash import objects
@@ -41,12 +41,13 @@ def blog_page(page_data, year=None, month=None, day=None):
         else None
     )
     author = request.args.get("author")
+    blogs_data = top_blogs()
+    blog_post_counts_data = blog_post_counts(
+        blog_id=page_data["id"],
+        author=author,
+    )
+    authors = blog_authors(blog_id=page_data["id"])
     try:
-        blogs_data = blogs()
-        blog_post_counts_data = blog_post_counts(
-            blog_id=page_data["id"],
-            author=author,
-        )
         blog_posts_data = blog_posts_paginated(
             page=page,
             blog_id=page_data["id"],
@@ -59,7 +60,6 @@ def blog_page(page_data, year=None, month=None, day=None):
         categories = page_descendants(
             page_id=page_data["id"], params={"type": "blog.BlogPage"}
         )
-        authors = blog_authors(blog_id=page_data["id"])
     except ConnectionError:
         current_app.logger.error(
             f"API error getting children for page {page_data['id']}"

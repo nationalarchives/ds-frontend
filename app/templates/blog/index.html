@@ -204,8 +204,9 @@
         {% set blogs_list = [] %}
         {% for blog in blogs %}
           {% set blogs_list = blogs_list.append({
-            'label': blog.title,
+            'label': blog.title + ' (' + (blog.posts | string) + ')' if blog.posts else blog.title,
             'href': blog.full_url,
+            'title': blog.title + ' (' + (blog.posts | string) + ' post' + ('s' if blog.posts > 1 else '') + ')' if blog.posts else '',
             'selected': request.path == blog.url
           }) %}
         {% endfor %}
