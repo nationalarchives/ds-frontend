@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/meta.html' import meta -%}
+
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'pink' -%}
+
+{% block head %}
+{{ super() }}
+{{ meta(page_data) }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='exhibition.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock %}
+
+{% block content %}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'l') }}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+      {{ page_data.intro | tna_html | safe }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='exhibition.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{% endblock %}
