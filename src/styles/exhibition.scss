@@ -6,3 +6,26 @@
     @include colour.colour-border("keyline-dark", 1px, solid, bottom);
   }
 }
+
+.tna-exhibition-quote {
+  text-align: center;
+
+  &__body {
+    quotes: auto;
+    quotes: "‘" "’";
+
+    :first-child::before {
+      content: open-quote;
+    }
+
+    :last-child::after {
+      content: close-quote;
+    }
+  }
+
+  &__attribution {
+    cite {
+      font-style: normal;
+    }
+  }
+}
