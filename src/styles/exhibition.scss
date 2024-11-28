@@ -1,3 +1,8 @@
-* {
-  outline: 1px #f0a solid;
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+
+.tna-aside {
+  &--top-bottom-borders {
+    @include colour.colour-border("keyline-dark", 1px, solid, top);
+    @include colour.colour-border("keyline-dark", 1px, solid, bottom);
+  }
 }

@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
+{%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'pink' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
 
 {% block head %}
 {{ super() }}
@@ -13,21 +17,224 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='exhibition.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    {%- if page_data.video %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    {%- endif %}
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'l') }}
-<div class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      {{ page_data.intro | tna_html | safe }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+{% set hero_intro = '' %}
+{% if page_data.subtitle %}
+  {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
+{% endif %}
+{% if page_data.start_date or page_data.end_date %}
+  {% set hero_intro = hero_intro + '<p>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</p>' %}
+{% endif %}
+{% if page_data.price %}
+  {% set hero_intro = hero_intro + '<p>' + ('Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | string)) + '</p>' %}
+{% endif %}
+{% set hero_image_caption = page_data.hero_image_caption or '' %}
+{%- if page_data.hero_image.copyright %}
+  {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+{%- endif %}
+{{ tnaHero({
+  'supertitle': page_data.type_label,
+  'title': page_data.title,
+  'body': hero_intro | safe,
+  'imageSrc': page_data.hero_image.jpeg.full_url,
+  'imageAlt': '',
+  'imageWidth': page_data.hero_image.jpeg.width,
+  'imageHeight': page_data.hero_image.jpeg.height,
+  'imageCaption': hero_image_caption,
+  'imageSources': [
+    {
+      'src': page_data.hero_image_small.webp.full_url,
+      'width': page_data.hero_image_small.webp.width,
+      'height': page_data.hero_image_small.webp.height,
+      'type': 'image/webp',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.hero_image_small.jpeg.full_url,
+      'width': page_data.hero_image_small.jpeg.width,
+      'height': page_data.hero_image_small.jpeg.height,
+      'type': 'image/jpeg',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.hero_image.webp.full_url,
+      'width': page_data.hero_image.webp.width,
+      'height': page_data.hero_image.webp.height,
+      'type': 'image/webp'
+    }
+  ],
+  'narrow': True,
+  'style': 'contrast'
+}) }}
+<div class="tna-container">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+    <div class="tna-large-paragraph">
+      {{ page_data.intro | safe }}
     </div>
+    {{ page_data.description | safe }}
+    <aside class="tna-aside tna-background-accent">
+      <p>Get emails about Great Escapes</p>
+      <p>Be the first to hear updates about the exhibition, and more.</p>
+    </aside>
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+    <aside class="tna-aside tna-aside--top-bottom-borders tna-background-tint-">
+      <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
+        {% if page_data.open_days %}
+        <dt>
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+          {{ page_data.open_days }}
+        </dt>
+        <dd>See full <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
+        {% endif %}
+        {% if page_data.price %}
+        <dt>
+          <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+          {{ page_data.price }}
+        </dt>
+        <dd>{{ page_data.booking_details | safe }}</dd>
+        {% endif %}
+        {% if page_data.audience_heading and page_data.audience_detail %}
+        <dt>
+          <i class="fa-solid fa-user" aria-hidden="true"></i>
+          {{ page_data.audience_heading }}
+        </dt>
+        <dd>{{ page_data.audience_detail }}</dd>
+        {% endif %}
+        {% if page_data.location and page_data.location_2 %}
+        <dt>
+          <i class="fa-solid fa-locaton-dot" aria-hidden="true"></i>
+          Exhibition space
+        </dt>
+        <dd>
+          <a href="{{ page_data.location_2 }}">{{ page_data.location_2 }}</a>
+        </dd>
+        {% endif %}
+        <dt>
+          <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
+          Accessibility
+        </dt>
+        <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/information-for-disabled-visitors/">accessibility guide</a></dd>
+      </dl>
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Plan your visit',
+          'href': 'https://www.nationalarchives.gov.uk/about/visit-us/'
+        }) }}
+      </div>
+    </aside>
   </div>
 </div>
+<section class="tna-section tna-background-contrast tna-!--margin-top-l">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      GALLERY
+    </div>
+  </div>
+</section>
+{% for review in page_data.review %}
+<section class="tna-section tna-background-accent">
+  <div class="tna-container">
+    <blockquote class="tna-column tna-column--full tna-text-align-centre">
+      <p><span class="tna-visually-hidden">{{ review.value.stars }} stars</span>{% for star in range(0, review.value.stars | int) %}<i class="fa-solid fa-star" aria-hidden="true"></i>{% endfor %}</p>
+      <div class="tna-heading-l tna-!--no-margin-top">{{ review.value.quote | safe }}</div>
+      <p>
+        <cite>{{ review.value.attribution }}</cite>
+      </p>
+    </blockquote>
+  </div>
+</section>
+{% endfor %}
+{% for video in page_data.video %}
+<section class="tna-section tna-background-tint">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {% if video.type == 'youtube' %}
+      {{ wagtailYouTubeVideo(video.value, video.id) }}
+      {% elif video.type == 'media' %}
+      <!-- {{ wagtailMedia(video.value, video.id, 2) }} -->
+      <video id="{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <source src="{{ video.value.media.full_url }}" type="{{ video.value.media.mime }}">
+        {% if video.value.media.subtitles_file_full_url %}
+        <track kind="captions" src="{{ video.value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
+        {% endif %}
+        {% if video.value.media.chapters_file_full_url %}
+        <track kind="chapters" src="{{ video.value.media.chapters_file_full_url }}" srclang="en">
+        {% endif %}
+        <p>Your browser doesn't support HTML5 video. <a href="{{ video.value.media.full_url }}">Download the video file</a>.</p>
+      </video>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+<section class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      EXPLORE
+      CARD
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
+      CARD
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
+      CARD
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
+      CARD
+    </div>
+  </div>
+</section>
+<section class="tna-section tna-background-contrast">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      EVENTS
+    </div>
+    <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
+      CARD
+    </div>
+    <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
+      CARD
+    </div>
+  </div>
+</section>
+{% for shop in page_data.shop %}
+{% set shop_hero_image_caption = '' %}
+{%- if shop.value.background_image.copyright %}
+  {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+{%- endif %}
+{{ tnaHero({
+  'title': shop.value.title,
+  'body': '<p>' | safe + shop.value.description + '</p>' | safe + '<div class="tna-button-group">' | safe + tnaButton({'text': shop.value.cta_text, 'href': shop.value.url}) + '</div>' | safe,
+  'imageSrc': shop.value.background_image.jpeg.full_url,
+  'imageAlt': '',
+  'imageWidth': shop.value.background_image.jpeg.width,
+  'imageHeight': shop.value.background_image.jpeg.height,
+  'imageCaption': shop_hero_image_caption,
+  'imageSources': [
+    {
+      'src': shop.value.background_image.webp.full_url,
+      'width': shop.value.background_image.webp.width,
+      'height': shop.value.background_image.webp.height,
+      'type': 'image/webp'
+    }
+  ],
+  'narrow': True,
+  'style': 'accent'
+}) }}
+{% endfor %}
 {% endblock %}
 
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='exhibition.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {%- if page_data.video %}
+    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {%- endif %}
 {% endblock %}
