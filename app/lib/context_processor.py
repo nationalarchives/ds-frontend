@@ -52,34 +52,38 @@ def get_date_from_string(s):
     return None
 
 
-def pretty_date_range(s_from, s_to):
+def pretty_date_range(s_from, s_to, show_days=True):
     date_from = get_date_from_string(s_from)
     date_to = get_date_from_string(s_to)
     if date_from and date_to:
-        date_to_string = date_to.strftime("%d %B %Y")
+        date_to_string = date_to.strftime("%d %B %Y" if show_days else "%B %Y")
         if (
             date_from.day == 1
             and date_from.month == 1
-            and (
-                (date_to.day == 31 and date_to.month == 12)
-                or (date_to.day == 1 and date_to.month == 1)
-            )
+            and date_to.day == 31
+            and date_to.month == 12
         ):
             if date_from.year == date_to.year:
-                return date_from.year
+                return str(date_from.year)
             return f"{date_from.year}–{date_to.year}"
         if date_from.year == date_to.year:
             if date_from.month == date_to.month:
                 if date_from.day == date_to.day:
-                    return date_from.strftime("%d %B %Y")
-                else:
+                    return date_from.strftime(
+                        "%d %B %Y" if show_days else "%B %Y"
+                    )
+                elif show_days:
                     return f"{date_from.strftime('%d')}–{date_to_string}"
+                else:
+                    return date_to_string
             else:
-                return f"{date_from.strftime('%d %B')} to {date_to_string}"
+                return f"{date_from.strftime('%d %B' if show_days else "%B")} to {date_to_string}"
         else:
-            return f"{date_from.strftime('%d %B %Y')} to {date_to_string}"
+            return f"{date_from.strftime('%d %B %Y' if show_days else "%B %Y")} to {date_to_string}"
     if date_from:
-        return f"From {date_from.strftime('%d %B %Y')}"
+        return (
+            f"From {date_from.strftime('%d %B %Y' if show_days else "%B %Y")}"
+        )
     if date_to:
-        return f"To {date_to.strftime('%d %B %Y')}"
+        return f"To {date_to.strftime('%d %B %Y' if show_days else "%B %Y")}"
     return f"{s_from}–{s_to}"

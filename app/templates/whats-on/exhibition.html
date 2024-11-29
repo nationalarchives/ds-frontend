@@ -29,7 +29,7 @@
   {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
 {% endif %}
 {% if page_data.start_date or page_data.end_date %}
-  {% set hero_intro = hero_intro + '<p>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</p>' %}
+  {% set hero_intro = hero_intro + '<p>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p>' %}
 {% endif %}
 {% if page_data.price %}
   {% set hero_intro = hero_intro + '<p>' + ('Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | string)) + '</p>' %}
