@@ -21,12 +21,15 @@ class JSONAPIClient:
         self.params = self.params | params
 
     def get(self, path="/"):
-        url = f"{self.api_url}/{path.lstrip(" / ")}"
+        url = f"{self.api_url}/{path.lstrip('/')}"
         try:
             response = requests.get(
                 url,
                 params=self.params,
-                headers={"Cache-Control": "no-cache"},
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Accept": "application/json",
+                },
             )
         except ConnectionError:
             current_app.logger.error(
