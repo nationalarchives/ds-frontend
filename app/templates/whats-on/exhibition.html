@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/gallery/macro.html' import tnaGallery -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
@@ -131,13 +133,31 @@
     </aside>
   </div>
 </div>
+{% for exhibition_highlights in page_data.exhibition_highlights %}
+{% set gallery_images = [] %}
+{% for image in exhibition_highlights.value.images %}
+  {% set gallery_images = gallery_images.append({
+    'alt': image.alt_text,
+    'width': image.image.jpeg.width,
+    'height': image.image.jpeg.height,
+    'src': image.image.jpeg.full_url,
+    'description': image.caption
+  }) %}
+{% endfor %}
 <section class="tna-section tna-background-contrast tna-!--margin-top-l">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      GALLERY
+      {{ tnaGallery({
+        'title': exhibition_highlights.value.title,
+        'headingLevel': 2,
+        'text': exhibition_highlights.value.description,
+        'items': gallery_images,
+        'id': exhibition_highlights.id
+      }) }}
     </div>
   </div>
 </section>
+{% endfor %}
 {% for review in page_data.review %}
 <section class="tna-section tna-background-accent">
   <div class="tna-container">
@@ -182,18 +202,116 @@
 <section class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      EXPLORE
-      CARD
+      <h2 class="tna-heading-l">{{ page_data.related_pages_title }}</h2>
+      {% set card_content = {
+        'supertitle': page_data.featured_page.type_label,
+        'title': page_data.featured_page.title,
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': page_data.featured_page.full_url,
+        'body': page_data.featured_page.teaser_text,
+        'label': 'New' if page_data.featured_page.is_newly_published,
+        'labelColour': 'green',
+        'horizontal': True,
+        'style': 'accent',
+        'fullAreaClick': True
+      } %}
+      {%- if page_data.featured_page.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.featured_page.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_page.teaser_image.alt_text or '',
+          'imageWidth': page_data.featured_page.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_page.teaser_image.webp.width,
+              'height': page_data.featured_page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
     </div>
+    {% for page in page_data.related_pages %}
     <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
-      CARD
+      {% if page.type == 'featured_page' %}
+        {% set card_content = {
+          'title': page.value.page.title,
+          'headingLevel': 3,
+          'headingSize': 's',
+          'href': page.value.page.full_url,
+          'body': page.value.page.teaser_text,
+          'label': 'New' if page.value.page.is_newly_published,
+          'labelColour': 'green',
+          'fullAreaClick': True,
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if page.value.page.type_label %}
+          {% set card_content = dict(card_content, **{
+            'supertitle': page.value.page.type_label
+          }) %}
+        {%- endif %}
+        {%- if page.value.page.published_date %}
+          {% set card_content = dict(card_content, **{
+            'meta': [
+              {
+                'title': 'Published',
+                'text':  page.value.page.published_date.value | pretty_date
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {%- if page.value.page.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': page.value.page.teaser_image.jpeg.full_url,
+            'imageAlt': page.value.page.teaser_image.alt_text or '',
+            'imageWidth': page.value.page.teaser_image.jpeg.width,
+            'imageHeight': page.value.page.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page.value.page.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': page.value.page.teaser_image.webp.width,
+                'height': page.value.page.teaser_image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+      {%- elif page.type == 'featured_external_link' %}
+        {% set card_content = {
+          'title': page.value.title,
+          'headingLevel': 3,
+          'headingSize': 's',
+          'href': page.value.url,
+          'body': page.value.description,
+          'labelColour': 'green',
+          'fullAreaClick': True,
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if page.value.image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': page.value.image.jpeg.full_url,
+            'imageAlt': page.value.image.alt_text or '',
+            'imageWidth': page.value.image.jpeg.width,
+            'imageHeight': page.value.image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page.value.image.webp.full_url,
+                'type': 'image/webp',
+                'width': page.value.image.webp.width,
+                'height': page.value.image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+      {%- endif %}
+      {%- if card_content %}
+      {{ tnaCard(card_content) }}
+      {%- endif %}
     </div>
-    <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
-      CARD
-    </div>
-    <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
-      CARD
-    </div>
+    {% endfor %}
   </div>
 </section>
 <section class="tna-section tna-background-contrast">
