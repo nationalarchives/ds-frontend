@@ -67,6 +67,11 @@ jobs:
           latest: ${{ github.ref == 'refs/heads/main' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+      - name: Update version and push
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git tag v${{ needs.version.outputs.version }} -m "Version ${{ needs.version.outputs.version }}"
+          git push origin --tags
 
   update-ds-infrastructure-web:
     runs-on: ubuntu-latest
