@@ -1,4 +1,13 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+
+.tna-hero {
+  &:not(.tna-background-accent) &__content-inner {
+    @include media.on-larger-than-mobile {
+      @include colour.colour-border("accent-border", 1rem, solid, left);
+    }
+  }
+}
 
 .tna-aside {
   &--top-bottom-borders {

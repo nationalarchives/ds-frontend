@@ -73,7 +73,8 @@
     }
   ],
   'narrow': True,
-  'style': 'contrast'
+  'layout': 'shift',
+  'style': page_data.hero_style
 }) }}
 <div class="tna-container">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
@@ -204,6 +205,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">{{ page_data.related_pages_title }}</h2>
+      {%- if page_data.featured_page %}
       {% set card_content = {
         'supertitle': page_data.featured_page.type_label,
         'title': page_data.featured_page.title,
@@ -234,6 +236,7 @@
         }) %}
       {%- endif %}
       {{ tnaCard(card_content) }}
+      {%- endif %}
     </div>
     {% for page in page_data.related_pages %}
     <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
@@ -315,19 +318,46 @@
     {% endfor %}
   </div>
 </section>
+{% for event_links in page_data.event_links %}
 <section class="tna-section tna-background-contrast">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      EVENTS
+      <h2 class="tna-heading-l">{{ page_data.event_title }}</h2>
     </div>
-    <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
-      CARD
+    {% for event in event_links.value %}
+    <div class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-l">
+      {% set card_content = {
+        'title': event.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': event.url,
+        'text': event.description,
+        'fullAreaClick': True,
+        'style': 'contrast',
+        'classes': 'tna-card--full-height-'
+      } %}
+      {%- if event.image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': event.image.jpeg.full_url,
+          'imageAlt': event.image.alt_text or '',
+          'imageWidth': event.image.jpeg.width,
+          'imageHeight': event.image.jpeg.height,
+          'imageSources': [
+            {
+              'src': event.image.webp.full_url,
+              'type': 'image/webp',
+              'width': event.image.webp.width,
+              'height': event.image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
     </div>
-    <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
-      CARD
-    </div>
+    {% endfor %}
   </div>
 </section>
+{%- endfor %}
 {% for shop in page_data.shop %}
 {% set shop_hero_image_caption = '' %}
 {%- if shop.value.background_image.copyright %}
@@ -355,6 +385,9 @@
 {% endfor %}
 <section class="tna-section">
   <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">Plan your visit</h2>
+    </div>
     {% for plan_your_visit in page_data.plan_your_visit %}
     {% set accordion_items = [] %}
     {% for item in plan_your_visit.value %}
@@ -373,7 +406,7 @@
     {% endif %}
     {% endfor %}
     <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
-      MAP
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyDVqFIhr6gc5IqXsU4qRBHoR4kY5oz7jvQ&signature=YOUR_SIGNATURE">
     </div>
   </div>
 </section>
