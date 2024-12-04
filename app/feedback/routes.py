@@ -1,21 +1,21 @@
-import urllib.parse
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qsl, urlparse
+import uuid
 
 from app.feedback import bp
 from flask import redirect, request
+from app.lib.template_filters import qs_toggler
 
 
 @bp.route("/submit/", methods=["POST"])
 def submit():
+    current_index = int(request.form.get("index") or "1")
     print(request.form)
-    response = "Thank you for your feedback"
-    more_questions = True
     if return_path := request.args.get("return"):
         parsed_url = urlparse(return_path)
-        query_params = parse_qs(parsed_url.query, keep_blank_values=True)
-        return_url = f"{return_path.rstrip('?')}{'&' if query_params else '?'}feedback_response={urllib.parse.quote(response)}"
-        if more_questions:
-            return_url = f"{return_url}&feedback_additional=true"
-        return_url = f"{return_url}#feedback"
+        query_params = dict(parse_qsl(parsed_url.query))
+        if "feedback_id" not in query_params:
+            query_params["feedback_id"] = str(uuid.uuid4())
+        new_query_params = qs_toggler(query_params, "feedback_index", current_index + 1)
+        return_url = f"{parsed_url.path.rstrip('?')}?{new_query_params}#feedback"
         return redirect(return_url)
-    return response
+    return "Thank you for your feedback"

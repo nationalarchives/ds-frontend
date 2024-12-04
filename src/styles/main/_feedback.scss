@@ -2,9 +2,12 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .etna-feedback {
+  @include spacing.space-above;
   padding: spacing.space(2);
 
   text-align: center;
+
+  @include colour.tint;
 
   @include colour.colour-border("keyline", 1px);
 }
