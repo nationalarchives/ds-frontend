@@ -1,7 +1,20 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
 {% macro feedback() %}
-<!-- <div class="tna-container tna-container--centred tna-section">
+{% if request.args.get('feedback_response') %}
+<div id="feedback" class="tna-container tna-container--centred tna-section">
+  <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-aside tna-background-tint">
+      <h2 class="tna-heading-s">Feedback</h2>
+      {{ request.args.get('feedback_response') }}
+      {% if 'feedback_additional' in request.args and request.args.get('feedback_additional') | strtobool %}
+      <p>TODO: SHOW NEXT QUESTION</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% else %}
+<form id="feedback" action="{{ url_for('feedback.submit', return=request.full_path) }}" method="post" class="tna-container tna-container--centred tna-section">
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
     <div class="etna-feedback tna-background-tint">
       <h2 class="tna-heading-s">What did you think of this page?</h2>
@@ -9,15 +22,26 @@
         {{ tnaButton({
           'text': 'Easy to use',
           'icon': 'thumbs-up',
-          'buttonElement': True
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'name': 'question-1',
+            'value': 'easy'
+          }
         }) }}
         {{ tnaButton({
           'text': 'Hard to use',
           'icon': 'thumbs-down',
-          'buttonElement': True
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'attributes': {
+            'name': 'question-1',
+            'value': 'hard'
+          }
         }) }}
       </div>
     </div>
   </div>
-</div> -->
+</form>
+{% endif %}
 {% endmacro %}

@@ -26,6 +26,7 @@ from app.lib.template_filters import (
     wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
+from app.lib.util import strtobool
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
 
@@ -164,6 +165,7 @@ def create_app(config_class):
     app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)
+    app.add_template_filter(strtobool)
     app.add_template_filter(tna_html)
     app.add_template_filter(wagtail_streamfield_contains_media)
     app.add_template_filter(wagtail_table_parser)
@@ -193,17 +195,17 @@ def create_app(config_class):
             },
         )
 
+    from .feedback import bp as feedback_bp
     from .feeds import bp as feeds_bp
     from .main import bp as site_bp
     from .search import bp as search_bp
-    from .site_search import bp as site_search_bp
     from .sitemaps import bp as sitemaps_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
     app.register_blueprint(feeds_bp)
     app.register_blueprint(sitemaps_bp)
-    app.register_blueprint(site_search_bp, url_prefix="/search/site")
+    app.register_blueprint(feedback_bp, url_prefix="/feedback")
     app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(wagtail_bp)
 
