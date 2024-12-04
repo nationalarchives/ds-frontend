@@ -2,10 +2,11 @@
 {%- from 'components/textarea/macro.html' import tnaTextarea -%}
 
 {% macro feedback() %}
-<form id="feedback" action="{{ url_for('feedback.submit', return=request.full_path) }}" method="post" class="tna-container tna-container--centred tna-section">
+<form id="{{ request.args.get('feedback_id') or 'feedback' }}" action="{{ url_for('feedback.submit', return=request.full_path) }}" method="post" class="tna-container tna-container--centred tna-section etna-feedback">
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
     <input type="hidden" name="index" value="{{ request.args.get('feedback_index') or 1 }}">
-    <div class="etna-feedback"{{ '' if not request.args.get('feedback_index') or request.args.get('feedback_index') == '1' else ' hidden' }}>
+    <input type="hidden" name="id" value="{{ request.args.get('feedback_id') or '' }}">
+    <div class="etna-feedback__section" data-feedbackindex="1"{{ '' if not request.args.get('feedback_index') or request.args.get('feedback_index') == '1' else ' hidden' }}>
       <h2 class="tna-heading-s">What did you think of this page?</h2>
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
@@ -15,7 +16,8 @@
           'buttonType': 'submit',
           'attributes': {
             'name': 'question-1',
-            'value': 'easy'
+            'value': 'easy',
+            'data-enhancetocheckbox': True
           }
         }) }}
         {{ tnaButton({
@@ -25,12 +27,13 @@
           'buttonType': 'submit',
           'attributes': {
             'name': 'question-1',
-            'value': 'hard'
+            'value': 'hard',
+            'data-enhancetocheckbox': True
           }
         }) }}
       </div>
     </div>
-    <div class="etna-feedback"{{ '' if request.args.get('feedback_index') == '2' else ' hidden' }}>
+    <div class="etna-feedback__section" data-feedbackindex="2"{{ '' if request.args.get('feedback_index') == '2' else ' hidden' }}>
       <h2 class="tna-heading-s">How interesting is this page?</h2>
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
@@ -80,7 +83,7 @@
         }) }}
       </div>
     </div>
-    <div class="etna-feedback"{{ '' if request.args.get('feedback_index') == '3' else ' hidden' }}>
+    <div class="etna-feedback__section" data-feedbackindex="3"{{ '' if request.args.get('feedback_index') == '3' else ' hidden' }}>
       {{ tnaTextarea({
         'label': 'Any other thoughts?',
         'headingLevel': 2,
@@ -96,7 +99,7 @@
         }) }}
       </div>
     </div>
-    <div class="etna-feedback"{{ '' if request.args.get('feedback_index') == '4' else ' hidden' }}>
+    <div class="etna-feedback__section" data-feedbackindex="4"{{ '' if request.args.get('feedback_index') == '4' else ' hidden' }}>
       <h2 class="tna-heading-s">Feedback</h2>
       <p>Thank you for your feedback</p>
     </div>
