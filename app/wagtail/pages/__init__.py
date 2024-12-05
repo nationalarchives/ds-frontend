@@ -8,6 +8,7 @@ from .categories_page import categories_page
 from .category_index_page import category_index_page
 from .cookie_details_page import cookie_details_page
 from .cookies_page import cookies_page
+from .exhibition_page import exhibition_page
 from .explore_index_page import explore_index_page
 from .general_page import general_page
 from .highlight_gallery_page import highlight_gallery_page

@@ -1,0 +1,98 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
+.tna-hero {
+  &:not(.tna-background-accent) &__content-inner {
+    @include media.on-larger-than-mobile {
+      @include colour.colour-border("accent-border", 1rem, solid, left);
+    }
+  }
+}
+
+.tna-aside {
+  &--top-bottom-borders {
+    @include colour.colour-border("keyline-dark", 1px, solid, top);
+    @include colour.colour-border("keyline-dark", 1px, solid, bottom);
+  }
+}
+
+.tna-exhibition-quote {
+  text-align: center;
+
+  &__body {
+    quotes: auto;
+    quotes: "‘" "’";
+
+    :first-child::before {
+      content: open-quote;
+    }
+
+    :last-child::after {
+      content: close-quote;
+    }
+  }
+
+  &__attribution {
+    cite {
+      font-style: normal;
+    }
+  }
+}
+
+.tna-background-contrast {
+  &--simple {
+    background-color: var(--contrast-background);
+
+    .tna-gallery {
+      background: transparent;
+
+      @include colour.contrast;
+
+      &__header {
+        padding: 0;
+      }
+
+      &__item-figure-inner {
+        background-color: #010101;
+      }
+
+      &__item-description {
+      }
+
+      &__navigation {
+        margin-right: spacing.space(-1);
+        margin-left: spacing.space(-1);
+      }
+    }
+  }
+}
+
+#exhibition-mi5-logo {
+  width: clamp(150px, 100%, 300px);
+  margin-top: spacing.space(0.5);
+
+  .cls-1 {
+    fill: #006885;
+  }
+
+  .cls-2 {
+    fill: #6cb4d0;
+  }
+
+  .tna-template--dark-theme & {
+    .cls-1,
+    .cls-2 {
+      fill: #fff;
+    }
+  }
+
+  .tna-template--system-theme & {
+    @media (prefers-color-scheme: dark) {
+      .cls-1,
+      .cls-2 {
+        fill: #fff;
+      }
+    }
+  }
+}
