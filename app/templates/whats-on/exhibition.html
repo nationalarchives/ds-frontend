@@ -9,6 +9,7 @@
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
+{%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
 
@@ -81,7 +82,7 @@
     <div class="tna-large-paragraph">
       {{ page_data.intro | safe }}
     </div>
-    {{ page_data.description | tna_html | safe }}
+    {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
     <aside class="tna-aside tna-background-accent">
       <p>Get emails about Great Escapes</p>
       <p>Be the first to hear updates about the exhibition, and more.</p>
@@ -143,7 +144,7 @@
     'width': image.image.jpeg.width,
     'height': image.image.jpeg.height,
     'src': image.image.jpeg.full_url,
-    'description': image.caption
+    'description': image.caption | safe
   }) %}
 {% endfor %}
 <section class="tna-section tna-background-contrast tna-!--margin-top-l">
@@ -393,7 +394,7 @@
     {% for item in plan_your_visit.value %}
       {% set accordion_items = accordion_items.append({
         'title': item.title,
-        'body': item.body
+        'body': item.body | tna_html
       }) %}
     {% endfor %}
     {% if accordion_items %}
