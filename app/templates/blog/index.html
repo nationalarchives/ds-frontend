@@ -191,52 +191,50 @@
       </div>
       {% endif %}
       <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-column--order-3">
-        <div class="tna-aside tna-aside--tight tna-background-tint">
-          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
-          <h2 class="tna-heading-m">All blogs</h2>
-          {% set blogs_list = [] %}
-          {% for blog in blogs %}
-            {% set blogs_list = blogs_list.append({
-              'label': blog.title,
-              'href': blog.full_url,
-              'title': blog.title,
-              'selected': request.path == blog.url
-            }) %}
-          {% endfor %}
-          {{ tnaQuickFilters({
-            'items': blogs_list,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
+        {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+        <h2 class="tna-heading-m">All blogs</h2>
+        {% set blogs_list = [] %}
+        {% for blog in blogs %}
+          {% set blogs_list = blogs_list.append({
+            'label': blog.title,
+            'href': blog.full_url,
+            'title': blog.title,
+            'selected': request.path == blog.url
+          }) %}
+        {% endfor %}
+        {{ tnaQuickFilters({
+          'items': blogs_list,
+          'stack': True,
+          'classes': 'tna-!--margin-top-s'
+        }) }}
+        {%- endif %}
 
-          {%- if date_filters %}
-          <h2 class="tna-heading-m">Filter posts by date</h2>
-          {{ tnaQuickFilters({
-            'items': date_filters,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
-          
-          {%- if categories %}
-          <h2 class="tna-heading-m">Filter posts by category</h2>
-          {% set categories_list = [] %}
-          {% for category in categories %}
-            {% set categories_list = categories_list.append({
-              'label': category.title,
-              'href': category.full_url,
-              'selected': request.path == category.url
-            }) %}
-          {% endfor %}
-          {{ tnaQuickFilters({
-            'items': categories_list,
-            'fill': True,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
-        </div>
+        {%- if date_filters %}
+        <h2 class="tna-heading-m">Filter posts by date</h2>
+        {{ tnaQuickFilters({
+          'items': date_filters,
+          'stack': True,
+          'classes': 'tna-!--margin-top-s'
+        }) }}
+        {%- endif %}
+        
+        {%- if categories %}
+        <h2 class="tna-heading-m">Filter posts by category</h2>
+        {% set categories_list = [] %}
+        {% for category in categories %}
+          {% set categories_list = categories_list.append({
+            'label': category.title,
+            'href': category.full_url,
+            'selected': request.path == category.url
+          }) %}
+        {% endfor %}
+        {{ tnaQuickFilters({
+          'items': categories_list,
+          'fill': True,
+          'stack': True,
+          'classes': 'tna-!--margin-top-s'
+        }) }}
+        {%- endif %}
       </div>
     </div>
     {%- if authors %}
