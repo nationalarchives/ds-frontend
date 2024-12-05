@@ -23,7 +23,7 @@
         </div>
       </div>
       <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+        <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
         <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
       </audio>
       <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
@@ -40,7 +40,7 @@
         {{ block_value.media.description | tna_html | safe }}
       </div>
       <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source itemprop="contentUrl" src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+        <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
         {% if block_value.media.subtitles_file_full_url %}
         <track kind="captions" src="{{ block_value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
         {% endif %}

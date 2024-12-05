@@ -12,6 +12,7 @@ from .pages import (
     category_index_page,
     cookie_details_page,
     cookies_page,
+    exhibition_page,
     explore_index_page,
     general_page,
     highlight_gallery_page,
@@ -49,6 +50,8 @@ page_type_templates = {
     "blog.BlogIndexPage": blog_index_page,
     "blog.BlogPage": blog_page,
     "blog.BlogPostPage": blog_post_page,
+    # What's on
+    "whatson.ExhibitionPage": exhibition_page,
 }
 
 

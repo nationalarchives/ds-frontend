@@ -7,6 +7,7 @@ module.exports = {
     analytics: "./src/scripts/analytics.js",
     article: "./src/scripts/article.js",
     cookies: "./src/scripts/cookies.js",
+    exhibition: "./src/scripts/exhibition.js",
     feedback: "./src/scripts/feedback.js",
     footnotes: "./src/scripts/footnotes.js",
     media: "./src/scripts/media.js",
