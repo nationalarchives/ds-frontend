@@ -6,7 +6,7 @@
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
     <input type="hidden" name="index" value="{{ request.args.get('feedback_index') or 1 }}">
     <input type="hidden" name="id" value="{{ request.args.get('feedback_id') or '' }}">
-    <div class="etna-feedback__section" data-feedbackindex="1"{{ '' if not request.args.get('feedback_index') or request.args.get('feedback_index') == '1' else ' hidden' }}>
+    <div class="etna-feedback__section" data-feedbackindex="1"{{ '' if request.args.get('feedback_index') == '1' or not request.args.get('feedback_index') else ' hidden' }}>
       <h2 class="tna-heading-s">What did you think of this page?</h2>
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
