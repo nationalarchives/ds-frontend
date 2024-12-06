@@ -3,7 +3,7 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 .tna-hero {
-  &:not(.tna-background-accent) &__content-inner {
+  &:not(.tna-background-accent, .tna-hero--split) &__content-inner {
     @include media.on-larger-than-mobile {
       @include colour.colour-border("accent-border", 1rem, solid, left);
     }

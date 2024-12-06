@@ -12,6 +12,7 @@
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
+{%- set pageTitle = page_data.title -%}
 
 {% block head %}
 {{ super() }}
@@ -74,11 +75,11 @@
     }
   ],
   'narrow': True,
-  'layout': 'shift',
+  'layout': page_data.hero_layout,
   'style': page_data.hero_style
 }) }}
 <div class="tna-container">
-  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
     <div class="tna-large-paragraph">
       {{ page_data.intro | safe }}
     </div>
@@ -88,7 +89,7 @@
       <p>Be the first to hear updates about the exhibition, and more.</p>
     </aside>
   </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+  <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
     <aside class="tna-aside tna-aside--top-bottom-borders tna-background-tint-">
       <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
         {% if page_data.open_days %}
@@ -343,7 +344,7 @@
       {%- endif %}
     </div>
     {% for page in page_data.related_pages %}
-    <div class="tna-column tna-column--width-1-3 tna-!--margin-top-l">
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
       {% if page.type == 'featured_page' %}
         {% set card_content = {
           'title': page.value.page.title,
@@ -501,7 +502,7 @@
       }) %}
     {% endfor %}
     {% if accordion_items %}
-    <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
+    <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
       {{ tnaAccordion({
         'itemHeadingLevel': 3,
         'items': accordion_items
@@ -509,7 +510,7 @@
     </div>
     {% endif %}
     {% endfor %}
-    <div class="tna-column tna-column--width-1-2 tna-!--margin-top-l">
+    <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
       <img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyDVqFIhr6gc5IqXsU4qRBHoR4kY5oz7jvQ&signature=YOUR_SIGNATURE">
     </div>
   </div>
