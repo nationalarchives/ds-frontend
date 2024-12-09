@@ -12,7 +12,7 @@
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
-  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ''
+  'data-tnacookiesdomain': app_config.COOKIE_DOMAIN or ''
 } -%}
 
 {% block headIcons %}
@@ -77,7 +77,7 @@
 {%- if feature.PHASE_BANNER %}
 {{ tnaPhaseBanner({
   'phase': 'Beta',
-  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/YPVLNT/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
+  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
 }) | indent(6) }}
 {%- endif %}
@@ -276,7 +276,7 @@
       'href': '/help/cookies/'
     }
   ],
-  'classes': 'tna-!--margin-top-l'
+  'classes': '' if no_footer_top_margin else 'tna-!--margin-top-l'
 }) | indent(4) }}
 {% endblock %}
 

@@ -6,8 +6,9 @@ import {
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 
 // Set the cookies domain and extra policies even when the cookie banner is not shown
-const cookiesDomain =
-  document.documentElement.getAttribute("data-cookiesdomain");
+const cookiesDomain = document.documentElement.getAttribute(
+  "data-tnacookiesdomain",
+);
 const cookies = new Cookies({
   domain: cookiesDomain,
   extraPolicies: ["marketing"],
