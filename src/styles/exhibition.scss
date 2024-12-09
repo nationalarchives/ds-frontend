@@ -1,3 +1,4 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -14,6 +15,44 @@
     margin-right: spacing.space(0.75);
 
     @include colour.colour-font("icon-light");
+  }
+}
+
+.tna-sidebar {
+  @include media.on-larger-than-mobile {
+    &__items {
+      padding-left: 0 !important;
+
+      flex-direction: row;
+      gap: spacing.space(0.5) spacing.space(2);
+    }
+
+    &__item {
+      list-style: none inside !important;
+    }
+  }
+}
+
+.tna-enhanced-map {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2;
+  margin: 0;
+
+  display: block;
+
+  @include colour.colour-border("keyline", 1px, solid);
+  border-radius: 0.1px;
+
+  @include media.on-medium {
+    aspect-ratio: 1;
+  }
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-visible {
+    @include a11y.focus-outline;
   }
 }
 

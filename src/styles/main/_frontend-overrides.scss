@@ -194,8 +194,11 @@ sup[data-footnoteid] {
   }
 }
 
-.tna-quick-filters {
-  @include typography.font-size(16);
+.tna-large-paragraph {
+  &--bold {
+    @include colour.colour-font("font-base");
+    @include typography.main-font-weight-medium;
+  }
 }
 
 .tna-picture {
