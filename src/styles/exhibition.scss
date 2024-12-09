@@ -116,7 +116,7 @@
   &__icon {
     @include typography.font-size(48);
 
-    @include colour.colour-font("accent-background");
+    @include colour.colour-font("accent-border");
 
     @include media.on-tiny {
       @include typography.font-size(32);
