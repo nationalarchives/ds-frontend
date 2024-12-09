@@ -97,9 +97,11 @@ def pretty_date_with_day(s):
 
 
 def currency(s):
-    if int(s) == float(s):
-        return str(int(s))
-    return str("%.2f" % s)
+    float_number = float(s)
+    int_number = int(float_number)
+    if int_number == float_number:
+        return str(int_number)
+    return str("%.2f" % float_number)
 
 
 def rfc_822_format(s):
