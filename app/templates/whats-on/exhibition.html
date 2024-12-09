@@ -5,6 +5,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/gallery/macro.html' import tnaGallery -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
@@ -13,6 +14,7 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
 {%- set pageTitle = page_data.title -%}
+{%- set no_footer_top_margin = True -%}
 
 {% block head %}
 {{ super() }}
@@ -29,65 +31,91 @@
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{% set hero_intro = '' %}
-{% if page_data.subtitle %}
-  {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
-{% endif %}
-{% if page_data.start_date or page_data.end_date %}
-  {% set hero_intro = hero_intro + '<p>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p>' %}
-{% endif %}
-{% if page_data.price %}
-  {% set hero_intro = hero_intro + '<p>' + ('Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | string)) + '</p>' %}
-{% endif %}
-{% set hero_image_caption = page_data.hero_image_caption or '' %}
-{%- if page_data.hero_image.copyright %}
-  {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
-{%- endif %}
-{{ tnaHero({
-  'supertitle': page_data.type_label,
-  'title': page_data.title,
-  'body': hero_intro | safe,
-  'imageSrc': page_data.hero_image.jpeg.full_url,
-  'imageAlt': '',
-  'imageWidth': page_data.hero_image.jpeg.width,
-  'imageHeight': page_data.hero_image.jpeg.height,
-  'imageCaption': hero_image_caption,
-  'imageSources': [
-    {
-      'src': page_data.hero_image_small.webp.full_url,
-      'width': page_data.hero_image_small.webp.width,
-      'height': page_data.hero_image_small.webp.height,
-      'type': 'image/webp',
-      'media': '(max-width: 48em)'
-    },
-    {
-      'src': page_data.hero_image_small.jpeg.full_url,
-      'width': page_data.hero_image_small.jpeg.width,
-      'height': page_data.hero_image_small.jpeg.height,
-      'type': 'image/jpeg',
-      'media': '(max-width: 48em)'
-    },
-    {
-      'src': page_data.hero_image.webp.full_url,
-      'width': page_data.hero_image.webp.width,
-      'height': page_data.hero_image.webp.height,
-      'type': 'image/webp'
-    }
-  ],
-  'narrow': True,
-  'layout': page_data.hero_layout,
-  'style': page_data.hero_style
-}) }}
+{% set price = 'Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | currency) %}
+<section class="tna-background-tint">
+  {% set hero_intro = '' %}
+  {% if page_data.subtitle %}
+    {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
+  {% endif %}
+  {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
+  {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p></div>' %}
+  {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + price + '</p></div>' %}
+  {% set hero_intro = hero_intro + '</div>' %}
+
+  {% set hero_image_caption = page_data.hero_image_caption or '' %}
+  {%- if page_data.hero_image.copyright %}
+    {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+  {%- endif %}
+
+  {{ tnaHero({
+    'supertitle': page_data.type_label,
+    'title': page_data.title,
+    'body': hero_intro | safe,
+    'imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageAlt': '',
+    'imageWidth': page_data.hero_image.jpeg.width,
+    'imageHeight': page_data.hero_image.jpeg.height,
+    'imageCaption': hero_image_caption,
+    'imageSources': [
+      {
+        'src': page_data.hero_image_small.webp.full_url,
+        'width': page_data.hero_image_small.webp.width,
+        'height': page_data.hero_image_small.webp.height,
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image_small.jpeg.full_url,
+        'width': page_data.hero_image_small.jpeg.width,
+        'height': page_data.hero_image_small.jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.webp.full_url,
+        'width': page_data.hero_image.webp.width,
+        'height': page_data.hero_image.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'narrow': True,
+    'layout': page_data.hero_layout,
+    'style': page_data.hero_style
+  }) }}
+  <div class="tna-container tna-!--padding-vertical-m">
+    <div class="tna-column tna-column--full">
+      {{ tnaSidebar({
+        'title': 'On this page',
+        'headingLevel': 2,
+        'items': [
+          {
+            'text': 'In this exhibition',
+            'href': '#in-this-exhibition'
+          },
+          {
+            'text': 'Plan your visit',
+            'href': '#plan-your-visit'
+          },
+          {
+            'text': 'Events and activities',
+            'href': '#events-and-activities'
+          },
+          {
+            'text': 'Read and shop',
+            'href': '#read-and-shop'
+          }
+        ],
+        'type': 'contents'
+      }) }}
+    </div>
+  </div>
+</section>
 <div class="tna-container">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
     <div class="tna-large-paragraph">
       {{ page_data.intro | safe }}
     </div>
     {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
-    <aside class="tna-aside tna-background-accent">
-      <p>Get emails about Great Escapes</p>
-      <p>Be the first to hear updates about the exhibition, and more.</p>
-    </aside>
   </div>
   <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
     <aside class="tna-aside tna-aside--top-bottom-borders tna-background-tint-">
@@ -99,13 +127,11 @@
         </dt>
         <dd>See full <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
         {% endif %}
-        {% if page_data.price %}
         <dt>
           <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-          {{ page_data.price }}
+          {{ price | safe }}
         </dt>
         <dd>{{ page_data.booking_details | safe }}</dd>
-        {% endif %}
         {% if page_data.audience_heading and page_data.audience_detail %}
         <dt>
           <i class="fa-solid fa-user" aria-hidden="true"></i>
@@ -241,26 +267,51 @@
   </div>
 </div>
 {% for exhibition_highlights in page_data.exhibition_highlights %}
-{% set gallery_images = [] %}
-{% for image in exhibition_highlights.value.images %}
-  {% set gallery_images = gallery_images.append({
-    'alt': image.alt_text,
-    'width': image.image.jpeg.width,
-    'height': image.image.jpeg.height,
-    'src': image.image.jpeg.full_url,
-    'description': image.caption | safe
-  }) %}
-{% endfor %}
-<section class="tna-section tna-background-contrast--simple tna-!--margin-top-l">
+<section class="tna-section tna-background-contrast--simple tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
+      <h2 id="in-this-exhibition" class="tna-background-contrast tna-heading-l tna-!--padding-top-s">In this exhibition</h2>
+      {% set gallery_images = [] %}
+      {% for image in exhibition_highlights.value.images %}
+        {% set gallery_images = gallery_images.append({
+          'alt': image.alt_text,
+          'width': image.image.jpeg.width,
+          'height': image.image.jpeg.height,
+          'src': image.image.jpeg.full_url,
+          'description': image.caption | safe
+        }) %}
+      {% endfor %}
       {{ tnaGallery({
         'title': exhibition_highlights.value.title,
-        'headingLevel': 2,
+        'headingLevel': 3,
         'text': exhibition_highlights.value.description,
         'items': gallery_images,
         'id': exhibition_highlights.id
       }) }}
+    </div>
+  </div>
+</section>
+{% endfor %}
+{% for video in page_data.video %}
+<section class="tna-section tna-background-accent-light">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h3 class="tna-heading-m">Inside the exhibition space</h3>
+      {% if video.type == 'youtube' %}
+      {{ wagtailYouTubeVideo(video.value, video.id) }}
+      {% elif video.type == 'media' %}
+      <!-- {{ wagtailMedia(video.value, video.id, 2) }} -->
+      <video id="{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <source src="{{ video.value.media.full_url }}" type="{{ video.value.media.mime }}">
+        {% if video.value.media.subtitles_file_full_url %}
+        <track kind="captions" src="{{ video.value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
+        {% endif %}
+        {% if video.value.media.chapters_file_full_url %}
+        <track kind="chapters" src="{{ video.value.media.chapters_file_full_url }}" srclang="en">
+        {% endif %}
+        <p>Your browser doesn't support HTML5 video. <a href="{{ video.value.media.full_url }}">Download the video file</a>.</p>
+      </video>
+      {% endif %}
     </div>
   </div>
 </section>
@@ -283,38 +334,90 @@
   </div>
 </section>
 {% endfor %}
-{% for video in page_data.video %}
-<section class="tna-section tna-background-tint">
+<section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      {% if video.type == 'youtube' %}
-      {{ wagtailYouTubeVideo(video.value, video.id) }}
-      {% elif video.type == 'media' %}
-      <!-- {{ wagtailMedia(video.value, video.id, 2) }} -->
-      <video id="{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ video.value.media.full_url }}" type="{{ video.value.media.mime }}">
-        {% if video.value.media.subtitles_file_full_url %}
-        <track kind="captions" src="{{ video.value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
-        {% endif %}
-        {% if video.value.media.chapters_file_full_url %}
-        <track kind="chapters" src="{{ video.value.media.chapters_file_full_url }}" srclang="en">
-        {% endif %}
-        <p>Your browser doesn't support HTML5 video. <a href="{{ video.value.media.full_url }}">Download the video file</a>.</p>
-      </video>
-      {% endif %}
+      <h2 id="plan-your-visit" class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
+    </div>
+    {% for plan_your_visit in page_data.plan_your_visit %}
+    {% set accordion_items = [] %}
+    {% for item in plan_your_visit.value %}
+      {% set accordion_items = accordion_items.append({
+        'title': item.title,
+        'body': item.body | tna_html
+      }) %}
+    {% endfor %}
+    {% if accordion_items %}
+    <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      {{ tnaAccordion({
+        'itemHeadingLevel': 3,
+        'items': accordion_items
+      }) }}
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Visit us',
+          'href': 'https://www.nationalarchives.gov.uk/about/visit-us/'
+        }) }}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      <img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyDVqFIhr6gc5IqXsU4qRBHoR4kY5oz7jvQ&signature=YOUR_SIGNATURE">
     </div>
   </div>
 </section>
-{% endfor %}
-<section class="tna-section">
+{% for event_links in page_data.event_links %}
+<section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">{{ page_data.related_pages_title }}</h2>
+      <h2 id="events-and-activities" class="tna-heading-l tna-!--padding-top-s">Events and activities</h2>
+      <h3 class="tna-heading-m">{{ page_data.event_title }}</h3>
+    </div>
+    {% for event in event_links.value %}
+    <div class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-l">
+      {% set card_content = {
+        'title': event.title,
+        'headingLevel': 4,
+        'headingSize': 's',
+        'href': event.url,
+        'text': event.description,
+        'fullAreaClick': True,
+        'style': 'contrast',
+        'classes': 'tna-card--full-height-'
+      } %}
+      {%- if event.image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': event.image.jpeg.full_url,
+          'imageAlt': event.image.alt_text or '',
+          'imageWidth': event.image.jpeg.width,
+          'imageHeight': event.image.jpeg.height,
+          'imageSources': [
+            {
+              'src': event.image.webp.full_url,
+              'type': 'image/webp',
+              'width': event.image.webp.width,
+              'height': event.image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{%- endfor %}
+<section class="tna-section tna-!--padding-top-m">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 id="read-and-shop" class="tna-heading-l tna-!--padding-top-s">Read and shop</h2>
+      <h3 class="tna-heading-m">{{ page_data.related_pages_title }}</h3>
       {%- if page_data.featured_page %}
       {% set card_content = {
         'supertitle': page_data.featured_page.type_label,
         'title': page_data.featured_page.title,
-        'headingLevel': 3,
+        'headingLevel': 4,
         'headingSize': 'l',
         'href': page_data.featured_page.full_url,
         'body': page_data.featured_page.teaser_text,
@@ -348,7 +451,7 @@
       {% if page.type == 'featured_page' %}
         {% set card_content = {
           'title': page.value.page.title,
-          'headingLevel': 3,
+          'headingLevel': 4,
           'headingSize': 's',
           'href': page.value.page.full_url,
           'body': page.value.page.teaser_text,
@@ -421,54 +524,27 @@
       {%- endif %}
     </div>
     {% endfor %}
+    <div class="tna-column tna-column--full tna-!--margin-top-l">
+      <aside class="tna-exhibition-newsletter">
+        <div class="tna-exhibition-newsletter_inner">
+          <i class="fa-solid fa-envelope tna-exhibition-newsletter__icon" aria-hidden="true"></i>
+          <div class="tna-exhibition-newsletter__body">
+            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Get exclusive content</a></h3>
+            <p>Looking for more? Sign up to the Great Escapes eceive exclusive features and updates.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
   </div>
 </section>
-{% for event_links in page_data.event_links %}
-<section class="tna-section tna-background-contrast">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">{{ page_data.event_title }}</h2>
-    </div>
-    {% for event in event_links.value %}
-    <div class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-l">
-      {% set card_content = {
-        'title': event.title,
-        'headingLevel': 3,
-        'headingSize': 's',
-        'href': event.url,
-        'text': event.description,
-        'fullAreaClick': True,
-        'style': 'contrast',
-        'classes': 'tna-card--full-height-'
-      } %}
-      {%- if event.image %}
-        {% set card_content = dict(card_content, **{
-          'imageSrc': event.image.jpeg.full_url,
-          'imageAlt': event.image.alt_text or '',
-          'imageWidth': event.image.jpeg.width,
-          'imageHeight': event.image.jpeg.height,
-          'imageSources': [
-            {
-              'src': event.image.webp.full_url,
-              'type': 'image/webp',
-              'width': event.image.webp.width,
-              'height': event.image.webp.height
-            }
-          ]
-        }) %}
-      {%- endif %}
-      {{ tnaCard(card_content) }}
-    </div>
-    {% endfor %}
-  </div>
-</section>
-{%- endfor %}
 {% for shop in page_data.shop %}
 {% set shop_hero_image_caption = '' %}
 {%- if shop.value.background_image.copyright %}
-  {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+  {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + shop.value.background_image.copyright + '</p>' %}
 {%- endif %}
 {{ tnaHero({
+  'headingLevel': 3,
+  'headingSize': 'l',
   'title': shop.value.title,
   'body': '<p>' | safe + shop.value.description + '</p>' | safe + '<div class="tna-button-group">' | safe + tnaButton({'text': shop.value.cta_text, 'href': shop.value.url}) + '</div>' | safe,
   'imageSrc': shop.value.background_image.jpeg.full_url,
@@ -488,33 +564,6 @@
   'style': 'accent'
 }) }}
 {% endfor %}
-<section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">Plan your visit</h2>
-    </div>
-    {% for plan_your_visit in page_data.plan_your_visit %}
-    {% set accordion_items = [] %}
-    {% for item in plan_your_visit.value %}
-      {% set accordion_items = accordion_items.append({
-        'title': item.title,
-        'body': item.body | tna_html
-      }) %}
-    {% endfor %}
-    {% if accordion_items %}
-    <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-      {{ tnaAccordion({
-        'itemHeadingLevel': 3,
-        'items': accordion_items
-      }) }}
-    </div>
-    {% endif %}
-    {% endfor %}
-    <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-      <img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=AIzaSyDVqFIhr6gc5IqXsU4qRBHoR4kY5oz7jvQ&signature=YOUR_SIGNATURE">
-    </div>
-  </div>
-</section>
 {% endblock %}
 
 {% block bodyEnd %}

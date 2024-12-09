@@ -1,12 +1,19 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .tna-hero {
   &:not(.tna-background-accent, .tna-hero--split) &__content-inner {
     @include media.on-larger-than-mobile {
       @include colour.colour-border("accent-border", 1rem, solid, left);
     }
+  }
+
+  p .fa-solid {
+    margin-right: spacing.space(0.75);
+
+    @include colour.colour-font("icon-light");
   }
 }
 
@@ -37,6 +44,47 @@
     cite {
       font-style: normal;
     }
+  }
+}
+
+.tna-exhibition-newsletter {
+  @include colour.colour-border("accent-border", 1rem, solid, left);
+
+  &_inner {
+    padding: spacing.space(2);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: spacing.space(2);
+
+    @include colour.colour-border("keyline", 1px);
+    border-left: none;
+
+    @include media.on-small {
+      padding: spacing.space(1) spacing.space(2);
+    }
+
+    @include media.on-tiny {
+      padding: spacing.space(1);
+
+      flex-direction: column;
+      align-items: flex-start;
+      gap: spacing.space(1);
+    }
+  }
+
+  &__icon {
+    @include typography.font-size(48);
+
+    @include colour.colour-font("accent-background");
+
+    @include media.on-tiny {
+      @include typography.font-size(32);
+    }
+  }
+
+  &__body {
   }
 }
 

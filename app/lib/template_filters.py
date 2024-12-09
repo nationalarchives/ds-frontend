@@ -96,6 +96,12 @@ def pretty_date_with_day(s):
     return pretty_date(s, True)
 
 
+def currency(s):
+    if int(s) == float(s):
+        return str(int(s))
+    return str("%.2f" % s)
+
+
 def rfc_822_format(s):
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")

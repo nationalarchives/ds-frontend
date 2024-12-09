@@ -1,6 +1,6 @@
 import unittest
 
-from app.lib.template_filters import qs_active, qs_toggler
+from app.lib.template_filters import currency, qs_active, qs_toggler
 
 
 class ContentParserTestCase(unittest.TestCase):
@@ -26,3 +26,14 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertFalse(qs_active({}, "a", "1"))
         self.assertFalse(qs_active({}, "", ""))
         self.assertFalse(qs_active({"a": "1"}, "", ""))
+
+    def test_currency(self):
+        self.assertEqual(currency(0), "0")
+        self.assertEqual(currency(5), "5")
+        self.assertEqual(currency(5.0), "5")
+        self.assertEqual(currency(5.00), "5")
+        self.assertEqual(currency(5.1), "5.10")
+        self.assertEqual(currency(5.01), "5.01")
+        self.assertEqual(currency(5.001), "5.00")
+        self.assertEqual(currency(5.005), "5.00")
+        self.assertEqual(currency(5.006), "5.01")
