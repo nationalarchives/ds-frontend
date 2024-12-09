@@ -1,6 +1,11 @@
 import unittest
 
-from app.lib.template_filters import currency, qs_active, qs_toggler
+from app.lib.template_filters import (
+    currency,
+    pretty_date,
+    qs_active,
+    qs_toggler,
+)
 
 
 class ContentParserTestCase(unittest.TestCase):
@@ -26,6 +31,12 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertFalse(qs_active({}, "a", "1"))
         self.assertFalse(qs_active({}, "", ""))
         self.assertFalse(qs_active({"a": "1"}, "", ""))
+
+    def test_prett_date(self):
+        self.assertEqual(pretty_date("2000-01-01"), "1 January 2000")
+        self.assertEqual(pretty_date("2000-01-31"), "31 January 2000")
+        self.assertEqual(pretty_date("2000-02-01"), "1 February 2000")
+        self.assertEqual(pretty_date("2000-12-31"), "31 December 2000")
 
     def test_currency(self):
         self.assertEqual(currency(0), "0")

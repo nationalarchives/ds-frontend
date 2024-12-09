@@ -55,27 +55,27 @@ def pretty_date(s, show_day=False):
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
         return (
-            date.strftime("%A %d %B %Y")
+            date.strftime("%A %-d %B %Y")
             if show_day
-            else date.strftime("%d %B %Y")
+            else date.strftime("%-d %B %Y")
         )
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
         return (
-            date.strftime("%A %d %B %Y")
+            date.strftime("%A %-d %B %Y")
             if show_day
-            else date.strftime("%d %B %Y")
+            else date.strftime("%-d %B %Y")
         )
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%d")
         return (
-            date.strftime("%A %d %B %Y")
+            date.strftime("%A %-d %B %Y")
             if show_day
-            else date.strftime("%d %B %Y")
+            else date.strftime("%-d %B %Y")
         )
     except ValueError:
         pass
@@ -107,12 +107,12 @@ def currency(s):
 def rfc_822_format(s):
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     return s
