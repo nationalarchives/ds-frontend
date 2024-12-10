@@ -546,7 +546,7 @@
   'headingLevel': 3,
   'headingSize': 'l',
   'title': shop.value.title,
-  'body': '<p>' | safe + shop.value.description + '</p>' | safe + '<div class="tna-button-group">' | safe + tnaButton({'text': shop.value.cta_text, 'href': shop.value.url}) + '</div>' | safe,
+  'text': shop.value.description,
   'imageSrc': shop.value.background_image.jpeg.full_url,
   'imageAlt': '',
   'imageWidth': shop.value.background_image.jpeg.width,
@@ -558,6 +558,12 @@
       'width': shop.value.background_image.webp.width,
       'height': shop.value.background_image.webp.height,
       'type': 'image/webp'
+    }
+  ],
+  'actions': [
+    {
+      'text': shop.value.cta_text,
+      'href': shop.value.url
     }
   ],
   'narrow': True,
