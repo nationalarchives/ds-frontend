@@ -18,12 +18,12 @@ const enhanceMaps = () =>
     }
   });
 
-if (cookies.isPolicyAccepted("usage")) {
-  enhanceMaps();
-} else {
-  cookies.once("changePolicy", (policies) => {
-    if (policies["usage"]) {
-      enhanceMaps();
-    }
-  });
-}
+// if (cookies.isPolicyAccepted("usage")) {
+//   enhanceMaps();
+// } else {
+//   cookies.once("changePolicy", (policies) => {
+//     if (policies["usage"]) {
+//       enhanceMaps();
+//     }
+//   });
+// }
