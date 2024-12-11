@@ -4,15 +4,9 @@ import {
 } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
+window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
-// Set the cookies domain and extra policies even when the cookie banner is not shown
-const cookiesDomain = document.documentElement.getAttribute(
-  "data-tnacookiesdomain",
-);
-const cookies = new Cookies({
-  domain: cookiesDomain,
-  extraPolicies: ["marketing"],
-});
+const cookies = new Cookies();
 
 // if ("serviceWorker" in navigator) {
 //   navigator.serviceWorker.register("/service-worker.min.js");
