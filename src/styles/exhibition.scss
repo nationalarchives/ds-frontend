@@ -19,11 +19,24 @@
 }
 
 .tna-sidebar {
+  @include media.on-large {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0 spacing.space(2);
+
+    &__items {
+      padding-top: 0;
+    }
+  }
+  
   @include media.on-larger-than-mobile {
     &__items {
       padding-left: 0 !important;
 
       flex-direction: row;
+      flex: 1;
+
       gap: spacing.space(0.5) spacing.space(2);
     }
 
