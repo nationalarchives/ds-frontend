@@ -267,10 +267,10 @@
   </div>
 </div>
 {% for exhibition_highlights in page_data.exhibition_highlights %}
-<section class="tna-section tna-background-contrast--simple tna-!--margin-top-l tna-!--padding-top-m">
+<section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="in-this-exhibition" class="tna-background-contrast tna-heading-l tna-!--padding-top-s">In this exhibition</h2>
+      <h2 id="in-this-exhibition" class="tna-heading-l tna-!--padding-top-s">In this exhibition</h2>
       {% set gallery_images = [] %}
       {% for image in exhibition_highlights.value.images %}
         {% set gallery_images = gallery_images.append({
