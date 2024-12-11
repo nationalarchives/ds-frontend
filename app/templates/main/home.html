@@ -23,6 +23,11 @@
       {{ content_item.value.paragraph | tna_html | safe }}
       {%- endif %}
       {%- endfor %}
+      <p>all: {{ get_all_flags() }}</p>
+      <p>foobar: {{ is_feature_enabled('foobar') }}</p>
+      <p>phase_banner: {{ is_feature_enabled('phase_banner') }}</p>
+      <p>search_results_per_page: {{ get_flag_value('search_results_per_page') }}</p>
+      <p>show_newsletter_in_footer: {{ is_feature_enabled('show_newsletter_in_footer') }}</p>
     </div>
   </div>
 </div>

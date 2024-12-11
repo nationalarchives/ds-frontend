@@ -1,7 +1,6 @@
 import re
 
 from app.lib.abbreviations import abbreviations
-from flask import render_template
 
 
 def b_to_strong(html):

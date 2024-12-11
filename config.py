@@ -100,6 +100,14 @@ class Base(object):
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
+    FLAGSMITH_ENV_KEY: str = os.environ.get("FLAGSMITH_ENV_KEY", "")
+    FLAGSMITH_API_URL: str = os.environ.get("FLAGSMITH_API_URL", "")
+    DEFAULT_FLAGSMITH_VALUES: dict = dict(
+        phase_banner=False,
+        search_results_per_page=29,
+        show_newsletter_in_footer=True,
+    )
+
     APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
 
 

@@ -9,6 +9,7 @@ from app.lib.context_processor import (
     now_rfc_822,
     pretty_date_range,
 )
+from app.lib.flagsmith import get_all_flags, get_flag_value, is_feature_enabled
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
     currency,
@@ -178,21 +179,24 @@ def create_app(config_class):
             now_iso_8601_no_time=now_iso_8601_no_time,
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
-            app_config={
-                "ENVIRONMENT": app.config.get("ENVIRONMENT"),
-                "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),
-                "BUILD_VERSION": app.config.get("BUILD_VERSION"),
-                "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
-                "GA4_ID": app.config.get("GA4_ID"),
-                "SENTRY_JS_ID": app.config.get("SENTRY_JS_ID"),
-                "SENTRY_SAMPLE_RATE": app.config.get("SENTRY_SAMPLE_RATE"),
-            },
-            feature={
-                "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
-                "LOGO_ADORNMENTS_CSS": app.config.get(
+            is_feature_enabled=is_feature_enabled,
+            get_flag_value=get_flag_value,
+            get_all_flags=get_all_flags,
+            app_config=dict(
+                ENVIRONMENT=app.config.get("ENVIRONMENT"),
+                TNA_FRONTEND_VERSION=app.config.get("TNA_FRONTEND_VERSION"),
+                BUILD_VERSION=app.config.get("BUILD_VERSION"),
+                COOKIE_DOMAIN=app.config.get("COOKIE_DOMAIN"),
+                GA4_ID=app.config.get("GA4_ID"),
+                SENTRY_JS_ID=app.config.get("SENTRY_JS_ID"),
+                SENTRY_SAMPLE_RATE=app.config.get("SENTRY_SAMPLE_RATE"),
+            ),
+            features=dict(
+                PHASE_BANNER=app.config.get("FEATURE_PHASE_BANNER"),
+                LOGO_ADORNMENTS_CSS=app.config.get(
                     "FEATURE_LOGO_ADORNMENTS_CSS"
                 ),
-            },
+            ),
         )
 
     from .feeds import bp as feeds_bp

@@ -29,7 +29,7 @@ def set_cookies():
     }
     if "cookies_policy" in request.cookies:
         current_cookies_policy = json.loads(
-            unquote(request.cookies["cookies_policy"])
+            unquote(request.cookies.get("cookies_policy"))
         )
     usage = (
         strtobool(request.form["usage"])

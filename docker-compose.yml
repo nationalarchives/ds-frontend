@@ -25,6 +25,8 @@ services:
       - FEATURE_PHASE_BANNER=False
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - WAGTAILAPI_LIMIT_MAX=1000
+      - FLAGSMITH_ENV_KEY=hbVSrXxqoJjdLdqnkcKLR9
+      - FLAGSMITH_API_URL=https://flagsmith.tna.dblclk.dev/api/v1/
     ports:
       - 65535:8080
     volumes:

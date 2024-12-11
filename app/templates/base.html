@@ -40,6 +40,9 @@
     <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
     <meta name="tna.page.route" content="{{ request.url_rule }}">
+    {% for feature in get_all_flags() %}
+    <meta name="tna.feature.{{ feature.feature_name }}" content="{{ feature.value or feature.enabled }}">
+    {% endfor %}
     {% if request.args.get('source') %}
     <meta name="tna.source" content="{{ request.args.get('source') }}">
     {% endif %}
@@ -55,8 +58,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    {% if feature.LOGO_ADORNMENTS_CSS %}
-    <link rel="stylesheet" href="{{ feature.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_no_time() }}" media="screen">
+    {% if features.LOGO_ADORNMENTS_CSS %}
+    <link rel="stylesheet" href="{{ features.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_no_time() }}" media="screen">
     {% endif %}
 {% endblock %}
 
@@ -74,7 +77,7 @@
 {% endblock %}
 
 {% block header %}
-{%- if feature.PHASE_BANNER %}
+{%- if is_feature_enabled('phase_banner') %}
 {{ tnaPhaseBanner({
   'phase': 'Beta',
   'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
