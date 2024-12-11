@@ -3,11 +3,7 @@
 
 {% macro wagtailYouTubeVideo(block_value, id) %}
   <a href="https://www.youtube.com/watch?v={{ block_value.video_id }}" id="{{ id }}" class="etna-video etna-video--youtube video-js">
-    {%- if block_value.preview_image %}
     <img src="{{ block_value.preview_image.jpeg.full_url }}" width="{{ block_value.preview_image.jpeg.width }}" height="{{ block_value.preview_image.jpeg.height }}" class="etna-video__preview-image" alt="">
-    {%- else %}
-    <img src="https://i.ytimg.com/vi/{{ block_value.video_id }}/hqdefault.jpg" width="480" height="360" class="etna-video__preview-image" alt="">
-    {%- endif %}
     <span class="etna-video__label">
       <span class="tna-visually-hidden">Watch</span>
       {{ block_value.title }}

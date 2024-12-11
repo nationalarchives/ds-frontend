@@ -24,9 +24,11 @@ THE SOFTWARE. */
 ORIGINAL FILE:
   https://github.com/videojs/videojs-youtube/blob/main/src/Youtube.js
 
-ADDED:
-  https://github.com/videojs/videojs-youtube/pull/621
-  https://github.com/videojs/videojs-youtube/pull/623
+CHANGES:
+  Added https://github.com/videojs/videojs-youtube/pull/621
+  Added https://github.com/videojs/videojs-youtube/pull/623
+  initYoutubeEmbedApi function to allow async loading of embed API
+  Removed AMD/UMD/CommonJS
 */
 
 import videojs from "video.js";
@@ -830,11 +832,21 @@ function injectCss() {
 
 Youtube.apiReadyQueue = [];
 
-if (typeof document !== "undefined") {
-  loadScript("https://www.youtube.com/iframe_api", apiLoaded);
-  if (!window.VIDEOJS_NO_DYNAMIC_STYLE) {
-    injectCss();
+/* Don't automatically assume we need the embed */
+function initYoutubeEmbedApi(callback = function () {}) {
+  if (typeof document !== "undefined") {
+    loadScript("https://www.youtube.com/iframe_api", function () {
+      apiLoaded();
+      callback();
+    });
+    if (!window.VIDEOJS_NO_DYNAMIC_STYLE) {
+      injectCss();
+    }
   }
+}
+
+if (!window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT) {
+  initYoutubeEmbedApi();
 }
 
 // Older versions of VJS5 doesn't have the registerTech function
@@ -846,4 +858,5 @@ videojs.registerTech("Youtube", Youtube);
 // });
 
 export default Youtube;
+export { initYoutubeEmbedApi };
 /* eslint-enable */
