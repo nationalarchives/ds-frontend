@@ -2,6 +2,7 @@ import json
 import os
 
 from app.lib.util import strtobool
+from flagsmith.models import DefaultFlag
 
 
 class Features(object):
@@ -102,10 +103,10 @@ class Base(object):
 
     FLAGSMITH_ENV_KEY: str = os.environ.get("FLAGSMITH_ENV_KEY", "")
     FLAGSMITH_API_URL: str = os.environ.get("FLAGSMITH_API_URL", "")
-    DEFAULT_FLAGSMITH_VALUES: dict = dict(
-        phase_banner=False,
-        search_results_per_page=29,
-        show_newsletter_in_footer=True,
+    FLAGSMITH_DEFAULT_FLAGS: dict = dict(
+        phase_banner=DefaultFlag(enabled=True, value=None),
+        search_results_per_page=DefaultFlag(enabled=True, value=29),
+        show_newsletter_in_footer=DefaultFlag(enabled=True, value=None),
     )
 
     APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))

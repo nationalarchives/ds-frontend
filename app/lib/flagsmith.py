@@ -10,8 +10,12 @@ from flask import current_app, request, session
 
 
 def default_flag_handler(flag_name):
-    default_values = current_app.config.get("DEFAULT_FLAGSMITH_VALUES")
-    return DefaultFlag(enabled=False, value=default_values.get(flag_name, None))
+    default_values = current_app.config.get("FLAGSMITH_DEFAULT_FLAGS")
+    return (
+        default_values.get(flag_name)
+        if flag_name in default_values
+        else DefaultFlag(enabled=False, value=None)
+    )
 
 
 flagsmith = Flagsmith(
@@ -36,7 +40,7 @@ def traits_key():
     )
 
 
-@cache.cached(key_prefix=traits_key, timeout=60)
+@cache.cached(key_prefix=traits_key, timeout=30)
 def get_flags():
     if "user_id" in session:
         return flagsmith.get_identity_flags(

@@ -146,7 +146,7 @@
 
 {% block footer %}
 {{ tnaFooter({
-  'themeSelector': True,
+  'themeSelector': is_feature_enabled('show_theme_selector'),
   'currentTheme': theme,
   'social': [
     {
@@ -256,7 +256,7 @@
       ]
     }
   ],
-  'showNewsletter': True,
+  'showNewsletter': is_feature_enabled('show_newsletter_in_footer'),
   'legal': [
     {
       'text': 'Accessibility statement',

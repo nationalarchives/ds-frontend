@@ -1,12 +1,14 @@
 import math
 
+from app.lib.flagsmith import get_flag_value
 from app.lib.pagination import pagination_object
 from app.wagtail.api import breadcrumbs, page_children_paginated
 from flask import current_app, render_template, request
 
 
 def article_index_page(page_data):
-    children_per_page = 12
+    # children_per_page = 12
+    children_per_page = int(get_flag_value("search_results_per_page"))
     page = (
         int(request.args.get("page"))
         if request.args.get("page") and request.args.get("page").isnumeric()

@@ -1,6 +1,7 @@
 import math
 from urllib.parse import unquote
 
+from app.lib.flagsmith import get_flag_value
 from app.lib.pagination import pagination_object
 from app.site_search import bp
 from app.wagtail.api import global_alerts, search
@@ -14,7 +15,8 @@ def index():
         {"text": "Home", "href": "/"},
         {"text": "Search", "href": url_for("search.index")},
     ]
-    children_per_page = 12
+    # children_per_page = 12
+    children_per_page = int(get_flag_value("search_results_per_page"))
     page = (
         int(request.args.get("page"))
         if request.args.get("page") and request.args.get("page").isnumeric()
