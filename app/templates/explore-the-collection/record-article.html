@@ -189,6 +189,46 @@
   </section>
   {%- endif %}
 
+  {%- if page_data.featured_article %}
+  <section class="tna-section">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        {% set card_content = {
+          'supertitle': page_data.featured_article.type_label,
+          'title': page_data.featured_article.title,
+          'headingLevel': 2,
+          'headingSize': 'l',
+          'href': page_data.featured_article.url,
+          'text': page_data.featured_article.teaser_text,
+          'label': 'New' if page_data.featured_article.is_newly_published,
+          'labelColour': 'green',
+          'fullAreaClick': True,
+          'horizontal': True,
+          'style': 'accent'
+        } %}
+        {%- if page_data.featured_article.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+          'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_article.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_article.teaser_image.webp.width,
+              'height': page_data.featured_article.teaser_image.webp.height
+            }
+          ],
+          'lazyImage': True
+        }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      </div>
+    </div>
+  </section>
+  {%- endif %}
+
   {%- for promoted_links in page_data.promoted_links %}
   <section class="tna-section tna-!--padding-bottom-s">
     <div class="tna-container">
@@ -229,7 +269,7 @@
         {%- if item.publication_date %}
         {% set meta = meta + [{ 'title': 'Published', 'text': item.publication_date }] %}
         {%- endif %}
-        {{ tnaCard({
+        {% set card_content = {
           'supertitle': supertitle,
           'title': title,
           'headingLevel': 3,
@@ -237,8 +277,15 @@
           'href': item.url,
           'meta': meta,
           'text': item.description,
+          'label': 'New' if item.is_newly_published,
+          'labelColour': 'green',
+          'fullAreaClick': True,
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if item.teaser_image %}
+        {% set card_content = dict(card_content, **{
           'imageSrc': item.teaser_image.jpeg.full_url,
-          'imageAlt': item.teaser_image.title,
+          'imageAlt': item.teaser_image.alt_text or '',
           'imageWidth': item.teaser_image.jpeg.width,
           'imageHeight': item.teaser_image.jpeg.height,
           'imageSources': [
@@ -249,10 +296,10 @@
               'height': item.teaser_image.webp.height
             }
           ],
-          'lazyImage': True,
-          'fullAreaClick': True,
-          'classes': 'tna-card--full-height'
-        }) }}
+          'lazyImage': True
+        }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
       </li>
       {%- endfor %}
     </ul>
