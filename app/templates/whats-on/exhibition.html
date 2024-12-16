@@ -84,13 +84,12 @@
   }) }}
   <div class="tna-container tna-!--padding-vertical-m">
     <div class="tna-column tna-column--full">
-      {% set sidebar_items = [] %}
-      {% if True %}
-        {% set sidebar_items = sidebar_items + [{
+      {% set sidebar_items = [
+        {
           'text': 'About ' + page_data.title,
           'href': '#about'
-        }] %}
-      {% endif %}
+        }
+      ] %}
       {% if page_data.exhibition_highlights or page_data.video %}
         {% set sidebar_items = sidebar_items + [{
           'text': 'In this exhibition',
