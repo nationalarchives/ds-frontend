@@ -84,12 +84,10 @@
   }) }}
   <div class="tna-container tna-!--padding-vertical-m">
     <div class="tna-column tna-column--full">
-      {% set sidebar_items = [
-        {
-          'text': 'About ' + page_data.title,
-          'href': '#about'
-        }
-      ] %}
+      {% set sidebar_items = [{
+        'text': 'About ' + page_data.title,
+        'href': '#about'
+      }] %}
       {% if page_data.exhibition_highlights or page_data.video %}
         {% set sidebar_items = sidebar_items + [{
           'text': 'In this exhibition',
@@ -158,7 +156,10 @@
           {{ page_data.location_space_name }}
         </dt>
         <dd>
-          <a href="{{ page_data.location_link_url }}">{{ page_data.location_link_text }}</a>
+          <!-- <a href="{{ page_data.location_link_url }}">{{ page_data.location_link_text }}</a> -->
+          The National Archives<br>
+          Kew, Richmond<br>
+          TW9 4DU
         </dd>
         {% endif %}
         <dt>
