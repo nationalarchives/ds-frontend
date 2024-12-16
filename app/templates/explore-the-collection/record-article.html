@@ -62,18 +62,18 @@
       {%- for item in page_data.gallery_items %}
       {% set picture_information = [] %}
       {%- if item.image.transcript %}
-      {% set picture_information = picture_information + [{
-        'id': 'transcript-' + item.image.id | string,
-        'title': item.image.transcript.heading or 'Transcript',
-        'body': item.image.transcript.text | tna_html
-      }] %}
+        {% set picture_information = picture_information + [{
+          'id': 'transcript-' + item.image.id | string,
+          'title': item.image.transcript.heading or 'Transcript',
+          'body': item.image.transcript.text | tna_html
+        }] %}
       {%- endif %}
       {%- if item.image.translation %}
-      {% set picture_information = picture_information + [{
-        'id': 'translation-' + item.image.id | string,
-        'title': item.image.translation.heading or 'Translation',
-        'body': item.image.translation.text | tna_html
-      }] %}
+        {% set picture_information = picture_information + [{
+          'id': 'translation-' + item.image.id | string,
+          'title': item.image.translation.heading or 'Translation',
+          'body': item.image.translation.text | tna_html
+        }] %}
       {%- endif %}
       <div class="etna-record-gallery__item tna-container">
         <div class="tna-column tna-column--full etna-record-gallery__header">

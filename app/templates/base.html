@@ -40,6 +40,7 @@
     <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
     <meta name="tna.page.route" content="{{ request.url_rule }}">
+    <meta name="tna.page.accent" content="{{ themeAccent }}">
     {% if request.args.get('source') %}
     <meta name="tna.source" content="{{ request.args.get('source') }}">
     {% endif %}
@@ -77,7 +78,7 @@
 {%- if feature.PHASE_BANNER %}
 {{ tnaPhaseBanner({
   'phase': 'Beta',
-  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
+  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?source=" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
 }) | indent(6) }}
 {%- endif %}
