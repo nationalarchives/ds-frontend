@@ -90,8 +90,8 @@
       }] %}
       {% if page_data.exhibition_highlights or page_data.video %}
         {% set sidebar_items = sidebar_items + [{
-          'text': 'In this exhibition',
-          'href': '#in-this-exhibition'
+          'text': 'Exhibition highlights',
+          'href': '#exhibition-highlights'
         }] %}
       {% endif %}
       {% if page_data.plan_your_visit %}
@@ -106,10 +106,6 @@
           'href': '#events-and-activities'
         }] %}
       {% endif %}
-      {% set sidebar_items = sidebar_items + [{
-        'text': 'Read and shop',
-        'href': '#read-and-shop'
-      }] %}
       {{ tnaSidebar({
         'title': 'On this page',
         'headingLevel': 2,
@@ -278,7 +274,7 @@
 <section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="in-this-exhibition" class="tna-heading-l tna-!--padding-top-s">In this exhibition</h2>
+      <h2 id="exhibition-highlights" class="tna-heading-l tna-!--padding-top-s">Exhibition highlights</h2>
       {% set gallery_images = [] %}
       {% for image in exhibition_highlights.value.images %}
         {% set gallery_images = gallery_images.append({
@@ -421,7 +417,6 @@
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="read-and-shop" class="tna-heading-l tna-!--padding-top-s">Read and shop</h2>
       <h3 class="tna-heading-m">{{ page_data.related_pages_title }}</h3>
       {%- if page_data.featured_page %}
       {% set card_content = {
@@ -539,8 +534,8 @@
         <div class="tna-exhibition-newsletter_inner">
           <i class="fa-solid fa-envelope tna-exhibition-newsletter__icon" aria-hidden="true"></i>
           <div class="tna-exhibition-newsletter__body">
-            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Get exclusive content</a></h3>
-            <p>Looking for more? Sign up to our exhibition mailing list to receive exclusive features and updates.</p>
+            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Spy on us</a></h3>
+            <p>Join The National Archives mailing list for exhibition updates and early booking for events, including talks and tours.</p>
           </div>
         </div>
       </aside>
