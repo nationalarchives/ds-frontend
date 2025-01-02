@@ -93,7 +93,7 @@
             'title': blog_posts[0].title,
             'headingLevel': 2,
             'headingSize': 'l',
-            'href': blog_posts[0].full_url,
+            'href': blog_posts[0].url,
             'label': 'New' if blog_posts[0].is_newly_published,
             'labelColour': 'green',
             'meta': [
@@ -148,7 +148,7 @@
                   'title': blog_post.title,
                   'headingLevel': 3,
                   'headingSize': 's',
-                  'href': blog_post.full_url,
+                  'href': blog_post.url,
                   'body': blog_post.teaser_text,
                   'label': 'New' if blog_post.is_newly_published,
                   'labelColour': 'green',
@@ -197,7 +197,7 @@
         {% for blog in blogs %}
           {% set blogs_list = blogs_list.append({
             'label': blog.title,
-            'href': blog.full_url,
+            'href': blog.url,
             'title': blog.title,
             'selected': request.path == blog.url
           }) %}
@@ -224,7 +224,7 @@
         {% for category in categories %}
           {% set categories_list = categories_list.append({
             'label': category.title,
-            'href': category.full_url,
+            'href': category.url,
             'selected': request.path == category.url
           }) %}
         {% endfor %}

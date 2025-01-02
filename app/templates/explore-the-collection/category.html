@@ -76,7 +76,6 @@
   }) }}
 </section>
 
-
 {%- if page_data.related_articles | length %}
 <section class="tna-section tna-!--padding-bottom-s">
   <div class="tna-container">
@@ -119,7 +118,7 @@
         'title': page.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': page.full_url,
+        'href': page.url,
         'body': page.teaser_text,
         'label': 'New' if page.is_newly_published,
         'labelColour': 'green',
