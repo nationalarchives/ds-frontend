@@ -114,6 +114,7 @@
           {%- endif %}
         </dl>
         {{ page_data.about | tna_html | safe }}
+        {%- if page_data.record %}
         <div class="tna-button-group tna-button-group--full">
           {{ tnaButton({
             'text': 'View record details',
@@ -142,6 +143,7 @@
           }) }}
           {%- endif %}
         </div>
+        {%- endif %}
       </div>
     </div>
   </section>
