@@ -192,6 +192,9 @@ def create_app(config_class):
                 "LOGO_ADORNMENTS_CSS": app.config.get(
                     "FEATURE_LOGO_ADORNMENTS_CSS"
                 ),
+                "LOGO_ADORNMENTS_JS": app.config.get(
+                    "FEATURE_LOGO_ADORNMENTS_JS"
+                ),
             },
         )
 

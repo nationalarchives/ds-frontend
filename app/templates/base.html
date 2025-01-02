@@ -287,4 +287,7 @@
 {%- endif %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {% if feature.LOGO_ADORNMENTS_JS %}
+    <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_no_time() }}" defer></script>
+    {% endif %}
 {% endblock %}
