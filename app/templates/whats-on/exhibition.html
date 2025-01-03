@@ -90,8 +90,8 @@
       }] %}
       {% if page_data.exhibition_highlights or page_data.video %}
         {% set sidebar_items = sidebar_items + [{
-          'text': 'Exhibition highlights',
-          'href': '#exhibition-highlights'
+          'text': 'In pictures',
+          'href': '#in-pictures'
         }] %}
       {% endif %}
       {% if page_data.plan_your_visit %}
@@ -274,7 +274,7 @@
 <section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="exhibition-highlights" class="tna-heading-l tna-!--padding-top-s">Exhibition highlights</h2>
+      <h2 id="in-pictures" class="tna-heading-l tna-!--padding-top-s">In pictures</h2>
       {% set gallery_images = [] %}
       {% for image in exhibition_highlights.value.images %}
         {% set gallery_images = gallery_images.append({
@@ -378,14 +378,13 @@
 <section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="events-and-activities" class="tna-heading-l tna-!--padding-top-s">Events and activities</h2>
-      <h3 class="tna-heading-m">{{ page_data.event_title }}</h3>
+      <h2 id="events-and-activities" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_title }}</h2>
     </div>
     {% for event in event_links.value %}
     <div class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-l">
       {% set card_content = {
         'title': event.title,
-        'headingLevel': 4,
+        'headingLevel': 3,
         'headingSize': 's',
         'href': event.url,
         'text': event.description,
@@ -417,12 +416,12 @@
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h3 class="tna-heading-m">{{ page_data.related_pages_title }}</h3>
+      <h2 class="tna-heading-l">{{ page_data.related_pages_title }}</h2>
       {%- if page_data.featured_page %}
       {% set card_content = {
         'supertitle': page_data.featured_page.type_label,
         'title': page_data.featured_page.title,
-        'headingLevel': 4,
+        'headingLevel': 3,
         'headingSize': 'l',
         'href': page_data.featured_page.url,
         'body': page_data.featured_page.teaser_text,
@@ -456,7 +455,7 @@
       {% if page.type == 'featured_page' %}
         {% set card_content = {
           'title': page.value.page.title,
-          'headingLevel': 4,
+          'headingLevel': 3,
           'headingSize': 's',
           'href': page.value.page.url,
           'body': page.value.page.teaser_text,
@@ -548,7 +547,7 @@
   {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + shop.value.background_image.copyright + '</p>' %}
 {%- endif %}
 {{ tnaHero({
-  'headingLevel': 3,
+  'headingLevel': 2,
   'headingSize': 'l',
   'title': shop.value.title,
   'text': shop.value.description,
