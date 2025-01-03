@@ -90,8 +90,8 @@
       }] %}
       {% if page_data.exhibition_highlights or page_data.video %}
         {% set sidebar_items = sidebar_items + [{
-          'text': 'In pictures',
-          'href': '#in-pictures'
+          'text': 'Exhibition highlights',
+          'href': '#exhibition-highlights'
         }] %}
       {% endif %}
       {% if page_data.plan_your_visit %}
@@ -274,7 +274,7 @@
 <section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="in-pictures" class="tna-heading-l tna-!--padding-top-s">In pictures</h2>
+      <h2 id="exhibition-highlights" class="tna-heading-l tna-!--padding-top-s">Exhibition highlights</h2>
       {% set gallery_images = [] %}
       {% for image in exhibition_highlights.value.images %}
         {% set gallery_images = gallery_images.append({
