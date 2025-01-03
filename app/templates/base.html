@@ -12,7 +12,7 @@
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
-  'data-tnacookiesdomain': app_config.COOKIE_DOMAIN or ''
+  'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
 
 {% block headIcons %}
@@ -287,7 +287,7 @@
 {%- endif %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-    {% if feature.LOGO_ADORNMENTS_JS %}
+{%- if feature.LOGO_ADORNMENTS_JS %}
     <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_no_time() }}" defer></script>
-    {% endif %}
+{%- endif %}
 {% endblock %}
