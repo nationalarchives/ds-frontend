@@ -430,7 +430,7 @@
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l" id="{{ page_data.related_pages_title | slugify }}">{{ page_data.related_pages_title }}</h2>
+      <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ page_data.related_pages_title | slugify }}">{{ page_data.related_pages_title }}</h2>
       {%- if page_data.featured_page %}
       {% set card_content = {
         'supertitle': page_data.featured_page.type_label,
