@@ -9,6 +9,8 @@
 {%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
+{# TODO: Remove once more pages can support dark mode #}
+{%- set theme = 'light' -%}
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
@@ -143,8 +145,9 @@
 {% endblock %}
 
 {% block footer %}
+{# TODO: Allow themeSelector once more pages can support dark mode #}
 {{ tnaFooter({
-  'themeSelector': True,
+  'themeSelector': False,
   'currentTheme': theme,
   'social': [
     {
