@@ -12,7 +12,7 @@
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
-  'data-tnacookiesdomain': app_config.COOKIE_DOMAIN or ''
+  'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
 
 {% block headIcons %}
@@ -40,6 +40,7 @@
     <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
     <meta name="tna.page.route" content="{{ request.url_rule }}">
+    <meta name="tna.page.accent" content="{{ themeAccent }}">
     {% for feature in get_all_flags() %}
     <meta name="tna.feature.{{ feature.feature_name }}" content="{{ feature.value or feature.enabled }}">
     {% endfor %}
@@ -80,7 +81,7 @@
 {%- if is_feature_enabled('phase_banner') %}
 {{ tnaPhaseBanner({
   'phase': 'Beta',
-  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
+  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?source=" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
 }) | indent(6) }}
 {%- endif %}
@@ -289,4 +290,7 @@
 {%- endif %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{%- if feature.LOGO_ADORNMENTS_JS %}
+    <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_no_time() }}" defer></script>
+{%- endif %}
 {% endblock %}

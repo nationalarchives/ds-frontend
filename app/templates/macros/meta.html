@@ -80,11 +80,11 @@
 
 {% if page_data.meta and page_data.meta.type %}
     <meta name="tna.page.wagtail.type" content="{{ page_data.meta.type }}">
-    <meta name="page_type" content="{{ page_data.meta.type.split('.')[1] }}">
+    <meta name="tna_root:page_type" content="{{ page_data.meta.type }}">
 {%- endif %}
 
 {% if page_data.tags and page_data.tags | length %}
     <meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
-    <meta name="taxonom_tags" content="{{ page_data.tags | join('; ') }}">
+    <meta name="tna_root:taxonom_tags" content="{{ page_data.tags | join('; ') }}">
 {%- endif %}
 {% endmacro %}

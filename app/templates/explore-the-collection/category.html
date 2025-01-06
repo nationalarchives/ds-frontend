@@ -54,16 +54,16 @@
 <section class="tna-section">
   {% set children = [] %}
   {%- for child in page_data.related_highlight_gallery_pages %}
-  {% set children = children.append({
-    'id': child.id,
-    'title': child.title,
-    'subtitle': (child.highlight_image_count | string) + ' images',
-    'href': child.url,
-    'src': child.teaser_image.jpeg.full_url,
-    'alt': child.teaser_image.alt_text or '',
-    'width': child.teaser_image.jpeg.width,
-    'height': child.teaser_image.jpeg.height
-  }) %}
+    {% set children = children.append({
+      'id': child.id,
+      'title': child.title,
+      'subtitle': (child.highlight_image_count | string) + ' images',
+      'href': child.url,
+      'src': child.teaser_image.jpeg.full_url,
+      'alt': child.teaser_image.alt_text or '',
+      'width': child.teaser_image.jpeg.width,
+      'height': child.teaser_image.jpeg.height
+    }) %}
   {%- endfor %}
   {{ tnaIndexGrid({
     'title': page_data.title + ' highlights in pictures',
@@ -75,7 +75,6 @@
     'columnsTiny': 1
   }) }}
 </section>
-
 
 {%- if page_data.related_articles | length %}
 <section class="tna-section tna-!--padding-bottom-s">
@@ -119,7 +118,7 @@
         'title': page.title,
         'headingLevel': 3,
         'headingSize': 's',
-        'href': page.full_url,
+        'href': page.url,
         'body': page.teaser_text,
         'label': 'New' if page.is_newly_published,
         'labelColour': 'green',
