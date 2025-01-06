@@ -286,7 +286,7 @@
 
 {% block bodyEnd %}
 {%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
-    <script src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
+    <script src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT_NAME }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
 {%- endif %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>

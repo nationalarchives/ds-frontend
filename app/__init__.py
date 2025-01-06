@@ -38,7 +38,7 @@ def create_app(config_class):
     if app.config.get("SENTRY_DSN"):
         sentry_sdk.init(
             dsn=app.config.get("SENTRY_DSN"),
-            environment=app.config.get("ENVIRONMENT"),
+            environment=app.config.get("ENVIRONMENT_NAME"),
             release=(
                 f"ds-frontend@{app.config.get('BUILD_VERSION')}"
                 if app.config.get("BUILD_VERSION")
@@ -179,7 +179,7 @@ def create_app(config_class):
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
             app_config={
-                "ENVIRONMENT": app.config.get("ENVIRONMENT"),
+                "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),
                 "BUILD_VERSION": app.config.get("BUILD_VERSION"),
                 "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
