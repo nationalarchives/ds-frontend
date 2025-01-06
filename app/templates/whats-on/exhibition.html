@@ -84,33 +84,46 @@
   }) }}
   <div class="tna-container tna-!--padding-vertical-m">
     <div class="tna-column tna-column--full">
-      {% set sidebar_items = [{
+      {% set ns = namespace(sidebar_items=[]) %}
+      {% set ns.sidebar_items = [{
         'text': 'About ' + page_data.title,
         'href': '#about'
       }] %}
       {% if page_data.exhibition_highlights or page_data.video %}
-        {% set sidebar_items = sidebar_items + [{
+        {% set ns.sidebar_items = ns.sidebar_items + [{
           'text': 'Exhibition highlights',
           'href': '#exhibition-highlights'
         }] %}
       {% endif %}
       {% if page_data.plan_your_visit %}
-        {% set sidebar_items = sidebar_items + [{
+        {% set ns.sidebar_items = ns.sidebar_items + [{
           'text': 'Plan your visit',
           'href': '#plan-your-visit'
         }] %}
       {% endif %}
-      {% if page_data.event_links %}
-        {% set sidebar_items = sidebar_items + [{
-          'text': 'Events and activities',
-          'href': '#events-and-activities'
+      {% for event_links in page_data.event_links %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.event_title,
+          'href': '#' + (page_data.event_title | slugify)
+        }] %}
+      {% endfor %}
+      {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.related_pages_title,
+          'href': '#' + (page_data.related_pages_title | slugify)
         }] %}
       {% endif %}
+      {% for shop in page_data.shop %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': shop.value.title,
+          'href': '#shop-' + shop.id
+        }] %}
+      {% endfor %}
       {{ tnaSidebar({
         'title': 'On this page',
         'headingLevel': 2,
         'headingSize': 's',
-        'items': sidebar_items,
+        'items': ns.sidebar_items,
         'type': 'contents'
       }) }}
     </div>
@@ -378,7 +391,7 @@
 <section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="events-and-activities" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_title }}</h2>
+      <h2 id="{{ page_data.event_title | slugify }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_title }}</h2>
     </div>
     {% for event in event_links.value %}
     <div class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-l">
@@ -413,10 +426,11 @@
   </div>
 </section>
 {%- endfor %}
+{%- if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-l">{{ page_data.related_pages_title }}</h2>
+      <h2 class="tna-heading-l" id="{{ page_data.related_pages_title | slugify }}">{{ page_data.related_pages_title }}</h2>
       {%- if page_data.featured_page %}
       {% set card_content = {
         'supertitle': page_data.featured_page.type_label,
@@ -541,38 +555,42 @@
     </div>
   </div>
 </section>
-{% for shop in page_data.shop %}
-{% set shop_hero_image_caption = '' %}
-{%- if shop.value.background_image.copyright %}
-  {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + shop.value.background_image.copyright + '</p>' %}
 {%- endif %}
-{{ tnaHero({
-  'headingLevel': 2,
-  'headingSize': 'l',
-  'title': shop.value.title,
-  'text': shop.value.description,
-  'imageSrc': shop.value.background_image.jpeg.full_url,
-  'imageAlt': '',
-  'imageWidth': shop.value.background_image.jpeg.width,
-  'imageHeight': shop.value.background_image.jpeg.height,
-  'imageCaption': shop_hero_image_caption,
-  'imageSources': [
-    {
-      'src': shop.value.background_image.webp.full_url,
-      'width': shop.value.background_image.webp.width,
-      'height': shop.value.background_image.webp.height,
-      'type': 'image/webp'
+{% for shop in page_data.shop %}
+  {% set shop_hero_image_caption = '' %}
+  {%- if shop.value.background_image.copyright %}
+    {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + shop.value.background_image.copyright + '</p>' %}
+  {%- endif %}
+  {{ tnaHero({
+    'headingLevel': 2,
+    'headingSize': 'l',
+    'title': shop.value.title,
+    'text': shop.value.description,
+    'imageSrc': shop.value.background_image.jpeg.full_url,
+    'imageAlt': '',
+    'imageWidth': shop.value.background_image.jpeg.width,
+    'imageHeight': shop.value.background_image.jpeg.height,
+    'imageCaption': shop_hero_image_caption,
+    'imageSources': [
+      {
+        'src': shop.value.background_image.webp.full_url,
+        'width': shop.value.background_image.webp.width,
+        'height': shop.value.background_image.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'actions': [
+      {
+        'text': shop.value.cta_text,
+        'href': shop.value.url
+      }
+    ],
+    'narrow': True,
+    'style': 'accent',
+    'attributes': {
+      'id': 'shop-' + shop.id
     }
-  ],
-  'actions': [
-    {
-      'text': shop.value.cta_text,
-      'href': shop.value.url
-    }
-  ],
-  'narrow': True,
-  'style': 'accent'
-}) }}
+  }) }}
 {% endfor %}
 {% endblock %}
 
