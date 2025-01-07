@@ -58,12 +58,16 @@ def set_cookies():
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
         domain=current_app.config.get("COOKIE_DOMAIN"),
         secure=True,
+        httponly=True,
+        samesite="Lax",
     )
     response.set_cookie(
         "cookie_preferences_set",
         "true",
         domain=current_app.config.get("COOKIE_DOMAIN"),
         secure=True,
+        httponly=True,
+        samesite="Lax",
     )
     if not usage:
         for cookie in request.cookies:
@@ -73,6 +77,8 @@ def set_cookies():
                     "",
                     expires=0,
                     secure=True,
+                    httponly=True,
+                    samesite="Lax",
                 )
     return response
 

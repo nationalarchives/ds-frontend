@@ -52,7 +52,6 @@ class Base(object):
     ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "100"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
-    # SESSION_COOKIE_DOMAIN: str | None = COOKIE_DOMAIN or None
 
     CSP_IMG_SRC: list[str] = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC: list[str] = os.environ.get(
