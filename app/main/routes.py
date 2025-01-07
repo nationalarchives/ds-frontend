@@ -72,14 +72,7 @@ def set_cookies():
     if not usage:
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
-                response.set_cookie(
-                    cookie,
-                    "",
-                    expires=0,
-                    secure=True,
-                    httponly=True,
-                    samesite="Lax",
-                )
+                response.delete_cookie(cookie)
     return response
 
 
