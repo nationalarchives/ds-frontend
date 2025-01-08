@@ -19,7 +19,7 @@
 {% block head %}
 {{ super() }}
 {{ meta(page_data) }}
-<meta name="tna_root:content_group" content="whats-on">
+    <meta name="tna_root:content_group" content="whats-on">
 {% endblock %}
 
 {% block stylesheets %}
@@ -38,10 +38,12 @@
   {% if page_data.subtitle %}
     {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
   {% endif %}
+  {#
   {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
   {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p></div>' %}
   {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + price + '</p></div>' %}
   {% set hero_intro = hero_intro + '</div>' %}
+  #}
 
   {% set hero_image_caption = page_data.hero_image_caption or '' %}
   {%- if page_data.hero_image.copyright %}
