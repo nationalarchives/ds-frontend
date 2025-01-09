@@ -5,12 +5,19 @@ from urllib.parse import urlparse
 from app.lib.cache import cache
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
-from flask import current_app, make_response, render_template, request, url_for
+from flask import (
+    current_app,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=3600)
-def sitemaps():
+def sitemap_index():
     sitemap_urls = [
         url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
     ]
@@ -34,6 +41,15 @@ def sitemaps():
     response = make_response(xml_sitemap_index)
     response.headers["Content-Type"] = "application/xml; charset=utf-8"
     return response
+
+
+@bp.route("/sitemaps/")
+@cache.cached(timeout=3600)
+def sitemaps():
+    return redirect(
+        url_for("sitemaps.sitemap_index"),
+        code=302,
+    )
 
 
 def static_uris():
