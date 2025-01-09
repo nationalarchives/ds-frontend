@@ -5,7 +5,7 @@ runs:
   steps:
     - uses: actions/setup-python@v5
       with:
-        python-version: 3.12
+        python-version: 3.13
     - uses: snok/install-poetry@v1
     - name: Install Poetry dependencies
       run: poetry install --no-interaction --no-root --with dev
