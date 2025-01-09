@@ -116,7 +116,7 @@
         'horizontalFlipped': True,
         'horizontalOnSmall': True,
         'style': 'tint' if not request.args.view or request.args.view == 'list' else '',
-        'classes': 'tna-card--full-height'
+        'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
       } %}
       {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{
