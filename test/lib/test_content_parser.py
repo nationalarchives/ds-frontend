@@ -34,9 +34,7 @@ class ContentParserTestCase(unittest.TestCase):
     def test_ordered_lists(self):
         source = "<ol><li>Alpha</li><li>Beta</li></ol>"
         result = lists_to_tna_lists(source)
-        self.assertEqual(
-            result, '<ol class="tna-ol"><li>Alpha</li><li>Beta</li></ol>'
-        )
+        self.assertEqual(result, '<ol class="tna-ol"><li>Alpha</li><li>Beta</li></ol>')
 
     def test_strip_wagtail_attributes(self):
         source = '<p data-block-key="11e5b">What might you find in The National Archives? Browse some of our most important and unusual records right here.</p>'

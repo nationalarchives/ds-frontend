@@ -42,9 +42,7 @@ def preview_protected_page(page_id):
             page_id,
             {
                 "password": (
-                    request.form["password"]
-                    if "password" in request.form
-                    else ""
+                    request.form["password"] if "password" in request.form else ""
                 )
             },
         )
@@ -55,9 +53,7 @@ def preview_protected_page(page_id):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page-not-found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -91,9 +87,7 @@ def preview_protected_page(page_id):
             )
         if "url" in page_data["meta"]:
             return redirect(
-                url_for(
-                    "wagtail.page", path=page_data["meta"]["url"].strip("/")
-                ),
+                url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
                 code=302,
             )
     return CachedResponse(
@@ -142,9 +136,7 @@ def index():
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page-not-found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -170,9 +162,7 @@ def page(path):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page-not-found.html"), 404),
             timeout=1,
         )
     except Exception as e:
@@ -182,17 +172,12 @@ def page(path):
             timeout=1,
         )
     if "meta" not in page_data:
-        current_app.logger.error(
-            f"Page meta information not included for path: {path}"
-        )
+        current_app.logger.error(f"Page meta information not included for path: {path}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    if (
-        "privacy" in page_data["meta"]
-        and page_data["meta"]["privacy"] == "password"
-    ):
+    if "privacy" in page_data["meta"] and page_data["meta"]["privacy"] == "password":
         return redirect(
             url_for("wagtail.preview_protected_page", page_id=page_data["id"])
         )

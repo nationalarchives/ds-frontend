@@ -123,9 +123,7 @@ def create_app(config_class):
             "geolocation": csp_none,
             "microphone": csp_none,
             "screen-wake-lock": csp_none,
-            "picture-in-picture": app.config.get(
-                "CSP_FEATURE_PICTURE_IN_PICTURE"
-            )
+            "picture-in-picture": app.config.get("CSP_FEATURE_PICTURE_IN_PICTURE")
             or csp_self,
         },
         force_https=app.config.get("FORCE_HTTPS"),
@@ -189,12 +187,8 @@ def create_app(config_class):
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
-                "LOGO_ADORNMENTS_CSS": app.config.get(
-                    "FEATURE_LOGO_ADORNMENTS_CSS"
-                ),
-                "LOGO_ADORNMENTS_JS": app.config.get(
-                    "FEATURE_LOGO_ADORNMENTS_JS"
-                ),
+                "LOGO_ADORNMENTS_CSS": app.config.get("FEATURE_LOGO_ADORNMENTS_CSS"),
+                "LOGO_ADORNMENTS_JS": app.config.get("FEATURE_LOGO_ADORNMENTS_JS"),
             },
         )
 

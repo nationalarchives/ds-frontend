@@ -18,9 +18,7 @@ from flask import (
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=3600)
 def sitemap_index():
-    sitemap_urls = [
-        url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
-    ]
+    sitemap_urls = [url_for("sitemaps.sitemap_static", _external=True, _scheme="https")]
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")

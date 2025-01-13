@@ -28,9 +28,7 @@ def set_cookies():
         "essential": True,
     }
     if "cookies_policy" in request.cookies:
-        current_cookies_policy = json.loads(
-            unquote(request.cookies["cookies_policy"])
-        )
+        current_cookies_policy = json.loads(unquote(request.cookies["cookies_policy"]))
     usage = (
         strtobool(request.form["usage"])
         if "usage" in request.form

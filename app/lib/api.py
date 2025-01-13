@@ -32,14 +32,10 @@ class JSONAPIClient:
                 },
             )
         except ConnectionError:
-            current_app.logger.error(
-                f"JSON API connection error for: {response.url}"
-            )
+            current_app.logger.error(f"JSON API connection error for: {response.url}")
             raise Exception("A connection error occured with the JSON API")
         if response.status_code == requests.codes.ok:
-            current_app.logger.debug(
-                f"JSON API endpoint requested: {response.url}"
-            )
+            current_app.logger.debug(f"JSON API endpoint requested: {response.url}")
             try:
                 return response.json()
             except requests.exceptions.JSONDecodeError:
