@@ -19,6 +19,9 @@
   {%- if details_page %}
   <p>For a full breakdown, see <a href="{{ details_page.url }}">our detailed cookie information</a>.</p>
   {%- endif %}
+  <h3 class="tna-heading-m tna-!--no-padding-top">Strictly necessary cookies</h3>
+  <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
+  <p>They always need to be on.</p>
   {{ tnaRadios({
     'label': 'Cookies that measure website use',
     'headingLevel': 3,
@@ -36,7 +39,8 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('usage') else 'false'
+    'selected': 'true' if cookie_preference('usage') else 'false',
+    'classes': 'tna-form__group--full-sized-hint'
   }) }}
   {{ tnaRadios({
     'label': 'Cookies that remember your settings',
@@ -55,7 +59,8 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('settings') else 'false'
+    'selected': 'true' if cookie_preference('settings') else 'false',
+    'classes': 'tna-form__group--full-sized-hint'
   }) }}
   {{ tnaRadios({
     'label': 'Cookies that are used for marketing',
@@ -74,11 +79,9 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('marketing') else 'false'
+    'selected': 'true' if cookie_preference('marketing') else 'false',
+    'classes': 'tna-form__group--full-sized-hint'
   }) }}
-  <h3 class="tna-heading-m tna-!--no-padding-top">Strictly necessary cookies</h3>
-  <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
-  <p>They always need to be on.</p>
   <input type="hidden" name="referrer" value="{{ page_data.meta.html_url }}">
   <div class="tna-button-group">
     {{ tnaButton({
