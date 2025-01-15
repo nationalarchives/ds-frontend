@@ -92,6 +92,16 @@
       }
     }
   }
+
+  @include colour.on-high-contrast-and-forced-colours {
+    &--icon-padding#{&}--plain {
+      dt {
+        .fa-solid {
+          margin-top: spacing.space(0.5);
+        }
+      }
+    }
+  }
 }
 
 sup[data-footnoteid] {
@@ -150,6 +160,10 @@ sup[data-footnoteid] {
 
   &--full-height {
     height: 100%;
+
+    @include colour.on-high-contrast-and-forced-colours {
+      height: auto;
+    }
   }
 
   // &--person {
