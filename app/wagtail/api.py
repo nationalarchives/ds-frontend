@@ -21,16 +21,12 @@ def breadcrumbs(page_id):
     try:
         ancestors = page_ancestors(page_id, params={"order": "depth"})
     except Exception:
-        current_app.logger.warning(
-            f"Failed to get ancestors for page {page_id}"
-        )
+        current_app.logger.warning(f"Failed to get ancestors for page {page_id}")
         return []
     return (
         [
             {
-                "text": (
-                    "Home" if ancestor["url"] == "/" else ancestor["title"]
-                ),
+                "text": ("Home" if ancestor["url"] == "/" else ancestor["title"]),
                 "href": (ancestor["url"]),
             }
             for ancestor in ancestors["items"]
@@ -262,13 +258,9 @@ def global_alerts():
         home_page_alerts = page_details_by_uri(
             "/", {"fields": "_,global_alert,mourning_notice"}
         )
-        global_alerts_data = {
-            "mourning_notice": home_page_alerts["mourning_notice"]
-        }
+        global_alerts_data = {"mourning_notice": home_page_alerts["mourning_notice"]}
         if objects.get(home_page_alerts, "global_alert.cascade"):
-            global_alerts_data["global_alert"] = home_page_alerts[
-                "global_alert"
-            ]
+            global_alerts_data["global_alert"] = home_page_alerts["global_alert"]
         return global_alerts_data
     except ApiResourceNotFound:
         current_app.logger.warn(
@@ -281,9 +273,7 @@ def global_alerts():
         )
         return None
     except Exception:
-        current_app.logger.warn(
-            "Global alerts could not be retrieved (Exception)"
-        )
+        current_app.logger.warn("Global alerts could not be retrieved (Exception)")
         return None
 
 

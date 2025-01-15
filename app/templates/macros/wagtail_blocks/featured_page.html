@@ -6,7 +6,7 @@
     'title': block_value.page.title,
     'headingLevel': itemHeadingLevel,
     'headingSize': 's',
-    'href': block_value.page.full_url,
+    'href': block_value.page.url,
     'label': 'New' if block_value.page.is_newly_published,
     'labelColour': 'green',
     'body': block_value.page.teaser_text | tna_html | safe,

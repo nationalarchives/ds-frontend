@@ -11,6 +11,7 @@ from app.lib.context_processor import (
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
+    currency,
     get_url_domain,
     headings_list,
     parse_json,
@@ -38,7 +39,7 @@ def create_app(config_class):
     if app.config.get("SENTRY_DSN"):
         sentry_sdk.init(
             dsn=app.config.get("SENTRY_DSN"),
-            environment=app.config.get("ENVIRONMENT"),
+            environment=app.config.get("ENVIRONMENT_NAME"),
             release=(
                 f"ds-frontend@{app.config.get('BUILD_VERSION')}"
                 if app.config.get("BUILD_VERSION")
@@ -123,9 +124,7 @@ def create_app(config_class):
             "geolocation": csp_none,
             "microphone": csp_none,
             "screen-wake-lock": csp_none,
-            "picture-in-picture": app.config.get(
-                "CSP_FEATURE_PICTURE_IN_PICTURE"
-            )
+            "picture-in-picture": app.config.get("CSP_FEATURE_PICTURE_IN_PICTURE")
             or csp_self,
         },
         force_https=app.config.get("FORCE_HTTPS"),
@@ -154,6 +153,7 @@ def create_app(config_class):
         ]
     )
 
+    app.add_template_filter(currency)
     app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
@@ -179,7 +179,7 @@ def create_app(config_class):
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
             app_config={
-                "ENVIRONMENT": app.config.get("ENVIRONMENT"),
+                "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),
                 "BUILD_VERSION": app.config.get("BUILD_VERSION"),
                 "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
@@ -189,9 +189,8 @@ def create_app(config_class):
             },
             feature={
                 "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
-                "LOGO_ADORNMENTS_CSS": app.config.get(
-                    "FEATURE_LOGO_ADORNMENTS_CSS"
-                ),
+                "LOGO_ADORNMENTS_CSS": app.config.get("FEATURE_LOGO_ADORNMENTS_CSS"),
+                "LOGO_ADORNMENTS_JS": app.config.get("FEATURE_LOGO_ADORNMENTS_JS"),
             },
         )
 

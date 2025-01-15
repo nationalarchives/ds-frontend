@@ -17,3 +17,4 @@ from .hub_page import hub_page
 from .people_index_page import people_index_page
 from .person_page import person_page
 from .record_article_page import record_article_page
+from .whats_on_page import whats_on_page

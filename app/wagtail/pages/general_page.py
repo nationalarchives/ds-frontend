@@ -14,9 +14,7 @@ def general_page(page_data):
                 page_data["meta"]["parent"]["id"], limit=50
             )
             page_siblings = (
-                page_sibling_items["items"]
-                if "items" in page_sibling_items
-                else []
+                page_sibling_items["items"] if "items" in page_sibling_items else []
             )
         except ConnectionError:
             current_app.logger.error(

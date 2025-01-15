@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/compound-filters/macro.html' import tnaCompoundFilters -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
@@ -8,18 +9,21 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'explore-the-collection/partials/discovery-search.html' import discoverySearch -%}
 
-{%- set themeAccent = 'black' if global_alert.mourning_notice else 'yellow' -%}
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
 
 {%- set pageTitle = 'Search the website' -%}
 
-{% block skipLink %}
+{% block stylesheets %}
 {{ super() }}
-{% if q %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='search-site.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock %}
+
+{% block skipLink %}
 {{ tnaSkipLink({
   'href': 'results',
   'text': 'Skip to list of results'
 }) }}
-{% endif %}
+{{ super() }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -31,7 +35,7 @@
 {% block content %}
 <div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
   <div class="tna-container">
-    <form class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('site_search.index') }}">
+    <form id="search-site" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('site_search.index') }}" role="search">
       {{ tnaSearchField({
         'label': 'Search The National Archives website',
         'headingLevel': 1,
@@ -55,6 +59,35 @@
       }) }} -->
       {% endif %}
     </form>
+    <!-- <div class="tna-column tna-column--full">
+      <h2 class="tna-visually-hidden">Change results view</h2>
+      <div class="tna-button-group tna-button-group--small tna-button-group--horizontal-on-tiny">
+        {{ tnaButton({
+          'text': 'List view' + (' (current)' if not request.args.view or request.args.view == 'list' else ''),
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'icon': 'list',
+          'accent': not request.args.view or request.args.view == 'list',
+          'attributes': {
+            'name': 'view',
+            'value': 'list',
+            'form': 'search-site'
+          }
+        }) }}
+        {{ tnaButton({
+          'text': 'Grid view' + (' (current)' if request.args.view == 'grid' else ''),
+          'buttonElement': True,
+          'buttonType': 'submit',
+          'icon': 'grip',
+          'accent': request.args.view == 'grid',
+          'attributes': {
+            'name': 'view',
+            'value': 'grid',
+            'form': 'search-site'
+          }
+        }) }}
+      </div>
+    </div> -->
   </div>
 </div>
 {% if total_results %}
@@ -66,18 +99,24 @@
     </div>
   </div>
   {% endif %}
+  <h2 class="tna-visually-hidden">Results</h2>
   <ul class="tna-container">
     {% for item in results['items'] %}
-    <li class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l">
+    <li class="tna-column {{ 'tna-column--width-3-4 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-s' if not request.args.view or request.args.view == 'list' else 'tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l' }}">
       {% set card_content = {
         'supertitle': item.type_label,
-        'headingLevel': 2,
+        'headingLevel': 3,
         'headingSize': 's',
         'title': item.title,
-        'href': item.full_url,
+        'href': item.url,
         'text': item.teaser_text,
         'fullAreaClick': True,
-        'classes': 'tna-card--full-height'
+        'horizontal': not request.args.view or request.args.view == 'list',
+        'horizontalSmallImage': True,
+        'horizontalFlipped': True,
+        'horizontalOnSmall': True,
+        'style': 'tint' if not request.args.view or request.args.view == 'list' else '',
+        'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
       } %}
       {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{

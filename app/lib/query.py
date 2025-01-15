@@ -22,8 +22,6 @@ def remove_arg(args, key_to_remove, value_to_remove=None, return_dict=False):
             del args_dict[key_to_remove]
         else:
             args_dict[key_to_remove] = [
-                value
-                for value in args_dict[key_to_remove]
-                if value != value_to_remove
+                value for value in args_dict[key_to_remove] if value != value_to_remove
             ]
     return args_dict if return_dict else f"?{urlencode(args_dict, doseq=True)}"

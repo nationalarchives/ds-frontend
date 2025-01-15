@@ -21,6 +21,7 @@ from .pages import (
     people_index_page,
     person_page,
     record_article_page,
+    whats_on_page,
 )
 
 page_type_templates = {
@@ -51,6 +52,7 @@ page_type_templates = {
     "blog.BlogPage": blog_page,
     "blog.BlogPostPage": blog_post_page,
     # What's on
+    "whatson.WhatsOnPage": whats_on_page,
     "whatson.ExhibitionPage": exhibition_page,
 }
 

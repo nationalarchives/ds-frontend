@@ -1,4 +1,5 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 @use "@nationalarchives/frontend/nationalarchives/components/forms";
 
@@ -7,5 +8,14 @@
 
   &[tabindex="0"]:focus {
     @include a11y.focus-outline;
+  }
+}
+
+.tna-form__group {
+  &--full-sized-hint {
+    .tna-form__hint {
+      color: inherit;
+      font-size: inherit;
+    }
   }
 }

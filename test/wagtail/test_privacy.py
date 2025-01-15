@@ -106,7 +106,9 @@ class WagtailPrivacyTestCase(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_private_page_password_page_post_correct_password(self, m):
-        mock_endpoint = f"{self.mock_api_url}/pages/352/?password=correctpassword&format=json"
+        mock_endpoint = (
+            f"{self.mock_api_url}/pages/352/?password=correctpassword&format=json"
+        )
         mock_respsone = {
             "id": 352,
             "meta": {"type": "articles.ArticlePage", "privacy": "password"},

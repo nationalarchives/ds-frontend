@@ -12,9 +12,7 @@ Align paths to routes in https://github.com/nationalarchives/ds-search
 """
 
 
-message = (
-    "Replaced with the contents of ds-search in dev, staging and production"
-)
+message = "Replaced with the contents of ds-search in dev, staging and production"
 
 
 @bp.route("/")

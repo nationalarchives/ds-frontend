@@ -32,9 +32,7 @@ def blog_page(page_data, year=None, month=None, day=None):
         if request.args.get("month") and request.args.get("month").isnumeric()
         else None
     )
-    month_name = (
-        datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
-    )
+    month_name = datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
     day = day or (
         int(request.args.get("day"))
         if request.args.get("day") and request.args.get("day").isnumeric()
@@ -91,17 +89,15 @@ def blog_page(page_data, year=None, month=None, day=None):
                     else f"year={year_count['year']}"
                 ),
                 "title": f"Blog posts from {year_count['year']}",
-                "selected": qs_active(
-                    existing_qs_as_dict, "year", year_count["year"]
-                )
+                "selected": qs_active(existing_qs_as_dict, "year", year_count["year"])
                 and not month,
             }
         )
         if year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
-                each_month_name = datetime.date(
-                    year, month_count["month"], 1
-                ).strftime("%B")
+                each_month_name = datetime.date(year, month_count["month"], 1).strftime(
+                    "%B"
+                )
                 date_filters.append(
                     {
                         "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",

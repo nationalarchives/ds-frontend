@@ -1,57 +1,68 @@
 import videojs from "video.js";
 // import "videojs-youtube";
-import "./lib/videojs-youtube-modified";
+import { initYoutubeEmbedApi } from "./lib/videojs-youtube-modified";
 
 const cookies = window.TNAFrontendCookies;
 
 let videoJsInstances = {};
 
-if (cookies.isPolicyAccepted("marketing")) {
-  document
-    .querySelectorAll(
-      '.etna-video--youtube[id][href^="https://www.youtube.com/watch?v="]',
-    )
-    .forEach(($video) => {
-      const id = $video.getAttribute("id");
-      const $nextButtonGroup = $video.nextElementSibling;
-      if ($nextButtonGroup.classList.contains("tna-button-group")) {
-        $nextButtonGroup.removeAttribute("hidden");
-      }
-      const $newVideo = document.createElement("video");
-      $newVideo.classList.add(
-        "etna-video",
-        "etna-video--youtube",
-        "video-js",
-        "vjs-16-9",
-      );
-      $newVideo.setAttribute("controls", true);
-      $newVideo.setAttribute("id", id);
-      $video.replaceWith($newVideo);
-      const video = videojs($newVideo, {
-        techOrder: ["youtube"],
-        sources: [
-          {
-            type: "video/youtube",
-            src: $video.getAttribute("href"),
-          },
-        ],
-        experimentalSvgIcons: true,
-        disablePictureInPicture: true,
-        enableDocumentPictureInPicture: false,
-        controlBar: {
-          pictureInPictureToggle: false,
-          volumePanel: false,
+const initYoutubeVideos = () => {
+  document.querySelectorAll("a.etna-video--youtube[id]").forEach(($video) => {
+    const id = $video.getAttribute("id");
+    const $nextButtonGroup = $video.nextElementSibling;
+    if ($nextButtonGroup.classList.contains("tna-button-group")) {
+      $nextButtonGroup.removeAttribute("hidden");
+    }
+    const $newVideo = document.createElement("video");
+    $newVideo.classList.add(
+      "etna-video",
+      "etna-video--youtube",
+      "video-js",
+      "vjs-16-9",
+    );
+    $newVideo.setAttribute("controls", true);
+    $newVideo.setAttribute("id", id);
+    const poster =
+      $video
+        .querySelector("img.etna-video__preview-image[src]")
+        ?.getAttribute("src") || null;
+    $video.replaceWith($newVideo);
+    const video = videojs($newVideo, {
+      techOrder: ["youtube"],
+      sources: [
+        {
+          type: "video/youtube",
+          src: $video.getAttribute("href"),
         },
-        youtube: {
-          ytControls: 0,
-          color: "white",
-          enablePrivacyEnhancedMode: true,
-          iv_load_policy: 3,
-          rel: 0,
-        },
-      });
-      videoJsInstances[id] = video;
+      ],
+      experimentalSvgIcons: true,
+      disablePictureInPicture: true,
+      enableDocumentPictureInPicture: false,
+      controlBar: {
+        pictureInPictureToggle: false,
+        volumePanel: false,
+      },
+      poster,
+      youtube: {
+        ytControls: 0,
+        color: "white",
+        enablePrivacyEnhancedMode: true,
+        iv_load_policy: 3,
+        rel: 0,
+      },
     });
+    videoJsInstances[id] = video;
+  });
+};
+
+if (cookies.isPolicyAccepted("marketing")) {
+  initYoutubeEmbedApi(initYoutubeVideos);
+} else {
+  cookies.once("changePolicy", (policies) => {
+    if (policies["marketing"]) {
+      initYoutubeEmbedApi(initYoutubeVideos);
+    }
+  });
 }
 
 document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
