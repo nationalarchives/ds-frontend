@@ -41,11 +41,11 @@
       {%- endfor %}
       {%- endif -%}
       <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}">
-      <meta itemprop="url" content="{{ params.imageSrc }}">
-      <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
-      <meta itemprop="width" content="{{ params.imageWidth }}">
-      <meta itemprop="height" content="{{ params.imageHeight }}">
     </picture>
+    <meta itemprop="url" content="{{ params.imageSrc }}">
+    <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
+    <meta itemprop="width" content="{{ params.imageWidth }}">
+    <meta itemprop="height" content="{{ params.imageHeight }}">
     {%- if hasContent -%}
     <div class="tna-container tna-hero__inner">
       <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-hero__content">
