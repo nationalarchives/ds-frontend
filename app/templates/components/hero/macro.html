@@ -22,26 +22,6 @@
 {% set hasContent = params.title or params.body or params.text %}
 <{{ 'header' if hasContent else 'div' }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %}>
   <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-    {%- if params.imageCaption -%}
-    <figcaption class="tna-hero__caption">
-      <details class="tna-hero__details">
-        <summary class="tna-hero__details-summary" title="About this image">
-          About this <span class="tna-hero__details-summary-icon">i</span>mage
-        </summary>
-        <div class="tna-hero__information" itemprop="description">
-          {{ params.imageCaption | safe }}
-        </div>
-      </details>
-    </figcaption>
-    {%- endif -%}
-    <picture class="tna-hero__image">
-      {%- if params.imageSources -%}
-      {%- for source in params.imageSources %}
-      <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else params.imageWidth }}" height="{{ source.height if source.height else params.imageHeight }}"{% if source.media %} media="{{ source.media }}"{% endif %}>
-      {%- endfor %}
-      {%- endif -%}
-      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}">
-    </picture>
     <meta itemprop="url" content="{{ params.imageSrc }}">
     <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
     <meta itemprop="width" content="{{ params.imageWidth }}">
@@ -88,6 +68,27 @@
       </div>
     </div>
     {%- endif -%}
+    <picture class="tna-hero__image">
+      {%- if params.imageSources -%}
+      {%- for source in params.imageSources %}
+      <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else params.imageWidth }}" height="{{ source.height if source.height else params.imageHeight }}"{% if source.media %} media="{{ source.media }}"{% endif %}>
+      {%- endfor %}
+      {%- endif -%}
+      <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}">
+    </picture>
+    {%- if params.imageCaption -%}
+    <figcaption class="tna-hero__caption">
+      <details class="tna-hero__details">
+        <summary class="tna-hero__details-summary" title="About this image">
+          About this <span class="tna-hero__details-summary-icon">i</span>mage
+        </summary>
+        <div class="tna-hero__information" itemprop="description">
+          {{ params.imageCaption | safe }}
+        </div>
+      </details>
+    </figcaption>
+    {%- endif -%}
+  
   </figure>
 </{{ 'header' if hasContent else 'div' }}>
 {% endmacro %}
