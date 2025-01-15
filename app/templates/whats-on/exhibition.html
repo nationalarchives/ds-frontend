@@ -6,6 +6,7 @@
 {%- from 'components/gallery/macro.html' import tnaGallery -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
@@ -595,6 +596,7 @@
     }
   }) }}
 {% endfor %}
+{{ feedback() }}
 {% endblock %}
 
 {% block bodyEnd %}
