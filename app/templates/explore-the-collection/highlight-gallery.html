@@ -82,49 +82,47 @@
   </section>
 
   {%- if page_data.featured_article %}
-  <aside>
-    <section class="tna-section">
-      <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          <h2 class="tna-heading-l">Featured article</h2>
-        </div>
-        <div class="tna-column tna-column--full">
-          {% set card_content = {
-            'supertitle': page_data.featured_article.type_label,
-            'title': page_data.featured_article.title,
-            'headingLevel': 3,
-            'headingSize': 'l',
-            'href': page_data.featured_article.url,
-            'text': page_data.featured_article.teaser_text,
-            'label': 'New' if page_data.featured_article.is_newly_published,
-            'labelColour': 'green',
-            'horizontal': True,
-            'style': 'accent',
-            'fullAreaClick': True,
-            'classes': 'tna-!--margin-top-m'
-          } %}
-          {%- if page_data.featured_article.teaser_image %}
-            {% set card_content = dict(card_content, **{
-              'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
-              'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
-              'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
-              'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
-              'imageSources': [
-                {
-                  'src': page_data.featured_article.teaser_image.webp.full_url,
-                  'type': 'image/webp',
-                  'width': page_data.featured_article.teaser_image.webp.width,
-                  'height': page_data.featured_article.teaser_image.webp.height
-                }
-              ],
-              'lazyImage': True
-            }) %}
-          {%- endif %}
-          {{ tnaCard(card_content) }}
-        </div>
+  <section class="tna-section">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <h2 class="tna-heading-l">Featured article</h2>
       </div>
-    </section>
-  </aside>
+      <div class="tna-column tna-column--full">
+        {% set card_content = {
+          'supertitle': page_data.featured_article.type_label,
+          'title': page_data.featured_article.title,
+          'headingLevel': 3,
+          'headingSize': 'l',
+          'href': page_data.featured_article.url,
+          'text': page_data.featured_article.teaser_text,
+          'label': 'New' if page_data.featured_article.is_newly_published,
+          'labelColour': 'green',
+          'horizontal': True,
+          'style': 'accent',
+          'fullAreaClick': True,
+          'classes': 'tna-!--margin-top-m'
+        } %}
+        {%- if page_data.featured_article.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
+            'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+            'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
+            'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page_data.featured_article.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': page_data.featured_article.teaser_image.webp.width,
+                'height': page_data.featured_article.teaser_image.webp.height
+              }
+            ],
+            'lazyImage': True
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      </div>
+    </div>
+  </section>
   {%- endif %}
   {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>

@@ -3,10 +3,10 @@
 
 {% macro articleFooter(similar_items, categories, latest_items) %}
 {%- if similar_items | length or categories | length or latest_items | length %}
-<aside class="tna-!--hide-on-print">
+<section class="tna-!--hide-on-print">
 {%- endif %}
   {%- if similar_items | length %}
-  <section class="tna-section tna-!--padding-bottom-s">
+  <div class="tna-section tna-!--padding-bottom-s">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l">You may also be interested in</h2>
@@ -48,11 +48,11 @@
       </li>
       {%- endfor %}
     </ul>
-  </section>
+  </div>
   {%- endif %}
 
   {%- if categories | length %}
-  <section class="tna-section">
+  <div class="tna-section">
     {{ tnaIndexGrid({
       'title': 'Discover highlights from the collection',
       'headingLevel': 2,
@@ -61,11 +61,11 @@
       'columns': 2,
       'columnsTiny': 1
     }) }}
-  </section>
+  </div>
   {%- endif %}
 
   {%- if latest_items | length %}
-  <section class="tna-section tna-!--padding-bottom-s">
+  <div class="tna-section tna-!--padding-bottom-s">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l">More stories</h2>
@@ -107,9 +107,9 @@
       </li>
       {%- endfor %}
     </ul>
-  </section>
+  </div>
   {%- endif %}
 {%- if similar_items | length or categories | length or latest_items | length %}
-</aside>
+</section>
 {%- endif %}
 {% endmacro %}
