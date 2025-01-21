@@ -307,7 +307,7 @@
         'headingLevel': 3,
         'text': exhibition_highlights.value.description,
         'items': gallery_images,
-        'id': exhibition_highlights.id
+        'id': 'gallery-' + exhibition_highlights.id
       }) }}
     </div>
   </div>
@@ -374,7 +374,8 @@
     <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
       {{ tnaAccordion({
         'itemHeadingLevel': 3,
-        'items': accordion_items
+        'items': accordion_items,
+        'id': 'plan-your-visit-details'
       }) }}
       <div class="tna-button-group">
         {{ tnaButton({
