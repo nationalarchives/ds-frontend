@@ -37,7 +37,7 @@ class Base(object):
 
     SENTRY_DSN: str = os.getenv("SENTRY_DSN", "")
     SENTRY_JS_ID: str = os.getenv("SENTRY_JS_ID", "")
-    SENTRY_SAMPLE_RATE: float = float(os.getenv("SENTRY_SAMPLE_RATE", "1.0"))
+    SENTRY_SAMPLE_RATE: float = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
@@ -72,7 +72,7 @@ class Base(object):
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
     CACHE_TYPE: str = "FileSystemCache"
-    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
+    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
 
@@ -82,13 +82,11 @@ class Base(object):
 
 
 class Production(Base, Features):
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
-
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
+    pass
 
 
 class Staging(Base, Features):
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.25"))
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
@@ -96,7 +94,7 @@ class Staging(Base, Features):
 class Develop(Base, Features):
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
 
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
