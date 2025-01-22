@@ -1,8 +1,8 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{% macro authors_list(authors, horizontal, width_classes, external_authors) %}
+{% macro authors_list(authors, external_authors, horizontal, width_classes) %}
   <div class="etna-author-list{% if horizontal %} etna-author-list--horizontal{% endif %} tna-column{% if width_classes %} {{ width_classes }} {% else %} tna-column--full{% endif %}">
-    <h2 class="etna-author-list__heading{% if horizontal %} tna-heading-s{% else %} tna-heading-m{% endif %}">Author{{ 's' if authors | length > 1 or (authors and external_authors) or external_authors | length > 1 }}</h2>
+    <h2 class="etna-author-list__heading{% if horizontal %} tna-heading-s{% else %} tna-heading-m{% endif %}">Author{{ 's' if authors | length > 1 or external_authors | length > 1 or (authors and external_authors) }}</h2>
     <ul class="etna-author-list__items">
       {%- for author in authors %}
       <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
