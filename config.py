@@ -89,7 +89,7 @@ class Production(Base, Features):
 class Staging(Base, Features):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "10"))
 
 
 class Develop(Base, Features):
@@ -99,6 +99,8 @@ class Develop(Base, Features):
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
+
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
 class Test(Base, Features):
