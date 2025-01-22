@@ -44,9 +44,9 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CSP_FRAME_SRC`                  | A comma separated list of CSP rules for `frame-src`                         | `'self'`                                                    |
 | `CSP_FEATURE_FULLSCREEN`         | A comma separated list of rules for the `fullscreen` feature policy         | `'self'`                                                    |
 | `CSP_FEATURE_PICTURE_IN_PICTURE` | A comma separated list of rules for the `picture-in-picture` feature policy | `'self'`                                                    |
-| `FRAME_DOMAIN_ALLOW`             | A domain from which to allow frame embedding (used in CMS previews)         | _none_                                                      |
-| `FORCE_HTTPS`                    | Redirect requests to HTTPS as part of the CSP                               | _none_                                                      |
-| `PREFERRED_URL_SCHEME`           | Set the default protocol for generating links                               | production/staging: `https`, develop/test: `http`           |
+| `CSP_FRAME_DOMAIN_ALLOW`         | A domain from which to allow frame embedding (used in CMS previews)         | _none_                                                      |
+| `CSP_FORCE_HTTPS`                | Redirect requests to HTTPS as part of the CSP                               | _none_                                                      |
+| `PREFERRED_URL_SCHEME`           | https://flask.palletsprojects.com/en/stable/config/#PREFERRED_URL_SCHEME    | production/staging: `https`, develop/test: `http`           |
 | `CACHE_TYPE`                     | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching   | _none_                                                      |
 | `CACHE_DEFAULT_TIMEOUT`          | The number of seconds to cache pages for                                    | production: `300`, staging: `60`, develop: `0`, test: `0`   |
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                      |

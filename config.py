@@ -67,8 +67,8 @@ class Base(object):
     CSP_FEATURE_PICTURE_IN_PICTURE: list[str] = os.environ.get(
         "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
     ).split(",")
-    FRAME_DOMAIN_ALLOW: str = os.environ.get("FRAME_DOMAIN_ALLOW", "")
-    FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
+    CSP_FRAME_DOMAIN_ALLOW: str = os.environ.get("CSP_FRAME_DOMAIN_ALLOW", "")
+    CSP_FORCE_HTTPS: bool = strtobool(os.getenv("CSP_FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
     CACHE_TYPE: str = "FileSystemCache"
@@ -96,7 +96,7 @@ class Develop(Base, Features):
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
 
-    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
+    CSP_FORCE_HTTPS = strtobool(os.getenv("CSP_FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
 
 
@@ -115,7 +115,7 @@ class Test(Base, Features):
     CACHE_TYPE = "SimpleCache"
     CACHE_DEFAULT_TIMEOUT = 1
 
-    FORCE_HTTPS = False
+    CSP_FORCE_HTTPS = False
     PREFERRED_URL_SCHEME = "http"
 
     APPLY_REDIRECTS = False

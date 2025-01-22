@@ -126,9 +126,9 @@ def create_app(config_class):
             "picture-in-picture": app.config.get("CSP_FEATURE_PICTURE_IN_PICTURE")
             or csp_self,
         },
-        force_https=app.config.get("FORCE_HTTPS"),
+        force_https=app.config.get("CSP_FORCE_HTTPS"),
         frame_options="ALLOW-FROM",
-        frame_options_allow_from=app.config.get("FRAME_DOMAIN_ALLOW"),
+        frame_options_allow_from=app.config.get("CSP_FRAME_DOMAIN_ALLOW"),
     )
 
     @app.after_request
