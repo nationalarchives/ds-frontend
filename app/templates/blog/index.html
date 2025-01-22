@@ -89,7 +89,7 @@
       <div class="tna-container">
         <div class="tna-column tna-column--full">
           {% set featured_card_content = {
-            'supertitle-': 'TODO: Parent',
+            'supertitle': blog_posts[0].type_label,
             'title': blog_posts[0].title,
             'headingLevel': 2,
             'headingSize': 'l',
@@ -144,7 +144,7 @@
               {% if page > 1 or loop.index > 1 %}
               <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-m tna-!--margin-bottom-l">
                 {% set card_content = {
-                  'supertitle-': blog_post.type_label,
+                  'supertitle': blog_post.type_label,
                   'title': blog_post.title,
                   'headingLevel': 3,
                   'headingSize': 's',
