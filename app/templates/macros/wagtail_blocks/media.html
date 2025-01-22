@@ -53,7 +53,7 @@
     </div>
     {%- endif %}
     {%- if block_value.media.chapters %}
-    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint">
+    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
           <summary class="tna-details__summary">Chapters and transcript</summary>
@@ -62,32 +62,19 @@
               {%- for chapter in block_value.media.chapters %}
               <li>
                 <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
-                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                  <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
                 {{ chapter.transcript | safe }}
               </li>
               {%- endfor %}
             </ol>
-            <!-- <dl class="tna-dl tna-dl--spaced tna-dl--plain">
-              {%- for chapter in block_value.media.chapters %}
-              <dt>
-                <button class="tna-button tna-button--accent- tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
-                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
-                </button>
-              </dt>
-              <dd>
-                {{ (chapter.transcript or '<span class="tna-visually-hidden">No transcript</span>') | safe }}
-              </dd>
-              {%- endfor %}
-            </dl> -->
           </div>
         </details>
       </div>
     </div>
     {%- elif block_value.media.transcript %}
-    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint">
+    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint etna-media-block__transcript">
       {{ tnaDetails({
         'title': 'Transcript',
         'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
