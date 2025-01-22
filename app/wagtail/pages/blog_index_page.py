@@ -1,7 +1,6 @@
 import datetime
 import math
 
-from app.lib.flagsmith import get_flag_value
 from app.lib.pagination import pagination_object
 from app.lib.template_filters import qs_active, qs_toggler
 from app.wagtail.api import (
@@ -16,8 +15,7 @@ from pydash import objects
 
 
 def blog_index_page(page_data, year=None, month=None, day=None):
-    # children_per_page = 12
-    children_per_page = int(get_flag_value("search_results_per_page"))
+    children_per_page = 12
     page = (
         int(request.args.get("page"))
         if request.args.get("page") and request.args.get("page").isnumeric()

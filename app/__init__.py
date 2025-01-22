@@ -189,7 +189,7 @@ def create_app(config_class):
                 SENTRY_JS_ID=app.config.get("SENTRY_JS_ID"),
                 SENTRY_SAMPLE_RATE=app.config.get("SENTRY_SAMPLE_RATE"),
             ),
-            features=dict(
+            feature=dict(
                 PHASE_BANNER=app.config.get("FEATURE_PHASE_BANNER"),
                 LOGO_ADORNMENTS_CSS=app.config.get("FEATURE_LOGO_ADORNMENTS_CSS"),
                 LOGO_ADORNMENTS_JS=app.config.get("FEATURE_LOGO_ADORNMENTS_JS"),
