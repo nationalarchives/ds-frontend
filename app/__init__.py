@@ -191,12 +191,8 @@ def create_app(config_class):
             ),
             features=dict(
                 PHASE_BANNER=app.config.get("FEATURE_PHASE_BANNER"),
-                LOGO_ADORNMENTS_CSS=app.config.get(
-                    "FEATURE_LOGO_ADORNMENTS_CSS"
-                ),
-                LOGO_ADORNMENTS_JS=app.config.get(
-                    "FEATURE_LOGO_ADORNMENTS_JS"
-                ),
+                LOGO_ADORNMENTS_CSS=app.config.get("FEATURE_LOGO_ADORNMENTS_CSS"),
+                LOGO_ADORNMENTS_JS=app.config.get("FEATURE_LOGO_ADORNMENTS_JS"),
             ),
         )
 
