@@ -27,12 +27,12 @@ def preview_page():
         except ConnectionError:
             return render_template("errors/api.html"), 502
         except ApiResourceNotFound:
-            return render_template("errors/page-not-found.html"), 404
+            return render_template("errors/page_not_found.html"), 404
         except Exception as e:
             current_app.logger.error(e)
             return render_template("errors/api.html"), 502
         return render_content_page(page_data | {"page_preview": True})
-    return render_template("errors/page-not-found.html"), 404
+    return render_template("errors/page_not_found.html"), 404
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
@@ -53,7 +53,7 @@ def preview_protected_page(page_id):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -75,7 +75,7 @@ def preview_protected_page(page_id):
                 return CachedResponse(
                     response=make_response(
                         render_template(
-                            "errors/password-protected.html",
+                            "errors/password_protected.html",
                             page_data=page_data,
                         )
                     ),
@@ -103,7 +103,7 @@ def page_permalink(page_id):
     except ConnectionError:
         return render_template("errors/api.html"), 502
     except ApiResourceNotFound:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     except Exception as e:
         current_app.logger.error(e)
         return render_template("errors/api.html"), 502
@@ -136,7 +136,7 @@ def index():
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -162,7 +162,7 @@ def page(path):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception as e:

@@ -52,7 +52,7 @@ def rss_all_feed():
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -89,7 +89,7 @@ def rss_feed(blog_id):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -99,7 +99,7 @@ def rss_feed(blog_id):
         )
     if blog_data["meta"]["type"] != "blog.BlogPage":
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     xml = render_template(

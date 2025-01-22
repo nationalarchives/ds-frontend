@@ -68,7 +68,7 @@ def blog_page(page_data, year=None, month=None, day=None):
     total_blog_posts = blog_posts_data["meta"]["total_count"]
     pages = math.ceil(total_blog_posts / children_per_page)
     if page > pages:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     existing_qs_as_dict = request.args.to_dict()
     date_filters = [
         {

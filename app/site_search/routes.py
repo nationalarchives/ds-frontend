@@ -27,7 +27,7 @@ def index():
     total_results = objects.get(results, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page)
     # if query and page > pages:
-    #     return render_template("errors/page-not-found.html"), 404
+    #     return render_template("errors/page_not_found.html"), 404
     return render_template(
         "site_search/index.html",
         q=query,

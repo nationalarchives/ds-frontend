@@ -63,6 +63,6 @@ def render_content_page(page_data):
         if page_type in page_type_templates:
             return page_type_templates[page_type](page_data)
         current_app.logger.error(f"Template for {page_type} not handled")
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     current_app.logger.error("Page meta information not included")
     return render_template("errors/api.html"), 502

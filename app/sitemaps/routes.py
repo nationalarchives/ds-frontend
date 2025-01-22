@@ -99,7 +99,7 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     for page in wagtail_pages["items"]:
         try:
             lastmodified_date = datetime.strptime(
