@@ -79,6 +79,7 @@ class Base(object):
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
     APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
+    REDIRECT_ALIASES: bool = strtobool(os.getenv("REDIRECT_ALIASES", "True"))
 
 
 class Production(Base, Features):

@@ -13,6 +13,7 @@ from flask import (
     url_for,
 )
 from flask_caching import CachedResponse
+from pydash import objects
 
 from .api import page_details, page_details_by_uri, page_preview
 
@@ -177,14 +178,21 @@ def page(path):
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    if "privacy" in page_data["meta"] and page_data["meta"]["privacy"] == "password":
+    if objects.get(page_data, "meta.privacy") == "password":
         return redirect(
             url_for("wagtail.preview_protected_page", page_id=page_data["id"])
+        )
+    if objects.get(page_data, "meta.alias_of") and current_app.config.get(
+        "REDIRECT_ALIASES"
+    ):
+        return redirect(
+            objects.get(page_data, "meta.alias_of.meta.html_url"),
+            code=302,
         )
     if (
         current_app.config.get("APPLY_REDIRECTS")
         and "url" in page_data["meta"]
-        and (quote(page_data["meta"]["url"]) != quote(f"/{path}/"))
+        and (quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/"))
     ):
         return redirect(
             url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
