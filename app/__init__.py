@@ -39,7 +39,7 @@ def create_app(config_class):
     if app.config.get("SENTRY_DSN"):
         sentry_sdk.init(
             dsn=app.config.get("SENTRY_DSN"),
-            environment=app.config.get("ENVIRONMENT"),
+            environment=app.config.get("ENVIRONMENT_NAME"),
             release=(
                 f"ds-frontend@{app.config.get('BUILD_VERSION')}"
                 if app.config.get("BUILD_VERSION")
@@ -124,9 +124,7 @@ def create_app(config_class):
             "geolocation": csp_none,
             "microphone": csp_none,
             "screen-wake-lock": csp_none,
-            "picture-in-picture": app.config.get(
-                "CSP_FEATURE_PICTURE_IN_PICTURE"
-            )
+            "picture-in-picture": app.config.get("CSP_FEATURE_PICTURE_IN_PICTURE")
             or csp_self,
         },
         force_https=app.config.get("FORCE_HTTPS"),
@@ -183,7 +181,7 @@ def create_app(config_class):
             get_flag_value=get_flag_value,
             get_all_flags=get_all_flags,
             app_config=dict(
-                ENVIRONMENT=app.config.get("ENVIRONMENT"),
+                ENVIRONMENT_NAME=app.config.get("ENVIRONMENT_NAME"),
                 TNA_FRONTEND_VERSION=app.config.get("TNA_FRONTEND_VERSION"),
                 BUILD_VERSION=app.config.get("BUILD_VERSION"),
                 COOKIE_DOMAIN=app.config.get("COOKIE_DOMAIN"),

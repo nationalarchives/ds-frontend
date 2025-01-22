@@ -1,6 +1,6 @@
-{% extends 'explore-the-collection/base.html' %}
+{% extends 'explore_the_collection/base.html' %}
 
-{%- from 'explore-the-collection/partials/article-footer.html' import articleFooter -%}
+{%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
@@ -77,7 +77,7 @@
       {%- endif %}
       <div class="etna-record-gallery__item tna-container">
         <div class="tna-column tna-column--full etna-record-gallery__header">
-          <p class="etna-record-gallery__item-index">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</p>
+          <h3 class="etna-record-gallery__item-index tna-heading-s">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</h3>
         </div>
         <figure class="etna-record-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
           <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
@@ -89,9 +89,14 @@
         </figure>
         {%- if picture_information | length %}
         <div class="etna-record-gallery__item-tabs tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-          {{ tnaTabs({
-            'items': picture_information
-          }) }}
+          {%- if picture_information | length > 1 %}
+            {{ tnaTabs({
+              'items': picture_information
+            }) }}
+          {%- else %}
+          <h4 class="tna-heading-m">{{ picture_information[0].title }}</h4>
+          {{ picture_information[0].body | tna_html | safe }}
+          {%- endif %}
         </div>
         {%- endif %}
       </div>
@@ -150,6 +155,7 @@
 
   {%- if page_data.featured_highlight_gallery %}
   <section class="tna-section tna-background-accent-light">
+    <h2 class="tna-visually-hidden">Related galleries</h2>
     {% set galleries = [] %}
     {%- for gallery in page_data.featured_highlight_gallery.highlight_cards %}
     {%- if loop.index <= 4 %}
@@ -168,13 +174,14 @@
       'supertitle': page_data.featured_highlight_gallery.type_label,
       'title': 'Explore records about ' + page_data.featured_highlight_gallery.title,
       'body': '<p>' + page_data.featured_highlight_gallery.teaser_text + '</p>',
-      'headingLevel': 2,
+      'headingLevel': 3,
       'headingSize': 'l',
       'items': galleries,
       'columns': 4,
       'columnsMedium': 2,
       'columnsSmall': 2,
-      'columnsTiny': 1
+      'columnsTiny': 1,
+      'classes': 'tna-!--no-margin-top'
     }) }}
     {%- if page_data.featured_highlight_gallery.highlight_image_count > 4 %}
     <div class="tna-container tna-!--margin-top-m">
@@ -195,10 +202,11 @@
   <section class="tna-section">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
+        <h2 class="tna-visually-hidden">Featured articles</h2>
         {% set card_content = {
           'supertitle': page_data.featured_article.type_label,
           'title': page_data.featured_article.title,
-          'headingLevel': 2,
+          'headingLevel': 3,
           'headingSize': 'l',
           'href': page_data.featured_article.url,
           'text': page_data.featured_article.teaser_text,
@@ -206,7 +214,8 @@
           'labelColour': 'green',
           'fullAreaClick': True,
           'horizontal': True,
-          'style': 'accent'
+          'style': 'accent',
+          'classes': 'tna-!--no-margin-top'
         } %}
         {%- if page_data.featured_article.teaser_image %}
         {% set card_content = dict(card_content, **{

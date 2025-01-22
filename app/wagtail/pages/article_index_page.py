@@ -33,9 +33,9 @@ def article_index_page(page_data):
         return render_template("errors/server.html"), 500
     pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
     if page > pages:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     return render_template(
-        "explore-the-collection/stories.html",
+        "explore_the_collection/stories.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children_data["items"],

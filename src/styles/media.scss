@@ -241,6 +241,14 @@ $videojs-track-height: 0.5em;
 .etna-media-block {
   @include spacing.space-above;
 
+  &__transcript {
+    max-height: 30rem;
+
+    overflow: auto;
+
+    word-wrap: break-word;
+  }
+
   .tna-details {
     &__summary {
       padding-top: 0;

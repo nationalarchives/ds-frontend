@@ -38,7 +38,7 @@ def person_page(page_data):
     articles = objects.get(articles, "items", [])
     pages = math.ceil(total_article_count / articles_per_page)
     if page > pages:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     return render_template(
         "people/person.html",
         breadcrumbs=breadcrumbs(page_data["id"]),

@@ -1,8 +1,8 @@
-{% extends 'explore-the-collection/base.html' %}
+{% extends 'explore_the_collection/base.html' %}
 
-{%- from 'explore-the-collection/partials/article-blocks.html' import articleBlocks -%}
-{%- from 'explore-the-collection/partials/article-footer.html' import articleFooter -%}
-{%- from 'explore-the-collection/partials/article-sidebar.html' import articleSidebar -%}
+{%- from 'explore_the_collection/partials/article-blocks.html' import articleBlocks -%}
+{%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
+{%- from 'explore_the_collection/partials/article-sidebar.html' import articleSidebar -%}
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
@@ -125,7 +125,7 @@
   {%- if page_data.authors | length %}
   <div class="tna-background-accent-light tna-!--padding-top-s tna-!--padding-bottom-s">
     <div class="tna-container">
-      {{ authors_list(page_data.authors, True) }}
+      {{ authors_list(page_data.authors, [], True) }}
     </div>
   </div>
   {%- endif %}

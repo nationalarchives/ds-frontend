@@ -92,6 +92,16 @@
       }
     }
   }
+
+  @include colour.on-high-contrast-and-forced-colours {
+    &--icon-padding#{&}--plain {
+      dt {
+        .fa-solid {
+          margin-top: spacing.space(0.5);
+        }
+      }
+    }
+  }
 }
 
 sup[data-footnoteid] {
@@ -150,6 +160,10 @@ sup[data-footnoteid] {
 
   &--full-height {
     height: 100%;
+
+    @include colour.on-high-contrast-and-forced-colours {
+      height: auto;
+    }
   }
 
   // &--person {
@@ -202,6 +216,14 @@ sup[data-footnoteid] {
 }
 
 .tna-picture {
+  // &__image-wrapper {
+  //   border-radius: 4px;
+
+  //   box-shadow:
+  //     inset 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 25%),
+  //     inset 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 75%);
+  // }
+
   &__image {
     display: block;
   }

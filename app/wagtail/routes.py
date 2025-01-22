@@ -13,6 +13,7 @@ from flask import (
     url_for,
 )
 from flask_caching import CachedResponse
+from pydash import objects
 
 from .api import page_details, page_details_by_uri, page_preview
 
@@ -27,12 +28,12 @@ def preview_page():
         except ConnectionError:
             return render_template("errors/api.html"), 502
         except ApiResourceNotFound:
-            return render_template("errors/page-not-found.html"), 404
+            return render_template("errors/page_not_found.html"), 404
         except Exception as e:
             current_app.logger.error(e)
             return render_template("errors/api.html"), 502
         return render_content_page(page_data | {"page_preview": True})
-    return render_template("errors/page-not-found.html"), 404
+    return render_template("errors/page_not_found.html"), 404
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
@@ -42,9 +43,7 @@ def preview_protected_page(page_id):
             page_id,
             {
                 "password": (
-                    request.form["password"]
-                    if "password" in request.form
-                    else ""
+                    request.form["password"] if "password" in request.form else ""
                 )
             },
         )
@@ -55,9 +54,7 @@ def preview_protected_page(page_id):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -79,7 +76,7 @@ def preview_protected_page(page_id):
                 return CachedResponse(
                     response=make_response(
                         render_template(
-                            "errors/password-protected.html",
+                            "errors/password_protected.html",
                             page_data=page_data,
                         )
                     ),
@@ -91,9 +88,7 @@ def preview_protected_page(page_id):
             )
         if "url" in page_data["meta"]:
             return redirect(
-                url_for(
-                    "wagtail.page", path=page_data["meta"]["url"].strip("/")
-                ),
+                url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
                 code=302,
             )
     return CachedResponse(
@@ -109,7 +104,7 @@ def page_permalink(page_id):
     except ConnectionError:
         return render_template("errors/api.html"), 502
     except ApiResourceNotFound:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     except Exception as e:
         current_app.logger.error(e)
         return render_template("errors/api.html"), 502
@@ -142,9 +137,7 @@ def index():
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -170,9 +163,7 @@ def page(path):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception as e:
@@ -182,24 +173,26 @@ def page(path):
             timeout=1,
         )
     if "meta" not in page_data:
-        current_app.logger.error(
-            f"Page meta information not included for path: {path}"
-        )
+        current_app.logger.error(f"Page meta information not included for path: {path}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    if (
-        "privacy" in page_data["meta"]
-        and page_data["meta"]["privacy"] == "password"
-    ):
+    if objects.get(page_data, "meta.privacy") == "password":
         return redirect(
             url_for("wagtail.preview_protected_page", page_id=page_data["id"])
+        )
+    if objects.get(page_data, "meta.alias_of") and current_app.config.get(
+        "REDIRECT_ALIASES"
+    ):
+        return redirect(
+            objects.get(page_data, "meta.alias_of.meta.html_url"),
+            code=302,
         )
     if (
         current_app.config.get("APPLY_REDIRECTS")
         and "url" in page_data["meta"]
-        and (quote(page_data["meta"]["url"]) != quote(f"/{path}/"))
+        and (quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/"))
     ):
         return redirect(
             url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),

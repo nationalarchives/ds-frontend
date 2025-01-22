@@ -140,10 +140,10 @@
           </div>
         </div>
       </div>
-      {%- if page_data.authors | length %}
+      {%- if page_data.authors | length or page_data.external_authors | length %}
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
-          {{ authors_list(page_data.authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print', page_data.external_authors) }}
+          {{ authors_list(page_data.authors, page_data.external_authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print') }}
         </div>
       </div>
       {%- endif %}

@@ -1,11 +1,6 @@
 import unittest
 
-from app.lib.template_filters import (
-    currency,
-    pretty_date,
-    qs_active,
-    qs_toggler,
-)
+from app.lib.template_filters import currency, pretty_date, qs_active, qs_toggler
 
 
 class ContentParserTestCase(unittest.TestCase):

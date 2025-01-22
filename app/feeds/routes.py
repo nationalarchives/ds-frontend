@@ -1,10 +1,6 @@
 from app.feeds import bp
 from app.lib.api import ApiResourceNotFound
-from app.lib.cache import (
-    cache,
-    page_cache_key_prefix,
-    rss_feed_cache_key_prefix,
-)
+from app.lib.cache import cache, page_cache_key_prefix, rss_feed_cache_key_prefix
 from app.wagtail.api import (
     blog_index,
     blog_posts_paginated,
@@ -29,9 +25,7 @@ def rss_feeds():
         current_app.logger.error("API error getting all blogs for /feeds/ page")
         return render_template("errors/api.html"), 502
     except Exception:
-        current_app.logger.error(
-            "Exception getting all blog posts for /feeds/ page"
-        )
+        current_app.logger.error("Exception getting all blog posts for /feeds/ page")
         return render_template("errors/server.html"), 500
     return render_template(
         "blog/feeds.html",
@@ -58,9 +52,7 @@ def rss_all_feed():
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -97,9 +89,7 @@ def rss_feed(blog_id):
         )
     except ApiResourceNotFound:
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     except Exception:
@@ -109,9 +99,7 @@ def rss_feed(blog_id):
         )
     if blog_data["meta"]["type"] != "blog.BlogPage":
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     xml = render_template(
@@ -120,9 +108,7 @@ def rss_feed(blog_id):
             if request.args.get("format") == "atom"
             else "blog/rss_feed.xml"
         ),
-        url=url_for(
-            "feeds.rss_feed", blog_id=blog_id, _external=True, _scheme="https"
-        ),
+        url=url_for("feeds.rss_feed", blog_id=blog_id, _external=True, _scheme="https"),
         blog_data=blog_data,
         blog_posts=blog_posts,
     )

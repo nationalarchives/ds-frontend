@@ -57,16 +57,22 @@ def set_cookies():
         "cookies_policy",
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
         domain=current_app.config.get("COOKIE_DOMAIN"),
+        secure=True,
+        httponly=True,
+        samesite="Lax",
     )
     response.set_cookie(
         "cookie_preferences_set",
         "true",
         domain=current_app.config.get("COOKIE_DOMAIN"),
+        secure=True,
+        httponly=True,
+        samesite="Lax",
     )
     if not usage:
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
-                response.set_cookie(cookie, "", expires=0)
+                response.delete_cookie(cookie)
     return response
 
 

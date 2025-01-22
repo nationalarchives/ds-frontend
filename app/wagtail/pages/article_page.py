@@ -8,7 +8,7 @@ def article_page(page_data):
     time_periods = pages_to_index_grid_items(page_data["time_periods"])
     categories = pick_top_two(topics, time_periods)
     return render_template(
-        "explore-the-collection/article.html",
+        "explore_the_collection/article.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         categories=categories,

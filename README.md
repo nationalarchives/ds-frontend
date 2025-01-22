@@ -22,6 +22,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 
 | Variable                         | Purpose                                                                     | Default                                                     |
 | -------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `ENVIRONMENT_NAME`               | The name of the environment (for reporting purposes)                        | `production`                                                |
 | `CONFIG`                         | The configuration to use                                                    | `config.Production`                                         |
 | `DEBUG`                          | If true, allow debugging[^1]                                                | `False`                                                     |
 | `SENTRY_DSN`                     | The Sentry DSN (project code)                                               | _none_                                                      |
@@ -50,7 +51,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_DEFAULT_TIMEOUT`          | The number of seconds to cache pages for                                    | production: `300`, staging: `60`, develop: `0`, test: `0`   |
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                      |
 | `GA4_ID`                         | The Google Analytics 4 ID                                                   | _none_                                                      |
-| `APPLY_REDIRECTS`                | If true, redirect pages based on Wagtail redirects (false just displays)    | production/staging/develop: `True`, test: `False`           |
+| `APPLY_REDIRECTS`                | If true, redirect pages based on Wagtail redirects (false just displays)    | `True`                                                      |
+| `REDIRECT_ALIASES`               | If true, redirect alias pages to the original page                          | production/staging/develop: `True`, test: `False`           |
 | `FEATURE_LOGO_ADORNMENTS_CSS`    | An optional CSS file to include for logo adornments                         | _none_                                                      |
 | `FEATURE_LOGO_ADORNMENTS_JS`     | An optional JS file to include for logo adornments                          | _none_                                                      |
 

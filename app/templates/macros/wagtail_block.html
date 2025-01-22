@@ -72,7 +72,7 @@
   {%- elif content_item.type == 'quote' %}
   <blockquote class="tna-blockquote">
     <div class="tna-blockquote__quote">
-      {{ content_item.value.quote | safe }}
+      {{ content_item.value.quote | tna_html | safe }}
     </div>
     {%- if content_item.value.attribution %}
     <p class="tna-blockquote__citation">{{ content_item.value.attribution }}</p>

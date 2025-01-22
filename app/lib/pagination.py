@@ -6,9 +6,7 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
     assert total_pages >= 0, "total_pages is less than zero"
     assert boundaries >= 0, " boundaries is less than zero"
     assert around >= 0, "around is less than zero"
-    assert (
-        current_page <= total_pages
-    ), "current_page is bigger than total_pages"
+    assert current_page <= total_pages, "current_page is bigger than total_pages"
 
     start_initial_chunk = 1
     end_initial_chunk = min(boundaries, total_pages) + 1
@@ -29,8 +27,7 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
         if end_initial_chunk == 2 and current_page - (around + 1) == 2
         else (
             "..."
-            if end_initial_chunk < start_middle_chunk
-            and len(middle_chunk_numbers) > 0
+            if end_initial_chunk < start_middle_chunk and len(middle_chunk_numbers) > 0
             else ""
         )
     )
@@ -61,9 +58,7 @@ def generate_new_page_query_string(args, page):
     return f"?{urlencode(args_dict, doseq=True)}"
 
 
-def pagination_object(
-    current_page, total_pages, current_args, boundaries=1, around=1
-):
+def pagination_object(current_page, total_pages, current_args, boundaries=1, around=1):
     if total_pages == 0:
         return {}
     current_page = int(current_page)
@@ -78,20 +73,14 @@ def pagination_object(
                 "current": item == current_page,
             }
         )
-        for item in pagination_list(
-            current_page, total_pages, boundaries, around
-        )
+        for item in pagination_list(current_page, total_pages, boundaries, around)
     ]
     if current_page > 1:
         pagination_object["previous"] = {
-            "href": generate_new_page_query_string(
-                current_args, current_page - 1
-            )
+            "href": generate_new_page_query_string(current_args, current_page - 1)
         }
     if current_page < total_pages:
         pagination_object["next"] = {
-            "href": generate_new_page_query_string(
-                current_args, current_page + 1
-            )
+            "href": generate_new_page_query_string(current_args, current_page + 1)
         }
     return pagination_object

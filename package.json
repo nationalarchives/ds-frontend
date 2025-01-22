@@ -11,7 +11,7 @@
     "test:lint": "prettier --check . && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "^0.5.0",
+    "@nationalarchives/frontend": "0.8.1",
     "@sentry/browser": "^8.11.0",
     "video.js": "^8.18.1",
     "videojs-youtube": "^3.0.1"
@@ -24,11 +24,11 @@
     "prettier": "^3.0.2",
     "sass": "^1.69.4",
     "stylelint": "^16.1.0",
-    "stylelint-config-standard-scss": "^13.0.0",
+    "stylelint-config-standard-scss": "^14.0.0",
     "stylelint-order": "^6.0.4",
     "stylelint-selector-bem-pattern": "^4.0.1",
     "terser-webpack-plugin": "^5.3.10",
     "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^6.0.1"
   }
 }

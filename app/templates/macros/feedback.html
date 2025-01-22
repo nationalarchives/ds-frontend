@@ -1,10 +1,10 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
 {% macro feedback() %}
-<!-- <div class="tna-container tna-container--centred tna-section">
+<div class="tna-container tna-container--centred tna-section">
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
     <div class="etna-feedback tna-background-tint">
-      <h2 class="tna-heading-s">What did you think of this page?</h2>
+      <!-- <h2 class="tna-heading-s">What did you think of this page?</h2>
       <div class="tna-button-group tna-button-group--full">
         {{ tnaButton({
           'text': 'Easy to use',
@@ -16,8 +16,19 @@
           'icon': 'thumbs-down',
           'buttonElement': True
         }) }}
+      </div> -->
+      <h2 class="tna-heading-s">Help us improve this service</h2>
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Complete our short survey (opens in new tab)',
+          'href': 'https://www.smartsurvey.co.uk/s/DN07V0/?area=footer&source=',
+          'attributes': {
+            'target': '_blank',
+            'rel': 'noreferrer nofollow'
+          }
+        }) }}
       </div>
     </div>
   </div>
-</div> -->
+</div>
 {% endmacro %}

@@ -68,9 +68,7 @@ def pretty_date_range(s_from, s_to, show_days=True):
         if date_from.year == date_to.year:
             if date_from.month == date_to.month:
                 if date_from.day == date_to.day:
-                    return date_from.strftime(
-                        "%-d %B %Y" if show_days else "%B %Y"
-                    )
+                    return date_from.strftime("%-d %B %Y" if show_days else "%B %Y")
                 elif show_days:
                     return f"{date_from.strftime('%-d')}–{date_to_string}"
                 else:
@@ -80,9 +78,7 @@ def pretty_date_range(s_from, s_to, show_days=True):
         else:
             return f"{date_from.strftime('%-d %B %Y' if show_days else "%B %Y")} to {date_to_string}"
     if date_from:
-        return (
-            f"From {date_from.strftime('%-d %B %Y' if show_days else "%B %Y")}"
-        )
+        return f"From {date_from.strftime('%-d %B %Y' if show_days else "%B %Y")}"
     if date_to:
         return f"To {date_to.strftime('%-d %B %Y' if show_days else "%B %Y")}"
     return f"{s_from}–{s_to}"
