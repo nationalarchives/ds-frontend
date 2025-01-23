@@ -32,7 +32,7 @@
     {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_all_feed') }}" title="The National Archives RSS feed">
     <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_all_feed', format='atom') }}" title="The National Archives Atom feed">
-    {%- elif page_data.meta.type == 'blog.BlogPage' %}
+    {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id) }}" title="{{ page_data.title }} RSS feed">
     <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id, format='atom') }}" title="{{ page_data.title }} Atom feed">
     {%- endif %}
@@ -89,7 +89,7 @@
       <div class="tna-container">
         <div class="tna-column tna-column--full">
           {% set featured_card_content = {
-            'supertitle': blog_posts[0].type_label,
+            'supertitle': blog_posts[0].type_label if page_data.meta.type == 'blog.BlogIndexPage' else None,
             'title': blog_posts[0].title,
             'headingLevel': 2,
             'headingSize': 'l',
@@ -144,7 +144,7 @@
               {% if page > 1 or loop.index > 1 %}
               <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-m tna-!--margin-bottom-l">
                 {% set card_content = {
-                  'supertitle': blog_post.type_label,
+                  'supertitle': blog_post.type_label if page_data.meta.type == 'blog.BlogIndexPage' else None,
                   'title': blog_post.title,
                   'headingLevel': 3,
                   'headingSize': 's',
