@@ -1,7 +1,6 @@
-from app.lib.api import ApiResourceNotFound
 from app.wagtail.api import breadcrumbs
 from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
-from flask import current_app, render_template
+from flask import render_template
 
 
 def highlight_gallery_page(page_data):

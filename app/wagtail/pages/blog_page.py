@@ -39,6 +39,9 @@ def blog_page(page_data, year=None, month=None, day=None):
         else None
     )
     blogs_data = top_blogs()
+    categories = page_descendants(
+        page_id=page_data["id"], params={"type": "blog.BlogPage"}
+    )
     blog_post_counts_data = blog_post_counts(
         blog_id=page_data["id"],
     )
@@ -52,22 +55,14 @@ def blog_page(page_data, year=None, month=None, day=None):
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
-        categories = page_descendants(
-            page_id=page_data["id"], params={"type": "blog.BlogPage"}
-        )
-    except ConnectionError:
+    except Exception as e:
         current_app.logger.error(
-            f"API error getting children for page {page_data['id']}"
+            f"Failed to get blog posts for page {page_data["id"]}: {e}"
         )
-        return render_template("errors/api.html"), 502
-    except Exception:
-        current_app.logger.error(
-            f"Exception getting children for page {page_data['id']}"
-        )
-        return render_template("errors/server.html"), 500
-    total_blog_posts = blog_posts_data["meta"]["total_count"]
+        blog_posts_data = {}
+    total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
     pages = math.ceil(total_blog_posts / children_per_page)
-    if page > pages:
+    if total_blog_posts and page > pages:
         return render_template("errors/page_not_found.html"), 404
     existing_qs_as_dict = request.args.to_dict()
     date_filters = [
@@ -124,9 +119,9 @@ def blog_page(page_data, year=None, month=None, day=None):
         "blog/index.html",
         breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
-        blog_posts=blog_posts_data["items"],
+        blog_posts=objects.get(blog_posts_data, "items", []),
         date_filters=date_filters,
-        categories=categories["items"],
+        categories=objects.get(categories, "items", []),
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
         authors=authors,
