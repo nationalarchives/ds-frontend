@@ -358,13 +358,13 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pydash"
-version = "8.0.4"
+version = "8.0.5"
 description = "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pydash-8.0.4-py3-none-any.whl", hash = "sha256:59d0c9ca0d22b4f8bcfab01bfe2e89b49f4c9e9fa75961caf156094670260999"},
-    {file = "pydash-8.0.4.tar.gz", hash = "sha256:a33fb17b4b06c617da5c57c711605d2dc8723311ee5388c8371f87cd44bf4112"},
+    {file = "pydash-8.0.5-py3-none-any.whl", hash = "sha256:b2625f8981862e19911daa07f80ed47b315ce20d9b5eb57aaf97aaf570c3892f"},
+    {file = "pydash-8.0.5.tar.gz", hash = "sha256:7cc44ebfe5d362f4f5f06c74c8684143c5ac481376b059ff02570705523f9e2e"},
 ]
 
 [package.dependencies]
@@ -491,13 +491,13 @@ unleash = ["UnleashClient (>=6.0.1)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.8.1"
+version = "0.9.0"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tna_frontend_jinja-0.8.1-py3-none-any.whl", hash = "sha256:567cf3e8b025a0d0def8ad53d47c78554f08eb97a04e61f3fa4a7c95b57498e2"},
-    {file = "tna_frontend_jinja-0.8.1.tar.gz", hash = "sha256:dc89fc86f44b98ba64fb464dd19a358acc60246c93341011dfa69a7ab1256f51"},
+    {file = "tna_frontend_jinja-0.9.0-py3-none-any.whl", hash = "sha256:6ba0b84142e2954f0e8e47c6929c266e3094bd1ecc68eb242c7138e5ac51d1ab"},
+    {file = "tna_frontend_jinja-0.9.0.tar.gz", hash = "sha256:0177411a9af6f412ef5afe4acc636b6f934654b7963b45be6bd89b19ce26aa90"},
 ]
 
 [package.dependencies]
@@ -551,4 +551,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "46d05c950e227af9e2189fbc0a1c3a4978682bb57f9c9d05acac56faa3f657c2"
+content-hash = "1ae6e16a8df419bd152f39cba3567500f2cec9d6136166e054965680181a35b6"
