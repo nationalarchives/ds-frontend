@@ -54,9 +54,9 @@
   </aside>
 
   {%- elif content_item.type == 'inset_text' %}
-  <aside class="etna-inset">
+  <div class="etna-inset">
     {{ content_item.value.text | tna_html | safe }}
-  </aside>
+  </div>
 
   {%- elif content_item.type == 'description_list' %}
   <dl class="tna-dl tna-dl--plain tna-dl--spaced">
