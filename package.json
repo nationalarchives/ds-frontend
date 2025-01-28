@@ -11,7 +11,7 @@
     "test:lint": "prettier --check . && stylelint 'src/styles/**/*.scss' && eslint 'src/scripts/**/*.js'"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.11.1",
+    "@nationalarchives/frontend": "0.11.2",
     "@sentry/browser": "^8.11.0",
     "video.js": "^8.18.1",
     "videojs-youtube": "^3.0.1"
