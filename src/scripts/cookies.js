@@ -1,5 +1,10 @@
+// import { Cookies } from "@nationalarchives/frontend/nationalarchives/all.mjs";
+
+// const cookies = new Cookies();
+
 const cookies = window.TNAFrontendCookies;
 const $successMessage = document.getElementById("cookie-settings-success");
+
 if (cookies) {
   const $form = document.getElementById("cookie-settings");
   if ($form && $successMessage) {
