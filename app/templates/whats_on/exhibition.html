@@ -364,7 +364,7 @@
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="{{ (page_data.plan_your_visit_title | slugify) if page_data.plan_your_visit_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.plan_your_visit_title or 'Plan your visit' }}</h2>
+      <h2 id="{{ (page_data.plan_your_visit_title | slugify) if page_data.plan_your_visit_title else 'plan-your-visit' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.plan_your_visit_title or 'Plan your visit' }}</h2>
     </div>
     {% for plan_your_visit in page_data.plan_your_visit %}
     {% set accordion_items = [] %}
