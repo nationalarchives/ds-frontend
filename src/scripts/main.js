@@ -6,13 +6,13 @@ import {
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
-const cookies = new Cookies();
-
 // if ("serviceWorker" in navigator) {
 //   navigator.serviceWorker.register("/service-worker.min.js");
 // }
 
 initAll();
+
+const cookies = new Cookies();
 
 const initNotifications = () => {
   const initialDismissedNotifications = JSON.parse(
