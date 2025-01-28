@@ -9,6 +9,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
@@ -39,12 +40,12 @@
   {% if page_data.subtitle %}
     {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
   {% endif %}
-  {#
-  {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
-  {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p></div>' %}
-  {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + price + '</p></div>' %}
-  {% set hero_intro = hero_intro + '</div>' %}
-  #}
+  {% if page_data.start_date %}
+    {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
+    {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p></div>' %}
+    {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + price + '</p></div>' %}
+    {% set hero_intro = hero_intro + '</div>' %}
+  {% endif %}
 
   {% set hero_image_caption = page_data.hero_image_caption or '' %}
   {%- if page_data.hero_image.copyright %}
@@ -90,39 +91,39 @@
     <div class="tna-column tna-column--full">
       {% set ns = namespace(sidebar_items=[]) %}
       {% set ns.sidebar_items = [{
-        'text': 'About ' + page_data.title,
-        'href': '#about'
+        'text': page_data.intro_title or ('About ' + page_data.title),
+        'href': '#' + ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
       }] %}
       {% if page_data.exhibition_highlights or page_data.video %}
         {% set ns.sidebar_items = ns.sidebar_items + [{
-          'text': 'Exhibition highlights',
-          'href': '#exhibition-highlights'
+          'text': page_data.exhibition_highlights_title or 'Exhibition highlights',
+          'href': '#' + ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
         }] %}
       {% endif %}
       {% if page_data.plan_your_visit %}
         {% set ns.sidebar_items = ns.sidebar_items + [{
-          'text': 'Plan your visit',
-          'href': '#plan-your-visit'
+          'text': page_data.plan_your_visit_title or 'Plan your visit',
+          'href': '#' + ((page_data.plan_your_visit_title | slugify) if page_data.plan_your_visit_title else 'plan-your-visit')
         }] %}
       {% endif %}
-      {% for event_links in page_data.event_links %}
+      {% if page_data.event_links %}
         {% set ns.sidebar_items = ns.sidebar_items + [{
           'text': page_data.event_title,
           'href': '#' + (page_data.event_title | slugify)
         }] %}
-      {% endfor %}
+      {% endif %}
       {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
         {% set ns.sidebar_items = ns.sidebar_items + [{
           'text': page_data.related_pages_title,
           'href': '#' + (page_data.related_pages_title | slugify)
         }] %}
       {% endif %}
-      {% for shop in page_data.shop %}
+      {% if page_data.shop %}
         {% set ns.sidebar_items = ns.sidebar_items + [{
-          'text': shop.value.title,
-          'href': '#shop-' + shop.id
+          'text': page_data.shop[0].value.title,
+          'href': '#' + (page_data.shop[0].value.title | slugify)
         }] %}
-      {% endfor %}
+      {% endif %}
       {{ tnaSidebar({
         'title': 'On this page',
         'headingLevel': 2,
@@ -133,9 +134,9 @@
     </div>
   </div>
 </section>
-<div class="tna-container">
-  <div id="about" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
-    <h2 class="tna-visually-hidden">About {{ page_data.title }}</h2>
+<div class="tna-container tna-!--margin-bottom-l">
+  <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
+    <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' + page_data.title) }}</h2>
     <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top">
       {{ page_data.intro | safe }}
     </div>
@@ -163,16 +164,19 @@
         </dt>
         <dd>{{ page_data.audience_detail }}</dd>
         {% endif %}
-        {% if page_data.location_space_name and page_data.location_link_text and page_data.location_link_url %}
+        {% if page_data.location_space_name %}
         <dt>
           <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
           {{ page_data.location_space_name }}
         </dt>
         <dd>
-          <!-- <a href="{{ page_data.location_link_url }}">{{ page_data.location_link_text }}</a> -->
+          {%- if page_data.location_address %}
+          {{ page_data.location_address | safe }}
+          {%- else %}
           The National Archives<br>
           Kew, Richmond<br>
           TW9 4DU
+          {%- endif %}
         </dd>
         {% endif %}
         <dt>
@@ -291,7 +295,7 @@
 <section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="exhibition-highlights" class="tna-heading-l tna-!--padding-top-s">Exhibition highlights</h2>
+      <h2 id="{{ (page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.exhibition_highlights_title or 'Exhibition highlights' }}</h2>
       {% set gallery_images = [] %}
       {% for image in exhibition_highlights.value.images %}
         {% set gallery_images = gallery_images.append({
@@ -305,7 +309,7 @@
       {{ tnaGallery({
         'title': exhibition_highlights.value.title,
         'headingLevel': 3,
-        'text': exhibition_highlights.value.description,
+        'text': exhibition_highlights.value.description | tna_html | safe,
         'items': gallery_images,
         'id': 'gallery-' + exhibition_highlights.id
       }) }}
@@ -317,7 +321,7 @@
 <section class="tna-section tna-background-accent-light">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h3 class="tna-heading-m">Inside the exhibition space</h3>
+      <h3 class="tna-heading-m">{{ page_data.video_title }}</h3>
       {% if video.type == 'youtube' %}
       {{ wagtailYouTubeVideo(video.value, video.id) }}
       {% elif video.type == 'media' %}
@@ -360,7 +364,7 @@
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="plan-your-visit" class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
+      <h2 id="{{ (page_data.plan_your_visit_title | slugify) if page_data.plan_your_visit_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.plan_your_visit_title or 'Plan your visit' }}</h2>
     </div>
     {% for plan_your_visit in page_data.plan_your_visit %}
     {% set accordion_items = [] %}
@@ -390,7 +394,11 @@
     {% endif %}
     {% endfor %}
     <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      {% if page_data.plan_your_visit_image | length %}
+      {{ wagtailImage(page_data.plan_your_visit_image[0].value, page_data.plan_your_visit_image[0].id, True) }}
+      {% else %}
       <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/2024/12/tna-building-800px.jpg" width="800" height="534" alt="The outside of the National Archives offices in Kew" data-mapembedurl="https://www.openstreetmap.org/export/embed.html?bbox=-0.2813637256622315%2C51.47905430414589%2C-0.2777159214019776%2C51.48319356979671&amp;layer=mapnik&amp;marker=51.481123983932065%2C-0.2795398235321045" data-maplink="https://www.openstreetmap.org/?mlat=51.481124&amp;mlon=-0.279540#map=18/51.481124/-0.279540">
+      {% endif %}
     </div>
   </div>
 </section>
@@ -596,7 +604,7 @@
     'narrow': True,
     'style': 'accent',
     'attributes': {
-      'id': 'shop-' + shop.id
+      'id': '#' + (shop.value.title | slugify)
     }
   }) }}
 {% endfor %}
