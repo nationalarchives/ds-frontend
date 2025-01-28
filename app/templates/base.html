@@ -65,15 +65,11 @@
 
 {% block cookies %}
 {%- if not page_data or not page_data.page_preview %}
-{# {%- if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %} #}
-{# TODO: Change once more pages are on the new frontend #}
-{%- if 'dontShowCookieNotice' not in request.cookies or request.cookies.get('dontShowCookieNotice') != 'true' %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': 'https://www.nationalarchives.gov.uk/legal/cookies/',
   'preferencesSetKey': 'dontShowCookieNotice'
 }) | indent(6) }}
-{%- endif %}
 {%- endif %}
 {% endblock %}
 
