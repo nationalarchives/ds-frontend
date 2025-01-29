@@ -106,13 +106,11 @@
           On this page
         </h2>
         <div class="tna-column tna-column--flex-1">
-          <ul class="etna-secondary-navigation__items" role="tablist">
+          <div class="etna-secondary-navigation__items" role="tablist">
           {% for section in sidebar_items %}
-            <li class="etna-secondary-navigation__item">
-              <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab" type="button">{{ section.text }}</button>
-            </li>
+            <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="section-{{ section.href.replace('#', '') }}" role="tab" type="button">{{ section.text }}</button>
           {% endfor %}
-          </ul>
+          </div>
         </div>
       </div>
     </nav>
@@ -160,13 +158,11 @@
             On this page
           </h2>
           <div class="tna-column tna-column--flex-1">
-            <ul class="etna-secondary-navigation__items" role="tablist">
+            <div class="etna-secondary-navigation__items" role="tablist">
             {% for section in sidebar_items %}
-              <li class="etna-secondary-navigation__item">
-                <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="{{ section.href.replace('#', '') }}" role="tab" type="button">{{ section.text }}</button>
-              </li>
+              <button id="tab-{{ section.href.replace('#', '') }}" class="etna-secondary-navigation__link" aria-controls="section-{{ section.href.replace('#', '') }}" role="tab" type="button">{{ section.text }}</button>
             {% endfor %}
-            </ul>
+            </div>
           </div>
         </div>
       </nav>

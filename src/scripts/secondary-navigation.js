@@ -8,13 +8,11 @@ if ($secondaryNavigation && $pageBody) {
       $pageContentsList.setAttribute("hidden", "");
     }
     const sections = Array.from(
-      $secondaryNavigation.querySelectorAll("li:has(button[aria-controls])"),
-    ).map(($pageSectionItem) => {
-      const $pageSectionItemLink = $pageSectionItem.querySelector("button");
+      $secondaryNavigation.querySelectorAll("button[aria-controls]"),
+    ).map(($pageSectionItemLink) => {
       const id = $pageSectionItemLink.getAttribute("aria-controls");
-      const $section = $pageBody.querySelector(`[data-sectionfor="${id}"]`);
+      const $section = document.getElementById(id);
       return {
-        $listItem: $pageSectionItem,
         $button: $pageSectionItemLink,
         id,
         $section: $section,
@@ -37,16 +35,16 @@ if ($secondaryNavigation && $pageBody) {
           if (switchFocus) {
             section.$button.focus();
           }
-          section.$listItem.classList.add(
-            "etna-secondary-navigation__item--current",
+          section.$button.classList.add(
+            "etna-secondary-navigation__link--current",
           );
         } else {
           section.$section.setAttribute("hidden", "");
           section.$section.setAttribute("tabindex", "-1");
           section.$button.setAttribute("tabindex", "-1");
           section.$button.setAttribute("aria-selected", "false");
-          section.$listItem.classList.remove(
-            "etna-secondary-navigation__item--current",
+          section.$button.classList.remove(
+            "etna-secondary-navigation__link--current",
           );
         }
       });
