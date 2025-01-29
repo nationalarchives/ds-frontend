@@ -41,6 +41,7 @@
     margin-top: spacing.space(0.25);
 
     @include typography.font-size(16);
+    @include typography.main-font-weight-medium;
 
     p + p {
       margin-top: spacing.space(0.25);
