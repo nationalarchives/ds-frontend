@@ -24,7 +24,10 @@ def breadcrumbs(page_id):
             "text": (
                 "Home"
                 if objects.get(ancestor, "url") == "/"
-                else objects.get(ancestor, "title")
+                else (
+                    objects.get(ancestor, "short_title")
+                    or objects.get(ancestor, "title")
+                )
             ),
             "href": objects.get(ancestor, "url"),
         }
