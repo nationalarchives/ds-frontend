@@ -23,13 +23,13 @@
 
   {%- elif content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
   {%- if next_heading_level == 3 %}
-  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
+  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
   {%- elif next_heading_level == 4 %}
-  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
+  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
   {%- elif next_heading_level == 5 %}
-  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
+  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
   {%- elif next_heading_level == 6 %}
-  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
+  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
   {%- endif %}
 
   {%- elif content_item.type == 'button' %}
