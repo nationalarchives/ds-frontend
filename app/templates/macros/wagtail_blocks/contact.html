@@ -3,6 +3,9 @@
 {% macro wagtailContact(block_value, next_heading_level) %}
   <div class="tna-aside tna-background-tint">
     <h{{ next_heading_level }} class="tna-heading-m">{{ block_value.title }}</h{{ next_heading_level }}>
+    {% if block_value.body %}
+    {{ block_value.body | tna_html | safe }}
+    {% endif %}
     <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding">
       {%- if block_value.address %}
       <dt>
@@ -61,7 +64,7 @@
       {%- endif %}
       {%- if block_value.social_media %}
       <dt>
-        <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
+        <i class="fa-solid fa-at" aria-hidden="true"></i>
         Social media
       </dt>
       <dd>
