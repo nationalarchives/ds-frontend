@@ -8,6 +8,7 @@ from markupsafe import Markup
 
 from .content_parser import (
     add_abbreviations,
+    add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
     replace_footnotes,
@@ -23,6 +24,7 @@ def tna_html(s):
     s = replace_line_breaks(s)
     s = replace_footnotes(s)
     s = add_abbreviations(s)
+    s = add_rel_to_external_links(s)
     return s
 
 
