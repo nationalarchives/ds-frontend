@@ -49,7 +49,7 @@
 
   {% set hero_image_caption = page_data.hero_image_caption or '' %}
   {%- if page_data.hero_image.copyright %}
-    {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+    {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
   {%- endif %}
 
   {{ tnaHero({
@@ -576,7 +576,7 @@
 {% for shop in page_data.shop %}
   {% set shop_hero_image_caption = '' %}
   {%- if shop.value.background_image.copyright %}
-    {% set shop_hero_image_caption = shop_hero_image_caption + '<p>&copy; ' + shop.value.background_image.copyright + '</p>' %}
+    {% set shop_hero_image_caption = shop_hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
   {%- endif %}
   {{ tnaHero({
     'headingLevel': 2,
