@@ -131,5 +131,5 @@ jobs:
         run: |
           git add docker-compose.yml
           COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
-          git commit -m "Update frontend to v${{ needs.version.outputs.version }}" -m "$COMMIT_MESSAGE_HEADER" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+          git commit -m "Update frontend to v${{ needs.version.outputs.version }}" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
           git push origin proof-of-concept
