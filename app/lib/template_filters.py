@@ -187,7 +187,7 @@ def sidebar_items_from_wagtail_body(content):
                     section_children.append(
                         {
                             "text": block["value"]["heading"],
-                            "href": "#"
+                            "href": "#heading-"
                             + slugify(block["value"]["heading"])
                             + "-"
                             + block["id"],
@@ -203,7 +203,7 @@ def sidebar_items_from_wagtail_body(content):
                     section_grandchildren.append(
                         {
                             "text": block["value"]["heading"],
-                            "href": "#"
+                            "href": "#heading-"
                             + slugify(block["value"]["heading"])
                             + "-"
                             + block["id"],
@@ -212,7 +212,10 @@ def sidebar_items_from_wagtail_body(content):
             page_sections.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#" + slugify(item["value"]["heading"]) + "-" + item["id"],
+                    "href": "#heading-"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                     "children": (
                         reversed(section_children) if section_children else None
                     ),
@@ -223,7 +226,10 @@ def sidebar_items_from_wagtail_body(content):
             page_children.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#" + slugify(item["value"]["heading"]) + "-" + item["id"],
+                    "href": "#heading-"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                     "children": (
                         reversed(page_grandchildren) if page_grandchildren else None
                     ),
@@ -235,7 +241,10 @@ def sidebar_items_from_wagtail_body(content):
             page_grandchildren.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#" + slugify(item["value"]["heading"]) + "-" + item["id"],
+                    "href": "#heading-"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                 }
             )
     if footnotes:
