@@ -12,9 +12,6 @@
   {%- if params.microdataCaption -%}
   <meta itemprop="caption" content="{{ params.microdataCaption }}">
   {%- endif -%}
-  {%- if params.microdataCopyright -%}
-  <meta itemprop="copyrightNotice" content="{{ params.microdataCopyright }}">
-  {%- endif -%}
   <div class="tna-picture__image-wrapper tna-background-tint">
     <picture>
     {%- for source in params.sources -%}

@@ -31,7 +31,7 @@
   {%- endif %}
   {% set image_caption = (block_value.caption | tna_html) or '' %}
   {%- if block_value.image.copyright %}
-    {% set image_caption = image_caption + '<p>&copy; ' + block_value.image.copyright + '</p>' %}
+    {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
   {%- endif %}
   {% set picture = tnaPicture({
     'src': block_value.image.jpeg.full_url,
@@ -48,7 +48,6 @@
     ],
     'caption': image_caption,
     'microdataCaption': (block_value.caption | striptags) or '',
-    'microdataCopyright': block_value.image.copyright,
     'informationLabelOpen': information_label_open,
     'informationLabelClose': information_label_close,
     'information': picture_information,
