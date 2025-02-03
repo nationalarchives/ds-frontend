@@ -1,11 +1,11 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, plain_image) %}
+{% macro wagtailImage(block_value, id, plain_image, hide_transcript) %}
   {% set information_label_open = 'Open details' %}
   {% set information_label_close = 'Close details' %}
   {% set picture_information = [] %}
-  {%- if not plain_image %}
+  {%- if not hide_transcript %}
     {%- if block_value.image.transcript %}
       {%- if not block_value.image.translation %}
         {% set information_label_open = 'Open ' + (block_value.image.transcript.heading | lower) %}

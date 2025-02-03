@@ -18,7 +18,7 @@
       {%- elif content_item.type == 'sub_sub_heading' %}
         {% set ns.next_heading_level = 5 %}
       {%- endif %}
-      {{ wagtail_block(content_item, ns.next_heading_level) }}
+      {{ wagtail_block(content_item, ns.next_heading_level, False) }}
     {%- endfor %}
   </section>
   {%- endfor %}
