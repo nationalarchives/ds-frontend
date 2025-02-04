@@ -260,11 +260,13 @@ sup[data-footnoteid] {
   }
 }
 
-.tna-picture__copyright,
-.tna-hero__information {
-  p:first-child {
-    &::before {
-      content: "\00A9" " ";
+.tna-picture,
+.tna-hero {
+  &__copyright {
+    p:first-child {
+      &::before {
+        content: "\00A9" " ";
+      }
     }
   }
 }

@@ -576,7 +576,7 @@
 {% for shop in page_data.shop %}
   {% set shop_hero_image_caption = '' %}
   {%- if shop.value.background_image.copyright %}
-    {% set shop_hero_image_caption = shop_hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
+    {% set shop_hero_image_caption = shop_hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (shop.value.background_image.copyright | tna_html) + '</div>' %}
   {%- endif %}
   {{ tnaHero({
     'headingLevel': 2,
