@@ -2,6 +2,7 @@
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/authors_list.html' import authors_list -%}
 {%- from 'macros/meta.html' import meta -%}
@@ -136,6 +137,13 @@
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
+            {%- if page_data.display_content_warning %}
+            {{ tnaWarning({
+              'headingLevel': 2,
+              'body': (page_data.custom_warning_text | tna_html | safe) or default_article_warning,
+              'classes': 'tna-!--margin-bottom-m'
+            }) }}
+            {%- endif %}
             {{ wagtail_body(page_data.body, 2) }}
           </div>
         </div>

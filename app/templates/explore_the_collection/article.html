@@ -91,7 +91,7 @@
         {%- if page_data.display_content_warning %}
         {{ tnaWarning({
           'headingLevel': 2,
-          'body': page_data.custom_warning_text | safe or 'This article contains content that some people may find offensive.',
+          'body': (page_data.custom_warning_text | tna_html | safe) or default_article_warning,
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
         {%- endif %}
