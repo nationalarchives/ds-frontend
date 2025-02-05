@@ -9,10 +9,6 @@ let videoJsInstances = {};
 const initYoutubeVideos = () => {
   document.querySelectorAll("a.etna-video--youtube[id]").forEach(($video) => {
     const id = $video.getAttribute("id");
-    const $nextButtonGroup = $video.nextElementSibling;
-    if ($nextButtonGroup.classList.contains("tna-button-group")) {
-      $nextButtonGroup.removeAttribute("hidden");
-    }
     const $newVideo = document.createElement("video");
     $newVideo.classList.add(
       "etna-video",
