@@ -103,7 +103,7 @@
                 'text':  blog_posts[0].published_date.value | pretty_date
               }
             ],
-            'body': blog_posts[0].teaser_text | tna_html | safe,
+            'text': blog_posts[0].teaser_text | tna_html | safe,
             'fullAreaClick': True,
             'horizontal': True,
             'horizontalFlipped': True,
@@ -150,7 +150,7 @@
                   'headingLevel': 3,
                   'headingSize': 's',
                   'href': blog_post.url,
-                  'body': blog_post.teaser_text,
+                  'text': blog_post.teaser_text,
                   'label': 'New' if blog_post.is_newly_published,
                   'labelColour': 'green',
                   'meta': [
