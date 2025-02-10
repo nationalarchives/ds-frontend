@@ -24,12 +24,16 @@ def blog_index_page(page_data, year=None, month=None, day=None):
     year = year or (
         int(request.args.get("year"))
         if request.args.get("year") and request.args.get("year").isnumeric()
-        else None
+        else (
+            datetime.datetime.now().year
+            if request.args.get("month") or request.args.get("day")
+            else None
+        )
     )
     month = month or (
         int(request.args.get("month"))
         if request.args.get("month") and request.args.get("month").isnumeric()
-        else None
+        else datetime.datetime.now().month if request.args.get("day") else None
     )
     month_name = datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
     day = day or (
