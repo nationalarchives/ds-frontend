@@ -6,7 +6,6 @@
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
-{%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
 {# TODO: Remove once more pages can support dark mode #}
@@ -74,12 +73,13 @@
 {% endblock %}
 
 {% block header %}
+{% set phase_banner = {} %}
 {%- if feature.PHASE_BANNER %}
-{{ tnaPhaseBanner({
+{% set phase_banner = {
   'phase': 'Beta',
   'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' + request.url + '" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
-}) | indent(6) }}
+} %}
 {%- endif %}
 {{ tnaGlobalHeader({
   'logo': {
@@ -123,7 +123,8 @@
       'text': 'Professional guidance and services',
       'href': 'https://www.nationalarchives.gov.uk/professional-guidance-and-services/'
     },
-  ]
+  ],
+  'phaseBanner': phase_banner
 }) | indent(6) }}
 {% endblock %}
 
