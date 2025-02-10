@@ -4,7 +4,7 @@
   {%- set ns = namespace(next_heading_level=initial_next_heading_level) %}
   {% for body_item in body %}
     {%- if body_item.type == 'content_section' %}
-      <section class="tna-!--margin-top-m" id="section-{{ body_item.value.heading | slugify }}-{{ body_item.id }}" data-sectionfor="{{ body_item.value.heading | slugify }}-{{ body_item.id }}">
+      <section class="tna-!--margin-top-m" id="section-heading-{{ body_item.value.heading | slugify }}-{{ body_item.id }}" data-sectionfor="{{ body_item.value.heading | slugify }}-{{ body_item.id }}">
         {% set ns.next_heading_level = initial_next_heading_level + 1 %}
         {{ wagtail_block({
           'type': 'sub_heading',
