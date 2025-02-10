@@ -135,10 +135,10 @@
         {{ articleSidebar(page_data.body) }}
       </div>
       <div id="page-body" class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections etna-!--full-width-on-print" itemprop="articleBody">
-        {%- if page_data.display_content_warning %}
+        {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
           'headingLevel': 2,
-          'body': (page_data.custom_warning_text | tna_html | safe) or default_article_warning,
+          'body': page_data.custom_warning_text | tna_html | safe,
           'classes': 'tna-!--margin-top-s tna-!--margin-bottom-m'
         }) }}
         {%- endif %}

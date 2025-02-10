@@ -190,7 +190,6 @@ def create_app(config_class):
                 "LOGO_ADORNMENTS_CSS": app.config.get("FEATURE_LOGO_ADORNMENTS_CSS"),
                 "LOGO_ADORNMENTS_JS": app.config.get("FEATURE_LOGO_ADORNMENTS_JS"),
             },
-            default_article_warning="This article contains content that some people may find offensive.",
         )
 
     from .feeds import bp as feeds_bp

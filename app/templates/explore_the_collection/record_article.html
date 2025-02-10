@@ -35,10 +35,10 @@
         <div class="tna-large-paragraph tna-!--margin-top-s">
           {{ page_data.intro | safe }}
         </div>
-        {%- if page_data.display_content_warning %}
+        {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
           'headingLevel': 2,
-          'body': (page_data.custom_warning_text | tna_html | safe) or default_article_warning,
+          'body': page_data.custom_warning_text | tna_html | safe,
           'classes': 'tna-!--margin-top-m'
         }) }}
         {%- endif %}
