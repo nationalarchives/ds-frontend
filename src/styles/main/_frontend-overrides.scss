@@ -193,6 +193,24 @@ sup[data-footnoteid] {
   // &--person &__body {
   //   margin-bottom: spacing.space(1);
   // }
+
+  // &--padded {
+  //   overflow: hidden;
+
+  //   border-radius: 0.5rem;
+
+  //   box-shadow:
+  //     0 0.25rem 1rem -0.25rem rgb(0 0 0 / 12%),
+  //     0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 50%);
+
+  //   &:not(:is(.tna-background-accent, .tna-background-contrast)) {
+  //     background-color: rgb(255 255 255 / 5%);
+  //   }
+  // }
+
+  // &--padded#{&}--full-height {
+  //   height: calc(100% - #{spacing.space(1)});
+  // }
 }
 
 .tna-form {
