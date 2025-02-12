@@ -443,11 +443,14 @@
   </div>
 </section>
 {%- endfor %}
-{%- if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
+{%- if page_data.related_pages_title and (page_data.related_pages_description or page_data.featured_page or page_data.related_pages) %}
 <section class="tna-section tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l tna-!--padding-top-s" id="{{ page_data.related_pages_title | slugify }}">{{ page_data.related_pages_title }}</h2>
+      {%- if page_data.related_pages_description %}
+      {{ page_data.related_pages_description | tna_html | safe }}
+      {%- endif %}
       {%- if page_data.featured_page %}
       {% set card_content = {
         'supertitle': page_data.featured_page.type_label,
