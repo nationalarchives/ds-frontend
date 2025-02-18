@@ -45,7 +45,7 @@
     {% if request.args.get('source') %}
     <meta name="tna.source" content="{{ request.args.get('source') }}">
     {% endif %}
-    <meta name="tna_root:content_group" content="{{ request.path.strip('/').split('/')[0] }}">
+    <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
 {% endblock %}
 
 {% block stylesheets %}
