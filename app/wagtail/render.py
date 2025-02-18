@@ -13,7 +13,7 @@ from .pages import (
     cookie_details_page,
     cookies_page,
     exhibition_page,
-    explore_index_page,
+    explorer_index_page,
     general_page,
     highlight_gallery_page,
     home_page,
@@ -33,7 +33,7 @@ page_type_templates = {
     "cookies.CookiesPage": cookies_page,
     "cookies.CookieDetailsPage": cookie_details_page,
     # Explore the collection
-    "collections.ExplorerIndexPage": explore_index_page,
+    "collections.ExplorerIndexPage": explorer_index_page,
     "collections.HighlightGalleryPage": highlight_gallery_page,
     "collections.TimePeriodExplorerIndexPage": category_index_page,
     "collections.TimePeriodExplorerPage": categories_page,
