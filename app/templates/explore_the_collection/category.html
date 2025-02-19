@@ -11,6 +11,11 @@
 {% block head %}
 {{ super() }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
+    {% if page_data.meta.type == 'collections.TimePeriodExplorerPage' %}
+    <meta name="tna_root:time_period" content="{{ page_data.title }}">
+    {%- elif page_data.meta.type == 'collections.TopicExplorerPage' %}
+    <meta name="tna_root:taxonomy_topic" content="{{ page_data.title }}">
+    {%- endif %}
 {% endblock %}
 
 {% block content %}
