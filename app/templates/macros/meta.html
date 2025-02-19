@@ -18,10 +18,8 @@
     <meta name="twitter:title" content="{{ page_data.meta.twitter_og_title }}">
 {%- endif %}
 
-{% if description %}
-    <meta name="description" content="{{ description }}">
-    <meta property="og:description" content="{{ description }}">
-{%- endif %}
+    <meta name="description" content="{{ description or page_data.meta.teaser_text }}">
+    <meta property="og:description" content="{{ description or page_data.meta.teaser_text }}">
 {% if page_data.meta and page_data.meta.twitter_og_description %}
     <meta name="twitter:description" content="{{ page_data.meta.twitter_og_description }}">
 {%- endif %}
