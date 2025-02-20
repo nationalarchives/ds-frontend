@@ -20,11 +20,6 @@
 {{ meta(page_data) }}
 {% endblock %}
 
-{% block skipLink %}
-<a id="top"></a>
-{{ super() }}
-{% endblock %}
-
 {% block stylesheets %}
 {{ super() }}
     {%- if bodyContainsMedia %}

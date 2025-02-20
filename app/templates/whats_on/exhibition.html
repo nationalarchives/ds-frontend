@@ -612,6 +612,19 @@
     }
   }) }}
 {% endfor %}
+<div class="tna-container tna-!--hide-on-print">
+  <div class="tna-column tna-column--full">
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': 'Back to top',
+        'href': '#top',
+        'icon': 'arrow-up',
+        'small': True,
+        'plain': True
+      }) }}
+    </div>
+  </div>
+</div>
 {{ feedback() }}
 {% endblock %}
 

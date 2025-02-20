@@ -148,5 +148,19 @@
   </ul>
 </section>
 {%- endif %}
+<div class="tna-container tna-!--margin-top-m tna-!--hide-on-print">
+  <div class="tna-column tna-column--full">
+    <hr>
+    <div class="tna-button-group tna-!--margin-top-s">
+      {{ tnaButton({
+        'text': 'Back to top',
+        'href': '#top',
+        'icon': 'arrow-up',
+        'small': True,
+        'plain': True
+      }) }}
+    </div>
+  </div>
+</div>
 {{ feedback() }}
 {% endblock %}

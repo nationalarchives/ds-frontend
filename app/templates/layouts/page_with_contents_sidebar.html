@@ -3,11 +3,6 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 
-{% block cookies %}
-<a id="top"></a>
-{{ super() }}
-{% endblock %}
-
 {% macro simplePageWithSidebar(aToZSidebar, noPadding, sidebarTitle, sidebarHeadingSize) %}
 <div class="tna-container tna-section tna-!--no-padding-top">
   {% set headings = caller() | headings_list %}
