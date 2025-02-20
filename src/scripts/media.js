@@ -23,30 +23,39 @@ const initYoutubeVideos = () => {
         .querySelector("img.etna-video__preview-image[src]")
         ?.getAttribute("src") || null;
     $video.replaceWith($newVideo);
-    const video = videojs($newVideo, {
-      techOrder: ["youtube"],
-      sources: [
-        {
-          type: "video/youtube",
-          src: $video.getAttribute("href"),
+    const video = videojs(
+      $newVideo,
+      {
+        techOrder: ["youtube"],
+        sources: [
+          {
+            type: "video/youtube",
+            src: $video.getAttribute("href"),
+          },
+        ],
+        experimentalSvgIcons: true,
+        disablePictureInPicture: true,
+        enableDocumentPictureInPicture: false,
+        controlBar: {
+          pictureInPictureToggle: false,
+          volumePanel: false,
         },
-      ],
-      experimentalSvgIcons: true,
-      disablePictureInPicture: true,
-      enableDocumentPictureInPicture: false,
-      controlBar: {
-        pictureInPictureToggle: false,
-        volumePanel: false,
+        poster,
+        youtube: {
+          ytControls: 0,
+          color: "white",
+          enablePrivacyEnhancedMode: true,
+          iv_load_policy: 3,
+          rel: 0,
+        },
       },
-      poster,
-      youtube: {
-        ytControls: 0,
-        color: "white",
-        enablePrivacyEnhancedMode: true,
-        iv_load_policy: 3,
-        rel: 0,
+      () => {
+        video.el().querySelector("iframe")?.setAttribute("tabindex", "-1");
       },
-    });
+    );
+    video.one("play", (player) =>
+      player.target.querySelector("iframe")?.removeAttribute("tabindex"),
+    );
     videoJsInstances[id] = video;
   });
 };
