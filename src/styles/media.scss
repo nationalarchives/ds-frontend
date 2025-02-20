@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -132,7 +133,7 @@ $videojs-track-height: 0.5em;
     @include colour.accent;
 
     border: none;
-    border-radius: 0;
+    @include borders.rounded-border;
 
     .vjs-svg-icon {
       width: 1.5em;
@@ -247,12 +248,43 @@ $videojs-track-height: 0.5em;
     overflow: auto;
 
     word-wrap: break-word;
+
+    border-top-left-radius: 0.1px;
+    border-top-right-radius: 0.1px;
   }
 
   .tna-details {
     &__summary {
       padding-top: 0;
       padding-bottom: 0;
+
+      &::before {
+        content: "\2b";
+
+        width: 1.5rem;
+        height: 1.5rem;
+
+        top: calc(50% - 0.75rem);
+
+        /* stylelint-disable font-family-no-missing-generic-family-keyword */
+        font-family: "Font Awesome 6 Free";
+        /* stylelint-enable font-family-no-missing-generic-family-keyword */
+        line-height: 1.5rem;
+
+        border: none;
+      }
+    }
+
+    &__details[open] .tna-details__summary {
+      &::before {
+        content: "\f068";
+
+        top: calc(50% - 0.75rem);
+
+        line-height: 1.5rem;
+
+        border: none;
+      }
     }
 
     &__content {
