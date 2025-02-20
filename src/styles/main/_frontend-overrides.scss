@@ -194,6 +194,10 @@ sup[data-footnoteid] {
   &--padded#{&}--full-height {
     height: calc(100% - #{spacing.space(1)});
   }
+
+  &--padded#{&}--full-height:not(:has(&__image-container)) {
+    height: calc(100% - #{spacing.space(1.75)});
+  }
 }
 
 .tna-form {

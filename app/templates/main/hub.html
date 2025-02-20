@@ -107,6 +107,7 @@
             'href': child.url,
             'text': child.teaser_text,
             'fullAreaClick': True,
+            'style': None if page_data.plain_cards_list else 'plain',
             'classes': 'tna-card--full-height'
           } %}
           {%- if child.type_label == 'External' %}

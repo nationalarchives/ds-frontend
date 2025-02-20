@@ -115,7 +115,7 @@
         'horizontalSmallImage': True,
         'horizontalFlipped': True,
         'horizontalOnSmall': True,
-        'style': 'tint' if not request.args.view or request.args.view == 'list' else '',
+        'style': 'tint' if not request.args.view or request.args.view == 'list' else 'plain',
         'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
       } %}
       {%- if item.teaser_image %}
