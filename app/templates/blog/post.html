@@ -3,8 +3,9 @@
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
-{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/authors_list.html' import authors_list -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
@@ -156,6 +157,7 @@
       </div>
       {%- endif %}
     </article>
+    {{ back_to_top() }}
   </main>
 {% endblock %}
 

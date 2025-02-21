@@ -2,6 +2,7 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 
 {% macro simplePageWithSidebar(aToZSidebar, noPadding, sidebarTitle, sidebarHeadingSize) %}
 <div class="tna-container tna-section tna-!--no-padding-top">
@@ -41,19 +42,6 @@
     {% call simplePageWithSidebar(aToZSidebar or False, noPadding or False, sidebarTitle or None, sidebarHeadingSize or None) %}
     {% block content %}{% endblock %}
     {% endcall %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        <hr>
-        <div class="tna-button-group">
-          {{ tnaButton({
-            'text': 'Back to top',
-            'href': '#top',
-            'icon': 'arrow-up',
-            'small': True,
-            'plain': True
-          }) }}
-        </div>
-      </div>
-    </div>
+    {{ back_to_top() }}
   </main>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
@@ -84,19 +85,7 @@
   }) }}
 {%- endif %}
 {%- endfor %}
-<div class="tna-container tna-!--margin-top-l tna-!--hide-on-print">
-  <div class="tna-column tna-column--full">
-    <hr>
-    <div class="tna-button-group tna-!--margin-top-s">
-      {{ tnaButton({
-        'text': 'Back to top',
-        'href': '#top',
-        'icon': 'arrow-up',
-        'small': True,
-        'plain': True
-      }) }}
-    </div>
-  </div>
-</div>
+
 {{ feedback() }}
+{{ back_to_top() }}
 {% endblock %}

@@ -6,6 +6,7 @@
 {%- from 'components/gallery/macro.html' import tnaGallery -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
@@ -614,20 +615,8 @@
     }
   }) }}
 {% endfor %}
-<div class="tna-container tna-!--margin-top-s tna-!--hide-on-print">
-  <div class="tna-column tna-column--full">
-    <div class="tna-button-group">
-      {{ tnaButton({
-        'text': 'Back to top',
-        'href': '#top',
-        'icon': 'arrow-up',
-        'small': True,
-        'plain': True
-      }) }}
-    </div>
-  </div>
-</div>
 {{ feedback() }}
+{{ back_to_top() }}
 {% endblock %}
 
 {% block bodyEnd %}

@@ -4,6 +4,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
@@ -261,19 +262,8 @@
       }) }}
     </div>
     {%- endif %}
-    <div class="tna-column tna-column--full tna-!--hide-on-print">
-      <hr class="tna-!--margin-top-xl">
-      <div class="tna-button-group tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Back to top',
-          'href': '#top',
-          'icon': 'arrow-up',
-          'small': True,
-          'plain': True
-        }) }}
-      </div>
-    </div>
   </div>
+  {{ back_to_top('l') }}
 </main>
 {% endblock %}
 

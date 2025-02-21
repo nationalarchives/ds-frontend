@@ -3,6 +3,7 @@
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
@@ -127,19 +128,6 @@
   {{ articleFooter(page_data.similar_items, categories, page_data.latest_items) }}
 </article>
 
-<div class="tna-container tna-!--hide-on-print">
-  <div class="tna-column tna-column--full">
-    <hr>
-    <div class="tna-button-group tna-!--margin-top-s">
-      {{ tnaButton({
-        'text': 'Back to top',
-        'href': '#top',
-        'icon': 'arrow-up',
-        'small': True,
-        'plain': True
-      }) }}
-    </div>
-  </div>
-</div>
 {{ feedback() }}
+{{ back_to_top() }}
 {% endblock %}
