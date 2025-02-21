@@ -109,8 +109,8 @@
       {% endif %}
       {% if page_data.event_links %}
         {% set ns.sidebar_items = ns.sidebar_items + [{
-          'text': page_data.event_title,
-          'href': '#' + (page_data.event_title | slugify)
+          'text': page_data.event_title or 'Events',
+          'href': '#' + ((page_data.event_title | slugify) if page_data.event_title else 'events')
         }] %}
       {% endif %}
       {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
@@ -409,7 +409,7 @@
 <section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="{{ page_data.event_title | slugify }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_title }}</h2>
+      <h2 id="{{ page_data.event_title | slugify if page_data.event_title else 'events' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_title or 'Events' }}</h2>
     </div>
     {% for event in event_links.value %}
     <div class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-l">
