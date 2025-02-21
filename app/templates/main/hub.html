@@ -108,7 +108,7 @@
             'text': child.teaser_text,
             'fullAreaClick': True,
             'style': None if page_data.plain_cards_list else 'plain',
-            'classes': 'tna-card--full-height'
+            'classes': None if page_data.plain_cards_list else 'tna-card--full-height'
           } %}
           {%- if child.type_label == 'External' %}
             {% set card_content = dict(card_content, **{

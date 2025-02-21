@@ -96,6 +96,16 @@ sup[data-footnoteid] {
 }
 
 .tna-card {
+  &--full-height {
+    height: 100%;
+
+    box-sizing: border-box;
+
+    @include colour.on-high-contrast-and-forced-colours {
+      height: auto;
+    }
+  }
+
   &--promoted-item {
     @include colour.thick-keyline-accent(top);
 
@@ -141,14 +151,6 @@ sup[data-footnoteid] {
     @include card.horizontal-card-layout("--featured-link", 1);
   }
 
-  &--full-height {
-    height: 100%;
-
-    @include colour.on-high-contrast-and-forced-colours {
-      height: auto;
-    }
-  }
-
   // &--person {
   //   padding-bottom: 0;
 
@@ -190,14 +192,6 @@ sup[data-footnoteid] {
   //     background-color: rgb(255 255 255 / 5%);
   //   }
   // }
-
-  &--padded#{&}--full-height {
-    height: calc(100% - #{spacing.space(1)});
-  }
-
-  &--padded#{&}--full-height:not(:has(&__image-container)) {
-    height: calc(100% - #{spacing.space(1.75)});
-  }
 }
 
 .tna-form {
