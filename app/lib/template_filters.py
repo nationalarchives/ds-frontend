@@ -18,6 +18,8 @@ from .content_parser import (
 
 
 def tna_html(s):
+    if not s:
+        return s
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
@@ -29,6 +31,8 @@ def tna_html(s):
 
 
 def slugify(s):
+    if not s:
+        return s
     s = s.lower().strip()
     s = re.sub(r"[^\w\s-]", "", s)
     s = re.sub(r"[\s_-]+", "-", s)
@@ -37,6 +41,8 @@ def slugify(s):
 
 
 def seconds_to_time(s):
+    if not s:
+        return "00:00:00"
     total_seconds = int(s)
     hours = math.floor(total_seconds / 3600)
     minutes = math.floor((total_seconds - (hours * 3600)) / 60)
@@ -54,6 +60,8 @@ def get_url_domain(s):
 
 
 def pretty_date(s, show_day=False):
+    if not s:
+        return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
@@ -87,6 +95,8 @@ def pretty_date_with_day(s):
 
 
 def currency(s):
+    if not s:
+        return s
     float_number = float(s)
     int_number = int(float_number)
     if int_number == float_number:
@@ -95,6 +105,8 @@ def currency(s):
 
 
 def rfc_822_format(s):
+    if not s:
+        return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
@@ -109,6 +121,8 @@ def rfc_822_format(s):
 
 
 def headings_list(s):
+    if not s:
+        return s
     headings_regex = re.findall(
         r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
     )
