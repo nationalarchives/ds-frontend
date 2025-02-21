@@ -53,7 +53,7 @@
     </div>
     {%- endif %}
     {%- if block_value.media.chapters %}
-    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint etna-media-block__transcript">
+    <div class="tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
           <summary class="tna-details__summary">Chapters and transcript</summary>
@@ -74,7 +74,7 @@
       </div>
     </div>
     {%- elif block_value.media.transcript %}
-    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint etna-media-block__transcript">
+    <div class="tna-background-tint etna-media-block__transcript">
       {{ tnaDetails({
         'title': 'Transcript',
         'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
