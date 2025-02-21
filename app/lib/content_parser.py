@@ -31,7 +31,7 @@ def replace_line_breaks(html):
 def add_rel_to_external_links(html):
     html = re.sub(
         r'<a href="(?!https:\/\/(www|discovery|webarchive)\.nationalarchives\.gov\.uk\/)',
-        '<a rel="noreferrer nofollow" href="',
+        '<a rel="noreferrer nofollow noopener" href="',
         html,
     )
     return html
