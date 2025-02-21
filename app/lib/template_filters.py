@@ -96,7 +96,7 @@ def pretty_date_with_day(s):
 
 def currency(s):
     if not s:
-        return s
+        return "0"
     float_number = float(s)
     int_number = int(float_number)
     if int_number == float_number:
