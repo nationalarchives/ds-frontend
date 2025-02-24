@@ -103,6 +103,8 @@ $videojs-track-height: 0.5em;
   }
 
   .vjs-button {
+    border-radius: 0.1px;
+    
     &:hover {
       &::after {
         content: "";
