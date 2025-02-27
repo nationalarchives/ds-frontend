@@ -280,7 +280,7 @@ $videojs-track-height: 0.5em;
       padding-bottom: 0;
 
       &::before {
-        content: "\2b";
+        content: "\2b" / "";
 
         width: 1.5rem;
         height: 1.5rem;
@@ -298,7 +298,7 @@ $videojs-track-height: 0.5em;
 
     &__details[open] .tna-details__summary {
       &::before {
-        content: "\f068";
+        content: "\f068" / "";
 
         top: calc(50% - 0.75rem);
 

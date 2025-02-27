@@ -56,7 +56,7 @@
     <div class="tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
-          <summary class="tna-details__summary">Chapters and transcript</summary>
+          <summary class="tna-details__summary">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
           <div class="tna-details__content">
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
@@ -76,7 +76,7 @@
     {%- elif block_value.media.transcript %}
     <div class="tna-background-tint etna-media-block__transcript">
       {{ tnaDetails({
-        'title': 'Transcript',
+        'title': (block_value.media.type | capitalize) + ' transcript for "' + block_value.title + '"',
         'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
       }) }}
     </div>
