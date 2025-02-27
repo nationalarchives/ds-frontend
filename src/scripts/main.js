@@ -68,24 +68,24 @@ if (cookies.isPolicyAccepted("settings")) {
   });
 }
 
-document
-  .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
-  .forEach(($emailButton) => {
-    const originalEmailButtonHTML = $emailButton.innerHTML;
-    $emailButton.removeAttribute("hidden");
-    $emailButton.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(
-          $emailButton.previousElementSibling
-            .getAttribute("href")
-            .replace(/^mailto:/, ""),
-        );
-      } catch (err) {
-        console.error("Failed to copy: ", err);
-      }
-      $emailButton.innerHTML = "Copied";
-    });
-    $emailButton.addEventListener("blur", () => {
-      $emailButton.innerHTML = originalEmailButtonHTML;
-    });
-  });
+// document
+//   .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
+//   .forEach(($emailButton) => {
+//     const originalEmailButtonHTML = $emailButton.innerHTML;
+//     $emailButton.removeAttribute("hidden");
+//     $emailButton.addEventListener("click", async () => {
+//       try {
+//         await navigator.clipboard.writeText(
+//           $emailButton.previousElementSibling
+//             .getAttribute("href")
+//             .replace(/^mailto:/, ""),
+//         );
+//       } catch (err) {
+//         console.error("Failed to copy: ", err);
+//       }
+//       $emailButton.innerHTML = "Copied";
+//     });
+//     $emailButton.addEventListener("blur", () => {
+//       $emailButton.innerHTML = originalEmailButtonHTML;
+//     });
+//   });
