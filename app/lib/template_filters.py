@@ -333,3 +333,10 @@ def qs_toggler(existing_qs, filter, by):
         # Update or add the query string.
         rtn_qs.update(qs)
     return urlencode(rtn_qs)
+
+
+def qs_update(existing_qs, filter, value):
+    rtn_qs = existing_qs.copy()
+    rtn_qs.pop(filter)
+    rtn_qs.update({filter: value})
+    return urlencode(rtn_qs)
