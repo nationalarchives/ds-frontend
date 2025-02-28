@@ -181,6 +181,34 @@ $videojs-track-height: 0.5em;
   .vjs-menu li {
     text-transform: none;
   }
+
+  @include colour.on-forced-colours {
+    & {
+      @include colour.colour-border("keyline", 3px);
+      border-top-width: 2px;
+    }
+
+    .vjs-progress-holder {
+      margin-right: 20px;
+      margin-left: 20px;
+    }
+
+    .vjs-control-bar {
+      @include colour.colour-border("keyline", 1px, solid, top);
+
+      background: #000 !important;
+    }
+
+    .vjs-big-play-button,
+    .vjs-slider {
+      @include colour.colour-border("keyline", 1px);
+    }
+
+    .vjs-button + .vjs-button,
+    .vjs-control {
+      @include colour.colour-border("keyline", 1px, solid, left);
+    }
+  }
 }
 
 .etna-audio.video-js {
