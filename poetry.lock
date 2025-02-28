@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "cachelib"
-version = "0.9.0"
+version = "0.13.0"
 description = "A collection of cache libraries in the same API interface."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "cachelib-0.9.0-py3-none-any.whl", hash = "sha256:811ceeb1209d2fe51cd2b62810bd1eccf70feba5c52641532498be5c675493b3"},
-    {file = "cachelib-0.9.0.tar.gz", hash = "sha256:38222cc7c1b79a23606de5c2607f4925779e37cdcea1c2ad21b8bae94b5425a5"},
+    {file = "cachelib-0.13.0-py3-none-any.whl", hash = "sha256:8c8019e53b6302967d4e8329a504acf75e7bc46130291d30188a6e4e58162516"},
+    {file = "cachelib-0.13.0.tar.gz", hash = "sha256:209d8996e3c57595bee274ff97116d1d73c4980b2fd9a34c7846cd07fd2e1a48"},
 ]
 
 [[package]]
@@ -198,17 +198,17 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-caching"
-version = "2.3.0"
+version = "2.3.1"
 description = "Adds caching support to Flask applications."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Flask_Caching-2.3.0-py3-none-any.whl", hash = "sha256:51771c75682e5abc1483b78b96d9131d7941dc669b073852edfa319dd4e29b6e"},
-    {file = "flask_caching-2.3.0.tar.gz", hash = "sha256:d7e4ca64a33b49feb339fcdd17e6ba25f5e01168cf885e53790e885f83a4d2cf"},
+    {file = "Flask_Caching-2.3.1-py3-none-any.whl", hash = "sha256:d3efcf600e5925ea5a2fcb810f13b341ae984f5b52c00e9d9070392f3ca10761"},
+    {file = "flask_caching-2.3.1.tar.gz", hash = "sha256:65d7fd1b4eebf810f844de7de6258254b3248296ee429bdcb3f741bcbf7b98c9"},
 ]
 
 [package.dependencies]
-cachelib = ">=0.9.0,<0.10.0"
+cachelib = ">=0.9.0"
 Flask = "*"
 
 [[package]]
@@ -473,13 +473,13 @@ fixture = ["fixtures"]
 
 [[package]]
 name = "sentry-sdk"
-version = "2.20.0"
+version = "2.22.0"
 description = "Python client for Sentry (https://sentry.io)"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "sentry_sdk-2.20.0-py2.py3-none-any.whl", hash = "sha256:c359a1edf950eb5e80cffd7d9111f3dbeef57994cb4415df37d39fda2cf22364"},
-    {file = "sentry_sdk-2.20.0.tar.gz", hash = "sha256:afa82713a92facf847df3c6f63cec71eb488d826a50965def3d7722aa6f0fdab"},
+    {file = "sentry_sdk-2.22.0-py2.py3-none-any.whl", hash = "sha256:3d791d631a6c97aad4da7074081a57073126c69487560c6f8bffcf586461de66"},
+    {file = "sentry_sdk-2.22.0.tar.gz", hash = "sha256:b4bf43bb38f547c84b2eadcefbe389b36ef75f3f38253d7a74d6b928c07ae944"},
 ]
 
 [package.dependencies]
@@ -526,18 +526,19 @@ sanic = ["sanic (>=0.8)"]
 sqlalchemy = ["sqlalchemy (>=1.2)"]
 starlette = ["starlette (>=0.19.1)"]
 starlite = ["starlite (>=1.48)"]
+statsig = ["statsig (>=0.55.3)"]
 tornado = ["tornado (>=6)"]
 unleash = ["UnleashClient (>=6.0.1)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.13.0"
+version = "0.14.0"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tna_frontend_jinja-0.13.0-py3-none-any.whl", hash = "sha256:e90ba6decd43965900da6861c8a0eec6d55ad8fc84b4c1dd20be04b346819ea2"},
-    {file = "tna_frontend_jinja-0.13.0.tar.gz", hash = "sha256:112fbaef6ccc9ded28d65cc555fb4a0ee8a81cead0eee9c8ac0a70698a4285ec"},
+    {file = "tna_frontend_jinja-0.14.0-py3-none-any.whl", hash = "sha256:812b8af8c8ece27c1e32f6251167aaae416ed7ca80e1479c9033a03732d709bc"},
+    {file = "tna_frontend_jinja-0.14.0.tar.gz", hash = "sha256:8fb19fa4be612d4ae40093e3a7ea50b8214c929d28378b2359ecff33ba2108a5"},
 ]
 
 [package.dependencies]
@@ -651,4 +652,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "4f8161a2dd992b6810d03de5efbb33ace1f8f525ecca9759cabe6227a92064cf"
+content-hash = "53f918f9e99ff686b9798ad2a6fffa6809e5079275294c3cde4a5eb07d51da89"

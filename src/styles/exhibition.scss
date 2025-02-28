@@ -144,7 +144,7 @@
   &__body {
     padding: spacing.space(1.5) spacing.space(2);
 
-    border-left-width: 0;
+    border-left-width: 0 !important;
     border-radius: 0 bordersVars.$rounded-border-radius
       bordersVars.$rounded-border-radius 0;
 
