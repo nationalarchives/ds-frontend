@@ -1,5 +1,5 @@
 import requests
-from app.lib.api import ApiResourceNotFound
+from app.lib.api import ResourceNotFound
 from flask import current_app
 
 
@@ -11,16 +11,14 @@ def eventbrite_api_request_handler(uri, params={}):
     r = requests.get(url, params=params)
     if r.status_code == 404:
         current_app.logger.warning(f"Resource not found: {url}")
-        raise ApiResourceNotFound("Resource not found")
+        raise ResourceNotFound("Resource not found")
     if r.status_code == requests.codes.ok:
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
             current_app.logger.error("API provided non-JSON response")
             raise ConnectionError("API provided non-JSON response")
-    current_app.logger.error(
-        f"API responded with {r.status_code} status for {url}"
-    )
+    current_app.logger.error(f"API responded with {r.status_code} status for {url}")
     raise ConnectionError("Request to API failed")
 
 

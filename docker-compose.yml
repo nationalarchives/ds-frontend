@@ -28,7 +28,6 @@ services:
       - FEATURE_PHASE_BANNER=False
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
-      - WAGTAILAPI_LIMIT_MAX=1000
       # - GA4_ID=GTM-KX8ZWVZG
     ports:
       - 65535:8080
