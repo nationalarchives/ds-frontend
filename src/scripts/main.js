@@ -4,20 +4,15 @@ import {
 } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
-
-// Set the cookies domain and extra policies even when the cookie banner is not shown
-const cookiesDomain =
-  document.documentElement.getAttribute("data-cookiesdomain");
-const cookies = new Cookies({
-  domain: cookiesDomain,
-  extraPolicies: ["marketing"],
-});
+window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
 // if ("serviceWorker" in navigator) {
 //   navigator.serviceWorker.register("/service-worker.min.js");
 // }
 
 initAll();
+
+const cookies = new Cookies();
 
 const initNotifications = () => {
   const initialDismissedNotifications = JSON.parse(
@@ -73,24 +68,24 @@ if (cookies.isPolicyAccepted("settings")) {
   });
 }
 
-document
-  .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
-  .forEach(($emailButton) => {
-    const originalEmailButtonHTML = $emailButton.innerHTML;
-    $emailButton.removeAttribute("hidden");
-    $emailButton.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(
-          $emailButton.previousElementSibling
-            .getAttribute("href")
-            .replace(/^mailto:/, ""),
-        );
-      } catch (err) {
-        console.error("Failed to copy: ", err);
-      }
-      $emailButton.innerHTML = "Copied";
-    });
-    $emailButton.addEventListener("blur", () => {
-      $emailButton.innerHTML = originalEmailButtonHTML;
-    });
-  });
+// document
+//   .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
+//   .forEach(($emailButton) => {
+//     const originalEmailButtonHTML = $emailButton.innerHTML;
+//     $emailButton.removeAttribute("hidden");
+//     $emailButton.addEventListener("click", async () => {
+//       try {
+//         await navigator.clipboard.writeText(
+//           $emailButton.previousElementSibling
+//             .getAttribute("href")
+//             .replace(/^mailto:/, ""),
+//         );
+//       } catch (err) {
+//         console.error("Failed to copy: ", err);
+//       }
+//       $emailButton.innerHTML = "Copied";
+//     });
+//     $emailButton.addEventListener("blur", () => {
+//       $emailButton.innerHTML = originalEmailButtonHTML;
+//     });
+//   });

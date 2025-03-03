@@ -6,13 +6,14 @@
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
-{%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
+{# TODO: Remove once more pages can support dark mode #}
+{%- set theme = 'light' -%}
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
-  'data-cookiesdomain': app_config.COOKIE_DOMAIN or ''
+  'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
 
 {% block headIcons %}
@@ -33,16 +34,18 @@
 {% endblock %}
 
 {% block head %}
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <!--<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">-->
     <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
     <meta name="tna.app.tna-frontend" content="{{ app_config.TNA_FRONTEND_VERSION }}">
     <meta name="tna.app.build-version" content="{{ app_config.BUILD_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
     <meta name="tna.page.route" content="{{ request.url_rule }}">
+    <meta name="tna.page.accent" content="{{ themeAccent }}">
     {% if request.args.get('source') %}
     <meta name="tna.source" content="{{ request.args.get('source') }}">
     {% endif %}
+    <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
 {% endblock %}
 
 {% block stylesheets %}
@@ -62,24 +65,22 @@
 
 {% block cookies %}
 {%- if not page_data or not page_data.page_preview %}
-{%- if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
-  'cookiesUrl': '/help/cookies/',
-  'cookiesDomain': app_config.COOKIE_DOMAIN,
-  'policies': 'marketing'
+  'cookiesUrl': 'https://www.nationalarchives.gov.uk/legal/cookies/',
+  'preferencesSetKey': 'dontShowCookieNotice'
 }) | indent(6) }}
-{%- endif %}
 {%- endif %}
 {% endblock %}
 
 {% block header %}
+{% set phase_banner = {} %}
 {%- if feature.PHASE_BANNER %}
-{{ tnaPhaseBanner({
+{% set phase_banner = {
   'phase': 'Beta',
-  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/YPVLNT/" target="_blank" rel="noreferrer nofollow">give your feedback (opens in new tab)</a>.',
+  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' + request.url + '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
-}) | indent(6) }}
+} %}
 {%- endif %}
 {{ tnaGlobalHeader({
   'logo': {
@@ -123,7 +124,8 @@
       'text': 'Professional guidance and services',
       'href': 'https://www.nationalarchives.gov.uk/professional-guidance-and-services/'
     },
-  ]
+  ],
+  'phaseBanner': phase_banner
 }) | indent(6) }}
 {% endblock %}
 
@@ -142,14 +144,15 @@
 {% endblock %}
 
 {% block footer %}
+{# TODO: Allow themeSelector once more pages can support dark mode #}
 {{ tnaFooter({
-  'themeSelector': True,
+  'themeSelector': False,
   'currentTheme': theme,
   'social': [
     {
       'href': 'https://twitter.com/UKNatArchives',
       'icon': 'twitter',
-      'title': 'The National Archives X feed (formally known as Twitter)'
+      'title': 'The National Archives X feed (formerly known as Twitter)'
     },
     {
       'href': 'https://www.youtube.com/c/TheNationalArchivesUK',
@@ -170,11 +173,6 @@
       'href': 'https://www.instagram.com/nationalarchivesuk/',
       'icon': 'instagram',
       'title': 'The National Archives Instagram feed'
-    },
-    {
-      'href': 'https://www.tiktok.com/@uknatarchives',
-      'icon': 'tiktok',
-      'title': 'The National Archives TikTok feed'
     }
   ],
   'navigation': [
@@ -250,6 +248,10 @@
           'text': 'Friends of The National Archives',
           'href': 'https://ftna.org.uk/'
         },
+        {
+          'text': 'The National Archives Design System',
+          'href': 'https://design-system.nationalarchives.gov.uk/'
+        },
       ]
     }
   ],
@@ -273,7 +275,7 @@
     },
     {
       'text': 'Cookies',
-      'href': '/help/cookies/'
+      'href': 'https://www.nationalarchives.gov.uk/legal/cookies/'
     }
   ],
   'classes': 'tna-!--margin-top-l'
@@ -282,8 +284,11 @@
 
 {% block bodyEnd %}
 {%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
-    <script src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
+    <script src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT_NAME }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
 {%- endif %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{%- if feature.LOGO_ADORNMENTS_JS %}
+    <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_no_time() }}" defer></script>
+{%- endif %}
 {% endblock %}

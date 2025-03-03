@@ -1,5 +1,8 @@
 @use "sass:math";
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  bordersVars;
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -33,16 +36,28 @@
   &__label {
     padding: 1rem;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     position: absolute;
     inset: 0;
     z-index: 1;
 
     color: #fff;
-    @include typography.font-size(18);
-    @include typography.main-font-weight-bold;
+    line-height: 1.5;
     text-decoration: underline;
 
     background-color: rgb(0 0 0 / 75%);
+    @include typography.font-size(18);
+    @include typography.main-font-weight-bold;
+  }
+
+  &__label-cookies-message {
+    display: block;
+
+    @include typography.main-font-weight;
+    @include typography.font-size(16);
   }
 
   &__icon {
@@ -88,6 +103,8 @@ $videojs-track-height: 0.5em;
   }
 
   .vjs-button {
+    border-radius: 0.1px;
+
     &:hover {
       &::after {
         content: "";
@@ -132,7 +149,7 @@ $videojs-track-height: 0.5em;
     @include colour.accent;
 
     border: none;
-    border-radius: 0;
+    @include borders.rounded-border;
 
     .vjs-svg-icon {
       width: 1.5em;
@@ -163,6 +180,34 @@ $videojs-track-height: 0.5em;
 
   .vjs-menu li {
     text-transform: none;
+  }
+
+  @include colour.on-forced-colours {
+    & {
+      @include colour.colour-border("keyline", 3px);
+      border-top-width: 2px;
+    }
+
+    .vjs-progress-holder {
+      margin-right: 20px;
+      margin-left: 20px;
+    }
+
+    .vjs-control-bar {
+      @include colour.colour-border("keyline", 1px, solid, top);
+
+      background: #000 !important;
+    }
+
+    .vjs-big-play-button,
+    .vjs-slider {
+      @include colour.colour-border("keyline", 1px);
+    }
+
+    .vjs-button + .vjs-button,
+    .vjs-control {
+      @include colour.colour-border("keyline", 1px, solid, left);
+    }
   }
 }
 
@@ -241,15 +286,72 @@ $videojs-track-height: 0.5em;
 .etna-media-block {
   @include spacing.space-above;
 
+  .tna-aside:has(+ &__transcript) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &__transcript {
+    padding-top: spacing.space(1);
+    padding-left: spacing.space(1);
+
+    word-wrap: break-word;
+
+    border-radius: 0 0 bordersVars.$rounded-border-radius
+      bordersVars.$rounded-border-radius;
+  }
+
   .tna-details {
     &__summary {
+      margin-bottom: spacing.space(1);
       padding-top: 0;
       padding-bottom: 0;
+
+      &::before {
+        content: "\2b" / "";
+
+        width: 1.5rem;
+        height: 1.5rem;
+
+        top: calc(50% - 0.75rem);
+
+        /* stylelint-disable font-family-no-missing-generic-family-keyword */
+        font-family: "Font Awesome 6 Free";
+        /* stylelint-enable font-family-no-missing-generic-family-keyword */
+        line-height: 1.5rem;
+
+        border: none;
+      }
+    }
+
+    &__details[open] .tna-details__summary {
+      &::before {
+        content: "\f068" / "";
+
+        top: calc(50% - 0.75rem);
+
+        line-height: 1.5rem;
+
+        border: none;
+      }
     }
 
     &__content {
-      margin-top: spacing.space(1);
-      margin-bottom: spacing.space(1);
+      max-height: 30rem;
+      margin-left: calc(
+        #{spacing.space(1)} + #{bordersVars.$thick-border-width}
+      );
+      padding-right: spacing.space(2);
+      padding-bottom: spacing.space(2);
+      padding-left: spacing.space(1);
+
+      overflow: auto;
+
+      @include colour.thick-keyline(left);
+
+      &::before {
+        visibility: hidden;
+      }
     }
 
     .tna-dl dt {

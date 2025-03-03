@@ -1,4 +1,4 @@
-from app.lib.api import ApiResourceNotFound, JSONAPIClient
+from app.lib.api import JSONAPIClient
 from flask import current_app
 from pydash import objects
 
@@ -18,26 +18,21 @@ def wagtail_request_handler(uri, params={}):
 def breadcrumbs(page_id):
     if not page_id:
         return []
-    try:
-        ancestors = page_ancestors(page_id, params={"order": "depth"})
-    except Exception:
-        current_app.logger.warning(
-            f"Failed to get ancestors for page {page_id}"
-        )
-        return []
-    return (
-        [
-            {
-                "text": (
-                    "Home" if ancestor["url"] == "/" else ancestor["title"]
-                ),
-                "href": (ancestor["url"]),
-            }
-            for ancestor in ancestors["items"]
-        ]
-        if ancestors
-        else []
-    )
+    ancestors = page_ancestors(page_id, params={"order": "depth"})
+    return [
+        {
+            "text": (
+                "Home"
+                if objects.get(ancestor, "url") == "/"
+                else (
+                    objects.get(ancestor, "short_title")
+                    or objects.get(ancestor, "title")
+                )
+            ),
+            "href": objects.get(ancestor, "url"),
+        }
+        for ancestor in objects.get(ancestors, "items", [])
+    ]
 
 
 def all_pages(params={}, batch=1, limit=None):
@@ -70,7 +65,15 @@ def page_details_by_type(type, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def page_preview(content_type, token, params={}):
+    uri = "page_preview/1/"
+    params = params | {"content_type": content_type, "token": token}
+    return wagtail_request_handler(uri, params)
+
+
 def page_children(page_id, params={}, limit=None):
+    if not page_id:
+        return {}
     uri = "pages/"
     params = params | {
         "child_of": page_id,
@@ -80,12 +83,33 @@ def page_children(page_id, params={}, limit=None):
 
 
 def page_ancestors(page_id, params={}, limit=None):
+    if not page_id:
+        return {}
     uri = "pages/"
     params = params | {
         "ancestor_of": page_id,
         "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
     }
-    return wagtail_request_handler(uri, params)
+    try:
+        return wagtail_request_handler(uri, params)
+    except Exception as e:
+        current_app.logger.error(f"Failed to get ancestors for page {page_id}: {e}")
+        return {}
+
+
+def page_descendants(page_id, params={}, limit=None):
+    if not page_id:
+        return {}
+    uri = "pages/"
+    params = params | {
+        "descendant_of": page_id,
+        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+    }
+    try:
+        return wagtail_request_handler(uri, params)
+    except Exception as e:
+        current_app.logger.error(f"Failed to get decendants for page {page_id}: {e}")
+        return {}
 
 
 def pages_paginated(
@@ -112,6 +136,8 @@ def page_children_paginated(
     initial_offset=0,
     params={},
 ):
+    if not page_id:
+        return {}
     return pages_paginated(
         page=page,
         limit=limit,
@@ -120,18 +146,36 @@ def page_children_paginated(
     )
 
 
-def page_descendants(
-    page_id,
+def authored_pages_paginated(
+    author_id,
+    page,
+    limit=None,
     params={},
 ):
-    uri = "pages/"
-    params = params | {"descendant_of": page_id}
-    return wagtail_request_handler(uri, params)
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        params=params | {"author": author_id},
+    )
 
 
 def blogs(params={}):
     uri = "blogs/"
     return wagtail_request_handler(uri, params)
+
+
+def blog_index(params={}):
+    uri = "blogs/index/"
+    return wagtail_request_handler(uri, params)
+
+
+def top_blogs(params={}):
+    uri = "blogs/top/"
+    try:
+        return wagtail_request_handler(uri, params)
+    except Exception as e:
+        current_app.logger.error(f"Failed to get all blogs: {e}")
+        return []
 
 
 def blog_posts_paginated(
@@ -175,7 +219,11 @@ def blog_post_counts(
         "author": author,
         "descendant_of": blog_id,
     }
-    return wagtail_request_handler(uri, params)
+    try:
+        return wagtail_request_handler(uri, params)
+    except Exception as e:
+        current_app.logger.error(f"Failed to get blog post counts: {e}")
+        return []
 
 
 def blog_authors(
@@ -186,12 +234,28 @@ def blog_authors(
     params = params | {
         "descendant_of": blog_id,
     }
-    return wagtail_request_handler(uri, params)
+    try:
+        return wagtail_request_handler(uri, params)
+    except Exception as e:
+        current_app.logger.error(f"Failed to get blog authors: {e}")
+        return []
 
 
-def page_preview(content_type, token, params={}):
-    uri = "page_preview/1/"
-    params = params | {"content_type": content_type, "token": token}
+def authors_paginated(
+    author_id,
+    page,
+    limit=None,
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "authors/"
+    params = params | {
+        "author": author_id,
+        "offset": offset,
+        "limit": limit,
+    }
     return wagtail_request_handler(uri, params)
 
 
@@ -200,26 +264,29 @@ def global_alerts():
         home_page_alerts = page_details_by_uri(
             "/", {"fields": "_,global_alert,mourning_notice"}
         )
-        global_alerts_data = {
-            "mourning_notice": home_page_alerts["mourning_notice"]
-        }
+        global_alerts_data = {"mourning_notice": home_page_alerts["mourning_notice"]}
         if objects.get(home_page_alerts, "global_alert.cascade"):
-            global_alerts_data["global_alert"] = home_page_alerts[
-                "global_alert"
-            ]
+            global_alerts_data["global_alert"] = home_page_alerts["global_alert"]
         return global_alerts_data
-    except ApiResourceNotFound:
-        current_app.logger.warn(
-            "Global alerts could not be retrieved (ApiResourceNotFound)"
-        )
-        return None
-    except ConnectionError:
-        current_app.logger.warn(
-            "Global alerts could not be retrieved (ConnectionError)"
-        )
-        return None
-    except Exception:
-        current_app.logger.warn(
-            "Global alerts could not be retrieved (Exception)"
-        )
-        return None
+    except Exception as e:
+        current_app.logger.error(f"Failed to get global alerts: {e}")
+
+
+def search(query, page, limit=None, params={}):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "pages/"
+    params = params | {
+        "offset": offset,
+        "limit": limit,
+    }
+    if query:
+        params = params | {
+            "search": query,
+        }
+    else:
+        params = params | {
+            "order": "-id",
+        }
+    return wagtail_request_handler(uri, params)

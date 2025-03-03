@@ -33,7 +33,7 @@
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
     {%- if page_data.hero_image.copyright %}
-      {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+      {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
     {%- endif %}
     {{ tnaHero({
       'title': page_data.title,
@@ -107,12 +107,14 @@
             'href': child.url,
             'text': child.teaser_text,
             'fullAreaClick': True,
-            'classes': 'tna-card--full-height'
+            'style': None if page_data.plain_cards_list else 'plain',
+            'classes': None if page_data.plain_cards_list else 'tna-card--full-height'
           } %}
           {%- if child.type_label == 'External' %}
             {% set card_content = dict(card_content, **{
               'hrefAttributes': {
-                'aria-label': child.title + ' (opens ' + (child.url | get_url_domain) + ')'
+                'aria-label': child.title + ' (opens ' + (child.url | get_url_domain) + ')',
+                'rel': 'noreferrer nofollow noopener'
               }
             }) %}
           {%- endif %}

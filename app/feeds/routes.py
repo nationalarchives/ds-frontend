@@ -1,11 +1,8 @@
 from app.feeds import bp
-from app.lib.api import ApiResourceNotFound
-from app.lib.cache import (
-    cache,
-    page_cache_key_prefix,
-    rss_feed_cache_key_prefix,
-)
+from app.lib.api import ResourceNotFound
+from app.lib.cache import cache, page_cache_key_prefix, rss_feed_cache_key_prefix
 from app.wagtail.api import (
+    blog_index,
     blog_posts_paginated,
     blogs,
     breadcrumbs,
@@ -15,31 +12,23 @@ from app.wagtail.api import (
 )
 from flask import current_app, make_response, render_template, request, url_for
 from flask_caching import CachedResponse
+from pydash import objects
 
 
 @bp.route("/blog/feeds/")
 @cache.cached(key_prefix=page_cache_key_prefix)
 def rss_feeds():
     try:
-        blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_data = blog_data["items"][0]
+        blog_data = blog_index()
         blogs_data = blogs()
-        blogs_data = [
-            blog for blog in blogs_data if blog["id"] != blog_data["id"]
-        ]
-    except ConnectionError:
-        current_app.logger.error("API error getting all blogs for /feeds/ page")
-        return render_template("errors/api.html"), 502
     except Exception:
-        current_app.logger.error(
-            "Exception getting all blog posts for /feeds/ page"
-        )
-        return render_template("errors/server.html"), 500
+        current_app.logger.error("Failed to get all blogs for /feeds/ page")
+        return render_template("errors/server.html"), 502
     return render_template(
         "blog/feeds.html",
         global_alert=global_alerts(),
-        blogs=blogs_data,
         blog_data=blog_data,
+        blogs=objects.get(blogs_data, "items", []),
         breadcrumbs=breadcrumbs(blog_data["id"])
         + [{"text": blog_data["title"], "href": blog_data["url"]}],
     )
@@ -50,22 +39,9 @@ def rss_feeds():
 def rss_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_data = blog_data["items"][0]
-        blog_posts = blog_posts_paginated(1, limit=20)
-        blog_posts = blog_posts["items"]
-    except ConnectionError:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    except ApiResourceNotFound:
-        return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
-            timeout=1,
-        )
-    except Exception:
+        blog_posts = blog_posts_paginated(page=1, limit=20)
+    except Exception as e:
+        current_app.logger.error(f"Failed to render blog feeds list: {e}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
@@ -77,8 +53,8 @@ def rss_all_feed():
             else "blog/rss_feed.xml"
         ),
         url=url_for("feeds.rss_all_feed", _external=True, _scheme="https"),
-        blog_data=blog_data,
-        blog_posts=blog_posts,
+        blog_data=objects.get(blog_data, "items.0", []),
+        blog_posts=objects.get(blog_posts, "items", []),
     )
     response = make_response(xml)
     response.headers["Content-Type"] = "text/xml; charset=utf-8"
@@ -91,29 +67,20 @@ def rss_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=20)
-        blog_posts = blog_posts["items"]
-    except ConnectionError:
+    except ResourceNotFound:
+        return CachedResponse(
+            response=make_response(render_template("errors/page_not_found.html"), 404),
+            timeout=1,
+        )
+    except Exception as e:
+        current_app.logger.error(f"Failed to get blog data for page {blog_id}: {e}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    except ApiResourceNotFound:
+    if objects.get(blog_data, "meta.type") != "blog.BlogPage":
         return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
-            timeout=1,
-        )
-    except Exception:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    if blog_data["meta"]["type"] != "blog.BlogPage":
-        return CachedResponse(
-            response=make_response(
-                render_template("errors/page-not-found.html"), 404
-            ),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
     xml = render_template(
@@ -122,11 +89,9 @@ def rss_feed(blog_id):
             if request.args.get("format") == "atom"
             else "blog/rss_feed.xml"
         ),
-        url=url_for(
-            "feeds.rss_feed", blog_id=blog_id, _external=True, _scheme="https"
-        ),
+        url=url_for("feeds.rss_feed", blog_id=blog_id, _external=True, _scheme="https"),
         blog_data=blog_data,
-        blog_posts=blog_posts,
+        blog_posts=objects.get(blog_posts, "items", []),
     )
     response = make_response(xml)
     response.headers["Content-Type"] = "text/xml; charset=utf-8"

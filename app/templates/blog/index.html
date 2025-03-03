@@ -4,6 +4,8 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
@@ -32,7 +34,7 @@
     {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_all_feed') }}" title="The National Archives RSS feed">
     <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_all_feed', format='atom') }}" title="The National Archives Atom feed">
-    {%- elif page_data.meta.type == 'blog.BlogPage' %}
+    {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id) }}" title="{{ page_data.title }} RSS feed">
     <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id, format='atom') }}" title="{{ page_data.title }} Atom feed">
     {%- endif %}
@@ -76,10 +78,7 @@
             <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
           </hgroup>
           {%- endif %}
-          {%- if current_author %}
-          <p class="tna-large-paragraph tna-!--margin-top-s">All posts by {{ current_author.author.title }}.</p>
-          <p><a href="{{ page_data.meta.url }}">Show posts from all authors</a>.</p>
-          {%- elif page_data.intro %}
+          {%- if page_data.intro %}
           <div class="tna-large-paragraph tna-!--margin-top-s">
             {{ page_data.intro | tna_html | safe }}
           </div>
@@ -87,201 +86,207 @@
         </div>
       </div>
     </div>
-    {%- if page == 1 and blog_posts %}
-    <div class="etna-background-accent-light-half">
-      <div class="tna-container">
-        <div class="tna-column tna-column--full">
-          {% set featured_card_content = {
-            'supertitle-': 'TODO: Parent',
-            'title': blog_posts[0].title,
-            'headingLevel': 2,
-            'headingSize': 'l',
-            'href': blog_posts[0].full_url,
-            'label': 'New' if blog_posts[0].is_newly_published,
-            'meta': [
-              {
-                'title': 'Published',
-                'text':  blog_posts[0].published_date.value | pretty_date
-              }
-            ],
-            'body': blog_posts[0].teaser_text | tna_html | safe,
-            'fullAreaClick': True,
-            'horizontal': True,
-            'horizontalFlipped': True,
-            'style': 'contrast'
-          } %}
-          {%- if blog_posts[0].teaser_image %}
-            {% set featured_card_content = dict(featured_card_content, **{
-              'lazyImage': True,
-              'imageSrc': blog_posts[0].teaser_image.jpeg.full_url,
-              'imageAlt': blog_posts[0].teaser_image.alt_text or '',
-              'imageWidth': blog_posts[0].teaser_image.jpeg.width,
-              'imageHeight': blog_posts[0].teaser_image.jpeg.height,
-              'imageSources': [
+
+    {%- if total_blog_posts %}
+
+      {%- if page == 1 and blog_posts %}
+      <div class="etna-background-accent-light-half">
+        <div class="tna-container">
+          <div class="tna-column tna-column--full">
+            {% set featured_card_content = {
+              'supertitle': blog_posts[0].type_label if page_data.meta.type == 'blog.BlogIndexPage' else None,
+              'title': blog_posts[0].title,
+              'headingLevel': 2,
+              'headingSize': 'l',
+              'href': blog_posts[0].url,
+              'label': 'New' if blog_posts[0].is_newly_published,
+              'labelColour': 'green',
+              'meta': [
                 {
-                  'src': blog_posts[0].teaser_image.webp.full_url,
-                  'type': 'image/webp',
-                  'width': blog_posts[0].teaser_image.webp.width,
-                  'height': blog_posts[0].teaser_image.webp.height
+                  'title': 'Published',
+                  'text':  blog_posts[0].published_date.value | pretty_date
                 }
-              ]
-            }) %}
-          {%- endif %}
-          {{ tnaCard(featured_card_content) }}
+              ],
+              'text': blog_posts[0].teaser_text | tna_html | safe,
+              'fullAreaClick': True,
+              'horizontal': True,
+              'horizontalFlipped': True,
+              'style': 'contrast'
+            } %}
+            {%- if blog_posts[0].teaser_image %}
+              {% set featured_card_content = dict(featured_card_content, **{
+                'lazyImage': True,
+                'imageSrc': blog_posts[0].teaser_image.jpeg.full_url,
+                'imageAlt': blog_posts[0].teaser_image.alt_text or '',
+                'imageWidth': blog_posts[0].teaser_image.jpeg.width,
+                'imageHeight': blog_posts[0].teaser_image.jpeg.height,
+                'imageSources': [
+                  {
+                    'src': blog_posts[0].teaser_image.webp.full_url,
+                    'type': 'image/webp',
+                    'width': blog_posts[0].teaser_image.webp.width,
+                    'height': blog_posts[0].teaser_image.webp.height
+                  }
+                ]
+              }) %}
+            {%- endif %}
+            {{ tnaCard(featured_card_content) }}
+          </div>
         </div>
       </div>
-    </div>
-    {%- endif %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-        <div class="tna-container tna-container--nested">
-          <div class="tna-column tna-column--full">
-            {%- if page > 1 %}
-              {%- if current_author %}
-            <h2 class="tna-heading-l">Blog posts by {{ current_author.author.title }}, page {{ page }} of {{ pages }}</h2>
-              {%- else %}
-            <h2 class="tna-heading-l">Blog posts, page {{ page }} of {{ pages }}</h2>
-              {%- endif %}
-            {%- else %}
-              {%- if current_author %}
-            <h2 class="tna-heading-l">Most recent posts by {{ current_author.author.title }}</h2>
-              {%- else %}
-            <h2 class="tna-heading-l">Most recent posts</h2>
-              {%- endif %}
-            {%- endif %}
-          </div>
+      {%- endif %}
+      <div class="tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-column--order-1">
           <div class="tna-container tna-container--nested">
-            <ul class="tna-container">
-              {% for blog_post in blog_posts %}
-              {% if page > 1 or loop.index > 1 %}
-              <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-m tna-!--margin-bottom-l">
-                {% set card_content = {
-                  'supertitle-': blog_post.type_label,
-                  'title': blog_post.title,
-                  'headingLevel': 3,
-                  'headingSize': 's',
-                  'href': blog_post.full_url,
-                  'body': blog_post.teaser_text,
-                  'label': 'New' if blog_post.is_newly_published,
-                  'meta': [
-                    {
-                      'title': 'Published',
-                      'text':  blog_post.published_date.value | pretty_date
-                    }
-                  ],
-                  'fullAreaClick': True,
-                  'classes': 'tna-card--full-height'
-                } %}
-                {%- if blog_post.teaser_image %}
-                  {% set card_content = dict(card_content, **{
-                    'imageSrc': blog_post.teaser_image.jpeg.full_url,
-                    'imageAlt': blog_post.teaser_image.alt_text or '',
-                    'imageWidth': blog_post.teaser_image.jpeg.width,
-                    'imageHeight': blog_post.teaser_image.jpeg.height,
-                    'imageSources': [
+            <div class="tna-column tna-column--full">
+              {%- if page > 1 %}
+              <h2 class="tna-heading-l">Blog posts, page {{ page }} of {{ pages }}</h2>
+              {%- else %}
+              <h2 class="tna-heading-l">Most recent posts</h2>
+              {%- endif %}
+              <ul class="tna-container tna-container--nested">
+                {% for blog_post in blog_posts %}
+                {% if page > 1 or loop.index > 1 %}
+                <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-vertical-s">
+                  {% set card_content = {
+                    'supertitle': blog_post.type_label if page_data.meta.type == 'blog.BlogIndexPage' else None,
+                    'title': blog_post.title,
+                    'headingLevel': 3,
+                    'headingSize': 's',
+                    'href': blog_post.url,
+                    'text': blog_post.teaser_text,
+                    'label': 'New' if blog_post.is_newly_published,
+                    'labelColour': 'green',
+                    'meta': [
                       {
-                        'src': blog_post.teaser_image.webp.full_url,
-                        'type': 'image/webp',
-                        'width': blog_post.teaser_image.webp.width,
-                        'height': blog_post.teaser_image.webp.height
+                        'title': 'Published',
+                        'text':  blog_post.published_date.value | pretty_date
                       }
-                    ]
-                  }) %}
+                    ],
+                    'fullAreaClick': True,
+                    'style': 'plain',
+                    'classes': 'tna-card--full-height'
+                  } %}
+                  {%- if blog_post.teaser_image %}
+                    {% set card_content = dict(card_content, **{
+                      'imageSrc': blog_post.teaser_image.jpeg.full_url,
+                      'imageAlt': blog_post.teaser_image.alt_text or '',
+                      'imageWidth': blog_post.teaser_image.jpeg.width,
+                      'imageHeight': blog_post.teaser_image.jpeg.height,
+                      'imageSources': [
+                        {
+                          'src': blog_post.teaser_image.webp.full_url,
+                          'type': 'image/webp',
+                          'width': blog_post.teaser_image.webp.width,
+                          'height': blog_post.teaser_image.webp.height
+                        }
+                      ]
+                    }) %}
+                  {%- endif %}
+                  {{ tnaCard(card_content) }}
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% if pages > 1 %}
+        <div class="tna-column tna-column--full tna-!--margin-top-l tna-column--order-4 tna-column--order-2-small tna-column--order-2-tiny">
+          {{ tnaPagination(pagination) }}
+        </div>
+        {% endif %}
+        <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-column--order-3">
+          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+          {% set blogs_list = [] %}
+          {% for blog in blogs %}
+            {% set blogs_list = blogs_list.append({
+              'text': blog.title,
+              'href': blog.url,
+              'current': request.path == blog.url
+            }) %}
+          {% endfor %}
+          {{ tnaSidebar({
+            'title': 'All blogs',
+            'headingLevel': 2,
+            'items': blogs_list,
+            'type': 'pages'
+          }) }}
+          {%- endif %}
+          
+          {%- if categories %}
+          <h2 class="tna-heading-m">Filter posts by category</h2>
+          {% set categories_list = [] %}
+          {% for category in categories %}
+            {% set categories_list = categories_list.append({
+              'label': category.title,
+              'href': category.url,
+              'selected': request.path == category.url
+            }) %}
+          {% endfor %}
+          {{ tnaQuickFilters({
+            'items': categories_list,
+            'stack': True,
+            'classes': 'tna-!--margin-top-s'
+          }) }}
+          {%- endif %}
+
+          {%- if date_filters %}
+          <h2 class="tna-heading-m">Filter posts by date</h2>
+          {{ tnaQuickFilters({
+            'items': date_filters,
+            'stack': True,
+            'classes': 'tna-!--margin-top-s'
+          }) }}
+          {%- endif %}
+        </div>
+      </div>
+      {%- if authors %}
+      <div class="tna-background-tint tna-!--margin-top-l tna-section">
+        <div class="tna-container">
+          <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
+            <h2 class="etna-author-list__heading tna-heading-l">Authors</h2>
+            <ul class="etna-author-list__items tna-!--margin-top-s">
+              {%- for author in authors[:12] %}
+              <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
+                {%- if author.author.image_small %}
+                <img src="{{ author.author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+                {%- else %}
+                <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
                 {%- endif %}
-                {{ tnaCard(card_content) }}
+                <div class="etna-author-list__details">
+                  <p class="etna-author-list__name">
+                    <strong>
+                      <link itemprop="url" href="{{ author.author.full_url }}">
+                      <meta itemprop="jobTitle" content="{{ author.author.role }}">
+                      <a href="{{ url_for('wagtail.page', path=author.author.url.strip('/'), page=1) }}" rel="author">
+                        <span class="tna-visually-hidden">View all articles by</span>
+                        <span itemprop="name">{{ author.author.title }}</span>
+                      </a>
+                    </strong>
+                  </p>
+                  <p class="etna-author-list__description">{{ author.posts }} blog post{{ 's' if author.posts > 1 else '' }}</p>
+                </div>
               </li>
-              {% endif %}
-              {% endfor %}
+              {%- endfor %}
             </ul>
           </div>
         </div>
       </div>
-      <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-        {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' and not current_author %}
-        <h2 class="tna-heading-m">All blogs</h2>
-        {% set blogs_list = [] %}
-        {% for blog in blogs %}
-          {% set blogs_list = blogs_list.append({
-            'label': blog.title,
-            'href': blog.full_url,
-            'selected': request.path == blog.url
-          }) %}
-        {% endfor %}
-        {{ tnaQuickFilters({
-          'items': blogs_list,
-          'classes': 'tna-!--margin-top-s'
-        }) }}
-        {%- endif %}
+      {%- endif %}
 
-        {%- if date_filters and not current_author %}
-        <h2 class="tna-heading-m">Filter posts by date</h2>
-        {{ tnaQuickFilters({
-          'items': date_filters,
-          'classes': 'tna-!--margin-top-s'
-        }) }}
+    {%- else %}
+    <div class="tna-container tna-section">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <h2 class="tna-heading-l">No posts found</h2>
+        {%- if year and month %}
+        <p>Try widening your date filtering to <a href="?year={{ year }}">blog posts from {{ year }}</a>.</p>
         {%- endif %}
-        
-        {%- if categories %}
-        <h2 class="tna-heading-m">Categories in {{ page_data.title }}</h2>
-        {% set categories_list = [] %}
-        {% for category in categories %}
-          {% set categories_list = categories_list.append({
-            'label': category.title,
-            'href': category.full_url,
-            'selected': request.path == category.url
-          }) %}
-        {% endfor %}
-        {{ tnaQuickFilters({
-          'items': categories_list,
-          'classes': 'tna-!--margin-top-s'
-        }) }}
-        {%- endif %}
-      </div>
-    </div>
-    {% if pages > 1 %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--full tna-!--margin-top-l">
-        {{ tnaPagination(pagination) }}
-      </div>
-    </div>
-    {% endif %}
-    {%- if authors and not current_author and not year %}
-    <div class="tna-background-tint tna-!--margin-top-l tna-section">
-      <div class="tna-container">
-        <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
-          <h2 class="etna-author-list__heading tna-heading-l">Authors</h2>
-          <ul class="etna-author-list__items tna-!--margin-top-s">
-            {%- for author in authors[:12] %}
-            <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
-              {%- if author.author.image_small %}
-              <img src="{{ author.author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
-              {%- else %}
-              <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
-              {%- endif %}
-              <div class="etna-author-list__details">
-                <p class="etna-author-list__name">
-                  <strong>
-                    <link itemprop="url" href="{{ author.author.url }}">
-                    <meta itemprop="jobTitle" content="{{ author.author.role }}">
-                    <!-- <a href="?author={{ author.author.slug }}" rel="author">
-                      <span class="tna-visually-hidden">Posts by</span>
-                      <span itemprop="name">{{ author.author.title }}</span>
-                    </a> -->
-                    <a href="{{ author.author.full_url }}#articles" rel="author">
-                      <span class="tna-visually-hidden">Articles by</span>
-                      <span itemprop="name">{{ author.author.title }}</span>
-                    </a>
-                  </strong>
-                </p>
-                <p class="etna-author-list__description">{{ author.posts }} posts</p>
-              </div>
-            </li>
-            {%- endfor %}
-          </ul>
-        </div>
+        <p>See <a href="{{ blogs[0].url }}">all our blogs</a>.</p>
       </div>
     </div>
     {%- endif %}
+
     <div class="tna-container">
       {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
@@ -293,18 +298,8 @@
         {%- endfor %}
       </div>
       {%- endif %}
-      <div class="tna-column tna-column--full tna-!--hide-on-print">
-        <hr class="tna-!--margin-top-l">
-        <div class="tna-button-group tna-!--margin-top-s">
-          {{ tnaButton({
-            'text': 'Back to top',
-            'href': '#top',
-            'icon': 'arrow-up',
-            'small': True,
-            'plain': True
-          }) }}
-        </div>
-      </div>
     </div>
+    
+    {{ back_to_top('l', True) }}
   </main>
 {% endblock %}

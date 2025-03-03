@@ -1,31 +1,21 @@
-{%- from 'components/records-list/macro.html' import tnaRecordsList -%}
-
 {% macro wagtailRecordLinks(block_value) %}
-  {% set items = [] %}
-  {%- for i in block_value['items'] %}
-    {%- if i.thumbnail_image %}
-    {{ items.append({
-      'imageSrc': i.thumbnail_image.jpeg.full_url,
-      'width': i.thumbnail_image.jpeg.width,
-      'height': i.thumbnail_image.jpeg.height,
-      'collection': i.record.reference_number,
-      'title': i.descriptive_title,
-      '_href': url_for('search.catalogue_item', id=i.record.iaid),
-      'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + i.record.iaid,
-      'date': i.record_dates
-    }) or '' }}
-    {%- else %}
-    {{ items.append({
-      'collection': i.record.reference_number,
-      'title': i.descriptive_title,
-      '_href': url_for('search.catalogue_item', id=i.record.iaid),
-      'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + i.record.iaid,
-      'date': i.record_dates
-    }) or '' }}
-    {%- endif %}
-    {# {% endwith %} #}
-  {%- endfor %}
-  {{ tnaRecordsList({
-    'items': items
-  }) }}
+  <ul class="tna-records-list">
+    {%- for item in block_value['items'] %}
+    <li class="tna-records-list__item">
+      {%- if item.thumbnail_image %}
+      <img src="{{ item.thumbnail_image.jpeg.full_url }}" width="{{ item.thumbnail_image.jpeg.width }}" height="{{ item.thumbnail_image.jpeg.height }}" class="tna-records-list__image" alt="">
+      {%- endif %}
+      <dl class="tna-records-list__details">
+        <dt class="tna-records-list__collection-label tna-chip tna-chip--plain">From our collection</dt>
+        <dd class="tna-records-list__collection-description tna-chip tna-chip--plain">{{ item.record.reference_number }}</dd>
+        <dt class="tna-records-list__title-label">Title</dt>
+        <dd class="tna-records-list__title-description">
+          <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ item.record.iaid }}">{{ item.descriptive_title }}</a>
+        </dd>
+        <dt class="tna-records-list__date-label">Date</dt>
+        <dd class="tna-records-list__date-description">{{ item.record_dates }}</dd>
+      </dl>
+    </li>
+    {%- endfor %}
+  </ul>
 {% endmacro %}

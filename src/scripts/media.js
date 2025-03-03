@@ -1,33 +1,41 @@
 import videojs from "video.js";
 // import "videojs-youtube";
-import "./lib/videojs-youtube-modified";
+import { initYoutubeEmbedApi } from "./lib/videojs-youtube-modified";
 
 const cookies = window.TNAFrontendCookies;
 
 let videoJsInstances = {};
 
-if (cookies.isPolicyAccepted("marketing")) {
-  document
-    .querySelectorAll(
-      '.etna-video--youtube[id][href^="https://www.youtube.com/watch?v="]',
-    )
-    .forEach(($video) => {
-      const id = $video.getAttribute("id");
-      const $nextButtonGroup = $video.nextElementSibling;
-      if ($nextButtonGroup.classList.contains("tna-button-group")) {
-        $nextButtonGroup.removeAttribute("hidden");
-      }
-      const $newVideo = document.createElement("video");
-      $newVideo.classList.add(
-        "etna-video",
-        "etna-video--youtube",
-        "video-js",
-        "vjs-16-9",
-      );
-      $newVideo.setAttribute("controls", true);
-      $newVideo.setAttribute("id", id);
-      $video.replaceWith($newVideo);
-      const video = videojs($newVideo, {
+const $youTubeVideoInstances = document.querySelectorAll(
+  "a.etna-video--youtube[id]",
+);
+
+const updateYoutubeVideoMessages = ($youTubeVideoInstances) => {
+  $youTubeVideoInstances.forEach(($video) => {
+    $video.querySelector(".etna-video__label-cookies-message-js")?.remove();
+  });
+};
+
+const initYouTubeVideos = ($youTubeVideoInstances) => {
+  $youTubeVideoInstances.forEach(($video) => {
+    const id = $video.getAttribute("id");
+    const $newVideo = document.createElement("video");
+    $newVideo.classList.add(
+      "etna-video",
+      "etna-video--youtube",
+      "video-js",
+      "vjs-16-9",
+    );
+    $newVideo.setAttribute("controls", true);
+    $newVideo.setAttribute("id", id);
+    const poster =
+      $video
+        .querySelector("img.etna-video__preview-image[src]")
+        ?.getAttribute("src") || null;
+    $video.replaceWith($newVideo);
+    const video = videojs(
+      $newVideo,
+      {
         techOrder: ["youtube"],
         sources: [
           {
@@ -42,6 +50,7 @@ if (cookies.isPolicyAccepted("marketing")) {
           pictureInPictureToggle: false,
           volumePanel: false,
         },
+        poster,
         youtube: {
           ytControls: 0,
           color: "white",
@@ -49,9 +58,27 @@ if (cookies.isPolicyAccepted("marketing")) {
           iv_load_policy: 3,
           rel: 0,
         },
-      });
-      videoJsInstances[id] = video;
-    });
+      },
+      () => {
+        video.el().querySelector("iframe")?.setAttribute("tabindex", "-1");
+      },
+    );
+    video.one("play", (player) =>
+      player.target.querySelector("iframe")?.removeAttribute("tabindex"),
+    );
+    videoJsInstances[id] = video;
+  });
+};
+
+if (cookies.isPolicyAccepted("marketing")) {
+  initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
+} else {
+  cookies.once("changePolicy", (policies) => {
+    if (policies["marketing"]) {
+      initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
+    }
+  });
+  updateYoutubeVideoMessages($youTubeVideoInstances);
 }
 
 document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {

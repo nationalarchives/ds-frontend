@@ -25,6 +25,7 @@ class Gallery {
         "tna-button",
         "tna-button--accent",
       );
+      this.$galleryToggle.setAttribute("type", "button");
       this.$galleryToggle.setAttribute("aria-controls", id);
       this.$galleryToggle.setAttribute("aria-expanded", false);
       this.$galleryToggle.innerText = `View ${this.itemsCount} images`;

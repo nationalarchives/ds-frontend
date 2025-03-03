@@ -1,10 +1,16 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, plain_image) %}
+{% macro wagtailImage(block_value, id, plain_image, hide_transcript) %}
+  {% set information_label_open = 'Open details' %}
+  {% set information_label_close = 'Close details' %}
   {% set picture_information = [] %}
-  {%- if not plain_image %}
+  {%- if not hide_transcript %}
     {%- if block_value.image.transcript %}
+      {%- if not block_value.image.translation %}
+        {% set information_label_open = 'Open ' + (block_value.image.transcript.heading | lower) %}
+        {% set information_label_close = 'Close ' + (block_value.image.transcript.heading | lower) %}
+      {%- endif %}
       {% set picture_information = picture_information + [{
         'id': 'transcript-' + id,
         'title': block_value.image.transcript.heading or 'Transcript',
@@ -12,6 +18,10 @@
       }] %}
     {%- endif %}
     {%- if block_value.image.translation %}
+      {%- if not block_value.image.transcript %}
+        {% set information_label_open = 'Open ' + (block_value.image.translation.heading + ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+        {% set information_label_close = 'Close ' + (block_value.image.translation.heading + ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+      {%- endif %}
       {% set picture_information = picture_information + [{
         'id': 'translation-' + id,
         'title': block_value.image.translation.heading or 'Translation',
@@ -21,7 +31,7 @@
   {%- endif %}
   {% set image_caption = (block_value.caption | tna_html) or '' %}
   {%- if block_value.image.copyright %}
-    {% set image_caption = image_caption + '<p>&copy; ' + block_value.image.copyright + '</p>' %}
+    {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
   {%- endif %}
   {% set picture = tnaPicture({
     'src': block_value.image.jpeg.full_url,
@@ -38,7 +48,8 @@
     ],
     'caption': image_caption,
     'microdataCaption': (block_value.caption | striptags) or '',
-    'microdataCopyright': block_value.image.copyright,
+    'informationLabelOpen': information_label_open,
+    'informationLabelClose': information_label_close,
     'information': picture_information,
     'classes': 'tna-picture--plain' if plain_image else ''
   }) %}

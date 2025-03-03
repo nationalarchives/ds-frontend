@@ -1,0 +1,212 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  bordersVars;
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+.tna-hero {
+  &:not(.tna-background-accent, .tna-hero--split) &__content-inner {
+    @include media.on-larger-than-mobile {
+      @include colour.colour-border("accent-border", 1rem, solid, left);
+    }
+  }
+
+  p .fa-solid {
+    margin-right: spacing.space(0.75);
+
+    @include colour.colour-font("icon-light");
+  }
+}
+
+.tna-sidebar {
+  @include media.on-large {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0 spacing.space(2);
+
+    &__items {
+      padding-top: 0;
+    }
+  }
+
+  @include media.on-larger-than-mobile {
+    &__items {
+      padding-left: 0 !important;
+
+      flex-direction: row;
+      flex: 1;
+
+      gap: spacing.space(0.5) spacing.space(2);
+    }
+
+    &__item {
+      list-style: none inside !important;
+    }
+  }
+}
+
+.tna-picture--plain {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.tna-enhanced-map {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2;
+  margin: 0;
+
+  display: block;
+
+  @include colour.colour-border("keyline", 1px, solid);
+  border-radius: 0.1px;
+
+  @include media.on-medium {
+    aspect-ratio: 1;
+  }
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-visible {
+    @include a11y.focus-outline;
+  }
+}
+
+.tna-aside {
+  &--top-bottom-borders {
+    @include colour.colour-border("keyline-dark", 1px, solid, top);
+    @include colour.colour-border("keyline-dark", 1px, solid, bottom);
+    border-radius: 0;
+  }
+}
+
+.tna-exhibition-quote {
+  text-align: center;
+
+  &__body {
+    quotes: auto;
+    quotes: "‘" "’";
+
+    :first-child::before {
+      content: open-quote;
+    }
+
+    :last-child::after {
+      content: close-quote;
+    }
+  }
+
+  &__attribution {
+    cite {
+      font-style: normal;
+    }
+  }
+}
+
+.tna-exhibition-newsletter {
+  &_inner {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    @include media.on-tiny {
+      flex-direction: column;
+    }
+  }
+
+  &__icon {
+    padding: spacing.space(2);
+
+    display: flex;
+    align-items: center;
+
+    @include typography.font-size(48);
+
+    @include colour.colour-background("accent-background");
+
+    border-radius: bordersVars.$rounded-border-radius 0 0
+      bordersVars.$rounded-border-radius;
+
+    @include media.on-tiny {
+      padding: spacing.space(1);
+
+      @include typography.font-size(32);
+
+      border-radius: bordersVars.$rounded-border-radius
+        bordersVars.$rounded-border-radius 0 0;
+    }
+  }
+
+  &__body {
+    padding: spacing.space(1.5) spacing.space(2);
+
+    border-left-width: 0 !important;
+    border-radius: 0 bordersVars.$rounded-border-radius
+      bordersVars.$rounded-border-radius 0;
+
+    flex: 1;
+
+    @include colour.colour-border("keyline", 1px);
+
+    @include media.on-small {
+      padding: spacing.space(1) spacing.space(1.5);
+    }
+
+    @include media.on-tiny {
+      padding: spacing.space(1);
+
+      border-top-width: 0;
+      border-left-width: 1px;
+      border-radius: 0 0 bordersVars.$rounded-border-radius
+        bordersVars.$rounded-border-radius;
+    }
+  }
+}
+
+.tna-gallery {
+  &__item-figure-inner {
+    background-color: #010101;
+  }
+
+  &__navigation {
+    margin-right: spacing.space(-1);
+    margin-left: spacing.space(-1);
+  }
+
+  &:fullscreen {
+    @include colour.contrast;
+  }
+}
+
+#exhibition-mi5-logo {
+  width: clamp(150px, 100%, 300px);
+  margin-top: spacing.space(0.5);
+
+  .cls-1 {
+    fill: #006885;
+  }
+
+  .cls-2 {
+    fill: #6cb4d0;
+  }
+
+  .tna-template--dark-theme & {
+    .cls-1,
+    .cls-2 {
+      fill: #fff;
+    }
+  }
+
+  .tna-template--system-theme & {
+    @media (prefers-color-scheme: dark) {
+      .cls-1,
+      .cls-2 {
+        fill: #fff;
+      }
+    }
+  }
+}

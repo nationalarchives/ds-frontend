@@ -1,8 +1,8 @@
-import requests
 from flask import current_app
+from requests import JSONDecodeError, Timeout, TooManyRedirects, codes, get
 
 
-class ApiResourceNotFound(Exception):
+class ResourceNotFound(Exception):
     pass
 
 
@@ -21,34 +21,44 @@ class JSONAPIClient:
         self.params = self.params | params
 
     def get(self, path="/"):
-        url = f"{self.api_url}/{path.lstrip(" / ")}"
+        url = f"{self.api_url}/{path.lstrip('/')}"
+        headers = {
+            "Cache-Control": "no-cache",
+            "Accept": "application/json",
+        }
         try:
-            response = requests.get(
+            response = get(
                 url,
                 params=self.params,
-                headers={"Cache-Control": "no-cache"},
+                headers=headers,
             )
         except ConnectionError:
-            current_app.logger.error(
-                f"JSON API connection error for: {response.url}"
-            )
-            raise Exception("A connection error occured with the JSON API")
-        if response.status_code == requests.codes.ok:
-            current_app.logger.debug(
-                f"JSON API endpoint requested: {response.url}"
-            )
+            current_app.logger.error("JSON API connection error")
+            raise Exception("A connection error occured")
+        except Timeout:
+            current_app.logger.error("JSON API timeout")
+            raise Exception("The request timed out")
+        except TooManyRedirects:
+            current_app.logger.error("JSON API had too many redirects")
+            raise Exception("Too many redirects")
+        except Exception as e:
+            current_app.logger.error(f"Unknown JSON API exception: {e}")
+            raise Exception(e)
+        current_app.logger.debug(response.url)
+        if response.status_code == codes.ok:
             try:
                 return response.json()
-            except requests.exceptions.JSONDecodeError:
+            except JSONDecodeError:
                 current_app.logger.error("JSON API provided non-JSON response")
-                raise ConnectionError("JSON API provided non-JSON response")
+                raise Exception("Non-JSON response provided")
+        if response.status_code == 400:
+            current_app.logger.error(f"Bad request: {response.url}")
+            raise Exception("Bad request")
         if response.status_code == 403:
-            current_app.logger.warning(f"Forbidden: {response.url}")
-            raise ConnectionError("Forbidden")
+            current_app.logger.warning("Forbidden")
+            raise Exception("Forbidden")
         if response.status_code == 404:
-            current_app.logger.warning(f"Resource not found: {response.url}")
-            raise ApiResourceNotFound("Resource not found")
-        current_app.logger.error(
-            f"JSON API responded with {response.status_code} status for {response.url}"
-        )
-        raise ConnectionError("Request to API failed")
+            current_app.logger.warning("Resource not found")
+            raise ResourceNotFound("Resource not found")
+        current_app.logger.error(f"JSON API responded with {response.status_code}")
+        raise Exception("Request failed")

@@ -12,6 +12,7 @@
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/promoted_item.html' import wagtailPromotedItem -%}
+{%- from 'macros/wagtail_blocks/promoted_list.html' import wagtailPromotedList -%}
 {%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
@@ -22,13 +23,13 @@
 
   {%- elif content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
   {%- if next_heading_level == 3 %}
-  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
+  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
   {%- elif next_heading_level == 4 %}
-  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
+  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
   {%- elif next_heading_level == 5 %}
-  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
+  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
   {%- elif next_heading_level == 6 %}
-  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
+  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
   {%- endif %}
 
   {%- elif content_item.type == 'button' %}
@@ -53,9 +54,9 @@
   </aside>
 
   {%- elif content_item.type == 'inset_text' %}
-  <aside class="etna-inset">
+  <div class="etna-inset">
     {{ content_item.value.text | tna_html | safe }}
-  </aside>
+  </div>
 
   {%- elif content_item.type == 'description_list' %}
   <dl class="tna-dl tna-dl--plain tna-dl--spaced">
@@ -71,7 +72,7 @@
   {%- elif content_item.type == 'quote' %}
   <blockquote class="tna-blockquote">
     <div class="tna-blockquote__quote">
-      {{ content_item.value.quote | safe }}
+      {{ content_item.value.quote | tna_html | safe }}
     </div>
     {%- if content_item.value.attribution %}
     <p class="tna-blockquote__citation">{{ content_item.value.attribution }}</p>
@@ -83,6 +84,9 @@
 
   {%- elif content_item.type == 'promoted_item' %}
   {{ wagtailPromotedItem(content_item.value, next_heading_level) }}
+
+  {%- elif content_item.type == 'promoted_list' %}
+  {{ wagtailPromotedList(content_item.value, next_heading_level) }}
 
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}

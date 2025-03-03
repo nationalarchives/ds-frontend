@@ -1,0 +1,31 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/search-field/macro.html' import tnaSearchField -%}
+
+{% macro discoverySearch() %}
+<div class="tna-background-tint tna-rounded-corners tna-!--padding-top-s tna-!--padding-bottom-m">
+  <div class="tna-container">
+    <div class="tna-column tna-column--flex-1 tna-!--padding-top-s">
+      <form method="get" action="https://discovery.nationalarchives.gov.uk/results/r" role="search">
+        {{ tnaSearchField({
+          'label': 'Looking for particular records? Search our catalogue',
+          'headingLevel': 2,
+          'headingSize': 'l',
+          'hint': 'Our catalogue, Discovery, holds more than 37 million descriptions of records held by The National Archives and archives across the country.',
+          'id': 'search-catalogue',
+          'name': '_q',
+          'formGroupClasses': 'etna-etc-search'
+        }) }}
+      </form>
+    </div>
+    <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--align-bottom tna-!--padding-top-s">
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Advanced search',
+          'href': 'https://discovery.nationalarchives.gov.uk/advanced-search',
+          'plain': True
+        }) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}

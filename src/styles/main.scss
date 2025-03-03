@@ -10,7 +10,7 @@
 // @use "@nationalarchives/frontend/nationalarchives/components/date-input";
 // @use "@nationalarchives/frontend/nationalarchives/components/date-search";
 @use "@nationalarchives/frontend/nationalarchives/components/details";
-// @use "@nationalarchives/frontend/nationalarchives/components/error-summary";
+@use "@nationalarchives/frontend/nationalarchives/components/error-summary";
 @use "@nationalarchives/frontend/nationalarchives/components/files-list";
 @use "@nationalarchives/frontend/nationalarchives/components/footer";
 @use "@nationalarchives/frontend/nationalarchives/components/gallery";
@@ -23,13 +23,12 @@
 @use "@nationalarchives/frontend/nationalarchives/components/picture";
 @use "@nationalarchives/frontend/nationalarchives/components/quick-filters";
 // @use "@nationalarchives/frontend/nationalarchives/components/radios";
-@use "@nationalarchives/frontend/nationalarchives/components/records-list";
 @use "@nationalarchives/frontend/nationalarchives/components/search-field";
 // @use "@nationalarchives/frontend/nationalarchives/components/select";
 @use "@nationalarchives/frontend/nationalarchives/components/sidebar";
 @use "@nationalarchives/frontend/nationalarchives/components/skip-link";
 @use "@nationalarchives/frontend/nationalarchives/components/tabs";
-// @use "@nationalarchives/frontend/nationalarchives/components/text-input";
+@use "@nationalarchives/frontend/nationalarchives/components/text-input";
 // @use "@nationalarchives/frontend/nationalarchives/components/textarea";
 @use "@nationalarchives/frontend/nationalarchives/components/warning";
 

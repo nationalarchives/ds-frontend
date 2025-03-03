@@ -8,6 +8,7 @@ module.exports = {
     article: "./src/scripts/article.js",
     cookies: "./src/scripts/cookies.js",
     event: "./src/scripts/event.js",
+    exhibition: "./src/scripts/exhibition.js",
     footnotes: "./src/scripts/footnotes.js",
     media: "./src/scripts/media.js",
     offline: "./src/scripts/offline.js",

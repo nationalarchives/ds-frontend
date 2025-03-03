@@ -1,0 +1,15 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{% macro wagtailPromotedList(block_value, itemHeadingLevel) %}
+  {% for item in block_value.promoted_items %}
+    {{ tnaCard({
+      'title': item.title,
+      'headingLevel': itemHeadingLevel,
+      'headingSize': 'm',
+      'href': item.url,
+      'body': item.description | tna_html | safe,
+      'fullAreaClick': True,
+      'style': 'tint'
+    }) }}
+  {% endfor %}
+{% endmacro %}

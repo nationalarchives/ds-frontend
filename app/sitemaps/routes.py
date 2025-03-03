@@ -5,15 +5,20 @@ from urllib.parse import urlparse
 from app.lib.cache import cache
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
-from flask import current_app, make_response, render_template, request, url_for
+from flask import (
+    current_app,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=3600)
-def sitemaps():
-    sitemap_urls = [
-        url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
-    ]
+def sitemap_index():
+    sitemap_urls = [url_for("sitemaps.sitemap_static", _external=True, _scheme="https")]
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
@@ -34,6 +39,15 @@ def sitemaps():
     response = make_response(xml_sitemap_index)
     response.headers["Content-Type"] = "application/xml; charset=utf-8"
     return response
+
+
+@bp.route("/sitemaps/")
+@cache.cached(timeout=3600)
+def sitemaps():
+    return redirect(
+        url_for("sitemaps.sitemap_index"),
+        code=302,
+    )
 
 
 def static_uris():
@@ -85,7 +99,7 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     for page in wagtail_pages["items"]:
         try:
             lastmodified_date = datetime.strptime(

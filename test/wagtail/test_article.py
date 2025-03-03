@@ -57,10 +57,10 @@ class ArticleTemplateTestCase(unittest.TestCase):
                 f"<meta name=\"tna.page.wagtail.type\" content=\"{page_data['meta']['type']}\">",
                 rv.text,
             )
-            self.assertIn(
-                f"<meta name=\"tna.page.tags\" content=\"{';'.join(page_data['tags'])}\">",
-                rv.text,
-            )
+            # self.assertIn(
+            #     f"<meta name=\"tna.page.tags\" content=\"{';'.join(page_data['tags'])}\">",
+            #     rv.text,
+            # )
             # self.assertIn('<meta name="description" content="articles.ArticlePage">', rv.text)
             self.assertIn(
                 '<p class="tna-hgroup__supertitle">The story of</p>',

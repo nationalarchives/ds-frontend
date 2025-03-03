@@ -2,8 +2,10 @@
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
-{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/authors_list.html' import authors_list -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_body.html' import wagtail_body -%}
@@ -57,7 +59,7 @@
         <div class="tna-container">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
             <hgroup class="tna-hgroup-xl">
-              <p class="tna-hgroup__supertitle">Blog post</p>
+              <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
               <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
             </hgroup>
             {%- if page_data.intro %}
@@ -97,7 +99,7 @@
           <div class="tna-column tna-column--full">
             {% set hero_image_caption = page_data.hero_image_caption or '' %}
             {%- if page_data.hero_image.copyright %}
-              {% set hero_image_caption = hero_image_caption + '<p>&copy; ' + page_data.hero_image.copyright + '</p>' %}
+              {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
             {%- endif %}
             {{ tnaHero({
               'imageSrc': page_data.hero_image.jpeg.full_url,
@@ -136,18 +138,26 @@
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
+            {%- if page_data.custom_warning_text %}
+            {{ tnaWarning({
+              'headingLevel': 2,
+              'body': page_data.custom_warning_text | tna_html | safe,
+              'classes': 'tna-!--margin-bottom-m'
+            }) }}
+            {%- endif %}
             {{ wagtail_body(page_data.body, 2) }}
           </div>
         </div>
       </div>
-      {%- if page_data.authors | length %}
+      {%- if page_data.authors | length or page_data.external_authors | length %}
       <div class="tna-section">
         <div class="tna-container tna-container--centred">
-          {{ authors_list(page_data.authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print', page_data.external_authors) }}
+          {{ authors_list(page_data.authors, page_data.external_authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print') }}
         </div>
       </div>
       {%- endif %}
     </article>
+    {{ back_to_top() }}
   </main>
 {% endblock %}
 

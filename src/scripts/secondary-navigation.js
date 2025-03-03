@@ -5,16 +5,14 @@ if ($secondaryNavigation && $pageBody) {
     $secondaryNavigation.removeAttribute("hidden");
     const $pageContentsList = document.getElementById("page-contents-list");
     if ($pageContentsList) {
-      $pageContentsList.setAttribute("hidden", true);
+      $pageContentsList.setAttribute("hidden", "");
     }
     const sections = Array.from(
-      $secondaryNavigation.querySelectorAll("li:has(button[aria-controls])"),
-    ).map(($pageSectionItem) => {
-      const $pageSectionItemLink = $pageSectionItem.querySelector("button");
+      $secondaryNavigation.querySelectorAll("button[aria-controls]"),
+    ).map(($pageSectionItemLink) => {
       const id = $pageSectionItemLink.getAttribute("aria-controls");
-      const $section = $pageBody.querySelector(`[data-sectionfor="${id}"]`);
+      const $section = document.getElementById(id);
       return {
-        $listItem: $pageSectionItem,
         $button: $pageSectionItemLink,
         id,
         $section: $section,
@@ -37,16 +35,16 @@ if ($secondaryNavigation && $pageBody) {
           if (switchFocus) {
             section.$button.focus();
           }
-          section.$listItem.classList.add(
-            "etna-secondary-navigation__item--current",
+          section.$button.classList.add(
+            "etna-secondary-navigation__link--current",
           );
         } else {
-          section.$section.setAttribute("hidden", "until-found");
+          section.$section.setAttribute("hidden", "");
           section.$section.setAttribute("tabindex", "-1");
           section.$button.setAttribute("tabindex", "-1");
           section.$button.setAttribute("aria-selected", "false");
-          section.$listItem.classList.remove(
-            "etna-secondary-navigation__item--current",
+          section.$button.classList.remove(
+            "etna-secondary-navigation__link--current",
           );
         }
       });
@@ -95,7 +93,7 @@ if ($secondaryNavigation && $pageBody) {
         //   `Previous:<br>${sections[selectedIndex - 1].$button.innerText}`;
         $sectionsPaginationPreviousText.innerText = `Previous: ${sections[selectedIndex - 1].$button.innerText}`;
       } else {
-        $sectionsPaginationPrevious.setAttribute("hidden", true);
+        $sectionsPaginationPrevious.setAttribute("hidden", "");
       }
       if (selectedIndex + 1 < sections.length) {
         $sectionsPaginationNext.removeAttribute("hidden");
@@ -107,7 +105,7 @@ if ($secondaryNavigation && $pageBody) {
         //   `Next:<br>${sections[selectedIndex + 1].$button.innerText}`;
         $sectionsPaginationNextText.innerText = `Next: ${sections[selectedIndex + 1].$button.innerText}`;
       } else {
-        $sectionsPaginationNext.setAttribute("hidden", true);
+        $sectionsPaginationNext.setAttribute("hidden", "");
       }
       // $sectionsPaginationCurrentText.innerText = sections[selectedIndex].$button.innerText;
       // $sectionsPaginationCurrentText.innerText = `Section ${selectedIndex + 1} of ${sections.length}`;

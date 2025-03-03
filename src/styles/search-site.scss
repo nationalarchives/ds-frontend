@@ -1,0 +1,34 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
+.tna-button-group {
+  &--horizontal-on-tiny {
+    @include media.on-tiny {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+}
+
+@include media.on-larger-than-tiny {
+  .tna-card {
+    &--horizontal {
+      &:not(:has(.tna-card__image-container)) {
+        padding-top: 0;
+      }
+
+      > :first-child {
+        padding-top: spacing.space(0.5);
+      }
+
+      > :last-child {
+        padding-bottom: spacing.space(1);
+      }
+    }
+
+    &--horizontal &__heading,
+    &--horizontal &__body {
+      padding-left: spacing.space(1);
+    }
+  }
+}

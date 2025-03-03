@@ -8,6 +8,7 @@ from markupsafe import Markup
 
 from .content_parser import (
     add_abbreviations,
+    add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
     replace_footnotes,
@@ -17,16 +18,21 @@ from .content_parser import (
 
 
 def tna_html(s):
+    if not s:
+        return s
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
     s = replace_footnotes(s)
     s = add_abbreviations(s)
+    s = add_rel_to_external_links(s)
     return s
 
 
 def slugify(s):
+    if not s:
+        return s
     s = s.lower().strip()
     s = re.sub(r"[^\w\s-]", "", s)
     s = re.sub(r"[\s_-]+", "-", s)
@@ -35,6 +41,8 @@ def slugify(s):
 
 
 def seconds_to_time(s):
+    if not s:
+        return "00:00:00"
     total_seconds = int(s)
     hours = math.floor(total_seconds / 3600)
     minutes = math.floor((total_seconds - (hours * 3600)) / 60)
@@ -52,31 +60,21 @@ def get_url_domain(s):
 
 
 def pretty_date(s, show_day=False):
+    if not s:
+        return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return (
-            date.strftime("%A %d %B %Y")
-            if show_day
-            else date.strftime("%d %B %Y")
-        )
+        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        return (
-            date.strftime("%A %d %B %Y")
-            if show_day
-            else date.strftime("%d %B %Y")
-        )
+        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%d")
-        return (
-            date.strftime("%A %d %B %Y")
-            if show_day
-            else date.strftime("%d %B %Y")
-        )
+        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
@@ -96,21 +94,35 @@ def pretty_date_with_day(s):
     return pretty_date(s, True)
 
 
+def currency(s):
+    if not s:
+        return "0"
+    float_number = float(s)
+    int_number = int(float_number)
+    if int_number == float_number:
+        return str(int_number)
+    return str("%.2f" % float_number)
+
+
 def rfc_822_format(s):
+    if not s:
+        return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        return date.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     return s
 
 
 def headings_list(s):
+    if not s:
+        return s
     headings_regex = re.findall(
         r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
     )
@@ -131,24 +143,17 @@ def headings_list(s):
                 prev_heading = grouping[-1]
                 try:
                     if next_heading["level"] > prev_heading["level"]:
-                        prev_heading["children"] = (
-                            prev_heading["children"] or []
-                        )
+                        prev_heading["children"] = prev_heading["children"] or []
                         return group_headings(index, prev_heading["children"])
                     elif next_heading["level"] == prev_heading["level"]:
                         grouping.append(next_heading)
                         index = index + 1
                         return group_headings(index, grouping)
                     else:
-                        raise Exception(
-                            {"index": index, "heading": next_heading}
-                        )
+                        raise Exception({"index": index, "heading": next_heading})
                 except Exception as e:
                     (higher_heading,) = e.args
-                    if (
-                        higher_heading["heading"]["level"]
-                        == prev_heading["level"]
-                    ):
+                    if higher_heading["heading"]["level"] == prev_heading["level"]:
                         grouping.append(higher_heading["heading"])
                         higher_heading["index"] = higher_heading["index"] + 1
                         return group_headings(higher_heading["index"], grouping)
@@ -178,9 +183,7 @@ def wagtail_streamfield_contains_media(body):
             for block in body_item["value"]["content"]:
                 if block["type"] == "youtube_video" or block["type"] == "media":
                     return True
-        elif (
-            body_item["type"] == "youtube_video" or body_item["type"] == "media"
-        ):
+        elif body_item["type"] == "youtube_video" or body_item["type"] == "media":
             return True
     return False
 
@@ -200,7 +203,7 @@ def sidebar_items_from_wagtail_body(content):
                     section_children.append(
                         {
                             "text": block["value"]["heading"],
-                            "href": "#"
+                            "href": "#heading-"
                             + slugify(block["value"]["heading"])
                             + "-"
                             + block["id"],
@@ -216,7 +219,7 @@ def sidebar_items_from_wagtail_body(content):
                     section_grandchildren.append(
                         {
                             "text": block["value"]["heading"],
-                            "href": "#"
+                            "href": "#heading-"
                             + slugify(block["value"]["heading"])
                             + "-"
                             + block["id"],
@@ -225,7 +228,7 @@ def sidebar_items_from_wagtail_body(content):
             page_sections.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#"
+                    "href": "#heading-"
                     + slugify(item["value"]["heading"])
                     + "-"
                     + item["id"],
@@ -239,14 +242,12 @@ def sidebar_items_from_wagtail_body(content):
             page_children.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#"
+                    "href": "#heading-"
                     + slugify(item["value"]["heading"])
                     + "-"
                     + item["id"],
                     "children": (
-                        reversed(page_grandchildren)
-                        if page_grandchildren
-                        else None
+                        reversed(page_grandchildren) if page_grandchildren else None
                     ),
                 }
             )
@@ -256,7 +257,7 @@ def sidebar_items_from_wagtail_body(content):
             page_grandchildren.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#"
+                    "href": "#heading-"
                     + slugify(item["value"]["heading"])
                     + "-"
                     + item["id"],
@@ -286,17 +287,13 @@ def wagtail_table_parser(table_data):
         for row in range(len(table_data["data"]))
     ]
     for cell in table_data["cell"]:
-        classes = wagtail_cell_alignment_parser(
-            cell["className"], cell_alignment_regex
-        )
+        classes = wagtail_cell_alignment_parser(cell["className"], cell_alignment_regex)
         alignment[cell["row"]][cell["col"]] = classes
     data = {"head": [], "body": [], "alignment": alignment}
     for row_index, row in enumerate(table_data["data"]):
         row_data = [
             {
-                "head": (
-                    column_index == 0 and table_data["first_col_is_header"]
-                )
+                "head": (column_index == 0 and table_data["first_col_is_header"])
                 or (row_index == 0 and table_data["first_row_is_table_header"]),
                 "data": cell,
                 "row_index": row_index,
@@ -335,4 +332,14 @@ def qs_toggler(existing_qs, filter, by):
     else:
         # Update or add the query string.
         rtn_qs.update(qs)
+    return urlencode(rtn_qs)
+
+
+def qs_update(existing_qs, filter, value):
+    rtn_qs = existing_qs.copy()
+    try:
+        rtn_qs.pop(filter)
+    except KeyError:
+        pass
+    rtn_qs.update({filter: value})
     return urlencode(rtn_qs)

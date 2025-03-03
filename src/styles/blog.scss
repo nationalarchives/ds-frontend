@@ -1,3 +1,4 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -29,12 +30,19 @@
   // box-shadow: 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 25%), 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 75%);
 }
 
+.tna-quick-filters {
+  &__link[href*="&month="] {
+    margin-left: spacing.space(1);
+  }
+}
+
 .tna-blockquote {
   margin-right: spacing.space(2);
   margin-left: spacing.space(2);
   padding: spacing.space(2) spacing.space(3);
 
   border-left: none;
+  @include borders.rounded-border;
 
   @include colour.accent;
 
