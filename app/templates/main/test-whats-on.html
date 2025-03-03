@@ -85,6 +85,7 @@
         'horizontalOnSmall': False,
         'horizontalSmallImage': True,
         'fullAreaClick': True,
+        'style': 'plain',
         'classes': 'tna-card--full-height tna-card--banner-label'
       } %}
 
@@ -172,10 +173,12 @@
     </li>
   {% endfor %}
   </ul>
+  {% if pages > 1 %}
   <div class="tna-container tna-!--padding-top-l">
     <div class="tna-column tna-column--full">
       {{ tnaPagination(pagination) }}
     </div>
   </div>
+  {% endif %}
 </section>
 {% endblock %}

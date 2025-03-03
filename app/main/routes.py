@@ -123,6 +123,7 @@ def whats_on():
         "main/test-whats-on.html",
         events=events,
         page=page,
+        pages=pages,
         events_per_page=children_per_page,
         total_events=all_events["pagination"]["object_count"],
         pagination=pagination,
