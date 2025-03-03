@@ -1,7 +1,7 @@
 import json
 from urllib.parse import quote, unquote
 
-from app.eventbrite.api import event_details, tna_events
+from app.eventbrite.api import event_details, tna_events, tna_events_by_date
 from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.pagination import pagination_object
 from app.lib.template_filters import slugify
@@ -97,21 +97,47 @@ def new_homepage():
 @bp.route("/test/whats-on/")
 @cache.cached(key_prefix=page_cache_key_prefix)
 def whats_on():
-    event_ids = [
-        1227466357919,
-        1227509246199,
-        1230051279489,
-    ]
+    event_ids = ",".join(
+        [
+            str(id)
+            for id in [
+                1227466357919,
+                1227509246199,
+                1230051279489,
+            ]
+        ]
+    )
     children_per_page = 12
+    year = (
+        int(request.args.get("year"))
+        if request.args.get("year") and request.args.get("year").isnumeric()
+        else None
+    )
+    month = (
+        int(request.args.get("month"))
+        if request.args.get("month") and request.args.get("month").isnumeric()
+        else None
+    )
+    day = (
+        int(request.args.get("day"))
+        if request.args.get("day") and request.args.get("day").isnumeric()
+        else None
+    )
     page = (
         int(request.args.get("page"))
         if "page" in request.args and request.args["page"].isnumeric()
         else 1
     )
-    all_events = tna_events(
-        page,
-        children_per_page,
-        {"event_ids": ",".join([str(id) for id in event_ids])},
+    all_events = (
+        tna_events(
+            page,
+            children_per_page,
+            {"event_ids": event_ids},
+        )
+        if not (year or month or day)
+        else tna_events_by_date(
+            page, children_per_page, year, month, day, {"event_ids": event_ids}
+        )
     )
     pages = all_events["pagination"]["page_count"]
     if page > pages:
