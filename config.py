@@ -6,6 +6,9 @@ from app.lib.util import strtobool
 
 class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
+    FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
+        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "False")
+    )
     FEATURE_LOGO_ADORNMENTS_CSS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_CSS", "")
     FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
 
