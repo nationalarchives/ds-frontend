@@ -5,4 +5,7 @@
     <loc>{{ url }}</loc>
   </sitemap>
   {% endfor %}
+  <sitemap>
+    <loc>https://www.nationalarchives.gov.uk/sitemap_index.xml</loc>
+  </sitemap>
 </sitemapindex>
