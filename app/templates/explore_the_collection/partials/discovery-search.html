@@ -2,7 +2,7 @@
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 
 {% macro discoverySearch() %}
-<div class="tna-container">
+<div class="tna-container tna-container--nested">
   <div class="tna-column tna-column--flex-1 tna-!--padding-top-s">
     <form method="get" action="https://discovery.nationalarchives.gov.uk/results/r" role="search">
       {{ tnaSearchField({

@@ -27,9 +27,9 @@
     'imageSrc': 'https://beta.nationalarchives.gov.uk/media/images/brixton-19.93e5b09d.fill-1200x480.format-webp.webpquality-60.bgcolor-fff.webp',
     'narrow': True
   }) }}
-  <div class="tna-section tna-background-contrast">
+  <div class="tna-section tna-!--padding-top-s tna-background-contrast-">
     <ul class="tna-container">
-      <li class="tna-column tna-column--width-1-2">
+      <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
         {{ tnaCard({
           'title': item.value.page_1.title,
           'headingLevel': 2,
@@ -48,10 +48,11 @@
               'height': item.value.page_1.teaser_image.webp.height
             }
           ],
-          'fullAreaClick': True
+          'fullAreaClick': True,
+          'classes': 'tna-!--margin-top-m'
         }) }}
       </li>
-      <li class="tna-column tna-column--width-1-2">
+      <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
         {{ tnaCard({
           'title': item.value.page_2.title,
           'headingLevel': 2,
@@ -70,7 +71,8 @@
               'height': item.value.page_2.teaser_image.webp.height
             }
           ],
-          'fullAreaClick': True
+          'fullAreaClick': True,
+          'classes': 'tna-!--margin-top-m'
         }) }}
       </li>
     </ul>
@@ -103,6 +105,7 @@
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">Blogs and podcasts</h2>
       {{ tnaCard({
+        'supertitle': 'Blog',
         'title': 'On the record',
         'headingLevel': 3,
         'headingSize': 'm',
@@ -121,6 +124,7 @@
         'classes': 'tna-!--margin-top-m'
       }) }}
       {{ tnaCard({
+        'supertitle': 'Blog',
         'title': 'Explore the collection blog',
         'headingLevel': 3,
         'headingSize': 'm',
