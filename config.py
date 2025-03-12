@@ -81,8 +81,15 @@ class Base(object):
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
-    APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
-    REDIRECT_ALIASES: bool = strtobool(os.getenv("REDIRECT_ALIASES", "True"))
+    FOLLOW_PAGE_REDIRECTIONS: bool = strtobool(
+        os.getenv("FOLLOW_PAGE_REDIRECTIONS", "True")
+    )
+    FOLLOW_ALIAS_REDIRECTIONS: bool = strtobool(
+        os.getenv("FOLLOW_ALIAS_REDIRECTIONS", "True")
+    )
+    FOLLOW_EXTERNAL_REDIRECTIONS: bool = strtobool(
+        os.getenv("FOLLOW_EXTERNAL_REDIRECTIONS", "True")
+    )
 
 
 class Production(Base, Features):
@@ -124,4 +131,6 @@ class Test(Base, Features):
     FORCE_HTTPS = False
     PREFERRED_URL_SCHEME = "http"
 
-    APPLY_REDIRECTS = False
+    FOLLOW_PAGE_REDIRECTIONS = False
+    FOLLOW_ALIAS_REDIRECTIONS = False
+    FOLLOW_EXTERNAL_REDIRECTIONS = False

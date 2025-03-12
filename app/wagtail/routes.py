@@ -15,7 +15,7 @@ from flask import (
 from flask_caching import CachedResponse
 from pydash import objects
 
-from .api import page_details, page_details_by_uri, page_preview
+from .api import page_details, page_details_by_uri, page_preview, redirect_by_uri
 
 
 @bp.route("/preview/")
@@ -124,6 +124,8 @@ def page(path):
     try:
         page_data = page_details_by_uri(unquote(f"/{path}/"))
     except ResourceNotFound:
+        if current_app.config.get("FOLLOW_EXTERNAL_REDIRECTIONS"):
+            return try_external_redirect(path)
         return CachedResponse(
             response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
@@ -148,8 +150,8 @@ def page(path):
             ),
             code=302,
         )
-    if objects.get(page_data, "meta.alias_of") and current_app.config.get(
-        "REDIRECT_ALIASES"
+    if current_app.config.get("FOLLOW_ALIAS_REDIRECTIONS") and objects.get(
+        page_data, "meta.alias_of"
     ):
         rediect_path = objects.get(page_data, "meta.alias_of.url", "").strip("/")
         if not rediect_path:
@@ -160,7 +162,7 @@ def page(path):
             url_for("wagtail.page", path=rediect_path),
             code=302,
         )
-    if current_app.config.get("APPLY_REDIRECTS") and (
+    if current_app.config.get("FOLLOW_PAGE_REDIRECTIONS") and (
         quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/")
     ):
         rediect_path = objects.get(page_data, "meta.url").strip("/")
@@ -172,3 +174,19 @@ def page(path):
         response=make_response(render_content_page(page_data)),
         timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )
+
+
+def try_external_redirect(path):
+    try:
+        redirect_data = redirect_by_uri(unquote(f"/{path}/"))
+        if rediect_destination := objects.get(redirect_data, "link", ""):
+            is_permanent = objects.get(redirect_data, "is_permanent", False)
+            return redirect(
+                rediect_destination,
+                code=(301 if is_permanent else 302),
+            )
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except Exception as e:
+        current_app.logger.error(f"Failed to get redirect for {path}: {e}")
+        return render_template("errors/api.html"), 502
