@@ -124,7 +124,7 @@ def page(path):
     try:
         page_data = page_details_by_uri(unquote(f"/{path}/"))
     except ResourceNotFound:
-        if current_app.config.get("FOLLOW_EXTERNAL_REDIRECTIONS"):
+        if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
             return try_external_redirect(path)
         return CachedResponse(
             response=make_response(render_template("errors/page_not_found.html"), 404),
@@ -150,7 +150,7 @@ def page(path):
             ),
             code=302,
         )
-    if current_app.config.get("FOLLOW_ALIAS_REDIRECTIONS") and objects.get(
+    if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES") and objects.get(
         page_data, "meta.alias_of"
     ):
         rediect_path = objects.get(page_data, "meta.alias_of.url", "").strip("/")
@@ -162,7 +162,7 @@ def page(path):
             url_for("wagtail.page", path=rediect_path),
             code=302,
         )
-    if current_app.config.get("FOLLOW_PAGE_REDIRECTIONS") and (
+    if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
         quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/")
     ):
         rediect_path = objects.get(page_data, "meta.url").strip("/")

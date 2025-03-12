@@ -81,14 +81,14 @@ class Base(object):
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
-    FOLLOW_PAGE_REDIRECTIONS: bool = strtobool(
-        os.getenv("FOLLOW_PAGE_REDIRECTIONS", "True")
+    REDIRECT_WAGTAIL_ALIAS_PAGES: bool = strtobool(
+        os.getenv("REDIRECT_WAGTAIL_ALIAS_PAGES", "True")
     )
-    FOLLOW_ALIAS_REDIRECTIONS: bool = strtobool(
-        os.getenv("FOLLOW_ALIAS_REDIRECTIONS", "True")
+    SERVE_WAGTAIL_PAGE_REDIRECTIONS: bool = strtobool(
+        os.getenv("SERVE_WAGTAIL_PAGE_REDIRECTIONS", "True")
     )
-    FOLLOW_EXTERNAL_REDIRECTIONS: bool = strtobool(
-        os.getenv("FOLLOW_EXTERNAL_REDIRECTIONS", "True")
+    SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS: bool = strtobool(
+        os.getenv("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS", "True")
     )
 
 
@@ -130,7 +130,3 @@ class Test(Base, Features):
 
     FORCE_HTTPS = False
     PREFERRED_URL_SCHEME = "http"
-
-    FOLLOW_PAGE_REDIRECTIONS = False
-    FOLLOW_ALIAS_REDIRECTIONS = False
-    FOLLOW_EXTERNAL_REDIRECTIONS = False
