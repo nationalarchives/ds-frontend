@@ -42,7 +42,7 @@
   </div>
 
   {%- elif content_item.type == 'call_to_action' %}
-  <aside class="tna-aside tna-background-tint etna-cta">
+  <div class="tna-aside tna-background-tint etna-cta">
     {{ content_item.value.body | tna_html | safe }}
     <div class="tna-button-group">
       {{ tnaButton({
@@ -51,7 +51,7 @@
         'accent': content_item.value.button.accent
       }) }}
     </div>
-  </aside>
+  </div>
 
   {%- elif content_item.type == 'inset_text' %}
   <div class="etna-inset">

@@ -3,7 +3,7 @@
 {# TODO: Delete when "Featured link" block is deprecated #}
 
 {% macro wagtailPromotedItem(block_value, itemHeadingLevel) %}
-  <aside class="etna-space-above">
+  <div class="etna-space-above">
     {% set card_content = {
       'title': block_value.title,
       'headingLevel': itemHeadingLevel,
@@ -49,5 +49,5 @@
       }) %}
     {%- endif %}
     {{ tnaCard(card_content) }}
-  </aside>
+  </div>
 {% endmacro %}
