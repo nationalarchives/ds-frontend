@@ -159,6 +159,14 @@ def authored_pages_paginated(
     )
 
 
+def redirect_by_uri(path, params={}):
+    uri = "redirects/find/"
+    params = params | {
+        "path": path,
+    }
+    return wagtail_request_handler(uri, params)
+
+
 def blogs(params={}):
     uri = "blogs/"
     return wagtail_request_handler(uri, params)

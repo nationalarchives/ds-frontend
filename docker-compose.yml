@@ -26,6 +26,7 @@ services:
       - CSP_FEATURE_PICTURE_IN_PICTURE='self',https://www.youtube-nocookie.com
       - FRAME_DOMAIN_ALLOW=localhost:8000
       - FEATURE_PHASE_BANNER=False
+      - FEATURE_NEW_ETC_HOMEPAGE=True
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
       # - GA4_ID=GTM-KX8ZWVZG
@@ -38,7 +39,6 @@ services:
     image: ghcr.io/nationalarchives/tna-python-dev:preview
     volumes:
       - ./:/app
-      # - ../ds-wagtail:/app/tmp/ds-wagtail
 
   docs:
     image: squidfunk/mkdocs-material

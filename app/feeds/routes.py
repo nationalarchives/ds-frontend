@@ -15,7 +15,7 @@ from flask_caching import CachedResponse
 from pydash import objects
 
 
-@bp.route("/blog/feeds/")
+@bp.route("/blogs/feeds/")
 @cache.cached(key_prefix=page_cache_key_prefix)
 def rss_feeds():
     try:
@@ -34,7 +34,7 @@ def rss_feeds():
     )
 
 
-@bp.route("/blog/feeds/all/")
+@bp.route("/blogs/feeds/all/")
 @cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
 def rss_all_feed():
     try:
@@ -61,7 +61,7 @@ def rss_all_feed():
     return response
 
 
-@bp.route("/blog/feeds/<int:blog_id>/")
+@bp.route("/blogs/feeds/<int:blog_id>/")
 @cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
 def rss_feed(blog_id):
     try:

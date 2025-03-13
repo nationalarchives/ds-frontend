@@ -233,6 +233,9 @@
               }) }}
             </div>
             {% endif %}
+            {% if page_data.archived_blog_url %}
+            <p class="tna-!--padding-bottom-m">Read <a href="{{ page_data.archived_blog_url }}">archived articles by {{ page_data.first_name }}</a>.</p>
+            {% endif %}
           </section>
           {%- endif %}
           {%- if page_data.shop_items %}

@@ -16,7 +16,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
         domain = self.domain.replace("http://", "https://")
         mock_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=1&format=json"
         mock_respsone = {
-            "meta": {"total_count": 250},
+            "meta": {"total_count": 1337},
             "items": [],
         }
         m.get(mock_endpoint, json=mock_respsone)
@@ -43,7 +43,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             "items": [],
         }
         m.get(mock_index_endpoint, json=mock_index_respsone)
-        mock_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=100&format=json"
+        mock_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=500&format=json"
         mock_respsone = {
             "meta": {"total_count": 3},
             "items": [

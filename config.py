@@ -6,6 +6,9 @@ from app.lib.util import strtobool
 
 class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
+    FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
+        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "False")
+    )
     FEATURE_LOGO_ADORNMENTS_CSS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_CSS", "")
     FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
 
@@ -41,7 +44,7 @@ class Base(object):
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
-    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "100"))
+    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "500"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
 
@@ -78,8 +81,15 @@ class Base(object):
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
-    APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
-    REDIRECT_ALIASES: bool = strtobool(os.getenv("REDIRECT_ALIASES", "True"))
+    REDIRECT_WAGTAIL_ALIAS_PAGES: bool = strtobool(
+        os.getenv("REDIRECT_WAGTAIL_ALIAS_PAGES", "True")
+    )
+    SERVE_WAGTAIL_PAGE_REDIRECTIONS: bool = strtobool(
+        os.getenv("SERVE_WAGTAIL_PAGE_REDIRECTIONS", "True")
+    )
+    SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS: bool = strtobool(
+        os.getenv("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS", "True")
+    )
 
     EVENTBRITE_API_URL: str = os.environ.get(
         "EVENTBRITE_API_URL", "https://www.eventbriteapi.com/v3"
@@ -128,6 +138,8 @@ class Test(Base, Features):
     FORCE_HTTPS = False
     PREFERRED_URL_SCHEME = "http"
 
-    APPLY_REDIRECTS = False
-
     EVENTBRITE_API_URL = "http://eventbrite.test/v3"
+
+    REDIRECT_WAGTAIL_ALIAS_PAGES = True
+    SERVE_WAGTAIL_PAGE_REDIRECTIONS = True
+    SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS = True
