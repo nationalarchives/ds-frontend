@@ -2,7 +2,6 @@
 
 {% macro wagtailFeaturedRecordArticle(block_value, itemHeadingLevel) %}
   {%- if block_value.page %}
-  {# TODO: Get date_text from CMS #}
   <div class="etna-space-above">
     {% set card_content = {
       'supertitle': block_value.page.type_label,
@@ -10,7 +9,7 @@
       'headingLevel': itemHeadingLevel,
       'headingSize': 's',
       'href': block_value.page.url,
-      'meta': [
+      '_meta': [
         {
           'title': 'Date',
           'text': 'block_value.date_text',
@@ -42,6 +41,6 @@
       }) %}
     {%- endif %}
     {{ tnaCard(card_content) }}
-  {%- endif %}
   </div>
+  {%- endif %}
 {% endmacro %}
