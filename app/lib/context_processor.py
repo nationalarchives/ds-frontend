@@ -32,7 +32,7 @@ def cookie_preference(policy):
     return None
 
 
-def get_datetime_from_string(s):
+def get_date_from_datetime_string(s):
     try:
         return datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
     except ValueError:
@@ -44,7 +44,7 @@ def get_datetime_from_string(s):
     return None
 
 
-def get_date_from_string(s):
+def get_date_from_date_string(s):
     try:
         return datetime.strptime(s, "%Y-%m-%d")
     except ValueError:
@@ -61,30 +61,32 @@ def get_date_from_string(s):
 
 
 def get_year_from_date_string(s):
-    date = get_date_from_string(s)
-    if date:
+    if date := get_date_from_date_string(s):
+        return date.strftime("%Y")
+    if date := get_date_from_datetime_string(s):
         return date.strftime("%Y")
     return None
 
 
 def get_month_year_from_date_string(s):
-    date = get_date_from_string(s)
-    if date:
+    if date := get_date_from_date_string(s):
+        return date.strftime("%B %Y")
+    if date := get_date_from_datetime_string(s):
         return date.strftime("%B %Y")
     return None
 
 
 def pretty_date_range(s_from, s_to, show_days=True):
     show_time = False
-    datetime_from = get_datetime_from_string(s_from)
-    datetime_to = get_datetime_from_string(s_to)
+    datetime_from = get_date_from_datetime_string(s_from)
+    datetime_to = get_date_from_datetime_string(s_to)
     if datetime_from and datetime_to:
         show_time = True
         date_from = datetime_from
         date_to = datetime_to
     else:
-        date_from = get_date_from_string(s_from)
-        date_to = get_date_from_string(s_to)
+        date_from = get_date_from_date_string(s_from)
+        date_to = get_date_from_date_string(s_to)
     if date_from and date_to:
         date_to_string = date_to.strftime(
             "%-d %B %Y, %H:%M" if show_time else "%-d %B %Y" if show_days else "%B %Y"
