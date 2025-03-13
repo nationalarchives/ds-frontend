@@ -9,7 +9,7 @@ if (eventId && window.EBWidgets) {
     widgetType: "checkout",
     eventId,
     iframeContainerId,
-    iframeContainerHeight: 425,
+    iframeContainerHeight: 600,
     onOrderComplete: exampleCallback,
   });
 }
