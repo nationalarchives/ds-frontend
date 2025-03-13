@@ -38,7 +38,6 @@ services:
     image: ghcr.io/nationalarchives/tna-python-dev:preview
     volumes:
       - ./:/app
-      # - ../ds-wagtail:/app/tmp/ds-wagtail
 
   docs:
     image: squidfunk/mkdocs-material
