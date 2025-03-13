@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{%- set status_code = 500 -%}
+{%- set status_code = status_code or 500 -%}
 
 {% block content %}
 <div class="tna-container">
