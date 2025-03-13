@@ -16,7 +16,7 @@ from flask import (
 
 
 @bp.route("/sitemap.xml")
-@cache.cached(timeout=3600)
+@cache.cached(timeout=14400)  # 4 hours
 def sitemap_index():
     sitemap_urls = [url_for("sitemaps.sitemap_static", _external=True, _scheme="https")]
     wagtail_pages = all_pages(limit=1)
@@ -42,7 +42,7 @@ def sitemap_index():
 
 
 @bp.route("/sitemaps/")
-@cache.cached(timeout=3600)
+@cache.cached(timeout=14400)  # 4 hours
 def sitemaps():
     return redirect(
         url_for("sitemaps.sitemap_index"),
@@ -68,7 +68,7 @@ def static_uris():
 
 
 @bp.route("/sitemaps/sitemap_1.xml")
-@cache.cached(timeout=3600)
+@cache.cached(timeout=14400)  # 4 hours
 def sitemap_static():
     host_components = urlparse(request.host_url)
     host_base = "https://" + host_components.netloc
@@ -86,7 +86,7 @@ def sitemap_static():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cache.cached(timeout=3600)
+@cache.cached(timeout=14400)  # 4 hours
 def sitemap_dynamic(sitemap_page):
     sitemap_page = sitemap_page - 1
     dynamic_urls = list()

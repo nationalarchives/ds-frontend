@@ -29,8 +29,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SENTRY_JS_ID`                        | The ID of the Sentry client project to catch issues                         | _none_                                                    |
 | `SENTRY_SAMPLE_RATE`                  | How often to sample traces and profiles (0-1.0)                             | production: `0.1`, staging: `1`, develop: `0`, test: `0`  |
 | `WAGTAIL_API_URL`                     | The base URL of the content API, including the `/api/v2` path               | _none_                                                    |
-| `WAGTAILAPI_LIMIT_MAX`                | The maximum number of items requested from the Wagtail API in one call      | `20`                                                      |
-| `ITEMS_PER_SITEMAP`                   | The maximum number of items to add to a single sitemap XML file             | `100`                                                     |
+| `WAGTAILAPI_LIMIT_MAX`                | The default maximum number of items to request from the Wagtail API         | `20`                                                      |
+| `ITEMS_PER_SITEMAP`                   | The maximum number of items to add to a single sitemap XML file             | `500`                                                     |
 | `COOKIE_DOMAIN`                       | The domain to save cookie preferences against                               | _none_                                                    |
 | `CSP_IMG_SRC`                         | A comma separated list of CSP rules for `img-src`                           | `'self'`                                                  |
 | `CSP_SCRIPT_SRC`                      | A comma separated list of CSP rules for `script-src`                        | `'self'`                                                  |
