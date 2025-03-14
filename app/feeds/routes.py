@@ -1,6 +1,7 @@
 from app.feeds import bp
 from app.lib.api import ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix, rss_feed_cache_key_prefix
+from app.lib.talisman import talisman
 from app.wagtail.api import (
     blog_index,
     blog_posts_paginated,
@@ -36,6 +37,12 @@ def rss_feeds():
 
 @bp.route("/blogs/feeds/all/")
 @cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
+@talisman(
+    content_security_policy={
+        "default-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
+    }
+)
 def rss_all_feed():
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
     try:
@@ -64,6 +71,12 @@ def rss_all_feed():
 
 @bp.route("/blogs/feeds/<int:blog_id>/")
 @cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
+@talisman(
+    content_security_policy={
+        "default-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
+    }
+)
 def rss_feed(blog_id):
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
     try:
