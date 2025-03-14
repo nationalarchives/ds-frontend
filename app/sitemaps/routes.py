@@ -3,7 +3,6 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 from app.lib.cache import cache
-from app.lib.talisman import talisman
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
 from flask import (
@@ -15,15 +14,9 @@ from flask import (
     url_for,
 )
 
-sitemap_csp = {
-    "default-src": "'self'",
-    "style-src": "'self' 'sha256-dJl6v7iPCDz5pyBj84R6KbzJUESVdbl9s7Wm+36kAKc='",
-}
-
 
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=14400)  # 4 hours
-@talisman(content_security_policy=sitemap_csp)
 def sitemap_index():
     sitemap_urls = [
         # url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
@@ -77,7 +70,6 @@ def static_uris():
 
 @bp.route("/sitemaps/sitemap_static.xml")
 @cache.cached(timeout=14400)  # 4 hours
-@talisman(content_security_policy=sitemap_csp)
 def sitemap_static():
     host_components = urlparse(request.host_url)
     host_base = "https://" + host_components.netloc
@@ -96,7 +88,6 @@ def sitemap_static():
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
 @cache.cached(timeout=14400)  # 4 hours
-@talisman(content_security_policy=sitemap_csp)
 def sitemap_dynamic(sitemap_page):
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")

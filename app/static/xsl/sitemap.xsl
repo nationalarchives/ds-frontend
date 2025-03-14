@@ -40,16 +40,7 @@ https://github.com/pedroborges/xml-sitemap-stylesheet
                     <xsl:if test="sm:sitemapindex">Index</xsl:if>
                 </title>
                 <meta charset="UTF-8"/>
-                <style type="text/css">
-                    *{margin: 0; padding: 0;}
-                    body{color: #333; font-family: Arial; padding: 20px; font-size: 12px;}
-                    h1, p{margin-bottom: 10px;}
-                    h1{font-size: 24px;}
-                    p{font-size: 16px; line-height: 20px;}
-                    table{font-size: 12px; border-collapse: collapse;}
-                    table td, table th{border: 1px #ccc solid; padding: 5px; text-align: left;}
-                    table th{background: #f5f5f5;}
-                </style>
+                <link rel="stylesheet" href="/static/xml-sitemap.css" media="screen,print"/>
             </head>
             <body>
                 <h1>

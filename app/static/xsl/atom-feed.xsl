@@ -11,22 +11,7 @@
                         <xsl:value-of select="atom:feed/atom:subtitle"/>
                     </xsl:attribute>
                 </meta>
-                <style type="text/css">
-                    *{margin: 0; padding: 0;}
-                    body{color: #333; font-family: Arial; padding: 1.5rem; line-height: 1.5;}
-                    h1, h2, p{margin-bottom: 0.75rem;}
-                    h1{font-size: 32px;}
-                    h2{font-size: 24px; margin-top: 1rem;}
-                    h3{font-size: 18px;}
-                    p{font-size: 16px; margin-bottom: 0;}
-                    p + p{margin-top: 0.25rem;}
-                    ul{margin-left: 2.25rem; list-style-position: outside; margin-top: 0.5rem; margin-bottom: 1rem;}
-                    ol{margin-left: 2.25rem; list-style: none; margin-top: 1rem; counter-reset: item;}
-                    ol li{counter-increment: item; position: relative;}
-                    ol li::before{content: counter(item) ". "; position: absolute; top: 0; right: 100%; width: 1.75rem; padding-right: 0.5rem; text-align: right; font-weight: bold; line-height: 27px;}
-                    article{margin-bottom: 1.5rem;}
-                    footer{font-size: 14px; margin-top: 0.25rem;}
-                </style>
+                <link rel="stylesheet" href="/static/xml-feed.css" media="screen,print"/>
             </head>
             <body>
                 <header>
