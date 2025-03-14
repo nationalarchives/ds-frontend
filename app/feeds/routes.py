@@ -1,3 +1,5 @@
+import os
+
 from app.feeds import bp
 from app.lib.api import ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix, rss_feed_cache_key_prefix
@@ -41,6 +43,11 @@ def rss_feeds():
     content_security_policy={
         "default-src": "'self'",
         "style-src": "'self' 'unsafe-inline'",
+        **(
+            {"img-src": os.environ.get("CSP_IMG_SRC").split(",")}
+            if os.environ.get("CSP_IMG_SRC") != "'self'"
+            else {}
+        ),
     }
 )
 def rss_all_feed():
@@ -75,6 +82,11 @@ def rss_all_feed():
     content_security_policy={
         "default-src": "'self'",
         "style-src": "'self' 'unsafe-inline'",
+        **(
+            {"img-src": os.environ.get("CSP_IMG_SRC").split(",")}
+            if os.environ.get("CSP_IMG_SRC") != "'self'"
+            else {}
+        ),
     }
 )
 def rss_feed(blog_id):
