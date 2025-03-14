@@ -239,6 +239,42 @@
             'classes': 'tna-!--margin-top-s'
           }) }}
           {%- endif %}
+
+          {%- if page_data.meta.type == 'blog.BlogIndexPage' or (page_data.meta.type == 'blog.BlogPage' and page_data.id) %}
+          <h2 class="tna-heading-m">Feeds</h2>
+          <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
+            {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
+              {{ tnaButton({
+                'text': 'RSS feed',
+                'href': url_for('feeds.rss_all_feed'),
+                'title': 'Subscribe to the RSS feed for this blog',
+                'icon': 'rss'
+              }) }}
+              {{ tnaButton({
+                'text': 'Atom feed',
+                'href': url_for('feeds.rss_all_feed', format='atom'),
+                'title': 'Subscribe to the Atom feed for this blog',
+                'icon': 'atom'
+              }) }}
+            {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
+              {{ tnaButton({
+                'text': 'RSS feed',
+                'href': url_for('feeds.rss_feed', blog_id=page_data.id),
+                'title': 'Subscribe to the RSS feed for this blog',
+                'icon': 'rss'
+              }) }}
+              {{ tnaButton({
+                'text': 'Atom feed',
+                'href': url_for('feeds.rss_feed', blog_id=page_data.id, format='atom'),
+                'title': 'Subscribe to the Atom feed for this blog',
+                'icon': 'atom'
+              }) }}
+            {%- endif %}
+          </div>
+          <p class="tna-!--margin-top-xs">
+            <small><a href="{{ url_for('feeds.rss_feeds') }}">All blog feeds</a></small>
+          </p>
+          {%- endif %}
         </div>
       </div>
       {%- if authors %}
