@@ -37,9 +37,10 @@ def rss_feeds():
 @bp.route("/blogs/feeds/all/")
 @cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
 def rss_all_feed():
+    items = current_app.config.get("ITEMS_PER_BLOG_FEED")
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_posts = blog_posts_paginated(page=1, limit=20)
+        blog_posts = blog_posts_paginated(page=1, limit=items)
     except Exception as e:
         current_app.logger.error(f"Failed to render blog feeds list: {e}")
         return CachedResponse(
@@ -64,9 +65,10 @@ def rss_all_feed():
 @bp.route("/blogs/feeds/<int:blog_id>/")
 @cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
 def rss_feed(blog_id):
+    items = current_app.config.get("ITEMS_PER_BLOG_FEED")
     try:
         blog_data = page_details(blog_id)
-        blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=20)
+        blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)
     except ResourceNotFound:
         return CachedResponse(
             response=make_response(render_template("errors/page_not_found.html"), 404),

@@ -31,16 +31,15 @@ https://github.com/pedroborges/xml-sitemap-stylesheet
         xmlns:fo="http://www.w3.org/1999/XSL/Format"
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns="http://www.w3.org/1999/xhtml">
-
-    <xsl:output method="html" indent="yes" encoding="UTF-8"/>
-
+    <xsl:output method="html" encoding="UTF-8" indent="yes"/>
     <xsl:template match="/">
-        <html>
+        <html lang="en">
             <head>
                 <title>
                     Sitemap
                     <xsl:if test="sm:sitemapindex">Index</xsl:if>
                 </title>
+                <meta charset="UTF-8"/>
                 <style type="text/css">
                     *{margin: 0; padding: 0;}
                     body{color: #333; font-family: Arial; padding: 20px; font-size: 12px;}
@@ -71,13 +70,10 @@ https://github.com/pedroborges/xml-sitemap-stylesheet
                         </xsl:otherwise>
                     </xsl:choose>
                 </p>
-
                 <xsl:apply-templates/>
-
             </body>
         </html>
     </xsl:template>
-
 
     <xsl:template match="sm:sitemapindex">
         <table cellpadding="0" cellspacing="0" border="0">
