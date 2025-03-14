@@ -44,7 +44,7 @@ def rss_feeds():
         "default-src": "'self'",
         "style-src": "'self' 'unsafe-inline'",
         **(
-            {"img-src": os.environ.get("CSP_IMG_SRC").split(",")}
+            {"img-src": os.environ.get("CSP_IMG_SRC", "").split(",")}
             if os.environ.get("CSP_IMG_SRC") != "'self'"
             else {}
         ),
@@ -83,7 +83,7 @@ def rss_all_feed():
         "default-src": "'self'",
         "style-src": "'self' 'unsafe-inline'",
         **(
-            {"img-src": os.environ.get("CSP_IMG_SRC").split(",")}
+            {"img-src": os.environ.get("CSP_IMG_SRC", "").split(",")}
             if os.environ.get("CSP_IMG_SRC") != "'self'"
             else {}
         ),

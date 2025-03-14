@@ -25,12 +25,14 @@ sitemap_csp = {
 @cache.cached(timeout=14400)  # 4 hours
 @talisman(content_security_policy=sitemap_csp)
 def sitemap_index():
-    sitemap_urls = [url_for("sitemaps.sitemap_static", _external=True, _scheme="https")]
+    sitemap_urls = [
+        # url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
+    ]
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
-    for page in range(2, pages + 2):
+    for page in range(1, pages + 1):
         sitemap_urls.append(
             url_for(
                 "sitemaps.sitemap_dynamic",
@@ -73,7 +75,7 @@ def static_uris():
     return static_uris
 
 
-@bp.route("/sitemaps/sitemap_1.xml")
+@bp.route("/sitemaps/sitemap_static.xml")
 @cache.cached(timeout=14400)  # 4 hours
 @talisman(content_security_policy=sitemap_csp)
 def sitemap_static():
@@ -96,7 +98,6 @@ def sitemap_static():
 @cache.cached(timeout=14400)  # 4 hours
 @talisman(content_security_policy=sitemap_csp)
 def sitemap_dynamic(sitemap_page):
-    sitemap_page = sitemap_page - 1
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
     wagtail_pages = all_pages(
