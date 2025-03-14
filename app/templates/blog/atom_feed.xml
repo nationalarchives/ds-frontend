@@ -7,7 +7,7 @@
   {% elif 'meta' in blog_data and 'teaser_text' in blog_data.meta %}
   <subtitle>{{ blog_data.meta.teaser_text }}</subtitle>
   {% endif %}
-  <link href="{{ url }}" rel="self" />
+  <link href="{{ url }}?format=atom" rel="self" />
   {% if blog_data.full_url %}
   <link href="{{ blog_data.full_url }}?utm_source=atom" />
   {% elif 'meta' in blog_data and 'full_url' in blog_data.meta %}

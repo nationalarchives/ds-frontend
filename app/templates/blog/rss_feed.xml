@@ -25,9 +25,9 @@
         <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
       </title>
       {% if blog_data.full_url %}
-      <link>{{ blog_data.full_url }}</link>
+      <link>{{ blog_data.full_url }}?utm_source=rss</link>
       {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-      <link>{{ blog_data.meta.html_url }}</link>
+      <link>{{ blog_data.meta.html_url }}?utm_source=rss</link>
       {% endif %}
     </image>
     <generator>ds-frontend</generator>
