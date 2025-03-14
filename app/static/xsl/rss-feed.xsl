@@ -46,7 +46,7 @@
                         <li>
                             <article class="grid">
                                 <h3>
-                                    <a hreflang="en" target="_blank">
+                                    <a>
                                         <xsl:attribute name="href">
                                             <xsl:value-of select="link"/>
                                         </xsl:attribute>
