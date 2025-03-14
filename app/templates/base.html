@@ -43,7 +43,7 @@
     <meta name="tna.page.route" content="{{ request.url_rule }}">
     <meta name="tna.page.accent" content="{{ themeAccent }}">
     {% if request.args.get('utm_source') %}
-    <meta name="tna.source" content="{{ request.args.get('source') }}">
+    <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
 {% endblock %}
