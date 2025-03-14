@@ -5,9 +5,9 @@
       <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
     </title>
     {% if blog_data.full_url %}
-    <link>{{ blog_data.full_url }}?source=rss</link>
+    <link>{{ blog_data.full_url }}?utm_source=rss</link>
     {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-    <link>{{ blog_data.meta.html_url }}?source=rss</link>
+    <link>{{ blog_data.meta.html_url }}?utm_source=rss</link>
     {% endif %}
     {% if blog_data.teaser_text %}
     <description>
@@ -41,12 +41,12 @@
       <description>
         <![CDATA[ {{ blog_post.teaser_text }} ]]>
       </description>
-      <link>{{ blog_post.full_url }}?source=rss</link>
+      <link>{{ blog_post.full_url }}?utm_source=rss</link>
       <guid isPermaLink="true">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
       {% if blog_post.authors %}
       <dc:creator>
         <![CDATA[ {% for author in blog_post.authors -%}
-            {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}{% if author.full_url %}<a href="{{ author.full_url }}?source=rss">{{ author.title }}</a>{% else %}{{ author.title }}{% endif %}
+            {{ ' and ' if loop.index > 1 and loop.last else ', ' if loop.index > 1 else '' }}{% if author.full_url %}<a href="{{ author.full_url }}?utm_source=rss">{{ author.title }}</a>{% else %}{{ author.title }}{% endif %}
           {%- endfor %} ]]>
       </dc:creator>
       {% else %}
