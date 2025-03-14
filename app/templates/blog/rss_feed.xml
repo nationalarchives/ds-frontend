@@ -6,9 +6,9 @@
       <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
     </title>
     {% if blog_data.full_url %}
-    <link>{{ blog_data.full_url }}?utm_source=rss</link>
+    <link>{{ blog_data.full_url }}?utm_source=rss&amp;utm_medium=rss_feed</link>
     {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-    <link>{{ blog_data.meta.html_url }}?utm_source=rss</link>
+    <link>{{ blog_data.meta.html_url }}?utm_source=rss&amp;utm_medium=rss_feed</link>
     {% endif %}
     {% if blog_data.teaser_text %}
     <description>
@@ -25,9 +25,9 @@
         <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
       </title>
       {% if blog_data.full_url %}
-      <link>{{ blog_data.full_url }}?utm_source=rss</link>
+      <link>{{ blog_data.full_url }}?utm_source=rss&amp;utm_medium=rss_feed</link>
       {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-      <link>{{ blog_data.meta.html_url }}?utm_source=rss</link>
+      <link>{{ blog_data.meta.html_url }}?utm_source=rss&amp;utm_medium=rss_feed</link>
       {% endif %}
     </image>
     <generator>ds-frontend</generator>
@@ -42,7 +42,7 @@
       <description>
         <![CDATA[ {{ blog_post.teaser_text }} ]]>
       </description>
-      <link>{{ blog_post.full_url }}?utm_source=rss</link>
+      <link>{{ blog_post.full_url }}?utm_source=rss&amp;utm_medium=rss_feed</link>
       <guid isPermaLink="true">{{ url_for('wagtail.page_permalink', page_id=blog_post.id, _external=True, _scheme='https') }}</guid>
       {% if blog_post.authors %}
       <dc:creator>
