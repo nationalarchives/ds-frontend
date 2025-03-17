@@ -6,7 +6,7 @@ services:
         IMAGE: ghcr.io/nationalarchives/tna-python
         IMAGE_TAG: preview
     environment:
-      - ENVIRONMENT=develop
+      - RUNTIME=develop
       - ENVIRONMENT_NAME=develop
       - CONFIG=config.Develop
       - SECRET_KEY=abc123
