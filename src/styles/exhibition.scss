@@ -119,14 +119,14 @@
   }
 
   &__icon {
+    @include colour.accent;
+
     padding: spacing.space(2);
 
     display: flex;
     align-items: center;
 
     @include typography.font-size(48);
-
-    @include colour.colour-background("accent-background");
 
     border-radius: bordersVars.$rounded-border-radius 0 0
       bordersVars.$rounded-border-radius;
@@ -160,7 +160,7 @@
       padding: spacing.space(1);
 
       border-top-width: 0;
-      border-left-width: 1px;
+      border-left-width: 1px !important;
       border-radius: 0 0 bordersVars.$rounded-border-radius
         bordersVars.$rounded-border-radius;
     }
