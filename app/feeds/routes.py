@@ -18,7 +18,7 @@ from pydash import objects
 
 
 @bp.route("/blogs/feeds/")
-@cache.cached(key_prefix=page_cache_key_prefix)
+@cache.cached(timeout=14400, key_prefix=page_cache_key_prefix)  # 4 hours
 def rss_feeds():
     try:
         blog_data = blog_index()
@@ -37,7 +37,7 @@ def rss_feeds():
 
 
 @bp.route("/blogs/feeds/all/")
-@cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
+@cache.cached(timeout=14400, key_prefix=rss_feed_cache_key_prefix)  # 4 hours
 def rss_all_feed():
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
     try:
@@ -56,7 +56,7 @@ def rss_all_feed():
             else "blog/rss_feed.xml"
         ),
         url=url_for("feeds.rss_all_feed", _external=True, _scheme="https"),
-        blog_data=objects.get(blog_data, "items.0", []),
+        blog_data=objects.get(blog_data, "items.0", []) | {"meta": {"slug": "all"}},
         blog_posts=objects.get(blog_posts, "items", []),
     )
     response = make_response(xml)
@@ -65,7 +65,7 @@ def rss_all_feed():
 
 
 @bp.route("/blogs/feeds/<int:blog_id>/")
-@cache.cached(timeout=3600, key_prefix=rss_feed_cache_key_prefix)
+@cache.cached(timeout=14400, key_prefix=rss_feed_cache_key_prefix)  # 4 hours
 def rss_feed(blog_id):
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
     try:

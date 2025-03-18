@@ -9,9 +9,9 @@
   {% endif %}
   <link href="{{ url }}?format=atom" rel="self" />
   {% if blog_data.full_url %}
-  <link href="{{ blog_data.full_url }}?utm_source=atom_feed&amp;utm_medium=atom" />
+  <link href="{{ blog_data.full_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=atom" />
   {% elif 'meta' in blog_data and 'full_url' in blog_data.meta %}
-  <link href="{{ blog_data.meta.full_url }}?utm_source=atom_feed&amp;utm_medium=atom" />
+  <link href="{{ blog_data.meta.full_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=atom" />
   {% endif %}
   <updated>{{ now_iso_8601() }}</updated>
   <id>{{ url_for('wagtail.page_permalink', page_id=blog_data.id, _external=True, _scheme='https') }}</id>
@@ -19,7 +19,7 @@
   {% for blog_post in blog_posts %}
   <entry>
     <title>{{ blog_post.title }}</title>
-    <link href="{{ blog_post.full_url }}?utm_source=atom_feed&amp;utm_medium=atom" />
+    <link href="{{ blog_post.full_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=atom" />
     <published>{{ blog_post.published_date.value }}</published>
     <updated>{{ blog_post.last_published_at }}</updated>
     {# {% if blog_post.teaser_image %}
@@ -32,7 +32,7 @@
     {% for author in blog_post.authors %}
     <author>
       <name>{{ author.title }}</name>
-      <uri>{{ author.full_url }}?utm_source=atom_feed&amp;utm_medium=atom</uri>
+      <uri>{{ author.full_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=atom</uri>
     </author>
     {% endfor %}
     {% else %}
