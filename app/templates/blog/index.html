@@ -286,7 +286,7 @@
               {%- for author in authors[:12] %}
               <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
                 {%- if author.author.image_small %}
-                <img src="{{ author.author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}" width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+                <img src="{{ author.author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}." width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
                 {%- else %}
                 <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
                 {%- endif %}

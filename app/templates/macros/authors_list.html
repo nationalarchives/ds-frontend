@@ -7,7 +7,7 @@
       {%- for author in authors %}
       <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
         {%- if author.image_small %}
-        <img src="{{ author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.title }}" width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+        <img src="{{ author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.title }}." width="{{ author.image_small.jpeg.width }}" height="{{ author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
         {%- else %}
         <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
         {%- endif %}
@@ -28,7 +28,7 @@
       {%- for author in external_authors %}
       <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
         {%- if author.image %}
-        <img src="{{ author.image.jpeg.full_url }}" alt="Profile photo for {{ author.name }}" width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+        <img src="{{ author.image.jpeg.full_url }}" alt="Profile photo for {{ author.name }}." width="{{ author.image.jpeg.width }}" height="{{ author.image.jpeg.height }}" class="etna-author-list__image" itemprop="image">
         {%- else %}
         <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
         {%- endif %}
