@@ -183,11 +183,12 @@
             {{ wagtail_body(page_data.research_summary, 3, page_data.footnotes) }}
           </section>
           {%- endif %}
-          {%- if articles %}
+          {%- if articles or page_data.archived_blog_url %}
           <hr class="tna-!--margin-top-s">
           <section class="tna-!--padding-top-m etna-article__section">
-            <h2 id="articles" class="tna-heading-l tna-!--padding-top-s tna-!--padding-bottom-m">Articles</h2>
-            <ul class="tna-container tna-container--nested">
+            <h2 id="articles" class="tna-heading-l tna-!--padding-top-s">Articles</h2>
+            {% if articles %}
+            <ul class="tna-container tna-container--nested tna-!--padding-top-m">
               {%- for article in articles %}
               <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-bottom-m">
                 {% set card_content = {
@@ -232,6 +233,7 @@
                 'href': '?page=1'
               }) }}
             </div>
+            {% endif %}
             {% endif %}
             {% if page_data.archived_blog_url %}
             <p class="tna-!--padding-bottom-m">Read <a href="{{ page_data.archived_blog_url }}">archived articles by {{ page_data.first_name }}</a>.</p>
