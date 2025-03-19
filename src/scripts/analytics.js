@@ -34,6 +34,9 @@ if (ga4Id) {
     {
       eventName: "double_click",
       on: "dblclick",
+      data: {
+        state: ($el, $scope, event) => helpers.getXPathTo(event.target),
+      },
     },
     {
       eventName: "cta.click",
