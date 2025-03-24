@@ -9,8 +9,8 @@
 
   @include colour.colour-border("keyline", 1px, solid, bottom);
 
-  .tna-background-accent &,
-  .tna-background-accent-light & {
+  .tna-block-accent &,
+  .tna-block-accent-light & {
     border-bottom: none;
   }
 

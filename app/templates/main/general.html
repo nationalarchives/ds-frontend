@@ -37,7 +37,7 @@
   {% block beforeContent %}
   {%- if breadcrumbs and breadcrumbs | length > 0 %}
     {%- if not page_data.hero_image %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
     {%- endif %}
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -130,11 +130,11 @@
     {%- endif %}
   {%- else %}
     {%- if page_data.global_alert or page_data.mourning_notice %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {%- endif %}
-    <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
+    <div class="tna-block-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
@@ -147,7 +147,7 @@
       </div>
     </div>
     {%- if page_data.page_sidebar == 'section_tabs' %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Page sections" hidden>
         <div class="tna-container">
           <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">
@@ -164,7 +164,7 @@
       </nav>
     </div>
     {%- elif page_data.page_sidebar == 'pages_tabs' %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       <nav id="secondary-navigation" class="etna-secondary-navigation" aria-label="Sibling pages">
         <div class="tna-container">
           <h2 class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-heading-s etna-secondary-navigation__heading">

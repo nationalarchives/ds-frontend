@@ -42,7 +42,7 @@
   </div>
 
   {%- elif content_item.type == 'call_to_action' %}
-  <div class="tna-aside tna-background-tint etna-cta">
+  <div class="tna-aside tna-block-tint etna-cta">
     {{ content_item.value.body | tna_html | safe }}
     <div class="tna-button-group">
       {{ tnaButton({

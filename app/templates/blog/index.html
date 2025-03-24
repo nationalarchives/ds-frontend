@@ -48,7 +48,7 @@
 {% block main %}
   {% block beforeContent %}
   {%- if breadcrumbs and breadcrumbs | length > 0 %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       <div class="tna-container">
         <div class="tna-column tna-column--full">
           {{ tnaBreadcrumbs({
@@ -63,11 +63,11 @@
   {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.global_alert or page_data.mourning_notice %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {%- endif %}
-    <div class="tna-background-accent-light tna-!--padding-top-m tna-section">
+    <div class="tna-block-accent-light tna-!--padding-top-m tna-section">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
@@ -90,7 +90,7 @@
     {%- if total_blog_posts %}
 
       {%- if page == 1 and blog_posts %}
-      <div class="etna-background-accent-light-half">
+      <div class="etna-block-accent-light-half">
         <div class="tna-container">
           <div class="tna-column tna-column--full">
             {% set featured_card_content = {
@@ -278,7 +278,7 @@
         </div>
       </div>
       {%- if authors %}
-      <div class="tna-background-tint tna-!--margin-top-l tna-section">
+      <div class="tna-block-tint tna-!--margin-top-l tna-section">
         <div class="tna-container">
           <div class="etna-author-list etna-author-list--horizontal tna-column tna-column--full">
             <h2 class="etna-author-list__heading tna-heading-l">Authors</h2>

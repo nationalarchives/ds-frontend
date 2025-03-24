@@ -33,7 +33,7 @@
 {% block main %}
   {% block beforeContent %}
   {%- if breadcrumbs and breadcrumbs | length > 0 %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       <div class="tna-container">
         <div class="tna-column tna-column--full">
           {{ tnaBreadcrumbs({
@@ -48,14 +48,14 @@
   {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.global_alert or page_data.mourning_notice %}
-    <div class="tna-background-accent-light">
+    <div class="tna-block-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {%- endif %}
     <article class="etna-article" itemscope itemtype="https://schema.org/Article">
       <meta itemprop="datePublished" content="{{ page_data.published_date.value }}">
       <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
-      <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
+      <div class="tna-block-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
         <div class="tna-container">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
             <hgroup class="tna-hgroup-xl">
@@ -94,7 +94,7 @@
         </div>
       </div>
       {%- if page_data.hero_image %}
-      <div class="etna-background-accent-light-half">
+      <div class="etna-block-accent-light-half">
         <div class="tna-container">
           <div class="tna-column tna-column--full">
             {% set hero_image_caption = page_data.hero_image_caption or '' %}

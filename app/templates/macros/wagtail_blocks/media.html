@@ -3,7 +3,7 @@
 {% macro wagtailMedia(block_value, id, itemHeadingLevel) %}
   <div class="etna-media-block"{% if block_value.media.type == 'audio' %} itemprop="audio" itemscope itemtype="https://schema.org/AudioObject"{% elif block_value.media.type == 'video' %} itemprop="video" itemscope itemtype="https://schema.org/VideoObject"{% endif %}>
     {%- if block_value.media.type == 'audio' %}
-    <div class="tna-aside tna-background-contrast">
+    <div class="tna-aside tna-block-contrast">
       <div class="tna-container tna-container--nested">
         {%- if block_value.background_image %}
         <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
@@ -29,7 +29,7 @@
       <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     </div>
     {%- elif block_value.media.type == 'video' %}
-    <div class="tna-aside tna-background-contrast">
+    <div class="tna-aside tna-block-contrast">
       <hgroup class="tna-hgroup-l">
         <p class="tna-hgroup__supertitle">Watch</p>
         <h{{ itemHeadingLevel }} class="tna-hgroup__title" itemprop="name">
@@ -53,7 +53,7 @@
     </div>
     {%- endif %}
     {%- if block_value.media.chapters %}
-    <div class="tna-background-tint etna-media-block__transcript">
+    <div class="tna-block-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
           <summary class="tna-details__summary">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
@@ -74,7 +74,7 @@
       </div>
     </div>
     {%- elif block_value.media.transcript %}
-    <div class="tna-background-tint etna-media-block__transcript">
+    <div class="tna-block-tint etna-media-block__transcript">
       {{ tnaDetails({
         'title': (block_value.media.type | capitalize) + ' transcript for "' + block_value.title + '"',
         'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'

@@ -5,11 +5,11 @@
 
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
 {%- if params.style == "contrast" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-contrast'] -%}
+  {%- set containerClasses = containerClasses + ['tna-block-contrast'] -%}
 {%- elif params.style == "tint" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
+  {%- set containerClasses = containerClasses + ['tna-block-tint'] -%}
 {%- elif params.style == "accent" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
+  {%- set containerClasses = containerClasses + ['tna-block-accent'] -%}
 {%- endif -%}
 {%- if params.layout == "shift" -%}
   {%- set containerClasses = containerClasses + ['tna-hero--shift'] -%}
