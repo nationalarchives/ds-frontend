@@ -36,7 +36,7 @@ def rss_feeds():
     )
 
 
-@bp.route("/blogs/feeds/all/")
+@bp.route("/blogs/feeds/all.xml")
 @cache.cached(timeout=14400, key_prefix=rss_feed_cache_key_prefix)  # 4 hours
 def rss_all_feed():
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
@@ -64,7 +64,7 @@ def rss_all_feed():
     return response
 
 
-@bp.route("/blogs/feeds/<int:blog_id>/")
+@bp.route("/blogs/feeds/<int:blog_id>.xml")
 @cache.cached(timeout=14400, key_prefix=rss_feed_cache_key_prefix)  # 4 hours
 def rss_feed(blog_id):
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
