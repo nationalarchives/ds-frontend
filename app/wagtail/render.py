@@ -12,6 +12,8 @@ from .pages import (
     category_index_page,
     cookie_details_page,
     cookies_page,
+    event_page,
+    events_page,
     exhibition_page,
     explorer_index_page,
     general_page,
@@ -53,6 +55,8 @@ page_type_templates = {
     "blog.BlogPostPage": blog_post_page,
     # What's on
     "whatson.WhatsOnPage": whats_on_page,
+    "whatson.EventsPage": events_page,
+    "whatson.EventPage": event_page,
     "whatson.ExhibitionPage": exhibition_page,
 }
 

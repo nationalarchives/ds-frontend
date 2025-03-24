@@ -16,5 +16,7 @@ from .generic_pages.hub_page import hub_page
 from .home.home_page import home_page
 from .people.people_index_page import people_index_page
 from .people.person_page import person_page
+from .whatson.event_page import event_page
+from .whatson.events_page import events_page
 from .whatson.exhibition_page import exhibition_page
 from .whatson.whats_on_page import whats_on_page
