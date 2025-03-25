@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
+{%- from 'components/hero/macro.html' import tnaHero -%}
+
 {%- set pageTitle = page_data.title -%}
 
 {% block content %}
+{{ tnaHero({
+  'supertitle': 'Online event',
+  'title': 'Spies, Secrets and Archives',
+  'body': '<p class="tna-large-paragraph">Join Gordon Corera for the inside scoop on a career reporting on the world of secrets and spies.</p><dl class="tna-dl-chips"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>Saturday 28 June 2014</span></dd></dl>',
+  'imageSrc': 'https://picsum.photos/1200/480',
+  'imageAlt': '',
+  'imageWidth': 1200,
+  'imageHeight': 480,
+  'narrow': True,
+  'style': 'accent',
+  'layout': 'split'
+}) }}
 <div class="tna-container">
-  <div class="tna-column">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <p>TODO</p>
     {{ page_data }}
   </div>

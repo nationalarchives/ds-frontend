@@ -5,6 +5,8 @@ from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
+from app.wagtail.pages.whatson.event_listing_page import event_listing_page
+from app.wagtail.pages.whatson.event_page import event_page
 from flask import current_app, make_response, redirect, render_template, request
 
 
@@ -60,8 +62,7 @@ def set_cookies():
         samesite="Lax",
     )
     response.set_cookie(
-        # "cookie_preferences_set",
-        "dontShowCookieNotice",  # TODO: Change once more pages are on the new frontend
+        "dontShowCookieNotice",  # TODO: Change to "cookie_preferences_set" once more pages are on the new frontend
         "true",
         domain=current_app.config.get("COOKIE_DOMAIN"),
         secure=True,
@@ -85,7 +86,27 @@ def robots():
     return current_app.send_static_file("robots.txt")
 
 
-@bp.route("/new-homepage/")
+@bp.route("/test/homepage/")
 @cache.cached(key_prefix=page_cache_key_prefix)
 def new_homepage():
     return render_template("main/new_home.html")
+
+
+@bp.route("/whats-on/events/")
+def test_events():
+    return event_listing_page(
+        page_data={
+            "id": 0,
+            "title": "Events",
+        }
+    )
+
+
+@bp.route("/whats-on/events/1/")
+def test_event():
+    return event_page(
+        page_data={
+            "id": 0,
+            "title": "Event #1",
+        }
+    )

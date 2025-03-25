@@ -1,12 +1,55 @@
 {% extends 'base.html' %}
 
+{%- from 'components/card/macro.html' import tnaCard -%}
+
 {%- set pageTitle = page_data.title -%}
 
 {% block content %}
-<div class="tna-container">
-  <div class="tna-column">
-    <p>TODO</p>
-    {{ page_data }}
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">What’s on</p>
+      <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
+    </hgroup>
+    <p class="tna-large-paragraph">Discover our exhibitions, events and family activities programme for all – online and at Kew.</p>
   </div>
+</div>
+<div class="tna-container">
+  {% for i in range(6) %}
+  <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-l">
+    {{ tnaCard({
+      'supertitle': 'Event type',
+      'title': 'Event name',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '/whats-on/events/1/',
+      'meta': [
+        {
+          'title': 'Date',
+          'text': 'Wednesday 16 June 2021, 10:00',
+          'icon': 'calendar'
+        },
+        {
+          'title': 'Cost',
+          'text': 'From £10',
+          'icon': 'ticket'
+        },
+        {
+          'title': 'Location',
+          'text': 'Online',
+          'icon': 'location-dot'
+        }
+      ],
+      'label': 'MI5: Official Secrets series' if loop.index % 3 == 0 else None,
+      'imageSrc': 'https://picsum.photos/600/400?' + loop.index|string,
+      'imageAlt': '',
+      'imageWidth': 600,
+      'imageHeight': 400,
+      'body': '<p>Lorem ipsum</p>',
+      'fullAreaClick': True,
+      'style': 'plain'
+    }) }}
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}
