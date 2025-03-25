@@ -1,26 +1,143 @@
 {% extends 'base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 
 {%- set pageTitle = page_data.title -%}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='event.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock %}
 
 {% block content %}
 {{ tnaHero({
   'supertitle': 'Online event',
   'title': 'Spies, Secrets and Archives',
   'body': '<p class="tna-large-paragraph">Join Gordon Corera for the inside scoop on a career reporting on the world of secrets and spies.</p><dl class="tna-dl-chips"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>Saturday 28 June 2014</span></dd></dl>',
-  'imageSrc': 'https://picsum.photos/1200/480',
+  'imageSrc': 'https://picsum.photos/600/480',
   'imageAlt': '',
-  'imageWidth': 1200,
+  'imageWidth': 600,
   'imageHeight': 480,
   'narrow': True,
   'style': 'accent',
   'layout': 'split'
 }) }}
-<div class="tna-container">
+<div class="tna-container tna-section tna-!--no-padding-top">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+    <h2 class="tna-heading-l">Join us for an in-depth online talk</h2>
+    <p>As Security Correspondent for BBC News, over the past 20 years, Gordon Corera has reported on issues relating to national security and intelligence. He has covered some of the world’s biggest spy stories ranging from the Edward Snowden leaks through to the poisonings of Sergei Skripal and Alexander Litvinenko.</p>
+    <p>Join him as he discusses insights from his career covering the changing world of British intelligence through to his latest work investigating the secrets of the KGB archives and the remarkable story of KGB archivist, Vasili Mitrokhin.</p>
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
+    <div class="tna-aside tna-aside--tight etna-event-details">
+      <h2 class="tna-visually-hidden">Event details</h2>
+      <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
+        <dt>
+          <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+          Pay what you can
+        </dt>
+        <dd>Free&mdash;&pound;15</dd>
+        <dt>
+          <i class="fa-solid fa-user" aria-hidden="true"></i>
+          Everyone welcome
+        </dt>
+        <dd>???</dd>
+        <dt>
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+          Wednesday 2 May 2025
+        </dt>
+        <dd>Starts at 19.30</dd>
+        <dt>
+          <i class="fa-solid fa-database" aria-hidden="true"></i>
+          Online only
+        </dt>
+        <dd>Live-streamed on Vimeo</dd>
+      </dl>
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Book tickets on Eventbrite',
+          'url': '#'
+        }) }}
+      </div>
+    </div>
+  </div>
+  <div class="tna-column tna-column--full">
+    <div class="etna-author-list etna-author-list--horizontal tna-column tna-!--margin-top-l">
+      <h2 class="etna-author-list__heading tna-heading-m">About the speaker</h2>
+      <ul class="etna-author-list__items">
+        <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
+          <div class="etna-author-list__details">
+            <p class="etna-author-list__name">
+              <strong>
+                <a href="#" rel="author">
+                  <span itemprop="name">Godron Corera</span>
+                </a>
+                <link itemprop="url" href="#">
+              </strong>
+            </p>
+            <p class="etna-author-list__description" itemprop="jobTitle">British author and journalist</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="tna-block-tint">
+  <div class="tna-container tna-section">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">This is an online only event</h2>
+      <p> This event will be presented on Vimeo. You do not need a Vimeo account to join an event, and can join from your browser from a laptop or mobile device. For the best experience we recommend using either a laptop or desktop computer.</p>
+      <p>You will receive a reminder email, including a link to join in advance of the event. For more information on registering and accessing an event, visit our <a href="https://www.nationalarchives.gov.uk/about/visit-us/whats-on/events/event-faq/">FAQs page</a>, or visit <a href="https://help.vimeo.com/hc/en-us/articles/12426085581073-How-to-watch-a-live-event-on-Vimeo">How to watch a live event on Vimeo</a>.</p>
+      <p>Talks are available to watch on catch-up for a limited period of 48 hours only.</p>
+    </div>
+  </div>
+</div>
+<div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <p>TODO</p>
-    {{ page_data }}
+    <h2 class="tna-heading-l">You may also be interested in</h2>
+  </div>
+  <div class="tna-column tna-column--full">
+    {{ tnaCard({
+      'supertitle': 'Event type',
+      'title': 'Event name',
+      'text': 'Event description',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'imageSrc': 'https://picsum.photos/600/400?1',
+      'imageAlt': '',
+      'imageWidth': 600,
+      'imageHeight': 400,
+      'body': '<p>Lorem ipsum</p>',
+      'fullAreaClick': True,
+      'horizontal': True,
+      'horizontalFlipped': True,
+      'horizontalSmallImage': True,
+      'style': 'accent',
+      'classes': 'tna-!--margin-top-m'
+    }) }}
+    {{ tnaCard({
+      'supertitle': 'Event type',
+      'title': 'Event name',
+      'text': 'Event description',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'imageSrc': 'https://picsum.photos/600/400?2',
+      'imageAlt': '',
+      'imageWidth': 600,
+      'imageHeight': 400,
+      'body': '<p>Lorem ipsum</p>',
+      'fullAreaClick': True,
+      'horizontal': True,
+      'horizontalFlipped': True,
+      'horizontalSmallImage': True,
+      'style': 'accent',
+      'classes': 'tna-!--margin-top-s'
+    }) }}
   </div>
 </div>
 {% endblock %}

@@ -5,11 +5,11 @@
 
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
 {%- if params.style == "contrast" -%}
-  {%- set containerClasses = containerClasses + ['tna-block-contrast'] -%}
+  {%- set containerClasses = containerClasses + ['tna-background-contrast'] -%}
 {%- elif params.style == "tint" -%}
-  {%- set containerClasses = containerClasses + ['tna-block-tint'] -%}
+  {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
 {%- elif params.style == "accent" -%}
-  {%- set containerClasses = containerClasses + ['tna-block-accent'] -%}
+  {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
 {%- endif -%}
 {%- if params.layout == "shift" -%}
   {%- set containerClasses = containerClasses + ['tna-hero--shift'] -%}
@@ -79,7 +79,8 @@
     {%- if params.imageCaption -%}
     <figcaption class="tna-hero__caption">
       <details class="tna-hero__details">
-        <summary class="tna-hero__details-summary" title="About this image">
+        <summary class="tna-hero__details-summary" aria-label="Additional information
+        about the featured image">
           About this <span class="tna-hero__details-summary-icon">i</span>mage
         </summary>
         <div class="tna-hero__information" itemprop="description">
@@ -88,7 +89,6 @@
       </details>
     </figcaption>
     {%- endif -%}
-  
   </figure>
 </{{ 'header' if hasContent else 'div' }}>
 {% endmacro %}
