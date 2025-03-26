@@ -13,25 +13,26 @@
 {% endblock %}
 
 {% block content %}
-<section class="tna-background-contrast etna-homepage-hero">
+<section class="tna-background-contrast- etna-homepage-hero">
   <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2023/07/tna-building-compress.jpg" class="etna-homepage-hero__image">
   <div class="etna-homepage-hero__content">
     <div class="tna-container tna-!--padding-vertical-m">
       <div class="tna-column tna-column--full">
         <h1 class="tna-heading-xl">Welcome to The National Archives</h1>
       </div>
-      <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--flex-1 tna-!--padding-top-xs">
-        <p class="tna-heading-m">Explore 1,000 years of history</p>
+      <div class="tna-column tna-column--full-small tna-column--full-tiny tna-!--padding-top-xs">
+        <p class="tna-large-paragraph tna-large-paragraph--bold">Explore 1,000 years of history</p>
         <!-- <p>
           <i class="fa-solid fa-fw fa-clock"></i>
           Opening today: 09:00&ndash;19:00 | Reading rooms: 10:00&ndash;17:00
-        </p> -->
-        <p>
-          <i class="fa-solid fa-fw fa-location-dot"></i>
-          The National Archives, Kew, Richmond TW9 4DU
         </p>
+        <p>
+          <i class="fa-solid fa-fw fa-location-dot" aria-hidden="true"></i>
+          The National Archives,<span class="tna-visually-hidden"> located at </span> Kew, Richmond TW9 4DU
+        </p> -->
       </div>
-      <div class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s">
+      <div class="tna-column tna-column--flex-1"></div>
+      <div class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
         <div class="tna-button-group">
           {{ tnaButton({
             'text': 'Help with your research',
@@ -220,7 +221,6 @@
     </div>
   </div>
 </section>
-
 <section class="tna-section tna-background-accent tna-!--padding-top-s">
   <div class="tna-container">
     <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
@@ -229,14 +229,16 @@
       <p>Alternatively you can <a href="#">explore the collection</a>.</p>
     </div>
     <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      {{ tnaSearchField({
-        'label': 'Search',
-        'headingLevel': 3,
-        'headingSize': 'm',
-        'hint': 'Search by keyword, place, person, or catalogue reference',
-        'id': 'search-catalogue',
-        'name': '_q'
-      }) }}
+      <form method="get" action="https://discovery.nationalarchives.gov.uk/results/r" role="search">
+        {{ tnaSearchField({
+          'label': 'Search our catalogue',
+          'headingLevel': 3,
+          'headingSize': 'm',
+          'hint': 'Search by keyword, place, person, or catalogue reference',
+          'id': 'search-catalogue',
+          'name': '_q'
+        }) }}
+      </form>
     </div>
   </div>
 </section>
