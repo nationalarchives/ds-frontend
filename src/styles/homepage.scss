@@ -25,28 +25,33 @@ $background-brand-colour: "yellow";
     mix-blend-mode: lighten;
   }
 
-  // &::after {
-  //   content: "";
+  &::after {
+    content: "";
 
-  //   position: absolute;
-  //   inset: 0;
-  //   z-index: 3;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
 
-  //   background-image: linear-gradient(
-  //     colour.brand-colour($foreground-brand-colour, 0.2) 25%,
-  //     65%,
-  //     colour.brand-colour($foreground-brand-colour, 0.85)
-  //   );
-  //   mix-blend-mode: darken;
+    background: radial-gradient(
+      circle,
+      colour.brand-colour($foreground-brand-colour, 0) 50%,
+      colour.brand-colour($foreground-brand-colour, 0.5) 100%
+    );
+    // background-image: linear-gradient(
+    //   colour.brand-colour($foreground-brand-colour, 0.2) 25%,
+    //   65%,
+    //   colour.brand-colour($foreground-brand-colour, 0.85)
+    // );
+    // mix-blend-mode: darken;
 
-  //   @include media.on-mobile {
-  //     background-image: linear-gradient(
-  //       colour.brand-colour($foreground-brand-colour, 0.2) 25%,
-  //       50%,
-  //       colour.brand-colour($foreground-brand-colour, 0.85)
-  //     );
-  //   }
-  // }
+    // @include media.on-mobile {
+    //   background-image: linear-gradient(
+    //     colour.brand-colour($foreground-brand-colour, 0.2) 25%,
+    //     50%,
+    //     colour.brand-colour($foreground-brand-colour, 0.85)
+    //   );
+    // }
+  }
 
   &__image {
     width: 100%;
