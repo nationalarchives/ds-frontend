@@ -13,330 +13,215 @@
 {% endblock %}
 
 {% block content %}
-<section class="tna-block-contrast etna-homepage-hero">
+<section class="tna-background-contrast etna-homepage-hero">
   <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2023/07/tna-building-compress.jpg" class="etna-homepage-hero__image">
   <div class="etna-homepage-hero__content">
     <div class="tna-container tna-!--padding-vertical-m">
       <div class="tna-column tna-column--full">
         <h1 class="tna-heading-xl">Welcome to The National Archives</h1>
       </div>
-      <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--flex-1 tna-!--padding-top-s">
-        <p>
-          <i class="fa-solid fa-clock"></i>
+      <div class="tna-column tna-column--full-small tna-column--full-tiny tna-column--flex-1 tna-!--padding-top-xs">
+        <p class="tna-heading-m">Explore 1,000 years of history</p>
+        <!-- <p>
+          <i class="fa-solid fa-fw fa-clock"></i>
           Opening today: 09:00&ndash;19:00 | Reading rooms: 10:00&ndash;17:00
-        </p>
+        </p> -->
         <p>
-          <i class="fa-solid fa-location-dot"></i>
+          <i class="fa-solid fa-fw fa-location-dot"></i>
           The National Archives, Kew, Richmond TW9 4DU
         </p>
       </div>
-      <div class="tna-column tna-column--full-small tna-column--full-tiny tna-!--padding-top-s">
-        {{ tnaButton({
-          'text': 'Plan your visit',
-          'href': '#',
-          'accent': True
-        }) }}
+      <div class="tna-column tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s">
+        <div class="tna-button-group">
+          {{ tnaButton({
+            'text': 'Help with your research',
+            'href': '#',
+            'accent': True,
+            'classes': 'tna-button--solid-hover'
+          }) }}
+          {{ tnaButton({
+            'text': 'Search the catalogue',
+            'href': '#',
+            'accent': True,
+            'classes': 'tna-button--solid-hover'
+          }) }}
+          {{ tnaButton({
+            'text': 'Plan your visit',
+            'href': '#',
+            'accent': True,
+            'classes': 'tna-button--solid-hover'
+          }) }}
+        </div>
       </div>
     </div>
   </div>
 </section>
 <section class="tna-section tna-container">
   <div class="tna-column tna-column--full">
-    <p class="tna-scene-setter tna-scene-setter--small">
+    <!-- <p class="tna-scene-setter tna-scene-setter--small">
       We are the official archive of England and Wales. Discover 1,000 years of history through <a href="#">fascinating stories</a> from the past or <a href="#">start your own research</a> and <a href="#">search our catalogue</a> of 32 million records. <a href="#">Plan a visit</a> to access original historic documents from our collections then enjoy the grounds, café, and <a href="#">free exhibitions</a>.
-    </p>
+    </p> -->
+    {{ tnaCard({
+      'supertitle': 'Feature',
+      'title': 'MI5: Official Secrets',
+      'headingLevel': 2,
+      'headingSize': 'l',
+      'href': '#',
+      'text': 'Opening 5 April 2025: Find out about our upcoming exhibition in partnership with MI5.',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/homepage-banner.jpg',
+      'imageAlt': '',
+      'imageWidth': 840,
+      'imageHeight': 240,
+      'style': 'contrast',
+      'fullAreaClick': True,
+      'horizontal': True
+    }) }}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {{ tnaCard({
+      'supertitle': 'Feature',
+      'title': 'On the Record: Working Women in History',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'text': 'Tune into our podcast to explore the lives of working women over the centuries.',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/working-women-homepage.jpg',
+      'imageAlt': '',
+      'imageWidth': 384,
+      'imageHeight': 185,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    }) }}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {{ tnaCard({
+      'supertitle': 'Feature',
+      'title': 'Karl Muller and the fatal lemon',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'text': 'When can a lemon have fatal consequences?',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/lemon-homepage.jpg',
+      'imageAlt': '',
+      'imageWidth': 384,
+      'imageHeight': 185,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    }) }}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {{ tnaCard({
+      'supertitle': 'Event',
+      'title': 'MI5: Official Secrets Events Programme',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'text': 'Explore our exciting programme of in-person and online events.',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/MI5-events-homepage.jpg',
+      'imageAlt': '',
+      'imageWidth': 384,
+      'imageHeight': 185,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    }) }}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {{ tnaCard({
+      'supertitle': 'Feature',
+      'title': 'The story of Sophia Duleep Singh',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'text': 'Learn more about this formidable figure in the women\'s suffrage movement.',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/sophia-duleep-singh-homepage.jpg',
+      'imageAlt': '',
+      'imageWidth': 384,
+      'imageHeight': 185,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    }) }}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {{ tnaCard({
+      'supertitle': 'Event',
+      'title': 'Writing on the Wall: Graffiti and Rebellion in Eighteenth Century Britain',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'text': 'What if walls could talk? For historian Madeleine Pelling, they can.',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/writing-on-the-wall-homepage.jpg',
+      'imageAlt': '',
+      'imageWidth': 384,
+      'imageHeight': 185,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    }) }}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {{ tnaCard({
+      'supertitle': 'Event',
+      'title': 'Book your reading room visit',
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': '#',
+      'text': 'To view our documents we encourage you to book your visit in advance.',
+      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2024/08/repositories-web.jpg',
+      'imageAlt': '',
+      'imageWidth': 758,
+      'imageHeight': 576,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    }) }}
   </div>
 </section>
-<section class="tna-section tna-block-contrast">
-  {{ tnaIndexGrid({
-    'title': 'Explore highlights of the collection',
-    'headingLevel': 2,
-    'headingSize': 'l',
-    'href': '#',
-    'items': [
-      {
-        'href': '#/category-1',
-        'label': 'Time period',
-        'title': 'Medieval (974–1485)',
-        'src': 'https://picsum.photos/600/400?1',
-        'alt': 'Alt text',
-        'width': '600',
-        'height': '400'
-      },
-      {
-        'href': '#/category-2',
-        'label': 'Topic',
-        'title': 'Military and War',
-        'src': 'https://picsum.photos/600/400?2',
-        'alt': 'Alt text',
-        'width': '600',
-        'height': '400'
-      },
-      {
-        'href': '#/category-3',
-        'label': 'Topic',
-        'title': 'Art and Culture',
-        'src': 'https://picsum.photos/600/400?3',
-        'alt': 'Alt text',
-        'width': '600',
-        'height': '400'
-      },
-      {
-        'href': '#/category-4',
-        'label': 'Time period',
-        'title': 'Georgians (1714–1837)',
-        'src': 'https://picsum.photos/600/400?4',
-        'alt': 'Alt text',
-        'width': '600',
-        'height': '400'
-      }
-    ],
-    'columns': 4,
-    'columnsMedium': 2,
-    'columnsSmall': 2,
-    'columnsTiny': 1
-  }) }}
-  <div class="tna-container tna-container--centred tna-!--padding-top-l">
-    <div class="tna-column">
-      {{ tnaButton({
-        'text': 'Explore the collection',
-        'href': '#',
-        'accent': True,
-        'icon': 'map-location-dot'
-      }) }}
-    </div>
-  </div>
-</section>
-<section class="tna-section tna-block-accent-light">
+<section class="tna-section tna-block-tint tna-!--padding-top-s">
   <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">
-        <a href="#">
-          Researching with The National Archives
-        </a>
-      </h2>
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+      {{ tnaCard({
+        'title': 'Our research & academic collaboration',
+        'headingLevel': 2,
+        'headingSize': 's',
+        'href': '#',
+        'text': 'Learn about our work as an Independent Research Organisation.'
+      }) }}
     </div>
-  </div>
-  <ul class="tna-container">
-    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
+        'title': 'Archives sector',
+        'headingLevel': 2,
+        'headingSize': 's',
         'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?5',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'fullAreaClick': True
+        'text': 'Get help to develop your collections and archives services.'
       }) }}
-    </li>
-    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-      {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
-        'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?6',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'fullAreaClick': True
-      }) }}
-    </li>
-    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-      {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
-        'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?7',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'fullAreaClick': True
-      }) }}
-    </li>
-  </ul>
-  <div class="tna-container tna-!--margin-top-l">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">
-        <a href="#">
-          Popular research guide subjects
-        </a>
-      </h2>
     </div>
-  </div>
-  <ul class="tna-container">
-    <li class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
+        'title': 'Education',
+        'headingLevel': 2,
+        'headingSize': 's',
         'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?8',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'horizontal': True,
-        'fullAreaClick': True
+        'text': 'View award-winning resources for students and teachers.'
       }) }}
-    </li>
-    <li class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    </div>
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
+        'title': 'Information management',
+        'headingLevel': 2,
+        'headingSize': 's',
         'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?9',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'horizontal': True,
-        'fullAreaClick': True
+        'text': 'Access best practice in records management and transfer, and information re-use.'
       }) }}
-    </li>
-    <li class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-      {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
-        'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?10',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'horizontal': True,
-        'fullAreaClick': True
-      }) }}
-    </li>
-    <li class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-      {{ tnaCard({
-        'title': 'Using the archives',
-        'headingSize': 'm',
-        'href': '#',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?11',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'contrast',
-        'horizontal': True,
-        'fullAreaClick': True
-      }) }}
-    </li>
-  </ul>
-</section>
-<section class="tna-section tna-block-contrast">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">
-        <a href="#">
-          What's on
-        </a>
-      </h2>
     </div>
   </div>
 </section>
-<section class="tna-section tna-block-accent-light">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">
-        <a href="#">
-          Stories from the collection
-        </a>
-      </h2>
-    </div>
-  </div>
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-1-2 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
-      {{ tnaCard({
-        'title': 'A letter by the women workers at Fords of Dagenham',
-        'headingSize': 'l',
-        'href': '#',
-        'label': 'Record revealed',
-        'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-        'imageSrc': 'https://picsum.photos/600/400?12',
-        'imageAlt': 'Alt text',
-        'imageWidth': 600,
-        'imageHeight': 400,
-        'style': 'accent',
-        'fullAreaClick': True
-      }) }}
-    </div>
-    <div class="tna-column tna-column--no-padding tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-      <ul class="tna-container tna-container--no-padding">
-        <li class="tna-column tna-column--width-1-2 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-          {{ tnaCard({
-            'title': 'A letter by the women workers at Fords of Dagenham',
-            'headingSize': 's',
-            'href': '#',
-            'label': 'Record revealed',
-            'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-            'imageSrc': 'https://picsum.photos/600/400?13',
-            'imageAlt': 'Alt text',
-            'imageWidth': 600,
-            'imageHeight': 400,
-            'style': 'contrast',
-            'fullAreaClick': True
-          }) }}
-        </li>
-        <li class="tna-column tna-column--width-1-2 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-          {{ tnaCard({
-            'title': 'A letter by the women workers at Fords of Dagenham',
-            'headingSize': 's',
-            'href': '#',
-            'label': 'Record revealed',
-            'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-            'imageSrc': 'https://picsum.photos/600/400?14',
-            'imageAlt': 'Alt text',
-            'imageWidth': 600,
-            'imageHeight': 400,
-            'style': 'contrast',
-            'fullAreaClick': True
-          }) }}
-        </li>
-        <li class="tna-column tna-column--width-1-2 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-          {{ tnaCard({
-            'title': 'A letter by the women workers at Fords of Dagenham',
-            'headingSize': 's',
-            'href': '#',
-            'label': 'Record revealed',
-            'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-            'imageSrc': 'https://picsum.photos/600/400?15',
-            'imageAlt': 'Alt text',
-            'imageWidth': 600,
-            'imageHeight': 400,
-            'style': 'contrast',
-            'fullAreaClick': True
-          }) }}
-        </li>
-        <li class="tna-column tna-column--width-1-2 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-          {{ tnaCard({
-            'title': 'A letter by the women workers at Fords of Dagenham',
-            'headingSize': 's',
-            'href': '#',
-            'label': 'Record revealed',
-            'text': 'Find out how to use our diverse range of resources, guides and services to help you access and explore historical records.',
-            'imageSrc': 'https://picsum.photos/600/400?16',
-            'imageAlt': 'Alt text',
-            'imageWidth': 600,
-            'imageHeight': 400,
-            'style': 'contrast',
-            'fullAreaClick': True
-          }) }}
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-<section class="tna-section tna-block-accent tna-!--padding-top-s">
+
+<section class="tna-section tna-background-accent tna-!--padding-top-s">
   <div class="tna-container">
     <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
       <h2 class="tna-heading-l">Search the collections</h2>
