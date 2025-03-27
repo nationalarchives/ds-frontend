@@ -22,6 +22,9 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertFalse(qs_active(TEST_QS, "a", "2"))
         self.assertFalse(qs_active(TEST_QS, "b", "1"))
         self.assertFalse(qs_active(TEST_QS, "c", "3"))
+        self.assertFalse(qs_active(TEST_QS, "c", ""))
+        self.assertFalse(qs_active(TEST_QS, "a", ""))
+        self.assertFalse(qs_active(TEST_QS, "", ""))
         # Handles empty query strings
         self.assertFalse(qs_active({}, "a", "1"))
         self.assertFalse(qs_active({}, "", ""))
