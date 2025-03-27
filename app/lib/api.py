@@ -6,6 +6,10 @@ class ResourceNotFound(Exception):
     pass
 
 
+class ResourceForbidden(Exception):
+    pass
+
+
 class JSONAPIClient:
     api_url = ""
     params = {}
@@ -56,7 +60,7 @@ class JSONAPIClient:
             raise Exception("Bad request")
         if response.status_code == 403:
             current_app.logger.warning("Forbidden")
-            raise Exception("Forbidden")
+            raise ResourceForbidden("Forbidden")
         if response.status_code == 404:
             current_app.logger.warning("Resource not found")
             raise ResourceNotFound("Resource not found")

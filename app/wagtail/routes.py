@@ -1,6 +1,6 @@
 from urllib.parse import quote, unquote
 
-from app.lib.api import ResourceNotFound
+from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
@@ -22,18 +22,24 @@ from .api import page_details, page_details_by_uri, page_preview, redirect_by_ur
 def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
-    if content_type and token:
-        try:
-            page_data = page_preview(content_type, token)
-        except ResourceNotFound:
-            return render_template("errors/page_not_found.html"), 404
-        except Exception as e:
-            current_app.logger.error(f"Failed to render page preview: {e}")
-            return render_template("errors/api.html"), 502
+    if not content_type or not token:
+        return render_template("errors/page_not_found.html"), 404
+    try:
+        page_data = page_preview(content_type, token)
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
+    except Exception as e:
+        current_app.logger.error(f"Failed to get page preview data: {e}")
+        return render_template("errors/api.html"), 502
+    try:
         return render_content_page(
             page_data | {"page_preview": True, "id": objects.get(page_data, "id", 0)}
         )
-    return render_template("errors/page_not_found.html"), 404
+    except Exception as e:
+        current_app.logger.error(f"Failed to render page preview: {e}")
+        return render_template("errors/api.html"), 502
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
@@ -47,6 +53,8 @@ def preview_protected_page(page_id):
         )
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to render page preview: {e}")
         return render_template("errors/api.html"), 502
@@ -62,9 +70,9 @@ def preview_protected_page(page_id):
                 page_data=page_data,
             )
         return render_content_page(page_data)
-    if path := objects.get(page_data, "meta.url").strip("/"):
+    if path := objects.get(page_data, "meta.url"):
         return redirect(
-            url_for("wagtail.page", path=path),
+            url_for("wagtail.page", path=path.strip("/")),
             code=302,
         )
     return render_template("errors/api.html"), 502
@@ -77,6 +85,8 @@ def page_permalink(page_id):
         page_data = page_details(page_id)
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to get page details: {e}")
         return render_template("errors/api.html"), 502
@@ -106,6 +116,11 @@ def index():
             response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
+    except ResourceForbidden:
+        return CachedResponse(
+            response=make_response(render_template("errors/forbidden.html"), 403),
+            timeout=1,
+        )
     except Exception as e:
         current_app.logger.error(f"Failed to render the home page: {e}")
         return CachedResponse(
@@ -130,14 +145,19 @@ def page(path):
             response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
+    except ResourceForbidden:
+        return CachedResponse(
+            response=make_response(render_template("errors/forbidden.html"), 403),
+            timeout=1,
+        )
     except Exception as e:
-        current_app.logger.error(f"Failed to render page {path}: {e}")
+        current_app.logger.error(f"Failed to render page: {e}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
     if "meta" not in page_data:
-        current_app.logger.error(f"Page meta information not included for path: {path}")
+        current_app.logger.error("Page meta not available")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
@@ -150,18 +170,16 @@ def page(path):
             ),
             code=302,
         )
-    if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES") and objects.get(
-        page_data, "meta.alias_of"
-    ):
-        rediect_path = objects.get(page_data, "meta.alias_of.url", "").strip("/")
-        if not rediect_path:
-            current_app.logger.error(
+    if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
+        if rediect_path := objects.get(page_data, "meta.alias_of.url", ""):
+            return redirect(
+                url_for("wagtail.page", path=rediect_path.strip("/")),
+                code=302,
+            )
+        else:
+            current_app.logger.warning(
                 f"URL not found in alias page {page_data['id']}: {path}"
             )
-        return redirect(
-            url_for("wagtail.page", path=rediect_path),
-            code=302,
-        )
     if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
         quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/")
     ):
@@ -188,5 +206,5 @@ def try_external_redirect(path):
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except Exception as e:
-        current_app.logger.error(f"Failed to get redirect for {path}: {e}")
+        current_app.logger.error(f"Failed to get redirect: {e}")
         return render_template("errors/api.html"), 502
