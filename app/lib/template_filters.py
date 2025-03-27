@@ -79,12 +79,12 @@ def pretty_date(s, show_day=False):
         pass
     try:
         date = datetime.strptime(s, "%Y-%m")
-        return date.strftime("%A %B %Y") if show_day else date.strftime("%B %Y")
+        return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y")
-        return date.strftime("%A %Y") if show_day else date.strftime("%Y")
+        return date.strftime("%Y")
     except ValueError:
         pass
     return s
