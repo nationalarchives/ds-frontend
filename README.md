@@ -52,8 +52,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_DEFAULT_TIMEOUT`               | The number of seconds to cache pages for                                    | production: `300`, staging: `10`, develop: `1` |
 | `CACHE_DIR`                           | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                         |
 | `GA4_ID`                              | The Google Analytics 4 ID                                                   | _none_                                         |
-| `REDIRECT_WAGTAIL_ALIAS_PAGES`        | If true, redirect alias Wagtail pages to their original page                | `True`                                         |
-| `SERVE_WAGTAIL_PAGE_REDIRECTIONS`     | If true, forward Wagtail internal page redirects                            | `True`                                         |
+| `REDIRECT_WAGTAIL_ALIAS_PAGES`        | If true, redirect aliased Wagtail pages to the URI of their "original" page | `True`                                         |
+| `SERVE_WAGTAIL_PAGE_REDIRECTIONS`     | If true, forward Wagtail page redirects to the user rather than proxying    | `True`                                         |
 | `SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS` | If true, forward Wagtail redirects to external links                        | `True`                                         |
 | `FEATURE_LOGO_ADORNMENTS_CSS`         | An optional CSS file to include for logo adornments                         | _none_                                         |
 | `FEATURE_LOGO_ADORNMENTS_JS`          | An optional JS file to include for logo adornments                          | _none_                                         |

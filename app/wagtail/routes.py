@@ -170,15 +170,11 @@ def page(path):
             ),
             code=302,
         )
-    if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
-        if rediect_path := objects.get(page_data, "meta.alias_of.url", ""):
+    if rediect_path := objects.get(page_data, "meta.alias_of.url"):
+        if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
             return redirect(
                 url_for("wagtail.page", path=rediect_path.strip("/")),
                 code=302,
-            )
-        else:
-            current_app.logger.warning(
-                f"URL not found in alias page {page_data['id']}: {path}"
             )
     if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
         quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/")
