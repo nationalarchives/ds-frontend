@@ -192,6 +192,7 @@ def create_app(config_class):
             },
         )
 
+    from .catalogue import bp as catalogue_bp
     from .feeds import bp as feeds_bp
     from .main import bp as site_bp
     from .search import bp as search_bp
@@ -204,6 +205,7 @@ def create_app(config_class):
     app.register_blueprint(sitemaps_bp)
     app.register_blueprint(site_search_bp, url_prefix="/search/site")
     app.register_blueprint(search_bp, url_prefix="/search")
+    app.register_blueprint(catalogue_bp, url_prefix="/catalogue")
     app.register_blueprint(wagtail_bp)
 
     return app

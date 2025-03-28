@@ -4,6 +4,10 @@
 
 The application code.
 
+### `app/catalogue`
+
+These routes are declared so we can construct URLs using the `url_for` function in this service but they should mirror the actual routes defined in the [`ds-search` repository](https://github.com/nationalarchives/ds-search/blob/main/app/search/urls.py).
+
 ### `app/feeds`
 
 The routes for the blog feed page and the RSS and Atom XML files are defined here.
@@ -29,7 +33,7 @@ The main routs for the site, including the healthcheck endpoint and static paths
 
 ### `app/search`
 
-These routes are declared so we can construct URLs using the `url_for` function in this service but they should mirror the actual routes defined in the [`ds-search` repository](https://github.com/nationalarchives/ds-search/blob/main/app/search/urls.py).
+These routes are declared so we can construct URLs using the `url_for` function in this service but they should mirror the actual routes defined in the [`ds-sitemap-search` repository](https://github.com/nationalarchives/ds-sitemap-search/blob/main/app/sitemap_search/routes.py).
 
 ### `app/sitemaps`
 
