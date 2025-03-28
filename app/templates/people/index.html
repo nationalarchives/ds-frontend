@@ -3,7 +3,6 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
@@ -24,19 +23,6 @@
 {{ meta(page_data) }}
 {% endblock %}
 
-{% block beforeContent %}
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': breadcrumbs,
-        'structuredData': True,
-        'classes': 'tna-!--padding-vertical-s'
-      }) }}
-    </div>
-  </div>
-  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-{% endblock %}
-
 {% block contentHeader %}
 <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
 {{ page_data.intro | safe }}
@@ -44,7 +30,7 @@
 
 {% block afterContentHeader %}
 {#
-<div class="tna-block-tint tna-!--padding-vertical-s">
+<div class="tna-background-tint tna-!--padding-vertical-s">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-s">Filter people by role</h2>

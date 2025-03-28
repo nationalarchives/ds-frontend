@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {%- for item in page_data.body %}
 {%- if item.type == 'large_card_links' %}
   {{ tnaHero({
@@ -27,7 +27,7 @@
     'imageSrc': 'https://beta.nationalarchives.gov.uk/media/images/brixton-19.93e5b09d.fill-1200x480.format-webp.webpquality-60.bgcolor-fff.webp',
     'narrow': True
   }) }}
-  <div class="tna-section tna-!--padding-top-s tna-block-contrast-">
+  <div class="tna-section tna-!--padding-top-s tna-background-contrast-">
     <ul class="tna-container">
       <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
         {{ tnaCard({
@@ -80,7 +80,7 @@
 {%- endif %}
 {%- endfor %}
 
-<section class="tna-section tna-block-accent tna-!--padding-top-m">
+<section class="tna-section tna-background-accent tna-!--padding-top-m">
   {{ discoverySearch() }}
 </section>
 

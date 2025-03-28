@@ -1,4 +1,3 @@
-from app.wagtail.api import breadcrumbs
 from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
 from flask import render_template
 
@@ -9,7 +8,6 @@ def highlight_gallery_page(page_data):
     categories = pick_top_two(topics, time_periods)
     return render_template(
         "explore_the_collection/highlight_gallery.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         categories=categories,
     )

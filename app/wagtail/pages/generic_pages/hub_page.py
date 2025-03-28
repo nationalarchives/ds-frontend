@@ -1,4 +1,4 @@
-from app.wagtail.api import breadcrumbs, page_children
+from app.wagtail.api import page_children
 from flask import current_app, render_template
 
 
@@ -20,7 +20,6 @@ def hub_page(page_data):
             return render_template("errors/server.html"), 500
     return render_template(
         "main/hub.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children,
     )

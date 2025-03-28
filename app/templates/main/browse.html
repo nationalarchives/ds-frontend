@@ -3,28 +3,21 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'black' if global_alert.mourning_notice else 'yellow' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  }
+] -%}
+{%- set breadcrumbsStyle = 'accent' -%}
 
 {%- set pageTitle = 'Browse' -%}
 
 {% block content %}
-<div class="tna-block-accent">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': [
-          {
-            'text': 'Home',
-            'href': '/'
-          }
-        ],
-        'structuredData': True,
-        'classes': 'tna-!--padding-vertical-s'
-      }) }}
-    </div>
-  </div>
+<div class="tna-background-accent">
   {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
 </div>
-<div class="tna-block-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
+<div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h1 class="tna-heading-xl">Explore 1,000 years of history</h1>
@@ -248,7 +241,7 @@
 <div class="tna-!--padding-bottom-l">
   <div class="tna-container">
     <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
-      <div class="tna-aside tna-accent-black tna-block-tint etna-thick-keyline-accent-top tna-!--margin-top-l">
+      <div class="tna-aside tna-accent-black tna-background-tint etna-thick-keyline-accent-top tna-!--margin-top-l">
         <h2 class="tna-heading-m">
           <a href="#" class="tna-link--no-visited-state">Search</a>
         </h2>
@@ -269,7 +262,7 @@
       </div>
     </div>
     <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
-      <div class="tna-aside tna-accent-black tna-block-tint etna-thick-keyline-accent-top tna-!--margin-top-l">
+      <div class="tna-aside tna-accent-black tna-background-tint etna-thick-keyline-accent-top tna-!--margin-top-l">
         <h2 class="tna-heading-m">
           <a href="#" class="tna-link--no-visited-state">Shop</a>
         </h2>

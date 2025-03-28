@@ -4,16 +4,12 @@ from urllib.parse import unquote
 from app.lib.pagination import pagination_object
 from app.site_search import bp
 from app.wagtail.api import global_alerts, search
-from flask import render_template, request, url_for
+from flask import render_template, request
 from pydash import objects
 
 
 @bp.route("/")
 def index():
-    breadcrumbs = [
-        {"text": "Home", "href": "/"},
-        {"text": "Search", "href": url_for("search.index")},
-    ]
     children_per_page = 12
     page = (
         int(request.args.get("page"))
@@ -33,7 +29,6 @@ def index():
         q=query,
         existing_qs=existing_qs_as_dict,
         global_alert=global_alerts(),
-        breadcrumbs=breadcrumbs,
         results=results,
         page=page,
         pages=pages,

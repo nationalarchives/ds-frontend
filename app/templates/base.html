@@ -79,7 +79,7 @@
 {% set phase_banner = {
   'phase': 'Beta',
   'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' + request.url + '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
-  'classes': 'tna-block-contrast'
+  'classes': 'tna-background-contrast'
 } %}
 {%- endif %}
 {{ tnaGlobalHeader({
@@ -130,16 +130,22 @@
 {% endblock %}
 
 {% block beforeContent %}
-{%- if breadcrumbs and breadcrumbs | length > 0 %}
-      <div class="tna-container">
-        <div class="tna-column tna-column--full">
-          {{ tnaBreadcrumbs({
-            'items': breadcrumbs,
-            'structuredData': True,
-            'classes': 'tna-!--padding-vertical-s'
-          }) }}
+{%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
+      {%- if breadcrumbsStyle %}
+      <div class="tna-background-{{ breadcrumbsStyle }}">
+      {%- endif %}
+        <div class="tna-container">
+          <div class="tna-column tna-column--full">
+            {{ tnaBreadcrumbs({
+              'items': breadcrumbs or page_data.meta.breadcrumbs,
+              'structuredData': True,
+              'classes': 'tna-!--padding-vertical-s'
+            }) }}
+          </div>
         </div>
+      {%- if breadcrumbsStyle %}
       </div>
+      {%- endif %}
 {%- endif %}
 {% endblock %}
 

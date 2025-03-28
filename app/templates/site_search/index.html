@@ -12,6 +12,17 @@
 {%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
 
 {%- set pageTitle = 'Search the website' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'Search',
+    'href': url_for('search.index')
+  }
+] -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% block stylesheets %}
 {{ super() }}
@@ -26,14 +37,8 @@
 {{ super() }}
 {% endblock %}
 
-{% block beforeContent %}
-<div class="tna-block-accent-light">
-  {{ super() }}
-</div>
-{% endblock %}
-
 {% block content %}
-<div class="tna-block-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
+<div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
   <div class="tna-container">
     <form id="search-site" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('site_search.index') }}" role="search">
       {{ tnaSearchField({
@@ -168,7 +173,7 @@
 <section class="tna-!--margin-top-xl tna-!--margin-bottom-l">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <div class="tna-aside tna-block-tint tna-!--padding-top-s tna-!--padding-bottom-m">
+      <div class="tna-aside tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
         {{ discoverySearch() }}
       </div>
     </div>

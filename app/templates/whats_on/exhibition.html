@@ -35,7 +35,7 @@
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {% set price = 'Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | currency) %}
-<section class="tna-block-tint">
+<section class="tna-background-tint">
   {% set hero_intro = '' %}
   {% if page_data.subtitle %}
     {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
@@ -292,7 +292,7 @@
   </div>
 </div>
 {% for exhibition_highlights in page_data.exhibition_highlights %}
-<section class="tna-section tna-block-contrast tna-!--margin-top-l tna-!--padding-top-m">
+<section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 id="{{ (page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.exhibition_highlights_title or 'Exhibition highlights' }}</h2>
@@ -318,7 +318,7 @@
 </section>
 {% endfor %}
 {% for video in page_data.video %}
-<section class="tna-section tna-block-accent-light">
+<section class="tna-section tna-background-accent-light">
   <div class="tna-container tna-container--centred">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h3 class="tna-heading-m">{{ page_data.video_title }}</h3>
@@ -342,7 +342,7 @@
 </section>
 {% endfor %}
 {% for review in page_data.review %}
-<section class="tna-section tna-block-accent">
+<section class="tna-section tna-background-accent">
   <div class="tna-container">
     <blockquote class="tna-column tna-column--full tna-exhibition-quote">
       <h2 class="tna-visually-hidden">Review from {{ review.value.attribution }}</h2>
@@ -405,7 +405,7 @@
 </section>
 {% endif %}
 {% for event_links in page_data.event_links %}
-<section class="tna-section tna-block-contrast tna-!--padding-top-m">
+<section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 id="{{ page_data.event_title | slugify if page_data.event_title else 'events' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_title or 'Events' }}</h2>

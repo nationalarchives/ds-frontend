@@ -1,4 +1,4 @@
-from app.wagtail.api import breadcrumbs, page_children
+from app.wagtail.api import page_children
 from flask import current_app, render_template
 
 
@@ -19,7 +19,6 @@ def cookies_page(page_data):
         )
     return render_template(
         "main/cookies.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         details_page=details_page,
     )

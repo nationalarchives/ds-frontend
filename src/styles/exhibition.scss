@@ -7,7 +7,7 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .tna-hero {
-  &:not(.tna-block-accent, .tna-hero--split) &__content-inner {
+  &:not(.tna-background-accent, .tna-hero--split) &__content-inner {
     @include media.on-larger-than-mobile {
       @include colour.colour-border("accent-border", 1rem, solid, left);
     }

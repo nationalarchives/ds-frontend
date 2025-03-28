@@ -1,7 +1,7 @@
 import math
 
 from app.lib.pagination import pagination_object
-from app.wagtail.api import authored_pages_paginated, breadcrumbs
+from app.wagtail.api import authored_pages_paginated
 from flask import current_app, render_template, request
 from pydash import objects
 
@@ -41,7 +41,6 @@ def person_page(page_data):
         return render_template("errors/page_not_found.html"), 404
     return render_template(
         "people/person.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         pagination=pagination_object(page, pages, request.args),
         page=page,

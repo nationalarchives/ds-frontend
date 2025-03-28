@@ -41,7 +41,7 @@ abbr {
   display: block;
 }
 
-.etna-block-list {
+.etna-background-list {
   margin: spacing.space(1) 0 0 spacing.space(2);
 
   display: flex;
@@ -170,8 +170,8 @@ p.etna-small-paragraph {
   }
 }
 
-.tna-block-accent-light + .tna-block-accent,
-.tna-block-accent + .tna-block-accent-light {
+.tna-background-accent-light + .tna-background-accent,
+.tna-background-accent + .tna-background-accent-light {
   .tna-template--dark-theme & {
     @include colour.colour-border("keyline", 1px, dotted, top);
   }

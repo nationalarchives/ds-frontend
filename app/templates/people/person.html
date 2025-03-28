@@ -12,6 +12,7 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.title -%}
+{%- set breadcrumbsStyle = 'accent' -%}
 
 {% block head %}
 {{ super() }}
@@ -25,28 +26,18 @@
 {% endblock %}
 
 {% block main %}
-  {%- if breadcrumbs and breadcrumbs | length > 0 %}
-  <div class="tna-block-accent-light">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        {{ tnaBreadcrumbs({
-          'items': breadcrumbs,
-          'structuredData': True,
-          'classes': 'tna-!--padding-vertical-s'
-        }) }}
-      </div>
-    </div>
-  </div>
-  {%- endif %}
+  {% block beforeContent %}
+    {{ super() }}
+  {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/ProfilePage">
     <meta itemprop="dateCreated" content="{{ page_data.meta.first_published_at }}">
     {%- if page_data.global_alert or page_data.mourning_notice %}
-    <div class="tna-block-accent-light">
+    <div class="tna-background-accent">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {%- endif %}
     <article itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
-      <div class="tna-block-accent-light tna-!--padding-top-l tna-!--padding-bottom-xl">
+      <div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">
         <div class="tna-container">
           {%- if page_data.image or page_data.meta.teaser_image_square %}
           <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny tna-column--margin-right-1-12 tna-column--no-margin-right-medium tna-column--no-margin-right-small tna-column--no-margin-right-tiny tna-column--margin-left-1-12 tna-column--no-margin-left-medium tna-column--no-margin-left-small tna-column--no-margin-left-tiny tna-column--align-centre">

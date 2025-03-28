@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
@@ -8,6 +7,7 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.title -%}
+{%- set breadcrumbsStyle = 'accent-light' if not page_data.hero_image else '' -%}
 
 {% block head %}
 {{ super() }}
@@ -15,19 +15,9 @@
 {% endblock %}
 
 {% block main %}
-  {%- if breadcrumbs and breadcrumbs | length > 0 %}
-    <div class="{% if not page_data.hero_image %}tna-block-accent-light{% endif %}">
-      <div class="tna-container">
-        <div class="tna-column tna-column--full">
-          {{ tnaBreadcrumbs({
-            'items': breadcrumbs,
-            'structuredData': True,
-            'classes': 'tna-!--padding-vertical-s'
-          }) }}
-        </div>
-      </div>
-    </div>
-  {%- endif %}
+  {% block beforeContent %}
+    {{ super() }}
+  {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.hero_image %}
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -70,7 +60,7 @@
       'layout': 'shift'
     }) }}
     {%- else %}
-    <div class="tna-block-accent-light">
+    <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
       <div class="tna-section">
         <div class="tna-container">

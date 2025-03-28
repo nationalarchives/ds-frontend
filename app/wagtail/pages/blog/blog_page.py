@@ -7,7 +7,6 @@ from app.wagtail.api import (
     blog_authors,
     blog_post_counts,
     blog_posts_paginated,
-    breadcrumbs,
     page_descendants,
     top_blogs,
 )
@@ -121,7 +120,6 @@ def blog_page(page_data, year=None, month=None, day=None):
                 )
     return render_template(
         "blog/index.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         blog_posts=objects.get(blog_posts_data, "items", []),
         date_filters=date_filters,

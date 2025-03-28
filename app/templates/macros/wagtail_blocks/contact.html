@@ -1,7 +1,7 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
 {% macro wagtailContact(block_value, next_heading_level) %}
-  <div class="tna-aside tna-block-tint">
+  <div class="tna-aside tna-background-tint">
     <h{{ next_heading_level }} class="tna-heading-m">{{ block_value.title }}</h{{ next_heading_level }}>
     {% if block_value.body %}
     {{ block_value.body | tna_html | safe }}

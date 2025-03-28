@@ -3,7 +3,6 @@
 {%- from 'explore_the_collection/partials/article-blocks.html' import articleBlocks -%}
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'explore_the_collection/partials/article-sidebar.html' import articleSidebar -%}
-{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/authors_list.html' import authors_list -%}
@@ -13,6 +12,7 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'pink' -%}
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
+{%- set breadcrumbsStyle = 'accent' -%}
 {%- set og_type = 'article' -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
@@ -33,33 +33,17 @@
     {%- endif %}
 {% endblock %}
 
-{% block beforeContent %}
-{%- if breadcrumbs and breadcrumbs | length > 0 %}
-<div class="tna-block-accent">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': breadcrumbs,
-        'structuredData': True,
-        'classes': 'tna-!--padding-vertical-s'
-      }) }}
-    </div>
-  </div>
-</div>
-{%- endif %}
-{% endblock %}
-
 {% block content %}
 <article class="etna-article" itemscope itemtype="https://schema.org/Article">
   <meta itemprop="datePublished" content="{{ page_data.meta.first_published_at }}">
   <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
   {%- if page_data.hero_image and page_data.hero_image_small %}
   {%- if page_data.global_alert or page_data.mourning_notice %}
-  <div class="tna-block-accent-light">
+  <div class="tna-background-accent-light">
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
   </div>
   {%- endif %}
-  <div class="tna-block-accent-light">
+  <div class="tna-background-accent-light">
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
     {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
@@ -106,7 +90,7 @@
     </div>
   </div>
   {%- else %}
-  <div class="tna-block-accent">
+  <div class="tna-background-accent">
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     <header class="tna-section tna-!--padding-bottom-xl">
       <div class="tna-container">
@@ -124,7 +108,7 @@
   </div>
   {%- endif %}
   {%- if page_data.authors | length %}
-  <div class="tna-block-accent-light tna-!--padding-top-s tna-!--padding-bottom-s">
+  <div class="tna-background-accent-light tna-!--padding-top-s tna-!--padding-bottom-s">
     <div class="tna-container">
       {{ authors_list(page_data.authors, [], True) }}
     </div>

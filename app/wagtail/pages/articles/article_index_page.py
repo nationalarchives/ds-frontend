@@ -1,7 +1,7 @@
 import math
 
 from app.lib.pagination import pagination_object
-from app.wagtail.api import breadcrumbs, page_children_paginated
+from app.wagtail.api import page_children_paginated
 from flask import current_app, render_template, request
 
 
@@ -34,7 +34,6 @@ def article_index_page(page_data):
         return render_template("errors/page_not_found.html"), 404
     return render_template(
         "explore_the_collection/stories.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         page_data=page_data,
         children=children_data["items"],
         pagination=pagination_object(page, pages, request.args),

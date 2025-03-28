@@ -1,4 +1,4 @@
-from app.wagtail.api import breadcrumbs, page_children
+from app.wagtail.api import page_children
 from flask import current_app, render_template
 
 
@@ -24,7 +24,6 @@ def people_index_page(page_data):
     #     return render_template("errors/server.html"), 500
     return render_template(
         "people/index.html",
-        breadcrumbs=breadcrumbs(page_data["id"]),
         # people=children["items"],
         # people_total=children["meta"]["total_count"],
         page_data=page_data,
