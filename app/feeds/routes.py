@@ -56,7 +56,7 @@ def rss_all_feed():
             else "blog/rss_feed.xml"
         ),
         url=url_for("feeds.rss_all_feed", _external=True, _scheme="https"),
-        blog_data=objects.get(blog_data, "items.0", []) | {"meta": {"slug": "all"}},
+        blog_data=objects.get(blog_data, "items.0", {}) | {"meta": {"slug": "all"}},
         blog_posts=objects.get(blog_posts, "items", []),
     )
     response = make_response(xml)
