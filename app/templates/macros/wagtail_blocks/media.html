@@ -61,10 +61,13 @@
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
               <li>
-                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
+                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}" hidden>
                   <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
+                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading" itemprop="name">
+                  {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
+                </h{{ itemHeadingLevel + 1 }}>
                 {{ chapter.transcript | safe }}
               </li>
               {%- endfor %}

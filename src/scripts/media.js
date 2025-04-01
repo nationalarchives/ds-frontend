@@ -122,6 +122,7 @@ Object.entries(videoJsInstances).forEach(([key, instance]) => {
 document
   .querySelectorAll("button.media-chapter[value][aria-controls]")
   .forEach(($chapterButton) => {
+    $chapterButton.removeAttribute("hidden");
     $chapterButton.addEventListener("click", () => {
       const id = $chapterButton.getAttribute("aria-controls");
       const time = $chapterButton.getAttribute("value");
@@ -132,4 +133,10 @@ document
         console.error(`Can't find ID ${id}`);
       }
     });
+  });
+
+document
+  .querySelectorAll(".media-chapter-heading")
+  .forEach(($chapterHeading) => {
+    $chapterHeading.setAttribute("hidden", "");
   });
