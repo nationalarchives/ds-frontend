@@ -1,6 +1,14 @@
 import unittest
 
-from app.lib.template_filters import currency, pretty_date, qs_active, qs_toggler
+from app.lib.template_filters import (
+    currency,
+    get_url_domain,
+    pretty_date,
+    qs_active,
+    qs_toggler,
+    seconds_to_time,
+    slugify,
+)
 
 
 class ContentParserTestCase(unittest.TestCase):
@@ -68,3 +76,37 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(currency("5.001"), "5.00")
         self.assertEqual(currency("5.005"), "5.00")
         self.assertEqual(currency("5.006"), "5.01")
+
+    def test_seconds_to_time(self):
+        self.assertEqual(seconds_to_time(0), "00h 00m 00s")
+        self.assertEqual(seconds_to_time(1), "00h 00m 01s")
+        self.assertEqual(seconds_to_time(59), "00h 00m 59s")
+        self.assertEqual(seconds_to_time(60), "00h 01m 00s")
+        self.assertEqual(seconds_to_time(61), "00h 01m 01s")
+        self.assertEqual(seconds_to_time(3599), "00h 59m 59s")
+        self.assertEqual(seconds_to_time(3600), "01h 00m 00s")
+        self.assertEqual(seconds_to_time(3601), "01h 00m 01s")
+
+    def test_slugify(self):
+        self.assertEqual(slugify(""), "")
+        self.assertEqual(slugify("test"), "test")
+        self.assertEqual(slugify("  test TEST"), "test-test")
+        self.assertEqual(slugify("test 12 3 -4 "), "test-12-3-4")
+        self.assertEqual(slugify("test---test"), "test-test")
+        self.assertEqual(slugify("test---"), "test")
+        self.assertEqual(slugify("test---$"), "test")
+        self.assertEqual(slugify("test---$---"), "test")
+
+    def test_get_url_domain(self):
+        self.assertEqual(
+            get_url_domain(
+                "https://www.nationalarchives.gov.uk/explore-the-collection/stories/john-blanke/"
+            ),
+            "nationalarchives.gov.uk",
+        )
+        self.assertEqual(
+            get_url_domain(
+                "https://discovery.nationalarchives.gov.uk/results/r?_q=ufo&_sd=&_ed=&_hb="
+            ),
+            "discovery.nationalarchives.gov.uk",
+        )
