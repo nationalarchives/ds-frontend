@@ -7,11 +7,22 @@
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'components/skip-link/macro.html' import tnaSkipLink -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'explore-the-collection/partials/discovery-search.html' import discoverySearch -%}
+{%- from 'explore_the_collection/partials/discovery-search.html' import discoverySearch -%}
 
 {%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
 
 {%- set pageTitle = 'Search the website' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'Search',
+    'href': url_for('search.index')
+  }
+] -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% block stylesheets %}
 {{ super() }}
@@ -24,12 +35,6 @@
   'text': 'Skip to list of results'
 }) }}
 {{ super() }}
-{% endblock %}
-
-{% block beforeContent %}
-<div class="tna-background-accent-light">
-  {{ super() }}
-</div>
 {% endblock %}
 
 {% block content %}
@@ -115,7 +120,7 @@
         'horizontalSmallImage': True,
         'horizontalFlipped': True,
         'horizontalOnSmall': True,
-        'style': 'tint' if not request.args.view or request.args.view == 'list' else '',
+        'style': 'tint' if not request.args.view or request.args.view == 'list' else 'plain',
         'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
       } %}
       {%- if item.teaser_image %}
@@ -168,7 +173,9 @@
 <section class="tna-!--margin-top-xl tna-!--margin-bottom-l">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      {{ discoverySearch() }}
+      <div class="tna-aside tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
+        {{ discoverySearch() }}
+      </div>
     </div>
   </div>
 </section>

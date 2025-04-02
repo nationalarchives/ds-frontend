@@ -3,6 +3,9 @@ name: Build and deploy
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
+      - feature/*
 
 concurrency:
   group: cd-${{ github.ref }}
@@ -13,8 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: 3.13
       - uses: snok/install-poetry@v1
       - name: Check Poetry dependencies
         run: poetry show -o
@@ -67,6 +68,9 @@ jobs:
           latest: ${{ github.ref == 'refs/heads/main' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
+          wiz-client-id: ${{ secrets.WIZ_CLIENT_ID }}
+          wiz-client-secret: ${{ secrets.WIZ_CLIENT_SECRET }}
+          wiz-project-id: ${{ secrets.WIZ_PROJECT_DIGITALSERVICES }}
       - name: Create tag
         if: github.ref == 'refs/heads/main'
         uses: actions/github-script@v5
@@ -93,7 +97,7 @@ jobs:
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: Set up git config
         run: |
-          git config user.name "ds-frontend"
+          git config user.name "${{ github.triggering_actor }}"
           git config user.email "<>"
       - name: Install jq
         run: sudo apt-get install jq
@@ -102,7 +106,8 @@ jobs:
       - name: Push new version
         run: |
           git add config/develop.json
-          git commit -m "Update frontend to v${{ needs.version.outputs.version }}"
+          COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
+          git commit -m "Update frontend to v${{ needs.version.outputs.version }}" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
           git push origin main
 
   update-dblclk:
@@ -119,7 +124,7 @@ jobs:
           token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
       - name: Set up git config
         run: |
-          git config user.name "ds-frontend"
+          git config user.name "${{ github.triggering_actor }}"
           git config user.email "<>"
       - name: Install yq
         uses: dcarbone/install-yq-action@v1.1.1
@@ -130,5 +135,6 @@ jobs:
       - name: Push new version
         run: |
           git add docker-compose.yml
-          git commit -m "Update frontend to v${{ needs.version.outputs.version }}"
+          COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
+          git commit -m "Update frontend to v${{ needs.version.outputs.version }}" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
           git push origin proof-of-concept

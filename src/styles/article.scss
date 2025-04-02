@@ -82,6 +82,7 @@
     background: none;
 
     border: none;
+    border-radius: 0.1px;
 
     cursor: pointer;
     @include colour.colour-border("keyline", 1px, solid, top);

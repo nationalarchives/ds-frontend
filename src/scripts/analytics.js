@@ -30,12 +30,39 @@ if (ga4Id) {
     },
   ]);
 
-  analytics.addListeners(document.documentElement, "document", [
+  analytics.addListeners("body", "page", [
     {
       eventName: "double_click",
       on: "dblclick",
       data: {
         state: ($el, $scope, event) => helpers.getXPathTo(event.target),
+      },
+    },
+    {
+      eventName: "cta.click",
+      targetElement: ".tna-button[data-tna-cta]",
+      on: "click",
+      rootData: {
+        data_link: helpers.valueGetters.text,
+        data_component_name: "button",
+        data_link_type: "button",
+        event: "tna.select_cta",
+      },
+    },
+    {
+      eventName: "chip.click",
+      targetElement: ".tna-hgroup__supertitle",
+      on: "click",
+      data: {
+        value: helpers.valueGetters.text,
+      },
+    },
+    {
+      eventName: "chip.click",
+      targetElement: ".tna-chip",
+      on: "click",
+      data: {
+        value: helpers.valueGetters.text,
       },
     },
   ]);

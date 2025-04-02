@@ -28,6 +28,15 @@ def replace_line_breaks(html):
     return html
 
 
+def add_rel_to_external_links(html):
+    html = re.sub(
+        r'<a href="(?!https:\/\/(www|discovery|webarchive)\.nationalarchives\.gov\.uk\/)',
+        '<a rel="noreferrer nofollow noopener" href="',
+        html,
+    )
+    return html
+
+
 def replace_footnotes(html):
     html = re.sub(
         r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</footnote>',

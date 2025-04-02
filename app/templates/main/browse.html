@@ -3,25 +3,18 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'black' if global_alert.mourning_notice else 'yellow' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  }
+] -%}
+{%- set breadcrumbsStyle = 'accent' -%}
 
 {%- set pageTitle = 'Browse' -%}
 
 {% block content %}
 <div class="tna-background-accent">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      {{ tnaBreadcrumbs({
-        'items': [
-          {
-            'text': 'Home',
-            'href': '/'
-          }
-        ],
-        'structuredData': True,
-        'classes': 'tna-!--padding-vertical-s'
-      }) }}
-    </div>
-  </div>
   {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
 </div>
 <div class="tna-background-accent tna-!--padding-top-l tna-!--padding-bottom-xl">

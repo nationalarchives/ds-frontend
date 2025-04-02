@@ -8,6 +8,7 @@ from markupsafe import Markup
 
 from .content_parser import (
     add_abbreviations,
+    add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
     replace_footnotes,
@@ -17,16 +18,21 @@ from .content_parser import (
 
 
 def tna_html(s):
+    if not s:
+        return s
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
     s = replace_footnotes(s)
     s = add_abbreviations(s)
+    s = add_rel_to_external_links(s)
     return s
 
 
 def slugify(s):
+    if not s:
+        return s
     s = s.lower().strip()
     s = re.sub(r"[^\w\s-]", "", s)
     s = re.sub(r"[\s_-]+", "-", s)
@@ -35,11 +41,13 @@ def slugify(s):
 
 
 def seconds_to_time(s):
+    if not s:
+        return "00h 00m 00s"
     total_seconds = int(s)
     hours = math.floor(total_seconds / 3600)
     minutes = math.floor((total_seconds - (hours * 3600)) / 60)
     seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    return f"{str(hours).rjust(2, '0')}:{str(minutes).rjust(2, '0')}:{str(seconds).rjust(2, '0')}"
+    return f"{str(hours).rjust(2, '0')}h {str(minutes).rjust(2, '0')}m {str(seconds).rjust(2, '0')}s"
 
 
 def get_url_domain(s):
@@ -52,6 +60,8 @@ def get_url_domain(s):
 
 
 def pretty_date(s, show_day=False):
+    if not s:
+        return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
@@ -69,12 +79,12 @@ def pretty_date(s, show_day=False):
         pass
     try:
         date = datetime.strptime(s, "%Y-%m")
-        return date.strftime("%A %B %Y") if show_day else date.strftime("%B %Y")
+        return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y")
-        return date.strftime("%A %Y") if show_day else date.strftime("%Y")
+        return date.strftime("%Y")
     except ValueError:
         pass
     return s
@@ -85,6 +95,8 @@ def pretty_date_with_day(s):
 
 
 def currency(s):
+    if not s:
+        return "0"
     float_number = float(s)
     int_number = int(float_number)
     if int_number == float_number:
@@ -93,6 +105,8 @@ def currency(s):
 
 
 def rfc_822_format(s):
+    if not s:
+        return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
@@ -107,6 +121,8 @@ def rfc_822_format(s):
 
 
 def headings_list(s):
+    if not s:
+        return s
     headings_regex = re.findall(
         r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
     )
@@ -187,7 +203,7 @@ def sidebar_items_from_wagtail_body(content):
                     section_children.append(
                         {
                             "text": block["value"]["heading"],
-                            "href": "#"
+                            "href": "#heading-"
                             + slugify(block["value"]["heading"])
                             + "-"
                             + block["id"],
@@ -203,7 +219,7 @@ def sidebar_items_from_wagtail_body(content):
                     section_grandchildren.append(
                         {
                             "text": block["value"]["heading"],
-                            "href": "#"
+                            "href": "#heading-"
                             + slugify(block["value"]["heading"])
                             + "-"
                             + block["id"],
@@ -212,7 +228,10 @@ def sidebar_items_from_wagtail_body(content):
             page_sections.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#" + slugify(item["value"]["heading"]) + "-" + item["id"],
+                    "href": "#heading-"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                     "children": (
                         reversed(section_children) if section_children else None
                     ),
@@ -223,7 +242,10 @@ def sidebar_items_from_wagtail_body(content):
             page_children.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#" + slugify(item["value"]["heading"]) + "-" + item["id"],
+                    "href": "#heading-"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                     "children": (
                         reversed(page_grandchildren) if page_grandchildren else None
                     ),
@@ -235,7 +257,10 @@ def sidebar_items_from_wagtail_body(content):
             page_grandchildren.append(
                 {
                     "text": item["value"]["heading"],
-                    "href": "#" + slugify(item["value"]["heading"]) + "-" + item["id"],
+                    "href": "#heading-"
+                    + slugify(item["value"]["heading"])
+                    + "-"
+                    + item["id"],
                 }
             )
     if footnotes:
@@ -307,4 +332,14 @@ def qs_toggler(existing_qs, filter, by):
     else:
         # Update or add the query string.
         rtn_qs.update(qs)
+    return urlencode(rtn_qs)
+
+
+def qs_update(existing_qs, filter, value):
+    rtn_qs = existing_qs.copy()
+    try:
+        rtn_qs.pop(filter)
+    except KeyError:
+        pass
+    rtn_qs.update({filter: value})
     return urlencode(rtn_qs)

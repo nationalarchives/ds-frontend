@@ -16,14 +16,16 @@ from flask import (
 
 
 @bp.route("/sitemap.xml")
-@cache.cached(timeout=3600)
+@cache.cached(timeout=14400)  # 4 hours
 def sitemap_index():
-    sitemap_urls = [url_for("sitemaps.sitemap_static", _external=True, _scheme="https")]
+    sitemap_urls = [
+        # url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
+    ]
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
-    for page in range(2, pages + 2):
+    for page in range(1, pages + 1):
         sitemap_urls.append(
             url_for(
                 "sitemaps.sitemap_dynamic",
@@ -42,7 +44,6 @@ def sitemap_index():
 
 
 @bp.route("/sitemaps/")
-@cache.cached(timeout=3600)
 def sitemaps():
     return redirect(
         url_for("sitemaps.sitemap_index"),
@@ -56,7 +57,7 @@ def static_uris():
         if (
             not str(rule).startswith("/preview")
             and not str(rule).startswith("/healthcheck")
-            and not str(rule).startswith("/blog/feeds")
+            and not str(rule).startswith("/blogs/feeds")
             and not str(rule).startswith("/sitemap.xml")
             and not str(rule).startswith("/robots.txt")
             and not str(rule).startswith("/sitemaps")
@@ -67,8 +68,8 @@ def static_uris():
     return static_uris
 
 
-@bp.route("/sitemaps/sitemap_1.xml")
-@cache.cached(timeout=3600)
+@bp.route("/sitemaps/sitemap_static.xml")
+@cache.cached(timeout=14400)  # 4 hours
 def sitemap_static():
     host_components = urlparse(request.host_url)
     host_base = "https://" + host_components.netloc
@@ -86,9 +87,8 @@ def sitemap_static():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cache.cached(timeout=3600)
+@cache.cached(timeout=14400)  # 4 hours
 def sitemap_dynamic(sitemap_page):
-    sitemap_page = sitemap_page - 1
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
     wagtail_pages = all_pages(
@@ -99,7 +99,7 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     for page in wagtail_pages["items"]:
         try:
             lastmodified_date = datetime.strptime(

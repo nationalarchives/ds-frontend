@@ -1,4 +1,4 @@
-from urllib.parse import urlencode
+from app.lib.template_filters import qs_update
 
 
 def pagination_list(current_page, total_pages, boundaries=1, around=1):
@@ -53,11 +53,6 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
     return [item for item in pagination_items if item]
 
 
-def generate_new_page_query_string(args, page):
-    args_dict = args.to_dict(flat=False) | {"page": page}
-    return f"?{urlencode(args_dict, doseq=True)}"
-
-
 def pagination_object(current_page, total_pages, current_args, boundaries=1, around=1):
     if total_pages == 0:
         return {}
@@ -69,7 +64,7 @@ def pagination_object(current_page, total_pages, current_args, boundaries=1, aro
             if item == "..."
             else {
                 "number": item,
-                "href": generate_new_page_query_string(current_args, item),
+                "href": f"?{qs_update(current_args, 'page', item)}",
                 "current": item == current_page,
             }
         )
@@ -77,10 +72,20 @@ def pagination_object(current_page, total_pages, current_args, boundaries=1, aro
     ]
     if current_page > 1:
         pagination_object["previous"] = {
-            "href": generate_new_page_query_string(current_args, current_page - 1)
+            "href": f"?{qs_update(
+                current_args,
+                'page',
+                current_page - 1,
+            )}",
+            "title": "Previous page of results",
         }
     if current_page < total_pages:
         pagination_object["next"] = {
-            "href": generate_new_page_query_string(current_args, current_page + 1)
+            "href": f"?{qs_update(
+                current_args,
+                'page',
+                current_page + 1,
+            )}",
+            "title": "Next page of results",
         }
     return pagination_object

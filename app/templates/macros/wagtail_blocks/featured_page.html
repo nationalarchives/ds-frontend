@@ -9,7 +9,7 @@
     'href': block_value.page.url,
     'label': 'New' if block_value.page.is_newly_published,
     'labelColour': 'green',
-    'body': block_value.page.teaser_text | tna_html | safe,
+    'text': block_value.page.teaser_text | tna_html | safe,
     'fullAreaClick': True,
     'horizontal': True,
     'horizontalSmallImage': True,

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
+
+{%- set pageTitle = page_data.title -%}
+
+{% block content %}
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+    <p class="tna-large-paragraph">Discover our exhibitions, events and family activities programme for all – online and at Kew.</p>
+  </div>
+</div>
+<div class="tna-container tna-section tna-!--no-padding-top">
+  <div class="tna-column tna-column--full">
+    {{ tnaCard({
+      'supertitle': 'Featured exhibition',
+      'title': 'MI5: Official Secrets',
+      'headingLevel': 2,
+      'headingSize': 'l',
+      'href': '/mi5-official-secrets/',
+      'imageSrc': 'https://picsum.photos/600/400?1',
+      'imageAlt': 'A random example image',
+      'imageWidth': 600,
+      'imageHeight': 400,
+      'body': '<p>A groundbreaking exhibition, opening this spring</p>',
+      'horizontal': True,
+      'fullAreaClick': True,
+      'style': 'contrast'
+    }) }}
+  </div>
+</div>
+{{ tnaIndexGrid({
+  'title': 'Event types',
+  'headingLevel': 2,
+  'items': [
+    {
+      'href': '/whats-on/events/',
+      'title': 'Events',
+      'subtitle': 'Discover the past through our series of exciting in-person at Kew and online talks, delivered by our collections specialists and speical guest speakers.',
+      'src': 'https://picsum.photos/600/400?2',
+      'alt': '',
+      'width': 600,
+      'height': 400
+    },
+    {
+      'href': '#',
+      'title': 'Exhibitions and displays',
+      'subtitle': 'Our dedicated exhibition spaces host immersive exhibitions, curated collections and displays of records held at The National Archives in Kew.',
+      'src': 'https://picsum.photos/600/400?3',
+      'alt': '',
+      'width': 600,
+      'height': 400
+    }
+  ],
+  'columns': 2,
+  'columnsTiny': 1
+}) }}
+{% endblock %}

@@ -1,6 +1,6 @@
 from urllib.parse import quote, unquote
 
-from app.lib.api import ApiResourceNotFound
+from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix
 from app.wagtail import bp
 from app.wagtail.render import render_content_page
@@ -13,106 +13,88 @@ from flask import (
     url_for,
 )
 from flask_caching import CachedResponse
+from pydash import objects
 
-from .api import page_details, page_details_by_uri, page_preview
+from .api import page_details, page_details_by_uri, page_preview, redirect_by_uri
 
 
 @bp.route("/preview/")
 def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
-    if content_type and token:
-        try:
-            page_data = page_preview(content_type, token)
-        except ConnectionError:
-            return render_template("errors/api.html"), 502
-        except ApiResourceNotFound:
-            return render_template("errors/page-not-found.html"), 404
-        except Exception as e:
-            current_app.logger.error(e)
-            return render_template("errors/api.html"), 502
-        return render_content_page(page_data | {"page_preview": True})
-    return render_template("errors/page-not-found.html"), 404
+    if not content_type or not token:
+        return render_template("errors/page_not_found.html"), 404
+    try:
+        page_data = page_preview(content_type, token)
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
+    except Exception as e:
+        current_app.logger.error(f"Failed to get page preview data: {e}")
+        return render_template("errors/api.html"), 502
+    try:
+        return render_content_page(
+            page_data | {"page_preview": True, "id": objects.get(page_data, "id", 0)}
+        )
+    except Exception as e:
+        current_app.logger.error(f"Failed to render page preview: {e}")
+        return render_template("errors/api.html"), 502
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
 def preview_protected_page(page_id):
     try:
+        password = objects.get(request.form, "password", "")
+        params = {"password": password}
         page_data = page_details(
-            page_id,
-            {
-                "password": (
-                    request.form["password"] if "password" in request.form else ""
-                )
-            },
+            page_id=page_id,
+            params=params,
         )
-    except ConnectionError:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    except ApiResourceNotFound:
-        return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
-            timeout=1,
-        )
-    except Exception:
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    if "meta" in page_data:
-        if (
-            "privacy" in page_data["meta"]
-            and page_data["meta"]["privacy"] == "password"
-        ):
-            if "locked" in page_data["meta"] and page_data["meta"]["locked"]:
-                if request.method == "POST" and "password" in request.form:
-                    if request.form["password"] == "":
-                        page_data["error"] = "Enter a password"
-                    else:
-                        page_data["error"] = "Incorrect password"
-                return CachedResponse(
-                    response=make_response(
-                        render_template(
-                            "errors/password-protected.html",
-                            page_data=page_data,
-                        )
-                    ),
-                    timeout=1,
-                )
-            return CachedResponse(
-                response=make_response(render_content_page(page_data)),
-                timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
+    except Exception as e:
+        current_app.logger.error(f"Failed to render page preview: {e}")
+        return render_template("errors/api.html"), 502
+    if objects.get(page_data, "meta.privacy") == "password":
+        if objects.get(page_data, "meta.locked"):
+            if request.method == "POST" and "password" in request.form:
+                if request.form["password"] == "":
+                    page_data["error"] = "Enter a password"
+                else:
+                    page_data["error"] = "Incorrect password"
+            return render_template(
+                "errors/password_protected.html",
+                page_data=page_data,
             )
-        if "url" in page_data["meta"]:
-            return redirect(
-                url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
-                code=302,
-            )
-    return CachedResponse(
-        response=make_response(render_template("errors/api.html"), 502),
-        timeout=1,
-    )
+        return render_content_page(page_data)
+    if path := objects.get(page_data, "meta.url"):
+        return redirect(
+            url_for("wagtail.page", path=path.strip("/")),
+            code=302,
+        )
+    return render_template("errors/api.html"), 502
 
 
 @bp.route("/page/<int:page_id>/")
+@cache.cached(key_prefix=page_cache_key_prefix)
 def page_permalink(page_id):
     try:
         page_data = page_details(page_id)
-    except ConnectionError:
-        return render_template("errors/api.html"), 502
-    except ApiResourceNotFound:
-        return render_template("errors/page-not-found.html"), 404
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
     except Exception as e:
-        current_app.logger.error(e)
+        current_app.logger.error(f"Failed to get page details: {e}")
         return render_template("errors/api.html"), 502
-    if "meta" in page_data and "url" in page_data["meta"]:
-        # return page(page_data["meta"]["url"].strip("/"))
+    if path := objects.get(page_data, "meta.url"):
         return redirect(
             url_for(
                 "wagtail.page",
-                path=page_data["meta"]["url"].strip("/"),
+                path=path.strip("/"),
                 **request.args.to_dict(),
             ),
             code=302,
@@ -129,17 +111,18 @@ def page_permalink(page_id):
 def index():
     try:
         page_data = page_details_by_uri("/")
-    except ConnectionError:
+    except ResourceNotFound:
         return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
-    except ApiResourceNotFound:
+    except ResourceForbidden:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/forbidden.html"), 403),
             timeout=1,
         )
-    except Exception:
+    except Exception as e:
+        current_app.logger.error(f"Failed to render the home page: {e}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
@@ -155,42 +138,69 @@ def index():
 def page(path):
     try:
         page_data = page_details_by_uri(unquote(f"/{path}/"))
-    except ConnectionError:
+    except ResourceNotFound:
+        if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
+            return try_external_redirect(path)
         return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
+            response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
-    except ApiResourceNotFound:
+    except ResourceForbidden:
         return CachedResponse(
-            response=make_response(render_template("errors/page-not-found.html"), 404),
+            response=make_response(render_template("errors/forbidden.html"), 403),
             timeout=1,
         )
     except Exception as e:
-        current_app.logger.error(e)
+        current_app.logger.error(f"Failed to render page: {e}")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
     if "meta" not in page_data:
-        current_app.logger.error(f"Page meta information not included for path: {path}")
+        current_app.logger.error("Page meta not available")
         return CachedResponse(
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    if "privacy" in page_data["meta"] and page_data["meta"]["privacy"] == "password":
+    if objects.get(page_data, "meta.privacy") == "password":
         return redirect(
-            url_for("wagtail.preview_protected_page", page_id=page_data["id"])
+            url_for(
+                "wagtail.preview_protected_page",
+                page_id=page_data["id"],
+            ),
+            code=302,
         )
-    if (
-        current_app.config.get("APPLY_REDIRECTS")
-        and "url" in page_data["meta"]
-        and (quote(page_data["meta"]["url"]) != quote(f"/{path}/"))
+    if rediect_path := objects.get(page_data, "meta.alias_of.url"):
+        if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
+            return redirect(
+                url_for("wagtail.page", path=rediect_path.strip("/")),
+                code=302,
+            )
+    if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
+        quote(objects.get(page_data, "meta.url")) != quote(f"/{path}/")
     ):
+        rediect_path = objects.get(page_data, "meta.url").strip("/")
         return redirect(
-            url_for("wagtail.page", path=page_data["meta"]["url"].strip("/")),
+            url_for("wagtail.page", path=rediect_path),
             code=302,
         )
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
         timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )
+
+
+def try_external_redirect(path):
+    try:
+        redirect_data = redirect_by_uri(unquote(f"/{path}/"))
+        if rediect_destination := objects.get(redirect_data, "link", ""):
+            is_permanent = objects.get(redirect_data, "is_permanent", False)
+            return redirect(
+                rediect_destination,
+                code=(301 if is_permanent else 302),
+            )
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except Exception as e:
+        current_app.logger.error(f"Failed to get redirect: {e}")
+        return render_template("errors/api.html"), 502

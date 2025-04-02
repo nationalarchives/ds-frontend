@@ -1,3 +1,5 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  bordersVars;
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
@@ -46,6 +48,11 @@
   }
 }
 
+.tna-picture--plain {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 .tna-enhanced-map {
   width: 100%;
   height: auto;
@@ -73,6 +80,7 @@
   &--top-bottom-borders {
     @include colour.colour-border("keyline-dark", 1px, solid, top);
     @include colour.colour-border("keyline-dark", 1px, solid, bottom);
+    border-radius: 0;
   }
 }
 
@@ -100,43 +108,62 @@
 }
 
 .tna-exhibition-newsletter {
-  @include colour.colour-border("accent-border", 1rem, solid, left);
-
   &_inner {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    @include media.on-tiny {
+      flex-direction: column;
+    }
+  }
+
+  &__icon {
+    @include colour.accent;
+
     padding: spacing.space(2);
 
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: spacing.space(2);
+
+    @include typography.font-size(48);
+
+    border-radius: bordersVars.$rounded-border-radius 0 0
+      bordersVars.$rounded-border-radius;
+
+    @include media.on-tiny {
+      padding: spacing.space(1);
+
+      @include typography.font-size(32);
+
+      border-radius: bordersVars.$rounded-border-radius
+        bordersVars.$rounded-border-radius 0 0;
+    }
+  }
+
+  &__body {
+    padding: spacing.space(1.5) spacing.space(2);
+
+    border-left-width: 0 !important;
+    border-radius: 0 bordersVars.$rounded-border-radius
+      bordersVars.$rounded-border-radius 0;
+
+    flex: 1;
 
     @include colour.colour-border("keyline", 1px);
-    border-left: none;
 
     @include media.on-small {
-      padding: spacing.space(1) spacing.space(2);
+      padding: spacing.space(1) spacing.space(1.5);
     }
 
     @include media.on-tiny {
       padding: spacing.space(1);
 
-      flex-direction: column;
-      align-items: flex-start;
-      gap: spacing.space(1);
+      border-top-width: 0;
+      border-left-width: 1px !important;
+      border-radius: 0 0 bordersVars.$rounded-border-radius
+        bordersVars.$rounded-border-radius;
     }
-  }
-
-  &__icon {
-    @include typography.font-size(48);
-
-    @include colour.colour-font("accent-border");
-
-    @include media.on-tiny {
-      @include typography.font-size(32);
-    }
-  }
-
-  &__body {
   }
 }
 

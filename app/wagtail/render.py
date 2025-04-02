@@ -12,8 +12,10 @@ from .pages import (
     category_index_page,
     cookie_details_page,
     cookies_page,
+    event_listing_page,
+    event_page,
     exhibition_page,
-    explore_index_page,
+    explorer_index_page,
     general_page,
     highlight_gallery_page,
     home_page,
@@ -33,7 +35,7 @@ page_type_templates = {
     "cookies.CookiesPage": cookies_page,
     "cookies.CookieDetailsPage": cookie_details_page,
     # Explore the collection
-    "collections.ExplorerIndexPage": explore_index_page,
+    "collections.ExplorerIndexPage": explorer_index_page,
     "collections.HighlightGalleryPage": highlight_gallery_page,
     "collections.TimePeriodExplorerIndexPage": category_index_page,
     "collections.TimePeriodExplorerPage": categories_page,
@@ -53,6 +55,8 @@ page_type_templates = {
     "blog.BlogPostPage": blog_post_page,
     # What's on
     "whatson.WhatsOnPage": whats_on_page,
+    "whatson.EventListingPage": event_listing_page,
+    "whatson.EventPage": event_page,
     "whatson.ExhibitionPage": exhibition_page,
 }
 
@@ -63,6 +67,6 @@ def render_content_page(page_data):
         if page_type in page_type_templates:
             return page_type_templates[page_type](page_data)
         current_app.logger.error(f"Template for {page_type} not handled")
-        return render_template("errors/page-not-found.html"), 404
+        return render_template("errors/page_not_found.html"), 404
     current_app.logger.error("Page meta information not included")
     return render_template("errors/api.html"), 502

@@ -6,6 +6,9 @@ from app.lib.util import strtobool
 
 class Features(object):
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
+    FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
+        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "False")
+    )
     FEATURE_LOGO_ADORNMENTS_CSS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_CSS", "")
     FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
 
@@ -37,11 +40,12 @@ class Base(object):
 
     SENTRY_DSN: str = os.getenv("SENTRY_DSN", "")
     SENTRY_JS_ID: str = os.getenv("SENTRY_JS_ID", "")
-    SENTRY_SAMPLE_RATE: float = float(os.getenv("SENTRY_SAMPLE_RATE", "1.0"))
+    SENTRY_SAMPLE_RATE: float = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
-    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "100"))
+    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "500"))
+    ITEMS_PER_BLOG_FEED: int = int(os.environ.get("ITEMS_PER_SITEMAP", "50"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
 
@@ -71,35 +75,43 @@ class Base(object):
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
-    CACHE_TYPE: str = "FileSystemCache"
-    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
+    CACHE_TYPE: str = os.environ.get("CACHE_TYPE", "FileSystemCache")
+    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
-    APPLY_REDIRECTS: bool = strtobool(os.getenv("APPLY_REDIRECTS", "True"))
+    REDIRECT_WAGTAIL_ALIAS_PAGES: bool = strtobool(
+        os.getenv("REDIRECT_WAGTAIL_ALIAS_PAGES", "True")
+    )
+    SERVE_WAGTAIL_PAGE_REDIRECTIONS: bool = strtobool(
+        os.getenv("SERVE_WAGTAIL_PAGE_REDIRECTIONS", "True")
+    )
+    SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS: bool = strtobool(
+        os.getenv("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS", "True")
+    )
 
 
 class Production(Base, Features):
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.1"))
-
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
+    pass
 
 
 class Staging(Base, Features):
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0.25"))
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "10"))
 
 
 class Develop(Base, Features):
     DEBUG = strtobool(os.getenv("DEBUG", "True"))
 
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
+    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
 
     FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
+
+    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
 class Test(Base, Features):
@@ -120,4 +132,6 @@ class Test(Base, Features):
     FORCE_HTTPS = False
     PREFERRED_URL_SCHEME = "http"
 
-    APPLY_REDIRECTS = False
+    REDIRECT_WAGTAIL_ALIAS_PAGES = True
+    SERVE_WAGTAIL_PAGE_REDIRECTIONS = True
+    SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS = True

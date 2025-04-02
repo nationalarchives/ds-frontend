@@ -1,7 +1,57 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+
+$foreground-brand-colour: "navy";
+$background-brand-colour: "yellow";
+
 .etna-homepage-hero {
   overflow: hidden;
 
   position: relative;
+
+  // text-shadow: colour.brand-colour($foreground-brand-colour) 0 0 1rem;
+
+  background-color: colour.brand-colour($background-brand-colour);
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    background-color: colour.brand-colour($foreground-brand-colour);
+    mix-blend-mode: lighten;
+  }
+
+  &::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    background: radial-gradient(
+      circle,
+      colour.brand-colour($foreground-brand-colour, 0) 50%,
+      colour.brand-colour($foreground-brand-colour, 0.5) 100%
+    );
+    // background-image: linear-gradient(
+    //   colour.brand-colour($foreground-brand-colour, 0.2) 25%,
+    //   65%,
+    //   colour.brand-colour($foreground-brand-colour, 0.85)
+    // );
+    // mix-blend-mode: darken;
+
+    // @include media.on-mobile {
+    //   background-image: linear-gradient(
+    //     colour.brand-colour($foreground-brand-colour, 0.2) 25%,
+    //     50%,
+    //     colour.brand-colour($foreground-brand-colour, 0.85)
+    //   );
+    // }
+  }
 
   &__image {
     width: 100%;
@@ -12,30 +62,62 @@
     z-index: 1;
 
     object-fit: cover;
+    mix-blend-mode: multiply;
+
+    filter: saturate(0) contrast(1.5);
   }
 
   &__content {
-    padding-top: clamp(10rem, 35vw, 45rem);
+    padding-top: clamp(10rem, 30vw, 25rem);
 
     position: relative;
-    z-index: 2;
+    z-index: 4;
+  }
 
-    .tna-button {
-      text-shadow: none;
-    }
+  .tna-heading-xl,
+  .tna-large-paragraph {
+    padding-top: 0.125em;
+    padding-bottom: 0.125em;
 
-    &::after {
+    display: inline-block;
+
+    position: relative;
+
+    &::before {
       content: "";
 
+      width: 100vw;
+
       position: absolute;
-      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
       z-index: -1;
 
-      background-image: linear-gradient(
-        rgba(0 0 0 / 35%) 25%,
-        65%,
-        rgba(0 0 0 / 95%)
-      );
+      @include colour.colour-background("background");
+
+      // box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 25%);
+
+      @include borders.rounded-border;
     }
   }
+
+  .tna-heading-xl {
+    padding-right: 0.375em;
+  }
+
+  .tna-large-paragraph {
+    padding-right: 0.625em;
+  }
+
+  .tna-button-group {
+    @include media.on-small {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+}
+
+.tna-footer {
+  margin-top: 0 !important;
 }

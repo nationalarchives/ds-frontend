@@ -16,7 +16,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
         domain = self.domain.replace("http://", "https://")
         mock_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=1&format=json"
         mock_respsone = {
-            "meta": {"total_count": 250},
+            "meta": {"total_count": 1337},
             "items": [],
         }
         m.get(mock_endpoint, json=mock_respsone)
@@ -24,18 +24,17 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
         self.assertIn(f"<loc>{domain}/sitemaps/sitemap_1.xml</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/sitemaps/sitemap_2.xml</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/sitemaps/sitemap_3.xml</loc>", rv.text)
-        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_4.xml</loc>", rv.text)
-        self.assertNotIn(f"<loc>{domain}/sitemaps/sitemap_5.xml</loc>", rv.text)
+        self.assertNotIn(f"<loc>{domain}/sitemaps/sitemap_4.xml</loc>", rv.text)
 
     @requests_mock.Mocker()
-    def test_sitemap_page_1_xml(self, m):
+    def test_sitemap_static_xml(self, m):
         domain = self.domain.replace("http://", "https://")
-        rv = self.app.get("/sitemaps/sitemap_1.xml")
+        rv = self.app.get("/sitemaps/sitemap_static.xml")
         self.assertIn(f"<loc>{domain}/</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/browse/</loc>", rv.text)
 
     @requests_mock.Mocker()
-    def test_sitemap_page_2_xml(self, m):
+    def test_sitemap_page_1_xml(self, m):
         domain = self.domain.replace("http://", "https://")
         mock_index_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=1&format=json"
         mock_index_respsone = {
@@ -43,7 +42,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             "items": [],
         }
         m.get(mock_index_endpoint, json=mock_index_respsone)
-        mock_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=100&format=json"
+        mock_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=500&format=json"
         mock_respsone = {
             "meta": {"total_count": 3},
             "items": [
@@ -107,7 +106,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             ],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/sitemaps/sitemap_2.xml")
+        rv = self.app.get("/sitemaps/sitemap_1.xml")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(f"<loc>{domain}/</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)

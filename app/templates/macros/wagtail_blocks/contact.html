@@ -3,6 +3,9 @@
 {% macro wagtailContact(block_value, next_heading_level) %}
   <div class="tna-aside tna-background-tint">
     <h{{ next_heading_level }} class="tna-heading-m">{{ block_value.title }}</h{{ next_heading_level }}>
+    {% if block_value.body %}
+    {{ block_value.body | tna_html | safe }}
+    {% endif %}
     <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding">
       {%- if block_value.address %}
       <dt>
@@ -38,8 +41,8 @@
         Email
       </dt>
       <dd>
-        Email us at <span class="etna-email"><a href="mailto:{{ block_value.email }}">{{ block_value.email }}</a> {{ tnaButton({
-          'html': '<span>Copy<span class="tna-visually-hidden"> the email address</span></span>',
+        <span class="etna-email"><a href="mailto:{{ block_value.email }}">{{ block_value.email }}</a> {{ tnaButton({
+          'html': '<span>Copy<span class="tna-visually-hidden"> email address</span></span>',
           'small': True,
           'buttonElement': True,
           'classes': 'etna-email__button',
@@ -56,12 +59,12 @@
         Website
       </dt>
       <dd>
-        <a href="mailto:{{ block_value.website_link }}">{{ block_value.website_link }}</a>
+        <a href="{{ block_value.website_link }}" rel="noreferrer nofollow noopener">{{ block_value.website_link }}</a>
       </dd>
       {%- endif %}
       {%- if block_value.social_media %}
       <dt>
-        <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
+        <i class="fa-solid fa-at" aria-hidden="true"></i>
         Social media
       </dt>
       <dd>

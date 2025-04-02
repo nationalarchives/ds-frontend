@@ -18,10 +18,8 @@
     <meta name="twitter:title" content="{{ page_data.meta.twitter_og_title }}">
 {%- endif %}
 
-{% if description %}
-    <meta name="description" content="{{ description }}">
-    <meta property="og:description" content="{{ description }}">
-{%- endif %}
+    <meta name="description" content="{{ description or page_data.meta.teaser_text }}">
+    <meta property="og:description" content="{{ description or page_data.meta.teaser_text }}">
 {% if page_data.meta and page_data.meta.twitter_og_description %}
     <meta name="twitter:description" content="{{ page_data.meta.twitter_og_description }}">
 {%- endif %}
@@ -84,7 +82,22 @@
 {%- endif %}
 
 {% if page_data.tags and page_data.tags | length %}
-    <meta name="tna.page.tags" content="{{ page_data.tags | join('; ') }}">
-    <meta name="tna_root:taxonom_tags" content="{{ page_data.tags | join('; ') }}">
+    <meta name="tna_root:taxonomy_term" content="{{ page_data.tags | join('; ') }}">
+{%- endif %}
+
+{% if page_data.topics and page_data.topics | length %}
+    {% set topics = [] %}
+    {% for topic in page_data.topics %}
+        {% set topics = topics.append(topic.title) %}
+    {% endfor %}
+    <meta name="tna_root:taxonomy_topic" content="{{ topics | join('; ') }}">
+{%- endif %}
+
+{% if page_data.time_periods and page_data.time_periods | length %}
+    {% set time_periods = [] %}
+    {% for time_period in page_data.time_periods %}
+        {% set time_periods = time_periods.append(time_period.title) %}
+    {% endfor %}
+    <meta name="tna_root:time_period" content="{{ time_periods | join('; ') }}">
 {%- endif %}
 {% endmacro %}

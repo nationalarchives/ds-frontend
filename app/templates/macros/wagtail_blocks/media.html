@@ -53,43 +53,33 @@
     </div>
     {%- endif %}
     {%- if block_value.media.chapters %}
-    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint">
+    <div class="tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
-          <summary class="tna-details__summary">Chapters and transcript</summary>
+          <summary class="tna-details__summary">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
           <div class="tna-details__content">
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
               <li>
-                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
-                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}" hidden>
+                  <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
+                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading" itemprop="name">
+                  {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
+                </h{{ itemHeadingLevel + 1 }}>
                 {{ chapter.transcript | safe }}
               </li>
               {%- endfor %}
             </ol>
-            <!-- <dl class="tna-dl tna-dl--spaced tna-dl--plain">
-              {%- for chapter in block_value.media.chapters %}
-              <dt>
-                <button class="tna-button tna-button--accent- tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}">
-                  <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                  <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
-                </button>
-              </dt>
-              <dd>
-                {{ (chapter.transcript or '<span class="tna-visually-hidden">No transcript</span>') | safe }}
-              </dd>
-              {%- endfor %}
-            </dl> -->
           </div>
         </details>
       </div>
     </div>
     {%- elif block_value.media.transcript %}
-    <div class="tna-aside tna-aside--tight tna-!--no-margin-top tna-background-tint">
+    <div class="tna-background-tint etna-media-block__transcript">
       {{ tnaDetails({
-        'title': 'Transcript',
+        'title': (block_value.media.type | capitalize) + ' transcript for "' + block_value.title + '"',
         'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
       }) }}
     </div>

@@ -1,0 +1,6 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+
+.etna-event-details {
+  @include colour.thick-keyline-accent(top);
+  border-radius: 0;
+}
