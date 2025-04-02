@@ -15,9 +15,7 @@ def feedback_api_request_handler(uri, params={}):
 
 
 def get_prompts(page_uri, params={}):
-    return {
-        'id': 'xyz789'
-    }
+    return {"id": "xyz789"}
     uri = "prompts/"
     params = params | {
         "page_uri": page_uri,
@@ -26,23 +24,16 @@ def get_prompts(page_uri, params={}):
 
 
 def submit_response_by_uri(page_uri, response=None, index=1):
-    return {
-        'feedback_id': 'abc123'
-    }
+    return {"feedback_id": "abc123"}
 
 
 def submit_responses_by_uri(page_uri, responses=[]):
-    return {
-        'feedback_id': 'abc123'
-    }
+    return {"feedback_id": "abc123"}
 
 
 def submit_response_by_feedback_id(feedback_id, response=None, index=1):
-    return {
-    }
+    return {}
 
 
 def submit_responses_by_feedback_id(feedback_id, responses=[]):
-    return {
-    }
-
+    return {}
