@@ -3,6 +3,9 @@ name: Build and deploy
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
+      - feature/*
 
 concurrency:
   group: cd-${{ github.ref }}
@@ -13,8 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: 3.13
       - uses: snok/install-poetry@v1
       - name: Check Poetry dependencies
         run: poetry show -o
