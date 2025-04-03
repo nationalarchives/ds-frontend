@@ -291,8 +291,27 @@
     </svg>
   </div>
 </div>
+{% for review in page_data.review %}
+<section class="tna-section tna-background-accent">
+  <div class="tna-container">
+    <blockquote class="tna-column tna-column--full tna-exhibition-quote">
+      <h2 class="tna-visually-hidden">Review from {{ review.value.attribution }}</h2>
+      <p class="tna-!--no-margin-top">
+        <span class="tna-visually-hidden">{{ review.value.stars }} stars</span>
+        {% for star in range(0, review.value.stars | int) %}
+        <i class="fa-solid fa-star" aria-hidden="true"></i>
+        {% endfor %}
+      </p>
+      <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body">{{ review.value.quote | safe }}</div>
+      <p class="tna-exhibition-quote__attribution">
+        <cite>{{ review.value.attribution }}</cite>
+      </p>
+    </blockquote>
+  </div>
+</section>
+{% endfor %}
 {% for exhibition_highlights in page_data.exhibition_highlights %}
-<section class="tna-section tna-background-contrast tna-!--margin-top-l tna-!--padding-top-m">
+<section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 id="{{ (page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.exhibition_highlights_title or 'Exhibition highlights' }}</h2>
@@ -338,25 +357,6 @@
       </video>
       {% endif %}
     </div>
-  </div>
-</section>
-{% endfor %}
-{% for review in page_data.review %}
-<section class="tna-section tna-background-accent">
-  <div class="tna-container">
-    <blockquote class="tna-column tna-column--full tna-exhibition-quote">
-      <h2 class="tna-visually-hidden">Review from {{ review.value.attribution }}</h2>
-      <p class="tna-!--no-margin-top">
-        <span class="tna-visually-hidden">{{ review.value.stars }} stars</span>
-        {% for star in range(0, review.value.stars | int) %}
-        <i class="fa-solid fa-star" aria-hidden="true"></i>
-        {% endfor %}
-      </p>
-      <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body">{{ review.value.quote | safe }}</div>
-      <p class="tna-exhibition-quote__attribution">
-        <cite>{{ review.value.attribution }}</cite>
-      </p>
-    </blockquote>
   </div>
 </section>
 {% endfor %}
