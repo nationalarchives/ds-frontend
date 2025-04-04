@@ -47,7 +47,7 @@
           {%- if params.text %}
             <p>{{ params.text }}</p>
           {%- else %}
-            {{ params.body | safe }}
+            {{ params.body | tna_html | safe }}
           {%- endif %}
           {%- if params.actions %}
           <div class="tna-button-group tna-hero__actions">
@@ -84,7 +84,7 @@
           About this <span class="tna-hero__details-summary-icon">i</span>mage
         </summary>
         <div class="tna-hero__information" itemprop="description">
-          {{ params.imageCaption | safe }}
+          {{ params.imageCaption | tna_html | safe }}
         </div>
       </details>
     </figcaption>

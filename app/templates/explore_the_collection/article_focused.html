@@ -84,7 +84,7 @@
     <div class="tna-container tna-!--padding-bottom-s">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
         <div class="tna-large-paragraph tna-!--margin-top-l" itemprop="headline">
-          {{ page_data.intro | safe }}
+          {{ page_data.intro | tna_html | safe }}
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@
             <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
           </hgroup>
           <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
-            {{ page_data.intro | safe }}
+            {{ page_data.intro | tna_html | safe }}
           </div>
         </div>
       </div>

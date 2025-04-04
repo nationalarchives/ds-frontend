@@ -50,7 +50,7 @@
     {% set hero_intro = '' %}
     {% if page_data.subtitle %}
       <meta itemprop="about" content="{{ page_data.subtitle }}">
-      {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
+      {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + (page_data.subtitle | tna_html) + '</div>') | tna_html) %}
     {% endif %}
     {% if page_data.start_date %}
       <meta itemprop="startDate" content="{{ page_data.start_date }}">
@@ -154,7 +154,7 @@
     <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
       <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' + page_data.title) }}</h2>
       <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top">
-        {{ page_data.intro | safe }}
+        {{ page_data.intro | tna_html | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
         {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
@@ -174,7 +174,7 @@
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
             {{ price | safe }}
           </dt>
-          <dd>{{ page_data.booking_details | safe }}</dd>
+          <dd>{{ page_data.booking_details | tna_html | safe }}</dd>
           {% if page_data.audience_heading and page_data.audience_detail %}
           <dt itemprop="audience" itemscope itemtype="https://schema.org/Audience">
             <i class="fa-solid fa-user" aria-hidden="true"></i>
@@ -189,7 +189,7 @@
           </dt>
           <dd itemprop="location">
             {%- if page_data.location_address %}
-            {{ page_data.location_address | safe }}
+            {{ page_data.location_address | tna_html | safe }}
             {%- else %}
             The National Archives<br>
             Kew, Richmond<br>
@@ -322,7 +322,7 @@
           <i class="fa-solid fa-star" aria-hidden="true"></i>
           {% endfor %}
         </p>
-        <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body" itemprop="reviewBody">{{ review.value.quote | safe }}</div>
+        <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body" itemprop="reviewBody">{{ review.value.quote | tna_html | safe }}</div>
         <p class="tna-exhibition-quote__attribution" itemprop="author" itemscope itemtype="https://schema.org/Organization">
           <cite itemprop="name">{{ review.value.attribution }}</cite>
         </p>
@@ -342,7 +342,7 @@
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
             'src': image.image.jpeg.full_url,
-            'description': image.caption | safe
+            'description': image.caption | tna_html | safe
           }) %}
         {% endfor %}
         {{ tnaGallery({

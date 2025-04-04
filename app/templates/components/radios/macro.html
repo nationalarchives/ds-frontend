@@ -18,7 +18,7 @@
     </p>
     {%- elif params.hintHtml %}
     <div id="{{ params.id }}-hint" class="tna-form__hint">
-      {{ params.hintHtml | safe }}
+      {{ params.hintHtml | tna_html | safe }}
     </div>
     {%- endif %}
     {%- if params.error %}

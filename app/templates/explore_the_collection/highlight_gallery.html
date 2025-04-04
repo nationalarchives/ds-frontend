@@ -29,7 +29,7 @@
         <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
       </hgroup>
       <div class="tna-large-paragraph tna-!--margin-top-s">
-        {{ page_data.intro | safe }}
+        {{ page_data.intro | tna_html | safe }}
       </div>
       {%- if page_data.custom_warning_text %}
       {{ tnaWarning({
@@ -68,7 +68,7 @@
             {%- endif %}
           </dl>
           <div class="etna-space-above" itemprop="description">
-            {{ highlight.image.description | safe }}
+            {{ highlight.image.description | tna_html | safe }}
           </div>
           {%- if highlight.image.record %}
           <div class="tna-button-group tna-button-group--small">

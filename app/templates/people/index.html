@@ -25,7 +25,7 @@
 
 {% block contentHeader %}
 <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-{{ page_data.intro | safe }}
+{{ page_data.intro | tna_html | safe }}
 {% endblock %}
 
 {% block afterContentHeader %}

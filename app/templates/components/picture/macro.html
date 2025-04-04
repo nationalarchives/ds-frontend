@@ -33,13 +33,13 @@
       'classes': 'tna-tabs--small'
     }) }}
   {%- else -%}
-    {{ params.information[0].body | safe }}
+    {{ params.information[0].body | tna_html | safe }}
   {%- endif -%}
   </div>
 {%- endif -%}
 {%- if params.caption -%}
   <figcaption class="tna-picture__caption">
-    {{ params.caption | safe }}
+    {{ params.caption | tna_html | safe }}
   </figcaption>
 {%- endif -%}
 </figure>

@@ -34,7 +34,7 @@
           <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
         </hgroup>
         <div class="tna-large-paragraph tna-!--margin-top-s">
-          {{ page_data.intro | safe }}
+          {{ page_data.intro | tna_html | safe }}
         </div>
         {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
@@ -84,7 +84,7 @@
           <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
           {%- if item.caption %}
           <figcaption class="etna-record-gallery__item-description">
-            {{ item.caption | safe }}
+            {{ item.caption | tna_html | safe }}
           </figcaption>
           {%- endif %}
         </figure>

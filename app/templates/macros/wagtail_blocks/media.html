@@ -68,7 +68,7 @@
                 <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading" itemprop="name">
                   {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
                 </h{{ itemHeadingLevel + 1 }}>
-                {{ chapter.transcript | safe }}
+                {{ chapter.transcript | tna_html | safe }}
               </li>
               {%- endfor %}
             </ol>

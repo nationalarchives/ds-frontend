@@ -12,7 +12,7 @@
       'alt': item.alt_text or '',
       'width': item.image.jpeg.width,
       'height': item.image.jpeg.height,
-      'description': image_caption | safe
+      'description': image_caption | tna_html | safe
     }) %}
   {% endfor %}
   {{ tnaGallery({

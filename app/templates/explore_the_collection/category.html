@@ -27,7 +27,7 @@
 {%- endif %}
 {{ tnaHero({
   'title': page_data.title,
-  'body': page_data.intro | safe,
+  'body': page_data.intro | tna_html | safe,
   'imageSrc': page_data.hero_image.jpeg.full_url,
   'imageAlt': page_data.hero_image.alt_text or '',
   'imageWidth': page_data.hero_image.jpeg.width,

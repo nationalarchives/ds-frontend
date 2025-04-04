@@ -99,9 +99,9 @@
   {%- if params.text %}
     <p{% if schemaMarkup %} itemprop="description"{% endif %}>{{ params.text }}</p>
   {%- elif schemaMarkup %}
-  <div itemprop="description">{{ params.body | safe }}</div>
+  <div itemprop="description">{{ params.body | tna_html | safe }}</div>
   {%- else %}
-  {{ params.body | safe }}
+  {{ params.body | tna_html | safe }}
   {%- endif %}
   {%- if params.actions %}
     <div class="tna-card__actions">
