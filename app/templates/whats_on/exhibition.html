@@ -35,7 +35,7 @@
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {% set price = 'Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | currency) %}
-<div itemscope itemtype="https://schema.org/ExhibitionEvent">
+<div itemscope itemtype="https://schema.org/Event">
   <meta itemprop="name" content="{{ page_data.title }}">
   <meta itemprop="eventAttendanceMode" content="https://schema.org/OfflineEventAttendanceMode">
   {% if page_data.price == 0 %}
