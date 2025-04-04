@@ -17,7 +17,7 @@
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
-{% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes) %}
+{% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes, picture_itemprop) %}
   {%- if content_item.type == 'paragraph' %}
   {{ content_item.value.text | tna_html | safe }}
 
@@ -67,7 +67,7 @@
   </dl>
 
   {%- elif content_item.type == 'image' %}
-  {{ wagtailImage(content_item.value, content_item.id, plain_images) }}
+  {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
 
   {%- elif content_item.type == 'quote' %}
   <blockquote class="tna-blockquote">

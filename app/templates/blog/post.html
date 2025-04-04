@@ -40,7 +40,7 @@
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {%- endif %}
-    <article class="etna-article" itemscope itemtype="https://schema.org/Article">
+    <article class="etna-article" itemscope itemtype="https://schema.org/BlogPosting">
       <meta itemprop="datePublished" content="{{ page_data.published_date.value }}">
       <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
       <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
@@ -133,7 +133,7 @@
               'classes': 'tna-!--margin-bottom-m'
             }) }}
             {%- endif %}
-            {{ wagtail_body(page_data.body, 2) }}
+            {{ wagtail_body(page_data.body, 2, None, 'sharedContent') }}
           </div>
         </div>
       </div>

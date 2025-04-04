@@ -50,7 +50,7 @@
   {% block beforeContent %}
     {{ super() }}
   {% endblock %}
-  <main class="tna-main {{ mainClasses }}" id="main-content">
+  <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/Blog">
     {%- if page_data.global_alert or page_data.mourning_notice %}
     <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
@@ -64,11 +64,11 @@
           {%- else %}
           <hgroup class="tna-hgroup-xl">
             <p class="tna-hgroup__supertitle">Blog</p>
-            <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
+            <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitle }}</h1>
           </hgroup>
           {%- endif %}
           {%- if page_data.intro %}
-          <div class="tna-large-paragraph tna-!--margin-top-s">
+          <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="description">
             {{ page_data.intro | tna_html | safe }}
           </div>
           {%- endif %}
@@ -100,7 +100,11 @@
               'fullAreaClick': True,
               'horizontal': True,
               'horizontalFlipped': True,
-              'style': 'contrast'
+              'style': 'contrast',
+              'attributes': {
+                'itemprop': 'blogPost',
+                'itemtype': 'https://schema.org/BlogPosting'
+              }
             } %}
             {%- if blog_posts[0].teaser_image %}
               {% set featured_card_content = dict(featured_card_content, **{
@@ -154,7 +158,11 @@
                     ],
                     'fullAreaClick': True,
                     'style': 'plain',
-                    'classes': 'tna-card--full-height'
+                    'classes': 'tna-card--full-height',
+                    'attributes': {
+                      'itemprop': 'blogPost',
+                      'itemtype': 'https://schema.org/BlogPosting'
+                    }
                   } %}
                   {%- if blog_post.teaser_image %}
                     {% set card_content = dict(card_content, **{
@@ -282,7 +290,7 @@
                 <div class="etna-author-list__details">
                   <p class="etna-author-list__name">
                     <strong>
-                      <link itemprop="url" href="{{ author.author.full_url }}">
+                      <meta itemprop="url" content="{{ author.author.full_url }}">
                       <meta itemprop="jobTitle" content="{{ author.author.role }}">
                       <a href="{{ url_for('wagtail.page', path=author.author.url.strip('/'), page=1) }}" rel="author">
                         <span class="tna-visually-hidden">View all articles by</span>
