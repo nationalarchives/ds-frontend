@@ -33,11 +33,17 @@
     <link rel="canonical" href="{{ request.url }}?page={{ page }}">
     {% endif %}
     {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
-    <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_all_feed') }}" title="The National Archives RSS feed">
-    <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_all_feed', format='atom') }}" title="The National Archives Atom feed">
+    <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_all_feed') }}" title="The National Archives blogs">
+    <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_all_feed', format='atom') }}" title="The National Archives blogs">
+    {% for blog in blogs %}
+    {% if blog.id != page_data.id %}
+    <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" title="{{ blog.title }}">
+    <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" title="{{ blog.title }}">
+    {% endif %}
+    {%- endfor %}
     {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
-    <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id) }}" title="{{ page_data.title }} RSS feed">
-    <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id, format='atom') }}" title="{{ page_data.title }} Atom feed">
+    <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id) }}" title="{{ page_data.title }}">
+    <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id, format='atom') }}" title="{{ page_data.title }}">
     {%- endif %}
 {% endblock %}
 
