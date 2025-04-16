@@ -38,12 +38,14 @@
 <div itemscope itemtype="https://schema.org/Event">
   <meta itemprop="name" content="{{ page_data.title }}">
   <meta itemprop="eventAttendanceMode" content="https://schema.org/OfflineEventAttendanceMode">
+  <meta itemprop="eventStatus" content="EventScheduled">
   {% if page_data.price == 0 %}
   <meta itemprop="isAccessibleForFree" content="true">
   {% endif %}
   <div itemprop="organizer" itemscope itemtype="https://schema.org/Organization">
     <meta itemprop="name" content="The National Archives">
     <meta itemprop="address" content="The National Archives, Kew, Richmond, TW9 4DU">
+    <meta itemprop="url" content="https://www.nationalarchives.gov.uk/">
   </div>
 
   <section class="tna-background-tint">
@@ -187,10 +189,12 @@
             <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
             {{ page_data.location_space_name }}
           </dt>
-          <dd itemprop="location">
+          <dd>
             {%- if page_data.location_address %}
+            <meta itemprop="location" content="{{ page_data.location_address | multiline_address_to_single_line | safe }}">
             {{ page_data.location_address | safe }}
             {%- else %}
+            <meta itemprop="location" content="The National Archives, Kew, Richmond, TW9 4DU">
             The National Archives<br>
             Kew, Richmond<br>
             TW9 4DU

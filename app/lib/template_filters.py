@@ -40,6 +40,16 @@ def slugify(s):
     return s
 
 
+def multiline_address_to_single_line(s):
+    s = strip_wagtail_attributes(s)
+    s = re.sub(r"<br\s*\/?>", ", ", s)
+    s = re.sub(r"</p>\s*<p>", ", ", s)
+    s = re.sub(r"^\s*<p>", "", s)
+    s = re.sub(r"</p>\s*$", "", s)
+    s = re.sub(r"(,\s*){2,}", ", ", s)
+    return s
+
+
 def seconds_to_time(s):
     if not s:
         return "00h 00m 00s"

@@ -14,6 +14,7 @@ from app.lib.template_filters import (
     currency,
     get_url_domain,
     headings_list,
+    multiline_address_to_single_line,
     parse_json,
     pretty_date,
     pretty_date_with_day,
@@ -160,6 +161,7 @@ def create_app(config_class):
     app.add_template_filter(pretty_date_with_day)
     app.add_template_filter(qs_active)
     app.add_template_filter(qs_toggler)
+    app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
