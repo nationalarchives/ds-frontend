@@ -39,7 +39,7 @@
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
       </div>
-      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
         <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
         {% if block_value.media.subtitles_file_full_url %}
         <track kind="captions" src="{{ block_value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
