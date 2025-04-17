@@ -21,6 +21,7 @@ from app.lib.template_filters import (
     qs_active,
     qs_toggler,
     rfc_822_format,
+    seconds_to_iso_8601_duration,
     seconds_to_time,
     sidebar_items_from_wagtail_body,
     slugify,
@@ -163,6 +164,7 @@ def create_app(config_class):
     app.add_template_filter(qs_toggler)
     app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(rfc_822_format)
+    app.add_template_filter(seconds_to_iso_8601_duration)
     app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)

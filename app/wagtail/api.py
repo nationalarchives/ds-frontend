@@ -159,6 +159,11 @@ def authored_pages_paginated(
     )
 
 
+def media(media_id, params={}):
+    uri = f"media/{media_id}/"
+    return wagtail_request_handler(uri, params)
+
+
 def redirect_by_uri(path, params={}):
     uri = "redirects/find/"
     params = params | {

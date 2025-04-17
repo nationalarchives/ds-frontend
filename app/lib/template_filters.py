@@ -60,6 +60,20 @@ def seconds_to_time(s):
     return f"{str(hours).rjust(2, '0')}h {str(minutes).rjust(2, '0')}m {str(seconds).rjust(2, '0')}s"
 
 
+def seconds_to_iso_8601_duration(s):
+    if not s:
+        return "PT0S"
+    total_seconds = int(s)
+    hours = math.floor(total_seconds / 3600)
+    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
+    seconds = total_seconds - (hours * 3600) - (minutes * 60)
+    if hours:
+        return f"PT{hours}H{minutes}M{seconds}S"
+    if minutes:
+        return f"PT{minutes}M{seconds}S"
+    return f"PT{seconds}S"
+
+
 def get_url_domain(s):
     try:
         domain = urlparse(s).netloc

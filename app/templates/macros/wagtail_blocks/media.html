@@ -50,6 +50,10 @@
         <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the video file</a>.</p>
       </video>
       <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
+      <meta itemprop="contentUrl" content="{{ block_value.media.full_url }}">
+      {% if block_value.thumbnail %}
+      <meta itemprop="thumbnailUrl" content="{{ block_value.thumbnail.jpeg.full_url }}">
+      {% endif %}
     </div>
     {%- endif %}
     {%- if block_value.media.chapters %}
@@ -65,7 +69,7 @@
                   <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
-                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading" itemprop="name">
+                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading">
                   {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
                 </h{{ itemHeadingLevel + 1 }}>
                 {{ chapter.transcript | safe }}

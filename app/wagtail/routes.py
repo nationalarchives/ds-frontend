@@ -15,7 +15,7 @@ from flask import (
 from flask_caching import CachedResponse
 from pydash import objects
 
-from .api import page_details, page_details_by_uri, page_preview, redirect_by_uri
+from .api import media, page_details, page_details_by_uri, page_preview, redirect_by_uri
 
 
 @bp.route("/preview/")
@@ -204,3 +204,47 @@ def try_external_redirect(path):
     except Exception as e:
         current_app.logger.error(f"Failed to get redirect: {e}")
         return render_template("errors/api.html"), 502
+
+
+@bp.route("/video/<int:video_id>-<string:video_title>/")
+@cache.cached(key_prefix=page_cache_key_prefix)
+def video_page(video_id, video_title):
+    try:
+        video_data = media(media_id=video_id)
+    except ResourceNotFound:
+        return CachedResponse(
+            response=make_response(render_template("errors/page_not_found.html"), 404),
+            timeout=1,
+        )
+    except ResourceForbidden:
+        return CachedResponse(
+            response=make_response(render_template("errors/forbidden.html"), 403),
+            timeout=1,
+        )
+    except Exception as e:
+        current_app.logger.error(f"Failed to get video: {e}")
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
+    if video_data.get("title") != video_title:
+        return CachedResponse(
+            response=make_response(render_template("errors/page_not_found.html"), 404),
+            timeout=1,
+        )
+
+    # Temporary fix for local development
+    video_data["meta"]["download_url"] = video_data["meta"]["download_url"].replace(
+        "host.docker.internal", "localhost"
+    )
+
+    # Temporary fix until chapters are sorted in the API
+    chapters = sorted(video_data["chapters"], key=lambda x: x["value"]["time"])
+    video_data["chapters"] = chapters
+
+    return CachedResponse(
+        response=make_response(
+            render_template("media/video.html", video_data=video_data)
+        ),
+        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
+    )
