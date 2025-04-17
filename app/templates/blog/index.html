@@ -320,8 +320,9 @@
         <h2 class="tna-heading-l">No posts found</h2>
         {%- if year and month %}
         <p>Try widening your date filtering to <a href="?year={{ year }}">blog posts from {{ year }}</a>.</p>
-        {%- endif %}
+        {%- elif blogs %}
         <p>See <a href="{{ blogs[0].url }}">all our blogs</a>.</p>
+        {%- endif %}
       </div>
     </div>
     {%- endif %}
