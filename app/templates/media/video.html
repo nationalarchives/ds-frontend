@@ -51,7 +51,7 @@
 
     {% if video_data.date %}
     {% set video_details = video_details + '<dt>Date</dt>' %}
-    {% set video_details = video_details + '<dd itemprop="datePublished">' + video_data.date + '</dd>' %}
+    {% set video_details = video_details + '<dd itemprop="datePublished">' + (video_data.date | pretty_date) + '</dd>' %}
     {% endif %}
 
     {% set video_details = '<dl class="tna-dl tna-dl--plain">' + video_details + '</dl>' %}
