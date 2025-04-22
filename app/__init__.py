@@ -12,6 +12,7 @@ from app.lib.context_processor import (
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
     currency,
+    file_type_icon,
     get_url_domain,
     headings_list,
     multiline_address_to_single_line,
@@ -155,6 +156,7 @@ def create_app(config_class):
     )
 
     app.add_template_filter(currency)
+    app.add_template_filter(file_type_icon)
     app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)

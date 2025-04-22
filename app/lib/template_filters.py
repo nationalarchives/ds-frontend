@@ -144,6 +144,21 @@ def rfc_822_format(s):
     return s
 
 
+def file_type_icon(s):
+    s = s.lower()
+    if s in ["pdf", "csv"]:
+        return s
+    if s in ["doc", "docx"]:
+        return "word"
+    if s in ["xls", "xlsx"]:
+        return "excel"
+    if s in ["ppt", "pptx"]:
+        return "powerpoint"
+    if s in ["txt"]:
+        return "lines"
+    return ""
+
+
 def headings_list(s):
     if not s:
         return s
