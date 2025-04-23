@@ -1,6 +1,6 @@
 {%- from 'macros/wagtail_block.html' import wagtail_block -%}
 
-{% macro wagtail_body(body, initial_next_heading_level, footnotes) %}
+{% macro wagtail_body(body, initial_next_heading_level, footnotes, picture_itemprop) %}
   {%- set ns = namespace(next_heading_level=initial_next_heading_level) %}
   {% for body_item in body %}
     {%- if body_item.type == 'content_section' %}
@@ -12,14 +12,14 @@
           'value': {
             'heading': body_item.value.heading
           }
-        }, ns.next_heading_level, True, 'tna-!--padding-top-s') }}
+        }, ns.next_heading_level, True, 'tna-!--padding-top-s', picture_itemprop) }}
         {% for block in body_item.value.content %}
           {%- if block.type == 'sub_heading' %}
             {% set ns.next_heading_level = initial_next_heading_level + 2 %}
           {%- elif block.type == 'sub_sub_heading' %}
             {% set ns.next_heading_level = initial_next_heading_level + 3 %}
           {%- endif %}
-          {{ wagtail_block(block, ns.next_heading_level, True) }}
+          {{ wagtail_block(block, ns.next_heading_level, True, None, picture_itemprop) }}
         {% endfor %}
       </section>
     {%- else %}
@@ -29,7 +29,7 @@
       {%- elif body_item.type == 'sub_sub_heading' %}
         {% set ns.next_heading_level = initial_next_heading_level + 2 %}
       {%- endif %}
-      {{ wagtail_block(body_item, ns.next_heading_level, True) }}
+      {{ wagtail_block(body_item, ns.next_heading_level, True, None, picture_itemprop) }}
     {%- endif %}
   {% endfor %}
   {% if footnotes %}

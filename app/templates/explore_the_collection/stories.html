@@ -51,7 +51,10 @@
         'horizontal': True,
         'style': 'accent',
         'fullAreaClick': True,
-        'classes': 'tna-!--margin-top-l'
+        'classes': 'tna-!--margin-top-l',
+        'attributes': {
+          'itemtype': 'https://schema.org/Article'
+        }
       }) }}
     </div>
   </div>
@@ -78,7 +81,10 @@
         'labelColour': 'green',
         'fullAreaClick': True,
         'style': 'plain',
-        'classes': 'tna-card--full-height'
+        'classes': 'tna-card--full-height',
+        'attributes': {
+          'itemtype': 'https://schema.org/Article'
+        }
       } %}
       {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
@@ -129,7 +135,10 @@
         'labelColour': 'green',
         'fullAreaClick': True,
         'style': 'plain',
-        'classes': 'tna-card--full-height'
+        'classes': 'tna-card--full-height',
+        'attributes': {
+          'itemtype': 'https://schema.org/Article'
+        }
       } %}
       {%- if child.teaser_image %}
         {% set card_content = dict(card_content, **{

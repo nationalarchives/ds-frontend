@@ -1,0 +1,118 @@
+{# Adds schema.org markup #}
+
+{% macro tnaCard(params) %}
+{%- set htmlElement = params.htmlElement if params.htmlElement else 'article' -%}
+{%- set containerClasses = [params.classes] if params.classes else [] -%}
+{%- if params.fullAreaClick and params.href and not params.actions -%}
+  {%- set containerClasses = containerClasses + ['tna-card--full-click'] -%}
+{%- endif -%}
+{%- if params.horizontal -%}
+  {%- set containerClasses = containerClasses + ['tna-card--horizontal'] -%}
+{%- endif -%}
+{%- if params.horizontalOnSmall -%}
+  {%- set containerClasses = containerClasses + ['tna-card--horizontal-on-small'] -%}
+{%- endif -%}
+{%- if params.horizontalFlipped -%}
+  {%- set containerClasses = containerClasses + ['tna-card--flipped'] -%}
+{%- endif -%}
+{%- if params.horizontalSmallImage -%}
+  {%- set containerClasses = containerClasses + ['tna-card--horizontal-small-image'] -%}
+{%- endif -%}
+{%- if params.style -%}
+  {%- set containerClasses = containerClasses + ['tna-card--padded'] -%}
+{%- endif -%}
+{%- if params.style == "plain" -%}
+  {%- set containerClasses = containerClasses + ['tna-card--plain'] -%}
+{%- elif params.style == "contrast" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-contrast'] -%}
+{%- elif params.style == "tint" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
+{%- elif params.style == "accent" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
+{%- endif -%}
+{%- set classes = ' '.join(containerClasses) -%}
+{%- set schemaMarkup = 'itemtype' in params.attributes -%}
+<{{ htmlElement }} class="tna-card{% if classes %} {{ classes }}{% endif %}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}{% if value != '' %}="{{ value }}"{% endif %}{% endfor %}{% endif %}{% if schemaMarkup %} itemscope{% endif %} data-overwritten-component-template="true">
+  {%- if params.supertitle %}
+    <hgroup class="tna-hgroup-{{ params.headingSize or 'm' }} tna-card__heading">
+      <p class="tna-hgroup__supertitle{% if params.plainSupertitle %} tna-hgroup__supertitle--plain{% endif %}">{{ params.supertitle }}</p>
+      <h{{ params.headingLevel }} class="tna-hgroup__title"{% if schemaMarkup %} itemprop="name"{% endif %}>
+        {%- if params.href %}
+        <a href="{{ params.href }}" class="tna-card__heading-link{% if params.hrefClasses %} {{ params.hrefClasses }}{% endif %}" {%- if params.hrefAttributes %}{%- for attribute, value in params.hrefAttributes.items() %} {{ attribute }}{% if value != '' %}="{{ value }}"{% endif %}{% endfor %}{% endif %}{% if schemaMarkup %} itemprop="url"{% endif %}>{{ params.title }}</a>
+        {%- else %}
+        {{ params.title }}
+        {%- endif %}
+      </h{{ params.headingLevel }}>
+    </hgroup>
+  {%- else %}
+    <h{{ params.headingLevel }} class=" tna-heading-{{ params.headingSize or 'm' }} tna-card__heading"{% if schemaMarkup %} itemprop="name"{% endif %}>
+      {%- if params.href %}
+      <a href="{{ params.href }}" class="tna-card__heading-link{% if params.hrefClasses %} {{ params.hrefClasses }}{% endif %}" {%- if params.hrefAttributes %}{%- for attribute, value in params.hrefAttributes.items() %} {{ attribute }}{% if value != '' %}="{{ value }}"{% endif %}{% endfor %}{% endif %}{% if schemaMarkup %} itemprop="url"{% endif %}>{{ params.title }}</a>
+      {%- else %}
+      {{ params.title }}
+      {%- endif %}
+    </h{{ params.headingLevel }}>
+  {%- endif %}
+  {%- if params.imageSrc %}
+    {%- if params.href and (not params.fullAreaClick or params.actions) %}
+    <a href="{{ params.href }}" class="tna-card__image-container{% if params.hrefClasses %} {{ params.hrefClasses }}{% endif %}" tabindex="-1" aria-hidden="true" {%- if params.hrefAttributes %}{%- for attribute, value in params.hrefAttributes.items() %} {{ attribute }}{% if value != '' %}="{{ value }}"{% endif %}{% endfor %}{% endif %}>
+    {%- else %}
+    <div class="tna-card__image-container">
+    {%- endif %}
+      <picture class="tna-card__image">
+        {%- if params.imageSources %}
+        {%- for source in params.imageSources %}
+        <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else params.imageWidth }}" height="{{ source.height if source.height else params.imageHeight }}">
+        {%- endfor %}
+        <source srcset="{{ params.imageSrc }}" type="{{ params.imageType if params.imageType else 'image/jpeg' }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}">
+        {% endif %}
+        <img src="{{ params.imageSrc }}" alt="{{ params.imageAlt }}" width="{{ params.imageWidth }}" height="{{ params.imageHeight }}"{%- if params.lazyImage %} loading="lazy"{% endif %}>
+      </picture>
+      {%- if params.label %}
+      <div class="tna-chip{% if params.labelColour %} tna-chip--{{ params.labelColour }}{% endif %} tna-card__image-label">
+        {{ params.label }}
+      </div>
+      {%- endif %}
+    {%- if params.href and (not params.fullAreaClick or params.actions) %}
+    </a>
+    {%- else %}
+    </div>
+    {%- endif %}
+  {%- endif %}
+  {%- if params.meta or params.text or params.body or params.actions %}
+  <div class="tna-card__body">
+  {%- if params.meta %}
+    <dl class="tna-card__meta tna-dl-chips{{ '' if params.accentMeta else ' tna-dl-chips--plain' }}">
+      {%- for item in params.meta %}
+      <dt>{{ item.title }}</dt>
+      <dd>
+        <span class="tna-dl-chips__item">
+          {%- if item.icon %}
+          <i class="fa-solid fa-fw fa-{{ item.icon }}" aria-hidden="true"></i>
+          {%- endif %}
+          {{ item.text }}
+        </span>
+      </dd>
+      {%- endfor %}
+    </dl>
+  {%- endif %}
+  {%- if params.text %}
+    <p{% if schemaMarkup %} itemprop="description"{% endif %}>{{ params.text }}</p>
+  {%- elif schemaMarkup %}
+  <div itemprop="description">{{ params.body | safe }}</div>
+  {%- else %}
+  {{ params.body | safe }}
+  {%- endif %}
+  {%- if params.actions %}
+    <div class="tna-card__actions">
+    {%- for item in params.actions %}
+      <a href="{{ item.href }}" class="tna-card__action{% if item.classes %} {{ item.classes }}{% endif %}" {%- if item.title %} aria-label="{{ item.title }}" title="{{ item.title }}"{% endif %} {%- if item.attributes %}{% for attribute, value in item.attributes.items() %} {{ attribute }}{% if value != '' %}="{{ value }}"{% endif %}{% endfor %}{% endif %}>
+        {{ item.text }}
+      </a>
+    {%- endfor %}
+    </div>
+  {%- endif %}
+  </div>
+  {%- endif %}
+</{{ htmlElement }}>
+{% endmacro %}

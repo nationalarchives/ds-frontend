@@ -12,14 +12,17 @@ from app.lib.context_processor import (
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
     currency,
+    file_type_icon,
     get_url_domain,
     headings_list,
+    multiline_address_to_single_line,
     parse_json,
     pretty_date,
     pretty_date_with_day,
     qs_active,
     qs_toggler,
     rfc_822_format,
+    seconds_to_iso_8601_duration,
     seconds_to_time,
     sidebar_items_from_wagtail_body,
     slugify,
@@ -154,6 +157,7 @@ def create_app(config_class):
     )
 
     app.add_template_filter(currency)
+    app.add_template_filter(file_type_icon)
     app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
     app.add_template_filter(parse_json)
@@ -161,7 +165,9 @@ def create_app(config_class):
     app.add_template_filter(pretty_date_with_day)
     app.add_template_filter(qs_active)
     app.add_template_filter(qs_toggler)
+    app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(rfc_822_format)
+    app.add_template_filter(seconds_to_iso_8601_duration)
     app.add_template_filter(seconds_to_time)
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)

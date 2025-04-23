@@ -83,6 +83,7 @@ if (cookies.isPolicyAccepted("marketing")) {
 
 document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
   const id = $video.getAttribute("id");
+  const poster = $video.dataset.poster || null;
   const video = videojs($video, {
     experimentalSvgIcons: true,
     enableSmoothSeeking: true,
@@ -90,6 +91,7 @@ document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
     controlBar: {
       volumePanel: false,
     },
+    poster,
   });
   videoJsInstances[id] = video;
 });

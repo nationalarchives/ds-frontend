@@ -40,6 +40,16 @@ def slugify(s):
     return s
 
 
+def multiline_address_to_single_line(s):
+    s = strip_wagtail_attributes(s)
+    s = re.sub(r"<br\s*\/?>", ", ", s)
+    s = re.sub(r"</p>\s*<p>", ", ", s)
+    s = re.sub(r"^\s*<p>", "", s)
+    s = re.sub(r"</p>\s*$", "", s)
+    s = re.sub(r"(,\s*){2,}", ", ", s)
+    return s
+
+
 def seconds_to_time(s):
     if not s:
         return "00h 00m 00s"
@@ -48,6 +58,20 @@ def seconds_to_time(s):
     minutes = math.floor((total_seconds - (hours * 3600)) / 60)
     seconds = total_seconds - (hours * 3600) - (minutes * 60)
     return f"{str(hours).rjust(2, '0')}h {str(minutes).rjust(2, '0')}m {str(seconds).rjust(2, '0')}s"
+
+
+def seconds_to_iso_8601_duration(s):
+    if not s:
+        return "PT0S"
+    total_seconds = int(s)
+    hours = math.floor(total_seconds / 3600)
+    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
+    seconds = total_seconds - (hours * 3600) - (minutes * 60)
+    if hours:
+        return f"PT{hours}H{minutes}M{seconds}S"
+    if minutes:
+        return f"PT{minutes}M{seconds}S"
+    return f"PT{seconds}S"
 
 
 def get_url_domain(s):
@@ -118,6 +142,21 @@ def rfc_822_format(s):
     except ValueError:
         pass
     return s
+
+
+def file_type_icon(s):
+    s = s.lower()
+    if s in ["pdf", "csv"]:
+        return s
+    if s in ["doc", "docx"]:
+        return "word"
+    if s in ["xls", "xlsx"]:
+        return "excel"
+    if s in ["ppt", "pptx"]:
+        return "powerpoint"
+    if s in ["txt"]:
+        return "lines"
+    return ""
 
 
 def headings_list(s):

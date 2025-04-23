@@ -10,7 +10,8 @@
       'fileType': document.file.type | upper,
       'fileSize': document.file.pretty_file_size,
       'fileExtent': document.file.extent,
-      'description': document.file.description
+      'description': document.file.description,
+      'icon': document.file.type | file_type_icon
     }) %}
   {%- endfor %}
   {{ tnaFilesList({

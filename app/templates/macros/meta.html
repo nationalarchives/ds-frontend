@@ -1,5 +1,5 @@
 {% macro meta(page_data) %}
-{% set siteName = page_data.siteName if 'siteName' in page_data else 'The National Archives' %}
+{% set siteName = 'The National Archives' %}
 {% set title = page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' %}
 {% set description = page_data.meta.search_description if page_data.meta else '' %}
 {% set url = page_data.meta.html_url if page_data.meta else request.url %}

@@ -1,7 +1,7 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, plain_image, hide_transcript) %}
+{% macro wagtailImage(block_value, id, plain_image, hide_transcript, itemprop) %}
   {% set information_label_open = 'Open details' %}
   {% set information_label_close = 'Close details' %}
   {% set picture_information = [] %}
@@ -33,7 +33,7 @@
   {%- if block_value.image.copyright %}
     {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
   {%- endif %}
-  {% set picture = tnaPicture({
+  {% set picture_content = {
     'src': block_value.image.jpeg.full_url,
     'alt': block_value.alt_text or '',
     'width': block_value.image.jpeg.width,
@@ -52,7 +52,15 @@
     'informationLabelClose': information_label_close,
     'information': picture_information,
     'classes': 'tna-picture--plain' if plain_image else ''
-  }) %}
+  } %}
+  {% if itemprop %}
+    {% set picture_content = dict(picture_content, **{
+      'attributes': {
+        'itemprop': itemprop
+      }
+    }) %}
+  {% endif %}
+  {% set picture = tnaPicture(picture_content) %}
   {%- if block_value.image.is_sensitive %}
     {{ tnaDetails({
       'title': block_value.image.custom_sensitive_image_warning or 'This image has been marked as potentially sensitive',
