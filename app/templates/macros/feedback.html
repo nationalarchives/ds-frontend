@@ -1,39 +1,83 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/textarea/macro.html' import tnaTextarea -%}
 
-{% macro feedback() %}
-<form id="{{ request.args.get('feedback_id') or 'feedback' }}" action="{{ url_for('feedback.submit', return=request.full_path) }}" method="post" class="tna-container tna-container--centred tna-section">
+{% macro feedback(feedback_data) %}
+<form id="feedback-{{ feedback_data.feedback_form.id }}" method="get" action="{{ request.path }}#feedback-{{ feedback_data.feedback_form.id }}" class="tna-container tna-container--centred tna-section">
   <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
-    <div class="etna-feedback tna-background-tint">
-      <input type="hidden" name="index" value="{{ request.args.get('feedback_index') or 1 }}">
-      <input type="hidden" name="id" value="{{ request.args.get('feedback_id') or '' }}">
-      <div class="etna-feedback__section" data-feedbackindex="1"{{ '' if request.args.get('feedback_index') == '1' or not request.args.get('feedback_index') else ' hidden' }}>
-        <h2 class="tna-heading-s">What did you think of this page?</h2>
-        <div class="tna-button-group tna-button-group--full">
-          {{ tnaButton({
-            'text': 'Easy to use',
-            'icon': 'thumbs-up',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-1',
-              'value': 'easy',
-              'data-enhancetocheckbox': True
-            }
+    <div class="etna-feedback">
+      <input type="hidden" name="feedback_form_id" value="{{ feedback_data.feedback_form.id }}">
+      {% if feedback_data.response_id %}
+      <input type="hidden" name="response_id" value="{{ feedback_data.response_id }}">
+      {% endif %}
+      {% set ns = namespace(feedback_prompt_index=0) %}
+      {% for prompt in feedback_data.feedback_form.prompts %}
+        {% if prompt.id == request.args.get('feedback_prompt_id', '') %}
+          {% set ns.feedback_prompt_index = loop.index %}
+        {% endif %}
+      {% endfor %}
+      {% if feedback_data.feedback_form.prompts[ns.feedback_prompt_index] %}
+        <input type="hidden" name="feedback_prompt_id" value="{{ feedback_data.feedback_form.prompts[ns.feedback_prompt_index].id }}">
+      {% endif %}
+      {% for prompt in feedback_data.feedback_form.prompts %}
+        <div class="etna-feedback__section" data-prompt-id="{{ prompt.id }}" {{ '' if ns.feedback_prompt_index == loop.index - 1 else ' hidden' }}>
+        {% if prompt.prompt_type == 'BinaryPrompt' %}
+          <h2 class="tna-heading-s">{{ prompt.text }}</h2>
+          <div class="tna-button-group tna-button-group--full">
+            {{ tnaButton({
+              'text': prompt.positive_answer_label,
+              'buttonElement': True,
+              'buttonType': 'submit',
+              'attributes': {
+                'name': prompt.id,
+                'value': 'true'
+              }
+            }) }}
+            {{ tnaButton({
+              'text': prompt.negative_answer_label,
+              'buttonElement': True,
+              'buttonType': 'submit',
+              'attributes': {
+                'name': prompt.id,
+                'value': 'false'
+              }
+            }) }}
+          </div>
+        {% elif prompt.prompt_type == 'RangedPrompt' %}
+        <h2 class="tna-heading-s">{{ prompt.text }}</h2>
+          <div class="tna-button-group tna-button-group--full">
+            {% for prompt_option in prompt.options %}
+            {{ tnaButton({
+              'text': prompt_option.label,
+              'buttonElement': True,
+              'buttonType': 'submit',
+              'attributes': {
+                'name': prompt.id,
+                'value': prompt_option.id
+              }
+            }) }}
+            {% endfor %}
+          </div>
+        {% elif prompt.prompt_type == 'TextPrompt' %}
+          {{ tnaTextarea({
+            'label': prompt.text,
+            'headingLevel': 2,
+            'headingSize': 's',
+            'id': 'feedback-' + prompt.id,
+            'name': prompt.id
           }) }}
-          {{ tnaButton({
-            'text': 'Hard to use',
-            'icon': 'thumbs-down',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-1',
-              'value': 'hard',
-              'data-enhancetocheckbox': True
-            }
-          }) }}
+          <div class="tna-button-group tna-button-group--full">
+            {{ tnaButton({
+              'text': 'Submit',
+              'buttonElement': True,
+              'buttonType': 'submit'
+            }) }}
+          </div>
+        {% endif %}
         </div>
-        <h2 class="tna-heading-s">Help us improve this service</h2>
+      {% endfor %}
+      <div class="etna-feedback__section"{{ '' if ns.feedback_prompt_index >= (feedback_data.feedback_form.prompts | length) else ' hidden' }}>
+        <h2 class="tna-heading-m">Thank you</h2>
+        <p>Help us improve this service further.</p>
         <div class="tna-button-group">
           {{ tnaButton({
             'text': 'Complete our short survey (opens in new tab)',
@@ -44,76 +88,6 @@
             }
           }) }}
         </div>
-      </div>
-      <div class="etna-feedback__section" data-feedbackindex="2"{{ '' if request.args.get('feedback_index') == '2' else ' hidden' }}>
-        <h2 class="tna-heading-s">How interesting is this page?</h2>
-        <div class="tna-button-group tna-button-group--full">
-          {{ tnaButton({
-            'text': '1',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-2',
-              'value': 1
-            }
-          }) }}
-          {{ tnaButton({
-            'text': '2',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-2',
-              'value': 2
-            }
-          }) }}
-          {{ tnaButton({
-            'text': '3',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-2',
-              'value': 3
-            }
-          }) }}
-          {{ tnaButton({
-            'text': '4',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-2',
-              'value': 4
-            }
-          }) }}
-          {{ tnaButton({
-            'text': '5',
-            'buttonElement': True,
-            'buttonType': 'submit',
-            'attributes': {
-              'name': 'question-2',
-              'value': 5
-            }
-          }) }}
-        </div>
-      </div>
-      <div class="etna-feedback__section" data-feedbackindex="3"{{ '' if request.args.get('feedback_index') == '3' else ' hidden' }}>
-        {{ tnaTextarea({
-          'label': 'Any other thoughts?',
-          'headingLevel': 2,
-          'headingSize': 's',
-          'id': 'feedback-question-3',
-          'name': 'question-3'
-        }) }}
-        <div class="tna-button-group tna-button-group--full">
-          {{ tnaButton({
-            'text': 'Submit',
-            'buttonElement': True,
-            'buttonType': 'submit'
-          }) }}
-        </div>
-      </div>
-      <div class="etna-feedback__section" data-feedbackindex="4"{{ '' if request.args.get('feedback_index') == '4' else ' hidden' }}>
-        <h2 class="tna-heading-s">Feedback</h2>
-        <p>Thank you for your feedback</p>
       </div>
     </div>
   </div>

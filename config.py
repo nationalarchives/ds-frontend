@@ -92,6 +92,10 @@ class Base(object):
         os.getenv("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS", "True")
     )
 
+    FEEDBACK_API_URL: str = os.environ.get("FEEDBACK_API_URL", "")
+    FEEDBACK_API_KEY: str = os.environ.get("FEEDBACK_API_KEY", "")
+    FEEDBACK_PROJECT_ID: str = os.environ.get("FEEDBACK_PROJECT_ID", "")
+
 
 class Production(Base, Features):
     pass

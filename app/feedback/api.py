@@ -1,39 +1,56 @@
-from app.lib.api import ApiResourceNotFound, JSONAPIClient
+from app.lib.api import JSONAPIClient
 from flask import current_app
-from pydash import objects
 
 
-def feedback_api_request_handler(uri, params={}):
+def feedback_api_client():
     api_url = current_app.config.get("FEEDBACK_API_URL")
-    if not api_url:
-        current_app.logger.critical("FEEDBACK_API_URL not set")
-        raise Exception("FEEDBACK_API_URL not set")
+    api_key = current_app.config.get("FEEDBACK_API_KEY")
+    if not api_url or not api_key:
+        current_app.logger.error("FEEDBACK_API_URL or FEEDBACK_API_KEY not set")
+        raise Exception("FEEDBACK_API_URL or FEEDBACK_API_KEY not set")
     client = JSONAPIClient(api_url)
-    client.add_parameters(params)
-    data = client.get(uri)
-    return data
+    client.add_header("Authorization", f"Token {api_key}")
+    return client
 
 
-def get_prompts(page_uri, params={}):
-    return {"id": "xyz789"}
-    uri = "prompts/"
-    params = params | {
-        "page_uri": page_uri,
+def page_feedback_form(path):
+    if project_id := current_app.config.get("FEEDBACK_PROJECT_ID"):
+        uri = f"/core/projects/{project_id}/feedback-forms/path{path}"
+        return feedback_api_client().get(uri)
+    return []
+
+
+def page_feedback_form_by_id(form_id):
+    if project_id := current_app.config.get("FEEDBACK_PROJECT_ID"):
+        uri = f"/core/projects/{project_id}/feedback-forms/{form_id}/"
+        return feedback_api_client().get(uri)
+    return []
+
+
+def submit_first_feedback(
+    path, feedback_form_id, first_prompt_id, first_prompt_value, metadata={}
+):
+    uri = "/submit/responses/"
+    data = {
+        "url": path,
+        "metadata": metadata,
+        "feedback_form": feedback_form_id,
+        "first_prompt_response": {
+            "prompt": first_prompt_id,
+            # "response": first_prompt_id,  # TODO: Is this correct?
+            "value": first_prompt_value,
+        },
     }
-    return feedback_api_request_handler(uri, params)
+    response = feedback_api_client().post(uri, data)
+    print(f"Response: {response}")
+    return response
 
 
-def submit_response_by_uri(page_uri, response=None, index=1):
-    return {"feedback_id": "abc123"}
-
-
-def submit_responses_by_uri(page_uri, responses=[]):
-    return {"feedback_id": "abc123"}
-
-
-def submit_response_by_feedback_id(feedback_id, response=None, index=1):
-    return {}
-
-
-def submit_responses_by_feedback_id(feedback_id, responses=[]):
-    return {}
+def submit_additional_feedback(response_id, prompt_id, prompt_value):
+    uri = "/submit/prompt-responses/"
+    data = {
+        "prompt": prompt_id,
+        "response": response_id,
+        "value": prompt_value,
+    }
+    return feedback_api_client().post(uri, data)

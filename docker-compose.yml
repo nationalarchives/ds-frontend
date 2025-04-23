@@ -27,7 +27,9 @@ services:
       - FEATURE_NEW_ETC_HOMEPAGE=True
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
-      # - GA4_ID=GTM-KX8ZWVZG
+      - FEEDBACK_API_URL=https://tna-feedback-dev.torchbox.dev/api/v1
+      - FEEDBACK_PROJECT_ID=b8fde30a-428c-4255-b8ad-367504223cf2
+      - FEEDBACK_API_KEY=${FEEDBACK_API_KEY}
     ports:
       - 65535:8080
     volumes:

@@ -1,5 +1,5 @@
 from flask import current_app
-from requests import JSONDecodeError, Timeout, TooManyRedirects, codes, get
+from requests import JSONDecodeError, Timeout, TooManyRedirects, codes, get, post
 
 
 class ResourceNotFound(Exception):
@@ -12,6 +12,10 @@ class ResourceForbidden(Exception):
 
 class JSONAPIClient:
     api_url = ""
+    headers = {
+        "Cache-Control": "no-cache",
+        "Accept": "application/json",
+    }
     params = {}
 
     def __init__(self, api_url, params={}):
@@ -24,18 +28,29 @@ class JSONAPIClient:
     def add_parameters(self, params):
         self.params = self.params | params
 
-    def get(self, path="/"):
+    def add_header(self, key, value):
+        self.headers[key] = value
+
+    def add_headers(self, headers):
+        self.headers = self.headers | headers
+
+    def send(self, method, path="/", data={}):
         url = f"{self.api_url}/{path.lstrip('/')}"
-        headers = {
-            "Cache-Control": "no-cache",
-            "Accept": "application/json",
-        }
         try:
-            response = get(
-                url,
-                params=self.params,
-                headers=headers,
-            )
+            if method == "GET":
+                response = get(
+                    url,
+                    params=self.params,
+                    headers=self.headers,
+                )
+            elif method == "POST":
+                response = post(
+                    url,
+                    headers=self.headers,
+                    json=data,
+                )
+            else:
+                raise Exception("Unsupported method")
         except ConnectionError:
             current_app.logger.error("JSON API connection error")
             raise Exception("A connection error occured")
@@ -48,8 +63,17 @@ class JSONAPIClient:
         except Exception as e:
             current_app.logger.error(f"Unknown JSON API exception: {e}")
             raise Exception(e)
+        return self.process_response(response)
+
+    def get(self, path="/"):
+        return self.send("GET", path)
+
+    def post(self, path="/", data={}):
+        return self.send("POST", path, data)
+
+    def process_response(self, response):
         current_app.logger.debug(response.url)
-        if response.status_code == codes.ok:
+        if response.status_code in [codes.ok, codes.created]:
             try:
                 return response.json()
             except JSONDecodeError:
