@@ -32,7 +32,12 @@ def rss_feeds():
         blog_data=blog_data,
         blogs=objects.get(blogs_data, "items", []),
         breadcrumbs=breadcrumbs(blog_data["id"])
-        + [{"text": blog_data["title"], "href": blog_data["url"]}],
+        + [
+            {
+                "text": blog_data["short_title"] or blog_data["title"],
+                "href": blog_data["url"],
+            }
+        ],
     )
 
 
