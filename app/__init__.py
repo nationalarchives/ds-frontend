@@ -32,6 +32,7 @@ from app.lib.template_filters import (
 )
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
+from sentry_sdk.types import Event, Hint
 
 
 def create_app(config_class):
@@ -39,6 +40,13 @@ def create_app(config_class):
     app.config.from_object(config_class)
 
     if app.config.get("SENTRY_DSN"):
+
+        def before_send(event: Event, hint: Hint) -> Event | None:
+            # Filter out preview page errors
+            if event.get("transaction") == "wagtail.preview_page":
+                return None
+            return event
+
         sentry_sdk.init(
             dsn=app.config.get("SENTRY_DSN"),
             environment=app.config.get("ENVIRONMENT_NAME"),
@@ -50,6 +58,7 @@ def create_app(config_class):
             sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
             traces_sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
             profiles_sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
+            before_send=before_send,
         )
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
