@@ -1,3 +1,5 @@
+from urllib.parse import unquote
+
 from app.lib.api import JSONAPIClient
 from flask import current_app
 from pydash import objects
@@ -167,7 +169,7 @@ def media(media_id, params={}):
 def redirect_by_uri(path, params={}):
     uri = "redirects/find/"
     params = params | {
-        "path": path,
+        "html_path": unquote(path),
     }
     return wagtail_request_handler(uri, params)
 

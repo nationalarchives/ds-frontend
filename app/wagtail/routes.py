@@ -191,19 +191,29 @@ def page(path):
 
 
 def try_external_redirect(path):
+    if not path.startswith("/"):
+        path = "/" + path
+    if path.endswith("/") and len(path) > 1:
+        path = path[:-1]
+    query_string_keys = request.args.keys()
+    query_string = "&".join(
+        [f"{key}={request.args.get(key)}" for key in sorted(query_string_keys)]
+    )
+    if query_string:
+        path = f"{path}?{query_string}"
     try:
-        redirect_data = redirect_by_uri(unquote(f"/{path}/"))
-        if rediect_destination := objects.get(redirect_data, "link", ""):
-            is_permanent = objects.get(redirect_data, "is_permanent", False)
-            return redirect(
-                rediect_destination,
-                code=(301 if is_permanent else 302),
-            )
+        redirect_data = redirect_by_uri(path)
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except Exception as e:
         current_app.logger.error(f"Failed to get redirect: {e}")
         return render_template("errors/api.html"), 502
+    rediect_destination = redirect_data.get("location", "/")
+    is_permanent = redirect_data.get("is_permanent", False)
+    return redirect(
+        rediect_destination,
+        code=(301 if is_permanent else 302),
+    )
 
 
 @bp.route("/video/<int:video_id>-<string:video_title>/")

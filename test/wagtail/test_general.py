@@ -1,4 +1,5 @@
 import unittest
+from urllib.parse import quote
 
 import requests_mock
 
@@ -81,7 +82,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
             f"{self.mock_api_url}/pages/find/?format=json&html_path=/foobar/"
         )
         mock_redirect_endpoint = (
-            f"{self.mock_api_url}/redirects/find/?format=json&path=/foobar/"
+            f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
         )
         mock_respsone = {"message": "not found"}
         m.get(mock_content_endpoint, json=mock_respsone, status_code=404)
@@ -101,13 +102,17 @@ class GeneralWagtailTestCase(unittest.TestCase):
         mock_content_respsone = {"message": "not found"}
         m.get(mock_content_endpoint, json=mock_content_respsone, status_code=404)
         mock_redirect_endpoint = (
-            f"{self.mock_api_url}/redirects/find/?format=json&path=/foobar/"
+            f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
         )
         mock_redirect_respsone = {
             "id": 1,
-            "path": "/foobar",
+            "meta": {
+                "type": "wagtailredirects.Redirect",
+                "detail_url": f"{self.mock_api_url}/redirects/1/",
+            },
+            "old_path": "/foobar",
+            "location": "https://gov.uk/",
             "is_permanent": True,
-            "link": "https://gov.uk/",
         }
         m.get(mock_redirect_endpoint, json=mock_redirect_respsone, status_code=200)
         rv = self.app.get("/foobar/")
@@ -122,15 +127,42 @@ class GeneralWagtailTestCase(unittest.TestCase):
         mock_content_respsone = {"message": "not found"}
         m.get(mock_content_endpoint, json=mock_content_respsone, status_code=404)
         mock_redirect_endpoint = (
-            f"{self.mock_api_url}/redirects/find/?format=json&path=/foobar/"
+            f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
         )
         mock_redirect_respsone = {
             "id": 1,
-            "path": "/foobar",
+            "meta": {
+                "type": "wagtailredirects.Redirect",
+                "detail_url": f"{self.mock_api_url}/redirects/1/",
+            },
+            "old_path": "/foobar",
+            "location": "https://gov.uk/",
             "is_permanent": False,
-            "link": "https://gov.uk/",
         }
         m.get(mock_redirect_endpoint, json=mock_redirect_respsone, status_code=200)
         rv = self.app.get("/foobar/")
         self.assertEqual(rv.status_code, 302)
+        self.assertEqual(rv.location, "https://gov.uk/")
+
+    @requests_mock.Mocker()
+    def test_redirect_with_querystring(self, m):
+        mock_content_endpoint = (
+            f"{self.mock_api_url}/pages/find/?format=json&html_path=/foobar/"
+        )
+        mock_content_respsone = {"message": "not found"}
+        m.get(mock_content_endpoint, json=mock_content_respsone, status_code=404)
+        mock_redirect_endpoint = f"{self.mock_api_url}/redirects/find/?format=json&html_path={quote('/foobar?a=foo&b=bar')}"
+        mock_redirect_respsone = {
+            "id": 1,
+            "meta": {
+                "type": "wagtailredirects.Redirect",
+                "detail_url": f"{self.mock_api_url}/redirects/1/",
+            },
+            "old_path": "/foobar?a=foo&b=bar",
+            "location": "https://gov.uk/",
+            "is_permanent": True,
+        }
+        m.get(mock_redirect_endpoint, json=mock_redirect_respsone, status_code=200)
+        rv = self.app.get("/foobar/?b=bar&a=foo")
+        self.assertEqual(rv.status_code, 301)
         self.assertEqual(rv.location, "https://gov.uk/")

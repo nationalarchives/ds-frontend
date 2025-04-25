@@ -16,6 +16,11 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 308)
         self.assertEqual(rv.location, f"{self.domain}/healthcheck/live/")
 
+    def test_trailing_slash_redirects_with_querystrings(self):
+        rv = self.app.get("/healthcheck/live?foo=bar")
+        self.assertEqual(rv.status_code, 308)
+        self.assertEqual(rv.location, f"{self.domain}/healthcheck/live/?foo=bar")
+
     def test_healthcheck_live(self):
         rv = self.app.get("/healthcheck/live/")
         self.assertEqual(rv.status_code, 200)
