@@ -34,7 +34,6 @@ def person_page(page_data):
         )
         return render_template("errors/server.html"), 500
     total_article_count = objects.get(articles, "meta.total_count", 0)
-    print(total_article_count)
     articles = objects.get(articles, "items", [])
     pages = math.ceil(total_article_count / articles_per_page)
     if page > pages:
