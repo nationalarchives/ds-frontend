@@ -71,7 +71,9 @@ class Base(object):
     CSP_FEATURE_PICTURE_IN_PICTURE: list[str] = os.environ.get(
         "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
     ).split(",")
-    FRAME_DOMAIN_ALLOW: str = os.environ.get("FRAME_DOMAIN_ALLOW", "")
+    CSP_FRAME_ANCESTORS: list[str] = os.environ.get(
+        "CSP_FRAME_ANCESTORS", "'self'"
+    ).split(",")
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 

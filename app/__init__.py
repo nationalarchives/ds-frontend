@@ -128,6 +128,11 @@ def create_app(config_class):
                 if app.config.get("CSP_FRAME_SRC") != csp_self
                 else {}
             ),
+            **(
+                {"frame-ancestors": app.config.get("CSP_FRAME_ANCESTORS")}
+                if app.config.get("CSP_FRAME_ANCESTORS") != csp_self
+                else {}
+            ),
         },
         feature_policy={
             "camera": csp_none,
@@ -139,8 +144,6 @@ def create_app(config_class):
             or csp_self,
         },
         force_https=app.config.get("FORCE_HTTPS"),
-        frame_options="ALLOW-FROM",
-        frame_options_allow_from=app.config.get("FRAME_DOMAIN_ALLOW"),
     )
 
     @app.after_request
