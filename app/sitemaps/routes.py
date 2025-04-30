@@ -47,7 +47,7 @@ def sitemap_index():
 def sitemaps():
     return redirect(
         url_for("sitemaps.sitemap_index"),
-        code=302,
+        code=301,
     )
 
 
