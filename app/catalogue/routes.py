@@ -13,16 +13,11 @@ def index():
     return message
 
 
-@bp.route("/catalogue/")
-def catalogue():
-    return message
-
-
-@bp.route("/catalogue/search/")
+@bp.route("/search/")
 def search():
     return message
 
 
-@bp.route("/catalogue/id/<id>/")
+@bp.route("/id/<id>/")
 def catalogue_item(id):
     return message
