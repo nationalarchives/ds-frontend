@@ -1,6 +1,7 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
 $foreground-brand-colour: "navy";
 $background-brand-colour: "yellow";
@@ -50,10 +51,7 @@ $background-brand-colour: "yellow";
   }
 
   .tna-button-group {
-    // @include media.on-small {
-    //   flex-direction: column;
-    //   align-items: stretch;
-    // }
+    gap: spacing.space(0.5) spacing.space(1);
   }
 }
 
