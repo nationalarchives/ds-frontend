@@ -156,7 +156,6 @@
 
   {%- if page_data.featured_highlight_gallery %}
   <section class="tna-section tna-background-accent-light">
-    <h2 class="tna-visually-hidden">Related galleries</h2>
     {% set galleries = [] %}
     {%- for gallery in page_data.featured_highlight_gallery.highlight_cards %}
     {%- if loop.index <= 4 %}
@@ -173,9 +172,10 @@
     {%- endfor %}
     {{ tnaIndexGrid({
       'supertitle': page_data.featured_highlight_gallery.type_label,
-      'title': 'Explore records about ' + page_data.featured_highlight_gallery.title,
+      'title': 'Related gallery: ' + page_data.featured_highlight_gallery.title,
+      'href': page_data.featured_highlight_gallery.url,
       'text': page_data.featured_highlight_gallery.teaser_text,
-      'headingLevel': 3,
+      'headingLevel': 2,
       'headingSize': 'l',
       'items': galleries,
       'columns': 4,
@@ -184,18 +184,6 @@
       'columnsTiny': 1,
       'classes': 'tna-!--no-margin-top'
     }) }}
-    {%- if page_data.featured_highlight_gallery.highlight_image_count > 4 %}
-    <div class="tna-container tna-!--margin-top-m">
-      <div class="tna-column tna-column--full">
-        <div class="tna-button-group">
-          {{ tnaButton({
-            'text': 'View all ' + (page_data.featured_highlight_gallery.highlight_image_count | string) + ' images',
-            'href': page_data.featured_highlight_gallery.url
-          }) }}
-        </div>
-      </div>
-    </div>
-    {%- endif %}
   </section>
   {%- endif %}
 
