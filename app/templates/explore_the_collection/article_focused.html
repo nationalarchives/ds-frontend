@@ -39,7 +39,7 @@
   <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
   {%- if page_data.hero_image and page_data.hero_image_small %}
   {%- if page_data.global_alert or page_data.mourning_notice %}
-  <div class="tna-background-accent-light">
+  <div class="tna-background-accent">
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
   </div>
   {%- endif %}
