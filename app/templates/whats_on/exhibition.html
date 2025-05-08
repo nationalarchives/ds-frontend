@@ -352,7 +352,7 @@
         {{ tnaGallery({
           'title': exhibition_highlights.value.title,
           'headingLevel': 3,
-          'text': exhibition_highlights.value.description | tna_html | safe,
+          'body': exhibition_highlights.value.description | tna_html | safe,
           'items': gallery_images,
           'id': 'gallery-' + exhibition_highlights.id
         }) }}
@@ -639,7 +639,9 @@
     'style': 'accent',
     'attributes': {
       'id': shop.value.title | slugify
-    }
+    },
+    'noMicrodata': True,
+    'element': 'div'
   }) }}
 {% endfor %}
 {{ feedback() }}
