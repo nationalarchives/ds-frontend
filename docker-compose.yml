@@ -30,13 +30,14 @@ services:
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
       # - GA4_ID=GTM-KX8ZWVZG
+    depends_on:
+      - redis
     ports:
       - 65535:8080
     volumes:
       - ./:/app
 
   redis:
-    container_name: redis
     image: redis:latest
 
   dev:
