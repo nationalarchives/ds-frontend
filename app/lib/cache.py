@@ -7,11 +7,9 @@ cache = Cache()
 def page_cache_key_prefix():
     keys = [
         request.full_path,
-        # request.cookies.get("cookie_preferences_set", ""),
-        request.cookies.get(
-            "dontShowCookieNotice", ""
-        ),  # TODO: Change once more pages are on the new frontend
-        request.cookies.get("theme", ""),
+        # request.cookies.get("cookie_preferences_set", "false"),
+        request.cookies.get("dontShowCookieNotice", "0"),
+        request.cookies.get("theme", "0"),
     ]
     return "_".join(keys)
 

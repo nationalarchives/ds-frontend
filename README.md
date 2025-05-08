@@ -57,7 +57,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `PREFERRED_URL_SCHEME`                | Set the default protocol for generating links                               | production/staging: `https`, develop: `http`   |
 | `CACHE_TYPE`                          | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching   | `FileSystemCache`                              |
 | `CACHE_DEFAULT_TIMEOUT`               | The number of seconds to cache pages for                                    | production: `300`, staging: `10`, develop: `1` |
-| `CACHE_DIR`                           | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                         |
+| `CACHE_DIR`                           | Directory for cache when using `CACHE_TYPE=FileSystemCache`                 | `/tmp`                                         |
+| `CACHE_REDIS_URL`                     | The connection string for Redis when using `CACHE_TYPE=RedisCache`          | _none_                                         |
 | `GA4_ID`                              | The Google Analytics 4 ID                                                   | _none_                                         |
 | `REDIRECT_WAGTAIL_ALIAS_PAGES`        | If true, redirect aliased Wagtail pages to the URI of their "original" page | `True`                                         |
 | `SERVE_WAGTAIL_PAGE_REDIRECTIONS`     | If true, forward Wagtail page redirects to the user rather than proxying    | `True`                                         |

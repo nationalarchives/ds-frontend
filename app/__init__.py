@@ -72,6 +72,7 @@ def create_app(config_class):
             "CACHE_DEFAULT_TIMEOUT": app.config.get("CACHE_DEFAULT_TIMEOUT"),
             "CACHE_IGNORE_ERRORS": app.config.get("CACHE_IGNORE_ERRORS"),
             "CACHE_DIR": app.config.get("CACHE_DIR"),
+            "CACHE_REDIS_URL": app.config.get("CACHE_REDIS_URL"),
         },
     )
 

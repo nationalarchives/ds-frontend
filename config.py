@@ -81,6 +81,7 @@ class Base(object):
     CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
+    CACHE_REDIS_URL: str = os.environ.get("CACHE_REDIS_URL", "")
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 

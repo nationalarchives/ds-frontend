@@ -23,6 +23,8 @@ services:
       - CSP_FRAME_SRC='self',*.youtube-nocookie.com,https://www.openstreetmap.org
       - CSP_FEATURE_PICTURE_IN_PICTURE='self',https://www.youtube-nocookie.com
       - CSP_FRAME_ANCESTORS=localhost:8000
+      - CACHE_TYPE=RedisCache
+      - CACHE_REDIS_URL=redis://redis:6379/0
       - FEATURE_PHASE_BANNER=False
       - FEATURE_NEW_ETC_HOMEPAGE=True
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
@@ -32,6 +34,10 @@ services:
       - 65535:8080
     volumes:
       - ./:/app
+
+  redis:
+    container_name: redis
+    image: redis:latest
 
   dev:
     image: ghcr.io/nationalarchives/tna-python-dev:preview
