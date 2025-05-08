@@ -15,7 +15,14 @@ from flask import (
 from flask_caching import CachedResponse
 from pydash import objects
 
-from .api import media, page_details, page_details_by_uri, page_preview, redirect_by_uri
+from .api import (
+    image,
+    media,
+    page_details,
+    page_details_by_uri,
+    page_preview,
+    redirect_by_uri,
+)
 
 
 @bp.route("/preview/")
@@ -255,6 +262,46 @@ def video_page(video_id, video_title):
     return CachedResponse(
         response=make_response(
             render_template("media/video.html", video_data=video_data)
+        ),
+        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
+    )
+
+
+@bp.route("/image/<int:image_id>-<string:image_title>/")
+@cache.cached(key_prefix=page_cache_key_prefix)
+def image_page(image_id, image_title):
+    try:
+        image_data = image(image_id=image_id)
+    except ResourceNotFound:
+        return CachedResponse(
+            response=make_response(render_template("errors/page_not_found.html"), 404),
+            timeout=1,
+        )
+    except ResourceForbidden:
+        return CachedResponse(
+            response=make_response(render_template("errors/forbidden.html"), 403),
+            timeout=1,
+        )
+    except Exception as e:
+        current_app.logger.error(f"Failed to get video: {e}")
+        return CachedResponse(
+            response=make_response(render_template("errors/api.html"), 502),
+            timeout=1,
+        )
+    if image_data.get("title") != image_title:
+        return CachedResponse(
+            response=make_response(render_template("errors/page_not_found.html"), 404),
+            timeout=1,
+        )
+
+    # Temporary fix for local development
+    image_data["meta"]["download_url"] = image_data["meta"]["download_url"].replace(
+        "host.docker.internal", "localhost"
+    )
+
+    return CachedResponse(
+        response=make_response(
+            render_template("media/image.html", image_data=image_data)
         ),
         timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )

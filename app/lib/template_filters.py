@@ -40,6 +40,14 @@ def slugify(s):
     return s
 
 
+def unslugify(s):
+    if not s:
+        return s
+    s = s.split("-")
+    s[0] = s[0].capitalize()
+    return " ".join(s)
+
+
 def multiline_address_to_single_line(s):
     s = strip_wagtail_attributes(s)
     s = re.sub(r"<br\s*\/?>", ", ", s)
