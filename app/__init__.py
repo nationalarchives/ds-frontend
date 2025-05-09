@@ -27,6 +27,7 @@ from app.lib.template_filters import (
     sidebar_items_from_wagtail_body,
     slugify,
     tna_html,
+    unslugify,
     wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
@@ -184,6 +185,7 @@ def create_app(config_class):
     app.add_template_filter(sidebar_items_from_wagtail_body)
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)
+    app.add_template_filter(unslugify)
     app.add_template_filter(wagtail_streamfield_contains_media)
     app.add_template_filter(wagtail_table_parser)
 

@@ -166,6 +166,11 @@ def media(media_id, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def image(image_id, params={}):
+    uri = f"images/{image_id}/"
+    return wagtail_request_handler(uri, params)
+
+
 def redirect_by_uri(path, params={}):
     uri = "redirects/find/"
     params = params | {
