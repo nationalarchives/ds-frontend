@@ -368,7 +368,6 @@
         {% if video.type == 'youtube' %}
         {{ wagtailYouTubeVideo(video.value, video.id) }}
         {% elif video.type == 'media' %}
-        <!-- {{ wagtailMedia(video.value, video.id, 2) }} -->
         <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
           <source src="{{ video.value.media.full_url }}" type="{{ video.value.media.mime }}">
           {% if video.value.media.subtitles_file_full_url %}
