@@ -242,16 +242,7 @@ def video_page(video_id, video_title):
             response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
-
-    # Temporary fix for local development
-    video_data["meta"]["download_url"] = video_data["meta"]["download_url"].replace(
-        "host.docker.internal", "localhost"
-    )
-
-    # Temporary fix until chapters are sorted in the API
-    chapters = sorted(video_data["chapters"], key=lambda x: x["value"]["time"])
-    video_data["chapters"] = chapters
-
+    
     return CachedResponse(
         response=make_response(
             render_template("media/video.html", video_data=video_data)

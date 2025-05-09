@@ -13,12 +13,13 @@
 {% block content %}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/VideoObject">
   <meta itemprop="uploadDate" content="{{ video_data.created_at }}">
-  <meta itemprop="contentUrl" content="{{ video_data.meta.download_url }}">
+  <meta itemprop="contentUrl" content="{{ video_data.file }}">
   {% if video_data.thumbnail %}
   <!-- <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.full_url }}"> -->
   {% endif %}
 
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+    {{ video_data }}
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Video</p>
       <h1 class="tna-hgroup__title" itemprop="name">{{ video_data.title }}</h1>
@@ -29,14 +30,14 @@
     </div>
     {% endif %}
     <video id="video" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if video_data.transcript %} aria-label="Transcript provided below"{%- endif %}>
-      <source src="{{ video_data.meta.download_url }}" type="{{ video_data.mime }}" itemprop="contentUrl">
+      <source src="{{ video_data.file }}" type="{{ video_data.mime }}" itemprop="contentUrl">
       {% if video_data.subtitles_file_full_url %}
       <track kind="captions" src="{{ video_data.subtitles_file_full_url }}" srclang="en" label="English" default>
       {% endif %}
       {% if video_data.chapters_file_full_url %}
       <track kind="chapters" src="{{ video_data.chapters_file_full_url }}" srclang="en">
       {% endif %}
-      <p>Your browser doesn't support HTML5 video. <a href="{{ video_data.meta.download_url }}">Download the video file</a>.</p>
+      <p>Your browser doesn't support HTML5 video. <a href="{{ video_data.file }}">Download the video file</a>.</p>
     </video>
 
     {% set video_details = '' %}
@@ -79,15 +80,15 @@
       <ol class="tna-ol tna-ol--plain">
         {%- for chapter in video_data.chapters %}
         <li class="tna-!--margin-bottom-m">
-          <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.value.time }}" aria-controls="video" hidden>
+          <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="video" hidden>
             <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
-            <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.value.time | seconds_to_time }} - {{ chapter.value.heading }}</span>
+            <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
           </button>
           <h3 class="tna-heading-m media-chapter-heading">
-            {{ chapter.value.time | seconds_to_time }} - {{ chapter.value.heading }}
+            {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
           </h3>
-          {% if chapter.value.transcript %}
-          {{ chapter.value.transcript | safe }}
+          {% if chapter.transcript %}
+          {{ chapter.transcript | safe }}
           {% else %}
           <p>[No transcript provided for chapter]</p>
           {% endif %}
