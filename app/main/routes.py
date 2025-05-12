@@ -62,7 +62,7 @@ def set_cookies():
         samesite="Lax",
     )
     response.set_cookie(
-        "dontShowCookieNotice",  # TODO: Change to "cookie_preferences_set" once more pages are on the new frontend
+        "dontShowCookieNotice",
         "true",
         domain=current_app.config.get("COOKIE_DOMAIN"),
         secure=True,

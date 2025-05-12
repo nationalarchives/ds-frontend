@@ -14,8 +14,7 @@ if (cookies) {
       cookies.setPolicy("usage", formData.get("usage") === "true");
       cookies.setPolicy("settings", formData.get("settings") === "true");
       cookies.setPolicy("marketing", formData.get("marketing") === "true");
-      // cookies.set("cookie_preferences_set", true);
-      cookies.set("dontShowCookieNotice", true); // TODO: Change once more pages are on the new frontend
+      cookies.set("dontShowCookieNotice", true);
       $successMessage.removeAttribute("hidden");
       $successMessage.setAttribute("tabindex", "0");
       $successMessage.focus();

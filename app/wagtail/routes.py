@@ -249,7 +249,7 @@ def video_page(video_id, video_title):
             response=make_response(render_template("errors/page_not_found.html"), 404),
             timeout=1,
         )
-    
+
     return CachedResponse(
         response=make_response(
             render_template("media/video.html", video_data=video_data)

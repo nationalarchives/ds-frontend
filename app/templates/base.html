@@ -8,7 +8,7 @@
 {%- from 'components/header/macro.html' import tnaHeader -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
-{# TODO: Remove once more pages can support dark mode #}
+{# Explicitly set light mode until more pages support dark mode #}
 {%- set theme = 'light' -%}
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
@@ -150,7 +150,6 @@
 {% endblock %}
 
 {% block footer %}
-{# TODO: Allow themeSelector once more pages can support dark mode #}
 {{ tnaFooter({
   'themeSelector': False,
   'currentTheme': theme,
