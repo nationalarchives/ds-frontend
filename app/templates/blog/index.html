@@ -24,13 +24,14 @@
 {% block head %}
 {{ super() }}
 {{ meta(page_data) }}
-    {% if 'page' in request.args %}
-    <!-- TODO: Escape? -->
-    <link rel="canonical" href="{{ request.url }}">
-    {% elif (request.args | length) %}
-    <link rel="canonical" href="{{ request.url }}&page={{ page }}">
+    {% if 'day' in request.args and 'month' in request.args and 'year' in request.args %}
+    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&day={{ request.args.get('day') }}&page={{ request.args.get('page') }}">
+    {% elif 'month' in request.args and 'year' in request.args %}
+    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&page={{ request.args.get('page') }}">
+    {% elif 'year' in request.args %}
+    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&page={{ request.args.get('page') }}">
     {% else %}
-    <link rel="canonical" href="{{ request.url }}?page={{ page }}">
+    <link rel="canonical" href="{{ request.base_url }}?page={{ page }}">
     {% endif %}
     {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_all_feed') }}" title="The National Archives blogs">
