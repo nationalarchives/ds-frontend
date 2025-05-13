@@ -33,6 +33,10 @@
         padding-bottom: 0;
       }
     }
+
+    .tna-card + .tna-card {
+      margin-top: spacing.space(1);
+    }
   }
 
   &__section-button-header {
