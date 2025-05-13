@@ -2,8 +2,7 @@ import json
 from datetime import datetime
 from urllib.parse import unquote
 
-from app.lib.cache import cache
-from flask import request
+from flask import current_app, request
 
 
 def now_iso_8601():
@@ -83,3 +82,10 @@ def pretty_date_range(s_from, s_to, show_days=True):
     if date_to:
         return f"To {date_to.strftime('%-d %B %Y' if show_days else "%B %Y")}"
     return f"{s_from}–{s_to}"
+
+
+def display_phase_banner():
+    return any(
+        request.path.startswith(uri)
+        for uri in current_app.config.get("SHOW_PHASE_BANNER_ON_URIS", [])
+    )

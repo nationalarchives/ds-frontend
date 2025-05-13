@@ -4,6 +4,7 @@ import sentry_sdk
 from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
+    display_phase_banner,
     now_iso_8601,
     now_iso_8601_no_time,
     now_rfc_822,
@@ -193,6 +194,7 @@ def create_app(config_class):
     def context_processor():
         return dict(
             cookie_preference=cookie_preference,
+            display_phase_banner=display_phase_banner,
             now_iso_8601=now_iso_8601,
             now_iso_8601_no_time=now_iso_8601_no_time,
             now_rfc_822=now_rfc_822,
