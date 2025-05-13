@@ -1,3 +1,6 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  borderVars;
+
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
@@ -207,6 +210,11 @@ p.etna-small-paragraph {
 
     @include colour.colour-border("keyline", 1px);
     border-top-width: 0;
+
+    &:last-child {
+      border-radius: 0 0 borderVars.$rounded-border-radius
+        borderVars.$rounded-border-radius;
+    }
   }
 
   &__image {
