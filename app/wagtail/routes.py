@@ -326,7 +326,7 @@ def search_explore_the_collection():
     if pages > 0 and page > pages:
         return render_template("errors/page_not_found.html"), 404
     return render_template(
-        "explore_the_collection_search/index.html",
+        "explore_the_collection/search.html",
         q=query,
         existing_qs=existing_qs_as_dict,
         global_alert=global_alerts(),
