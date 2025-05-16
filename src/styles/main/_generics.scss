@@ -166,10 +166,6 @@ p.etna-small-paragraph {
   flex-wrap: wrap;
   align-items: baseline;
   gap: spacing.space(0.75);
-
-  a[href^="mailto:"] {
-    word-break: break-word;
-  }
 }
 
 #page-body {

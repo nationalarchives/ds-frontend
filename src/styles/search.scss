@@ -1,6 +1,9 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
+@use "@nationalarchives/frontend/nationalarchives/components/checkboxes";
+@use "@nationalarchives/frontend/nationalarchives/components/radios";
+
 .tna-button-group {
   &--horizontal-on-tiny {
     @include media.on-tiny {

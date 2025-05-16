@@ -1,8 +1,11 @@
+import math
 from urllib.parse import quote, unquote
 
 from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix
+from app.lib.pagination import pagination_object
 from app.wagtail import bp
+from app.wagtail.api import global_alerts, search
 from app.wagtail.render import render_content_page
 from flask import (
     current_app,
@@ -295,4 +298,42 @@ def image_page(image_id, image_title):
             render_template("media/image.html", image_data=image_data)
         ),
         timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
+    )
+
+
+@bp.route("/explore-the-collection/search/")
+def search_explore_the_collection():
+    children_per_page = 12
+    page = (
+        int(request.args.get("page"))
+        if request.args.get("page") and request.args.get("page").isnumeric()
+        else 1
+    )
+    query = unquote(request.args.get("q", "")).strip(" ")
+    existing_qs_as_dict = request.args.to_dict()
+    params = {"descendant_of_path": "/explore-the-collection/"}
+    order = request.args.get("order", "relevance")
+    if order != "relevance":
+        params = params | {"order": order}
+    results = search(
+        query=query,
+        page=page,
+        limit=children_per_page,
+        params=params,
+    )
+    total_results = objects.get(results, "meta.total_count", 0)
+    pages = math.ceil(total_results / children_per_page)
+    if pages > 0 and page > pages:
+        return render_template("errors/page_not_found.html"), 404
+    return render_template(
+        "explore_the_collection_search/index.html",
+        q=query,
+        existing_qs=existing_qs_as_dict,
+        global_alert=global_alerts(),
+        results=results,
+        page=page,
+        pages=pages,
+        children_per_page=children_per_page,
+        total_results=total_results,
+        pagination=pagination_object(page, pages, request.args),
     )

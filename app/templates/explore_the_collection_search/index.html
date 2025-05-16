@@ -2,14 +2,15 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
-{%- from 'components/compound-filters/macro.html' import tnaCompoundFilters -%}
+{%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
+{%- from 'components/radios/macro.html' import tnaRadios -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'components/skip-link/macro.html' import tnaSkipLink -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'explore_the_collection/partials/discovery-search.html' import discoverySearch -%}
 
-{%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'green' -%}
 
 {%- set pageTitle = 'Search the website' -%}
 {%- set breadcrumbs = [
@@ -18,8 +19,8 @@
     'href': '/'
   },
   {
-    'text': 'Search',
-    'href': url_for('search.index')
+    'text': 'Explore the collection',
+    'href': '/explore-the-collection/'
   }
 ] -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
@@ -39,61 +40,92 @@
 
 {% block content %}
 <div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
-  <div class="tna-container">
-    <form id="search-site" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('site_search.index') }}" role="search">
+  <form id="search" class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {{ tnaSearchField({
-        'label': 'Search The National Archives website',
+        'label': 'Search "Explore the collection"',
         'headingLevel': 1,
         'headingSize': 'l',
-        'hint': 'Find articles and research guides',
+        'hint': 'Find articles and stories about our collection',
         'id': 'search',
         'name': 'q',
         'value': q
       }) }}
-      {% if q %}
-      <!-- <h2 class="tna-heading-s tna-!--no-padding-top">Selected filters</h2>
-      {{ tnaCompoundFilters({
+      {# {{ tnaCheckboxes({
+        'label': 'Page types',
+        'headingLevel': 2,
+        'headingSize': 'm',
+        'id': 'types',
+        'name': 'types',
         'items': [
           {
-            'label': '"' + q + '"',
-            'href': '?' + existing_qs|qs_toggler('q', q),
-            'title': 'Start a new search'
+            'text': 'explorer_index_page',
+            'value': 'collections.ExplorerIndexPage'
+          },
+          {
+            'text': 'highlight_gallery_page',
+            'value': 'collections.HighlightGalleryPage'
+          },
+          {
+            'text': 'category_index_page',
+            'value': 'collections.TimePeriodExplorerIndexPage'
+          },
+          {
+            'text': 'categories_page',
+            'value': 'collections.TimePeriodExplorerPage'
+          },
+          {
+            'text': 'category_index_page',
+            'value': 'collections.TopicExplorerIndexPage'
+          },
+          {
+            'text': 'categories_page',
+            'value': 'collections.TopicExplorerPage'
+          },
+          {
+            'text': 'article_index_page',
+            'value': 'articles.ArticleIndexPage'
+          },
+          {
+            'text': 'article_page',
+            'value': 'articles.ArticlePage'
+          },
+          {
+            'text': 'article_page_focused',
+            'value': 'articles.FocusedArticlePage'
+          },
+          {
+            'text': 'record_article_page',
+            'value': 'articles.RecordArticlePage'
           }
         ],
-        'classes': 'tna-!--margin-top-xs'
-      }) }} -->
-      {% endif %}
-    </form>
-    <!-- <div class="tna-column tna-column--full">
-      <h2 class="tna-visually-hidden">Change results view</h2>
-      <div class="tna-button-group tna-button-group--small tna-button-group--horizontal-on-tiny">
-        {{ tnaButton({
-          'text': 'List view' + (' (current)' if not request.args.view or request.args.view == 'list' else ''),
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'icon': 'list',
-          'accent': not request.args.view or request.args.view == 'list',
-          'attributes': {
-            'name': 'view',
-            'value': 'list',
-            'form': 'search-site'
+        'inline': True
+      }) }} #}
+      {{ tnaRadios({
+        'label': 'Order results by',
+        'headingLevel': 2,
+        'headingSize': 'm',
+        'id': 'order',
+        'name': 'order',
+        'items': [
+          {
+            'text': 'Relevance',
+            'value': 'relevance'
+          },
+          {
+            'text': 'Most recently published first',
+            'value': '-first_published_at'
+          },
+          {
+            'text': 'Alphabetical A-Z',
+            'value': 'title'
           }
-        }) }}
-        {{ tnaButton({
-          'text': 'Grid view' + (' (current)' if request.args.view == 'grid' else ''),
-          'buttonElement': True,
-          'buttonType': 'submit',
-          'icon': 'grip',
-          'accent': request.args.view == 'grid',
-          'attributes': {
-            'name': 'view',
-            'value': 'grid',
-            'form': 'search-site'
-          }
-        }) }}
-      </div>
-    </div> -->
-  </div>
+        ],
+        'selected': request.args.order or 'relevance',
+        'inline': True
+      }) }}
+    </div>
+  </form>
 </div>
 {% if total_results %}
 <section id="results">
