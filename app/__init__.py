@@ -205,6 +205,8 @@ def create_app(config_class):
                 "BUILD_VERSION": app.config.get("BUILD_VERSION"),
                 "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
                 "GA4_ID": app.config.get("GA4_ID"),
+                "MATOMO_URL": app.config.get("MATOMO_URL"),
+                "MATOMO_SITE_ID": app.config.get("MATOMO_SITE_ID"),
                 "SENTRY_JS_ID": app.config.get("SENTRY_JS_ID"),
                 "SENTRY_SAMPLE_RATE": app.config.get("SENTRY_SAMPLE_RATE"),
             },

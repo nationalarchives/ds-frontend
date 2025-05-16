@@ -84,6 +84,8 @@ class Base(object):
     CACHE_REDIS_URL: str = os.environ.get("CACHE_REDIS_URL", "")
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
+    MATOMO_URL: str = os.environ.get("MATOMO_URL", "")
+    MATOMO_SITE_ID: str = os.environ.get("MATOMO_SITE_ID", "")
 
     REDIRECT_WAGTAIL_ALIAS_PAGES: bool = strtobool(
         os.getenv("REDIRECT_WAGTAIL_ALIAS_PAGES", "True")

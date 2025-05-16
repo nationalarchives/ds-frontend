@@ -30,6 +30,8 @@ services:
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
       # - GA4_ID=GTM-KX8ZWVZG
+      - MATOMO_URL=https://matomo.tna.dblclk.dev
+      - MATOMO_SITE_ID=1
     depends_on:
       - redis
     ports:

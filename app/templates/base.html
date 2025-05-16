@@ -13,6 +13,8 @@
 {%- set themeAccent = themeAccent or 'yellow' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
+  'data-matomo-url': app_config.MATOMO_URL or '',
+  'data-matomo-site-id': app_config.MATOMO_SITE_ID or '',
   'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
 

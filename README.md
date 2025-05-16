@@ -60,6 +60,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CACHE_DIR`                           | Directory for cache when using `CACHE_TYPE=FileSystemCache`                 | `/tmp`                                         |
 | `CACHE_REDIS_URL`                     | The connection string for Redis when using `CACHE_TYPE=RedisCache`          | _none_                                         |
 | `GA4_ID`                              | The Google Analytics 4 ID                                                   | _none_                                         |
+| `MATOMO_URL`                          | The base URL of the Matomo instance                                         | _none_                                         |
+| `MATOMO_SITE_ID`                      | The Matomo site ID                                                          | _none_                                         |
 | `REDIRECT_WAGTAIL_ALIAS_PAGES`        | If true, redirect aliased Wagtail pages to the URI of their "original" page | `True`                                         |
 | `SERVE_WAGTAIL_PAGE_REDIRECTIONS`     | If true, forward Wagtail page redirects to the user rather than proxying    | `True`                                         |
 | `SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS` | If true, forward Wagtail redirects to external links                        | `True`                                         |
