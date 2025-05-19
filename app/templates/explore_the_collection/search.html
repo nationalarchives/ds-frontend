@@ -43,7 +43,7 @@
   <form id="search" class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
     <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
       {{ tnaSearchField({
-        'label': 'Search "Explore the collection"',
+        'label': 'Search Explore the collection',
         'headingLevel': 1,
         'headingSize': 'l',
         'hint': 'Find articles and stories from our collection',
@@ -114,11 +114,11 @@
             'value': 'relevance'
           },
           {
-            'text': 'Most recently published first',
+            'text': 'Date published',
             'value': '-first_published_at'
           },
           {
-            'text': 'Alphabetical A-Z',
+            'text': 'Title (A-Z)',
             'value': 'title'
           }
         ],
