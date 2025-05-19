@@ -202,6 +202,7 @@ sup[data-footnoteid] {
 }
 
 @keyframes scrollfade {
+  /* stylelint-disable keyframe-block-no-duplicate-selectors */
   0% {
     --left-fade: 0;
   }
@@ -219,6 +220,7 @@ sup[data-footnoteid] {
   100% {
     --right-fade: 0;
   }
+  /* stylelint-enable keyframe-block-no-duplicate-selectors */
 }
 
 .tna-table-wrapper {
