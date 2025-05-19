@@ -166,6 +166,7 @@ p.etna-small-paragraph {
   flex-wrap: wrap;
   align-items: baseline;
   gap: spacing.space(0.75);
+  overflow-wrap: anywhere;
 }
 
 #page-body {
@@ -279,27 +280,6 @@ p.etna-small-paragraph {
     }
   }
 }
-
-// TEMP FIX
-// .tna-heading-s,
-// .tna-heading-m,
-// .tna-heading-l,
-// .tna-heading-xl,
-// .tna-form__heading,
-// .tna-form__heading--s,
-// .tna-form__heading--m,
-// .tna-form__heading--l,
-// .tna-form__heading--xl,
-// .tna-hgroup-s .tna-hgroup__title,
-// .tna-hgroup-m .tna-hgroup__title,
-// .tna-hgroup-l .tna-hgroup__title,
-// .tna-hgroup-xl .tna-hgroup__title {
-//   &:not(.tna-heading--no-link-arrow) {
-//     a {
-//       vertical-align: top;
-//     }
-//   }
-// }
 
 :first-child[hidden] {
   + .tna-hgroup-xl,
