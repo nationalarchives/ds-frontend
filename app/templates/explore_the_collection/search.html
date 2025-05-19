@@ -23,7 +23,7 @@
     'href': '/explore-the-collection/'
   }
 ] -%}
-{%- set breadcrumbsStyle = 'accent-light' -%}
+{%- set breadcrumbsStyle = 'accent' -%}
 
 {% block stylesheets %}
 {{ super() }}
@@ -39,7 +39,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
+<div class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
   <form id="search" class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {{ tnaSearchField({
@@ -51,6 +51,7 @@
         'name': 'q',
         'value': q
       }) }}
+      {% if q %}
       {# {{ tnaCheckboxes({
         'label': 'Page types',
         'headingLevel': 2,
@@ -124,6 +125,7 @@
         'selected': request.args.order or 'relevance',
         'inline': True
       }) }}
+      {% endif %}
     </div>
   </form>
 </div>
@@ -139,7 +141,7 @@
   <h2 class="tna-visually-hidden">Results</h2>
   <ul class="tna-container">
     {% for item in results['items'] %}
-    <li class="tna-column {{ 'tna-column--width-3-4 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-s' if not request.args.view or request.args.view == 'list' else 'tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l' }}">
+    <li class="tna-column tna-column--width-3-4 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-s">
       {% set card_content = {
         'supertitle': item.type_label,
         'headingLevel': 3,
@@ -147,13 +149,21 @@
         'title': item.title,
         'href': item.url,
         'text': item.teaser_text,
+        'label': 'New' if item.is_newly_published,
+        'labelColour': 'green',
+        'meta_': [
+          {
+            'title': 'Publish date',
+            'text': item.last_published_at | pretty_date,
+            'icon': 'calendar'
+          }
+        ],
         'fullAreaClick': True,
-        'horizontal': not request.args.view or request.args.view == 'list',
+        'horizontal': True,
         'horizontalSmallImage': True,
         'horizontalFlipped': True,
         'horizontalOnSmall': True,
-        'style': 'tint' if not request.args.view or request.args.view == 'list' else 'plain',
-        'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
+        'style': 'tint'
       } %}
       {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{
@@ -199,7 +209,7 @@
 <section class="tna-!--margin-top-xl tna-!--margin-bottom-l">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <div class="tna-aside tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
+      <div class="tna-aside tna-background-accent-light tna-!--padding-top-s tna-!--padding-bottom-m">
         {{ discoverySearch() }}
       </div>
     </div>
