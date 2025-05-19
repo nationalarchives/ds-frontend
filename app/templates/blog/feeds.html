@@ -29,8 +29,8 @@
         <dt>{{ blog.title }}</dt>
         <dd>
           <a href="{{ blog.url }}" aria-label="{{ blog.title }}" title="{{ blog.title }}">HTML</a> |
-          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" aria-label="RSS feed for {{ blog.title }}" title="RSS feed for {{ blog.title }}">RSS</a> |
-          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" aria-label="Atom feed for {{ blog.title }}" title="Atom feed for {{ blog.title }}">Atom</a>
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" aria-label="{{ blog.title }} RSS feed" title="{{ blog.title }} RSS feed">RSS</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" aria-label="{{ blog.title }} Atom feed" title="{{ blog.title }} Atom feed">Atom</a>
         </dd>
         {%- endfor %}
       </dl>
