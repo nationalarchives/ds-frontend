@@ -41,7 +41,7 @@
 {% block content %}
 <div class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
   <form id="search" class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
       {{ tnaSearchField({
         'label': 'Search "Explore the collection"',
         'headingLevel': 1,
@@ -196,7 +196,7 @@
 {% elif results %}
 <div class="tna-container tna-!--padding-top-l" id="results">
   <div class="tna-column tna-column--full">
-    <h2 class="tna-heading-xl">No results found</h2>
+    <h2 class="tna-heading-xl">No results found for &quot;{{ q }}&quot;</h2>
     <p>Try the following:</p>
     <ul class="tna-ul">
       <li>Check your spelling</li>
