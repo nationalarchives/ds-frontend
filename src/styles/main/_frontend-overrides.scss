@@ -7,10 +7,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 @use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
-.tna-rounded-corners {
-  @include borders.rounded-border;
-}
-
 .tna-ol {
   &--footnotes {
     @include typography.font-size(16);
@@ -75,16 +71,6 @@
       }
     }
   }
-
-  @include colour.on-high-contrast-and-forced-colours {
-    &--icon-padding#{&}--plain {
-      dt {
-        .fa-solid {
-          margin-top: spacing.space(0.5);
-        }
-      }
-    }
-  }
 }
 
 sup[data-footnoteid] {
@@ -140,16 +126,9 @@ sup[data-footnoteid] {
     @include card.horizontal-card-layout("--featured-link", 1);
   }
 
-  // &--person {
-  //   padding-bottom: 0;
-
-  //   box-shadow: 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 12%), 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 50%);
-  // }
-
   &--person &__image-container {
     width: 75%;
     aspect-ratio: 1;
-    // margin-top: spacing.space(1);
     margin-right: auto;
     margin-left: auto;
 
@@ -162,31 +141,18 @@ sup[data-footnoteid] {
     @include media.on-tiny {
       width: 50%;
     }
+
+    @include colour.on-high-contrast-and-forced-colours {
+      margin-top: spacing.space(1);
+    }
   }
-
-  // &--person &__body {
-  //   margin-bottom: spacing.space(1);
-  // }
-
-  // &--padded {
-  //   overflow: hidden;
-
-  //   border-radius: 0.5rem;
-
-  //   box-shadow:
-  //     0 0.25rem 1rem -0.25rem rgb(0 0 0 / 12%),
-  //     0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 50%);
-
-  //   &:not(:is(.tna-background-accent, .tna-background-contrast)) {
-  //     background-color: rgb(255 255 255 / 5%);
-  //   }
-  // }
 
   @include colour.on-forced-colours {
     @include colour.colour-border("keyline", 1px);
   }
 }
 
+// Search Discovery promo box
 .tna-form {
   &__hint {
     p,
@@ -196,34 +162,6 @@ sup[data-footnoteid] {
       &:first-child {
         margin-top: 0;
       }
-    }
-  }
-}
-
-.tna-picture {
-  // &__image-wrapper {
-  //   box-shadow:
-  //     inset 0 0.25rem 1rem -0.25rem rgb(0 0 0 / 25%),
-  //     inset 0 0.125rem 0.5rem -0.25rem rgb(0 0 0 / 75%);
-  // }
-
-  &__image {
-    display: block;
-  }
-
-  @include media.on-small {
-    .tna-column & {
-      width: calc(100% + #{grid.gutter-width-double()});
-      margin-right: 0;
-      margin-left: 0;
-
-      position: relative;
-      left: -#{grid.gutter-width()};
-    }
-
-    .tna-column &__image {
-      width: 100%;
-      max-height: none;
     }
   }
 }
@@ -238,18 +176,15 @@ sup[data-footnoteid] {
 }
 
 .tna-picture__copyright {
-  p:first-child {
-    margin-top: spacing.space(0.5);
-  }
+  margin-top: spacing.space(0.5);
 }
 
 .tna-picture,
 .tna-hero {
   &__copyright {
-    p:first-child {
-      &::before {
-        content: "\00A9" " ";
-      }
+    &:not(:has(p))::before,
+    p:first-child::before {
+      content: "\00A9" " " / "Copyright ";
     }
   }
 }

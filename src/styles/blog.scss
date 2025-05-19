@@ -48,6 +48,7 @@
 
   &::before {
     content: "\f10e";
+    content: "\f10e" / "";
 
     margin-bottom: spacing.space(0.5);
 
