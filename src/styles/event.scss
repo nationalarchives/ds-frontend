@@ -14,18 +14,37 @@
 .tna-hero {
   margin-bottom: spacing.space(heroVars.$layer-shift-units);
 
+  &__details {
+    max-width: gridVars.$largest-container-width;
+    margin: 0 auto;
+
+    position: relative;
+  }
+
+  & &__details-summary {
+    top: spacing.space(1.5);
+    right: spacing.space(1.5);
+
+    @include colour.contrast;
+  }
+
+  &__information {
+    max-width: 50%;
+
+    box-sizing: border-box;
+
+    top: spacing.space(1);
+    right: spacing.space(1);
+
+    @include borders.rounded-border;
+  }
+
   &__figure {
     min-height: auto;
     padding-top: spacing.space(heroVars.$layer-padding-units);
     padding-bottom: spacing.space(heroVars.$layer-padding-units);
 
     align-items: center;
-
-    box-sizing: border-box;
-  }
-
-  &__information {
-    max-width: 50%;
 
     box-sizing: border-box;
   }
@@ -62,13 +81,19 @@
   @include media.on-mobile {
     margin-bottom: 0;
 
+    & &__details-summary {
+      top: spacing.space(0.5);
+      right: spacing.space(0.5);
+    }
+
     &__information {
       width: auto;
       max-width: none;
 
-      left: 0;
+      top: 0;
+      right: 0;
 
-      border-bottom-left-radius: 0;
+      border-radius: 0;
     }
 
     &__figure {
