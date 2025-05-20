@@ -6,6 +6,22 @@
 
 {%- set pageTitle = page_data.title -%}
 
+{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'What’s on',
+    'href': '/whats-on/'
+  },
+  {
+    'text': 'Events',
+    'href': '/whats-on/events/'
+  }
+] -%}
+
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='event.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
