@@ -12,8 +12,91 @@
     <p class="tna-large-paragraph">Discover our exhibitions, events and family activities programme for all – online and at Kew.</p>
   </div>
 </div>
-<div class="tna-container tna-section tna-!--no-padding-top">
+
+<div class="tna-section tna-!--no-padding-top">
+  {{ tnaIndexGrid({
+    'title': 'Event types',
+    'headingLevel': 2,
+    'items': [
+      {
+        'href': '/whats-on/events/',
+        'title': 'Events',
+        'subtitle': 'Discover the past through our series of exciting in-person at Kew and online talks, delivered by our collections specialists and speical guest speakers.',
+        'src': 'https://picsum.photos/600/400?2',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      },
+      {
+        'href': '#',
+        'title': 'Exhibitions and displays',
+        'subtitle': 'Our dedicated exhibition spaces host immersive exhibitions, curated collections and displays of records held at The National Archives in Kew.',
+        'src': 'https://picsum.photos/600/400?3',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      }
+    ],
+    'columns': 2,
+    'columnsTiny': 1
+  }) }}
+</div>
+
+<div class="tna-section tna-background-contrast">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">Upcoming talks</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc egestas nunc, vitae aliquam nunc nisi euismod nisi.</p>
+    </div>
+  </div>
+  <ul class="tna-container">
+    {% for i in range(3) %}
+    <li class="tna-column tna-column--flex-1 tna-column--width-1-2-small tna-column--full-tiny">
+      {{ tnaCard({
+        'supertitle': 'Talk',
+        'title': 'MI5: Official Secrets',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': '/mi5-official-secrets/',
+        'meta': [
+          {
+            'title': 'Cost',
+            'text': 'From £10',
+            'icon': 'ticket'
+          },
+          {
+            'title': 'Date',
+            'text': '21 December 2025',
+            'icon': 'calendar'
+          }
+        ],
+        'imageSrc': 'https://picsum.photos/600/400?' + (i | string),
+        'imageAlt': 'A random example image',
+        'imageWidth': 600,
+        'imageHeight': 400,
+        'body_': '<p>A groundbreaking exhibition, opening this spring</p>',
+        'fullAreaClick': True,
+        'classes': 'tna-!--margin-top-m'
+      }) }}
+    </li>
+    {% endfor %}
+    <li class="tna-column tna-column--width-1-2-small tna-column--full-tiny tna-column--align-centre">
+      <div class="tna-button-group">
+        <a href="/whats-on/events/" class="tna-button tna-button--small tna-button--icon-right">
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          View all talks
+        </a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+
+<div class="tna-container tna-section">
   <div class="tna-column tna-column--full">
+    <h2 class="tna-heading-l">MI5: Official Secrets series</h2>
     {{ tnaCard({
       'supertitle': 'Featured exhibition',
       'title': 'MI5: Official Secrets',
@@ -31,30 +114,4 @@
     }) }}
   </div>
 </div>
-{{ tnaIndexGrid({
-  'title': 'Event types',
-  'headingLevel': 2,
-  'items': [
-    {
-      'href': '/whats-on/events/',
-      'title': 'Events',
-      'subtitle': 'Discover the past through our series of exciting in-person at Kew and online talks, delivered by our collections specialists and speical guest speakers.',
-      'src': 'https://picsum.photos/600/400?2',
-      'alt': '',
-      'width': 600,
-      'height': 400
-    },
-    {
-      'href': '#',
-      'title': 'Exhibitions and displays',
-      'subtitle': 'Our dedicated exhibition spaces host immersive exhibitions, curated collections and displays of records held at The National Archives in Kew.',
-      'src': 'https://picsum.photos/600/400?3',
-      'alt': '',
-      'width': 600,
-      'height': 400
-    }
-  ],
-  'columns': 2,
-  'columnsTiny': 1
-}) }}
 {% endblock %}
