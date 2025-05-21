@@ -313,7 +313,9 @@ def search_explore_the_collection():
     existing_qs_as_dict = request.args.to_dict()
     params = {"descendant_of_path": "/explore-the-collection/"}
     order = request.args.get("order", "relevance")
-    if order != "relevance":
+    if order == "date":
+        params = params | {"order": "-first_published_at"}
+    elif order != "relevance":
         params = params | {"order": order}
     results = search(
         query=query,

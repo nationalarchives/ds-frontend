@@ -2,7 +2,6 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
-{%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'components/radios/macro.html' import tnaRadios -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
@@ -52,56 +51,6 @@
         'value': q
       }) }}
       {% if q %}
-      {# {{ tnaCheckboxes({
-        'label': 'Page types',
-        'headingLevel': 2,
-        'headingSize': 'm',
-        'id': 'types',
-        'name': 'types',
-        'items': [
-          {
-            'text': 'explorer_index_page',
-            'value': 'collections.ExplorerIndexPage'
-          },
-          {
-            'text': 'highlight_gallery_page',
-            'value': 'collections.HighlightGalleryPage'
-          },
-          {
-            'text': 'category_index_page',
-            'value': 'collections.TimePeriodExplorerIndexPage'
-          },
-          {
-            'text': 'categories_page',
-            'value': 'collections.TimePeriodExplorerPage'
-          },
-          {
-            'text': 'category_index_page',
-            'value': 'collections.TopicExplorerIndexPage'
-          },
-          {
-            'text': 'categories_page',
-            'value': 'collections.TopicExplorerPage'
-          },
-          {
-            'text': 'article_index_page',
-            'value': 'articles.ArticleIndexPage'
-          },
-          {
-            'text': 'article_page',
-            'value': 'articles.ArticlePage'
-          },
-          {
-            'text': 'article_page_focused',
-            'value': 'articles.FocusedArticlePage'
-          },
-          {
-            'text': 'record_article_page',
-            'value': 'articles.RecordArticlePage'
-          }
-        ],
-        'inline': True
-      }) }} #}
       {{ tnaRadios({
         'label': 'Order results by',
         'headingLevel': 2,
@@ -115,7 +64,7 @@
           },
           {
             'text': 'Date published',
-            'value': '-first_published_at'
+            'value': 'date'
           },
           {
             'text': 'Title (A-Z)',
@@ -151,13 +100,6 @@
         'text': item.teaser_text,
         'label': 'New' if item.is_newly_published,
         'labelColour': 'green',
-        'meta_': [
-          {
-            'title': 'Publish date',
-            'text': item.last_published_at | pretty_date,
-            'icon': 'calendar'
-          }
-        ],
         'fullAreaClick': True,
         'horizontal': True,
         'horizontalSmallImage': True,
@@ -165,6 +107,17 @@
         'horizontalOnSmall': True,
         'style': 'tint'
       } %}
+      {%- if request.args.order == 'date' -%}
+        {% set card_content = dict(card_content, **{
+          'meta': [
+            {
+              'title': 'Published',
+              'text': item.first_published_at | pretty_date,
+              'icon': 'calendar'
+            }
+          ]
+        }) %}
+      {%- endif -%}
       {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': item.teaser_image.jpeg.full_url,
