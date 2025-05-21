@@ -31,7 +31,7 @@
 {{ tnaHero({
   'supertitle': 'Online event',
   'title': 'Spies, Secrets and Archives',
-  'body': '<p class="tna-large-paragraph">Join Gordon Corera for the inside scoop on a career reporting on the world of secrets and spies.</p><dl class="tna-dl-chips"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>Saturday 28 June 2014</span></dd></dl>',
+  'body': '<p class="tna-large-paragraph">Join Gordon Corera for the inside scoop on a career reporting on the world of secrets and spies.</p><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>Saturday 28 June 2014</span></dd></dl>',
   'imageSrc': 'https://picsum.photos/600/480',
   'imageAlt': '',
   'imageWidth': 600,
@@ -80,6 +80,49 @@
       </div>
     </div>
   </div>
+</div>
+
+
+
+
+
+<div class="tna-container tna-!--padding-bottom-m">
+  <div class="tna-column tna-column--full tna-!--margin-bottom-s">
+    <h2 class="tna-heading-l">Next event instances</h2>
+  </div>
+  {% for i in range(14) %}
+  <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
+    {{ tnaCard({
+      'title': 'Tuesday 2 May 2025',
+      'headingLevel': 3,
+      'headingSize': 's',
+      'href': '#',
+      'meta': [
+        {
+          'title': 'Time',
+          'text': '19:30 to 20:30',
+          'icon': 'clock'
+        }
+      ],
+      'fullAreaClick': True,
+      'style': 'plain',
+      'classes': 'tna-!--margin-vertical-s'
+    }) }}
+  </div>
+  {% endfor %}
+  <div class="tna-column tna-column--flex-1 tna-column--align-centre">
+    <div class="tna-button-group">
+      <a href="#" class="tna-button tna-button--icon-right">
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        See all
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="tna-container tna-section tna-!--no-padding-top">
   <div class="tna-column tna-column--full">
     <div class="etna-author-list etna-author-list--horizontal tna-column tna-!--margin-top-l">
       <h2 class="etna-author-list__heading tna-heading-m">Host</h2>
@@ -159,6 +202,15 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
 <div class="tna-background-tint">
   <section class="tna-container tna-section">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">

@@ -6,17 +6,19 @@
 {%- set pageTitle = page_data.title -%}
 
 {% block content %}
-<div class="tna-container tna-section">
+<!-- <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
     <p class="tna-large-paragraph">Discover our exhibitions, events and family activities programme for all – online and at Kew.</p>
   </div>
-</div>
+</div>-->
 
-<div class="tna-section tna-!--no-padding-top">
+<div class="tna-section">
   {{ tnaIndexGrid({
-    'title': 'Event types',
-    'headingLevel': 2,
+    'title': 'What’s on',
+    'body': '<p class="tna-large-paragraph">Discover our exhibitions, events and family activities programme for all – online and at Kew.</p>',
+    'headingLevel': 1,
+    'headingSize': 'xl',
     'items': [
       {
         'href': '/whats-on/events/',
@@ -45,13 +47,15 @@
 <div class="tna-section tna-background-contrast">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">Upcoming talks</h2>
+      <h2 class="tna-heading-l">
+        <a href="#">Upcoming talks</a>
+      </h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc egestas nunc, vitae aliquam nunc nisi euismod nisi.</p>
     </div>
   </div>
   <ul class="tna-container">
     {% for i in range(3) %}
-    <li class="tna-column tna-column--flex-1 tna-column--width-1-2-small tna-column--full-tiny">
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny">
       {{ tnaCard({
         'supertitle': 'Talk',
         'title': 'MI5: Official Secrets',
@@ -81,14 +85,85 @@
       }) }}
     </li>
     {% endfor %}
-    <li class="tna-column tna-column--width-1-2-small tna-column--full-tiny tna-column--align-centre">
-      <div class="tna-button-group">
-        <a href="/whats-on/events/" class="tna-button tna-button--small tna-button--icon-right">
-          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-          View all talks
-        </a>
-      </div>
+  </ul>
+</div>
+
+
+
+
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">
+        <a href="#">Upcoming talks</a>
+      </h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc egestas nunc, vitae aliquam nunc nisi euismod nisi.</p>
+    </div>
+  </div>
+  <ul class="tna-container">
+    <li class="tna-column tna-column--full">
+      {{ tnaCard({
+        'supertitle': 'Talk',
+        'title': 'MI5: Official Secrets',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': '/mi5-official-secrets/',
+        'meta': [
+          {
+            'title': 'Cost',
+            'text': 'From £10',
+            'icon': 'ticket'
+          },
+          {
+            'title': 'Date',
+            'text': '21 December 2025',
+            'icon': 'calendar'
+          }
+        ],
+        'metaStacked': True,
+        'imageSrc': 'https://picsum.photos/600/400?99',
+        'imageAlt': 'A random example image',
+        'imageWidth': 600,
+        'imageHeight': 400,
+        'body': '<p>A groundbreaking exhibition, opening this spring</p>',
+        'horizontal': True,
+        'style': 'contrast',
+        'fullAreaClick': True,
+        'classes': 'tna-!--margin-top-m'
+      }) }}
     </li>
+    {% for i in range(3) %}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny">
+      {{ tnaCard({
+        'supertitle': 'Talk',
+        'title': 'MI5: Official Secrets',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': '/mi5-official-secrets/',
+        'meta': [
+          {
+            'title': 'Cost',
+            'text': 'From £10',
+            'icon': 'ticket'
+          },
+          {
+            'title': 'Date',
+            'text': '21 December 2025',
+            'icon': 'calendar'
+          }
+        ],
+        'metaStacked': True,
+        'imageSrc': 'https://picsum.photos/600/400?' + ((i + 10) | string),
+        'imageAlt': 'A random example image',
+        'imageWidth': 600,
+        'imageHeight': 400,
+        'body_': '<p>A groundbreaking exhibition, opening this spring</p>',
+        'style': 'accent',
+        'fullAreaClick': True,
+        'classes': 'tna-!--margin-top-m'
+      }) }}
+    </li>
+    {% endfor %}
   </ul>
 </div>
 
@@ -96,8 +171,13 @@
 
 
 <div class="tna-container tna-section">
-  <div class="tna-column tna-column--full">
-    <h2 class="tna-heading-l">MI5: Official Secrets series</h2>
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <h2 class="tna-heading-l">
+      <a href="#">Exhibitions and displays</a>
+    </h2>
+    <p>Visiting us at Kew? Don't miss our often-changing exhibitions and displays, large and small.</p>
+  </div>
+  <div class="tna-column tna-column--full tna-!--margin-top-m">
     {{ tnaCard({
       'supertitle': 'Featured exhibition',
       'title': 'MI5: Official Secrets',
@@ -115,4 +195,87 @@
     }) }}
   </div>
 </div>
+
+
+
+
+
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">Browse what’s on</h2>
+    </div>
+  </div>
+  {{ tnaIndexGrid({
+    'title': 'By type',
+    'headingLevel': 3,
+    'headingSize': 'm',
+    'items': [
+      {
+        'href': '#',
+        'title': 'Talks and tours',
+        'src': 'https://picsum.photos/600/400?20',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      },
+      {
+        'href': '#',
+        'title': 'Exhibitions and displays',
+        'src': 'https://picsum.photos/600/400?30',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      },
+      {
+        'href': '#',
+        'title': 'Family activities',
+        'src': 'https://picsum.photos/600/400?40',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      },
+      {
+        'href': '#',
+        'title': 'Everything that\'s on',
+        'src': 'https://picsum.photos/600/400?50',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      }
+    ],
+    'columns': 4,
+    'columnsSmall': 2,
+    'columnsTiny': 1
+  }) }}
+  {{ tnaIndexGrid({
+    'title': 'By location',
+    'headingLevel': 3,
+    'headingSize': 'm',
+    'items': [
+      {
+        'href': '#',
+        'title': 'At The National Archives',
+        'src': 'https://picsum.photos/600/400?60',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      },
+      {
+        'href': '#',
+        'title': 'Online',
+        'src': 'https://picsum.photos/600/400?70',
+        'alt': '',
+        'width': 600,
+        'height': 400
+      }
+    ],
+    'columns': 4,
+    'columnsSmall': 2,
+    'columnsTiny': 1
+  }) }}
+</div>
+
+
+
 {% endblock %}

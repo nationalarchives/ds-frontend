@@ -127,3 +127,13 @@
   @include colour.thick-keyline-accent(top);
   border-radius: 0;
 }
+
+.tna-column--align-centre {
+  .tna-button-group {
+    justify-content: stretch;
+
+    .tna-button {
+      flex: 1;
+    }
+  }
+}
