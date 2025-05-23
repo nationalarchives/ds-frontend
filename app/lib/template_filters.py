@@ -24,8 +24,8 @@ def tna_html(s):
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
-    s = replace_footnotes(s)
-    s = add_abbreviations(s)
+    # s = replace_footnotes(s)
+    # s = add_abbreviations(s)
     s = add_rel_to_external_links(s)
     return s
 
