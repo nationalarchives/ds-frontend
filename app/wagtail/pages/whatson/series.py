@@ -1,8 +1,8 @@
 from flask import render_template
 
 
-def whats_on_page(page_data):
+def whats_on_series_page(page_data):
     return render_template(
-        "whats_on/index.html",
+        "whats_on/series.html",
         page_data=page_data,
     )

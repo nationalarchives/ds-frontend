@@ -37,9 +37,18 @@
         'alt': '',
         'width': 600,
         'height': 400
+      },
+      {
+        'href': '#',
+        'title': 'Everything on today',
+        'subtitle': 'Find out what’s on today at The National Archives, including exhibitions, talks and tours.',
+        'src': 'https://picsum.photos/600/400?4',
+        'alt': '',
+        'width': 600,
+        'height': 400
       }
     ],
-    'columns': 2,
+    'columns': 3,
     'columnsTiny': 1
   }) }}
 </div>
@@ -48,7 +57,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
-        <a href="#">Upcoming talks</a>
+        <a href="{{ url_for('main.test_series_page') }}">Upcoming talks</a>
       </h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc egestas nunc, vitae aliquam nunc nisi euismod nisi.</p>
     </div>
@@ -61,7 +70,7 @@
         'title': 'MI5: Official Secrets',
         'headingLevel': 3,
         'headingSize': 's',
-        'href': '/mi5-official-secrets/',
+        'href': url_for('main.test_event_page'),
         'meta': [
           {
             'title': 'Cost',
@@ -95,7 +104,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
-        <a href="#">Upcoming talks</a>
+        <a href="{{ url_for('main.test_series_page') }}">Upcoming talks</a>
       </h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur sagittis, nisl nunc egestas nunc, vitae aliquam nunc nisi euismod nisi.</p>
     </div>
@@ -107,7 +116,7 @@
         'title': 'MI5: Official Secrets',
         'headingLevel': 3,
         'headingSize': 's',
-        'href': '/mi5-official-secrets/',
+        'href': url_for('main.test_event_page'),
         'meta': [
           {
             'title': 'Cost',
@@ -139,7 +148,7 @@
         'title': 'MI5: Official Secrets',
         'headingLevel': 3,
         'headingSize': 's',
-        'href': '/mi5-official-secrets/',
+        'href': url_for('main.test_event_page'),
         'meta': [
           {
             'title': 'Cost',
@@ -173,7 +182,7 @@
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <h2 class="tna-heading-l">
-      <a href="#">Exhibitions and displays</a>
+      <a href="url_for('main.test_exhibitions_page')">Exhibitions and displays</a>
     </h2>
     <p>Visiting us at Kew? Don't miss our often-changing exhibitions and displays, large and small.</p>
   </div>
@@ -275,6 +284,36 @@
     'columnsTiny': 1
   }) }}
 </div>
+
+
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <ul class="tna-ul">
+      <li>
+        <a href="{{ url_for('main.test_events_page') }}">test_events_page</a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.test_event_page') }}">test_event_page</a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.test_exhibitions_page') }}">test_exhibitions_page</a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.test_display_page') }}">test_display_page</a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.test_search_page') }}">test_search_page</a>
+      </li>
+      <li>
+        <a href="{{ url_for('main.test_series_page') }}">test_series_page</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+
 
 
 
