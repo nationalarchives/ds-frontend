@@ -39,7 +39,7 @@
 
 {% block content %}
 <div class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
-  <form id="search" class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
+  <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
     <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
       {{ tnaSearchField({
         'label': 'Search Explore the collection',
