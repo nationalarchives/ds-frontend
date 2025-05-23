@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/static/xsl/rss-feed.xsl"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <!-- Generated {{ now_iso_8601() }} -->
   <channel>
     <title>
       <![CDATA[ The National Archives - {{ blog_data.title }} ]]>
