@@ -1,6 +1,5 @@
 import math
 from datetime import datetime
-from urllib.parse import urlparse
 
 from app.lib.cache import cache, path_cache_key_prefix
 from app.sitemaps import bp
@@ -10,7 +9,6 @@ from flask import (
     make_response,
     redirect,
     render_template,
-    request,
     url_for,
 )
 
@@ -18,9 +16,6 @@ from flask import (
 @bp.route("/sitemap.xml")
 @cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_index():
-    current_app.logger.debug("===== START REQUEST HEADERS =====")
-    current_app.logger.debug(request.headers)
-    current_app.logger.debug("====== END REQUEST HEADERS ======")
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
