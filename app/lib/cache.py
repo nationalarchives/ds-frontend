@@ -4,6 +4,10 @@ from flask_caching import Cache
 cache = Cache()
 
 
+def path_cache_key_prefix():
+    return request.full_path
+
+
 def page_cache_key_prefix():
     keys = [
         request.full_path,

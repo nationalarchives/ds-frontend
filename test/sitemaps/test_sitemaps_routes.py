@@ -27,13 +27,6 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
         self.assertNotIn(f"<loc>{domain}/sitemaps/sitemap_4.xml</loc>", rv.text)
 
     @requests_mock.Mocker()
-    def test_sitemap_static_xml(self, m):
-        domain = self.domain.replace("http://", "https://")
-        rv = self.app.get("/sitemaps/sitemap_static.xml")
-        self.assertIn(f"<loc>{domain}/</loc>", rv.text)
-        self.assertIn(f"<loc>{domain}/browse/</loc>", rv.text)
-
-    @requests_mock.Mocker()
     def test_sitemap_page_1_xml(self, m):
         domain = self.domain.replace("http://", "https://")
         mock_index_endpoint = f"{self.mock_api_url}/pages/?offset=0&limit=1&format=json"

@@ -2,7 +2,7 @@ import math
 from datetime import datetime
 from urllib.parse import urlparse
 
-from app.lib.cache import cache
+from app.lib.cache import cache, path_cache_key_prefix
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
 from flask import (
@@ -16,11 +16,12 @@ from flask import (
 
 
 @bp.route("/sitemap.xml")
-@cache.cached(timeout=14400)  # 4 hours
+@cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_index():
-    sitemap_urls = [
-        # url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
-    ]
+    current_app.logger.debug("===== START REQUEST HEADERS =====")
+    current_app.logger.debug(request.headers)
+    current_app.logger.debug("====== END REQUEST HEADERS ======")
+    sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
@@ -51,43 +52,8 @@ def sitemaps():
     )
 
 
-def static_uris():
-    static_uris = list()
-    for rule in current_app.url_map.iter_rules():
-        if (
-            not str(rule).startswith("/preview")
-            and not str(rule).startswith("/healthcheck")
-            and not str(rule).startswith("/blogs/feeds")
-            and not str(rule).startswith("/sitemap.xml")
-            and not str(rule).startswith("/robots.txt")
-            and not str(rule).startswith("/sitemaps")
-            and not str(rule).startswith("/service-worker.min.js")
-        ):
-            if "GET" in rule.methods and len(rule.arguments) == 0:
-                static_uris.append(str(rule))
-    return static_uris
-
-
-@bp.route("/sitemaps/sitemap_static.xml")
-@cache.cached(timeout=14400)  # 4 hours
-def sitemap_static():
-    host_components = urlparse(request.host_url)
-    host_base = "https://" + host_components.netloc
-    static_urls = list()
-    for uri in static_uris():
-        url = {"loc": f"{host_base}{uri}"}
-        static_urls.append(url)
-    xml_sitemap = render_template(
-        "sitemaps/sitemap.xml",
-        urls=static_urls,
-    )
-    response = make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml; charset=utf-8"
-    return response
-
-
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cache.cached(timeout=14400)  # 4 hours
+@cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_dynamic(sitemap_page):
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
