@@ -9,6 +9,7 @@ from flask import (
     make_response,
     redirect,
     render_template,
+    request,
     url_for,
 )
 
@@ -16,6 +17,9 @@ from flask import (
 @bp.route("/sitemap.xml")
 # @cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_index():
+    current_app.logger.info("=== Generating sitemap index ===")
+    current_app.logger.info(f"HOST HEADER: {request.headers.get('Host')}")
+    current_app.logger.info(f"ALL HEADERS: {request.headers}")
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
@@ -50,6 +54,9 @@ def sitemaps():
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
 # @cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_dynamic(sitemap_page):
+    current_app.logger.info("=== Generating sitemap index ===")
+    current_app.logger.info(f"HOST HEADER: {request.headers.get('Host')}")
+    current_app.logger.info(f"ALL HEADERS: {request.headers}")
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
     wagtail_pages = all_pages(
