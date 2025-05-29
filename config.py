@@ -74,8 +74,12 @@ class Base(object):
     CSP_FRAME_ANCESTORS: list[str] = os.environ.get(
         "CSP_FRAME_ANCESTORS", "'self'"
     ).split(",")
-    FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
-    PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
+    FORCE_HTTPS: bool = strtobool(
+        os.getenv("FORCE_HTTPS", "False")
+    )  # TODO: Change to True
+    PREFERRED_URL_SCHEME: str = os.getenv(
+        "PREFERRED_URL_SCHEME", "http"
+    )  # TODO: Change to HTTPS
 
     CACHE_TYPE: str = os.environ.get("CACHE_TYPE", "FileSystemCache")
     CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "300"))
@@ -121,8 +125,8 @@ class Develop(Base, Features):
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
 
-    FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
-    PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
+    # FORCE_HTTPS = strtobool(os.getenv("FORCE_HTTPS", "False"))
+    # PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME", "http")
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
