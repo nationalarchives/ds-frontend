@@ -45,7 +45,7 @@ class Base(object):
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
     ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "500"))
-    ITEMS_PER_BLOG_FEED: int = int(os.environ.get("ITEMS_PER_SITEMAP", "50"))
+    ITEMS_PER_BLOG_FEED: int = int(os.environ.get("ITEMS_PER_BLOG_FEED", "50"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
 
