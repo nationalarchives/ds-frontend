@@ -74,6 +74,13 @@
         'selected': request.args.order or 'relevance',
         'inline': True
       }) }}
+      <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
+        {{ tnaButton({
+          'text': 'Update results',
+          'buttonElement': True,
+          'buttonType': 'submit'
+        }) }}
+      </div>
       {% endif %}
     </div>
   </form>
