@@ -9,6 +9,7 @@ services:
       - RUNTIME=develop
       - ENVIRONMENT_NAME=develop
       - CONFIG=config.Develop
+      - DEBUG=true
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
