@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
+{%- set pageTitle = 'Restricted' -%}
 {%- set status_code = 403 -%}
 
 {% block content %}
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
-    <h1 class="tna-heading-xl">Restricted</h1>
+    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
     <p>You are not permitted to view this content.</p>
     <p>If you typed the web address, check it is correct.</p>
     <p>If you pasted the web address, check you copied the entire address.</p>
