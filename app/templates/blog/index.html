@@ -147,7 +147,7 @@
               <ul class="tna-container tna-container--nested">
                 {% for blog_post in blog_posts %}
                 {% if page > 1 or loop.index > 1 %}
-                <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-vertical-s">
+                <li class="tna-column tna-column--width-1-2 tna-column--full-tiny tna-!--margin-top-m">
                   {% set card_content = {
                     'supertitle': blog_post.type_label if page_data.meta.type == 'blog.BlogIndexPage' else None,
                     'title': blog_post.title,
