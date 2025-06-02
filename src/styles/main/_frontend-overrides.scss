@@ -7,6 +7,14 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 @use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
+// H1UserAgentFontSizeInSection
+// https://github.com/GoogleChrome/lighthouse/issues/16404#issuecomment-2754716763
+:where(h1) {
+  margin-block: 0.67em;
+
+  font-size: 2em;
+}
+
 .tna-ol {
   &--footnotes {
     @include typography.font-size(16);
