@@ -81,7 +81,7 @@
           <h3 class="etna-record-gallery__item-index tna-heading-s">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</h3>
         </div>
         <figure class="etna-record-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-          <img src="{{ item.image.webp.url }}" class="etna-record-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
+          <img src="{{ item.image.webp.url }}" class="etna-record-gallery__item-image" alt="{{ item.image.description }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
           {%- if item.caption %}
           <figcaption class="etna-record-gallery__item-description">
             {{ item.caption | safe }}

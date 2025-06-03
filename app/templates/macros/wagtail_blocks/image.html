@@ -1,4 +1,3 @@
-{%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
 {% macro wagtailImage(block_value, id, plain_image, hide_transcript, itemprop) %}
@@ -35,7 +34,7 @@
   {%- endif %}
   {% set picture_content = {
     'src': block_value.image.jpeg.url,
-    'alt': block_value.alt_text or '',
+    'alt': block_value.description,
     'width': block_value.image.jpeg.width,
     'height': block_value.image.jpeg.height,
     'sources': [
@@ -60,13 +59,5 @@
       }
     }) %}
   {% endif %}
-  {% set picture = tnaPicture(picture_content) %}
-  {%- if block_value.image.is_sensitive %}
-    {{ tnaDetails({
-      'title': block_value.image.custom_sensitive_image_warning or 'This image has been marked as potentially sensitive',
-      'body': picture | safe
-    }) }}
-  {%- else %}
-    {{ picture }}
-  {%- endif %}
+  {{ tnaPicture(picture_content) }}
 {% endmacro %}

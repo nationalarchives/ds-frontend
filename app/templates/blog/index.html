@@ -117,7 +117,7 @@
               {% set featured_card_content = dict(featured_card_content, **{
                 'lazyImage': True,
                 'imageSrc': blog_posts[0].teaser_image.jpeg.url,
-                'imageAlt': blog_posts[0].teaser_image.alt_text or '',
+                'imageAlt': blog_posts[0].teaser_image.description,
                 'imageWidth': blog_posts[0].teaser_image.jpeg.width,
                 'imageHeight': blog_posts[0].teaser_image.jpeg.height,
                 'imageSources': [
@@ -174,7 +174,7 @@
                   {%- if blog_post.teaser_image %}
                     {% set card_content = dict(card_content, **{
                       'imageSrc': blog_post.teaser_image.jpeg.url,
-                      'imageAlt': blog_post.teaser_image.alt_text or '',
+                      'imageAlt': blog_post.teaser_image.description,
                       'imageWidth': blog_post.teaser_image.jpeg.width,
                       'imageHeight': blog_post.teaser_image.jpeg.height,
                       'imageSources': [

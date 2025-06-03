@@ -93,7 +93,7 @@
             {%- endif %}
             {{ tnaHero({
               'imageSrc': page_data.hero_image.jpeg.url,
-              'imageAlt': page_data.hero_image.alt_text or '',
+              'imageAlt': page_data.hero_image.description,
               'imageWidth': page_data.hero_image.jpeg.width,
               'imageHeight': page_data.hero_image.jpeg.height,
               'imageCaption': hero_image_caption,

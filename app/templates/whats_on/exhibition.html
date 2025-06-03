@@ -342,7 +342,7 @@
         {% set gallery_images = [] %}
         {% for image in exhibition_highlights.value.images %}
           {% set gallery_images = gallery_images.append({
-            'alt': image.alt_text,
+            'alt': image.image.description,
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
             'src': image.image.jpeg.url,

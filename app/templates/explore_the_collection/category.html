@@ -29,7 +29,7 @@
   'title': page_data.title,
   'body': page_data.intro | safe,
   'imageSrc': page_data.hero_image.jpeg.url,
-  'imageAlt': page_data.hero_image.alt_text or '',
+  'imageAlt': page_data.hero_image.description,
   'imageWidth': page_data.hero_image.jpeg.width,
   'imageHeight': page_data.hero_image.jpeg.height,
   'imageCaption': hero_image_caption,
@@ -66,7 +66,7 @@
       'subtitle': (child.highlight_image_count | string) + ' images',
       'href': child.url,
       'src': child.teaser_image.jpeg.url,
-      'alt': child.teaser_image.alt_text or '',
+      'alt': child.teaser_image.description,
       'width': child.teaser_image.jpeg.width,
       'height': child.teaser_image.jpeg.height
     }) %}
@@ -98,7 +98,7 @@
         'label': 'New' if page_data.featured_article.is_newly_published,
         'labelColour': 'green',
         'imageSrc': page_data.featured_article.teaser_image.jpeg.url,
-        'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+        'imageAlt': page_data.featured_article.teaser_image.description,
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
         'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'imageSources': [
@@ -129,7 +129,7 @@
         'label': 'New' if page.is_newly_published,
         'labelColour': 'green',
         'imageSrc': page.teaser_image.jpeg.url,
-        'imageAlt': page.teaser_image.alt_text or '',
+        'imageAlt': page.teaser_image.description,
         'imageWidth': page.teaser_image.jpeg.width,
         'imageHeight': page.teaser_image.jpeg.height,
         'imageSources': [

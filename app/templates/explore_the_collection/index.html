@@ -31,7 +31,7 @@
           'title': item.value.page_1.title,
           'href': item.value.page_1.url,
           'src': item.value.page_1.teaser_image.jpeg.url,
-          'alt': item.value.page_1.teaser_image.alt_text or '',
+          'alt': item.value.page_1.teaser_image.description,
           'width': item.value.page_1.teaser_image.jpeg.width,
           'height': item.value.page_1.teaser_image.jpeg.height
         },
@@ -40,7 +40,7 @@
           'title': item.value.page_2.title,
           'href': item.value.page_2.url,
           'src': item.value.page_2.teaser_image.jpeg.url,
-          'alt': item.value.page_2.teaser_image.alt_text or '',
+          'alt': item.value.page_2.teaser_image.description,
           'width': item.value.page_2.teaser_image.jpeg.width,
           'height': item.value.page_2.teaser_image.jpeg.height
         }
@@ -80,7 +80,7 @@
         'label': 'New' if page_data.featured_article.is_newly_published,
         'labelColour': 'green',
         'imageSrc': page_data.featured_article.teaser_image.jpeg.url,
-        'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+        'imageAlt': page_data.featured_article.teaser_image.description,
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
         'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'imageSources': [
@@ -110,7 +110,7 @@
         'label': 'New' if article.is_newly_published,
         'labelColour': 'green',
         'imageSrc': article.teaser_image.jpeg.url,
-        'imageAlt': article.teaser_image.alt_text or '',
+        'imageAlt': article.teaser_image.description,
         'imageWidth': article.teaser_image.jpeg.width,
         'imageHeight': article.teaser_image.jpeg.height,
         'imageSources': [
