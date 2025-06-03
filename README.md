@@ -56,7 +56,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `FORCE_HTTPS`                         | Redirect requests to HTTPS as part of the CSP                               | _none_                                         |
 | `PREFERRED_URL_SCHEME`                | Set the default protocol for generating links                               | production/staging: `https`, develop: `http`   |
 | `CACHE_TYPE`                          | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching   | `FileSystemCache`                              |
-| `CACHE_DEFAULT_TIMEOUT`               | The number of seconds to cache pages for                                    | production: `300`, staging: `10`, develop: `1` |
+| `CACHE_DEFAULT_TIMEOUT`               | The number of seconds to cache pages for                                    | production: `900`, staging: `60`, develop: `1` |
 | `CACHE_DIR`                           | Directory for cache when using `CACHE_TYPE=FileSystemCache`                 | `/tmp`                                         |
 | `CACHE_REDIS_URL`                     | The connection string for Redis when using `CACHE_TYPE=RedisCache`          | _none_                                         |
 | `GA4_ID`                              | The Google Analytics 4 ID                                                   | _none_                                         |
