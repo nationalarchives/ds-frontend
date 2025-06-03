@@ -14,7 +14,7 @@
   <meta itemprop="uploadDate" content="{{ video_data.created_at }}">
   <meta itemprop="contentUrl" content="{{ video_data.file }}">
   {% if video_data.thumbnail %}
-  <!-- <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.full_url }}"> -->
+  <!-- <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.url }}"> -->
   {% endif %}
 
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
@@ -30,11 +30,11 @@
     {% endif %}
     <video id="video" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if video_data.transcript %} aria-label="Transcript provided below"{%- endif %}>
       <source src="{{ video_data.file }}" type="{{ video_data.mime }}" itemprop="contentUrl">
-      {% if video_data.subtitles_file_full_url %}
-      <track kind="captions" src="{{ video_data.subtitles_file_full_url }}" srclang="en" label="English" default>
+      {% if video_data.subtitles_file %}
+      <track kind="captions" src="{{ video_data.subtitles_file }}" srclang="en" label="English" default>
       {% endif %}
-      {% if video_data.chapters_file_full_url %}
-      <track kind="chapters" src="{{ video_data.chapters_file_full_url }}" srclang="en">
+      {% if video_data.chapters_file %}
+      <track kind="chapters" src="{{ video_data.chapters_file }}" srclang="en">
       {% endif %}
       <p>Your browser doesn't support HTML5 video. <a href="{{ video_data.file }}">Download the video file</a>.</p>
     </video>

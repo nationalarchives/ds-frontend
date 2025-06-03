@@ -51,28 +51,28 @@
     {{ tnaHero({
       'supertitle': page_data.type_label,
       'title': page_data.title,
-      'imageSrc': page_data.hero_image.jpeg.full_url,
+      'imageSrc': page_data.hero_image.jpeg.url,
       'imageAlt': page_data.hero_image.alt_text or '',
       'imageWidth': page_data.hero_image.jpeg.width,
       'imageHeight': page_data.hero_image.jpeg.height,
       'imageCaption': hero_image_caption,
       'imageSources': [
         {
-          'src': page_data.hero_image_small.webp.full_url,
+          'src': page_data.hero_image_small.webp.url,
           'width': page_data.hero_image_small.webp.width,
           'height': page_data.hero_image_small.webp.height,
           'type': 'image/webp',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image_small.jpeg.full_url,
+          'src': page_data.hero_image_small.jpeg.url,
           'width': page_data.hero_image_small.jpeg.width,
           'height': page_data.hero_image_small.jpeg.height,
           'type': 'image/jpeg',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image.webp.full_url,
+          'src': page_data.hero_image.webp.url,
           'width': page_data.hero_image.webp.width,
           'height': page_data.hero_image.webp.height,
           'type': 'image/webp'

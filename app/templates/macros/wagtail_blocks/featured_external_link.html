@@ -22,13 +22,13 @@
   {%- if block_value.image %}
     {% set card_content = dict(card_content, **{
       'lazyImage': True,
-      'imageSrc': block_value.image.jpeg.full_url,
+      'imageSrc': block_value.image.jpeg.url,
       'imageAlt': block_value.image.alt_text or '',
       'imageWidth': block_value.image.jpeg.width,
       'imageHeight': block_value.image.jpeg.height,
       'imageSources': [
         {
-          'src': block_value.image.webp.full_url,
+          'src': block_value.image.webp.url,
           'type': 'image/webp',
           'width': block_value.image.webp.width,
           'height': block_value.image.webp.height

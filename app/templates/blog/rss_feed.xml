@@ -58,7 +58,7 @@
       {% endif %}
       <pubDate>{{ blog_post.published_date.value | rfc_822_format }}</pubDate>
       {% if blog_post.teaser_image %}
-      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="{{ blog_post.teaser_image.jpeg.full_url }}" medium="image"/>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="{{ blog_post.teaser_image.jpeg.url }}" medium="image"/>
       {% endif %}
       <!-- <content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/">
         <![CDATA[  ]]>

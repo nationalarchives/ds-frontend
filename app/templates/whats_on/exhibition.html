@@ -74,28 +74,28 @@
       'supertitle': page_data.type_label,
       'title': page_data.title,
       'body': hero_intro | safe,
-      'imageSrc': page_data.hero_image.jpeg.full_url,
+      'imageSrc': page_data.hero_image.jpeg.url,
       'imageAlt': '',
       'imageWidth': page_data.hero_image.jpeg.width,
       'imageHeight': page_data.hero_image.jpeg.height,
       'imageCaption': hero_image_caption,
       'imageSources': [
         {
-          'src': page_data.hero_image_small.webp.full_url,
+          'src': page_data.hero_image_small.webp.url,
           'width': page_data.hero_image_small.webp.width,
           'height': page_data.hero_image_small.webp.height,
           'type': 'image/webp',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image_small.jpeg.full_url,
+          'src': page_data.hero_image_small.jpeg.url,
           'width': page_data.hero_image_small.jpeg.width,
           'height': page_data.hero_image_small.jpeg.height,
           'type': 'image/jpeg',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image.webp.full_url,
+          'src': page_data.hero_image.webp.url,
           'width': page_data.hero_image.webp.width,
           'height': page_data.hero_image.webp.height,
           'type': 'image/webp'
@@ -345,7 +345,7 @@
             'alt': image.alt_text,
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
-            'src': image.image.jpeg.full_url,
+            'src': image.image.jpeg.url,
             'description': image.caption | safe
           }) %}
         {% endfor %}
@@ -368,15 +368,15 @@
         {% if video.type == 'youtube' %}
         {{ wagtailYouTubeVideo(video.value, video.id) }}
         {% elif video.type == 'media' %}
-        <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-          <source src="{{ video.value.media.full_url }}" type="{{ video.value.media.mime }}">
-          {% if video.value.media.subtitles_file_full_url %}
-          <track kind="captions" src="{{ video.value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
+        <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+          <source src="{{ video.value.media.file }}" type="{{ video.value.media.mime }}">
+          {% if video.value.media.subtitles_file %}
+          <track kind="captions" src="{{ video.value.media.subtitles_file }}" srclang="en" label="English" default>
           {% endif %}
-          {% if video.value.media.chapters_file_full_url %}
-          <track kind="chapters" src="{{ video.value.media.chapters_file_full_url }}" srclang="en">
+          {% if video.value.media.chapters_file %}
+          <track kind="chapters" src="{{ video.value.media.chapters_file }}" srclang="en">
           {% endif %}
-          <p>Your browser doesn't support HTML5 video. <a href="{{ video.value.media.full_url }}">Download the video file</a>.</p>
+          <p>Your browser doesn't support HTML5 video. <a href="{{ video.value.media.url }}">Download the video file</a>.</p>
         </video>
         {% endif %}
       </div>
@@ -450,13 +450,13 @@
       } %}
       {%- if event.image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': event.image.jpeg.full_url,
+          'imageSrc': event.image.jpeg.url,
           'imageAlt': event.image.alt_text or '',
           'imageWidth': event.image.jpeg.width,
           'imageHeight': event.image.jpeg.height,
           'imageSources': [
             {
-              'src': event.image.webp.full_url,
+              'src': event.image.webp.url,
               'type': 'image/webp',
               'width': event.image.webp.width,
               'height': event.image.webp.height
@@ -484,7 +484,7 @@
         'title': page_data.featured_page.title,
         'headingLevel': 3,
         'headingSize': 'l',
-        'href': page_data.featured_page.full_url,
+        'href': page_data.featured_page.url,
         'text': page_data.featured_page.teaser_text,
         'label': 'New' if page_data.featured_page.is_newly_published,
         'labelColour': 'green',
@@ -494,13 +494,13 @@
       } %}
       {%- if page_data.featured_page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': page_data.featured_page.teaser_image.jpeg.full_url,
+          'imageSrc': page_data.featured_page.teaser_image.jpeg.url,
           'imageAlt': page_data.featured_page.teaser_image.alt_text or '',
           'imageWidth': page_data.featured_page.teaser_image.jpeg.width,
           'imageHeight': page_data.featured_page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': page_data.featured_page.teaser_image.webp.full_url,
+              'src': page_data.featured_page.teaser_image.webp.url,
               'type': 'image/webp',
               'width': page_data.featured_page.teaser_image.webp.width,
               'height': page_data.featured_page.teaser_image.webp.height
@@ -518,7 +518,7 @@
           'title': page.value.page.title,
           'headingLevel': 3,
           'headingSize': 's',
-          'href': page.value.page.full_url,
+          'href': page.value.page.url,
           'text': page.value.page.teaser_text,
           'label': 'New' if page.value.page.is_newly_published,
           'labelColour': 'green',
@@ -543,13 +543,13 @@
         {%- endif %}
         {%- if page.value.page.teaser_image %}
           {% set card_content = dict(card_content, **{
-            'imageSrc': page.value.page.teaser_image.jpeg.full_url,
+            'imageSrc': page.value.page.teaser_image.jpeg.url,
             'imageAlt': page.value.page.teaser_image.alt_text or '',
             'imageWidth': page.value.page.teaser_image.jpeg.width,
             'imageHeight': page.value.page.teaser_image.jpeg.height,
             'imageSources': [
               {
-                'src': page.value.page.teaser_image.webp.full_url,
+                'src': page.value.page.teaser_image.webp.url,
                 'type': 'image/webp',
                 'width': page.value.page.teaser_image.webp.width,
                 'height': page.value.page.teaser_image.webp.height
@@ -571,13 +571,13 @@
         } %}
         {%- if page.value.image %}
           {% set card_content = dict(card_content, **{
-            'imageSrc': page.value.image.jpeg.full_url,
+            'imageSrc': page.value.image.jpeg.url,
             'imageAlt': page.value.image.alt_text or '',
             'imageWidth': page.value.image.jpeg.width,
             'imageHeight': page.value.image.jpeg.height,
             'imageSources': [
               {
-                'src': page.value.image.webp.full_url,
+                'src': page.value.image.webp.url,
                 'type': 'image/webp',
                 'width': page.value.image.webp.width,
                 'height': page.value.image.webp.height
@@ -615,14 +615,14 @@
     'headingSize': 'l',
     'title': shop.value.title,
     'text': shop.value.description,
-    'imageSrc': shop.value.background_image.jpeg.full_url,
+    'imageSrc': shop.value.background_image.jpeg.url,
     'imageAlt': '',
     'imageWidth': shop.value.background_image.jpeg.width,
     'imageHeight': shop.value.background_image.jpeg.height,
     'imageCaption': shop_hero_image_caption,
     'imageSources': [
       {
-        'src': shop.value.background_image.webp.full_url,
+        'src': shop.value.background_image.webp.url,
         'width': shop.value.background_image.webp.width,
         'height': shop.value.background_image.webp.height,
         'type': 'image/webp'

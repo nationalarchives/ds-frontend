@@ -3,7 +3,7 @@
     {%- for item in block_value['items'] %}
     <li class="tna-records-list__item">
       {%- if item.thumbnail_image %}
-      <img src="{{ item.thumbnail_image.jpeg.full_url }}" width="{{ item.thumbnail_image.jpeg.width }}" height="{{ item.thumbnail_image.jpeg.height }}" class="tna-records-list__image" alt="">
+      <img src="{{ item.thumbnail_image.jpeg.url }}" width="{{ item.thumbnail_image.jpeg.width }}" height="{{ item.thumbnail_image.jpeg.height }}" class="tna-records-list__image" alt="">
       {%- endif %}
       <dl class="tna-records-list__details">
         <dt class="tna-records-list__collection-label tna-chip tna-chip--plain">From our collection</dt>

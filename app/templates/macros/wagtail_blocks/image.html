@@ -34,13 +34,13 @@
     {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
   {%- endif %}
   {% set picture_content = {
-    'src': block_value.image.jpeg.full_url,
+    'src': block_value.image.jpeg.url,
     'alt': block_value.alt_text or '',
     'width': block_value.image.jpeg.width,
     'height': block_value.image.jpeg.height,
     'sources': [
       {
-        'src': block_value.image.webp.full_url,
+        'src': block_value.image.webp.url,
         'type': 'image/webp',
         'width': block_value.image.webp.width,
         'height': block_value.image.webp.height
