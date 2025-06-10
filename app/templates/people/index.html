@@ -109,7 +109,7 @@
       {%- if person.image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': person.image.jpeg.url,
-          'imageAlt': person.image.alt or '',
+          'imageAlt': person.image.description,
           'imageWidth': person.image.jpeg.width,
           'imageHeight': person.image.jpeg.height,
           'imageSources': [
