@@ -58,7 +58,7 @@
       </div>
       <div class="tna-container tna-container--centred">
         <div class="tna-column tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-column--order-2 tna-!--padding-top-m">
-          <img src="{{ highlight.image.webp.url }}" width="{{ highlight.image.webp.width }}" height="{{ highlight.image.webp.height }}" alt="{{ highlight.alt_text }}" class="etna-highlight-gallery__image" itemprop="contentUrl">
+          <img src="{{ highlight.image.webp.url }}" width="{{ highlight.image.webp.width }}" height="{{ highlight.image.webp.height }}" alt="{{ highlight.image.description }}" class="etna-highlight-gallery__image" itemprop="contentUrl">
         </div>
         <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-column--order-1 tna-column--order-3-medium tna-column--order-3-small tna-column--order-3-tiny tna-!--padding-top-m">
           <dl class="tna-dl tna-dl--plain tna-dl--stacked">
@@ -111,7 +111,7 @@
         {%- if page_data.featured_article.teaser_image %}
           {% set card_content = dict(card_content, **{
             'imageSrc': page_data.featured_article.teaser_image.jpeg.url,
-            'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+            'imageAlt': page_data.featured_article.teaser_image.description,
             'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
             'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
             'imageSources': [

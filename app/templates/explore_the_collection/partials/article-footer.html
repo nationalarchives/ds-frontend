@@ -31,7 +31,7 @@
         {%- if page.teaser_image %}
           {% set card_content = dict(card_content, **{
             'imageSrc': page.teaser_image.jpeg.url,
-            'imageAlt': page.teaser_image.alt_text or '',
+            'imageAlt': page.teaser_image.description,
             'imageWidth': page.teaser_image.jpeg.width,
             'imageHeight': page.teaser_image.jpeg.height,
             'imageSources': [
@@ -91,7 +91,7 @@
         {%- if page.teaser_image %}
           {% set card_content = dict(card_content, **{
             'imageSrc': page.teaser_image.jpeg.url,
-            'imageAlt': page.teaser_image.alt_text or '',
+            'imageAlt': page.teaser_image.description,
             'imageWidth': page.teaser_image.jpeg.width,
             'imageHeight': page.teaser_image.jpeg.height,
             'imageSources': [

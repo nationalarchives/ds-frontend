@@ -37,7 +37,7 @@
         'label': 'New' if page_data.featured_article.is_newly_published,
         'labelColour': 'green',
         'imageSrc': page_data.featured_article.teaser_image.jpeg.url,
-        'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+        'imageAlt': page_data.featured_article.teaser_image.description,
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
         'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'imageSources': [
@@ -143,7 +143,7 @@
       {%- if child.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': child.teaser_image.jpeg.url,
-          'imageAlt': child.teaser_image.alt_text or '',
+          'imageAlt': child.teaser_image.description,
           'imageWidth': child.teaser_image.jpeg.width,
           'imageHeight': child.teaser_image.jpeg.height,
           'imageSources': [

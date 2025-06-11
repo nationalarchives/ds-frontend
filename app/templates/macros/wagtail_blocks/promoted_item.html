@@ -34,7 +34,7 @@
       {% set card_content = dict(card_content, **{
         'horizontal': True,
         'imageSrc': block_value.image.image.jpeg.url,
-        'imageAlt': block_value.image.image.alt_text or '',
+        'imageAlt': block_value.image.image.description,
         'imageWidth': block_value.image.image.jpeg.width,
         'imageHeight': block_value.image.image.jpeg.height,
         'imageSources': [

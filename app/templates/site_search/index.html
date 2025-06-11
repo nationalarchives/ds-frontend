@@ -126,7 +126,7 @@
       {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': item.teaser_image.jpeg.url,
-          'imageAlt': item.teaser_image.alt_text or '',
+          'imageAlt': item.teaser_image.description,
           'imageWidth': item.teaser_image.jpeg.width,
           'imageHeight': item.teaser_image.jpeg.height,
           'imageSources': [
