@@ -64,22 +64,20 @@
         <div class="tna-column tna-column--width-1-2 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-column--order-1 tna-column--order-3-medium tna-column--order-3-small tna-column--order-3-tiny tna-!--padding-top-m">
           <dl class="tna-dl tna-dl--plain tna-dl--stacked">
             <dt>Date</dt>
-            <dd>{{ highlight.image.record_dates }}</dd>
-            {%- if highlight.image.record %}
+            <dd>{{ highlight.record_dates }}</dd>
+            {%- if highlight.record %}
             <dt>Catalogue reference</dt>
             <dd>
-              <!-- <a href="{{ url_for('catalogue.catalogue_item', id=highlight.image.record.iaid) }}">{{ highlight.image.record.reference_number }}</a> -->
-              <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.image.record.iaid }}">{{ highlight.image.record.reference_number }}</a>
+              <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.record.iaid }}">{{ highlight.record.reference_number }}</a>
             </dd>
             {%- endif %}
           </dl>
           <div class="etna-space-above" itemprop="description">
             {{ highlight.image.description | safe }}
           </div>
-          {%- if highlight.image.record %}
+          {%- if highlight.record %}
           <div class="tna-button-group tna-button-group--small">
-            <!-- <a href="{{ url_for('catalogue.catalogue_item', id=highlight.image.record.iaid) }}" class="tna-button" itemprop="url">View record details</a> -->
-            <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.image.record.iaid }}" class="tna-button" itemprop="url">View record details</a>
+            <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ highlight.record.iaid }}" class="tna-button" itemprop="url">View record details</a>
           </div>
           {%- endif %}
         </div>
