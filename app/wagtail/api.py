@@ -161,13 +161,13 @@ def authored_pages_paginated(
     )
 
 
-def media(media_id, params={}):
-    uri = f"media/{media_id}/"
+def media(media_uuid, params={}):
+    uri = f"media/{media_uuid}/"
     return wagtail_request_handler(uri, params)
 
 
-def image(image_id, params={}):
-    uri = f"images/{image_id}/"
+def image(image_uuid, params={}):
+    uri = f"images/{image_uuid}/"
     return wagtail_request_handler(uri, params)
 
 

@@ -51,6 +51,7 @@
       </video>
       <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
       <meta itemprop="contentUrl" content="{{ block_value.media.url }}">
+      <meta itemprop="url" content="{{ url_for('wagtail.video_page', video_uuid=block_value.media.uuid, _external=True, _scheme='https') }}">
       {% if block_value.thumbnail %}
       <meta itemprop="thumbnailUrl" content="{{ block_value.thumbnail.jpeg.url }}">
       {% endif %}

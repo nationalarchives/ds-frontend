@@ -32,6 +32,7 @@
   {%- if block_value.image.copyright %}
     {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
   {%- endif %}
+  {% set image_caption = image_caption + '<meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') + '">' %}
   {% set picture_content = {
     'src': block_value.image.jpeg.url,
     'alt': block_value.description,

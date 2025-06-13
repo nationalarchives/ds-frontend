@@ -226,11 +226,11 @@ def try_external_redirect(path):
     )
 
 
-@bp.route("/video/<int:video_id>-<string:video_title>/")
+@bp.route("/video/<uuid:video_uuid>/")
 @cache.cached(key_prefix=page_cache_key_prefix)
-def video_page(video_id, video_title):
+def video_page(video_uuid):
     try:
-        video_data = media(media_id=video_id)
+        video_data = media(media_uuid=video_uuid)
     except ResourceNotFound:
         return CachedResponse(
             response=make_response(render_template("errors/page_not_found.html"), 404),
@@ -247,12 +247,6 @@ def video_page(video_id, video_title):
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    if video_data.get("title") != video_title:
-        return CachedResponse(
-            response=make_response(render_template("errors/page_not_found.html"), 404),
-            timeout=1,
-        )
-
     return CachedResponse(
         response=make_response(
             render_template("media/video.html", video_data=video_data)
@@ -261,11 +255,11 @@ def video_page(video_id, video_title):
     )
 
 
-@bp.route("/image/<int:image_id>-<string:image_title>/")
+@bp.route("/image/<uuid:image_uuid>/")
 @cache.cached(key_prefix=page_cache_key_prefix)
-def image_page(image_id, image_title):
+def image_page(image_uuid):
     try:
-        image_data = image(image_id=image_id)
+        image_data = image(image_uuid=image_uuid)
     except ResourceNotFound:
         return CachedResponse(
             response=make_response(render_template("errors/page_not_found.html"), 404),
@@ -282,17 +276,6 @@ def image_page(image_id, image_title):
             response=make_response(render_template("errors/api.html"), 502),
             timeout=1,
         )
-    if image_data.get("title") != image_title:
-        return CachedResponse(
-            response=make_response(render_template("errors/page_not_found.html"), 404),
-            timeout=1,
-        )
-
-    # Temporary fix for local development
-    image_data["meta"]["download_url"] = image_data["meta"]["download_url"].replace(
-        "host.docker.internal", "localhost"
-    )
-
     return CachedResponse(
         response=make_response(
             render_template("media/image.html", image_data=image_data)

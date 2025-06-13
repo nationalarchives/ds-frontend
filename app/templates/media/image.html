@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/ImageObject">
+  <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') }}">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Image</p>
@@ -47,26 +48,6 @@
         </dd>
       </dl>
     </div>
-
-    {% if image_data.record %}
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      <h2 class="tna-heading-m">Associated record</h2>
-      <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-!--margin-top-s">
-        <dt>Title</dt>
-        <dd>{{ image_data.record.title }}</dd>
-        {% if image_data.record_dates %}
-        <dt>Dates</dt>
-        <dd>{{ image_data.record_dates }}</dd>
-        {% endif %}
-        <dt>Reference number</dt>
-        <dd>{{ image_data.record.reference_number }}</dd>
-        <dt>Details</dt>
-        <dd>
-          <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ image_data.record.iaid }}">Record details on Discovery</a>
-        </dd>
-      </dl>
-    </div>
-    {% endif %}
   </div>
 </div>
 {% endblock %}
