@@ -21,8 +21,7 @@
 {%- endif -%}
 {% set hasContent = params.title or params.body or params.text %}
 <{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true">
-  <figure class="tna-hero__figure"{{ '' if params.noMicrodata else ' itemprop="image"' }} itemscope itemtype="https://schema.org/ImageObject">
-    <meta itemprop="url" content="{{ params.imageSrc }}">
+  <figure class="tna-hero__figure"{{ '' if params.noMicrodata else ' itemprop="image"' | safe }} itemscope itemtype="https://schema.org/ImageObject">
     <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
     <meta itemprop="width" content="{{ params.imageWidth }}">
     <meta itemprop="height" content="{{ params.imageHeight }}">

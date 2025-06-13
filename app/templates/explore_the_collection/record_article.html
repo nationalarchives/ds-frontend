@@ -114,7 +114,6 @@
           {%- if page_data.record %}
           <dt>Catalogue reference</dt>
           <dd>
-            <!-- <a href="{{ url_for('catalogue.catalogue_item', id=page_data.record.iaid) }}">{{ page_data.record.reference_number }}</a> -->
             <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ page_data.record.iaid }}">{{ page_data.record.reference_number }}</a>
           </dd>
           {%- endif %}
