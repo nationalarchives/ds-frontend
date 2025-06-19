@@ -57,7 +57,7 @@
     {% if page_data.start_date %}
       <meta itemprop="startDate" content="{{ page_data.start_date }}">
       {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
-      {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, not page_data.exclude_days) + '</p></div>' %}
+      {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) + '</p></div>' %}
       {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + price + '</p></div>' %}
       {% set hero_intro = hero_intro + '</div>' %}
     {% endif %}

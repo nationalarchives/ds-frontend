@@ -28,30 +28,30 @@ class ContextParserTestCase(unittest.TestCase):
     def test_pretty_date_range_no_days(self):
         start_date = "2000-01-01"
         self.assertEqual(
-            pretty_date_range(start_date, "2000-01-01", ignore_days=False),
+            pretty_date_range(start_date, "2000-01-01", omit_days=True),
             "January 2000",
         )
         self.assertEqual(
-            pretty_date_range(start_date, "2000-01-02", ignore_days=False),
+            pretty_date_range(start_date, "2000-01-02", omit_days=True),
             "January 2000",
         )
         self.assertEqual(
-            pretty_date_range(start_date, "2000-01-31", ignore_days=False),
+            pretty_date_range(start_date, "2000-01-31", omit_days=True),
             "January 2000",
         )
         self.assertEqual(
-            pretty_date_range(start_date, "2000-02-01", ignore_days=False),
+            pretty_date_range(start_date, "2000-02-01", omit_days=True),
             "January to February 2000",
         )
         self.assertEqual(
-            pretty_date_range(start_date, "2000-12-31", ignore_days=False), "2000"
+            pretty_date_range(start_date, "2000-12-31", omit_days=True), "2000"
         )
         self.assertEqual(
-            pretty_date_range(start_date, "2001-01-01", ignore_days=False),
+            pretty_date_range(start_date, "2001-01-01", omit_days=True),
             "January 2000 to January 2001",
         )
         self.assertEqual(
-            pretty_date_range(start_date, "2001-12-31", ignore_days=False),
+            pretty_date_range(start_date, "2001-12-31", omit_days=True),
             "2000 to 2001",
         )
 

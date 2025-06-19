@@ -55,11 +55,11 @@ def get_date_from_string(s):
     return None
 
 
-def pretty_date_range(s_from, s_to, ignore_days=True, show_time=False):
+def pretty_date_range(s_from, s_to, omit_days=False, show_time=False):
     date_from = get_date_from_string(s_from)
     date_to = get_date_from_string(s_to)
     if date_from and date_to:
-        date_to_string = date_to.strftime("%-d %B %Y" if ignore_days else "%B %Y")
+        date_to_string = date_to.strftime("%B %Y" if omit_days else "%-d %B %Y")
         if (
             date_from.day == 1
             and date_from.month == 1
@@ -79,16 +79,16 @@ def pretty_date_range(s_from, s_to, ignore_days=True, show_time=False):
                         ):
                             return date_from.strftime("%-d %B %Y, %H:%M")
                         return f"{date_from.strftime('%-d %B %Y, %H:%M')} to {date_to.strftime('%H:%M')}"
-                    return date_from.strftime("%-d %B %Y" if ignore_days else "%B %Y")
-                elif ignore_days:
-                    return f"{date_from.strftime('%-d')} to {date_to_string}"
-                return date_to_string
-            return f"{date_from.strftime('%-d %B' if ignore_days else "%B")} to {date_to_string}"
-        return f"{date_from.strftime('%-d %B %Y' if ignore_days else "%B %Y")} to {date_to_string}"
+                    return date_from.strftime("%B %Y" if omit_days else "%-d %B %Y")
+                if omit_days:
+                    return date_to_string
+                return f"{date_from.strftime('%-d')} to {date_to_string}"
+            return f"{date_from.strftime('%B' if omit_days else "%-d %B")} to {date_to_string}"
+        return f"{date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")} to {date_to_string}"
     if date_from:
-        return f"From {date_from.strftime('%-d %B %Y' if ignore_days else "%B %Y")}"
+        return f"From {date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
     if date_to:
-        return f"To {date_to.strftime('%-d %B %Y' if ignore_days else "%B %Y")}"
+        return f"To {date_to.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
     return f"{s_from} to {s_to}"
 
 

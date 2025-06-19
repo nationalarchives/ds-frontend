@@ -111,7 +111,7 @@
       <li>
         {{ pretty_date_range(session.start, session.end, show_time=True) }}
         {%- if session.sold_out %}
-        <strong>Sold out</strong>
+        <strong class="tna-chip">Sold out</strong>
         {%- endif %}
       </li>
       {%- endfor %}
