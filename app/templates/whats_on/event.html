@@ -3,6 +3,7 @@
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/gallery/macro.html' import tnaGallery -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
@@ -103,7 +104,7 @@
     </div>
   </div>
 </div>
-<div class="tna-container tna-!--padding-bottom-m">
+<div class="tna-container tna-!--padding-bottom-l">
   <div class="tna-column tna-column--full tna-!--margin-bottom-s">
     <h2 class="tna-heading-l">Dates for this event</h2>
     <ul class="tna-ul">
@@ -111,7 +112,7 @@
       <li>
         {{ pretty_date_range(session.start, session.end, show_time=True) }}
         {%- if session.sold_out %}
-        <strong class="tna-chip">Sold out</strong>
+        <strong class="tna-chip tna-chip--inline">Sold out</strong>
         {%- endif %}
       </li>
       {%- endfor %}
@@ -142,17 +143,79 @@
       </a>
     </div>
   </div> -->
+  <div class="tna-column tna-column--full tna-!--margin-top-l">
+    <div class="tna-newsletter">
+      <div class="tna-newsletter_inner">
+        <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
+        <div class="tna-newsletter__body">
+          <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/spy">Priority booking</a></h3>
+          <p>Join The National Archives mailing list for exhibition updates and early booking for events, including talks and tours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
-<p class="tna-heading-xl">TODO: Highlights</p>
-{% for exhibition_highlights in page_data.exhibition_highlights %}
+
+<div class="tna-background-tint">
+  <section class="tna-section tna-!--padding-top-m">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h2 id="plan-your-visit" class="tna-heading-l tna-!--padding-top-s">{{ page_data.location.details_title or 'Plan your visit' }}</h2>
+      </div>
+      <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+        {% set accordion_items = [] %}
+        {% for item in page_data.location.details[0].value %}
+          {% set accordion_items = accordion_items.append({
+            'title': item.title,
+            'body': item.body | tna_html
+          }) %}
+        {% endfor %}
+        {% if accordion_items %}
+          {{ tnaAccordion({
+            'itemHeadingLevel': 3,
+            'items': accordion_items,
+            'id': 'plan-your-visit-details',
+            'openMultipleItems': True
+          }) }}
+        {% endif %}
+        <div class="tna-button-group">
+          <a href="https://www.nationalarchives.gov.uk/about/visit-us/" class="tna-button " data-tna-cta="">Visit us</a>
+        </div>
+      </div>
+      {%- if page_data.location.image %}
+      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+        <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
+          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.url }}">
+          <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
+          <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
+          <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
+          <div class="tna-picture__image-wrapper tna-background-tint">
+            <picture>
+              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
+              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
+            </picture>
+          </div>
+        </figure>
+      </div>
+      {%- endif %}
+    </div>
+  </section>
+</div>
+
+
+
+
+
+{% for event_highlights in page_data.event_highlights %}
 <section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <h2 id="{{ (page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.exhibition_highlights_title or 'Exhibition highlights' }}</h2>
+      <h2 id="{{ (page_data.event_highlights_title | slugify) if page_data.event_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_highlights_title or 'Event highlights' }}</h2>
       {% set gallery_images = [] %}
-      {% for image in exhibition_highlights.value.images %}
+      {% for image in event_highlights.value.images %}
         {% set gallery_images = gallery_images.append({
           'alt': image.image.description,
           'width': image.image.jpeg.width,
@@ -162,11 +225,11 @@
         }) %}
       {% endfor %}
       {{ tnaGallery({
-        'title': exhibition_highlights.value.title,
+        'title': event_highlights.value.title,
         'headingLevel': 3,
-        'body': exhibition_highlights.value.description | tna_html | safe,
+        'body': event_highlights.value.description | tna_html | safe,
         'items': gallery_images,
-        'id': 'gallery-' + exhibition_highlights.id
+        'id': 'gallery-' + event_highlights.id
       }) }}
     </div>
   </div>
@@ -184,80 +247,34 @@
 
 <div class="tna-container tna-section tna-!--no-padding-top">
   <div class="tna-column tna-column--full">
-    <div class="etna-author-list etna-author-list--horizontal tna-column tna-!--margin-top-l">
-      <h2 class="etna-author-list__heading tna-heading-m">Host</h2>
-      <ul class="etna-author-list__items">
-        <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
-          <div class="etna-author-list__details">
-            <p class="etna-author-list__name">
-              <strong>
-                <a href="#" rel="author">
-                  <span itemprop="name">Godron Corera</span>
-                </a>
-                <link itemprop="url" href="#">
-              </strong>
-            </p>
-            <p class="etna-author-list__description" itemprop="jobTitle">British author and journalist</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="tna-column tna-column--full">
-    <div class="etna-author-list etna-author-list--horizontal tna-column tna-!--margin-top-l">
-      <h2 class="etna-author-list__heading tna-heading-m">Speaker</h2>
-      <ul class="etna-author-list__items">
-        <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
-          <div class="etna-author-list__details">
-            <p class="etna-author-list__name">
-              <strong>
-                <a href="#" rel="author">
-                  <span itemprop="name">Godron Corera</span>
-                </a>
-                <link itemprop="url" href="#">
-              </strong>
-            </p>
-            <p class="etna-author-list__description" itemprop="jobTitle">British author and journalist</p>
-          </div>
-        </li>
-      </ul>
-      <p>Lorem ipsum</p>
-    </div>
-  </div>
-  <div class="tna-column tna-column--full">
     <div class="etna-author-list etna-author-list--horizontal- tna-column tna-!--margin-top-l">
-      <h2 class="etna-author-list__heading tna-heading-m">Speakers</h2>
+      <h2 class="etna-author-list__heading tna-heading-l tna-!--padding-bottom-m">Speakers</h2>
       <ul class="etna-author-list__items">
-        <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
+        {%- for speaker in page_data.speakers %}
+        <li class="etna-author-list__item" itemprop="performer" itemscope itemtype="https://schema.org/Person">
+          {%- if speaker.image %}
+          <img src="{{ speaker.image.jpeg.url }}" width="{{ speaker.image.jpeg.width }}" height="{{ speaker.image.jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.jpeg.description }}">
+          {%- else %}
           <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
+          {%- endif %}
           <div class="etna-author-list__details">
             <p class="etna-author-list__name">
               <strong>
-                <a href="#" rel="author">
-                  <span itemprop="name">Godron Corera</span>
+                {%- if speaker.url %}
+                <a href="{{ speaker.url }}" rel="author">
+                  <span itemprop="name">{{ speaker.name or speaker.title }}</span>
                 </a>
-                <link itemprop="url" href="#">
+                <link itemprop="url" href="{{ speaker.url }}">
+                {%- else %}
+                <span itemprop="name">{{ speaker.name or speaker.title }}</span>
+                {%- endif %}
               </strong>
             </p>
-            <p class="etna-author-list__description" itemprop="jobTitle">British author and journalist</p>
+            <p class="etna-author-list__description" itemprop="jobTitle">{{ speaker.role }}</p>
+            {{ speaker.biography | tna_html | safe }}
           </div>
         </li>
-        <li class="etna-author-list__item" itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
-          <div class="etna-author-list__details">
-            <p class="etna-author-list__name">
-              <strong>
-                <a href="#" rel="author">
-                  <span itemprop="name">Godron Corera</span>
-                </a>
-                <link itemprop="url" href="#">
-              </strong>
-            </p>
-            <p class="etna-author-list__description" itemprop="jobTitle">British author and journalist</p>
-          </div>
-        </li>
+        {%- endfor %}
       </ul>
     </div>
   </div>
@@ -271,101 +288,17 @@
 
 
 
-<div class="tna-background-tint">
-  <section class="tna-container tna-section">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">This is an online only event</h2>
-      <p> This event will be presented on Vimeo. You do not need a Vimeo account to join an event, and can join from your browser from a laptop or mobile device. For the best experience we recommend using either a laptop or desktop computer.</p>
-      <p>You will receive a reminder email, including a link to join in advance of the event. For more information on registering and accessing an event, visit our <a href="https://www.nationalarchives.gov.uk/about/visit-us/whats-on/events/event-faq/">FAQs page</a>, or visit <a href="https://help.vimeo.com/hc/en-us/articles/12426085581073-How-to-watch-a-live-event-on-Vimeo">How to watch a live event on Vimeo</a>.</p>
-      <p>Talks are available to watch on catch-up for a limited period of 48 hours only.</p>
-    </div>
-  </section>
-  <hr>
-  <section class="tna-section tna-!--padding-top-m">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        <h2 id="plan-your-visit" class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
-      </div>
-      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-        <div class="tna-accordion" data-multiselectable="true" data-module="tna-accordion">
-          <div class="tna-accordion__details">
-            <h3><button class="tna-accordion__summary" type="button" aria-controls="plan-your-visit-details-content-1" aria-expanded="false" aria-label="What is The National Archives?, Show this section">What is The National Archives?</button></h3>
-            <div class="tna-accordion__content" id="plan-your-visit-details-content-1" hidden="">
-              <p>The National Archives is the official archive of the UK government, and England and Wales. We are the guardians of over 1,000 years of iconic national documents.</p>
-              <p>Everyone is welcome to visit our headquarters in Kew. We put on exhibitions, events and displays and offer reading rooms giving access to our collections there.</p>
-              <p><a href="https://www.nationalarchives.gov.uk/about/our-role/">Find out more about who we are</a></p>
-            </div>
-          </div>
-          <div class="tna-accordion__details">
-            <h3><button class="tna-accordion__summary" type="button" aria-controls="plan-your-visit-details-content-2" aria-expanded="false" aria-label="Getting here, Show this section">Getting here</button></h3>
-            <div class="tna-accordion__content" id="plan-your-visit-details-content-2" hidden="">
-              <p>The National Archives is located by the River Thames in Kew, 30 minutes from Central London. We offer advice on travelling to us by car, bike, train or bus.</p>
-              <p><a href="https://www.nationalarchives.gov.uk/about/visit-us/how-to-find-us/">Read our advice on getting here</a></p>
-            </div>
-          </div>
-          <div class="tna-accordion__details">
-            <h3><button class="tna-accordion__summary" type="button" aria-controls="plan-your-visit-details-content-3" aria-expanded="false" aria-label="Opening times, Show this section">Opening times</button></h3>
-            <div class="tna-accordion__content" id="plan-your-visit-details-content-3" hidden="">
-              <p>MI5: Official Secrets is open at the following times:</p>
-              <ul class="tna-ul">
-                <li>Monday: CLOSED</li>
-                <li>Tuesday: 09:00 to 19:00</li>
-                <li>Wednesday: 09:00 to 17:00</li>
-                <li>Thursday: 09:00 to 19:00</li>
-                <li>Friday: 09:00 to 17:00</li>
-                <li>Saturday: 09:00 to 17:00</li>
-                <li>Sunday: 11:00 to 16:00</li>
-              </ul>
-              <p>It will be open for shorter hours on some bank holiday weekend dates. Check our full <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">Opening times</a> for details.</p>
-            </div>
-          </div>
-        </div>
-        <div class="tna-button-group">
-          <a href="https://www.nationalarchives.gov.uk/about/visit-us/" class="tna-button " data-tna-cta="">Visit us</a>
-        </div>
-      </div>
-      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-        <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <!-- <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid='123', _external=True, _scheme='https') }}"> -->
-          <meta itemprop="contentUrl" content="https://beta.nationalarchives.gov.uk/media/images/mi5-e.max-900x900.format-jpeg.jpegquality-60.bgcolor-fff.jpg">
-          <meta itemprop="width" content="900">
-          <meta itemprop="height" content="600">
-          <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-          <div class="tna-picture__image-wrapper tna-background-tint">
-            <picture>
-              <source class="tna-picture__image" srcset="https://beta.nationalarchives.gov.uk/media/images/mi5-_me6Rd8S.max-900x900.format-webp.webpquality-60.bgcolor-fff.webp" type="image/webp" width="900" height="600">
-              <img class="tna-picture__image" width="900" height="600" src="https://beta.nationalarchives.gov.uk/media/images/mi5-e.max-900x900.format-jpeg.jpegquality-60.bgcolor-fff.jpg" alt="View of the outside of The National Archives' building, featuring modern glass and 60s brutalism." loading="lazy">
-            </picture>
-          </div>
-        </figure>
-      </div>
-    </div>
-  </section>
-</div>
 
 
 
-
-<section class="tna-container tna-container--centred tna-section">
-  <div class="tna-column tna-column--full tna-column--order-1">
-    <h2 class="tna-heading-l">Simon Schama - British Historian and TV Host</h2>
-  </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--width-1-2-tiny tna-column--margin-right-1-12 tna-column--no-margin-right-medium tna-column--no-margin-right-small tna-column--no-margin-right-tiny  tna-column--margin-left-1-12 tna-column--no-margin-left-medium tna-column--no-margin-left-small tna-column--no-margin-left-tiny tna-!--margin-top-m tna-column--order-4 tna-column--order-2-small tna-column--order-2-tiny">
-    <img src="https://picsum.photos/600/400?1" alt="" width="600" height="400">
-  </div>
-  <div class="tna-column tna-column--width-1-2 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-m tna-column--order-3">
-    <p>Sir Simon Michael Schama CBE FBA FRHistS FRSL is a British historian and television presenter. He specialises in art history, Dutch history, Jewish history, and French history. He is a Professor of History and Art History at Columbia University. Wikipedia.</p>
-    <p>Schama first came to public attention with his history of the French Revolution titled Citizens, published in 1989.[1] He is also known for writing and hosting the 15-part BBC television documentary series A History of Britain (2000—2002),[3][4] as well as other documentary series such as The American Future: A History (2008) and The Story of the Jews (2013).</p>
-  </div>
-</section>
 
 
 
 
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <h2 class="tna-heading-l">You may also be interested in</h2>
-    {{ tnaCard({
+    <h2 class="tna-heading-l">TODO: You may also be interested in</h2>
+    <!-- {{ tnaCard({
       'supertitle': 'Event type',
       'title': 'Event name',
       'text': 'Event description',
@@ -383,26 +316,7 @@
       'horizontalSmallImage': True,
       'style': 'accent',
       'classes': 'tna-!--margin-top-m'
-    }) }}
-    {{ tnaCard({
-      'supertitle': 'Event type',
-      'title': 'Event name',
-      'text': 'Event description',
-      'headingLevel': 2,
-      'headingSize': 'm',
-      'href': '#',
-      'imageSrc': 'https://picsum.photos/600/400?2',
-      'imageAlt': '',
-      'imageWidth': 600,
-      'imageHeight': 400,
-      'body': '<p>Lorem ipsum</p>',
-      'fullAreaClick': True,
-      'horizontal': True,
-      'horizontalFlipped': True,
-      'horizontalSmallImage': True,
-      'style': 'accent',
-      'classes': 'tna-!--margin-top-s'
-    }) }}
+    }) }} -->
   </div>
 </div>
 

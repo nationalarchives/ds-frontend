@@ -165,6 +165,12 @@ sup[data-footnoteid] {
   }
 }
 
+.tna-chip {
+  &--inline {
+    display: inline-flex;
+  }
+}
+
 // Search Discovery promo box
 .tna-form {
   &__hint {

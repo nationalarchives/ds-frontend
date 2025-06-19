@@ -1,0 +1,66 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  bordersVars;
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+.tna-newsletter {
+  &_inner {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    @include media.on-tiny {
+      flex-direction: column;
+    }
+  }
+
+  i#{&}__icon {
+    @include colour.accent;
+
+    padding: spacing.space(2);
+
+    display: flex;
+    align-items: center;
+
+    @include typography.font-size(48);
+
+    border-radius: bordersVars.$rounded-border-radius 0 0
+      bordersVars.$rounded-border-radius;
+
+    @include media.on-tiny {
+      padding: spacing.space(1);
+
+      @include typography.font-size(32);
+
+      border-radius: bordersVars.$rounded-border-radius
+        bordersVars.$rounded-border-radius 0 0;
+    }
+  }
+
+  &__body {
+    padding: spacing.space(1.5) spacing.space(2);
+
+    border-left-width: 0 !important;
+    border-radius: 0 bordersVars.$rounded-border-radius
+      bordersVars.$rounded-border-radius 0;
+
+    flex: 1;
+
+    @include colour.colour-border("keyline", 1px);
+
+    @include media.on-small {
+      padding: spacing.space(1) spacing.space(1.5);
+    }
+
+    @include media.on-tiny {
+      padding: spacing.space(1);
+
+      border-top-width: 0;
+      border-left-width: 1px !important;
+      border-radius: 0 0 bordersVars.$rounded-border-radius
+        bordersVars.$rounded-border-radius;
+    }
+  }
+}
