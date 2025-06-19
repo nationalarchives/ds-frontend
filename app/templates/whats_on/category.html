@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
+
+{%- set pageTitle = page_data.title -%}
+
+{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  },
+  {
+    'text': 'What’s on',
+    'href': '/whats-on/'
+  }
+] -%}
+
+{% block content %}
+{{ tnaHero({
+  'title': 'CATEGORY',
+  'imageSrc': 'https://picsum.photos/600/480',
+  'imageAlt': '',
+  'imageWidth': 600,
+  'imageHeight': 480,
+  'imageCaption': 'Image caption',
+  'narrow': True,
+  'style': 'accent',
+  'layout': 'split'
+}) }}
+{% endblock %}

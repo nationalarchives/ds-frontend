@@ -4,17 +4,6 @@
 
 {%- set pageTitle = page_data.title -%}
 
-{%- set breadcrumbs = [
-  {
-    'text': 'Home',
-    'href': '/'
-  },
-  {
-    'text': 'What’s on',
-    'href': '/whats-on/'
-  }
-] -%}
-
 {% block content %}
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -26,40 +15,52 @@
   </div>
 </div>
 <div class="tna-container">
-  {% for i in range(6) %}
+  {% for event in events %}
   <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-l">
-    {{ tnaCard({
-      'supertitle': 'Event type',
-      'title': 'Event name',
+    {% set event_card_content = {
+      'supertitle': event.type_label,
+      'title': event.title,
       'headingLevel': 2,
       'headingSize': 'm',
-      'href': '/whats-on/events/1/',
+      'href': event.url,
       'meta': [
         {
           'title': 'Date',
-          'text': 'Wednesday 16 June 2021, 10:00',
+          'text': pretty_date_range(event.start_date, event.end_date),
           'icon': 'calendar'
         },
         {
-          'title': 'Cost',
-          'text': 'From £10',
-          'icon': 'ticket'
+          'title': 'Location',
+          'text': event.short_location,
+          'icon': 'location-dot'
         },
         {
-          'title': 'Location',
-          'text': 'Online',
-          'icon': 'location-dot'
+          'title': 'Cost',
+          'text': event.price_range,
+          'icon': 'ticket'
         }
       ],
-      'label': 'MI5: Official Secrets series' if loop.index % 3 == 0 else None,
-      'imageSrc': 'https://picsum.photos/600/400?' + loop.index|string,
-      'imageAlt': '',
-      'imageWidth': 600,
-      'imageHeight': 400,
-      'body': '<p>Lorem ipsum</p>',
-      'fullAreaClick': True,
-      'style': 'plain'
-    }) }}
+      'text': event.teaser_text,
+      'fullAreaClick': True
+    } %}
+    {%- if event.teaser_image %}
+      {% set event_card_content = dict(event_card_content, **{
+        'lazyImage': True,
+        'imageSrc': event.teaser_image.jpeg.url,
+        'imageAlt': event.teaser_image.description,
+        'imageWidth': event.teaser_image.jpeg.width,
+        'imageHeight': event.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': event.teaser_image.webp.url,
+            'type': 'image/webp',
+            'width': event.teaser_image.webp.width,
+            'height': event.teaser_image.webp.height
+          }
+        ]
+      }) %}
+    {%- endif %}
+    {{ tnaCard(event_card_content) }}
   </div>
   {% endfor %}
 </div>

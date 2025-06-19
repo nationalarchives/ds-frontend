@@ -1,26 +1,16 @@
 {% extends 'base.html' %}
 
+{%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {%- set pageTitle = page_data.title -%}
 
 {%- set breadcrumbsStyle = 'accent' -%}
-{%- set breadcrumbs = [
-  {
-    'text': 'Home',
-    'href': '/'
-  },
-  {
-    'text': 'What’s on',
-    'href': '/whats-on/'
-  },
-  {
-    'text': 'Events',
-    'href': '/whats-on/events/'
-  }
-] -%}
 
 {% block stylesheets %}
 {{ super() }}
@@ -29,23 +19,51 @@
 
 {% block content %}
 {{ tnaHero({
-  'supertitle': 'Online event',
-  'title': 'Spies, Secrets and Archives',
-  'body': '<p class="tna-large-paragraph">Join Gordon Corera for the inside scoop on a career reporting on the world of secrets and spies.</p><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>Saturday 28 June 2014</span></dd></dl>',
-  'imageSrc': 'https://picsum.photos/600/480',
-  'imageAlt': '',
-  'imageWidth': 600,
-  'imageHeight': 480,
-  'imageCaption': 'Image caption',
+  'supertitle': page_data.type_label,
+  'title': page_data.title,
+  'body': '<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl>',
+  'imageSrc': page_data.hero_image.jpeg.url,
+  'imageAlt': page_data.hero_image.description,
+  'imageWidth': page_data.hero_image.jpeg.width,
+  'imageHeight': page_data.hero_image.jpeg.height,
+  'imageCaption': page_data.hero_image_caption,
+  'imageSources': [
+    {
+      'src': page_data.hero_image_small.webp.url,
+      'width': page_data.hero_image_small.webp.width,
+      'height': page_data.hero_image_small.webp.height,
+      'type': 'image/webp',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.hero_image_small.jpeg.url,
+      'width': page_data.hero_image_small.jpeg.width,
+      'height': page_data.hero_image_small.jpeg.height,
+      'type': 'image/jpeg',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.hero_image.webp.url,
+      'width': page_data.hero_image.webp.width,
+      'height': page_data.hero_image.webp.height,
+      'type': 'image/webp'
+    }
+  ],
   'narrow': True,
   'style': 'accent',
   'layout': 'split'
 }) }}
 <div class="tna-container tna-section tna-!--no-padding-top">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-    <h2 class="tna-heading-l">Join us for an in-depth online talk</h2>
-    <p>As Security Correspondent for BBC News, over the past 20 years, Gordon Corera has reported on issues relating to national security and intelligence. He has covered some of the world’s biggest spy stories ranging from the Edward Snowden leaks through to the poisonings of Sergei Skripal and Alexander Litvinenko.</p>
-    <p>Join him as he discusses insights from his career covering the changing world of British intelligence through to his latest work investigating the secrets of the KGB archives and the remarkable story of KGB archivist, Vasili Mitrokhin.</p>
+    {%- if page_data.custom_warning_text %}
+    {{ tnaWarning({
+      'headingLevel': 2,
+      'body': page_data.custom_warning_text | tna_html | safe,
+      'classes': 'tna-!--margin-bottom-m'
+    }) }}
+    {%- endif %}
+    <h2 class="tna-heading-l">TODO</h2>
+    {{ page_data.description | tna_html | safe }}
   </div>
   <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
     <div class="tna-aside tna-aside--tight etna-event-details">
@@ -53,9 +71,9 @@
       <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
         <dt>
           <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-          Pay what you can
+          Price
         </dt>
-        <dd>Free&mdash;&pound;15</dd>
+        <dd>{{ page_data.price_range }}</dd>
         <dt>
           <i class="fa-solid fa-user" aria-hidden="true"></i>
           Everyone welcome
@@ -63,62 +81,94 @@
         <dd>???</dd>
         <dt>
           <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-          Wednesday 2 May 2025
+          TODO
         </dt>
-        <dd>Starts at 19.30</dd>
+        <dd>TODO</dd>
         <dt>
           <i class="fa-solid fa-database" aria-hidden="true"></i>
-          Online only
+          TODO
         </dt>
-        <dd>Live-streamed on Vimeo</dd>
+        <dd>TODO</dd>
       </dl>
+      {%- if page_data.sold_out %}
+      <p><strong>This event has sold out.</strong></p>
+      {%- else %}
       <div class="tna-button-group">
         {{ tnaButton({
-          'text': 'Book tickets on Eventbrite',
-          'url': '#'
+          'text': 'TODO',
+          'url': page_data.booking_link
         }) }}
       </div>
+      {%- endif %}
     </div>
   </div>
 </div>
-
-
-
-
-
 <div class="tna-container tna-!--padding-bottom-m">
   <div class="tna-column tna-column--full tna-!--margin-bottom-s">
-    <h2 class="tna-heading-l">Next event instances</h2>
+    <h2 class="tna-heading-l">Dates for this event</h2>
   </div>
-  {% for i in range(14) %}
+  {% for session in page_data.sessions %}
   <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
     {{ tnaCard({
-      'title': 'Tuesday 2 May 2025',
+      'title': 'TODO',
       'headingLevel': 3,
       'headingSize': 's',
-      'href': '#',
       'meta': [
         {
           'title': 'Time',
-          'text': '19:30 to 20:30',
+          'text': 'TODO',
           'icon': 'clock'
         }
       ],
-      'fullAreaClick': True,
-      'style': 'plain',
       'classes': 'tna-!--margin-vertical-s'
     }) }}
   </div>
   {% endfor %}
-  <div class="tna-column tna-column--flex-1 tna-column--align-centre">
+  <!-- <div class="tna-column tna-column--flex-1 tna-column--align-centre">
     <div class="tna-button-group">
       <a href="#" class="tna-button tna-button--icon-right">
         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         See all
       </a>
     </div>
-  </div>
+  </div> -->
 </div>
+
+
+<p class="tna-heading-xl">TODO: Highlights</p>
+{% for exhibition_highlights in page_data.exhibition_highlights %}
+<section class="tna-section tna-background-contrast tna-!--padding-top-m">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 id="{{ (page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.exhibition_highlights_title or 'Exhibition highlights' }}</h2>
+      {% set gallery_images = [] %}
+      {% for image in exhibition_highlights.value.images %}
+        {% set gallery_images = gallery_images.append({
+          'alt': image.image.description,
+          'width': image.image.jpeg.width,
+          'height': image.image.jpeg.height,
+          'src': image.image.jpeg.url,
+          'description': image.caption | safe
+        }) %}
+      {% endfor %}
+      {{ tnaGallery({
+        'title': exhibition_highlights.value.title,
+        'headingLevel': 3,
+        'body': exhibition_highlights.value.description | tna_html | safe,
+        'items': gallery_images,
+        'id': 'gallery-' + exhibition_highlights.id
+      }) }}
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+
+
+
+
+
+
 
 
 
@@ -266,7 +316,7 @@
       </div>
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <!-- <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') }}"> -->
+          <!-- <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid='123', _external=True, _scheme='https') }}"> -->
           <meta itemprop="contentUrl" content="https://beta.nationalarchives.gov.uk/media/images/mi5-e.max-900x900.format-jpeg.jpegquality-60.bgcolor-fff.jpg">
           <meta itemprop="width" content="900">
           <meta itemprop="height" content="600">
@@ -345,4 +395,7 @@
     }) }}
   </div>
 </div>
+
+{{ feedback() }}
+{{ back_to_top() }}
 {% endblock %}

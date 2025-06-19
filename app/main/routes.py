@@ -5,14 +5,6 @@ from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
-from app.wagtail.pages import (
-    display_page,
-    event_page,
-    events_page,
-    exhibitions_page,
-    whats_on_search_page,
-    whats_on_series_page,
-)
 from flask import current_app, make_response, redirect, render_template, request
 
 
@@ -96,63 +88,3 @@ def robots():
 @cache.cached(key_prefix=page_cache_key_prefix)
 def new_homepage():
     return render_template("main/new_home.html")
-
-
-@bp.route("/whats-on/events/")
-def test_events_page():
-    return events_page(
-        page_data={
-            "id": 0,
-            "title": "Events",
-        }
-    )
-
-
-@bp.route("/whats-on/events/1/")
-def test_event_page():
-    return event_page(
-        page_data={
-            "id": 0,
-            "title": "Event #1",
-        }
-    )
-
-
-@bp.route("/whats-on/exhibitions/")
-def test_exhibitions_page():
-    return exhibitions_page(
-        page_data={
-            "id": 0,
-            "title": "Exhibitions",
-        }
-    )
-
-
-@bp.route("/whats-on/exhibitions/display/")
-def test_display_page():
-    return display_page(
-        page_data={
-            "id": 0,
-            "title": "Displays",
-        }
-    )
-
-
-@bp.route("/whats-on/search/")
-def test_search_page():
-    return whats_on_search_page(
-        page_data={
-            "id": 0,
-            "title": "Search",
-        }
-    )
-
-
-@bp.route("/whats-on/series/")
-def test_series_page():
-    return whats_on_series_page(
-        page_data={
-            "id": 0,
-            "title": "Series",
-        }
-    )

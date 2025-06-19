@@ -279,6 +279,11 @@ def authors_paginated(
     return wagtail_request_handler(uri, params)
 
 
+def events(params={}):
+    uri = "events/"
+    return wagtail_request_handler(uri, params)
+
+
 def global_alerts():
     try:
         home_page_alerts = page_details_by_uri(

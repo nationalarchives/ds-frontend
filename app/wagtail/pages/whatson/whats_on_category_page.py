@@ -1,8 +1,8 @@
 from flask import render_template
 
 
-def exhibitions_page(page_data):
+def whats_on_category_page(page_data):
     return render_template(
-        "whats_on/exhibitions.html",
+        "whats_on/category.html",
         page_data=page_data,
     )

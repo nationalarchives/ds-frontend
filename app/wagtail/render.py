@@ -14,9 +14,9 @@ from .pages import (
     cookies_page,
     display_page,
     event_page,
-    events_page,
+    events_listing_page,
     exhibition_page,
-    exhibitions_page,
+    exhibitions_listing_page,
     explorer_index_page,
     general_page,
     highlight_gallery_page,
@@ -25,6 +25,7 @@ from .pages import (
     people_index_page,
     person_page,
     record_article_page,
+    whats_on_category_page,
     whats_on_index_page,
     whats_on_search_page,
     whats_on_series_page,
@@ -59,13 +60,14 @@ page_type_templates = {
     "blog.BlogPostPage": blog_post_page,
     # What's on
     "whatson.WhatsOnPage": whats_on_index_page,
-    "whatson.EventListingPage": events_page,
+    "whatson.EventsListingPage": events_listing_page,
     "whatson.EventPage": event_page,
     "whatson.ExhibitionPage": exhibition_page,
     "whatson.DisplayPage": display_page,
-    "whatson.ExhibitionsPage": exhibitions_page,
+    "whatson.ExhibitionsListingPage": exhibitions_listing_page,
     "whatson.SearchPage": whats_on_search_page,
-    "whatson.SeriesPage": whats_on_series_page,
+    "whatson.WhatsOnCategoryPage": whats_on_category_page,
+    "whatson.WhatsOnSeriesPage": whats_on_series_page,
 }
 
 
