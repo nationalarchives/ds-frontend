@@ -106,9 +106,19 @@
 <div class="tna-container tna-!--padding-bottom-m">
   <div class="tna-column tna-column--full tna-!--margin-bottom-s">
     <h2 class="tna-heading-l">Dates for this event</h2>
+    <ul class="tna-ul">
+      {%- for session in page_data.sessions %}
+      <li>
+        {{ pretty_date_range(session.start, session.end, show_time=True) }}
+        {%- if session.sold_out %}
+        <strong>Sold out</strong>
+        {%- endif %}
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
   {% for session in page_data.sessions %}
-  <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
+  <!-- <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
     {{ tnaCard({
       'title': 'TODO',
       'headingLevel': 3,
@@ -122,7 +132,7 @@
       ],
       'classes': 'tna-!--margin-vertical-s'
     }) }}
-  </div>
+  </div> -->
   {% endfor %}
   <!-- <div class="tna-column tna-column--flex-1 tna-column--align-centre">
     <div class="tna-button-group">
