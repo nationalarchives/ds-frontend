@@ -63,7 +63,6 @@
       'classes': 'tna-!--margin-bottom-m'
     }) }}
     {%- endif %}
-    <h2 class="tna-heading-l">TODO</h2>
     {{ page_data.description | tna_html | safe }}
   </div>
   <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
@@ -292,33 +291,6 @@
 
 
 
-
-
-
-<div class="tna-container tna-section">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <h2 class="tna-heading-l">TODO: You may also be interested in</h2>
-    <!-- {{ tnaCard({
-      'supertitle': 'Event type',
-      'title': 'Event name',
-      'text': 'Event description',
-      'headingLevel': 2,
-      'headingSize': 'm',
-      'href': '#',
-      'imageSrc': 'https://picsum.photos/600/400?1',
-      'imageAlt': '',
-      'imageWidth': 600,
-      'imageHeight': 400,
-      'body': '<p>Lorem ipsum</p>',
-      'fullAreaClick': True,
-      'horizontal': True,
-      'horizontalFlipped': True,
-      'horizontalSmallImage': True,
-      'style': 'accent',
-      'classes': 'tna-!--margin-top-m'
-    }) }} -->
-  </div>
-</div>
 
 {{ feedback() }}
 {{ back_to_top() }}
