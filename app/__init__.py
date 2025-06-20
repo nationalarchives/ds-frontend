@@ -20,8 +20,6 @@ from app.lib.template_filters import (
     parse_json,
     pretty_date,
     pretty_date_with_day,
-    qs_active,
-    qs_toggler,
     rfc_822_format,
     seconds_to_iso_8601_duration,
     seconds_to_time,
@@ -177,8 +175,6 @@ def create_app(config_class):
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
     app.add_template_filter(pretty_date_with_day)
-    app.add_template_filter(qs_active)
-    app.add_template_filter(qs_toggler)
     app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_iso_8601_duration)

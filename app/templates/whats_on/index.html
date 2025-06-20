@@ -33,14 +33,14 @@
     'headingLevel': 1,
     'headingSize': 'xl',
     'items': ns.indexGridItems,
-    'columns': children | length,
+    'columns': 2,
     'columnsTiny': 1
   }) }}
 </div>
 
 {%- for section in page_data.whats_on_page_selections %}
 {%- set alternative_block = loop.index % 2 == 1 %}
-<div class="tna-section{{ ' tna-background-tint' if alternative_block else '' }}">
+<div class="tna-section{{ ' tna-background-tint-' if alternative_block else '' }}">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
@@ -154,73 +154,53 @@
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">TODO: Browse what’s on</h2>
+      <h2 class="tna-heading-l">Browse what’s on</h2>
     </div>
   </div>
+
+
+  {%- set ns = namespace(categoryIndexGridItems=[]) %}
+  {%- for page in category_pages %}
+    {%- set ns.categoryIndexGridItems = ns.categoryIndexGridItems + [{
+      'href': page.url,
+      'title': page.title,
+      'subtitle': page.teaser_text,
+      'src': page.teaser_image.jpeg.url if page.teaser_image else '',
+      'alt': page.teaser_image.description if page.teaser_image else '',
+      'width': page.teaser_image.jpeg.width if page.teaser_image else '',
+      'height': page.teaser_image.jpeg.height if page.teaser_image else ''
+    }] %}
+  {%- endfor %}
   {{ tnaIndexGrid({
-    'title': 'By type',
+    'title': 'Browse events by type',
     'headingLevel': 3,
     'headingSize': 'm',
-    'items': [
-      {
-        'href': '#',
-        'title': 'Talks and tours',
-        'src': 'https://picsum.photos/600/400?20',
-        'alt': '',
-        'width': 600,
-        'height': 400
-      },
-      {
-        'href': '#',
-        'title': 'Exhibitions and displays',
-        'src': 'https://picsum.photos/600/400?30',
-        'alt': '',
-        'width': 600,
-        'height': 400
-      },
-      {
-        'href': '#',
-        'title': 'Family activities',
-        'src': 'https://picsum.photos/600/400?40',
-        'alt': '',
-        'width': 600,
-        'height': 400
-      },
-      {
-        'href': '#',
-        'title': 'Everything that\'s on',
-        'src': 'https://picsum.photos/600/400?50',
-        'alt': '',
-        'width': 600,
-        'height': 400
-      }
-    ],
+    'items': ns.categoryIndexGridItems,
     'columns': 4,
     'columnsSmall': 2,
     'columnsTiny': 1
   }) }}
+
+
+
+  
+  {%- set ns = namespace(seriesIndexGridItems=[]) %}
+  {%- for page in series_pages %}
+    {%- set ns.seriesIndexGridItems = ns.seriesIndexGridItems + [{
+      'href': page.url,
+      'title': page.title,
+      'subtitle': page.teaser_text,
+      'src': page.teaser_image.jpeg.url if page.teaser_image else '',
+      'alt': page.teaser_image.description if page.teaser_image else '',
+      'width': page.teaser_image.jpeg.width if page.teaser_image else '',
+      'height': page.teaser_image.jpeg.height if page.teaser_image else ''
+    }] %}
+  {%- endfor %}
   {{ tnaIndexGrid({
-    'title': 'By location',
+    'title': 'Browse events by series',
     'headingLevel': 3,
     'headingSize': 'm',
-    'items': [
-      {
-        'href': '#',
-        'title': 'At The National Archives',
-        'src': 'https://picsum.photos/600/400?60',
-        'alt': '',
-        'width': 600,
-        'height': 400
-      },
-      {
-        'href': '#',
-        'title': 'Online',
-        'src': 'https://picsum.photos/600/400?70',
-        'alt': '',
-        'width': 600,
-        'height': 400
-      }
-    ],
+    'items': ns.seriesIndexGridItems,
     'columns': 4,
     'columnsSmall': 2,
     'columnsTiny': 1

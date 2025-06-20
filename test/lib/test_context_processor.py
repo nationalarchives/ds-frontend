@@ -24,6 +24,10 @@ class ContextParserTestCase(unittest.TestCase):
             "1 January 2000 to 1 January 2001",
         )
         self.assertEqual(pretty_date_range(start_date, "2001-12-31"), "2000 to 2001")
+        self.assertEqual(
+            pretty_date_range(None, "2001-12-31"), "Now to 31 December 2001"
+        )
+        self.assertEqual(pretty_date_range(start_date, None), "From 1 January 2000")
 
     def test_pretty_date_range_no_days(self):
         start_date = "2000-01-01"
@@ -53,6 +57,14 @@ class ContextParserTestCase(unittest.TestCase):
         self.assertEqual(
             pretty_date_range(start_date, "2001-12-31", omit_days=True),
             "2000 to 2001",
+        )
+        self.assertEqual(
+            pretty_date_range(start_date, None, omit_days=True),
+            "From January 2000",
+        )
+        self.assertEqual(
+            pretty_date_range(None, "2001-12-31", omit_days=True),
+            "Now to December 2001",
         )
 
     def test_pretty_date_range_with_time(self):
@@ -96,4 +108,12 @@ class ContextParserTestCase(unittest.TestCase):
         self.assertEqual(
             pretty_date_range(start_date, "2001-12-31T14:45:00Z", show_time=True),
             "2000 to 2001",
+        )
+        self.assertEqual(
+            pretty_date_range(start_date, None, show_time=True),
+            "From 1 January 2000",
+        )
+        self.assertEqual(
+            pretty_date_range(None, "2001-12-31T14:45:00Z", show_time=True),
+            "Now to 31 December 2001",
         )

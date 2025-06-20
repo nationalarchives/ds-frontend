@@ -32,6 +32,8 @@ def cookie_preference(policy):
 
 
 def get_date_from_string(s):
+    if not s:
+        return None
     try:
         return datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
     except ValueError:
@@ -55,7 +57,9 @@ def get_date_from_string(s):
     return None
 
 
-def pretty_date_range(s_from, s_to, omit_days=False, show_time=False):
+def pretty_date_range(
+    s_from, s_to, omit_days=False, show_time=False, sentence_case=False
+):
     date_from = get_date_from_string(s_from)
     date_to = get_date_from_string(s_to)
     if date_from and date_to:
@@ -86,9 +90,11 @@ def pretty_date_range(s_from, s_to, omit_days=False, show_time=False):
             return f"{date_from.strftime('%B' if omit_days else "%-d %B")} to {date_to_string}"
         return f"{date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")} to {date_to_string}"
     if date_from:
-        return f"From {date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
+        start = "from" if sentence_case else "From"
+        return f"{start} {date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
     if date_to:
-        return f"To {date_to.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
+        start = "now to" if sentence_case else "Now to"
+        return f"{start} {date_to.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
     return f"{s_from} to {s_to}"
 
 
