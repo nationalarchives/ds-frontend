@@ -35,9 +35,9 @@ def events_listing_page(page_data):
     date_from_date = None
     if date_from:
         date_from_date = datetime.datetime.strptime(date_from, "%Y-%m-%d").date()
-    elif "date_from" not in request.args:
-        date_from_date = date_today
-        date_from = date_from_date.strftime("%Y-%m-%d")
+    # elif "date_from" not in request.args:
+    #     date_from_date = date_today
+    #     date_from = date_from_date.strftime("%Y-%m-%d")
 
     date_to = request.args.get("date_to", None)
     date_to_date = (
