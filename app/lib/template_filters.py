@@ -91,16 +91,28 @@ def get_url_domain(s):
         return s
 
 
-def pretty_date(s, show_day=False):
+def pretty_date(s, show_day=False, show_time=False):  # noqa: C901
     if not s:
         return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        if show_time:
+            return (
+                date.strftime("%A %-d %B %Y, %H:%M")
+                if show_day
+                else date.strftime("%-d %B %Y, %H:%M")
+            )
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        if show_time:
+            return (
+                date.strftime("%A %-d %B %Y, %H:%M")
+                if show_day
+                else date.strftime("%-d %B %Y, %H:%M")
+            )
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
@@ -123,7 +135,15 @@ def pretty_date(s, show_day=False):
 
 
 def pretty_date_with_day(s):
-    return pretty_date(s, True)
+    return pretty_date(s, show_day=True)
+
+
+def pretty_date_with_time(s):
+    return pretty_date(s, show_time=True)
+
+
+def pretty_date_with_day_and_time(s):
+    return pretty_date(s, show_day=True, show_time=True)
 
 
 def currency(s):

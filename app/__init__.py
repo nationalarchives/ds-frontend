@@ -5,6 +5,7 @@ from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
+    is_today_in_date_range,
     now_iso_8601,
     now_iso_8601_no_time,
     now_rfc_822,
@@ -20,6 +21,8 @@ from app.lib.template_filters import (
     parse_json,
     pretty_date,
     pretty_date_with_day,
+    pretty_date_with_day_and_time,
+    pretty_date_with_time,
     rfc_822_format,
     seconds_to_iso_8601_duration,
     seconds_to_time,
@@ -175,6 +178,8 @@ def create_app(config_class):
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
     app.add_template_filter(pretty_date_with_day)
+    app.add_template_filter(pretty_date_with_time)
+    app.add_template_filter(pretty_date_with_day_and_time)
     app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_iso_8601_duration)
@@ -195,6 +200,7 @@ def create_app(config_class):
             now_iso_8601_no_time=now_iso_8601_no_time,
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
+            is_today_in_date_range=is_today_in_date_range,
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),

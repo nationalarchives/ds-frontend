@@ -1,66 +1,93 @@
 {% extends 'base.html' %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 
 {%- set pageTitle = page_data.title -%}
-
-{%- set breadcrumbs = [
-  {
-    'text': 'Home',
-    'href': '/'
-  },
-  {
-    'text': 'What’s on',
-    'href': '/whats-on/'
-  }
-] -%}
 
 {% block content %}
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <hgroup class="tna-hgroup-xl">
-      <p class="tna-hgroup__supertitle">What’s on</p>
+      <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
       <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
     </hgroup>
-    <p class="tna-large-paragraph">Discover our exhibitions.</p>
+    <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
   </div>
 </div>
 <div class="tna-container">
-  {% for i in range(6) %}
-  <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-l">
+  <div class="tna-column tna-column--full">
+  {% for page in page_data.exhibition_listings %}
     {{ tnaCard({
-      'supertitle': 'Event type',
-      'title': 'Event name',
+      'supertitle': page.type_label,
+      'title': page.title,
       'headingLevel': 2,
       'headingSize': 'm',
-      'href': '/whats-on/events/1/',
+      'href': page.url,
       'meta': [
         {
           'title': 'Date',
-          'text': 'Wednesday 16 June 2021, 10:00',
+          'text': pretty_date_range(page.start_date, page.end_date),
           'icon': 'calendar'
         },
         {
           'title': 'Cost',
-          'text': 'From £10',
+          'text': 'TODO',
           'icon': 'ticket'
         },
         {
           'title': 'Location',
-          'text': 'Online',
+          'text': page.short_location,
           'icon': 'location-dot'
         }
       ],
-      'label': 'MI5: Official Secrets series' if loop.index % 3 == 0 else None,
       'imageSrc': 'https://picsum.photos/600/400?' + loop.index|string,
       'imageAlt': '',
       'imageWidth': 600,
       'imageHeight': 400,
-      'body': '<p>Lorem ipsum</p>',
+      'text': page.teaser_text,
+      'horizontal': True,
+      'style': 'accent' if page.type == 'whatson.ExhibitionPage' else 'contrast',
       'fullAreaClick': True,
-      'style': 'plain'
+      'classes': 'tna-!--margin-bottom-m'
     }) }}
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
+{%- if page_data.past_exhibition_listings | length %}
+<div class="tna-section tna-background-tint tna-!--margin-top-m">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2>Past exhibitions and displays</h2>
+      <ul class="tna-container tna-container--nested">
+      {%- for page in page_data.past_exhibition_listings %}
+        <li class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+          {{ tnaCard({
+            'supertitle': page.type_label,
+            'title': page.title,
+            'headingLevel': 3,
+            'headingSize': 'm',
+            'href': page.url,
+            'meta': [
+              {
+                'title': 'Date',
+                'text': pretty_date_range(page.start_date, page.end_date),
+                'icon': 'calendar'
+              }
+            ],
+            'text': page.teaser_text,
+            'fullAreaClick': True,
+            'classes': 'tna-!--margin-top-m'
+          }) }}
+        </li>
+      {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{%- endif %}
+
+{{ feedback() }}
+{{ back_to_top() }}
 {% endblock %}

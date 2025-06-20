@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 from urllib.parse import unquote
 
+from app.lib.datetime import get_date_from_string
 from flask import current_app, request
 
 
@@ -28,32 +29,6 @@ def cookie_preference(policy):
         cookies_policy = request.cookies["cookies_policy"]
         preferences = json.loads(unquote(cookies_policy))
         return preferences[policy] if policy in preferences else None
-    return None
-
-
-def get_date_from_string(s):
-    if not s:
-        return None
-    try:
-        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S%z")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(s, "%Y-%m-%d")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(s, "%Y-%m")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(s, "%Y")
-    except ValueError:
-        pass
     return None
 
 
@@ -96,6 +71,13 @@ def pretty_date_range(
         start = "now to" if sentence_case else "Now to"
         return f"{start} {date_to.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
     return f"{s_from} to {s_to}"
+
+
+def is_today_in_date_range(s_from, date_to):
+    date_from = datetime.strptime(s_from, "%Y-%m-%d").date()
+    date_to = datetime.strptime(date_to, "%Y-%m-%d").date()
+    today = datetime.now().date()
+    return date_from <= today <= date_to
 
 
 def display_phase_banner():

@@ -11,11 +11,11 @@
 {%- set aToZSidebar = True -%}
 
 {% block skipLink %}
-{{ super() }}
 {{ tnaSkipLink({
   'href': 'people',
   'text': 'Skip to list of people'
 }) }}
+{{ super() }}
 {% endblock %}
 
 {% block head %}
