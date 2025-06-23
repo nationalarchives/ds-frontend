@@ -1,6 +1,6 @@
 import datetime
 
-from app.lib.template_filters import qs_active, qs_update
+from app.lib.template_filters import qs_active, qs_remove, qs_update
 from app.wagtail.api import events
 from flask import render_template, request
 
@@ -8,12 +8,16 @@ from flask import render_template, request
 def events_listing_page(page_data):
     event_params = {}
     date_error = None
+    if request.args.get("location") and request.args.get("location") not in [
+        "at_tna",
+        "online",
+    ]:
+        return render_template("errors/page_not_found.html"), 400
     location_quick_filters = [
         {
             "label": "Any location",
-            "href": "?" + qs_update(request.args, "location", "all"),
-            "selected": qs_active(request.args, "location", "all")
-            or not request.args.get("location"),
+            "href": "?" + qs_remove(request.args, "location"),
+            "selected": not request.args.get("location"),
         },
         {
             "label": "At The National Archives",
@@ -34,18 +38,22 @@ def events_listing_page(page_data):
     date_from = request.args.get("date_from", None)
     date_from_date = None
     if date_from:
-        date_from_date = datetime.datetime.strptime(date_from, "%Y-%m-%d").date()
-    # elif "date_from" not in request.args:
-    #     date_from_date = date_today
-    #     date_from = date_from_date.strftime("%Y-%m-%d")
+        try:
+            date_from_date = datetime.datetime.strptime(date_from, "%Y-%m-%d").date()
+        except ValueError:
+            date_from_date = None
+            date_from = None
 
     date_to = request.args.get("date_to", None)
-    date_to_date = (
-        datetime.datetime.strptime(date_to, "%Y-%m-%d").date() if date_to else None
-    )
+    try:
+        date_to_date = (
+            datetime.datetime.strptime(date_to, "%Y-%m-%d").date() if date_to else None
+        )
+    except ValueError:
+        date_to_date = None
+        date_to = None
     if date_from_date and date_to_date and date_from_date > date_to_date:
         date_error = "To date cannot be before from date"
-        # date_to = None
 
     all_events = events(
         type=request.args.get("type", None),

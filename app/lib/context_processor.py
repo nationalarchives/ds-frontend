@@ -32,13 +32,35 @@ def cookie_preference(policy):
     return None
 
 
-def pretty_date_range(
-    s_from, s_to, omit_days=False, show_time=False, sentence_case=False
-):
+def pretty_datetime_range(s_from, s_to, sentence_case=False):
     date_from = get_date_from_string(s_from)
     date_to = get_date_from_string(s_to)
     if date_from and date_to:
-        date_to_string = date_to.strftime("%B %Y" if omit_days else "%-d %B %Y")
+        if (
+            date_from.year == date_to.year
+            and date_from.month == date_to.month
+            and date_from.day == date_to.day
+        ):
+            return (
+                f"{date_from.strftime('%-d %B %Y, %H:%M')} to {date_to.strftime('%H:%M')}"
+                if date_from.hour != date_to.hour or date_from.minute != date_to.minute
+                else f"{date_from.strftime('%-d %B %Y, %H:%M')}"
+            )
+        return f"{date_from.strftime('%-d %B %Y, %H:%M')} to {date_to.strftime('%-d %B %Y, %H:%M')}"
+    if date_from:
+        start = "from" if sentence_case else "From"
+        return f"{start} {date_from.strftime('%-d %B %Y, %H:%M')}"
+    if date_to:
+        start = "now to" if sentence_case else "Now to"
+        return f"{start} {date_to.strftime('%-d %B %Y, %H:%M')}"
+    return f"{s_from} to {s_to}"
+
+
+def pretty_date_range(s_from, s_to, omit_days=False, sentence_case=False):
+    date_from = get_date_from_string(s_from)
+    date_to = get_date_from_string(s_to)
+    if date_from and date_to:
+        date_to_string = date_to.strftime("%B %Y" if omit_days else ("%-d %B %Y"))
         if (
             date_from.day == 1
             and date_from.month == 1
@@ -51,13 +73,6 @@ def pretty_date_range(
         if date_from.year == date_to.year:
             if date_from.month == date_to.month:
                 if date_from.day == date_to.day:
-                    if show_time:
-                        if (
-                            date_from.hour == date_to.hour
-                            and date_from.minute == date_to.minute
-                        ):
-                            return date_from.strftime("%-d %B %Y, %H:%M")
-                        return f"{date_from.strftime('%-d %B %Y, %H:%M')} to {date_to.strftime('%H:%M')}"
                     return date_from.strftime("%B %Y" if omit_days else "%-d %B %Y")
                 if omit_days:
                     return date_to_string

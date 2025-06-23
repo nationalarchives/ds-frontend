@@ -109,7 +109,7 @@
     <ul class="tna-ul">
       {%- for session in page_data.sessions %}
       <li>
-        {{ pretty_date_range(session.start, session.end, show_time=True) }}
+        {{ pretty_datetime_range(session.start, session.end) }}
         {%- if session.sold_out %}
         <strong class="tna-chip tna-chip--inline">Sold out</strong>
         {%- endif %}

@@ -6,25 +6,11 @@
 {%- set pageTitle = page_data.title -%}
 
 {%- set breadcrumbsStyle = 'accent' -%}
-{%- set breadcrumbs = [
-  {
-    'text': 'Home',
-    'href': '/'
-  },
-  {
-    'text': 'What’s on',
-    'href': '/whats-on/'
-  },
-  {
-    'text': 'Exhibitions and displays',
-    'href': '/whats-on/exhibitions/'
-  }
-] -%}
 
 {% block content %}
 {{ tnaHero({
-  'supertitle': 'Display',
-  'title': 'Spies, Secrets and Archives',
+  'supertitle': page_data.type_label,
+  'title': pageTitle,
   'body': '<p class="tna-large-paragraph">Join Gordon Corera for the inside scoop on a career reporting on the world of secrets and spies.</p><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>Saturday 28 June 2014</span></dd></dl>',
   'imageSrc': 'https://picsum.photos/600/480',
   'imageAlt': '',

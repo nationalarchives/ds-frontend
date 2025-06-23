@@ -10,6 +10,7 @@ from app.lib.context_processor import (
     now_iso_8601_no_time,
     now_rfc_822,
     pretty_date_range,
+    pretty_datetime_range,
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
@@ -200,6 +201,7 @@ def create_app(config_class):
             now_iso_8601_no_time=now_iso_8601_no_time,
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
+            pretty_datetime_range=pretty_datetime_range,
             is_today_in_date_range=is_today_in_date_range,
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),

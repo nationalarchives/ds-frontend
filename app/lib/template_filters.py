@@ -410,3 +410,12 @@ def qs_update(existing_qs, filter, value):
         pass
     rtn_qs.update({filter: value})
     return urlencode(rtn_qs)
+
+
+def qs_remove(existing_qs, filter):
+    rtn_qs = existing_qs.copy()
+    try:
+        rtn_qs.pop(filter)
+    except KeyError:
+        pass
+    return urlencode(rtn_qs)
