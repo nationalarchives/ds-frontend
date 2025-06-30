@@ -8,14 +8,14 @@
 }
 
 a:not(
-  [href^="#"],
-  [href^="?"],
-  [href^="/"],
-  .tna-card__heading-link,
-  .tna-files-list__link,
-  .tna-skip-link,
-  #top
-) {
+    [href^="#"],
+    [href^="?"],
+    [href^="/"],
+    .tna-card__heading-link,
+    .tna-files-list__link,
+    .tna-skip-link,
+    #top
+  ) {
   &::after {
     content: " (" attr(href) ")";
 
