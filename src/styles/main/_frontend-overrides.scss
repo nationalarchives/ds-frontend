@@ -188,10 +188,20 @@ sup[data-footnoteid] {
   /* stylelint-enable no-descending-specificity */
 }
 
+.tna-gallery__copyright {
+  /* stylelint-disable no-descending-specificity */
+  p + p {
+    margin-top: 0;
+  }
+  /* stylelint-enable no-descending-specificity */
+}
+
+.tna-gallery__copyright,
 .tna-picture__copyright {
   margin-top: spacing.space(0.5);
 }
 
+.tna-gallery,
 .tna-picture,
 .tna-hero {
   &__copyright {
