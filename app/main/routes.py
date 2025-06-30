@@ -1,4 +1,5 @@
 import json
+import os
 from urllib.parse import quote, unquote
 
 from app.lib.cache import cache, page_cache_key_prefix
@@ -92,67 +93,9 @@ def robots():
     return current_app.send_static_file("robots.txt")
 
 
-@bp.route("/test/homepage/")
-@cache.cached(key_prefix=page_cache_key_prefix)
-def new_homepage():
-    return render_template("main/new_home.html")
-
-
-@bp.route("/whats-on/events/")
-def test_events_page():
-    return events_page(
-        page_data={
-            "id": 0,
-            "title": "Events",
-        }
-    )
-
-
-@bp.route("/whats-on/events/1/")
-def test_event_page():
-    return event_page(
-        page_data={
-            "id": 0,
-            "title": "Event #1",
-        }
-    )
-
-
-@bp.route("/whats-on/exhibitions/")
-def test_exhibitions_page():
-    return exhibitions_page(
-        page_data={
-            "id": 0,
-            "title": "Exhibitions",
-        }
-    )
-
-
-@bp.route("/whats-on/exhibitions/display/")
-def test_display_page():
-    return display_page(
-        page_data={
-            "id": 0,
-            "title": "Displays",
-        }
-    )
-
-
-@bp.route("/whats-on/search/")
-def test_search_page():
-    return whats_on_search_page(
-        page_data={
-            "id": 0,
-            "title": "Search",
-        }
-    )
-
-
-@bp.route("/whats-on/series/")
-def test_series_page():
-    return whats_on_series_page(
-        page_data={
-            "id": 0,
-            "title": "Series",
-        }
-    )
+@bp.route("/.well-known/<path:filename>")
+def well_known(filename):
+    static_file = f".well-known/{filename}"
+    if os.path.exists(os.path.join(current_app.static_folder, static_file)):
+        return current_app.send_static_file(static_file)
+    return render_template("errors/page_not_found.html"), 404
