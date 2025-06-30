@@ -18,17 +18,17 @@ if (ga4Id) {
     },
   ]);
 
-  analytics.addListeners(".etna-article", "article", [
-    {
-      eventName: "section.toggle",
-      targetElement: ".etna-article__section-button",
-      on: "click",
-      data: {
-        state: helpers.valueGetters.expanded,
-        value: helpers.valueGetters.text,
-      },
-    },
-  ]);
+  // analytics.addListeners(".etna-article", "article", [
+  //   {
+  //     eventName: "section.toggle",
+  //     targetElement: ".etna-article__section-button",
+  //     on: "click",
+  //     data: {
+  //       state: helpers.valueGetters.expanded,
+  //       value: helpers.valueGetters.text,
+  //     },
+  //   },
+  // ]);
 
   analytics.addListeners("body", "page", [
     {
