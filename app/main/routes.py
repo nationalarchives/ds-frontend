@@ -1,4 +1,5 @@
 import json
+import os
 from urllib.parse import quote, unquote
 
 from app.lib.cache import cache, page_cache_key_prefix
@@ -84,7 +85,9 @@ def robots():
     return current_app.send_static_file("robots.txt")
 
 
-@bp.route("/test/homepage/")
-@cache.cached(key_prefix=page_cache_key_prefix)
-def new_homepage():
-    return render_template("main/new_home.html")
+@bp.route("/.well-known/<path:filename>")
+def well_known(filename):
+    static_file = f".well-known/{filename}"
+    if os.path.exists(os.path.join(current_app.static_folder, static_file)):
+        return current_app.send_static_file(static_file)
+    return render_template("errors/page_not_found.html"), 404
