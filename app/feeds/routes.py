@@ -35,7 +35,7 @@ def rss_feeds():
         + [
             {
                 "text": blog_data["short_title"] or blog_data["title"],
-                "href": blog_data["url"],
+                "href": blog_data["full_url"],
             }
         ],
     )

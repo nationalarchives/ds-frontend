@@ -11,7 +11,7 @@ def pick_top_two(a, b):
 def pages_to_index_grid_items(pages):
     return [
         {
-            "href": page["url"],
+            "href": page["full_url"],
             "label": page["type_label"],
             "title": page["title"],
             "src": page["teaser_image"]["jpeg"]["url"],
