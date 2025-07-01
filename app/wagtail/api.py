@@ -12,6 +12,8 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("WAGTAIL_API_URL not set")
     client = JSONAPIClient(api_url)
     client.add_parameter("format", "json")
+    if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
+        client.add_parameter("site", site_hostname)
     client.add_parameters(params)
     data = client.get(uri)
     return data
