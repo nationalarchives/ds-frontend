@@ -236,6 +236,26 @@ def headings_list(s):
     return headings
 
 
+def number_to_text(s):
+    try:
+        return (
+            [
+                "No",
+                "One",
+                "Two",
+                "Three",
+                "Four",
+                "Five",
+                "Six",
+                "Seven",
+                "Eight",
+                "Nine",
+            ]
+        )[int(s)]
+    except (ValueError, TypeError, IndexError):
+        return s
+
+
 def parse_json(s):
     try:
         unquoted_string = unquote(s)

@@ -19,6 +19,7 @@ from app.lib.template_filters import (
     get_url_domain,
     headings_list,
     multiline_address_to_single_line,
+    number_to_text,
     parse_json,
     pretty_date,
     pretty_date_with_day,
@@ -176,6 +177,7 @@ def create_app(config_class):
     app.add_template_filter(file_type_icon)
     app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
+    app.add_template_filter(number_to_text)
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
     app.add_template_filter(pretty_date_with_day)
