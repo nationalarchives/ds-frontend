@@ -97,7 +97,7 @@
     </li>
     {%- endif %}
     {% for page in section.selected_page.latest_listings %}
-    <li class="tna-column tna-column--width-1-{{ section.selected_page.latest_listings | length }} tna-column--width-1-2-small tna-column--full-tiny">
+    <li class="tna-column tna-column--width-1-{{ section.selected_page.latest_listings | length }} tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {%- set card_content = {
         'supertitle': page.type_label,
         'title': page.title,
@@ -120,7 +120,7 @@
         'text': page.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
-        'classes': 'tna-!--margin-top-m'
+        'classes': 'tna-card--full-height'
       } %}
       {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
@@ -152,17 +152,11 @@
 
 
 <div class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-l">Browse what’s on</h2>
-    </div>
-  </div>
-
-
-  {%- set ns = namespace(categoryIndexGridItems=[]) %}
+  {%- set ns = namespace(indexGridItems=[]) %}
   {%- for page in category_pages %}
-    {%- set ns.categoryIndexGridItems = ns.categoryIndexGridItems + [{
+    {%- set ns.indexGridItems = ns.indexGridItems + [{
       'href': page.url,
+      'label': 'Event type',
       'title': page.title,
       'subtitle': page.teaser_text,
       'src': page.teaser_image.jpeg.full_url if page.teaser_image else '',
@@ -171,23 +165,10 @@
       'height': page.teaser_image.jpeg.height if page.teaser_image else ''
     }] %}
   {%- endfor %}
-  {{ tnaIndexGrid({
-    'title': 'Browse events by type',
-    'headingLevel': 3,
-    'headingSize': 'm',
-    'items': ns.categoryIndexGridItems,
-    'columns': 4,
-    'columnsSmall': 2,
-    'columnsTiny': 1
-  }) }}
-
-
-
-  
-  {%- set ns = namespace(seriesIndexGridItems=[]) %}
   {%- for page in series_pages %}
-    {%- set ns.seriesIndexGridItems = ns.seriesIndexGridItems + [{
+    {%- set ns.indexGridItems = ns.indexGridItems + [{
       'href': page.url,
+      'label': 'Event series',
       'title': page.title,
       'subtitle': page.teaser_text,
       'src': page.teaser_image.jpeg.full_url if page.teaser_image else '',
@@ -197,10 +178,10 @@
     }] %}
   {%- endfor %}
   {{ tnaIndexGrid({
-    'title': 'Browse events by series',
-    'headingLevel': 3,
-    'headingSize': 'm',
-    'items': ns.seriesIndexGridItems,
+    'title': 'Browse what’s on',
+    'headingLevel': 2,
+    'headingSize': 'l',
+    'items': ns.indexGridItems,
     'columns': 4,
     'columnsSmall': 2,
     'columnsTiny': 1

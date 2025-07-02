@@ -101,7 +101,6 @@ class Base(object):
         "/blogs/",
         "/explore-the-collection/",
         "/help/",
-        "/mi5-official-secrets/",
         "/people/",
         "/whats-on/",
     ]
