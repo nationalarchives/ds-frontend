@@ -125,13 +125,13 @@
         {%- if event.teaser_image %}
           {% set event_card_content = dict(event_card_content, **{
             'lazyImage': True,
-            'imageSrc': event.teaser_image.jpeg.url,
+            'imageSrc': event.teaser_image.jpeg.full_url,
             'imageAlt': event.teaser_image.description,
             'imageWidth': event.teaser_image.jpeg.width,
             'imageHeight': event.teaser_image.jpeg.height,
             'imageSources': [
               {
-                'src': event.teaser_image.webp.url,
+                'src': event.teaser_image.webp.full_url,
                 'type': 'image/webp',
                 'width': event.teaser_image.webp.width,
                 'height': event.teaser_image.webp.height

@@ -108,13 +108,13 @@
       } %}
       {%- if person.image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': person.image.jpeg.url,
+          'imageSrc': person.image.jpeg.full_url,
           'imageAlt': person.image.description,
           'imageWidth': person.image.jpeg.width,
           'imageHeight': person.image.jpeg.height,
           'imageSources': [
             {
-              'src': person.image.webp.url,
+              'src': person.image.webp.full_url,
               'type': 'image/webp',
               'width': person.image.webp.width,
               'height': person.image.webp.height

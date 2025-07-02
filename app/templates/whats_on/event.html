@@ -23,28 +23,28 @@
   'supertitle': page_data.type_label,
   'title': page_data.title,
   'body': '<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl>',
-  'imageSrc': page_data.hero_image.jpeg.url,
+  'imageSrc': page_data.hero_image.jpeg.full_url,
   'imageAlt': page_data.hero_image.description,
   'imageWidth': page_data.hero_image.jpeg.width,
   'imageHeight': page_data.hero_image.jpeg.height,
   'imageCaption': page_data.hero_image_caption,
   'imageSources': [
     {
-      'src': page_data.hero_image_small.webp.url,
+      'src': page_data.hero_image_small.webp.full_url,
       'width': page_data.hero_image_small.webp.width,
       'height': page_data.hero_image_small.webp.height,
       'type': 'image/webp',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image_small.jpeg.url,
+      'src': page_data.hero_image_small.jpeg.full_url,
       'width': page_data.hero_image_small.jpeg.width,
       'height': page_data.hero_image_small.jpeg.height,
       'type': 'image/jpeg',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image.webp.url,
+      'src': page_data.hero_image.webp.full_url,
       'width': page_data.hero_image.webp.width,
       'height': page_data.hero_image.webp.height,
       'type': 'image/webp'
@@ -187,14 +187,14 @@
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
           <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
-          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.url }}">
+          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
           <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
           <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
           <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
           <div class="tna-picture__image-wrapper tna-background-tint">
             <picture>
-              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
-              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
+              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.full_url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
+              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.full_url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
             </picture>
           </div>
         </figure>
@@ -219,7 +219,7 @@
           'alt': image.image.description,
           'width': image.image.jpeg.width,
           'height': image.image.jpeg.height,
-          'src': image.image.jpeg.url,
+          'src': image.image.jpeg.full_url,
           'description': image.caption | safe
         }) %}
       {% endfor %}
@@ -252,7 +252,7 @@
         {%- for speaker in page_data.speakers %}
         <li class="etna-author-list__item" itemprop="performer" itemscope itemtype="https://schema.org/Person">
           {%- if speaker.image %}
-          <img src="{{ speaker.image.jpeg.url }}" width="{{ speaker.image.jpeg.width }}" height="{{ speaker.image.jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.jpeg.description }}">
+          <img src="{{ speaker.image.jpeg.full_url }}" width="{{ speaker.image.jpeg.width }}" height="{{ speaker.image.jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.jpeg.description }}">
           {%- else %}
           <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
           {%- endif %}

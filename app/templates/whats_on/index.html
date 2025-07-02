@@ -20,7 +20,7 @@
     'href': child.url,
     'title': child.title,
     'subtitle': child.teaser_text,
-    'src': child.teaser_image.jpeg.url if child.teaser_image else '',
+    'src': child.teaser_image.jpeg.full_url if child.teaser_image else '',
     'alt': child.teaser_image.description if child.teaser_image else '',
     'width': child.teaser_image.jpeg.width if child.teaser_image else '',
     'height': child.teaser_image.jpeg.height if child.teaser_image else ''
@@ -40,7 +40,7 @@
 
 {%- for section in page_data.whats_on_page_selections %}
 {%- set alternative_block = loop.index % 2 == 1 %}
-<div class="tna-section{{ ' tna-background-tint-' if alternative_block else '' }}">
+<div class="tna-section{{ ' tna-background-contrast-' if alternative_block else '' }}">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
@@ -79,13 +79,13 @@
       } %}
       {%- if section.featured_page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': section.featured_page.teaser_image.jpeg.url,
+          'imageSrc': section.featured_page.teaser_image.jpeg.full_url,
           'imageAlt': section.featured_page.teaser_image.description,
           'imageWidth': section.featured_page.teaser_image.jpeg.width,
           'imageHeight': section.featured_page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': section.featured_page.teaser_image.webp.url,
+              'src': section.featured_page.teaser_image.webp.full_url,
               'type': 'image/webp',
               'width': section.featured_page.teaser_image.webp.width,
               'height': section.featured_page.teaser_image.webp.height
@@ -118,19 +118,19 @@
         ],
         'metaStacked': True,
         'text': page.teaser_text,
-        'style': 'accent',
+        'style': 'plain',
         'fullAreaClick': True,
         'classes': 'tna-!--margin-top-m'
       } %}
       {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': page.teaser_image.jpeg.url,
+          'imageSrc': page.teaser_image.jpeg.full_url,
           'imageAlt': page.teaser_image.description,
           'imageWidth': page.teaser_image.jpeg.width,
           'imageHeight': page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': page.teaser_image.webp.url,
+              'src': page.teaser_image.webp.full_url,
               'type': 'image/webp',
               'width': page.teaser_image.webp.width,
               'height': page.teaser_image.webp.height
@@ -165,7 +165,7 @@
       'href': page.url,
       'title': page.title,
       'subtitle': page.teaser_text,
-      'src': page.teaser_image.jpeg.url if page.teaser_image else '',
+      'src': page.teaser_image.jpeg.full_url if page.teaser_image else '',
       'alt': page.teaser_image.description if page.teaser_image else '',
       'width': page.teaser_image.jpeg.width if page.teaser_image else '',
       'height': page.teaser_image.jpeg.height if page.teaser_image else ''
@@ -190,7 +190,7 @@
       'href': page.url,
       'title': page.title,
       'subtitle': page.teaser_text,
-      'src': page.teaser_image.jpeg.url if page.teaser_image else '',
+      'src': page.teaser_image.jpeg.full_url if page.teaser_image else '',
       'alt': page.teaser_image.description if page.teaser_image else '',
       'width': page.teaser_image.jpeg.width if page.teaser_image else '',
       'height': page.teaser_image.jpeg.height if page.teaser_image else ''

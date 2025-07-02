@@ -15,7 +15,7 @@
   <meta itemprop="contentUrl" content="{{ video_data.full_url }}">
   <meta itemprop="url" content="{{ url_for('wagtail.video_page', video_uuid=video_data.uuid, _external=True, _scheme='https') }}">
   {% if video_data.thumbnail %}
-  {# <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.url }}"> #}
+  {# <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.full_url }}"> #}
   {% endif %}
 
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">

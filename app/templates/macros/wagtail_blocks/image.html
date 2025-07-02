@@ -34,13 +34,13 @@
   {%- endif %}
   {% set image_caption = image_caption + '<meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') + '">' %}
   {% set picture_content = {
-    'src': block_value.image.jpeg.url,
+    'src': block_value.image.jpeg.full_url,
     'alt': block_value.description,
     'width': block_value.image.jpeg.width,
     'height': block_value.image.jpeg.height,
     'sources': [
       {
-        'src': block_value.image.webp.url,
+        'src': block_value.image.webp.full_url,
         'type': 'image/webp',
         'width': block_value.image.webp.width,
         'height': block_value.image.webp.height

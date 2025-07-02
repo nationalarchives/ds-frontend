@@ -77,28 +77,28 @@
       'supertitle': page_data.type_label,
       'title': page_data.title,
       'body': hero_intro | safe,
-      'imageSrc': page_data.hero_image.jpeg.url,
+      'imageSrc': page_data.hero_image.jpeg.full_url,
       'imageAlt': '',
       'imageWidth': page_data.hero_image.jpeg.width,
       'imageHeight': page_data.hero_image.jpeg.height,
       'imageCaption': hero_image_caption,
       'imageSources': [
         {
-          'src': page_data.hero_image_small.webp.url,
+          'src': page_data.hero_image_small.webp.full_url,
           'width': page_data.hero_image_small.webp.width,
           'height': page_data.hero_image_small.webp.height,
           'type': 'image/webp',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image_small.jpeg.url,
+          'src': page_data.hero_image_small.jpeg.full_url,
           'width': page_data.hero_image_small.jpeg.width,
           'height': page_data.hero_image_small.jpeg.height,
           'type': 'image/jpeg',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image.webp.url,
+          'src': page_data.hero_image.webp.full_url,
           'width': page_data.hero_image.webp.width,
           'height': page_data.hero_image.webp.height,
           'type': 'image/webp'
@@ -350,7 +350,7 @@
             'alt': image.image.description,
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
-            'src': image.image.jpeg.url,
+            'src': image.image.jpeg.full_url,
             'description': image.caption | safe
           }) %}
         {% endfor %}
@@ -373,7 +373,7 @@
         {% if video.type == 'youtube' %}
         {{ wagtailYouTubeVideo(video.value, video.id) }}
         {% elif video.type == 'media' %}
-        <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
           <source src="{{ video.value.media.file }}" type="{{ video.value.media.mime }}">
           {% if video.value.media.subtitles_file %}
           <track kind="captions" src="{{ video.value.media.subtitles_file }}" srclang="en" label="English" default>
@@ -455,13 +455,13 @@
       } %}
       {%- if event.image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': event.image.jpeg.url,
+          'imageSrc': event.image.jpeg.full_url,
           'imageAlt': event.image.description,
           'imageWidth': event.image.jpeg.width,
           'imageHeight': event.image.jpeg.height,
           'imageSources': [
             {
-              'src': event.image.webp.url,
+              'src': event.image.webp.full_url,
               'type': 'image/webp',
               'width': event.image.webp.width,
               'height': event.image.webp.height
@@ -499,13 +499,13 @@
       } %}
       {%- if page_data.featured_page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': page_data.featured_page.teaser_image.jpeg.url,
+          'imageSrc': page_data.featured_page.teaser_image.jpeg.full_url,
           'imageAlt': page_data.featured_page.teaser_image.description,
           'imageWidth': page_data.featured_page.teaser_image.jpeg.width,
           'imageHeight': page_data.featured_page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': page_data.featured_page.teaser_image.webp.url,
+              'src': page_data.featured_page.teaser_image.webp.full_url,
               'type': 'image/webp',
               'width': page_data.featured_page.teaser_image.webp.width,
               'height': page_data.featured_page.teaser_image.webp.height
@@ -548,13 +548,13 @@
         {%- endif %}
         {%- if page.value.page.teaser_image %}
           {% set card_content = dict(card_content, **{
-            'imageSrc': page.value.page.teaser_image.jpeg.url,
+            'imageSrc': page.value.page.teaser_image.jpeg.full_url,
             'imageAlt': page.value.page.teaser_image.description,
             'imageWidth': page.value.page.teaser_image.jpeg.width,
             'imageHeight': page.value.page.teaser_image.jpeg.height,
             'imageSources': [
               {
-                'src': page.value.page.teaser_image.webp.url,
+                'src': page.value.page.teaser_image.webp.full_url,
                 'type': 'image/webp',
                 'width': page.value.page.teaser_image.webp.width,
                 'height': page.value.page.teaser_image.webp.height
@@ -576,13 +576,13 @@
         } %}
         {%- if page.value.image %}
           {% set card_content = dict(card_content, **{
-            'imageSrc': page.value.image.jpeg.url,
+            'imageSrc': page.value.image.jpeg.full_url,
             'imageAlt': page.value.image.description,
             'imageWidth': page.value.image.jpeg.width,
             'imageHeight': page.value.image.jpeg.height,
             'imageSources': [
               {
-                'src': page.value.image.webp.url,
+                'src': page.value.image.webp.full_url,
                 'type': 'image/webp',
                 'width': page.value.image.webp.width,
                 'height': page.value.image.webp.height
@@ -620,14 +620,14 @@
     'headingSize': 'l',
     'title': shop.value.title,
     'text': shop.value.description,
-    'imageSrc': shop.value.background_image.jpeg.url,
+    'imageSrc': shop.value.background_image.jpeg.full_url,
     'imageAlt': '',
     'imageWidth': shop.value.background_image.jpeg.width,
     'imageHeight': shop.value.background_image.jpeg.height,
     'imageCaption': shop_hero_image_caption,
     'imageSources': [
       {
-        'src': shop.value.background_image.webp.url,
+        'src': shop.value.background_image.webp.full_url,
         'width': shop.value.background_image.webp.width,
         'height': shop.value.background_image.webp.height,
         'type': 'image/webp'
