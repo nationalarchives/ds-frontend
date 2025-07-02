@@ -33,7 +33,7 @@
         },
         {
           'title': 'Cost',
-          'text': 'TODO',
+          'text': 'Free' if page.price == 0 else 'From &pound;' + (page.price | currency),
           'icon': 'ticket'
         },
         {
@@ -62,7 +62,7 @@
       <h2>Past exhibitions and displays</h2>
       <ul class="tna-container tna-container--nested">
       {%- for page in page_data.past_exhibition_listings %}
-        <li class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+        <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--full-small tna-column--full-tiny">
           {{ tnaCard({
             'supertitle': page.type_label,
             'title': page.title,

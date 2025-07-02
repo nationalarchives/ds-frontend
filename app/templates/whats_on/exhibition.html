@@ -17,7 +17,6 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
 {%- set pageTitle = page_data.title -%}
-{%- set content_group_meta = 'whats-on' -%}
 
 {% block head %}
 {{ super() }}
@@ -212,6 +211,7 @@
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/information-for-disabled-visitors/">accessibility guide</a></dd>
         </dl>
       </div>
+      {% if page_data.meta.slug == 'mi5-official-secrets' %}
       <p itemprop="contributor" itemscope itemtype="https://schema.org/Organization">
         <small>In partnership with <span class="tna-visually-hidden" itemprop="name">MI5.</span></small>
       </p>
@@ -315,6 +315,7 @@
           </g>
         </g>
       </svg>
+      {% endif %}
     </div>
   </div>
   {% for review in page_data.review %}
