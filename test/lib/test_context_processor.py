@@ -1,7 +1,10 @@
-import datetime
 import unittest
 
-from app.lib.context_processor import pretty_date_range, pretty_datetime_range
+from app.lib.context_processor import (
+    pretty_date_range,
+    pretty_datetime_range,
+    pretty_price_range,
+)
 
 
 class ContextParserTestCase(unittest.TestCase):
@@ -117,3 +120,21 @@ class ContextParserTestCase(unittest.TestCase):
             pretty_datetime_range(None, "2001-12-31T14:45:00Z"),
             "Now to 31 December 2001, 14:45",
         )
+
+    def test_pretty_price_range(self):
+        self.assertEqual(pretty_price_range(0, 0), "Free")
+        self.assertEqual(pretty_price_range("0", "0"), "Free")
+        self.assertEqual(pretty_price_range(5, 5), "£5")
+        self.assertEqual(pretty_price_range("5", 5), "£5")
+        self.assertEqual(pretty_price_range(5, "5"), "£5")
+        self.assertEqual(pretty_price_range("5", "5"), "£5")
+        self.assertEqual(pretty_price_range(5.1, 5.1), "£5.10")
+        self.assertEqual(pretty_price_range(0, 5), "Up to £5")
+        self.assertEqual(pretty_price_range(None, 5), "Up to £5")
+        self.assertEqual(pretty_price_range(5, 0), "From £5")
+        self.assertEqual(pretty_price_range(5, 10), "From £5 to £10")
+        self.assertEqual(pretty_price_range(10, 5), "From £5 to £10")
+        with self.assertRaises(ValueError):
+            pretty_price_range("5", "a")
+            pretty_price_range("5", [])
+            pretty_price_range("5", True)

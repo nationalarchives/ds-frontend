@@ -3,7 +3,7 @@ from datetime import datetime
 from urllib.parse import unquote
 
 from app.lib.datetime import get_date_from_string
-from app.lib.template_filters import currency
+from app.lib.template_filters import pretty_price
 from flask import current_app, request
 
 
@@ -90,19 +90,19 @@ def pretty_date_range(s_from, s_to, omit_days=False, sentence_case=False):
 
 
 def pretty_price_range(s_from, s_to):
-    i_from = currency(s_from) if s_from else 0
-    i_to = currency(s_to) if s_to else 0
+    i_from = float(s_from) if s_from else 0
+    i_to = float(s_to) if s_to else 0
     if i_from == 0 and i_to == 0:
         return "Free"
     if i_from == i_to:
-        return f"£{i_from}"
+        return pretty_price(i_from)
+    if i_from == 0:
+        return f"Up to {pretty_price(i_to)}"
+    if i_to == 0:
+        return f"From {pretty_price(i_from)}"
     min_price = min(float(i_from), float(i_to))
     max_price = max(float(i_from), float(i_to))
-    if min_price == 0:
-        return f"Up to £{currency(max_price)}"
-    if max_price == 0:
-        return f"From £{currency(min_price)}"
-    return f"From £{currency(min_price)} to £{currency(max_price)}"
+    return f"From {pretty_price(min_price)} to {pretty_price(max_price)}"
 
 
 def is_today_in_date_range(s_from, date_to):

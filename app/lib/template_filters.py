@@ -40,11 +40,12 @@ def slugify(s):
     return s
 
 
-def unslugify(s):
+def unslugify(s, capitalize_first=True):
     if not s:
         return s
     s = s.split("-")
-    s[0] = s[0].capitalize()
+    if capitalize_first:
+        s[0] = s[0].capitalize()
     return " ".join(s)
 
 
@@ -148,7 +149,7 @@ def pretty_date_with_day_and_time(s):
 
 def pretty_price(s):
     price = s if s else 0
-    if price == 0:
+    if price == 0 or price == "0":
         return "Free"
     return f"£{currency(price)}"
 
@@ -159,8 +160,8 @@ def currency(s):
     float_number = float(s)
     int_number = int(float_number)
     if int_number == float_number:
-        return str(int_number)
-    return str("%.2f" % float_number)
+        return str("{:,}".format(int_number))
+    return str("{:,.2f}".format(float_number))
 
 
 def rfc_822_format(s):
@@ -192,6 +193,34 @@ def file_type_icon(s):
     if s in ["txt"]:
         return "lines"
     return ""
+
+
+def number_to_text(s):
+    try:
+        return (
+            [
+                "No",
+                "One",
+                "Two",
+                "Three",
+                "Four",
+                "Five",
+                "Six",
+                "Seven",
+                "Eight",
+                "Nine",
+            ]
+        )[int(s)]
+    except (ValueError, TypeError, IndexError):
+        return s
+
+
+def parse_json(s):
+    try:
+        unquoted_string = unquote(s)
+        return json.loads(unquoted_string)
+    except Exception:
+        return {}
 
 
 def headings_list(s):
@@ -241,34 +270,6 @@ def headings_list(s):
 
     headings = group_headings(0, [])
     return headings
-
-
-def number_to_text(s):
-    try:
-        return (
-            [
-                "No",
-                "One",
-                "Two",
-                "Three",
-                "Four",
-                "Five",
-                "Six",
-                "Seven",
-                "Eight",
-                "Nine",
-            ]
-        )[int(s)]
-    except (ValueError, TypeError, IndexError):
-        return s
-
-
-def parse_json(s):
-    try:
-        unquoted_string = unquote(s)
-        return json.loads(unquoted_string)
-    except Exception:
-        return {}
 
 
 def wagtail_streamfield_contains_media(body):

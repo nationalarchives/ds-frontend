@@ -5,10 +5,13 @@ from app.lib.template_filters import (
     get_url_domain,
     multiline_address_to_single_line,
     pretty_date,
+    pretty_price,
     qs_active,
     qs_toggler,
+    seconds_to_iso_8601_duration,
     seconds_to_time,
     slugify,
+    unslugify,
 )
 
 
@@ -57,6 +60,10 @@ class ContentParserTestCase(unittest.TestCase):
         )
         self.assertEqual(pretty_date("2000-01", show_day=True), "January 2000")
         self.assertEqual(pretty_date("2000", show_day=True), "2000")
+        self.assertEqual(
+            pretty_date("2000-01-01T12:30:00Z", show_day=True, show_time=True),
+            "Saturday 1 January 2000, 12:30",
+        )
 
     def test_currency(self):
         self.assertEqual(currency(0), "0")
@@ -88,6 +95,16 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(seconds_to_time(3600), "01h 00m 00s")
         self.assertEqual(seconds_to_time(3601), "01h 00m 01s")
 
+    def test_seconds_to_iso_8601_duration(self):
+        self.assertEqual(seconds_to_iso_8601_duration(0), "PT0S")
+        self.assertEqual(seconds_to_iso_8601_duration(1), "PT1S")
+        self.assertEqual(seconds_to_iso_8601_duration(59), "PT59S")
+        self.assertEqual(seconds_to_iso_8601_duration(60), "PT1M0S")
+        self.assertEqual(seconds_to_iso_8601_duration(61), "PT1M1S")
+        self.assertEqual(seconds_to_iso_8601_duration(3599), "PT59M59S")
+        self.assertEqual(seconds_to_iso_8601_duration(3600), "PT1H0M0S")
+        self.assertEqual(seconds_to_iso_8601_duration(3601), "PT1H0M1S")
+
     def test_slugify(self):
         self.assertEqual(slugify(""), "")
         self.assertEqual(slugify("test"), "test")
@@ -97,6 +114,29 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(slugify("test---"), "test")
         self.assertEqual(slugify("test---$"), "test")
         self.assertEqual(slugify("test---$---"), "test")
+
+    def test_unslugify(self):
+        self.assertEqual(unslugify("test-test"), "Test test")
+        self.assertEqual(unslugify("test-test", False), "test test")
+        self.assertEqual(unslugify("test-123"), "Test 123")
+        self.assertEqual(unslugify("test-1-2-3"), "Test 1 2 3")
+
+    def test_pretty_price(self):
+        self.assertEqual(pretty_price(0), "Free")
+        self.assertEqual(pretty_price("0"), "Free")
+        self.assertEqual(pretty_price(0.1), "£0.10")
+        self.assertEqual(pretty_price("0.1"), "£0.10")
+        self.assertEqual(pretty_price("0.10"), "£0.10")
+        self.assertEqual(pretty_price("0.101"), "£0.10")
+        self.assertEqual(pretty_price("0.001"), "£0.00")
+        self.assertEqual(pretty_price("0.009"), "£0.01")
+        self.assertEqual(pretty_price("1"), "£1")
+        self.assertEqual(pretty_price("01"), "£1")
+        self.assertEqual(pretty_price("1.1"), "£1.10")
+        self.assertEqual(pretty_price("1.11"), "£1.11")
+        self.assertEqual(pretty_price("1.111"), "£1.11")
+        self.assertEqual(pretty_price("123456789"), "£123,456,789")
+        self.assertEqual(pretty_price("123456789.01"), "£123,456,789.01")
 
     def test_get_url_domain(self):
         self.assertEqual(
