@@ -136,6 +136,10 @@
           <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
           {% endif %}
+
+
+
+          
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
             Price
@@ -143,9 +147,11 @@
           <dd class="tna-!--no-padding-bottom">{{ page_data.price | pretty_price }}</dd>
           <dd>{{ page_data.booking_details | safe }}</dd>
           {% if page_data.audience_heading and page_data.audience_detail %}
-          <dt>Audience</dt>
-          <dd class="tna-!--no-padding-bottom" itemprop="audience" itemscope itemtype="https://schema.org/Audience">
+          <dt>
             <i class="fa-solid fa-user" aria-hidden="true"></i>
+            Audience
+          </dt>
+          <dd class="tna-!--no-padding-bottom" itemprop="audience" itemscope itemtype="https://schema.org/Audience">
             <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
           </dd>
           <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>

@@ -78,29 +78,47 @@
           <i class="fa-solid fa-ticket" aria-hidden="true"></i>
           Price
         </dt>
-        <dd>{{ pretty_price_range(page_data.min_price, page_data.max_price) }}</dd>
+        <dd class="{{ 'tna-!--no-padding-bottom' if page_data.booking_details else '' }}">{{ pretty_price_range(page_data.min_price, page_data.max_price) }}</dd>
+        {%- if page_data.booking_details %}
+        <dd>{{ page_data.booking_details | safe }}</dd>
+        {%- endif %}
+
+        {% if page_data.audience_heading and page_data.audience_detail %}
         <dt>
           <i class="fa-solid fa-user" aria-hidden="true"></i>
-          Everyone welcome
+          Audience
         </dt>
-        <dd>???</dd>
+        <dd class="tna-!--no-padding-bottom" itemprop="audience" itemscope itemtype="https://schema.org/Audience">
+          <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
+        </dd>
+        <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
+        {% endif %}
+
+        {% if page_data.location %}
+        <dt>
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          Location
+        </dt>
+        <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
+        <dd>
+          <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
+          {{ page_data.location.full_address | safe }}
+        </dd>
+        {% endif %}
+
         <dt>
           <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-          TODO
+          Date
         </dt>
-        <dd>TODO</dd>
-        <dt>
-          <i class="fa-solid fa-database" aria-hidden="true"></i>
-          TODO
-        </dt>
-        <dd>TODO</dd>
+        <dd class="tna-!--no-padding-bottom">{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+        <dd>{{ page_data.sold_out }}</dd>
       </dl>
       {%- if page_data.sold_out %}
       <p><strong>This event has sold out.</strong></p>
-      {%- else %}
+      {%- elif page_data.booking_link %}
       <div class="tna-button-group">
         {{ tnaButton({
-          'text': 'TODO',
+          'text': 'Book now',
           'url': page_data.booking_link
         }) }}
       </div>
@@ -152,15 +170,13 @@
       <div class="tna-newsletter_inner">
         <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
         <div class="tna-newsletter__body">
-          <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/spy">Priority booking</a></h3>
+          <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Priority booking</a></h3>
           <p>Join The National Archives mailing list for exhibition updates and early booking for events, including talks and tours.</p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
 
 <div class="tna-background-tint">
   <section class="tna-section tna-!--padding-top-m">
@@ -209,10 +225,6 @@
   </section>
 </div>
 
-
-
-
-
 {% for event_highlights in page_data.event_highlights %}
 <section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
@@ -239,15 +251,6 @@
   </div>
 </section>
 {% endfor %}
-
-
-
-
-
-
-
-
-
 
 <div class="tna-container tna-section tna-!--no-padding-top">
   <div class="tna-column tna-column--full">
@@ -283,19 +286,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {{ feedback() }}
 {{ back_to_top() }}
