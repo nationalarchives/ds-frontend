@@ -42,7 +42,7 @@
         },
         {
           'title': 'Cost',
-          'text': 'Free' if page.price == 0 else 'From &pound;' + (page.price | currency),
+          'text': page.price | pretty_price,
           'icon': 'ticket'
         },
         {

@@ -67,7 +67,7 @@
         'meta': [
           {
             'title': 'Cost',
-            'text': 'TODO',
+            'text': section.featured_page.price | pretty_price | safe,
             'icon': 'ticket'
           },
           {
@@ -113,7 +113,7 @@
         'meta': [
           {
             'title': 'Cost',
-            'text': 'TODO',
+            'text': page.price | pretty_price | safe,
             'icon': 'ticket'
           },
           {

@@ -11,6 +11,7 @@ from app.lib.context_processor import (
     now_rfc_822,
     pretty_date_range,
     pretty_datetime_range,
+    pretty_price_range,
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
@@ -25,6 +26,7 @@ from app.lib.template_filters import (
     pretty_date_with_day,
     pretty_date_with_day_and_time,
     pretty_date_with_time,
+    pretty_price,
     rfc_822_format,
     seconds_to_iso_8601_duration,
     seconds_to_time,
@@ -184,6 +186,7 @@ def create_app(config_class):
     app.add_template_filter(pretty_date_with_time)
     app.add_template_filter(pretty_date_with_day_and_time)
     app.add_template_filter(multiline_address_to_single_line)
+    app.add_template_filter(pretty_price)
     app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_iso_8601_duration)
     app.add_template_filter(seconds_to_time)
@@ -204,6 +207,7 @@ def create_app(config_class):
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
             pretty_datetime_range=pretty_datetime_range,
+            pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),

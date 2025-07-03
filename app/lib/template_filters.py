@@ -146,6 +146,13 @@ def pretty_date_with_day_and_time(s):
     return pretty_date(s, show_day=True, show_time=True)
 
 
+def pretty_price(s):
+    price = s if s else 0
+    if price == 0:
+        return "Free"
+    return f"£{currency(price)}"
+
+
 def currency(s):
     if not s:
         return "0"

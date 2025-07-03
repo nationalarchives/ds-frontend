@@ -33,7 +33,6 @@
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{% set price = 'Free' if page_data.price == 0 else 'From &pound;' + (page_data.price | currency) %}
 <div itemscope itemtype="https://schema.org/Event">
   <meta itemprop="name" content="{{ page_data.title }}">
   <meta itemprop="eventAttendanceMode" content="https://schema.org/OfflineEventAttendanceMode">
@@ -57,7 +56,7 @@
       <meta itemprop="startDate" content="{{ page_data.start_date }}">
       {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
       {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) + '</p></div>' %}
-      {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + price + '</p></div>' %}
+      {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + (page_data.price | pretty_price) + '</p></div>' %}
       {% set hero_intro = hero_intro + '</div>' %}
     {% endif %}
     {% if page_data.end_date %}
@@ -177,7 +176,7 @@
           {% endif %}
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-            {{ price | safe }}
+            {{ page_data.price | pretty_price }}
           </dt>
           <dd>{{ page_data.booking_details | safe }}</dd>
           {% if page_data.audience_heading and page_data.audience_detail %}
