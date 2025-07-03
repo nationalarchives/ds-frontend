@@ -281,7 +281,7 @@ def authors_paginated(
     return wagtail_request_handler(uri, params)
 
 
-def events(type=None, location=None, date_from=None, date_to=None, params={}):
+def events(type=None, location=None, from_date=None, to_date=None, params={}):
     uri = "events/"
     if type:
         params = params | {"type": type}
@@ -289,10 +289,10 @@ def events(type=None, location=None, date_from=None, date_to=None, params={}):
         params = params | {"at_tna": True}
     elif location == "online":
         params = params | {"online": True}
-    # if date_from:
-    #     params = params | {"from_date": date_from}
-    # if date_to:
-    #     params = params | {"to_date": date_to}
+    if from_date:
+        params = params | {"from": from_date}
+    if to_date:
+        params = params | {"to": to_date}
     params = params | {"order": "start_date"}
     return wagtail_request_handler(uri, params)
 

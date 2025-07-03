@@ -27,6 +27,10 @@ from app.lib.template_filters import (
     pretty_date_with_day_and_time,
     pretty_date_with_time,
     pretty_price,
+    qs_active,
+    qs_remove,
+    qs_toggler,
+    qs_update,
     rfc_822_format,
     seconds_to_iso_8601_duration,
     seconds_to_time,
@@ -37,7 +41,7 @@ from app.lib.template_filters import (
     wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
-from flask import Flask
+from flask import Flask, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
 
@@ -209,6 +213,14 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
+            qs_active=lambda filter, by: qs_active(request.args.to_dict(), filter, by),
+            qs_toggler=lambda filter, by: qs_toggler(
+                request.args.to_dict(), filter, by
+            ),
+            qs_update=lambda filter, value: qs_update(
+                request.args.to_dict(), filter, value
+            ),
+            qs_remove=lambda filter, by: qs_remove(request.args.to_dict(), filter),
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),

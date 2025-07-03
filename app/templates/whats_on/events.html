@@ -3,31 +3,78 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/date-search/macro.html' import tnaDateSearch -%}
+{%- from 'components/secondary-navigation/macro.html' import tnaSecondaryNavigation -%}
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
+{%- set breadcrumbsStyle = 'accent-' -%}
 
 {% block head %}
 {{ super() }}
 {{ meta(page_data) }}
 {% endblock %}
 
+{% block skipLink %}
+{%- if events | length %}
+{{ tnaSkipLink({
+  'href': 'events-list',
+  'text': 'Skip to list of events'
+}) }}
+{%- endif %}
+{{ super() }}
+{% endblock %}
+
 {% block content %}
-<div class="tna-container tna-section tna-!--padding-bottom-s">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <hgroup class="tna-hgroup-xl">
-      <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
-      <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
-    </hgroup>
-    <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+<div class="tna-section tna-!--padding-bottom-m">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+        <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
+      </hgroup>
+      <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+    </div>
   </div>
+  {%- if time_period_selector %}
+  <div class="tna-container tna-!--padding-top-l">
+    <div class="tna-column tna-column--full">
+      {{ tnaSecondaryNavigation({
+        'title': 'Time period',
+        'headingLevel': 2,
+        'items': [
+          {
+            'name': 'Any',
+            'href': '?' + qs_toggler('time', 'any'),
+            'current': qs_active('time', 'any') or not request.args.get('time')
+          },
+          {
+            'name': 'Today',
+            'href': '?' + qs_toggler('time', 'today'),
+            'current': qs_active('time', 'today')
+          },
+          {
+            'name': 'Next 7 days',
+            'href': '?' + qs_toggler('time', '7days'),
+            'current': qs_active('time', '7days')
+          },
+          {
+            'name': 'Next 30 days',
+            'href': '?' + qs_toggler('time', '30days'),
+            'current': qs_active('time', '30days')
+          }
+        ],
+        'noBottomBorder': False
+      }) }}
+    </div>
+  </div>
+  {%- endif %}
 </div>
 {%- if events | length %}
-<div class="tna-container">
-  <div class="tna-column tna-column--full tna-!--padding-top-m">
+<div class="tna-container tna-!--padding-top-s" id="events-list">
+  <div class="tna-column tna-column--full">
     <p>Showing <strong>{{ events | length }}</strong> current event{{ '' if (events | length == 1) else 's' }}.</p>
   </div>
 </div>

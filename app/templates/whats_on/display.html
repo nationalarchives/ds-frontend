@@ -131,27 +131,31 @@
           {% if page_data.open_days %}
           <dt>
             <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-            {{ page_data.open_days }}
+            Opening times
           </dt>
+          <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
           {% endif %}
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-            {{ page_data.price | pretty_price }}
+            Price
           </dt>
+          <dd class="tna-!--no-padding-bottom">{{ page_data.price | pretty_price }}</dd>
           <dd>{{ page_data.booking_details | safe }}</dd>
           {% if page_data.audience_heading and page_data.audience_detail %}
-          <dt itemprop="audience" itemscope itemtype="https://schema.org/Audience">
+          <dt>Audience</dt>
+          <dd class="tna-!--no-padding-bottom" itemprop="audience" itemscope itemtype="https://schema.org/Audience">
             <i class="fa-solid fa-user" aria-hidden="true"></i>
             <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
-          </dt>
+          </dd>
           <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
           {% endif %}
           {% if page_data.location %}
           <dt>
             <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-            {{ page_data.location.space_name }}
+            Location
           </dt>
+          <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
           <dd>
             <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
             {{ page_data.location.full_address | safe }}
