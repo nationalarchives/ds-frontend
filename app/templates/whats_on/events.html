@@ -6,8 +6,14 @@
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
+
+{% block head %}
+{{ super() }}
+{{ meta(page_data) }}
+{% endblock %}
 
 {% block content %}
 <div class="tna-container tna-section tna-!--padding-bottom-s">
