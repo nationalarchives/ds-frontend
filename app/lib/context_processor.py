@@ -100,7 +100,9 @@ def pretty_price_range(s_from, s_to):
     max_price = max(float(i_from), float(i_to))
     if min_price == 0:
         return f"Up to £{currency(max_price)}"
-    return f"From £{currency(min_price)}"
+    if max_price == 0:
+        return f"From £{currency(min_price)}"
+    return f"From £{currency(min_price)} to £{currency(max_price)}"
 
 
 def is_today_in_date_range(s_from, date_to):
