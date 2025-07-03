@@ -46,7 +46,7 @@
       </div>
       {%- if page_data.intro_image %}
       <div class="tna-column tna-column--width-1-3 tna-!--hide-on-small tna-!--hide-on-tiny etna-tilted-image-wrapper">
-        <img src="{{ page_data.intro_image.webp.url }}" width="{{ page_data.intro_image.webp.width }}" height="{{ page_data.intro_image.webp.height }}" alt="{{ page_data.intro_image.description }}" class="etna-tilted-image">
+        <img src="{{ page_data.intro_image.webp.full_url }}" width="{{ page_data.intro_image.webp.width }}" height="{{ page_data.intro_image.webp.height }}" alt="{{ page_data.intro_image.description }}" class="etna-tilted-image">
       </div>
       {%- endif %}
     </div>
@@ -81,7 +81,7 @@
           <h3 class="etna-record-gallery__item-index tna-heading-s">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</h3>
         </div>
         <figure class="etna-record-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-          <img src="{{ item.image.webp.url }}" class="etna-record-gallery__item-image" alt="{{ item.image.description }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
+          <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.image.description }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
           {%- if item.caption %}
           <figcaption class="etna-record-gallery__item-description">
             {{ item.caption | safe }}
@@ -162,7 +162,7 @@
       'id': gallery.image.id,
       'title': gallery.image.title,
       'href': page_data.featured_highlight_gallery.url + '#gallery-image-' + (loop.index | string),
-      'src': gallery.image.jpeg.url,
+      'src': gallery.image.jpeg.full_url,
       'alt': gallery.image.description,
       'width': gallery.image.jpeg.width,
       'height': gallery.image.jpeg.height
@@ -207,13 +207,13 @@
         } %}
         {%- if page_data.featured_article.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': page_data.featured_article.teaser_image.jpeg.url,
+          'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
           'imageAlt': page_data.featured_article.teaser_image.description,
           'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
           'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': page_data.featured_article.teaser_image.webp.url,
+              'src': page_data.featured_article.teaser_image.webp.full_url,
               'type': 'image/webp',
               'width': page_data.featured_article.teaser_image.webp.width,
               'height': page_data.featured_article.teaser_image.webp.height
@@ -284,13 +284,13 @@
         } %}
         {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': item.teaser_image.jpeg.url,
+          'imageSrc': item.teaser_image.jpeg.full_url,
           'imageAlt': item.teaser_image.description,
           'imageWidth': item.teaser_image.jpeg.width,
           'imageHeight': item.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': item.teaser_image.webp.url,
+              'src': item.teaser_image.webp.full_url,
               'type': 'image/webp',
               'width': item.teaser_image.webp.width,
               'height': item.teaser_image.webp.height

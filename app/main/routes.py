@@ -6,14 +6,6 @@ from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
-from app.wagtail.pages import (
-    display_page,
-    event_page,
-    events_page,
-    exhibitions_page,
-    whats_on_search_page,
-    whats_on_series_page,
-)
 from flask import current_app, make_response, redirect, render_template, request
 
 

@@ -1,8 +1,9 @@
 from flask import render_template
 
 
-def events_page(page_data):
+def whats_on_category_page(page_data):
     return render_template(
         "whats_on/events.html",
         page_data=page_data,
+        events=page_data.get("event_listings", []),
     )

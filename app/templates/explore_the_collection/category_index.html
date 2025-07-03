@@ -33,13 +33,13 @@
         'headingSize': 'm',
         'text': child.teaser_text,
         'href': child.url,
-        'imageSrc': child.teaser_image.jpeg.url,
+        'imageSrc': child.teaser_image.jpeg.full_url,
         'imageAlt': child.teaser_image.description,
         'imageWidth': child.teaser_image.jpeg.width,
         'imageHeight': child.teaser_image.jpeg.height,
         'imageSources': [
           {
-            'src': child.teaser_image.webp.url,
+            'src': child.teaser_image.webp.full_url,
             'type': 'image/webp',
             'width': child.teaser_image.webp.width,
             'height': child.teaser_image.webp.height
@@ -65,7 +65,7 @@
         'id': item.value.page_1.id,
         'title': item.value.page_1.title,
         'href': item.value.page_1.url,
-        'src': item.value.page_1.teaser_image.jpeg.url,
+        'src': item.value.page_1.teaser_image.jpeg.full_url,
         'alt': item.value.page_1.teaser_image.description,
         'width': item.value.page_1.teaser_image.jpeg.width,
         'height': item.value.page_1.teaser_image.jpeg.height
@@ -74,7 +74,7 @@
         'id': item.value.page_2.id,
         'title': item.value.page_2.title,
         'href': item.value.page_2.url,
-        'src': item.value.page_2.teaser_image.jpeg.url,
+        'src': item.value.page_2.teaser_image.jpeg.full_url,
         'alt': item.value.page_2.teaser_image.description,
         'width': item.value.page_2.teaser_image.jpeg.width,
         'height': item.value.page_2.teaser_image.jpeg.height

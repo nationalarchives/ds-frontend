@@ -8,7 +8,7 @@
       {% set image_caption = image_caption + '<div class="tna-gallery__copyright" itemprop="copyrightNotice">' + (item.image.copyright | tna_html) + '</div>' %}
     {%- endif %}
     {% set items = items.append({
-      'src': item.image.jpeg.url,
+      'src': item.image.jpeg.full_url,
       'alt': item.description,
       'width': item.image.jpeg.width,
       'height': item.image.jpeg.height,

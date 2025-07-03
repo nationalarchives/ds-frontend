@@ -56,7 +56,7 @@
         'items': [
           {
             'label': '"' + q + '"',
-            'href': '?' + existing_qs|qs_toggler('q', q),
+            'href': '?' + existing_qs|qs_toggle_value('q', q),
             'title': 'Start a new search'
           }
         ],
@@ -125,13 +125,13 @@
       } %}
       {%- if item.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': item.teaser_image.jpeg.url,
+          'imageSrc': item.teaser_image.jpeg.full_url,
           'imageAlt': item.teaser_image.description,
           'imageWidth': item.teaser_image.jpeg.width,
           'imageHeight': item.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': item.teaser_image.webp.url,
+              'src': item.teaser_image.webp.full_url,
               'type': 'image/webp',
               'width': item.teaser_image.webp.width,
               'height': item.teaser_image.webp.height

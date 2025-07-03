@@ -29,28 +29,28 @@
 {{ tnaHero({
   'title': page_data.title,
   'body': page_data.intro | safe,
-  'imageSrc': page_data.hero_image.jpeg.url,
+  'imageSrc': page_data.hero_image.jpeg.full_url,
   'imageAlt': page_data.hero_image.description,
   'imageWidth': page_data.hero_image.jpeg.width,
   'imageHeight': page_data.hero_image.jpeg.height,
   'imageCaption': hero_image_caption,
   'imageSources': [
     {
-      'src': page_data.hero_image_small.webp.url,
+      'src': page_data.hero_image_small.webp.full_url,
       'width': page_data.hero_image_small.webp.width,
       'height': page_data.hero_image_small.webp.height,
       'type': 'image/webp',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image_small.jpeg.url,
+      'src': page_data.hero_image_small.jpeg.full_url,
       'width': page_data.hero_image_small.jpeg.width,
       'height': page_data.hero_image_small.jpeg.height,
       'type': 'image/jpeg',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image.webp.url,
+      'src': page_data.hero_image.webp.full_url,
       'width': page_data.hero_image.webp.width,
       'height': page_data.hero_image.webp.height,
       'type': 'image/webp'
@@ -66,7 +66,7 @@
       'title': child.title,
       'subtitle': (child.highlight_image_count | string) + ' images',
       'href': child.url,
-      'src': child.teaser_image.jpeg.url,
+      'src': child.teaser_image.jpeg.full_url,
       'alt': child.teaser_image.description,
       'width': child.teaser_image.jpeg.width,
       'height': child.teaser_image.jpeg.height
@@ -98,13 +98,13 @@
         'text': page_data.featured_article.teaser_text,
         'label': 'New' if page_data.featured_article.is_newly_published,
         'labelColour': 'green',
-        'imageSrc': page_data.featured_article.teaser_image.jpeg.url,
+        'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
         'imageAlt': page_data.featured_article.teaser_image.description,
         'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
         'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
         'imageSources': [
           {
-            'src': page_data.featured_article.teaser_image.webp.url,
+            'src': page_data.featured_article.teaser_image.webp.full_url,
             'type': 'image/webp',
             'width': page_data.featured_article.teaser_image.webp.width,
             'height': page_data.featured_article.teaser_image.webp.height
@@ -129,13 +129,13 @@
         'text': page.teaser_text,
         'label': 'New' if page.is_newly_published,
         'labelColour': 'green',
-        'imageSrc': page.teaser_image.jpeg.url,
+        'imageSrc': page.teaser_image.jpeg.full_url,
         'imageAlt': page.teaser_image.description,
         'imageWidth': page.teaser_image.jpeg.width,
         'imageHeight': page.teaser_image.jpeg.height,
         'imageSources': [
           {
-            'src': page.teaser_image.webp.url,
+            'src': page.teaser_image.webp.full_url,
             'type': 'image/webp',
             'width': page.teaser_image.webp.width,
             'height': page.teaser_image.webp.height

@@ -15,7 +15,7 @@
   <meta itemprop="contentUrl" content="{{ video_data.full_url }}">
   <meta itemprop="url" content="{{ url_for('wagtail.video_page', video_uuid=video_data.uuid, _external=True, _scheme='https') }}">
   {% if video_data.thumbnail %}
-  <!-- <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.url }}"> -->
+  {# <meta itemprop="thumbnailUrl" content="{{ video_data.thumbnail.jpeg.full_url }}"> #}
   {% endif %}
 
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
@@ -49,9 +49,9 @@
     {% set video_details = video_details + '<dd>' + (video_data.duration | seconds_to_time) + '<meta itemprop="duration" content="' + (video_data.duration | seconds_to_iso_8601_duration) + '"></dd>' %}
     {% endif %}
 
-    {% if video_data.date %}
+    {% if video_data.created_at %}
     {% set video_details = video_details + '<dt>Date</dt>' %}
-    {% set video_details = video_details + '<dd itemprop="datePublished">' + (video_data.date | pretty_date) + '</dd>' %}
+    {% set video_details = video_details + '<dd itemprop="datePublished">' + (video_data.created_at | pretty_date) + '</dd>' %}
     {% endif %}
 
     {% set video_details = '<dl class="tna-dl tna-dl--plain">' + video_details + '</dl>' %}

@@ -4,7 +4,7 @@
   <div class="etna-media-block">
     <a href="https://www.youtube.com/watch?v={{ block_value.video_id }}" id="{{ id }}" class="etna-video etna-video--youtube video-js" rel="noreferrer nofollow noopener">
       {% if block_value.preview_image %}
-      <img src="{{ block_value.preview_image.jpeg.url }}" width="{{ block_value.preview_image.jpeg.width }}" height="{{ block_value.preview_image.jpeg.height }}" class="etna-video__preview-image" alt="">
+      <img src="{{ block_value.preview_image.jpeg.full_url }}" width="{{ block_value.preview_image.jpeg.width }}" height="{{ block_value.preview_image.jpeg.height }}" class="etna-video__preview-image" alt="">
       {% endif %}
       <span class="etna-video__label">
         <span class="tna-visually-hidden">Watch</span>

@@ -91,16 +91,28 @@ def get_url_domain(s):
         return s
 
 
-def pretty_date(s, show_day=False):
+def pretty_date(s, show_day=False, show_time=False):  # noqa: C901
     if not s:
         return s
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        if show_time:
+            return (
+                date.strftime("%A %-d %B %Y, %H:%M")
+                if show_day
+                else date.strftime("%-d %B %Y, %H:%M")
+            )
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
         date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        if show_time:
+            return (
+                date.strftime("%A %-d %B %Y, %H:%M")
+                if show_day
+                else date.strftime("%-d %B %Y, %H:%M")
+            )
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
@@ -123,7 +135,15 @@ def pretty_date(s, show_day=False):
 
 
 def pretty_date_with_day(s):
-    return pretty_date(s, True)
+    return pretty_date(s, show_day=True)
+
+
+def pretty_date_with_time(s):
+    return pretty_date(s, show_time=True)
+
+
+def pretty_date_with_day_and_time(s):
+    return pretty_date(s, show_day=True, show_time=True)
 
 
 def currency(s):
@@ -214,6 +234,26 @@ def headings_list(s):
 
     headings = group_headings(0, [])
     return headings
+
+
+def number_to_text(s):
+    try:
+        return (
+            [
+                "No",
+                "One",
+                "Two",
+                "Three",
+                "Four",
+                "Five",
+                "Six",
+                "Seven",
+                "Eight",
+                "Nine",
+            ]
+        )[int(s)]
+    except (ValueError, TypeError, IndexError):
+        return s
 
 
 def parse_json(s):
@@ -389,4 +429,13 @@ def qs_update(existing_qs, filter, value):
     except KeyError:
         pass
     rtn_qs.update({filter: value})
+    return urlencode(rtn_qs)
+
+
+def qs_remove(existing_qs, filter):
+    rtn_qs = existing_qs.copy()
+    try:
+        rtn_qs.pop(filter)
+    except KeyError:
+        pass
     return urlencode(rtn_qs)
