@@ -88,8 +88,3 @@
 {{ feedback() }}
 {{ back_to_top() }}
 {% endblock %}
-
-{% block bodyEnd %}
-{{ super() }}
-    <script src="{{ url_for('static', filename='events.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
