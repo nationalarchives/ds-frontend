@@ -18,7 +18,7 @@
 </div>
 <div class="tna-container">
   <div class="tna-column tna-column--full">
-    <h2 class="tna-heading-l">{{ page_data.exhibition_listings | length | number_to_text }} ongoing exhibitions and displays</h2>
+    <p>Showing <strong>{{ page_data.exhibition_listings | length }}</strong> current {{ 'exhibition or display' if (page_data.exhibition_listings | length == 1) else 'exhibitions and displays' }}.</p>
   </div>
   {% for page in page_data.exhibition_listings %}
   <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">

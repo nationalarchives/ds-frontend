@@ -6,6 +6,15 @@ from flask import render_template, request
 
 
 def events_listing_page(page_data):
+    all_events = events()
+    return render_template(
+        "whats_on/events.html",
+        page_data=page_data,
+        events=all_events.get("items", []),
+    )
+
+
+def events_listing_searchable_page(page_data):
     event_params = {}
     date_error = None
     if request.args.get("location") and request.args.get("location") not in [
@@ -64,7 +73,7 @@ def events_listing_page(page_data):
     )
 
     return render_template(
-        "whats_on/events.html",
+        "whats_on/events-searchable.html",
         page_data=page_data,
         events=all_events.get("items", []),
         date_from=date_from,

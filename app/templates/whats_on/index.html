@@ -56,7 +56,7 @@
         'supertitle': section.featured_page.type_label,
         'title': section.featured_page.title,
         'headingLevel': 3,
-        'headingSize': 's',
+        'headingSize': 'm',
         'href': section.featured_page.url,
         'meta': [
           {
@@ -73,7 +73,7 @@
         'metaStacked': True,
         'text': section.featured_page.teaser_text,
         'horizontal': True,
-        'style': 'contrast',
+        'style': 'accent',
         'fullAreaClick': True,
         'classes': 'tna-!--margin-top-m'
       } %}
@@ -144,12 +144,6 @@
   </ul>
 </div>
 {%- endfor %}
-
-
-
-
-
-
 
 <div class="tna-section">
   {%- set ns = namespace(indexGridItems=[]) %}

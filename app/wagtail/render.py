@@ -27,7 +27,6 @@ from .pages import (
     record_article_page,
     whats_on_category_page,
     whats_on_index_page,
-    whats_on_search_page,
     whats_on_series_page,
 )
 
@@ -65,7 +64,6 @@ page_type_templates = {
     "whatson.ExhibitionPage": exhibition_page,
     "whatson.DisplayPage": display_page,
     "whatson.ExhibitionsListingPage": exhibitions_listing_page,
-    "whatson.SearchPage": whats_on_search_page,
     "whatson.WhatsOnCategoryPage": whats_on_category_page,
     "whatson.WhatsOnSeriesPage": whats_on_series_page,
 }

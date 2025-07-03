@@ -21,7 +21,6 @@ from .whatson.event_page import event_page
 from .whatson.events_listing_page import events_listing_page
 from .whatson.exhibition_page import exhibition_page
 from .whatson.exhibitions_listing_page import exhibitions_listing_page
-from .whatson.search import whats_on_search_page
-from .whatson.series import whats_on_series_page
 from .whatson.whats_on_category_page import whats_on_category_page
 from .whatson.whats_on_index_page import whats_on_index_page
+from .whatson.whats_on_series_page import whats_on_series_page
