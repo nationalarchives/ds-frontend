@@ -6,7 +6,7 @@ from flask import render_template, request
 
 
 def events_listing_page(page_data):
-    time_period = request.args.get("time", "any")
+    time_period = request.args.get("date", "any")
     if time_period not in ["any", "today", "7days", "30days"]:
         return render_template("errors/page_not_found.html"), 400
     today = datetime.date.today()

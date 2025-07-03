@@ -47,23 +47,23 @@
         'items': [
           {
             'name': 'Any',
-            'href': '?' + qs_toggler('time', 'any'),
-            'current': qs_active('time', 'any') or not request.args.get('time')
+            'href': '?' + qs_toggler('date', 'any'),
+            'current': qs_active('date', 'any') or not request.args.get('date')
           },
           {
             'name': 'Today',
-            'href': '?' + qs_toggler('time', 'today'),
-            'current': qs_active('time', 'today')
+            'href': '?' + qs_toggler('date', 'today'),
+            'current': qs_active('date', 'today')
           },
           {
             'name': 'Next 7 days',
-            'href': '?' + qs_toggler('time', '7days'),
-            'current': qs_active('time', '7days')
+            'href': '?' + qs_toggler('date', '7days'),
+            'current': qs_active('date', '7days')
           },
           {
             'name': 'Next 30 days',
-            'href': '?' + qs_toggler('time', '30days'),
-            'current': qs_active('time', '30days')
+            'href': '?' + qs_toggler('date', '30days'),
+            'current': qs_active('date', '30days')
           }
         ],
         'noBottomBorder': False
