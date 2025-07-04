@@ -28,12 +28,15 @@
   'supertitle': page_data.type_label,
   'title': page_data.title,
   'body': '<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl>',
-  'imageSrc': page_data.hero_image.jpeg.full_url,
+  '_imageSrc': page_data.hero_image.jpeg.full_url,
+  'imageSrc': page_data.hero_image_small.jpeg.full_url,
   'imageAlt': page_data.hero_image.description,
-  'imageWidth': page_data.hero_image.jpeg.width,
-  'imageHeight': page_data.hero_image.jpeg.height,
+  '_imageWidth': page_data.hero_image.jpeg.width,
+  'imageWidth': page_data.hero_image_small.jpeg.width,
+  '_imageHeight': page_data.hero_image.jpeg.height,
+  'imageHeight': page_data.hero_image_small.jpeg.height,
   'imageCaption': page_data.hero_image_caption,
-  'imageSources': [
+  '_imageSources': [
     {
       'src': page_data.hero_image_small.webp.full_url,
       'width': page_data.hero_image_small.webp.width,
@@ -52,6 +55,14 @@
       'src': page_data.hero_image.webp.full_url,
       'width': page_data.hero_image.webp.width,
       'height': page_data.hero_image.webp.height,
+      'type': 'image/webp'
+    }
+  ],
+  'imageSources': [
+    {
+      'src': page_data.hero_image_small.webp.full_url,
+      'width': page_data.hero_image_small.webp.width,
+      'height': page_data.hero_image_small.webp.height,
       'type': 'image/webp'
     }
   ],
