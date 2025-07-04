@@ -1,7 +1,7 @@
 import math
 from datetime import datetime
 
-from app.lib.cache import cache, path_cache_key_prefix
+# from app.lib.cache import cache, path_cache_key_prefix
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
 from flask import (

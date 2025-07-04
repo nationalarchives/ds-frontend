@@ -1,34 +1,32 @@
 from flask import current_app, render_template
 from pydash import objects
 
-from .pages import (
-    article_index_page,
-    article_page,
-    article_page_focused,
-    blog_index_page,
-    blog_page,
-    blog_post_page,
-    categories_page,
-    category_index_page,
-    cookie_details_page,
-    cookies_page,
-    display_page,
-    event_page,
-    events_listing_page,
-    exhibition_page,
-    exhibitions_listing_page,
-    explorer_index_page,
-    general_page,
-    highlight_gallery_page,
-    home_page,
-    hub_page,
-    people_index_page,
-    person_page,
-    record_article_page,
-    whats_on_category_page,
-    whats_on_index_page,
-    whats_on_series_page,
-)
+from .pages.articles.article_index_page import article_index_page
+from .pages.articles.article_page import article_page
+from .pages.articles.article_page_focused import article_page_focused
+from .pages.articles.record_article_page import record_article_page
+from .pages.blog.blog_index_page import blog_index_page
+from .pages.blog.blog_page import blog_page
+from .pages.blog.blog_post_page import blog_post_page
+from .pages.collections.categories_page import categories_page
+from .pages.collections.category_index_page import category_index_page
+from .pages.collections.explorer_index_page import explorer_index_page
+from .pages.collections.highlight_gallery_page import highlight_gallery_page
+from .pages.cookies.cookie_details_page import cookie_details_page
+from .pages.cookies.cookies_page import cookies_page
+from .pages.generic_pages.general_page import general_page
+from .pages.generic_pages.hub_page import hub_page
+from .pages.home.home_page import home_page
+from .pages.people.people_index_page import people_index_page
+from .pages.people.person_page import person_page
+from .pages.whatson.display_page import display_page
+from .pages.whatson.event_page import event_page
+from .pages.whatson.events_listing_page import events_listing_page
+from .pages.whatson.exhibition_page import exhibition_page
+from .pages.whatson.exhibitions_listing_page import exhibitions_listing_page
+from .pages.whatson.whats_on_category_page import whats_on_category_page
+from .pages.whatson.whats_on_index_page import whats_on_index_page
+from .pages.whatson.whats_on_series_page import whats_on_series_page
 
 page_type_templates = {
     # General

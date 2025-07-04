@@ -6,12 +6,10 @@ from urllib.parse import unquote, urlencode, urlparse
 
 from markupsafe import Markup
 
-from .content_parser import (
-    add_abbreviations,
+from .content_parser import (  # add_abbreviations,; replace_footnotes,
     add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
-    replace_footnotes,
     replace_line_breaks,
     strip_wagtail_attributes,
 )

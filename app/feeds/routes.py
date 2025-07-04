@@ -1,5 +1,3 @@
-import os
-
 from app.feeds import bp
 from app.lib.api import ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix, rss_feed_cache_key_prefix
