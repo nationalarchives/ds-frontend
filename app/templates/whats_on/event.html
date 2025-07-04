@@ -75,6 +75,12 @@
       <h2 class="tna-visually-hidden">Event details</h2>
       <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
         <dt>
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+          Date
+        </dt>
+        <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+
+        <dt>
           <i class="fa-solid fa-ticket" aria-hidden="true"></i>
           Price
         </dt>
@@ -83,7 +89,7 @@
         <dd>{{ page_data.booking_details | safe }}</dd>
         {%- endif %}
 
-        {% if page_data.audience_heading and page_data.audience_detail %}
+        {%- if page_data.audience_heading and page_data.audience_detail %}
         <dt>
           <i class="fa-solid fa-user" aria-hidden="true"></i>
           Audience
@@ -92,25 +98,24 @@
           <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
         </dd>
         <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
-        {% endif %}
+        {%- endif %}
 
-        {% if page_data.location %}
+        {%- if page_data.location %}
         <dt>
           <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
           Location
         </dt>
+        {%- if page_data.location.online %}
+        <dd class="tna-!--no-padding-bottom"><a href="#location-details">Online{% if page_data.location.online_detail %}, {{ page_data.location.online_detail }}{% endif %}</a>
+        </dd>
+        {% else %}
         <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
         <dd>
           <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
           {{ page_data.location.full_address | safe }}
         </dd>
-        {% endif %}
-
-        <dt>
-          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-          Date
-        </dt>
-        <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+        {%- endif %}
+        {%- endif %}
       </dl>
       {%- if page_data.sold_out %}
       <p><strong>This event has sold out.</strong></p>
@@ -118,7 +123,7 @@
       <div class="tna-button-group">
         {{ tnaButton({
           'text': 'Book now',
-          'url': page_data.booking_link
+          'href': page_data.booking_link
         }) }}
       </div>
       {%- endif %}
@@ -169,7 +174,7 @@
       <div class="tna-newsletter_inner">
         <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
         <div class="tna-newsletter__body">
-          <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Priority booking</a></h3>
+          <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Stay up-to-date</a></h3>
           <p>Join The National Archives mailing list for exhibition updates and early booking for events, including talks and tours.</p>
         </div>
       </div>
@@ -177,7 +182,7 @@
   </div>
 </div>
 
-<div class="tna-background-tint">
+<div class="tna-background-tint" id="location-details">
   <section class="tna-section tna-!--padding-top-m">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -191,14 +196,14 @@
             'body': item.body | tna_html
           }) %}
         {% endfor %}
-        {% if accordion_items %}
+        {%- if accordion_items %}
           {{ tnaAccordion({
             'itemHeadingLevel': 3,
             'items': accordion_items,
             'id': 'plan-your-visit-details',
             'openMultipleItems': True
           }) }}
-        {% endif %}
+        {%- endif %}
         <div class="tna-button-group">
           <a href="https://www.nationalarchives.gov.uk/about/visit-us/" class="tna-button " data-tna-cta="">Visit us</a>
         </div>
