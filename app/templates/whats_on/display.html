@@ -125,6 +125,7 @@
         {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
       </div>
     </div>
+    {%- if is_today_in_date_range(page_data.start_date, page_data.end_date) %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
       <div class="tna-aside tna-aside--top-bottom-borders">
         <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
@@ -136,10 +137,6 @@
           <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
           {% endif %}
-
-
-
-          
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
             Price
@@ -175,6 +172,7 @@
         </dl>
       </div>
     </div>
+    {%- endif %}
   </div>
   {% for review in page_data.review %}
   <section class="tna-section tna-background-accent" itemprop="review" itemscope itemtype="https://schema.org/Review">
