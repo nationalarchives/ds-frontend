@@ -110,8 +110,7 @@
           <i class="fa-solid fa-calendar" aria-hidden="true"></i>
           Date
         </dt>
-        <dd class="tna-!--no-padding-bottom">{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
-        <dd>{{ page_data.sold_out }}</dd>
+        <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
       </dl>
       {%- if page_data.sold_out %}
       <p><strong>This event has sold out.</strong></p>
