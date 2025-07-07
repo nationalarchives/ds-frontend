@@ -50,6 +50,9 @@ def all_pages(params={}, batch=1, limit=None):
 
 def page_details(page_id, params={}):
     uri = f"pages/{page_id}/"
+    params = params | {
+        "include_aliases": "",
+    }
     return wagtail_request_handler(uri, params)
 
 
@@ -57,6 +60,7 @@ def page_details_by_uri(page_uri, params={}):
     uri = "pages/find/"
     params = params | {
         "html_path": page_uri,
+        "include_aliases": "",
     }
     return wagtail_request_handler(uri, params)
 
@@ -65,6 +69,7 @@ def page_details_by_type(type, params={}):
     uri = "pages/"
     params = params | {
         "type": type,
+        "include_aliases": "",
     }
     return wagtail_request_handler(uri, params)
 
@@ -82,6 +87,7 @@ def page_children(page_id, params={}, limit=None):
     params = params | {
         "child_of": page_id,
         "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "include_aliases": "",
     }
     return wagtail_request_handler(uri, params)
 
@@ -93,6 +99,7 @@ def page_ancestors(page_id, params={}, limit=None):
     params = params | {
         "ancestor_of": page_id,
         "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "include_aliases": "",
     }
     try:
         return wagtail_request_handler(uri, params)
@@ -108,6 +115,7 @@ def page_descendants(page_id, params={}, limit=None):
     params = params | {
         "descendant_of": page_id,
         "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "include_aliases": "",
     }
     try:
         return wagtail_request_handler(uri, params)
@@ -146,7 +154,11 @@ def page_children_paginated(
         page=page,
         limit=limit,
         initial_offset=initial_offset,
-        params=params | {"child_of": page_id},
+        params=params
+        | {
+            "child_of": page_id,
+            "include_aliases": "",
+        },
     )
 
 
@@ -159,7 +171,11 @@ def authored_pages_paginated(
     return pages_paginated(
         page=page,
         limit=limit,
-        params=params | {"author": author_id},
+        params=params
+        | {
+            "author": author_id,
+            "include_aliases": "",
+        },
     )
 
 
