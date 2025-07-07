@@ -157,7 +157,6 @@ def page_children_paginated(
         params=params
         | {
             "child_of": page_id,
-            "include_aliases": "",
         },
     )
 
@@ -174,7 +173,6 @@ def authored_pages_paginated(
         params=params
         | {
             "author": author_id,
-            "include_aliases": "",
         },
     )
 
