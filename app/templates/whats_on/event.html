@@ -219,9 +219,11 @@
             'openMultipleItems': True
           }) }}
         {%- endif %}
+        {%- if not page_data.location.online %}
         <div class="tna-button-group">
           <a href="https://www.nationalarchives.gov.uk/about/visit-us/" class="tna-button " data-tna-cta="">Visit us</a>
         </div>
+        {%- endif %}
       </div>
       {%- if page_data.location.image %}
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
@@ -271,6 +273,7 @@
 </section>
 {% endfor %}
 
+{% if page_data.speakers %}
 <div class="tna-container tna-section tna-!--no-padding-top">
   <div class="tna-column tna-column--full">
     <div class="etna-author-list etna-author-list--horizontal- tna-column tna-!--margin-top-l">
@@ -305,6 +308,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 
 {{ feedback() }}
 {{ back_to_top() }}
