@@ -140,7 +140,11 @@
 {%- if exhibitions | length %}
 <div class="tna-container tna-!--padding-top-s">
   <div class="tna-column tna-column--full">
+    {%- if events | length %}
     <h2 class="tna-heading-l">Exhibitions</h2>
+    {%- else %}
+    <p>Showing <strong>{{ exhibitions | length }}</strong> current exhibition{{ '' if (exhibitions | length == 1) else 's' }}.</p>
+    {%- endif %}
   </div>
 </div>
 <ul class="tna-container tna-container--nested tna-!--margin-bottom-xl">

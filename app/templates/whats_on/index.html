@@ -139,7 +139,7 @@
 
 {%- for group in ['children', 'series', 'categories', 'locations'] %}
 <div class="tna-section">
-  {%- set ns = namespace(indexGridItems=[]) %}
+  <!-- {%- set ns = namespace(indexGridItems=[]) %}
   {%- for child in groups[group]['items'] %}
     {%- set ns.indexGridItems = ns.indexGridItems + [{
       'href': child.url,
@@ -160,7 +160,46 @@
     'columns': 4,
     'columnsSmall': 2,
     'columnsTiny': 1
-  }) }}
+  }) }} -->
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-l">{{ groups[group].title }}</h2>
+    </div>
+  </div>
+  <ul class="tna-container">
+    {%- for page in groups[group]['items'] %}
+    <li class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+      {%- set card_content = {
+        'supertitle': groups[group].card_supertitle or '',
+        'title': page.title,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'href': page.url,
+        'text': page.teaser_text,
+        'style': 'contrast',
+        'fullAreaClick': True,
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if page.teaser_image_ %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page.teaser_image.jpeg.full_url,
+          'imageAlt': page.teaser_image.description,
+          'imageWidth': page.teaser_image.jpeg.width,
+          'imageHeight': page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page.teaser_image.webp.width,
+              'height': page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {%- endfor %}
+  </ul>
 </div>
 {%- endfor %}
 
