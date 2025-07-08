@@ -107,11 +107,8 @@
         {%- if page_data.audience_heading and page_data.audience_detail %}
         <dt>
           <i class="fa-solid fa-user" aria-hidden="true"></i>
-          Audience
+          Age
         </dt>
-        <dd class="tna-!--no-padding-bottom" itemprop="audience" itemscope itemtype="https://schema.org/Audience">
-          <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
-        </dd>
         <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
         {%- endif %}
 
@@ -309,6 +306,69 @@
   </div>
 </div>
 {% endif %}
+
+{% for series in page_data.series %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <hgroup class="tna-hgroup-l">
+        <p class="tna-hgroup__supertitle">Event series</p>
+        <h2 class="tna-hgroup__title">
+          <a href="{{ series.url }}">{{ series.title }}</a>
+        </h2>
+      </hgroup>
+      <p>{{ series.teaser_text }}</p>
+    </div>
+  </div>
+  <ul class="tna-container">
+    {%- for page in series.latest_listings %}
+    <li class="tna-column tna-column--width-1-{{ series.latest_listings | length }} tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    {%- set card_content = {
+      'supertitle': page.type_label,
+      'title': page.title,
+      'headingLevel': 3,
+      'headingSize': 's',
+      'href': page.url,
+      'meta': [
+        {
+          'title': 'Cost',
+          'text': page.price | pretty_price | safe,
+          'icon': 'ticket'
+        },
+        {
+          'title': 'Date',
+          'text': pretty_date_range(page.start_date, page.end_date),
+          'icon': 'calendar'
+        }
+      ],
+      'metaStacked': True,
+      'text': page.teaser_text,
+      'style': 'plain',
+      'fullAreaClick': True,
+      'classes': 'tna-card--full-height'
+    } %}
+    {%- if page.teaser_image %}
+      {% set card_content = dict(card_content, **{
+        'imageSrc': page.teaser_image.jpeg.full_url,
+        'imageAlt': page.teaser_image.description,
+        'imageWidth': page.teaser_image.jpeg.width,
+        'imageHeight': page.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': page.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': page.teaser_image.webp.width,
+            'height': page.teaser_image.webp.height
+          }
+        ]
+      }) %}
+    {%- endif %}
+    {{ tnaCard(card_content) }}
+    </li>
+    {%- endfor %}
+  </ul>
+</div>
+{% endfor %}
 
 {{ feedback() }}
 {{ back_to_top() }}
