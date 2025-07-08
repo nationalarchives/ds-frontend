@@ -4,23 +4,45 @@ from flask import render_template
 
 def whats_on_index_page(page_data):
     all_children = page_children(page_data["id"]).get("items", [])
-    children = []
-    series_pages = []
-    category_pages = []
+    groups = {
+        "children": {
+            "title": "Event types",
+            "items": [],
+        },
+        "series": {
+            "title": "Events by series",
+            "items": [],
+        },
+        "categories": {
+            "title": "Events by format",
+            "items": [],
+        },
+        "dates": {
+            "title": "Events by date",
+            "items": [],
+        },
+        "locations": {
+            "title": "Events by location",
+            "items": [],
+        },
+    }
     for page in all_children:
+        print(f"Processing page: {page['title']} ({page['type']})")
         if page["type"] in [
             "whatson.EventsListingPage",
             "whatson.ExhibitionsListingPage",
         ]:
-            children.append(page)
+            groups["children"]["items"].append(page)
         elif page["type"] == "whatson.WhatsOnSeriesPage":
-            series_pages.append(page)
+            groups["series"]["items"].append(page)
         elif page["type"] == "whatson.WhatsOnCategoryPage":
-            category_pages.append(page)
+            groups["categories"]["items"].append(page)
+        elif page["type"] == "whatson.WhatsOnDateListingPage":
+            groups["dates"]["items"].append(page)
+        elif page["type"] == "whatson.WhatsOnLocationListingPage":
+            groups["locations"]["items"].append(page)
     return render_template(
         "whats_on/index.html",
         page_data=page_data,
-        children=children,
-        series_pages=series_pages,
-        category_pages=category_pages,
+        groups=groups,
     )

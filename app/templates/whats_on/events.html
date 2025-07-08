@@ -72,13 +72,18 @@
   </div>
   {%- endif %}
 </div>
+
 {%- if events | length %}
 <div class="tna-container tna-!--padding-top-s" id="events-list">
   <div class="tna-column tna-column--full">
+    {%- if exhibitions | length %}
+    <h2 class="tna-heading-l">Events</h2>
+    {%- else %}
     <p>Showing <strong>{{ events | length }}</strong> current event{{ '' if (events | length == 1) else 's' }}.</p>
+    {%- endif %}
   </div>
 </div>
-<ul class="tna-container tna-container--nested">
+<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl">
   {% for event in events %}
   <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
     {% set event_card_content = {
@@ -130,13 +135,75 @@
     </li>
   {% endfor %}
 </ul>
-{%- else %}
-<div class="tna-container">
-  <div class="tna-column tna-column--full tna-!--padding-top-m">
-    <p class="tna-heading-m">No events found.</p>
-    {%- endif %}
+{%- endif %}
+
+{%- if exhibitions | length %}
+<div class="tna-container tna-!--padding-top-s">
+  <div class="tna-column tna-column--full">
+    <h2 class="tna-heading-l">Exhibitions</h2>
   </div>
 </div>
+<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl">
+  {% for exhibition in exhibitions %}
+  <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+    {% set exhibition_card_content = {
+      'supertitle': exhibition.type_label,
+      'title': exhibition.title,
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': exhibition.url,
+      'meta': [
+        {
+          'title': 'Date',
+          'text': pretty_date_range(exhibition.start_date, exhibition.end_date),
+          'icon': 'calendar'
+        },
+        {
+          'title': 'Location',
+          'text': exhibition.short_location,
+          'icon': 'location-dot'
+        },
+        {
+          'title': 'Cost',
+          'text': pretty_price_range(exhibition.min_price, exhibition.max_price),
+          'icon': 'ticket'
+        }
+      ],
+      'text': exhibition.teaser_text,
+      'fullAreaClick': True,
+      'style': 'plain',
+      'classes': 'tna-card--full-height'
+    } %}
+    {%- if exhibition.teaser_image %}
+      {% set exhibition_card_content = dict(exhibition_card_content, **{
+        'lazyImage': True,
+        'imageSrc': exhibition.teaser_image.jpeg.full_url,
+        'imageAlt': exhibition.teaser_image.description,
+        'imageWidth': exhibition.teaser_image.jpeg.width,
+        'imageHeight': exhibition.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': exhibition.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': exhibition.teaser_image.webp.width,
+            'height': exhibition.teaser_image.webp.height
+          }
+        ]
+      }) %}
+    {%- endif %}
+    {{ tnaCard(exhibition_card_content) }}
+    </li>
+  {% endfor %}
+</ul>
+{%- endif %}
+
+{%- if (events | length) == 0 and (exhibitions | length) == 0 %}
+<div class="tna-container tna-!--margin-bottom-xl">
+  <div class="tna-column tna-column--full tna-!--padding-top-m">
+    <p class="tna-heading-m">No events found.</p>
+  </div>
+</div>
+{%- endif %}
 
 {{ feedback() }}
 {{ back_to_top() }}

@@ -25,7 +25,9 @@ from .pages.whatson.events_listing_page import events_listing_page
 from .pages.whatson.exhibition_page import exhibition_page
 from .pages.whatson.exhibitions_listing_page import exhibitions_listing_page
 from .pages.whatson.whats_on_category_page import whats_on_category_page
+from .pages.whatson.whats_on_date_listing_page import whats_on_date_listing_page
 from .pages.whatson.whats_on_index_page import whats_on_index_page
+from .pages.whatson.whats_on_location_listing_page import whats_on_location_listing_page
 from .pages.whatson.whats_on_series_page import whats_on_series_page
 
 page_type_templates = {
@@ -64,6 +66,8 @@ page_type_templates = {
     "whatson.ExhibitionsListingPage": exhibitions_listing_page,
     "whatson.WhatsOnCategoryPage": whats_on_category_page,
     "whatson.WhatsOnSeriesPage": whats_on_series_page,
+    "whatson.WhatsOnDateListingPage": whats_on_date_listing_page,
+    "whatson.WhatsOnLocationListingPage": whats_on_location_listing_page,
 }
 
 

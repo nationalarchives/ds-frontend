@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
@@ -14,39 +15,24 @@
 {% endblock %}
 
 {% block content %}
-<!-- <div class="tna-container tna-section">
+<div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
     <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+    <div class="tna-button-group">
+      {%- for child in groups.dates['items'] %}
+      {{ tnaButton({
+        'text': child.title,
+        'href': child.url
+      }) }}
+      {%- endfor %}
+    </div>
   </div>
-</div> -->
-{%- set ns = namespace(indexGridItems=[]) %}
-{%- for child in children %}
-  {%- set ns.indexGridItems = ns.indexGridItems + [{
-    'href': child.url,
-    'title': child.title,
-    'subtitle': child.teaser_text,
-    'src': child.teaser_image.jpeg.full_url if child.teaser_image else '',
-    'alt': child.teaser_image.description if child.teaser_image else '',
-    'width': child.teaser_image.jpeg.width if child.teaser_image else '',
-    'height': child.teaser_image.jpeg.height if child.teaser_image else ''
-  }] %}
-{%- endfor %}
-<div class="tna-section">
-  {{ tnaIndexGrid({
-    'title': pageTitle,
-    'body': ('<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div>') | safe,
-    'headingLevel': 1,
-    'headingSize': 'xl',
-    'items': ns.indexGridItems,
-    'columns': 2,
-    'columnsTiny': 1
-  }) }}
 </div>
 
 {%- for section in page_data.whats_on_page_selections %}
 {%- set alternative_block = loop.index % 2 == 1 %}
-<div class="tna-section{{ ' tna-background-tint' if alternative_block else '' }}">
+<div class="tna-section{{ ' tna-background-tint-' if alternative_block else '' }}">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
@@ -151,34 +137,23 @@
 </div>
 {%- endfor %}
 
+{%- for group in ['children', 'series', 'categories', 'locations'] %}
 <div class="tna-section">
   {%- set ns = namespace(indexGridItems=[]) %}
-  {%- for page in category_pages %}
+  {%- for child in groups[group]['items'] %}
     {%- set ns.indexGridItems = ns.indexGridItems + [{
-      'href': page.url,
-      'label': 'Event type',
-      'title': page.title,
-      'subtitle': page.teaser_text,
-      'src': page.teaser_image.jpeg.full_url if page.teaser_image else '',
-      'alt': page.teaser_image.description if page.teaser_image else '',
-      'width': page.teaser_image.jpeg.width if page.teaser_image else '',
-      'height': page.teaser_image.jpeg.height if page.teaser_image else ''
-    }] %}
-  {%- endfor %}
-  {%- for page in series_pages %}
-    {%- set ns.indexGridItems = ns.indexGridItems + [{
-      'href': page.url,
-      'label': 'Event series',
-      'title': page.title,
-      'subtitle': page.teaser_text,
-      'src': page.teaser_image.jpeg.full_url if page.teaser_image else '',
-      'alt': page.teaser_image.description if page.teaser_image else '',
-      'width': page.teaser_image.jpeg.width if page.teaser_image else '',
-      'height': page.teaser_image.jpeg.height if page.teaser_image else ''
+      'href': child.url,
+      'title': child.title,
+      'subtitle': child.teaser_text,
+      'src': child.teaser_image.jpeg.full_url if child.teaser_image else '',
+      'alt': child.teaser_image.description if child.teaser_image else '',
+      'width': child.teaser_image.jpeg.width if child.teaser_image else '',
+      'height': child.teaser_image.jpeg.height if child.teaser_image else ''
     }] %}
   {%- endfor %}
   {{ tnaIndexGrid({
-    'title': 'Browse what’s on',
+    'title': groups[group].title,
+    'body': '',
     'headingLevel': 2,
     'headingSize': 'l',
     'items': ns.indexGridItems,
@@ -187,11 +162,7 @@
     'columnsTiny': 1
   }) }}
 </div>
-
-
-
-
-
+{%- endfor %}
 
 {{ feedback() }}
 {{ back_to_top() }}
