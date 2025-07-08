@@ -97,12 +97,12 @@ def pretty_price_range(s_from, s_to):
     if i_from == i_to:
         return pretty_price(i_from)
     if i_from == 0:
-        return f"Up to {pretty_price(i_to)}"
+        return f"Free to {pretty_price(i_to)}"
     if i_to == 0:
         return f"From {pretty_price(i_from)}"
     min_price = min(float(i_from), float(i_to))
     max_price = max(float(i_from), float(i_to))
-    return f"From {pretty_price(min_price)} to {pretty_price(max_price)}"
+    return f"{pretty_price(min_price)} to {pretty_price(max_price)}"
 
 
 def is_today_in_date_range(s_from, date_to):
