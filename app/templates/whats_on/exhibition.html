@@ -171,27 +171,36 @@
           {% if page_data.open_days %}
           <dt>
             <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-            {{ page_data.open_days }}
+            Date
           </dt>
+          <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
           {% endif %}
+
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-            {{ page_data.price | pretty_price }}
+            Price
           </dt>
+          <dd class="tna-!--no-padding-bottom">{{ page_data.price | pretty_price }}</dd>
           <dd>{{ page_data.booking_details | safe }}</dd>
+
           {% if page_data.audience_heading and page_data.audience_detail %}
           <dt itemprop="audience" itemscope itemtype="https://schema.org/Audience">
             <i class="fa-solid fa-user" aria-hidden="true"></i>
-            <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
+            Audience
           </dt>
+          <dd class="tna-!--no-padding-bottom">
+            <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
+          </dd>
           <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
           {% endif %}
+
           {% if page_data.location_space_name %}
           <dt>
             <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-            {{ page_data.location_space_name }}
+            Location
           </dt>
+          <dd class="tna-!--no-padding-bottom">{{ page_data.location_space_name }}</dd>
           <dd>
             {%- if page_data.location_address %}
             <meta itemprop="location" content="{{ page_data.location_address | multiline_address_to_single_line | safe }}">
@@ -204,6 +213,7 @@
             {%- endif %}
           </dd>
           {% endif %}
+
           <dt>
             <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
             Accessibility
