@@ -195,24 +195,22 @@
           <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
           {% endif %}
 
-          {% if page_data.location_space_name %}
+          {%- if page_data.location %}
           <dt>
             <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
             Location
           </dt>
-          <dd class="tna-!--no-padding-bottom">{{ page_data.location_space_name }}</dd>
-          <dd>
-            {%- if page_data.location_address %}
-            <meta itemprop="location" content="{{ page_data.location_address | multiline_address_to_single_line | safe }}">
-            {{ page_data.location_address | safe }}
-            {%- else %}
-            <meta itemprop="location" content="The National Archives, Kew, Richmond, TW9 4DU">
-            The National Archives<br>
-            Kew, Richmond<br>
-            TW9 4DU
-            {%- endif %}
+          {%- if page_data.location.online %}
+          <dd class="tna-!--no-padding-bottom"><a href="#location-details">Online{% if page_data.location.online_detail %}, {{ page_data.location.online_detail }}{% endif %}</a>
           </dd>
-          {% endif %}
+          {% else %}
+          <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
+          <dd>
+            <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
+            {{ page_data.location.full_address | safe }}
+          </dd>
+          {%- endif %}
+          {%- endif %}
 
           <dt>
             <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
