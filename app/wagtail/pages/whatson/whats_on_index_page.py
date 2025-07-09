@@ -6,25 +6,25 @@ def whats_on_index_page(page_data):
     all_children = page_children(page_data["id"]).get("items", [])
     groups = {
         "children": {
-            "title": "Event types",
+            "title": "Browse what’s on",
             "items": [],
         },
         "series": {
-            "title": "Events by series",
+            "title": "Browse by series",
             "card_supertitle": "Event series",
             "items": [],
         },
         "categories": {
-            "title": "Events by format",
+            "title": "Browse by format",
             "card_supertitle": "Event format",
             "items": [],
         },
         "dates": {
-            "title": "Events by date",
+            "title": "Browse by date",
             "items": [],
         },
         "locations": {
-            "title": "Events by location",
+            "title": "Browse by location",
             "card_supertitle": "Event location",
             "items": [],
         },

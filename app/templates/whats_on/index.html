@@ -138,6 +138,7 @@
 
 <div class="tna-section tna-!--no-padding-top tna-background-tint">
 {%- for group in ['children', 'series', 'categories', 'locations'] %}
+  {%- if groups[group]['items'] | length %}
   <div class="tna-container tna-!--padding-top-l">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">{{ groups[group].title }}</h2>
@@ -177,7 +178,8 @@
     </li>
     {%- endfor %}
   </ul>
-  {%- endfor %}
+  {%- endif %}
+{%- endfor %}
 </div>
 
 {{ feedback() }}
