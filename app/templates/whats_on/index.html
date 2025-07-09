@@ -2,7 +2,6 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
-{%- from 'components/index-grid/macro.html' import tnaIndexGrid -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
@@ -137,31 +136,9 @@
 </div>
 {%- endfor %}
 
+<div class="tna-section tna-!--no-padding-top tna-background-tint">
 {%- for group in ['children', 'series', 'categories', 'locations'] %}
-<div class="tna-section">
-  <!-- {%- set ns = namespace(indexGridItems=[]) %}
-  {%- for child in groups[group]['items'] %}
-    {%- set ns.indexGridItems = ns.indexGridItems + [{
-      'href': child.url,
-      'title': child.title,
-      'subtitle': child.teaser_text,
-      'src': child.teaser_image.jpeg.full_url if child.teaser_image else '',
-      'alt': child.teaser_image.description if child.teaser_image else '',
-      'width': child.teaser_image.jpeg.width if child.teaser_image else '',
-      'height': child.teaser_image.jpeg.height if child.teaser_image else ''
-    }] %}
-  {%- endfor %}
-  {{ tnaIndexGrid({
-    'title': groups[group].title,
-    'body': '',
-    'headingLevel': 2,
-    'headingSize': 'l',
-    'items': ns.indexGridItems,
-    'columns': 4,
-    'columnsSmall': 2,
-    'columnsTiny': 1
-  }) }} -->
-  <div class="tna-container">
+  <div class="tna-container tna-!--padding-top-l">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">{{ groups[group].title }}</h2>
     </div>
@@ -200,8 +177,8 @@
     </li>
     {%- endfor %}
   </ul>
+  {%- endfor %}
 </div>
-{%- endfor %}
 
 {{ feedback() }}
 {{ back_to_top() }}
