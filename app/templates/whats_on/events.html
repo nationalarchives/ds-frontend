@@ -81,7 +81,7 @@
         'supertitle': page_data.featured_page.type_label,
         'title': page_data.featured_page.title,
         'headingLevel': 2,
-        'headingSize': 'm',
+        'headingSize': 'l',
         'href': page_data.featured_page.url,
         'meta': [
           {
@@ -196,7 +196,7 @@
 <div class="tna-container tna-!--padding-top-s">
   <div class="tna-column tna-column--full">
     {%- if events | length %}
-    <h2 class="tna-heading-l">Exhibitions</h2>
+    <h2 class="tna-heading-l">Exhibitions and displays</h2>
     {%- else %}
     <p>Showing <strong>{{ exhibitions | length }}</strong> current exhibition{{ '' if (exhibitions | length == 1) else 's' }}.</p>
     {%- endif %}
