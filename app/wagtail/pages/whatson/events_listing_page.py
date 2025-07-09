@@ -22,7 +22,7 @@ def events_listing_page(page_data):
     return render_template(
         "whats_on/events.html",
         page_data=page_data,
-        time_period_selector=True,
+        # time_period_selector=True,
         events=events_list.get("items", []),
     )
 
