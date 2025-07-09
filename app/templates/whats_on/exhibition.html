@@ -120,10 +120,10 @@
             'href': '#' + ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
           }] %}
         {% endif %}
-        {% if page_data.plan_your_visit %}
+        {% if page_data.location %}
           {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.plan_your_visit_title or 'Plan your visit',
-            'href': '#' + ((page_data.plan_your_visit_title | slugify) if page_data.plan_your_visit_title else 'plan-your-visit')
+            'text': 'Plan your visit',
+            'href': '#plan-your-visit'
           }] %}
         {% endif %}
         {% if page_data.event_links %}
