@@ -104,7 +104,7 @@
         <dd>{{ page_data.booking_details | safe }}</dd>
         {%- endif %}
 
-        {%- if page_data.audience_heading and page_data.audience_detail %}
+        {%- if page_data.audience_detail %}
         <dt>
           <i class="fa-solid fa-user" aria-hidden="true"></i>
           Age
@@ -127,6 +127,18 @@
           {{ page_data.location.full_address | safe }}
         </dd>
         {%- endif %}
+        {%- endif %}
+        
+        {%- if page_data.series %}
+        <dt>
+          <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+          Part of series
+        </dt>
+        {%- for series in page_data.series %}
+        <dd{%- if not loop.last %} class="tna-!--no-padding-bottom"{% endif -%}>
+          <a href="#series-{{ series.title | slugify }}">{{ series.title }}</a>
+        </dd>
+        {%- endfor %}
         {%- endif %}
       </dl>
       {%- if page_data.sold_out %}
@@ -308,10 +320,10 @@
 {% endif %}
 
 {% for series in page_data.series %}
-<div class="tna-section">
+<div class="tna-section tna-!--padding-top-s">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <hgroup class="tna-hgroup-l">
+      <hgroup class="tna-hgroup-l tna-!--padding-top-m"{%- if loop.first %} id="series-{{ series.title | slugify }}"{% endif -%}>
         <p class="tna-hgroup__supertitle">Event series</p>
         <h2 class="tna-hgroup__title">
           <a href="{{ series.url }}">{{ series.title }}</a>
