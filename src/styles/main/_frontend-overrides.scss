@@ -97,6 +97,10 @@ sup[data-footnoteid] {
 .tna-card {
   z-index: 1;
 
+  &--small-body &__body {
+    @include typography.font-size(16);
+  }
+
   &--full-height {
     height: 100%;
 
