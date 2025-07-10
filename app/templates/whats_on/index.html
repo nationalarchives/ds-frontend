@@ -41,45 +41,45 @@
     </div>
   </div>
   <ul class="tna-container">
-    {%- if section.featured_page %}
+    {%- if section.selected_page.featured_page %}
     <li class="tna-column tna-column--full">
       {%- set card_content = {
-        'supertitle': section.featured_page.type_label,
-        'title': section.featured_page.title,
+        'supertitle': section.selected_page.featured_page.type_label,
+        'title': section.selected_page.featured_page.title,
         'headingLevel': 3,
         'headingSize': 'm',
-        'href': section.featured_page.url,
+        'href': section.selected_page.featured_page.url,
         'meta': [
           {
             'title': 'Cost',
-            'text': section.featured_page.price | pretty_price | safe,
+            'text': section.selected_page.featured_page.price | pretty_price | safe,
             'icon': 'ticket'
           },
           {
             'title': 'Date',
-            'text': pretty_date_range(section.featured_page.start_date, section.featured_page.end_date),
+            'text': pretty_date_range(section.selected_page.featured_page.start_date, section.selected_page.featured_page.end_date),
             'icon': 'calendar'
           }
         ],
         'metaStacked': True,
-        'text': section.featured_page.teaser_text,
+        'text': section.selected_page.featured_page.teaser_text,
         'horizontal': True,
         'style': 'accent',
         'fullAreaClick': True,
         'classes': 'tna-!--margin-top-m'
       } %}
-      {%- if section.featured_page.teaser_image %}
+      {%- if section.selected_page.featured_page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': section.featured_page.teaser_image.jpeg.full_url,
-          'imageAlt': section.featured_page.teaser_image.description,
-          'imageWidth': section.featured_page.teaser_image.jpeg.width,
-          'imageHeight': section.featured_page.teaser_image.jpeg.height,
+          'imageSrc': section.selected_page.featured_page.teaser_image.jpeg.full_url,
+          'imageAlt': section.selected_page.featured_page.teaser_image.description,
+          'imageWidth': section.selected_page.featured_page.teaser_image.jpeg.width,
+          'imageHeight': section.selected_page.featured_page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': section.featured_page.teaser_image.webp.full_url,
+              'src': section.selected_page.featured_page.teaser_image.webp.full_url,
               'type': 'image/webp',
-              'width': section.featured_page.teaser_image.webp.width,
-              'height': section.featured_page.teaser_image.webp.height
+              'width': section.selected_page.featured_page.teaser_image.webp.width,
+              'height': section.selected_page.featured_page.teaser_image.webp.height
             }
           ]
         }) %}
