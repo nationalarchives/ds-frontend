@@ -419,15 +419,17 @@
           'id': 'plan-your-visit-details',
           'openMultipleItems': True
         }) }}
+        {%- if page_data.location.venue_link and page_data.location.venue_link_text %}
         <div class="tna-button-group">
           {{ tnaButton({
-            'text': 'Visit us',
-            'href': 'https://www.nationalarchives.gov.uk/about/visit-us/',
+            'text': page_data.location.venue_link_text,
+            'href': page_data.location.venue_link,
             'attributes': {
               'data-tna-cta': ''
             }
           }) }}
         </div>
+        {%- endif %}
       </div>
       {% endif %}
       {% endfor %}

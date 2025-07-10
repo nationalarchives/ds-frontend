@@ -78,7 +78,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       {% set featured_card_content = {
-        'supertitle': page_data.featured_page.type_label,
+        'supertitle': 'Featured ' + page_data.featured_page.type_label,
         'title': page_data.featured_page.title,
         'headingLevel': 2,
         'headingSize': 'l',
@@ -101,8 +101,9 @@
           }
         ],
         'text': page_data.featured_page.teaser_text,
+        'horizontal': True,
         'fullAreaClick': True,
-        'style': 'plain',
+        'style': 'accent',
         'classes': 'tna-card--full-height'
       } %}
       {%- if page_data.featured_page.teaser_image %}

@@ -10,6 +10,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
 {%- set pageTitle = page_data.title -%}
 {%- set breadcrumbsStyle = 'accent' -%}
@@ -109,7 +110,7 @@
       }) }}
       {%- endif %}
       <div itemprop="description">
-        {{ page_data.description | tna_html | safe }}
+        {{ wagtail_body(page_data.description, 2) }}
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
@@ -118,9 +119,12 @@
         <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
           <dt>
             <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-            Date
+            Dates
           </dt>
           <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+          {%- if page_data.various_dates %}
+          <dd>Various dates and times</dd>
+          {%- endif %}
 
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
@@ -182,6 +186,7 @@
     </div>
   </div>
   <div class="tna-container tna-!--padding-bottom-l">
+    {%- if not page_data.various_dates %}
     <div class="tna-column tna-column--full tna-!--margin-bottom-s">
       <h2 class="tna-heading-l">Dates for this event</h2>
       <ul class="tna-ul">
@@ -195,6 +200,8 @@
         {%- endfor %}
       </ul>
     </div>
+    {%- endif %}
+    
     {% for session in page_data.sessions %}
     <!-- <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
       {{ tnaCard({
@@ -261,9 +268,15 @@
               'openMultipleItems': True
             }) }}
           {%- endif %}
-          {%- if not page_data.location.online %}
+          {%- if page_data.location.venue_link and page_data.location.venue_link_text %}
           <div class="tna-button-group">
-            <a href="https://www.nationalarchives.gov.uk/about/visit-us/" class="tna-button " data-tna-cta="">Visit us</a>
+            {{ tnaButton({
+              'text': page_data.location.venue_link_text,
+              'href': page_data.location.venue_link,
+              'attributes': {
+                'data-tna-cta': ''
+              }
+            }) }}
           </div>
           {%- endif %}
         </div>
