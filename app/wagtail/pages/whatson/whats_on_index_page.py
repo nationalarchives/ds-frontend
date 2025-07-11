@@ -11,12 +11,12 @@ def whats_on_index_page(page_data):
         },
         "series": {
             "title": "Browse by series",
-            "card_supertitle": "Event series",
+            "card_supertitle": "Series",
             "items": [],
         },
         "categories": {
             "title": "Browse by format",
-            "card_supertitle": "Event format",
+            "card_supertitle": "Format",
             "items": [],
         },
         "dates": {
@@ -25,7 +25,7 @@ def whats_on_index_page(page_data):
         },
         "locations": {
             "title": "Browse by location",
-            "card_supertitle": "Event location",
+            "card_supertitle": "Location",
             "items": [],
         },
     }

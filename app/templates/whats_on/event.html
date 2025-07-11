@@ -149,7 +149,8 @@
             Location
           </dt>
           {%- if page_data.location.online %}
-          <dd class="tna-!--no-padding-bottom"><a href="#location-details">Online{% if page_data.location.online_detail %}, {{ page_data.location.online_detail }}{% endif %}</a>
+          <dd>
+            <a href="#location-details">Online{% if page_data.location.online_detail %}, {{ page_data.location.online_detail }}{% endif %}</a>
           </dd>
           {% else %}
           <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
@@ -160,16 +161,14 @@
           {%- endif %}
           {%- endif %}
           
-          {%- if page_data.series %}
+          {%- if page_data.primary_series %}
           <dt>
             <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
             Part of series
           </dt>
-          {%- for series in page_data.series %}
-          <dd{%- if not loop.last %} class="tna-!--no-padding-bottom"{% endif -%}>
-            <a href="#series-{{ series.title | slugify }}">{{ series.title }}</a>
+          <dd>
+            <a href="#series-{{ page_data.primary_series.title | slugify }}">{{ page_data.primary_series.title }}</a>
           </dd>
-          {%- endfor %}
           {%- endif %}
         </dl>
         {%- if page_data.sold_out %}
@@ -365,68 +364,43 @@
   </div>
   {% endif %}
 
-  {% for series in page_data.series %}
-  <div class="tna-section tna-!--padding-top-s">
+  {% if page_data.primary_series %}
+  <div class="tna-section" id="series-{{ page_data.primary_series.title | slugify }}">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
-        <hgroup class="tna-hgroup-l tna-!--padding-top-m"{%- if loop.first %} id="series-{{ series.title | slugify }}"{% endif -%}>
-          <p class="tna-hgroup__supertitle">Event series</p>
-          <h2 class="tna-hgroup__title">
-            <a href="{{ series.url }}">{{ series.title }}</a>
-          </h2>
-        </hgroup>
-        <p>{{ series.teaser_text }}</p>
+        {%- set card_content = {
+          'supertitle': 'Series',
+          'title': page_data.primary_series.title,
+          'headingLevel': 2,
+          'headingSize': 'l',
+          'href': page_data.primary_series.url,
+          'metaStacked': True,
+          'text': page_data.primary_series.teaser_text,
+          'style': 'accent',
+          'fullAreaClick': True,
+          'horizontal': True
+        } %}
+        {%- if page_data.primary_series.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': page_data.primary_series.teaser_image.jpeg.full_url,
+            'imageAlt': page_data.primary_series.teaser_image.description,
+            'imageWidth': page_data.primary_series.teaser_image.jpeg.width,
+            'imageHeight': page_data.primary_series.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page_data.primary_series.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': page_data.primary_series.teaser_image.webp.width,
+                'height': page_data.primary_series.teaser_image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
       </div>
     </div>
-    <ul class="tna-container">
-      {%- for page in series.latest_listings %}
-      <li class="tna-column tna-column--width-1-{{ series.latest_listings | length }} tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-      {%- set card_content = {
-        'supertitle': page.type_label,
-        'title': page.title,
-        'headingLevel': 3,
-        'headingSize': 's',
-        'href': page.url,
-        'meta': [
-          {
-            'title': 'Cost',
-            'text': page.price | pretty_price | safe,
-            'icon': 'ticket'
-          },
-          {
-            'title': 'Date',
-            'text': pretty_date_range(page.start_date, page.end_date),
-            'icon': 'calendar'
-          }
-        ],
-        'metaStacked': True,
-        'text': page.teaser_text,
-        'style': 'plain',
-        'fullAreaClick': True,
-        'classes': 'tna-card--full-height'
-      } %}
-      {%- if page.teaser_image %}
-        {% set card_content = dict(card_content, **{
-          'imageSrc': page.teaser_image.jpeg.full_url,
-          'imageAlt': page.teaser_image.description,
-          'imageWidth': page.teaser_image.jpeg.width,
-          'imageHeight': page.teaser_image.jpeg.height,
-          'imageSources': [
-            {
-              'src': page.teaser_image.webp.full_url,
-              'type': 'image/webp',
-              'width': page.teaser_image.webp.width,
-              'height': page.teaser_image.webp.height
-            }
-          ]
-        }) %}
-      {%- endif %}
-      {{ tnaCard(card_content) }}
-      </li>
-      {%- endfor %}
-    </ul>
   </div>
-  {% endfor %}
+  {% endif %}
 </div>
 
 {{ feedback() }}
