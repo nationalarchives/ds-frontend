@@ -220,7 +220,7 @@ def create_app(config_class):
             qs_update=lambda filter, value: qs_update(
                 request.args.to_dict(), filter, value
             ),
-            qs_remove=lambda filter, by: qs_remove(request.args.to_dict(), filter),
+            qs_remove=lambda filter: qs_remove(request.args.to_dict(), filter),
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),
