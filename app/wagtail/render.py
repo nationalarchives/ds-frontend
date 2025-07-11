@@ -5,6 +5,7 @@ from .pages.articles.article_index_page import article_index_page
 from .pages.articles.article_page import article_page
 from .pages.articles.article_page_focused import article_page_focused
 from .pages.articles.record_article_page import record_article_page
+from .pages.blog.blog_feeds_page import blog_feeds_page
 from .pages.blog.blog_index_page import blog_index_page
 from .pages.blog.blog_page import blog_page
 from .pages.blog.blog_post_page import blog_post_page
@@ -57,6 +58,7 @@ page_type_templates = {
     "blog.BlogIndexPage": blog_index_page,
     "blog.BlogPage": blog_page,
     "blog.BlogPostPage": blog_post_page,
+    "blog.BlogFeedsPage": blog_feeds_page,
     # What's on
     "whatson.WhatsOnPage": whats_on_index_page,
     "whatson.EventsListingPage": events_listing_page,

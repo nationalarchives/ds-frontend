@@ -1,12 +1,8 @@
 from app.feeds import bp
 from app.lib.api import ResourceNotFound
-from app.lib.cache import cache, page_cache_key_prefix, rss_feed_cache_key_prefix
+from app.lib.cache import cache, rss_feed_cache_key_prefix
 from app.wagtail.api import (
-    blog_index,
     blog_posts_paginated,
-    blogs,
-    breadcrumbs,
-    global_alerts,
     page_details,
     page_details_by_type,
 )
@@ -15,31 +11,7 @@ from flask_caching import CachedResponse
 from pydash import objects
 
 
-@bp.route("/blogs/feeds/")
-@cache.cached(timeout=14400, key_prefix=page_cache_key_prefix)  # 4 hours
-def rss_feeds():
-    try:
-        blog_data = blog_index()
-        blogs_data = blogs()
-    except Exception:
-        current_app.logger.error("Failed to get all blogs for /feeds/ page")
-        return render_template("errors/server.html"), 502
-    return render_template(
-        "blog/feeds.html",
-        global_alert=global_alerts(),
-        blog_data=blog_data,
-        blogs=objects.get(blogs_data, "items", []),
-        breadcrumbs=breadcrumbs(blog_data["id"])
-        + [
-            {
-                "text": blog_data["short_title"] or blog_data["title"],
-                "href": blog_data["full_url"],
-            }
-        ],
-    )
-
-
-@bp.route("/blogs/feeds/all.xml")
+@bp.route("/blogs.xml")
 @cache.cached(timeout=14400, key_prefix=rss_feed_cache_key_prefix)  # 4 hours
 def rss_all_feed():
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
@@ -54,9 +26,9 @@ def rss_all_feed():
         )
     xml = render_template(
         (
-            "blog/atom_feed.xml"
+            "feeds/blog_atom_feed.xml"
             if request.args.get("format") == "atom"
-            else "blog/rss_feed.xml"
+            else "feeds/blog_rss_feed.xml"
         ),
         url=url_for("feeds.rss_all_feed", _external=True, _scheme="https"),
         blog_data=objects.get(blog_data, "items.0", {}) | {"meta": {"slug": "all"}},
@@ -67,7 +39,7 @@ def rss_all_feed():
     return response
 
 
-@bp.route("/blogs/feeds/<int:blog_id>.xml")
+@bp.route("/blogs/<int:blog_id>.xml")
 @cache.cached(timeout=14400, key_prefix=rss_feed_cache_key_prefix)  # 4 hours
 def rss_feed(blog_id):
     items = current_app.config.get("ITEMS_PER_BLOG_FEED")
@@ -92,9 +64,9 @@ def rss_feed(blog_id):
         )
     xml = render_template(
         (
-            "blog/atom_feed.xml"
+            "feeds/blog_atom_feed.xml"
             if request.args.get("format") == "atom"
-            else "blog/rss_feed.xml"
+            else "feeds/blog_rss_feed.xml"
         ),
         url=url_for("feeds.rss_feed", blog_id=blog_id, _external=True, _scheme="https"),
         blog_data=blog_data,
