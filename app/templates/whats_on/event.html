@@ -241,6 +241,7 @@
     </div>
   </div>
 
+  {%- if page_data.location.details %}
   <div class="tna-background-tint" id="location-details">
     <section class="tna-section">
       <div class="tna-container">
@@ -301,6 +302,7 @@
       </div>
     </section>
   </div>
+  {%- endif %}
 
   {% for event_highlights in page_data.event_highlights %}
   <section class="tna-section tna-background-contrast tna-!--padding-top-m">
