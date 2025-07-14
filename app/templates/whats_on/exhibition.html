@@ -324,6 +324,7 @@
     </div>
     {%- endif %}
   </div>
+
   {% for review in page_data.review %}
   <section class="tna-section tna-background-accent" itemprop="review" itemscope itemtype="https://schema.org/Review">
     <div class="tna-container">
@@ -345,6 +346,7 @@
     </div>
   </section>
   {% endfor %}
+
   {% for exhibition_highlights in page_data.exhibition_highlights %}
   <section class="tna-section tna-background-contrast tna-!--padding-top-m">
     <div class="tna-container">
@@ -371,6 +373,7 @@
     </div>
   </section>
   {% endfor %}
+
   {% for video in page_data.video %}
   <section class="tna-section tna-background-accent-light">
     <div class="tna-container tna-container--centred">
@@ -394,7 +397,8 @@
     </div>
   </section>
   {% endfor %}
-  {% if page_data.location %}
+
+  {% if page_data.location and is_today_in_date_range(page_data.start_date, page_data.end_date) %}
   <section class="tna-section tna-!--padding-top-m">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -451,6 +455,7 @@
   </section>
   {% endif %}
 </div>
+
 {% for event_links in page_data.event_links %}
 <section class="tna-section tna-background-contrast tna-!--padding-top-m">
   <div class="tna-container">
