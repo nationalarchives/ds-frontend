@@ -5,6 +5,7 @@ from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
+    is_date_today_or_future,
     is_today_in_date_range,
     now_iso_8601,
     now_iso_8601_no_time,
@@ -213,6 +214,7 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
+            is_date_today_or_future=is_date_today_or_future,
             qs_active=lambda filter, by: qs_active(request.args.to_dict(), filter, by),
             qs_toggler=lambda filter, by: qs_toggler(
                 request.args.to_dict(), filter, by
