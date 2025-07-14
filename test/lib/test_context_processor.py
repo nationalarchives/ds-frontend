@@ -1,6 +1,7 @@
 import unittest
 
 from app.lib.context_processor import (
+    is_today_in_date_range,
     pretty_date_range,
     pretty_datetime_range,
     pretty_price_range,
@@ -138,3 +139,11 @@ class ContextParserTestCase(unittest.TestCase):
             pretty_price_range("5", "a")
             pretty_price_range("5", [])
             pretty_price_range("5", True)
+
+    def test_is_today_in_date_range(self):
+        self.assertTrue(is_today_in_date_range("2000-01-01", "2999-01-01"))
+        self.assertFalse(is_today_in_date_range("2000-01-01", "2001-01-01"))
+        self.assertFalse(is_today_in_date_range("2998-01-01", "2999-01-01"))
+        self.assertFalse(is_today_in_date_range(None, "2023-10-31"))
+        self.assertFalse(is_today_in_date_range("2023-10-01", None))
+        self.assertFalse(is_today_in_date_range(None, None))
