@@ -5,6 +5,10 @@ def get_date_from_string(s):  # noqa: C901
     if not s:
         return None
     try:
+        return datetime.fromisoformat(s)
+    except ValueError:
+        pass
+    try:
         return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
     except ValueError:
         pass
