@@ -48,10 +48,6 @@
 
   <section class="tna-background-tint">
     {% set hero_intro = '' %}
-    {% if page_data.intro %}
-      <meta itemprop="about" content="{{ page_data.intro }}">
-      {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.intro + '</div>') | tna_html) %}
-    {% endif %}
     {% if page_data.start_date %}
       <meta itemprop="startDate" content="{{ page_data.start_date }}">
       {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
