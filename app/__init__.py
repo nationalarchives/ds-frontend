@@ -248,8 +248,8 @@ def create_app(config_class):
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
-    app.register_blueprint(feeds_bp)
     app.register_blueprint(sitemaps_bp)
+    app.register_blueprint(feeds_bp, url_prefix="/feeds")
     app.register_blueprint(site_search_bp, url_prefix="/search/site")
     app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(catalogue_bp, url_prefix="/catalogue")
