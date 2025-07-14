@@ -44,6 +44,7 @@ def whats_on_index_page(page_data):
             groups["dates"]["items"].append(page)
         elif page["type"] == "whatson.WhatsOnLocationListingPage":
             groups["locations"]["items"].append(page)
+    groups["dates"]["items"].sort(key=lambda x: x.get("days", 0))
     return render_template(
         "whats_on/index.html",
         page_data=page_data,
