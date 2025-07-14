@@ -6,26 +6,26 @@ def whats_on_index_page(page_data):
     all_children = page_children(page_data["id"]).get("items", [])
     groups = {
         "children": {
-            "title": "Event types",
+            "title": "Browse what’s on",
             "items": [],
         },
         "series": {
-            "title": "Events by series",
-            "card_supertitle": "Event series",
+            "title": "Browse by series",
+            "card_supertitle": "Series",
             "items": [],
         },
         "categories": {
-            "title": "Events by format",
-            "card_supertitle": "Event format",
+            "title": "Browse by format",
+            "card_supertitle": "Format",
             "items": [],
         },
         "dates": {
-            "title": "Events by date",
+            "title": "Browse by date",
             "items": [],
         },
         "locations": {
-            "title": "Events by location",
-            "card_supertitle": "Event location",
+            "title": "Browse by location",
+            "card_supertitle": "Location",
             "items": [],
         },
     }
@@ -44,6 +44,7 @@ def whats_on_index_page(page_data):
             groups["dates"]["items"].append(page)
         elif page["type"] == "whatson.WhatsOnLocationListingPage":
             groups["locations"]["items"].append(page)
+    groups["dates"]["items"].sort(key=lambda x: x.get("days", 0))
     return render_template(
         "whats_on/index.html",
         page_data=page_data,

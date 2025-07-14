@@ -73,6 +73,62 @@
   {%- endif %}
 </div>
 
+{%- if page_data.featured_page %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {% set featured_card_content = {
+        'supertitle': 'Featured ' + page_data.featured_page.type_label,
+        'title': page_data.featured_page.title,
+        'headingLevel': 2,
+        'headingSize': 'l',
+        'href': page_data.featured_page.url,
+        'meta': [
+          {
+            'title': 'Date',
+            'text': pretty_date_range(page_data.featured_page.start_date, page_data.featured_page.end_date),
+            'icon': 'calendar'
+          },
+          {
+            'title': 'Location',
+            'text': page_data.featured_page.short_location,
+            'icon': 'location-dot'
+          },
+          {
+            'title': 'Cost',
+            'text': pretty_price_range(page_data.featured_page.min_price, page_data.featured_page.max_price),
+            'icon': 'ticket'
+          }
+        ],
+        'text': page_data.featured_page.teaser_text,
+        'horizontal': True,
+        'fullAreaClick': True,
+        'style': 'accent',
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if page_data.featured_page.teaser_image %}
+        {% set featured_card_content = dict(featured_card_content, **{
+          'lazyImage': True,
+          'imageSrc': page_data.featured_page.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_page.teaser_image.description,
+          'imageWidth': page_data.featured_page.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_page.teaser_image.webp.width,
+              'height': page_data.featured_page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(featured_card_content) }}
+    </div>
+  </div>
+</div>
+{%- endif %}
+
 {%- if events | length %}
 <div class="tna-container tna-!--padding-top-s" id="events-list">
   <div class="tna-column tna-column--full">
@@ -141,7 +197,7 @@
 <div class="tna-container tna-!--padding-top-s">
   <div class="tna-column tna-column--full">
     {%- if events | length %}
-    <h2 class="tna-heading-l">Exhibitions</h2>
+    <h2 class="tna-heading-l">Exhibitions and displays</h2>
     {%- else %}
     <p>Showing <strong>{{ exhibitions | length }}</strong> current exhibition{{ '' if (exhibitions | length == 1) else 's' }}.</p>
     {%- endif %}

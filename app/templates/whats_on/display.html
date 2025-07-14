@@ -48,14 +48,10 @@
 
   <section class="tna-background-tint">
     {% set hero_intro = '' %}
-    {% if page_data.subtitle %}
-      <meta itemprop="about" content="{{ page_data.subtitle }}">
-      {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
-    {% endif %}
     {% if page_data.start_date %}
       <meta itemprop="startDate" content="{{ page_data.start_date }}">
       {% set hero_intro = hero_intro + '<div class="tna-container tna-container--nested tna-!--margin-top-m">' %}
-      {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) + '</p></div>' %}
+      {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + ('All-year round' if page_data.all_year else pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days)) + '</p></div>' %}
       {% set hero_intro = hero_intro + '<div class="tna-column"><p><i class="fa-solid fa-ticket" aria-hidden="true"></i>' + (page_data.price | pretty_price) + '</p></div>' %}
       {% set hero_intro = hero_intro + '</div>' %}
     {% endif %}
@@ -125,7 +121,7 @@
         {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
       </div>
     </div>
-    {%- if is_today_in_date_range(page_data.start_date, page_data.end_date) %}
+    {%- if is_date_today_or_future(page_data.end_date) %}
     <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
       <div class="tna-aside tna-aside--top-bottom-borders">
         <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
@@ -137,22 +133,22 @@
           <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/opening-times/">opening times</a></dd>
           {% endif %}
+
           <dt>
             <i class="fa-solid fa-ticket" aria-hidden="true"></i>
             Price
           </dt>
           <dd class="tna-!--no-padding-bottom">{{ page_data.price | pretty_price }}</dd>
           <dd>{{ page_data.booking_details | safe }}</dd>
-          {% if page_data.audience_heading and page_data.audience_detail %}
+
+          {% if page_data.age_detail %}
           <dt>
             <i class="fa-solid fa-user" aria-hidden="true"></i>
-            Audience
+            Age
           </dt>
-          <dd class="tna-!--no-padding-bottom" itemprop="audience" itemscope itemtype="https://schema.org/Audience">
-            <span itemprop="audienceType">{{ page_data.audience_heading }}</span>
-          </dd>
-          <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
+          <dd itemprop="typicalAgeRange">{{ page_data.age_detail }}</dd>
           {% endif %}
+
           {% if page_data.location %}
           <dt>
             <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
@@ -164,6 +160,7 @@
             {{ page_data.location.full_address | safe }}
           </dd>
           {% endif %}
+
           <dt>
             <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
             Accessibility
@@ -224,7 +221,7 @@
   </section>
   {% endfor %}
   
-  {% if page_data.location and is_today_in_date_range(page_data.start_date, page_data.end_date) %}
+  {% if page_data.location and is_date_today_or_future(page_data.end_date) %}
   <section class="tna-section tna-!--padding-top-m">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -246,15 +243,17 @@
           'id': 'plan-your-visit-details',
           'openMultipleItems': True
         }) }}
+        {%- if page_data.location.venue_link and page_data.location.venue_link_text %}
         <div class="tna-button-group">
           {{ tnaButton({
-            'text': 'Visit us',
-            'href': 'https://www.nationalarchives.gov.uk/about/visit-us/',
+            'text': page_data.location.venue_link_text,
+            'href': page_data.location.venue_link,
             'attributes': {
               'data-tna-cta': ''
             }
           }) }}
         </div>
+        {%- endif %}
       </div>
       {% endif %}
       {% endfor %}

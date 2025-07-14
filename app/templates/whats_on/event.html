@@ -8,7 +8,9 @@
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
+{%- from 'macros/wagtail_body.html' import wagtail_body -%}
 
 {%- set pageTitle = page_data.title -%}
 {%- set breadcrumbsStyle = 'accent' -%}
@@ -24,351 +26,388 @@
 {% endblock %}
 
 {% block content %}
-{% set hero_image_caption = page_data.hero_image_caption or '' %}
-{%- if page_data.hero_image.copyright %}
-  {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
-{%- endif %}
-{{ tnaHero({
-  'supertitle': page_data.type_label,
-  'title': page_data.title,
-  'body': '<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl>',
-  '_imageSrc': page_data.hero_image.jpeg.full_url,
-  'imageSrc': page_data.hero_image_small.jpeg.full_url,
-  'imageAlt': page_data.hero_image.description,
-  '_imageWidth': page_data.hero_image.jpeg.width,
-  'imageWidth': page_data.hero_image_small.jpeg.width,
-  '_imageHeight': page_data.hero_image.jpeg.height,
-  'imageHeight': page_data.hero_image_small.jpeg.height,
-  'imageCaption': hero_image_caption,
-  '_imageSources': [
-    {
-      'src': page_data.hero_image_small.webp.full_url,
-      'width': page_data.hero_image_small.webp.width,
-      'height': page_data.hero_image_small.webp.height,
-      'type': 'image/webp',
-      'media': '(max-width: 48em)'
-    },
-    {
-      'src': page_data.hero_image_small.jpeg.full_url,
-      'width': page_data.hero_image_small.jpeg.width,
-      'height': page_data.hero_image_small.jpeg.height,
-      'type': 'image/jpeg',
-      'media': '(max-width: 48em)'
-    },
-    {
-      'src': page_data.hero_image.webp.full_url,
-      'width': page_data.hero_image.webp.width,
-      'height': page_data.hero_image.webp.height,
-      'type': 'image/webp'
-    }
-  ],
-  'imageSources': [
-    {
-      'src': page_data.hero_image_small.webp.full_url,
-      'width': page_data.hero_image_small.webp.width,
-      'height': page_data.hero_image_small.webp.height,
-      'type': 'image/webp'
-    }
-  ],
-  'narrow': True,
-  'style': 'accent',
-  'layout': 'split'
-}) }}
-<div class="tna-container tna-section tna-!--no-padding-top">
-  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-    {%- if page_data.custom_warning_text %}
-    {{ tnaWarning({
-      'headingLevel': 2,
-      'body': page_data.custom_warning_text | tna_html | safe,
-      'classes': 'tna-!--margin-bottom-m'
-    }) }}
-    {%- endif %}
-    {{ page_data.description | tna_html | safe }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+<div itemscope itemtype="https://schema.org/Event">
+  <meta itemprop="name" content="{{ page_data.title }}">
+  {%- if page_data.location.online -%}
+  <meta itemprop="eventAttendanceMode" content="https://schema.org/OnlineEventAttendanceMode">
+  {%- else -%}
+  <meta itemprop="eventAttendanceMode" content="https://schema.org/OfflineEventAttendanceMode">
+  {%- endif -%}
+  <meta itemprop="eventStatus" content="https://schema.org/EventScheduled">
+  {% if page_data.min_price == 0 %}
+  <meta itemprop="isAccessibleForFree" content="true">
+  {% endif %}
+  <div itemprop="organizer" itemscope itemtype="https://schema.org/Organization">
+    <meta itemprop="name" content="The National Archives">
+    <meta itemprop="address" content="The National Archives, Kew, Richmond, TW9 4DU">
+    <meta itemprop="url" content="https://www.nationalarchives.gov.uk/">
   </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
-    <div class="tna-aside tna-aside--tight etna-event-details">
-      <h2 class="tna-visually-hidden">Event details</h2>
-      <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
-        <dt>
-          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-          Date
-        </dt>
-        <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+  {% if page_data.start_date %}
+  <meta itemprop="startDate" content="{{ page_data.start_date }}">
+  {% endif %}
+  {% if page_data.end_date %}
+  <meta itemprop="endDate" content="{{ page_data.end_date }}">
+  {% endif %}
 
-        <dt>
-          <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-          Price
-        </dt>
-        <dd class="{{ 'tna-!--no-padding-bottom' if page_data.booking_details else '' }}">{{ pretty_price_range(page_data.min_price, page_data.max_price) }}</dd>
-        {%- if page_data.booking_details %}
-        <dd>{{ page_data.booking_details | safe }}</dd>
-        {%- endif %}
-
-        {%- if page_data.audience_heading and page_data.audience_detail %}
-        <dt>
-          <i class="fa-solid fa-user" aria-hidden="true"></i>
-          Age
-        </dt>
-        <dd itemprop="typicalAgeRange">{{ page_data.audience_detail }}</dd>
-        {%- endif %}
-
-        {%- if page_data.location %}
-        <dt>
-          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-          Location
-        </dt>
-        {%- if page_data.location.online %}
-        <dd class="tna-!--no-padding-bottom"><a href="#location-details">Online{% if page_data.location.online_detail %}, {{ page_data.location.online_detail }}{% endif %}</a>
-        </dd>
-        {% else %}
-        <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
-        <dd>
-          <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
-          {{ page_data.location.full_address | safe }}
-        </dd>
-        {%- endif %}
-        {%- endif %}
-      </dl>
-      {%- if page_data.sold_out %}
-      <p><strong>This event has sold out.</strong></p>
-      {%- elif page_data.booking_link %}
-      <div class="tna-button-group">
-        {{ tnaButton({
-          'text': 'Book now',
-          'href': page_data.booking_link
-        }) }}
-      </div>
-      {%- endif %}
-    </div>
-  </div>
-</div>
-<div class="tna-container tna-!--padding-bottom-l">
-  <div class="tna-column tna-column--full tna-!--margin-bottom-s">
-    <h2 class="tna-heading-l">Dates for this event</h2>
-    <ul class="tna-ul">
-      {%- for session in page_data.sessions %}
-      <li>
-        {{ pretty_datetime_range(session.start, session.end) }}
-        {%- if session.sold_out %}
-        <strong class="tna-chip tna-chip--inline">Sold out</strong>
-        {%- endif %}
-      </li>
-      {%- endfor %}
-    </ul>
-  </div>
-  {% for session in page_data.sessions %}
-  <!-- <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
-    {{ tnaCard({
-      'title': 'TODO',
-      'headingLevel': 3,
-      'headingSize': 's',
-      'meta': [
-        {
-          'title': 'Time',
-          'text': 'TODO',
-          'icon': 'clock'
-        }
-      ],
-      'classes': 'tna-!--margin-vertical-s'
-    }) }}
-  </div> -->
-  {% endfor %}
-  <!-- <div class="tna-column tna-column--flex-1 tna-column--align-centre">
-    <div class="tna-button-group">
-      <a href="#" class="tna-button tna-button--icon-right">
-        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-        See all
-      </a>
-    </div>
-  </div> -->
-  <div class="tna-column tna-column--full tna-!--margin-top-l">
-    <div class="tna-newsletter">
-      <div class="tna-newsletter_inner">
-        <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
-        <div class="tna-newsletter__body">
-          <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Stay up-to-date</a></h3>
-          <p>Join The National Archives mailing list for exhibition updates and early booking for events, including talks and tours.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="tna-background-tint" id="location-details">
-  <section class="tna-section tna-!--padding-top-m">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        <h2 id="plan-your-visit" class="tna-heading-l tna-!--padding-top-s">{{ page_data.location.details_title or 'Plan your visit' }}</h2>
-      </div>
-      <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-        {% set accordion_items = [] %}
-        {% for item in page_data.location.details[0].value %}
-          {% set accordion_items = accordion_items.append({
-            'title': item.title,
-            'body': item.body | tna_html
-          }) %}
-        {% endfor %}
-        {%- if accordion_items %}
-          {{ tnaAccordion({
-            'itemHeadingLevel': 3,
-            'items': accordion_items,
-            'id': 'plan-your-visit-details',
-            'openMultipleItems': True
-          }) }}
-        {%- endif %}
-        {%- if not page_data.location.online %}
-        <div class="tna-button-group">
-          <a href="https://www.nationalarchives.gov.uk/about/visit-us/" class="tna-button " data-tna-cta="">Visit us</a>
-        </div>
-        {%- endif %}
-      </div>
-      {%- if page_data.location.image %}
-      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-        <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
-          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
-          <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
-          <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
-          <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-          <div class="tna-picture__image-wrapper tna-background-tint">
-            <picture>
-              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.full_url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
-              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.full_url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
-            </picture>
-          </div>
-        </figure>
-      </div>
-      {%- endif %}
-    </div>
-  </section>
-</div>
-
-{% for event_highlights in page_data.event_highlights %}
-<section class="tna-section tna-background-contrast tna-!--padding-top-m">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 id="{{ (page_data.event_highlights_title | slugify) if page_data.event_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_highlights_title or 'Event highlights' }}</h2>
-      {% set gallery_images = [] %}
-      {% for image in event_highlights.value.images %}
-        {% set gallery_images = gallery_images.append({
-          'alt': image.image.description,
-          'width': image.image.jpeg.width,
-          'height': image.image.jpeg.height,
-          'src': image.image.jpeg.full_url,
-          'description': image.caption | safe
-        }) %}
-      {% endfor %}
-      {{ tnaGallery({
-        'title': event_highlights.value.title,
-        'headingLevel': 3,
-        'body': event_highlights.value.description | tna_html | safe,
-        'items': gallery_images,
-        'id': 'gallery-' + event_highlights.id
+  {% set hero_image_caption = page_data.hero_image_caption or '' %}
+  {%- if page_data.hero_image.copyright %}
+    {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
+  {%- endif %}
+  {{ tnaHero({
+    'supertitle': page_data.type_label,
+    'title': page_data.title,
+    'body': '<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl>',
+    '_imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageSrc': page_data.hero_image_small.jpeg.full_url,
+    'imageAlt': page_data.hero_image.description,
+    '_imageWidth': page_data.hero_image.jpeg.width,
+    'imageWidth': page_data.hero_image_small.jpeg.width,
+    '_imageHeight': page_data.hero_image.jpeg.height,
+    'imageHeight': page_data.hero_image_small.jpeg.height,
+    'imageCaption': hero_image_caption,
+    '_imageSources': [
+      {
+        'src': page_data.hero_image_small.webp.full_url,
+        'width': page_data.hero_image_small.webp.width,
+        'height': page_data.hero_image_small.webp.height,
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image_small.jpeg.full_url,
+        'width': page_data.hero_image_small.jpeg.width,
+        'height': page_data.hero_image_small.jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.webp.full_url,
+        'width': page_data.hero_image.webp.width,
+        'height': page_data.hero_image.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'imageSources': [
+      {
+        'src': page_data.hero_image_small.webp.full_url,
+        'width': page_data.hero_image_small.webp.width,
+        'height': page_data.hero_image_small.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'narrow': True,
+    'style': 'accent',
+    'layout': 'split'
+  }) }}
+  <div class="tna-container tna-section tna-!--no-padding-top">
+    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      {%- if page_data.custom_warning_text %}
+      {{ tnaWarning({
+        'headingLevel': 2,
+        'body': page_data.custom_warning_text | tna_html | safe,
+        'classes': 'tna-!--margin-bottom-m'
       }) }}
+      {%- endif %}
+      <div itemprop="description">
+        {{ wagtail_body(page_data.description, 2) }}
+      </div>
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
+      <div class="tna-aside tna-aside--tight etna-event-details">
+        <h2 class="tna-visually-hidden">Event details</h2>
+        <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
+          <dt>
+            <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+            Dates
+          </dt>
+          <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+          {%- if page_data.various_dates %}
+          <dd>Various dates and times</dd>
+          {%- endif %}
+
+          <dt>
+            <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+            Price
+          </dt>
+          <dd class="{{ 'tna-!--no-padding-bottom' if page_data.booking_details else '' }}">{{ pretty_price_range(page_data.min_price, page_data.max_price) }}</dd>
+          {%- if page_data.booking_details %}
+          <dd>{{ page_data.booking_details | safe }}</dd>
+          {%- endif %}
+
+          {%- if page_data.age_detail %}
+          <dt>
+            <i class="fa-solid fa-user" aria-hidden="true"></i>
+            Age
+          </dt>
+          <dd itemprop="typicalAgeRange">{{ page_data.age_detail }}</dd>
+          {%- endif %}
+
+          {%- if page_data.location %}
+          <dt>
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            Location
+          </dt>
+          {%- if page_data.location.online %}
+          <dd>
+            <a href="#location-details">Online{% if page_data.location.online_detail %}, {{ page_data.location.online_detail }}{% endif %}</a>
+          </dd>
+          {% else %}
+          <dd class="tna-!--no-padding-bottom">{{ page_data.location.space_name }}</dd>
+          <dd>
+            <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
+            {{ page_data.location.full_address | safe }}
+          </dd>
+          {%- endif %}
+          {%- endif %}
+          
+          {%- if page_data.series %}
+          <dt>
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            Part of series
+          </dt>
+          {%- for series in page_data.series %}
+          <dd{{ (' class="tna-!--no-padding-bottom"' | safe) if (page_data.series | length) > 1 and not loop.last else '' }}>
+            <a href="#series-{{ series.title | slugify }}">{{ series.title }}</a>
+          </dd>
+          {%- endfor %}
+          {%- endif %}
+        </dl>
+        {%- if page_data.sold_out %}
+        <p><strong>This event has sold out.</strong></p>
+        {%- elif page_data.booking_link %}
+        <div class="tna-button-group">
+          {{ tnaButton({
+            'text': 'Book now',
+            'href': page_data.booking_link
+          }) }}
+        </div>
+        {%- endif %}
+      </div>
     </div>
   </div>
-</section>
-{% endfor %}
-
-{% if page_data.speakers %}
-<div class="tna-container tna-section tna-!--no-padding-top">
-  <div class="tna-column tna-column--full">
-    <div class="etna-author-list etna-author-list--horizontal- tna-column tna-!--margin-top-l">
-      <h2 class="etna-author-list__heading tna-heading-l tna-!--padding-bottom-m">Speakers</h2>
-      <ul class="etna-author-list__items">
-        {%- for speaker in page_data.speakers %}
-        <li class="etna-author-list__item" itemprop="performer" itemscope itemtype="https://schema.org/Person">
-          {%- if speaker.image %}
-          <img src="{{ speaker.image.jpeg.full_url }}" width="{{ speaker.image.jpeg.width }}" height="{{ speaker.image.jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.jpeg.description }}">
-          {%- else %}
-          <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
+  <div class="tna-container tna-!--padding-bottom-l">
+    {%- if not page_data.various_dates %}
+    <div class="tna-column tna-column--full tna-!--margin-bottom-s">
+      <h2 class="tna-heading-l">Dates for this event</h2>
+      <ul class="tna-ul">
+        {%- for session in page_data.sessions %}
+        <li>
+          {{ pretty_datetime_range(session.start, session.end) }}
+          {%- if session.sold_out %}
+          <strong class="tna-chip tna-chip--inline">Sold out</strong>
           {%- endif %}
-          <div class="etna-author-list__details">
-            <p class="etna-author-list__name">
-              <strong>
-                {%- if speaker.url %}
-                <a href="{{ speaker.url }}" rel="author">
-                  <span itemprop="name">{{ speaker.name or speaker.title }}</span>
-                </a>
-                <link itemprop="url" href="{{ speaker.url }}">
-                {%- else %}
-                <span itemprop="name">{{ speaker.name or speaker.title }}</span>
-                {%- endif %}
-              </strong>
-            </p>
-            <p class="etna-author-list__description" itemprop="jobTitle">{{ speaker.role }}</p>
-            {{ speaker.biography | tna_html | safe }}
-          </div>
         </li>
         {%- endfor %}
       </ul>
     </div>
-  </div>
-</div>
-{% endif %}
-
-{% for series in page_data.series %}
-<div class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <hgroup class="tna-hgroup-l">
-        <p class="tna-hgroup__supertitle">Event series</p>
-        <h2 class="tna-hgroup__title">
-          <a href="{{ series.url }}">{{ series.title }}</a>
-        </h2>
-      </hgroup>
-      <p>{{ series.teaser_text }}</p>
+    {%- endif %}
+    
+    {% for session in page_data.sessions %}
+    <!-- <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
+      {{ tnaCard({
+        'title': 'TODO',
+        'headingLevel': 3,
+        'headingSize': 's',
+        'meta': [
+          {
+            'title': 'Time',
+            'text': 'TODO',
+            'icon': 'clock'
+          }
+        ],
+        'classes': 'tna-!--margin-vertical-s'
+      }) }}
+    </div> -->
+    {% endfor %}
+    <!-- <div class="tna-column tna-column--flex-1 tna-column--align-centre">
+      <div class="tna-button-group">
+        <a href="#" class="tna-button tna-button--icon-right">
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          See all
+        </a>
+      </div>
+    </div> -->
+    <div class="tna-column tna-column--full tna-!--margin-top-l">
+      <div class="tna-newsletter">
+        <div class="tna-newsletter_inner">
+          <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
+          <div class="tna-newsletter__body">
+            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Get priority booking</a></h3>
+            <p>Subscribe to our weekly newsletter for exhibition updates and early booking for events, including talks and tours.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <ul class="tna-container">
-    {%- for page in series.latest_listings %}
-    <li class="tna-column tna-column--width-1-{{ series.latest_listings | length }} tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {%- set card_content = {
-      'supertitle': page.type_label,
-      'title': page.title,
-      'headingLevel': 3,
-      'headingSize': 's',
-      'href': page.url,
-      'meta': [
-        {
-          'title': 'Cost',
-          'text': page.price | pretty_price | safe,
-          'icon': 'ticket'
-        },
-        {
-          'title': 'Date',
-          'text': pretty_date_range(page.start_date, page.end_date),
-          'icon': 'calendar'
-        }
-      ],
-      'metaStacked': True,
-      'text': page.teaser_text,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    } %}
-    {%- if page.teaser_image %}
-      {% set card_content = dict(card_content, **{
-        'imageSrc': page.teaser_image.jpeg.full_url,
-        'imageAlt': page.teaser_image.description,
-        'imageWidth': page.teaser_image.jpeg.width,
-        'imageHeight': page.teaser_image.jpeg.height,
-        'imageSources': [
-          {
-            'src': page.teaser_image.webp.full_url,
-            'type': 'image/webp',
-            'width': page.teaser_image.webp.width,
-            'height': page.teaser_image.webp.height
-          }
-        ]
-      }) %}
-    {%- endif %}
-    {{ tnaCard(card_content) }}
-    </li>
-    {%- endfor %}
-  </ul>
+
+  {%- if page_data.location.details %}
+  <div class="tna-background-tint" id="location-details">
+    <section class="tna-section">
+      <div class="tna-container">
+        <div class="tna-column tna-column--full">
+          <h2 class="tna-heading-l">
+            {%- if page_data.location.online -%}
+            How to join online
+            {%- else -%}
+            Plan your visit
+            {%- endif -%}
+          </h2>
+        </div>
+        <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+          {% set accordion_items = [] %}
+          {% for item in page_data.location.details[0].value %}
+            {% set accordion_items = accordion_items.append({
+              'title': item.title,
+              'body': item.body | tna_html
+            }) %}
+          {% endfor %}
+          {%- if accordion_items %}
+            {{ tnaAccordion({
+              'itemHeadingLevel': 3,
+              'items': accordion_items,
+              'id': 'plan-your-visit-details',
+              'openMultipleItems': True
+            }) }}
+          {%- endif %}
+          {%- if page_data.location.venue_link and page_data.location.venue_link_text %}
+          <div class="tna-button-group">
+            {{ tnaButton({
+              'text': page_data.location.venue_link_text,
+              'href': page_data.location.venue_link,
+              'attributes': {
+                'data-tna-cta': ''
+              }
+            }) }}
+          </div>
+          {%- endif %}
+        </div>
+        {%- if page_data.location.image %}
+        <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+          <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
+            <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+            <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
+            <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
+            <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
+            <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
+            <div class="tna-picture__image-wrapper tna-background-tint">
+              <picture>
+                <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.full_url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
+                <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.full_url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
+              </picture>
+            </div>
+          </figure>
+        </div>
+        {%- endif %}
+      </div>
+    </section>
+  </div>
+  {%- endif %}
+
+  {% for event_highlights in page_data.event_highlights %}
+  <section class="tna-section tna-background-contrast tna-!--padding-top-m">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h2 id="{{ (page_data.event_highlights_title | slugify) if page_data.event_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.event_highlights_title or 'Event highlights' }}</h2>
+        {% set gallery_images = [] %}
+        {% for image in event_highlights.value.images %}
+          {% set gallery_images = gallery_images.append({
+            'alt': image.image.description,
+            'width': image.image.jpeg.width,
+            'height': image.image.jpeg.height,
+            'src': image.image.jpeg.full_url,
+            'description': image.caption | safe
+          }) %}
+        {% endfor %}
+        {{ tnaGallery({
+          'title': event_highlights.value.title,
+          'headingLevel': 3,
+          'body': event_highlights.value.description | tna_html | safe,
+          'items': gallery_images,
+          'id': 'gallery-' + event_highlights.id
+        }) }}
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+
+  {% if page_data.speakers %}
+  <div class="tna-container tna-section tna-!--no-padding-top">
+    <div class="tna-column tna-column--full">
+      <div class="etna-author-list etna-author-list--horizontal- tna-column tna-!--margin-top-l">
+        <h2 class="etna-author-list__heading tna-heading-l tna-!--padding-bottom-m">Speakers</h2>
+        <ul class="etna-author-list__items">
+          {%- for speaker in page_data.speakers %}
+          <li class="etna-author-list__item" itemprop="performer" itemscope itemtype="https://schema.org/Person">
+            {%- if speaker.image %}
+            <img src="{{ speaker.image.jpeg.full_url }}" width="{{ speaker.image.jpeg.width }}" height="{{ speaker.image.jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.jpeg.description }}">
+            {%- else %}
+            <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
+            {%- endif %}
+            <div class="etna-author-list__details">
+              <p class="etna-author-list__name">
+                <strong>
+                  {%- if speaker.url %}
+                  <a href="{{ speaker.url }}" rel="author">
+                    <span itemprop="name">{{ speaker.name or speaker.title }}</span>
+                  </a>
+                  <link itemprop="url" href="{{ speaker.url }}">
+                  {%- else %}
+                  <span itemprop="name">{{ speaker.name or speaker.title }}</span>
+                  {%- endif %}
+                </strong>
+              </p>
+              <p class="etna-author-list__description" itemprop="jobTitle">{{ speaker.role }}</p>
+              {{ speaker.biography | tna_html | safe }}
+            </div>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if page_data.series %}
+  <div class="tna-section tna-!--padding-top-s">
+    <div class="tna-container">
+      {% for series in page_data.series %}
+      <div class="tna-column tna-column--full tna-!--padding-top-m" id="series-{{ series.title | slugify }}">
+        {%- set card_content = {
+          'supertitle': 'Series',
+          'title': series.title,
+          'headingLevel': 2,
+          'headingSize': 'l',
+          'href': series.url,
+          'metaStacked': True,
+          'text': series.teaser_text,
+          'style': 'accent',
+          'fullAreaClick': True,
+          'horizontal': True
+        } %}
+        {%- if series.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': series.teaser_image.jpeg.full_url,
+            'imageAlt': series.teaser_image.description,
+            'imageWidth': series.teaser_image.jpeg.width,
+            'imageHeight': series.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': series.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': series.teaser_image.webp.width,
+                'height': series.teaser_image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 </div>
-{% endfor %}
 
 {{ feedback() }}
 {{ back_to_top() }}

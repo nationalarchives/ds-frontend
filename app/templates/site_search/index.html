@@ -16,10 +16,6 @@
   {
     'text': 'Home',
     'href': '/'
-  },
-  {
-    'text': 'Search',
-    'href': url_for('search.index')
   }
 ] -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
@@ -51,48 +47,37 @@
         'value': q
       }) }}
       {% if q %}
-      <!-- <h2 class="tna-heading-s tna-!--no-padding-top">Selected filters</h2>
+      <h2 class="tna-heading-s tna-!--no-padding-top">Selected filters</h2>
       {{ tnaCompoundFilters({
         'items': [
           {
             'label': '"' + q + '"',
-            'href': '?' + existing_qs|qs_toggle_value('q', q),
+            'href': '?' + qs_remove('q'),
             'title': 'Start a new search'
           }
         ],
         'classes': 'tna-!--margin-top-xs'
-      }) }} -->
+      }) }}
       {% endif %}
+      <input type="hidden" name="view" value="{{ request.args.view or 'list' }}">
     </form>
-    <!-- <div class="tna-column tna-column--full">
+    <div class="tna-column tna-column--full">
       <h2 class="tna-visually-hidden">Change results view</h2>
       <div class="tna-button-group tna-button-group--small tna-button-group--horizontal-on-tiny">
         {{ tnaButton({
           'text': 'List view' + (' (current)' if not request.args.view or request.args.view == 'list' else ''),
-          'buttonElement': True,
-          'buttonType': 'submit',
+          'href': '?' + qs_toggler('view', 'list'),
           'icon': 'list',
-          'accent': not request.args.view or request.args.view == 'list',
-          'attributes': {
-            'name': 'view',
-            'value': 'list',
-            'form': 'search-site'
-          }
+          'accent': not request.args.view or request.args.view == 'list'
         }) }}
         {{ tnaButton({
           'text': 'Grid view' + (' (current)' if request.args.view == 'grid' else ''),
-          'buttonElement': True,
-          'buttonType': 'submit',
+          'href': '?' + qs_toggler('view', 'grid'),
           'icon': 'grip',
-          'accent': request.args.view == 'grid',
-          'attributes': {
-            'name': 'view',
-            'value': 'grid',
-            'form': 'search-site'
-          }
+          'accent': request.args.view == 'grid'
         }) }}
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
 {% if total_results %}
@@ -100,7 +85,7 @@
   {% if total_results %}
   <div class="tna-container">
     <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
-      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
     </div>
   </div>
   {% endif %}
