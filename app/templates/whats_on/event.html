@@ -241,68 +241,68 @@
     </div>
   </div>
 
-  {%- if page_data.location.details %}
-  <div class="tna-background-tint" id="location-details">
-    <section class="tna-section">
-      <div class="tna-container">
-        <div class="tna-column tna-column--full">
-          <h2 class="tna-heading-l">
-            {%- if page_data.location.online -%}
-            How to join online
-            {%- else -%}
-            Plan your visit
-            {%- endif -%}
-          </h2>
-        </div>
-        <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-          {% set accordion_items = [] %}
-          {% for item in page_data.location.details[0].value %}
-            {% set accordion_items = accordion_items.append({
-              'title': item.title,
-              'body': item.body | tna_html
-            }) %}
-          {% endfor %}
-          {%- if accordion_items %}
-            {{ tnaAccordion({
-              'itemHeadingLevel': 3,
-              'items': accordion_items,
-              'id': 'plan-your-visit-details',
-              'openMultipleItems': True
-            }) }}
-          {%- endif %}
-          {%- if page_data.location.venue_link and page_data.location.venue_link_text %}
-          <div class="tna-button-group">
-            {{ tnaButton({
-              'text': page_data.location.venue_link_text,
-              'href': page_data.location.venue_link,
-              'attributes': {
-                'data-tna-cta': ''
-              }
-            }) }}
-          </div>
-          {%- endif %}
-        </div>
-        {%- if page_data.location.image %}
-        <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-          <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-            <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
-            <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
-            <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
-            <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
-            <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-            <div class="tna-picture__image-wrapper tna-background-tint">
-              <picture>
-                <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.full_url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
-                <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.full_url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
-              </picture>
-            </div>
-          </figure>
+  {% if page_data.location and is_date_today_or_future(page_data.end_date) %}
+  <section class="tna-section tna-background-tint" id="location-details">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h2 class="tna-heading-l">
+          {%- if page_data.location.online -%}
+          How to join online
+          {%- else -%}
+          Plan your visit
+          {%- endif -%}
+        </h2>
+      </div>
+      {% for detail in page_data.location.details %}
+      {% set accordion_items = [] %}
+      {% for item in detail.value %}
+        {% set accordion_items = accordion_items.append({
+          'title': item.title,
+          'body': item.body | tna_html
+        }) %}
+      {% endfor %}
+      {% if accordion_items %}
+      <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+        {{ tnaAccordion({
+          'itemHeadingLevel': 3,
+          'items': accordion_items,
+          'id': 'plan-your-visit-details',
+          'openMultipleItems': True
+        }) }}
+        {%- if page_data.location.venue_link and page_data.location.venue_link_text %}
+        <div class="tna-button-group">
+          {{ tnaButton({
+            'text': page_data.location.venue_link_text,
+            'href': page_data.location.venue_link,
+            'attributes': {
+              'data-tna-cta': ''
+            }
+          }) }}
         </div>
         {%- endif %}
       </div>
-    </section>
-  </div>
-  {%- endif %}
+      {% endif %}
+      {% endfor %}
+      {%- if page_data.location.image %}
+      <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+        <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
+          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
+          <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
+          <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
+          <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
+          <div class="tna-picture__image-wrapper tna-background-tint">
+            <picture>
+              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.full_url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
+              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.full_url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
+            </picture>
+          </div>
+        </figure>
+      </div>
+      {%- endif %}
+    </div>
+  </section>
+  {% endif %}
 
   {% for event_highlights in page_data.event_highlights %}
   <section class="tna-section tna-background-contrast tna-!--padding-top-m">

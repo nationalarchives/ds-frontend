@@ -399,10 +399,10 @@
   {% endfor %}
 
   {% if page_data.location and is_date_today_or_future(page_data.end_date) %}
-  <section class="tna-section tna-!--padding-top-m">
+  <section class="tna-section tna-!--padding-top-m" id="plan-your-visit">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
-        <h2 id="plan-your-visit" class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
+        <h2 class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
       </div>
       {% for detail in page_data.location.details %}
       {% set accordion_items = [] %}
