@@ -120,7 +120,7 @@
             'href': '#' + ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
           }] %}
         {% endif %}
-        {% if page_data.location %}
+        {% if page_data.location and is_date_today_or_future(page_data.end_date) %}
           {% set ns.sidebar_items = ns.sidebar_items + [{
             'text': 'Plan your visit',
             'href': '#plan-your-visit'
