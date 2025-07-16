@@ -33,7 +33,7 @@ Pass the whole `page_data` from Wagtail (a repsonse from the `/pages/<int:page_i
 ```
 {% block head %}
     {{ super() }}
-    {{ meta(page_data) }}
+    {{- meta(page_data) }}
 {% endblock %}
 ```
 

@@ -23,7 +23,7 @@
 
 {% block head %}
 {{ super() }}
-{{ meta(page_data) }}
+{{- meta(page_data) }}
     {% if 'day' in request.args and 'month' in request.args and 'year' in request.args %}
     <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&day={{ request.args.get('day') }}&page={{ request.args.get('page') }}">
     {% elif 'month' in request.args and 'year' in request.args %}
