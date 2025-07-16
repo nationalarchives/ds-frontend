@@ -7,24 +7,27 @@
 {%- from 'macros/meta.html' import meta -%}
 
 {%- set pageTitle = page_data.title -%}
+{%- set breadcrumbsStyle = 'accent' -%}
 
 {% block head %}
 {{ super() }}
-{{ meta(page_data) }}
+{{- meta(page_data) }}
 {% endblock %}
 
 {% block content %}
-<div class="tna-container tna-section">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
-    <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
-    <div class="tna-button-group">
-      {%- for child in groups.dates['items'] %}
-      {{ tnaButton({
-        'text': child.title,
-        'href': child.url
-      }) }}
-      {%- endfor %}
+<div class="tna-section tna-background-accent">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+      <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+      <div class="tna-button-group">
+        {%- for child in groups.dates['items'] %}
+        {{ tnaButton({
+          'text': child.title,
+          'href': child.url
+        }) }}
+        {%- endfor %}
+      </div>
     </div>
   </div>
 </div>
