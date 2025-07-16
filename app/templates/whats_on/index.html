@@ -33,7 +33,7 @@
 </div>
 
 {%- for section in page_data.whats_on_page_selections %}
-{%- set alternative_block = loop.index % 2 == 1 %}
+{%- set alternative_block = loop.index % 2 == 0 %}
 <div class="tna-section{{ ' tna-background-contrast' if alternative_block else '' }}">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
