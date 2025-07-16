@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 
-{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
-{%- from 'components/date-search/macro.html' import tnaDateSearch -%}
-{%- from 'components/secondary-navigation/macro.html' import tnaSecondaryNavigation -%}
-{%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
@@ -38,39 +34,6 @@
       <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
     </div>
   </div>
-  {%- if time_period_selector %}
-  <div class="tna-container tna-!--padding-top-l">
-    <div class="tna-column tna-column--full">
-      {{ tnaSecondaryNavigation({
-        'title': 'Time period',
-        'headingLevel': 2,
-        'items': [
-          {
-            'name': 'Any',
-            'href': '?' + qs_toggler('date', 'any'),
-            'current': qs_active('date', 'any') or not request.args.get('date')
-          },
-          {
-            'name': 'Today',
-            'href': '?' + qs_toggler('date', 'today'),
-            'current': qs_active('date', 'today')
-          },
-          {
-            'name': 'Next 7 days',
-            'href': '?' + qs_toggler('date', '7days'),
-            'current': qs_active('date', '7days')
-          },
-          {
-            'name': 'Next 30 days',
-            'href': '?' + qs_toggler('date', '30days'),
-            'current': qs_active('date', '30days')
-          }
-        ],
-        'noBottomBorder': False
-      }) }}
-    </div>
-  </div>
-  {%- endif %}
 </div>
 
 {%- if page_data.featured_page %}
