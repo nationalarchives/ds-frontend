@@ -26,7 +26,7 @@
     {%- if block_value.page.teaser_image %}
       {% set card_content = dict(card_content, **{
         'imageSrc': block_value.page.teaser_image.jpeg.full_url,
-        'imageAlt': block_value.page.teaser_image.alt or block_value.page.title,
+        'imageAlt': block_value.page.teaser_image.description,
         'imageWidth': block_value.page.teaser_image.jpeg.width,
         'imageHeight': block_value.page.teaser_image.jpeg.height,
         'imageSources': [
