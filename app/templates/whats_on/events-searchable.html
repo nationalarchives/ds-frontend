@@ -26,7 +26,7 @@
     </hgroup>
     <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
     {%- if date_from or date_to %}
-    <p>Searching {{ pretty_date_range(date_from, date_to, sentence_case=True) }}</p>
+    <p>Searching {{ pretty_date_range(date_from, date_to, lowercase_first=True) }}</p>
     {%- endif %}
   </div>
 </div>

@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 from urllib.parse import unquote, urlencode, urlparse
 
+from app.lib.datetime import get_date_from_string
 from markupsafe import Markup
 
 from .content_parser import (  # add_abbreviations,; replace_footnotes,
@@ -90,31 +91,9 @@ def get_url_domain(s):
         return s
 
 
-def pretty_date(s, show_day=False, show_time=False):  # noqa: C901
+def pretty_date(s, show_day=False, show_time=False):
     if not s:
         return s
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        if show_time:
-            return (
-                date.strftime("%A %-d %B %Y, %H:%M")
-                if show_day
-                else date.strftime("%-d %B %Y, %H:%M")
-            )
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        if show_time:
-            return (
-                date.strftime("%A %-d %B %Y, %H:%M")
-                if show_day
-                else date.strftime("%-d %B %Y, %H:%M")
-            )
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
     try:
         date = datetime.strptime(s, "%Y-%m-%d")
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
@@ -130,6 +109,14 @@ def pretty_date(s, show_day=False, show_time=False):  # noqa: C901
         return date.strftime("%Y")
     except ValueError:
         pass
+    if date := get_date_from_string(s):
+        if show_time:
+            return (
+                date.strftime("%A %-d %B %Y, %H:%M")
+                if show_day
+                else date.strftime("%-d %B %Y, %H:%M")
+            )
+        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     return s
 
 

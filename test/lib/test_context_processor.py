@@ -123,6 +123,32 @@ class ContextParserTestCase(unittest.TestCase):
             pretty_datetime_range(None, "2001-12-31T14:45:00Z"),
             "Now to 31 December 2001, 14:45",
         )
+        self.assertEqual(
+            pretty_datetime_range(start_date, None, lowercase_first=True),
+            "from 1 January 2000, 12:30",
+        )
+        self.assertEqual(
+            pretty_datetime_range(None, "2001-12-31T14:45:00Z", lowercase_first=True),
+            "now to 31 December 2001, 14:45",
+        )
+        self.assertEqual(
+            pretty_datetime_range(
+                start_date, "2000-01-01T12:30:00Z", hide_date_if_single_day=True
+            ),
+            "12:30",
+        )
+        self.assertEqual(
+            pretty_datetime_range(
+                start_date, "2000-01-01T12:45:00Z", hide_date_if_single_day=True
+            ),
+            "12:30 to 12:45",
+        )
+        self.assertEqual(
+            pretty_datetime_range(
+                start_date, "2000-01-02T00:00:0Z", hide_date_if_single_day=True
+            ),
+            "1 January 2000, 12:30 to 2 January 2000, 00:00",
+        )
 
     def test_pretty_price_range(self):
         self.assertEqual(pretty_price_range(0, 0), "Free")

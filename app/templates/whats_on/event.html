@@ -188,46 +188,26 @@
   </div>
   <div class="tna-container tna-!--padding-bottom-l">
     {%- if not page_data.various_dates %}
-    <div class="tna-column tna-column--full tna-!--margin-bottom-s">
+    <div class="tna-column tna-column--full">
       <h2 class="tna-heading-l">Dates for this event</h2>
-      <ul class="tna-ul">
-        {%- for session in page_data.sessions %}
-        <li>
-          {{ pretty_datetime_range(session.start, session.end) }}
-          {%- if session.sold_out %}
-          <strong class="tna-chip tna-chip--inline">Sold out</strong>
-          {%- endif %}
-        </li>
-        {%- endfor %}
-      </ul>
     </div>
-    {%- endif %}
-    
-    {% for session in page_data.sessions %}
-    <!-- <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--width-1-2-tiny">
+    {%- for session_date in sessions_by_date %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-vertical-s">
+      {% set ns = namespace(card_body='<ul class="tna-ul">') %}
+      {%- for session in session_date.sessions %}
+        {% set ns.card_body = ns.card_body + '<li>' + pretty_datetime_range(session.start, session.end, hide_date_if_single_day=True) + (' <strong class="tna-chip tna-chip--inline">Sold out</strong>' if session.sold_out else '') + '</li>' %}
+      {%- endfor %}
+      {% set ns.card_body = ns.card_body + '</ul>' %}
       {{ tnaCard({
-        'title': 'TODO',
+        'title': session_date.date | pretty_date,
+        'body': ns.card_body | safe,
         'headingLevel': 3,
         'headingSize': 's',
-        'meta': [
-          {
-            'title': 'Time',
-            'text': 'TODO',
-            'icon': 'clock'
-          }
-        ],
-        'classes': 'tna-!--margin-vertical-s'
+        'classes': ''
       }) }}
-    </div> -->
-    {% endfor %}
-    <!-- <div class="tna-column tna-column--flex-1 tna-column--align-centre">
-      <div class="tna-button-group">
-        <a href="#" class="tna-button tna-button--icon-right">
-          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-          See all
-        </a>
-      </div>
-    </div> -->
+    </div>
+    {%- endfor %}
+    {%- endif %}
     <div class="tna-column tna-column--full tna-!--margin-top-l">
       <div class="tna-newsletter">
         <div class="tna-newsletter_inner">
