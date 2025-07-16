@@ -169,7 +169,7 @@
         <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
           {% if page_data.open_days %}
           <dt>
-            <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
             Date
           </dt>
           <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
@@ -177,7 +177,7 @@
           {% endif %}
 
           <dt>
-            <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-ticket" aria-hidden="true"></i>
             Price
           </dt>
           <dd class="tna-!--no-padding-bottom">{{ page_data.price | pretty_price }}</dd>
@@ -185,7 +185,7 @@
 
           {% if page_data.age_detail %}
           <dt>
-            <i class="fa-solid fa-user" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-user" aria-hidden="true"></i>
             Age
           </dt>
           <dd itemprop="typicalAgeRange">{{ page_data.age_detail }}</dd>
@@ -193,7 +193,7 @@
 
           {%- if page_data.location %}
           <dt>
-            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-location-dot" aria-hidden="true"></i>
             Location
           </dt>
           {%- if page_data.location.online %}
@@ -209,7 +209,7 @@
           {%- endif %}
 
           <dt>
-            <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-universal-access" aria-hidden="true"></i>
             Accessibility
           </dt>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/information-for-disabled-visitors/">accessibility guide</a></dd>

@@ -119,16 +119,22 @@
         <h2 class="tna-visually-hidden">Event details</h2>
         <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
           <dt>
-            <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-            Dates
+            <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
+            {{ 'Dates' if sessions_by_date | length > 1 else 'Date' }}
           </dt>
-          <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+          <dd{{ ' class="tna-!--no-padding-bottom"' if page_data.various_dates else '' }}>
+            {%- if sessions_by_date | length > 1 %}
+            {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
+            {%- else %}
+            {{ pretty_datetime_range(page_data.start_date, page_data.end_date) }}
+            {%- endif %}
+          </dd>
           {%- if page_data.various_dates %}
           <dd>Various dates and times</dd>
           {%- endif %}
 
           <dt>
-            <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-ticket" aria-hidden="true"></i>
             Price
           </dt>
           <dd class="{{ 'tna-!--no-padding-bottom' if page_data.booking_details else '' }}">{{ pretty_price_range(page_data.min_price, page_data.max_price) }}</dd>
@@ -138,7 +144,7 @@
 
           {%- if page_data.age_detail %}
           <dt>
-            <i class="fa-solid fa-user" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-user" aria-hidden="true"></i>
             Age
           </dt>
           <dd itemprop="typicalAgeRange">{{ page_data.age_detail }}</dd>
@@ -146,7 +152,7 @@
 
           {%- if page_data.location %}
           <dt>
-            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-location-dot" aria-hidden="true"></i>
             Location
           </dt>
           {%- if page_data.location.online %}
@@ -164,7 +170,7 @@
           
           {%- if page_data.series %}
           <dt>
-            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <i class="fa-solid fa-fw fa-layer-group" aria-hidden="true"></i>
             Part of series
           </dt>
           {%- for series in page_data.series %}
