@@ -35,7 +35,7 @@
   {% set image_caption = image_caption + '<meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') + '">' %}
   {% set picture_content = {
     'src': block_value.image.jpeg.full_url,
-    'alt': block_value.description,
+    'alt': block_value.image.description,
     'width': block_value.image.jpeg.width,
     'height': block_value.image.jpeg.height,
     'sources': [
