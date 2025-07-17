@@ -75,11 +75,7 @@
 
     {%- set hero_image_caption = page_data.hero_image_caption or '' %}
     {%- if page_data.hero_image.copyright %}
-      {%- if hero_image_caption %}
-        {%- set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
-      {%- else %}
-        {%- set hero_intro = hero_intro + '<div itemprop="copyrightNotice" hidden>' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
-      {%- endif %}
+      {%- set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
     {%- endif %}
 
     {{ tnaHero({
