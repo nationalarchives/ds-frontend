@@ -7,7 +7,6 @@
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/featured_external_link.html' import wagtailFeaturedExternalLink -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
-{%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
 {%- from 'macros/wagtail_blocks/gallery.html' import wagtailGallery -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
@@ -93,9 +92,6 @@
 
   {%- elif content_item.type == 'featured_page' %}
   {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
-
-  {%- elif content_item.type == 'featured_record_article' %}
-  {{ wagtailFeaturedRecordArticle(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'media' %}
   {{ wagtailMedia(content_item.value, content_item.id, next_heading_level) }}
