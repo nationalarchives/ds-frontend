@@ -23,10 +23,9 @@
         </div>
       </div>
       <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ block_value.media.file }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+        <source src="{{ block_value.media.file }}" type="{{ block_value.media.mime }}">
         <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.url }}">Download the audio file</a>.</p>
       </audio>
-      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     </div>
     {%- elif block_value.media.type == 'video' %}
     <div class="tna-aside tna-background-contrast">
@@ -39,8 +38,8 @@
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
       </div>
-      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ block_value.media.file }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
+      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <source src="{{ block_value.media.file }}" type="{{ block_value.media.mime }}">
         {% if block_value.media.subtitles_file %}
         <track kind="captions" src="{{ block_value.media.subtitles_file }}" srclang="en" label="English" default>
         {% endif %}
@@ -49,9 +48,6 @@
         {% endif %}
         <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.url }}">Download the video file</a>.</p>
       </video>
-      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
-      <meta itemprop="contentUrl" content="{{ block_value.media.url }}">
-      <meta itemprop="url" content="{{ url_for('wagtail.video_page', video_uuid=block_value.media.uuid, _external=True, _scheme='https') }}">
       {% if block_value.thumbnail %}
       <meta itemprop="thumbnailUrl" content="{{ block_value.thumbnail.jpeg.full_url }}">
       {% endif %}
@@ -89,5 +85,8 @@
       }) }}
     </div>
     {%- endif %}
+    <meta itemprop="contentUrl" content="{{ block_value.media.file }}">
+    <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=block_value.media.uuid, _external=True, _scheme='https') }}">
+    <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
   </div>
 {% endmacro %}

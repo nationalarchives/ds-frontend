@@ -268,15 +268,15 @@ def try_external_redirect(path):
     )
 
 
-@bp.route("/video/<uuid:video_uuid>/")
+@bp.route("/video/<uuid:media_uuid>/")
 @cache.cached(key_prefix=page_cache_key_prefix)
-def video_page(video_uuid):
+def media_page(media_uuid):
     """
     Renders a video details page.
     """
 
     try:
-        video_data = media(media_uuid=video_uuid)
+        media_data = media(media_uuid=media_uuid)
     except ResourceNotFound:
         return CachedResponse(
             response=make_response(render_template("errors/page_not_found.html"), 404),
@@ -295,7 +295,7 @@ def video_page(video_uuid):
         )
     return CachedResponse(
         response=make_response(
-            render_template("media/video.html", video_data=video_data)
+            render_template("media/video.html", media_data=media_data)
         ),
         timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
     )

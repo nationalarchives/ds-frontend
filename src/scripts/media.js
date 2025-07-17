@@ -20,12 +20,7 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
   $youTubeVideoInstances.forEach(($video) => {
     const id = $video.getAttribute("id");
     const $newVideo = document.createElement("video");
-    $newVideo.classList.add(
-      "etna-video",
-      "etna-video--youtube",
-      "video-js",
-      "vjs-16-9",
-    );
+    $newVideo.classList.add("etna-video", "etna-video--youtube", "video-js");
     $newVideo.setAttribute("controls", true);
     $newVideo.setAttribute("id", id);
     const poster =

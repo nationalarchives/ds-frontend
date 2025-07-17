@@ -405,7 +405,7 @@
         {{ wagtailYouTubeVideo(video.value, video.id) }}
         {% elif video.type == 'media' %}
         <div class="tna-!--margin-top-m" itemscope itemtype="https://schema.org/VideoObject">
-          <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+          <video id="video-{{ video.id }}" class="etna-video etna-video--selfhosted video-js"{% if video.value.thumbnail %} data-poster="{{ video.value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if video.value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
             <source src="{{ video.value.media.file }}" type="{{ video.value.media.mime }}">
             {% if video.value.media.subtitles_file %}
             <track kind="captions" src="{{ video.value.media.subtitles_file }}" srclang="en" label="English" default>
