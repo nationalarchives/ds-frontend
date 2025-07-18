@@ -250,7 +250,7 @@
   </div>
 
   {% if page_data.location %}
-  <section class="tna-section tna-background-tint" id="location-details"{{ '' if is_date_today_or_future(page_data.end_date) else ' hidden' }}>
+  <section class="tna-section tna-background-tint tna-!--no-padding-bottom-tiny" id="location-details"{{ '' if is_date_today_or_future(page_data.end_date) else ' hidden' }}>
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l">
