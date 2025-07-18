@@ -6,7 +6,7 @@
     {% set files = files.append({
       'id': 'doc-' + block_id + '-' + (document.file.id | string) + '-' + (loop.index | string),
       'text': document.file.title,
-      'href': document.file.full_url,
+      'href': document.file.url,
       'fileType': document.file.type | upper,
       'fileSize': document.file.pretty_file_size,
       'fileExtent': document.file.extent,
