@@ -187,7 +187,7 @@
   {%- endif %}
   <div class="tna-container">
     {%- if showSidebar and not sidebarPositionRight and (sidebar_items | length) %}
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--hide-on-print tna-!--margin-bottom-l">
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--hide-on-print tna-!--margin-bottom-l tna-!--no-margin-bottom-large tna-!--no-margin-bottom-medium">
       {{ tnaSidebar({
         'title': 'Contents' if page_data.page_sidebar == 'contents' else 'On this page' if page_data.page_sidebar == 'sections' else 'Index',
         'headingLevel': 2,
