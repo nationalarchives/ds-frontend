@@ -21,7 +21,9 @@
 {%- endif -%}
 {% set hasContent = params.title or params.body or params.text %}
 <{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true">
-  <figure class="tna-hero__figure"{{ '' if params.noMicrodata else ' itemprop="image"' | safe }} itemscope itemtype="https://schema.org/ImageObject">
+  <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+    <meta itemprop="name" content="{{ params.title }}">
+    <meta itemprop="description" content="{{ params.imageAlt }}">
     <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
     <meta itemprop="width" content="{{ params.imageWidth }}">
     <meta itemprop="height" content="{{ params.imageHeight }}">
@@ -34,12 +36,12 @@
           {%- if params.supertitle %}
           <hgroup class="tna-hgroup-{{ params.headingSize or 'xl' }} tna-hero__heading">
             <p class="tna-hgroup__supertitle{% if params.plainSupertitle %} tna-hgroup__supertitle--plain{% endif %}">{{ params.supertitle }}</p>
-            <h{{ params.headingLevel or '1' }} class="tna-hgroup__title" itemprop="name">
+            <h{{ params.headingLevel or '1' }} class="tna-hgroup__title">
               {{ params.title }}
             </h{{ params.headingLevel or '1' }}>
           </hgroup>
           {%- else %}
-          <h{{ params.headingLevel or '1' }} class="tna-heading-{{ params.headingSize or 'xl' }} tna-hero__heading" itemprop="name">
+          <h{{ params.headingLevel or '1' }} class="tna-heading-{{ params.headingSize or 'xl' }} tna-hero__heading">
             {{ params.title }}
           </h{{ params.headingLevel or '1' }}>
           {%- endif %}
