@@ -46,7 +46,7 @@
   <meta itemprop="startDate" content="{{ page_data.start_date }}">
   <meta itemprop="endDate" content="{{ page_data.end_date }}">
 
-  {% set hero_body = '<div class="tna-large-paragraph">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl><meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') + '">' %}
+  {% set hero_body = '<div class="tna-large-paragraph" itemprop="about">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl><meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') + '">' %}
 
   {% set hero_image_caption = page_data.hero_image_caption or '' %}
   {%- if page_data.hero_image.copyright %}
@@ -137,10 +137,14 @@
           </dt>
           <dd class="{{ 'tna-!--no-padding-bottom' if page_data.booking_details else '' }}">
             {{ pretty_price_range(page_data.min_price, page_data.max_price) }}
-            <div itemprop="offer" itemscope itemtype="https://schema.org/Offer">
+            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
               <meta itemprop="price" content="{{ page_data.min_price }}">
               <meta itemprop="priceCurrency" content="GBP">
+              {%- if page_data.sold_out %}
+              <link itemprop="availability" href="https://schema.org/SoldOut">
+              {%- else %}
               <link itemprop="availability" href="https://schema.org/InStock">
+              {%- endif %}
             </div>
           </dd>
           {%- if page_data.booking_details %}

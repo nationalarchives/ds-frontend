@@ -56,7 +56,6 @@
     {%- set hero_intro = '' %}
 
     {% if page_data.subtitle %}
-      <meta itemprop="about" content="{{ page_data.subtitle }}">
       {% set hero_intro = hero_intro + (('<div class="tna-large-paragraph tna-!--margin-top-s">' + page_data.subtitle + '</div>') | tna_html) %}
     {% endif %}
 
@@ -167,7 +166,7 @@
   <div class="tna-container tna-!--margin-bottom-l">
     <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
       <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' + page_data.title) }}</h2>
-      <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top">
+      <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top" itemprop="about">
         {{ page_data.intro | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
@@ -192,7 +191,7 @@
           </dt>
           <dd class="tna-!--no-padding-bottom">
             {{ page_data.price | pretty_price }}
-            <div itemprop="offer" itemscope itemtype="https://schema.org/Offer">
+            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
               <meta itemprop="price" content="{{ page_data.price }}">
               <meta itemprop="priceCurrency" content="GBP">
               <link itemprop="availability" href="https://schema.org/InStock">

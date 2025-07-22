@@ -124,7 +124,7 @@
         }) }}
       {%- endif %}
       <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' + page_data.title) }}</h2>
-      <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top">
+      <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top" itemprop="about">
         {{ page_data.intro | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
@@ -149,7 +149,7 @@
           </dt>
           <dd class="tna-!--no-padding-bottom">
             {{ page_data.price | pretty_price }}
-            <div itemprop="offer" itemscope itemtype="https://schema.org/Offer">
+            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
               <meta itemprop="price" content="{{ page_data.price }}">
               <meta itemprop="priceCurrency" content="GBP">
               <link itemprop="availability" href="https://schema.org/InStock">
