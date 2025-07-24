@@ -7,6 +7,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'whats_on/partials/shop_block.html' import shopBlock -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
@@ -431,59 +432,11 @@
   </div>
 </section>
 {%- endif %}
+
 {% for shop in page_data.shop %}
-  {% set shop_hero_image_caption = '' %}
-  {%- if shop.value.background_image.copyright %}
-    {% set shop_hero_image_caption = shop_hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (shop.value.background_image.copyright | tna_html) + '</div>' %}
-  {%- endif %}
-  {% set shop_hero_image_caption = shop_hero_image_caption + '<meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=shop.value.background_image.uuid, _external=True, _scheme='https') + '">' %}
-  {{ tnaHero({
-    'headingLevel': 2,
-    'headingSize': 'l',
-    'title': shop.value.title,
-    'text': shop.value.description,
-    'imageSrc': shop.value.background_image.jpeg.full_url,
-    'imageAlt': shop.value.background_image.description,
-    'imageWidth': shop.value.background_image.jpeg.width,
-    'imageHeight': shop.value.background_image.jpeg.height,
-    'imageCaption': shop_hero_image_caption,
-    'imageSources': [
-      {
-        'src': shop.value.background_image_small.webp.full_url,
-        'width': shop.value.background_image_small.webp.width,
-        'height': shop.value.background_image_small.webp.height,
-        'type': 'image/webp',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': shop.value.background_image_small.jpeg.full_url,
-        'width': shop.value.background_image_small.jpeg.width,
-        'height': shop.value.background_image_small.jpeg.height,
-        'type': 'image/jpeg',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': shop.value.background_image.webp.full_url,
-        'width': shop.value.background_image.webp.width,
-        'height': shop.value.background_image.webp.height,
-        'type': 'image/webp'
-      }
-    ],
-    'actions': [
-      {
-        'text': shop.value.cta_text,
-        'href': shop.value.url
-      }
-    ],
-    'narrow': True,
-    'style': 'accent',
-    'attributes': {
-      'id': shop.value.title | slugify
-    },
-    'title': shop.value.background_image.title,
-    'element': 'div'
-  }) }}
+  {{ shopBlock(shop.value) }}
 {% endfor %}
+
 {{ feedback() }}
 {{ back_to_top() }}
 {% endblock %}
