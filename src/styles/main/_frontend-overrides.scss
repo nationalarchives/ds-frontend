@@ -84,6 +84,14 @@
       }
     }
   }
+
+  &--icon-padding {
+    > dt {
+      .fa-solid {
+        text-align: center;
+      }
+    }
+  }
 }
 
 sup[data-footnoteid] {
