@@ -221,15 +221,17 @@
           <dd>
             {{ page_data.location.full_address | safe }}
             {%- if page_data.location.postcode %}
-              <div itemprop="location" itemscope itemtype="https://schema.org/PostalAddress">
-                {%- if page_data.location.address_line_1 %}
-                <meta itemprop="streetAddress" content="{{ page_data.location.address_line_1 }}">
-                {%- endif %}
-                {%- if page_data.location.address_line_2 %}
-                <meta itemprop="addressRegion" content="{{ page_data.location.address_line_2 }}">
-                {%- endif %}
-                <meta itemprop="postalCode" content="{{ page_data.location.postcode }}">
-                <meta itemprop="addressCountry" content="GB">
+              <div itemprop="location" itemscope itemtype="https://schema.org/Place">
+                <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                  {%- if page_data.location.address_line_1 %}
+                  <meta itemprop="streetAddress" content="{{ page_data.location.address_line_1 }}">
+                  {%- endif %}
+                  {%- if page_data.location.address_line_2 %}
+                  <meta itemprop="addressRegion" content="{{ page_data.location.address_line_2 }}">
+                  {%- endif %}
+                  <meta itemprop="postalCode" content="{{ page_data.location.postcode }}">
+                  <meta itemprop="addressCountry" content="GB">
+                </div>
               </div>
             {%- elif page_data.location.full_address %}
               <meta itemprop="location" content="{{ page_data.location.full_address | multiline_address_to_single_line | safe }}">
