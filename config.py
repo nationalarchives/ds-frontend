@@ -52,13 +52,7 @@ class Base(object):
 
     CSP_IMG_SRC: list[str] = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC: list[str] = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")
-    CSP_SCRIPT_SRC_ELEM: list[str] = os.environ.get(
-        "CSP_SCRIPT_SRC_ELEM", "'self'"
-    ).split(",")
     CSP_STYLE_SRC: list[str] = os.environ.get("CSP_STYLE_SRC", "'self'").split(",")
-    CSP_STYLE_SRC_ELEM: list[str] = os.environ.get(
-        "CSP_STYLE_SRC_ELEM", "'self'"
-    ).split(",")
     CSP_FONT_SRC: list[str] = os.environ.get("CSP_FONT_SRC", "'self'").split(",") + [
         "data:"  # video.js
     ]

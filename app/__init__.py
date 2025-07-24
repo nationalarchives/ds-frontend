@@ -107,11 +107,6 @@ def create_app(config_class):
                 else {}
             ),
             **(
-                {"script-src-elem": app.config.get("CSP_SCRIPT_SRC_ELEM")}
-                if app.config.get("CSP_SCRIPT_SRC_ELEM") != csp_self
-                else {}
-            ),
-            **(
                 {"style-src": app.config.get("CSP_STYLE_SRC")}
                 if app.config.get("CSP_STYLE_SRC") != csp_self
                 else {}
