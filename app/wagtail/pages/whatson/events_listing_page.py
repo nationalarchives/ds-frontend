@@ -1,6 +1,5 @@
 import datetime
 
-from app.lib.template_filters import qs_active, qs_remove, qs_update
 from app.wagtail.api import events
 from flask import render_template, request
 
