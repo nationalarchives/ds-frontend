@@ -115,6 +115,10 @@ class Develop(Base, Features):
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
+    FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
+        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "True")
+    )
+
 
 class Test(Base, Features):
     ENVIRONMENT_NAME = "test"

@@ -13,9 +13,12 @@ services:
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
+      # - WAGTAIL_API_URL=https://dev-wagtail.nationalarchives.gov.uk/api/v2
+      # - WAGTAIL_SITE_HOSTNAME=dev-www.nationalarchives.gov.uk
+      # - WAGTAIL_SITE_HOSTNAME=wagtail-docs.tna.dblclk.dev
       - COOKIE_DOMAIN=localhost
       - CSP_IMG_SRC='self',localhost:65535,localhost:8000,localhost:65529,*.google-analytics.com,*.gstatic.com,*.nationalarchives.gov.uk,*.platformsh.site,i.ytimg.com,img.youtube.com,maps.googleapis.com,picsum.photos,*.picsum.photos
-      - CSP_SCRIPT_SRC_ELEM='self',*.youtube.com,localhost:65529
+      - CSP_SCRIPT_SRC='self',*.youtube.com,localhost:65529
       - CSP_STYLE_SRC='self',localhost:65529,fonts.googleapis.com,p.typekit.net,use.typekit.net,'unsafe-inline'
       - CSP_FONT_SRC='self',fonts.gstatic.com,use.typekit.net
       - CSP_CONNECT_SRC='self',localhost:65529,*.google-analytics.com,*.analytics.google.com,noembed.com
@@ -27,7 +30,7 @@ services:
       - CACHE_TYPE=RedisCache
       - CACHE_REDIS_URL=redis://redis:6379/0
       - FEATURE_PHASE_BANNER=False
-      # - FEATURE_NEW_ETC_HOMEPAGE=True
+      # - FEATURE_NEW_ETC_HOMEPAGE=False
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
       # - GA4_ID=GTM-KX8ZWVZG
