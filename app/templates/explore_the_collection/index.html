@@ -63,59 +63,39 @@
 {%- for item in page_data.body %}
 {%- if item.type == 'large_card_links' %}
   <div class="tna-section tna-!--padding-top-s tna-background-contrast-">
-    <ul class="tna-container">
-      <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
+    <ul class="tna-container tna-container--align-centre">
+      {%- for page in ['page_1', 'page_2'] %}
+      <li class="tna-column tna-column--width-5-12 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
         {{ tnaCard({
-          'title': item.value.page_1.title,
+          'title': item.value[page].title,
           'headingLevel': 2,
           'headingSize': 'm',
-          'href': item.value.page_1.url,
-          'text': 'Our collection shines a light on many aspects of life, from the stories of states to different people\'s experiences. Browse these topics for just a taste.',
-          'imageSrc': item.value.page_1.teaser_image.jpeg.full_url,
-          'imageAlt': item.value.page_1.teaser_image.description,
-          'imageWidth': item.value.page_1.teaser_image.jpeg.width,
-          'imageHeight': item.value.page_1.teaser_image.jpeg.height,
+          'href': item.value[page].url,
+          'text': item.value[page].teaser_text,
+          'imageSrc': item.value[page].teaser_image.jpeg.full_url,
+          'imageAlt': item.value[page].teaser_image.description,
+          'imageWidth': item.value[page].teaser_image.jpeg.width,
+          'imageHeight': item.value[page].teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': item.value.page_1.teaser_image.webp.full_url,
+              'src': item.value[page].teaser_image.webp.full_url,
               'type': 'image/webp',
-              'width': item.value.page_1.teaser_image.webp.width,
-              'height': item.value.page_1.teaser_image.webp.height
+              'width': item.value[page].teaser_image.webp.width,
+              'height': item.value[page].teaser_image.webp.height
             }
           ],
           'fullAreaClick': True,
+          'style': 'plain',
           'classes': 'tna-!--margin-top-m'
         }) }}
       </li>
-      <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny">
-        {{ tnaCard({
-          'title': item.value.page_2.title,
-          'headingLevel': 2,
-          'headingSize': 'm',
-          'href': item.value.page_2.url,
-          'text': 'More than a thousand years of human history live on in the records we care for. Browse stories and collection highlights by the time periods they come from.',
-          'imageSrc': item.value.page_2.teaser_image.jpeg.full_url,
-          'imageAlt': item.value.page_2.teaser_image.description,
-          'imageWidth': item.value.page_2.teaser_image.jpeg.width,
-          'imageHeight': item.value.page_2.teaser_image.jpeg.height,
-          'imageSources': [
-            {
-              'src': item.value.page_2.teaser_image.webp.full_url,
-              'type': 'image/webp',
-              'width': item.value.page_2.teaser_image.webp.width,
-              'height': item.value.page_2.teaser_image.webp.height
-            }
-          ],
-          'fullAreaClick': True,
-          'classes': 'tna-!--margin-top-m'
-        }) }}
-      </li>
+      {%- endfor %}
     </ul>
   </div>
 {%- endif %}
 {%- endfor %}
 
-<section class="tna-section tna-background-accent tna-!--padding-top-m">
+<section class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
   {{ discoverySearch() }}
 </section>
 
@@ -124,14 +104,14 @@
   'headingLevel': 2,
   'headingSize': 'l',
   'text': page_data.articles_introduction,
-  'imageSrc': 'https://beta.nationalarchives.gov.uk/media/images/Chevalier-dEo.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60.bgcolor-fff.jpg',
-  'imageWidth': 600,
-  'imageHeight': 400,
-  'imageAlt': '',
+  '_imageSrc': 'https://beta.nationalarchives.gov.uk/media/images/Chevalier-dEo.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60.bgcolor-fff.jpg',
+  '_imageWidth': 600,
+  '_imageHeight': 400,
+  '_imageAlt': '',
   'actions': [
     {
       'text': 'Browse all stories',
-      'href': '/explore-the-collection/stories/'
+      'href': './stories/'
     }
   ],
   'style': 'accent',
@@ -139,8 +119,8 @@
 }) }}
 
 <section class="tna-section">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
+  <div class="tna-container tna-container--align-centre">
+    <div class="tna-column tna-column--width-5-6 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">Blogs and podcasts</h2>
       {%- for section in page_data. explorer_index_page_selections %}
       {%- set flipped = loop.index % 2 == 0 %}
@@ -148,7 +128,7 @@
         'supertitle': section.selected_page.type_label,
         'title': section.selected_page.title,
         'headingLevel': 3,
-        'headingSize': 'm',
+        'headingSize': 'l',
         'text': section.selected_page.teaser_text,
         'imageSrc': section.selected_page.teaser_image.jpeg.full_url,
         'imageWidth': section.selected_page.teaser_image.jpeg.width,
