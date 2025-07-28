@@ -40,7 +40,12 @@
   {% endif %}
   <div itemprop="organizer" itemscope itemtype="https://schema.org/Organization">
     <meta itemprop="name" content="The National Archives">
-    <meta itemprop="address" content="The National Archives, Kew, Richmond, TW9 4DU">
+    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+      <meta itemprop="addressLocality" content="Kew">
+      <meta itemprop="addressRegion" content="Richmond">
+      <meta itemprop="postalCode" content="TW9 4DU">
+      <meta itemprop="addressCountry" content="GB">
+    </div>
     <meta itemprop="url" content="https://www.nationalarchives.gov.uk/">
   </div>
   <meta itemprop="startDate" content="{{ page_data.start_date }}">
