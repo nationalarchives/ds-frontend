@@ -65,7 +65,7 @@
   <div class="tna-section tna-!--padding-top-s tna-background-contrast-">
     <ul class="tna-container tna-container--align-centre">
       {%- for page in ['page_1', 'page_2'] %}
-      <li class="tna-column tna-column--width-5-12 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny">
+      <li class="tna-column tna-column--width-5-12 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
         {{ tnaCard({
           'title': item.value[page].title,
           'headingLevel': 2,
@@ -86,7 +86,7 @@
           ],
           'fullAreaClick': True,
           'style': 'plain',
-          'classes': 'tna-!--margin-top-m'
+          'classes': 'tna-card--full-height'
         }) }}
       </li>
       {%- endfor %}
@@ -99,15 +99,43 @@
   {{ discoverySearch() }}
 </section>
 
+{%- set stories_hero_image_caption = '' %}
+{%- if page_data.stories_hero_image.copyright %}
+  {%- set stories_hero_image_caption = stories_hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.stories_hero_image.copyright | tna_html) + '</div>' %}
+{%- endif %}
+
 {{ tnaHero({
   'title': page_data.articles_title,
   'headingLevel': 2,
   'headingSize': 'l',
   'text': page_data.articles_introduction,
-  '_imageSrc': 'https://beta.nationalarchives.gov.uk/media/images/Chevalier-dEo.2e16d0ba.fill-600x400.format-jpeg.jpegquality-60.bgcolor-fff.jpg',
-  '_imageWidth': 600,
-  '_imageHeight': 400,
-  '_imageAlt': '',
+  'imageSrc': page_data.stories_hero_image.jpeg.full_url,
+  'imageWidth': page_data.stories_hero_image.jpeg.width,
+  'imageHeight': page_data.stories_hero_image.jpeg.height,
+  'imageAlt': page_data.stories_hero_image.description,
+  'imageCaption': stories_hero_image_caption | safe,
+  'imageSources': [
+    {
+      'src': page_data.stories_hero_image_small.webp.full_url,
+      'width': page_data.stories_hero_image_small.webp.width,
+      'height': page_data.stories_hero_image_small.webp.height,
+      'type': 'image/webp',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.stories_hero_image_small.jpeg.full_url,
+      'width': page_data.stories_hero_image_small.jpeg.width,
+      'height': page_data.stories_hero_image_small.jpeg.height,
+      'type': 'image/jpeg',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.stories_hero_image.webp.full_url,
+      'width': page_data.stories_hero_image.webp.width,
+      'height': page_data.stories_hero_image.webp.height,
+      'type': 'image/webp'
+    }
+  ],
   'actions': [
     {
       'text': 'Browse all stories',
@@ -128,7 +156,7 @@
         'supertitle': section.selected_page.type_label,
         'title': section.selected_page.title,
         'headingLevel': 3,
-        'headingSize': 'l',
+        'headingSize': 'm',
         'text': section.selected_page.teaser_text,
         'imageSrc': section.selected_page.teaser_image.jpeg.full_url,
         'imageWidth': section.selected_page.teaser_image.jpeg.width,
@@ -141,7 +169,6 @@
           }
         ],
         'horizontal': True,
-        'horizontalOnSmall': True,
         'horizontalFlipped': flipped,
         'fullAreaClick': True,
         'style': 'accent',
