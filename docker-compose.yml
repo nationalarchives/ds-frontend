@@ -33,7 +33,7 @@ services:
       # - FEATURE_NEW_ETC_HOMEPAGE=False
       - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
       - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
-      # - GA4_ID=GTM-KX8ZWVZG
+      - GA4_ID=GTM-KX8ZWVZG
     depends_on:
       - redis
     ports:
