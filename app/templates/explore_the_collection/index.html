@@ -20,7 +20,6 @@
 
 {%- set hero_intro %}
   <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.intro | safe }}</div>
-  <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') }}">
 {%- endset %}
 
 {%- set hero_image_caption %}
@@ -62,7 +61,7 @@
     }
   ],
   'narrow': True
-}) }}
+}, page_data.hero_image.uuid) }}
 
 {%- for item in page_data.body %}
 {%- if item.type == 'large_card_links' %}
@@ -148,7 +147,7 @@
   ],
   'style': 'accent',
   'layout': 'shift'
-}) }}
+}, page_data.stories_hero_image.uuid) }}
 
 <section class="tna-section">
   <div class="tna-container tna-container--align-centre">

@@ -45,7 +45,6 @@
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
     {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
-      {% set hero_image_caption = hero_image_caption + '<meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') + '">' %}
     {%- endif %}
     {{ tnaHero({
       'title': page_data.title,
@@ -80,7 +79,7 @@
       'narrow': True,
       'style': 'accent',
       'layout': 'shift'
-    }) }}
+    }, page_data.hero_image.uuid) }}
     {%- if page_data.page_sidebar == 'section_tabs' and (sidebar_items | length) %}
     <nav id="secondary-navigation" class="etna-secondary-navigation tna-!--padding-top-m" aria-label="Page sections" hidden>
       <div class="tna-container">

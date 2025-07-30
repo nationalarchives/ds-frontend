@@ -89,8 +89,7 @@
           <div class="tna-column tna-column--full">
             {% set hero_image_caption = page_data.hero_image_caption or '' %}
             {%- if page_data.hero_image.copyright %}
-              {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
-              {% set hero_image_caption = hero_image_caption + '<meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') + '">' %}
+              {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html | safe) + '</div>' %}
             {%- endif %}
             {{ tnaHero({
               'imageSrc': page_data.hero_image.jpeg.full_url,
@@ -121,7 +120,7 @@
                 }
               ],
               'narrow': True
-            }) }}
+            }, page_data.hero_image.uuid) }}
           </div>
         </div>
       </div>

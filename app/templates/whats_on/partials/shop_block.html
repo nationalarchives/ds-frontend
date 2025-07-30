@@ -3,7 +3,6 @@
 {% macro shopBlock(shop) %}
   {% set shop_hero_body %}
     <p>{{ shop.description }}</p>
-    <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=shop.background_image.uuid, _external=True, _scheme='https') }}">
   {% endset %}
 
   {% set shop_hero_image_caption %}
@@ -56,5 +55,5 @@
       'id': shop.title | slugify
     },
     'element': 'div'
-  }) }}
+  }, shop.background_image.uuid) }}
 {% endmacro %}
