@@ -51,47 +51,42 @@
   <meta itemprop="startDate" content="{{ page_data.start_date }}">
   <meta itemprop="endDate" content="{{ page_data.end_date }}">
 
-  {% set hero_body = '<div class="tna-large-paragraph" itemprop="about">' + (page_data.intro | tna_html) + '</div><dl class="tna-dl-chips tna-dl-chips--plain"><dt>Date</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-calendar" aria-hidden="true"></i>' + pretty_date_range(page_data.start_date, page_data.end_date) + '</span></dd><dt>Location</dt><dd><span class="tna-dl-chips__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>' + page_data.short_location + '</span></dd></dl><meta itemprop="url" content="' + url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') + '">' %}
+  {%- set hero_body %}
+    <div class="tna-large-paragraph" itemprop="about">{{ page_data.intro | tna_html | safe }}</div>
+    <dl class="tna-dl-chips tna-dl-chips--plain">
+      <dt>Date</dt>
+      <dd>
+        <span class="tna-dl-chips__item">
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+          {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
+        </span>
+      </dd>
+      <dt>Location</dt>
+      <dd>
+        <span class="tna-dl-chips__item">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          {{ page_data.short_location }}
+        </span>
+      </dd>
+    </dl>
+  {%- endset %}
 
-  {% set hero_image_caption = page_data.hero_image_caption or '' %}
-  {%- if page_data.hero_image.copyright %}
-    {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
-  {%- endif %}
+  {%- set hero_image_caption %}
+    {{- page_data.hero_image_caption | safe -}}
+    {%- if page_data.hero_image.copyright -%}
+      <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+    {%- endif -%}
+  {%- endset %}
 
   {{ tnaHero({
     'supertitle': page_data.type_label,
     'title': page_data.title,
-    'body': hero_body | safe,
-    '_imageSrc': page_data.hero_image.jpeg.full_url,
+    'body': hero_body,
     'imageSrc': page_data.hero_image_small.jpeg.full_url,
-    'imageAlt': page_data.hero_image.description,
-    '_imageWidth': page_data.hero_image.jpeg.width,
+    'imageAlt': page_data.hero_image_small.description,
     'imageWidth': page_data.hero_image_small.jpeg.width,
-    '_imageHeight': page_data.hero_image.jpeg.height,
     'imageHeight': page_data.hero_image_small.jpeg.height,
-    'imageCaption': hero_image_caption | safe,
-    '_imageSources': [
-      {
-        'src': page_data.hero_image_small.webp.full_url,
-        'width': page_data.hero_image_small.webp.width,
-        'height': page_data.hero_image_small.webp.height,
-        'type': 'image/webp',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': page_data.hero_image_small.jpeg.full_url,
-        'width': page_data.hero_image_small.jpeg.width,
-        'height': page_data.hero_image_small.jpeg.height,
-        'type': 'image/jpeg',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': page_data.hero_image.webp.full_url,
-        'width': page_data.hero_image.webp.width,
-        'height': page_data.hero_image.webp.height,
-        'type': 'image/webp'
-      }
-    ],
+    'imageCaption': hero_image_caption,
     'imageSources': [
       {
         'src': page_data.hero_image_small.webp.full_url,
@@ -103,7 +98,7 @@
     'narrow': True,
     'style': 'accent',
     'layout': 'split'
-  }) }}
+  }, page_data.hero_image.uuid) }}
   <div class="tna-container tna-section tna-!--no-padding-top">
     <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
       {%- if page_data.custom_warning_text %}

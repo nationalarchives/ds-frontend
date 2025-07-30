@@ -1,6 +1,6 @@
 {# Adds schema.org markup #}
 
-{% macro tnaHero(params) %}
+{% macro tnaHero(params, uuid) %}
 {% from "components/button/macro.html" import tnaButton %}
 
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
@@ -22,8 +22,10 @@
 {% set hasContent = params.title or params.body or params.text %}
 <{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true">
   <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-    <meta itemprop="name" content="{{ params.title }}">
     <meta itemprop="description" content="{{ params.imageAlt }}">
+    {%- if uuid %}
+    <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') }}">
+    {%- endif %}
     <meta itemprop="contentUrl" content="{{ params.imageSrc }}">
     <meta itemprop="width" content="{{ params.imageWidth }}">
     <meta itemprop="height" content="{{ params.imageHeight }}">
