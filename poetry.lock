@@ -610,14 +610,14 @@ unleash = ["UnleashClient (>=6.0.1)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.22.0"
+version = "0.23.0"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "tna_frontend_jinja-0.22.0-py3-none-any.whl", hash = "sha256:54d23fe9fec6a2327e2bcaed78f833334e1be89e4cca2402e005cef6b656713f"},
-    {file = "tna_frontend_jinja-0.22.0.tar.gz", hash = "sha256:8f46188be52c7b107ac3f9e36c6c8f214d00930756d63e1d14324c3f6483a4c7"},
+    {file = "tna_frontend_jinja-0.23.0-py3-none-any.whl", hash = "sha256:4571e3c596af787ead544803f44ecb9fb09b6a174cf859d0688ca21109432fbf"},
+    {file = "tna_frontend_jinja-0.23.0.tar.gz", hash = "sha256:47902770f359cf06f5c32405ee0def09ced3447474dc9fbbfda819fcfe2473e0"},
 ]
 
 [package.dependencies]
@@ -739,4 +739,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "f78889e4efedb4a0048a66697a16c4787389adb3f585658cc5bbdc30c473e752"
+content-hash = "d8df59294826de0925ce97b8fd8ae3b177d53a06e230ad3be753b8e39df0178b"
