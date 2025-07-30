@@ -114,10 +114,6 @@
     margin-right: spacing.space(-1);
     margin-left: spacing.space(-1);
   }
-
-  &:fullscreen {
-    @include colour.contrast;
-  }
 }
 
 #exhibition-mi5-logo {

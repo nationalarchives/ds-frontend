@@ -208,6 +208,12 @@ sup[data-footnoteid] {
   /* stylelint-enable no-descending-specificity */
 }
 
+.tna-gallery {
+  .tna-template &:fullscreen {
+    @include colour.contrast;
+  }
+}
+
 .tna-gallery__copyright {
   /* stylelint-disable no-descending-specificity */
   p + p {
