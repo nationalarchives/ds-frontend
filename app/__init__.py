@@ -90,66 +90,27 @@ def create_app(config_class):
 
     csp_self = "'self'"
     csp_none = "'none'"
+    default_csp = csp_self
+    csp_rules = {
+        key.replace("_", "-"): value
+        for key, value in app.config.get_namespace(
+            "CSP_", lowercase=True, trim_namespace=True
+        ).items()
+        if not key.startswith("feature_") and value not in [None, [default_csp]]
+    }
     talisman.init_app(
         app,
         content_security_policy={
-            "default-src": csp_self,
+            "default-src": default_csp,
             "base-uri": csp_none,
             "object-src": csp_none,
-            **(
-                {"img-src": app.config.get("CSP_IMG_SRC")}
-                if app.config.get("CSP_IMG_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"script-src": app.config.get("CSP_SCRIPT_SRC")}
-                if app.config.get("CSP_SCRIPT_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"style-src": app.config.get("CSP_STYLE_SRC")}
-                if app.config.get("CSP_STYLE_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"font-src": app.config.get("CSP_FONT_SRC")}
-                if app.config.get("CSP_FONT_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"connect-src": app.config.get("CSP_CONNECT_SRC")}
-                if app.config.get("CSP_CONNECT_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"media-src": app.config.get("CSP_MEDIA_SRC")}
-                if app.config.get("CSP_MEDIA_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"worker-src": app.config.get("CSP_WORKER_SRC")}
-                if app.config.get("CSP_WORKER_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"frame-src": app.config.get("CSP_FRAME_SRC")}
-                if app.config.get("CSP_FRAME_SRC") != csp_self
-                else {}
-            ),
-            **(
-                {"frame-ancestors": app.config.get("CSP_FRAME_ANCESTORS")}
-                if app.config.get("CSP_FRAME_ANCESTORS") != csp_self
-                else {}
-            ),
-        },
+        }
+        | csp_rules,
         feature_policy={
-            "camera": csp_none,
-            "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN") or csp_self,
-            "geolocation": csp_none,
-            "microphone": csp_none,
-            "screen-wake-lock": csp_none,
-            "picture-in-picture": app.config.get("CSP_FEATURE_PICTURE_IN_PICTURE")
-            or csp_self,
+            "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN", csp_self),
+            "picture-in-picture": app.config.get(
+                "CSP_FEATURE_PICTURE_IN_PICTURE", csp_self
+            ),
         },
         force_https=app.config.get("FORCE_HTTPS"),
     )

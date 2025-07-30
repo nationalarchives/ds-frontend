@@ -60,14 +60,14 @@ class Base(object):
     CSP_MEDIA_SRC: list[str] = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
     CSP_WORKER_SRC: list[str] = os.environ.get("CSP_WORKER_SRC", "'self'").split(",")
     CSP_FRAME_SRC: list[str] = os.environ.get("CSP_FRAME_SRC", "'self'").split(",")
+    CSP_FRAME_ANCESTORS: list[str] = os.environ.get(
+        "CSP_FRAME_ANCESTORS", "'self'"
+    ).split(",")
     CSP_FEATURE_FULLSCREEN: list[str] = os.environ.get(
         "CSP_FEATURE_FULLSCREEN", "'self'"
     ).split(",")
     CSP_FEATURE_PICTURE_IN_PICTURE: list[str] = os.environ.get(
         "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
-    ).split(",")
-    CSP_FRAME_ANCESTORS: list[str] = os.environ.get(
-        "CSP_FRAME_ANCESTORS", "'self'"
     ).split(",")
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
