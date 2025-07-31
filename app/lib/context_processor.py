@@ -13,7 +13,7 @@ def now_iso_8601():
     return now_date
 
 
-def now_iso_8601_no_time():
+def now_iso_8601_date():
     now = datetime.now()
     now_date = now.strftime("%Y-%m-%d")
     return now_date
@@ -119,15 +119,6 @@ def is_today_in_date_range(s_from, date_to):
         return False
     today = datetime.now().date()
     return date_from <= today <= date_to
-
-
-def is_date_today_or_future(s):
-    try:
-        date = get_date_from_string(s).date()
-    except AttributeError:
-        return False
-    today = datetime.now().date()
-    return today <= date
 
 
 def display_phase_banner():

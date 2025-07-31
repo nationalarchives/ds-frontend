@@ -2,7 +2,7 @@ import datetime
 import math
 
 from app.lib.pagination import pagination_object
-from app.lib.template_filters import qs_active, qs_toggler
+from app.lib.query import qs_active, qs_toggler
 from app.wagtail.api import (
     blog_authors,
     blog_post_counts,

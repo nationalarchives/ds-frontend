@@ -1,6 +1,6 @@
 {%- from 'macros/wagtail_block.html' import wagtail_block -%}
 
-{% macro wagtail_body(body, initial_next_heading_level, footnotes, picture_itemprop) %}
+{% macro wagtail_streamfield(body, initial_next_heading_level, footnotes, picture_itemprop) %}
   {%- set ns = namespace(next_heading_level=initial_next_heading_level) %}
   {% for body_item in body %}
     {%- if body_item.type == 'content_section' %}

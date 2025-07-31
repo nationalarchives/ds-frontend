@@ -14,7 +14,7 @@
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
-{%- from 'macros/wagtail_body.html' import wagtail_body -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
 {%- set pageTitle = page_data.title -%}
@@ -145,10 +145,10 @@
         {{ page_data.intro | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
-        {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
+        {{ wagtail_streamfield(page_data.body, 2, page_data.footnotes) }}
       </div>
     </div>
-    <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l"{{ '' if is_date_today_or_future(page_data.end_date) else ' hidden' }}>
+    <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
       <div class="tna-aside tna-aside--top-bottom-borders">
         <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
           {% if page_data.open_days %}
@@ -269,7 +269,7 @@
   {% endfor %}
   
   {% if page_data.location %}
-  <section class="tna-section tna-!--padding-top-m tna-!--no-padding-bottom-tiny"{{ '' if is_date_today_or_future(page_data.end_date) else ' hidden' }}>
+  <section class="tna-section tna-!--padding-top-m tna-!--no-padding-bottom-tiny"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>

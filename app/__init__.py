@@ -5,14 +5,19 @@ from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
-    is_date_today_or_future,
     is_today_in_date_range,
     now_iso_8601,
-    now_iso_8601_no_time,
+    now_iso_8601_date,
     now_rfc_822,
     pretty_date_range,
     pretty_datetime_range,
     pretty_price_range,
+)
+from app.lib.query import (
+    qs_active,
+    qs_remove,
+    qs_toggler,
+    qs_update,
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
@@ -20,6 +25,7 @@ from app.lib.template_filters import (
     file_type_icon,
     get_url_domain,
     headings_list,
+    is_today_or_future,
     multiline_address_to_single_line,
     number_to_text,
     parse_json,
@@ -28,14 +34,10 @@ from app.lib.template_filters import (
     pretty_date_with_day_and_time,
     pretty_date_with_time,
     pretty_price,
-    qs_active,
-    qs_remove,
-    qs_toggler,
-    qs_update,
     rfc_822_format,
     seconds_to_iso_8601_duration,
     seconds_to_time,
-    sidebar_items_from_wagtail_body,
+    sidebar_items_from_wagtail_streamfield,
     slugify,
     tna_html,
     unslugify,
@@ -140,6 +142,7 @@ def create_app(config_class):
     app.add_template_filter(file_type_icon)
     app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
+    app.add_template_filter(is_today_or_future)
     app.add_template_filter(number_to_text)
     app.add_template_filter(parse_json)
     app.add_template_filter(pretty_date)
@@ -151,7 +154,7 @@ def create_app(config_class):
     app.add_template_filter(rfc_822_format)
     app.add_template_filter(seconds_to_iso_8601_duration)
     app.add_template_filter(seconds_to_time)
-    app.add_template_filter(sidebar_items_from_wagtail_body)
+    app.add_template_filter(sidebar_items_from_wagtail_streamfield)
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)
     app.add_template_filter(unslugify)
@@ -164,13 +167,12 @@ def create_app(config_class):
             cookie_preference=cookie_preference,
             display_phase_banner=display_phase_banner,
             now_iso_8601=now_iso_8601,
-            now_iso_8601_no_time=now_iso_8601_no_time,
+            now_iso_8601_date=now_iso_8601_date,
             now_rfc_822=now_rfc_822,
             pretty_date_range=pretty_date_range,
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            is_date_today_or_future=is_date_today_or_future,
             qs_active=lambda filter, by: qs_active(request.args.to_dict(), filter, by),
             qs_toggler=lambda filter, by: qs_toggler(
                 request.args.to_dict(), filter, by

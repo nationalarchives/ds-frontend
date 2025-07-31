@@ -1,13 +1,17 @@
 import unittest
+from datetime import datetime, timedelta
 
+from app.lib.query import (
+    qs_active,
+    qs_toggler,
+)
 from app.lib.template_filters import (
     currency,
     get_url_domain,
+    is_today_or_future,
     multiline_address_to_single_line,
     pretty_date,
     pretty_price,
-    qs_active,
-    qs_toggler,
     seconds_to_iso_8601_duration,
     seconds_to_time,
     slugify,
@@ -64,6 +68,21 @@ class ContentParserTestCase(unittest.TestCase):
             pretty_date("2000-01-01T12:30:00Z", show_day=True, show_time=True),
             "Saturday 1 January 2000, 12:30",
         )
+
+    def test_is_today_or_future(self):
+        self.assertTrue(is_today_or_future("2999-01-01"))
+        self.assertFalse(is_today_or_future("2000-01-01"))
+        today = datetime.now().date()
+        self.assertTrue(is_today_or_future(today.isoformat()))
+        tomorrow = today + timedelta(days=1)
+        self.assertTrue(
+            is_today_or_future(f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}")
+        )
+        yesterday = today + timedelta(days=-1)
+        self.assertFalse(
+            is_today_or_future(f"{yesterday.year}-{yesterday.month}-{yesterday.day}")
+        )
+        self.assertFalse(is_today_or_future(None))
 
     def test_currency(self):
         self.assertEqual(currency(0), "0")

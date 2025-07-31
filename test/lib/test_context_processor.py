@@ -1,8 +1,6 @@
 import unittest
-from datetime import datetime, timedelta
 
 from app.lib.context_processor import (
-    is_date_today_or_future,
     is_today_in_date_range,
     pretty_date_range,
     pretty_datetime_range,
@@ -175,20 +173,3 @@ class ContextParserTestCase(unittest.TestCase):
         self.assertFalse(is_today_in_date_range(None, "2023-10-31"))
         self.assertFalse(is_today_in_date_range("2023-10-01", None))
         self.assertFalse(is_today_in_date_range(None, None))
-
-    def test_is_date_today_or_future(self):
-        self.assertTrue(is_date_today_or_future("2999-01-01"))
-        self.assertFalse(is_date_today_or_future("2000-01-01"))
-        today = datetime.now().date()
-        self.assertTrue(is_date_today_or_future(today.isoformat()))
-        tomorrow = today + timedelta(days=1)
-        self.assertTrue(
-            is_date_today_or_future(f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}")
-        )
-        yesterday = today + timedelta(days=-1)
-        self.assertFalse(
-            is_date_today_or_future(
-                f"{yesterday.year}-{yesterday.month}-{yesterday.day}"
-            )
-        )
-        self.assertFalse(is_date_today_or_future(None))

@@ -8,7 +8,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
-{%- from 'macros/wagtail_body.html' import wagtail_body -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.title -%}
@@ -171,7 +171,7 @@
           <hr class="tna-!--margin-top-s">
           <section class="tna-section tna-!--padding-top-m etna-article__section">
             <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
-            {{ wagtail_body(page_data.research_summary, 3, page_data.footnotes) }}
+            {{ wagtail_streamfield(page_data.research_summary, 3, page_data.footnotes) }}
           </section>
           {%- endif %}
           {%- if articles or page_data.archived_blog_url %}

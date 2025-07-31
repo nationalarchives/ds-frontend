@@ -10,7 +10,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
-{%- from 'macros/wagtail_body.html' import wagtail_body -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set pageTitle = page_data.title -%}
 {%- set breadcrumbsStyle = 'accent' -%}
@@ -109,7 +109,7 @@
       }) }}
       {%- endif %}
       <div itemprop="description">
-        {{ wagtail_body(page_data.description, 2) }}
+        {{ wagtail_streamfield(page_data.description, 2) }}
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
@@ -256,7 +256,7 @@
   </div>
 
   {% if page_data.location %}
-  <section class="tna-section tna-background-tint tna-!--no-padding-bottom-tiny" id="location-details"{{ '' if is_date_today_or_future(page_data.end_date) else ' hidden' }}>
+  <section class="tna-section tna-background-tint tna-!--no-padding-bottom-tiny" id="location-details"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l">

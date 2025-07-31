@@ -7,7 +7,7 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
-{%- from 'macros/wagtail_body.html' import wagtail_body -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'blue' -%}
 {%- set pageTitle = page_data.title -%}
@@ -32,7 +32,7 @@
     {%- endif %}
 {% endblock %}
 
-{% set sidebar_items = {'body': page_data.body, 'footnotes': page_data.footnotes} | sidebar_items_from_wagtail_body %}
+{% set sidebar_items = {'body': page_data.body, 'footnotes': page_data.footnotes} | sidebar_items_from_wagtail_streamfield %}
 
 {% block main %}
   {% block beforeContent %}
@@ -202,7 +202,7 @@
     {%- endif %}
     <div id="page-body" class="tna-column tna-column--width-2-3{%- if not showSidebar %} tna-column--width-5-6-medium{%- endif %} tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
     {% block content %}
-      {{ wagtail_body(page_data.body, 2, page_data.footnotes) }}
+      {{ wagtail_streamfield(page_data.body, 2, page_data.footnotes) }}
       {%- if page_data.page_sidebar == 'section_tabs' %}
       <div id="page-section-navigation" class="tna-pagination tna-pagination--spaced tna-!--margin-top-l" hidden>
         <div class="tna-pagination__prev">

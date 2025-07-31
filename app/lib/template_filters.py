@@ -2,7 +2,7 @@ import json
 import math
 import re
 from datetime import datetime
-from urllib.parse import unquote, urlencode, urlparse
+from urllib.parse import unquote, urlparse
 
 from app.lib.datetime import get_date_from_string
 from markupsafe import Markup
@@ -139,6 +139,15 @@ def pretty_price(s):
     return f"£{currency(price)}"
 
 
+def is_today_or_future(s):
+    try:
+        date = get_date_from_string(s).date()
+    except AttributeError:
+        return False
+    today = datetime.now().date()
+    return today <= date
+
+
 def currency(s):
     if not s:
         return "0"
@@ -257,18 +266,21 @@ def headings_list(s):
     return headings
 
 
-def wagtail_streamfield_contains_media(body):
-    for body_item in body:
-        if body_item["type"] == "content_section":
-            for block in body_item["value"]["content"]:
+def wagtail_streamfield_contains_media(streamfield):
+    for streamfield_item in streamfield:
+        if streamfield_item["type"] == "content_section":
+            for block in streamfield_item["value"]["content"]:
                 if block["type"] == "youtube_video" or block["type"] == "media":
                     return True
-        elif body_item["type"] == "youtube_video" or body_item["type"] == "media":
+        elif (
+            streamfield_item["type"] == "youtube_video"
+            or streamfield_item["type"] == "media"
+        ):
             return True
     return False
 
 
-def sidebar_items_from_wagtail_body(content):
+def sidebar_items_from_wagtail_streamfield(content):
     body = content["body"]
     footnotes = content["footnotes"]
     page_sections = []
@@ -387,48 +399,3 @@ def wagtail_table_parser(table_data):
         else:
             data["body"].append(row_data)
     return data
-
-
-def qs_active(existing_qs, filter, by):
-    """Active when identical key/value in existing query string."""
-    qs_set = {(filter, str(by))}
-    # Not active if either are empty.
-    if not existing_qs or not qs_set:
-        return False
-    # See if the intersection of sets is the same.
-    existing_qs_set = set(existing_qs.items())
-    return existing_qs_set.intersection(qs_set) == qs_set
-
-
-def qs_toggler(existing_qs, filter, by):
-    """Resolve filter against an existing query string."""
-    qs = {filter: by}
-    # Don't change the currently rendering existing query string!
-    rtn_qs = existing_qs.copy()
-    # Test for identical key and value in existing query string.
-    if qs_active(existing_qs, filter, by):
-        # Remove so that buttons toggle their own value on and off.
-        rtn_qs.pop(filter)
-    else:
-        # Update or add the query string.
-        rtn_qs.update(qs)
-    return urlencode(rtn_qs)
-
-
-def qs_update(existing_qs, filter, value):
-    rtn_qs = existing_qs.copy()
-    try:
-        rtn_qs.pop(filter)
-    except KeyError:
-        pass
-    rtn_qs.update({filter: value})
-    return urlencode(rtn_qs)
-
-
-def qs_remove(existing_qs, filter):
-    rtn_qs = existing_qs.copy()
-    try:
-        rtn_qs.pop(filter)
-    except KeyError:
-        pass
-    return urlencode(rtn_qs)

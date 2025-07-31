@@ -1,4 +1,4 @@
-from app.lib.template_filters import qs_update
+from app.lib.query import qs_update
 
 
 def pagination_list(current_page, total_pages, boundaries=1, around=1):
