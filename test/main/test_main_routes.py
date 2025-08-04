@@ -37,11 +37,16 @@ class MainBlueprintTestCase(unittest.TestCase):
 
     def test_well_known_invalid_paths(self):
         rv = self.app.get("/.well-known/~/security.txt")
-        self.assertEqual(rv.status_code, 404)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("Contact: ", rv.text)
         rv = self.app.get("/.well-known/~/.bashrc")
         self.assertEqual(rv.status_code, 404)
+        rv = self.app.get("/.well-known/./security.txt")
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("Contact: ", rv.text)
         rv = self.app.get("/.well-known/../security.txt")
-        self.assertEqual(rv.status_code, 404)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("Contact: ", rv.text)
         rv = self.app.get("/.well-known//security.txt")
         self.assertEqual(rv.status_code, 308)
         self.assertEqual(rv.location, "http://localhost/.well-known//security.txt/")
