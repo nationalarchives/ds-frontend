@@ -93,7 +93,7 @@
     </li>
     {%- endif %}
     {% for page in section.selected_page.latest_listings %}
-    <li class="tna-column tna-column--width-1-{{ section.selected_page.latest_listings | length }} tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    <li class="tna-column tna-column--{{ 'width-1-' + ((section.selected_page.latest_listings | length) | string ) if (section.selected_page.latest_listings | length) > 1 else 'width-1-2' }} tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {%- set card_content = {
         'supertitle': page.type_label,
         'title': page.title,
