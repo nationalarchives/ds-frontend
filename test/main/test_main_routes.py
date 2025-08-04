@@ -23,3 +23,25 @@ class MainBlueprintTestCase(unittest.TestCase):
         rv = self.app.get("/healthcheck/live/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn("ok", rv.text)
+
+    def test_well_known_valid_paths(self):
+        rv = self.app.get("/.well-known/security.txt")
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("Contact: ", rv.text)
+        self.assertIn("Preferred-Languages: ", rv.text)
+        self.assertIn("Canonical: ", rv.text)
+        self.assertIn("Policy: ", rv.text)
+        self.assertIn("Expires: ", rv.text)
+        rv = self.app.get("/.well-known/./security.txt")
+        self.assertEqual(rv.status_code, 200)
+
+    def test_well_known_invalid_paths(self):
+        rv = self.app.get("/.well-known/~/security.txt")
+        self.assertEqual(rv.status_code, 404)
+        rv = self.app.get("/.well-known/~/.bashrc")
+        self.assertEqual(rv.status_code, 404)
+        rv = self.app.get("/.well-known/../security.txt")
+        self.assertEqual(rv.status_code, 404)
+        rv = self.app.get("/.well-known//security.txt")
+        self.assertEqual(rv.status_code, 308)
+        self.assertEqual(rv.location, "http://localhost/.well-known//security.txt/")
