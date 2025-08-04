@@ -24,8 +24,6 @@
   & &__details-summary {
     top: spacing.space(1.5);
     right: spacing.space(1.5);
-
-    @include colour.contrast;
   }
 
   &__information {
