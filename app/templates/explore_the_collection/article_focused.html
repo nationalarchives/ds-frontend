@@ -12,7 +12,7 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'pink' -%}
 {%- set bodyClasses = 'tna-template__body--focused-article' -%}
-{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
 {%- set og_type = 'article' -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
@@ -40,7 +40,7 @@
   <meta itemprop="dateModified" content="{{ page_data.meta.last_published_at }}">
   {%- if page_data.hero_image and page_data.hero_image_small %}
   {%- if page_data.global_alert or page_data.mourning_notice %}
-  <div class="tna-background-accent">
+  <div class="tna-background-accent-light">
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
   </div>
   {%- endif %}
@@ -91,9 +91,9 @@
     </div>
   </div>
   {%- else %}
-  <div class="tna-background-accent">
+  <div class="tna-background-accent-light">
     {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-    <header class="tna-section tna-!--padding-bottom-xl">
+    <header class="tna-section tna-!--padding-bottom-xl-">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3{{ ' tna-column--width-5-6-medium' if not page_data.authors | length }} tna-column--full-small tna-column--full-tiny">
           <hgroup class="tna-hgroup-xl">

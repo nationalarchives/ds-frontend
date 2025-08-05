@@ -5,7 +5,7 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% macro simplePageWithSidebar(aToZSidebar, noPadding, sidebarTitle, sidebarHeadingSize) %}
 <div class="tna-container tna-section tna-!--no-padding-top">
@@ -34,7 +34,7 @@
     {{ super() }}
   {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
-    <div class="tna-background-accent">
+    <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
       <div class="tna-container tna-section tna-!--padding-bottom-xl">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
