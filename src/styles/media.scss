@@ -331,9 +331,7 @@ $videojs-track-height: 0.5em;
 
         top: calc(50% - 0.75rem);
 
-        /* stylelint-disable font-family-no-missing-generic-family-keyword */
-        font-family: "Font Awesome 6 Free";
-        /* stylelint-enable font-family-no-missing-generic-family-keyword */
+        font-family: "Font Awesome 7 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
         line-height: 1.5rem;
 
         border: none;
