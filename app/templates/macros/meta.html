@@ -17,6 +17,10 @@
     <meta name="tna_root:page_type" content="{{ page_data.meta.type }}">
 {%- endif %}
 
+{% if page_data.type_label %}
+    <meta name="tna_root:content_type" content="{{ page_data.type_label }}">
+{%- endif %}
+
 {% if page_data.tags and page_data.tags | length %}
     <meta name="tna_root:taxonomy_term" content="{{ page_data.tags | join('; ') }}">
 {%- endif %}
