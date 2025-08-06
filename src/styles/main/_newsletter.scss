@@ -19,6 +19,7 @@
   i#{&}__icon {
     @include colour.accent;
 
+    width: auto;
     padding: spacing.space(2);
 
     display: flex;
