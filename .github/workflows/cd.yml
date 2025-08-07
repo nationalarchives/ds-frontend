@@ -45,7 +45,7 @@ jobs:
       - name: Build Docker image
         uses: nationalarchives/ds-docker-actions/.github/actions/docker-build@main
         with:
-          version: ${{ steps.version-tag.outputs.version }}
+          version: ${{ steps.version-tag.outputs.version-tag }}
           latest: ${{ github.ref == 'refs/heads/main' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           docker-image-name: ${{ vars.DOCKER_IMAGE_NAME }}
@@ -60,7 +60,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/v${{ steps.version-tag.outputs.version }}',
+              ref: 'refs/tags/v${{ steps.version-tag.outputs.version-tag }}',
               sha: context.sha
             })
     outputs:
