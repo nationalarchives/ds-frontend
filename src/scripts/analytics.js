@@ -92,6 +92,28 @@ if (ga4Id) {
     return "link";
   };
 
+  const linkTypeFromElement = ($el) => {
+    if ($el.classList.contains("tna-card__heading-link")) {
+      const $card = $el.closest(".tna-card");
+      if ($card.querySelector(".tna-card__image-container")) {
+        return "card";
+      }
+      return "card_no_image";
+    } else if ($el.classList.contains("tna-card__action")) {
+      return "card_action";
+    } else if ($el.classList.contains("tna-button")) {
+      return "button";
+    } else if (
+      $el.parentNode.classList.contains("tna-heading-xl") ||
+      $el.parentNode.classList.contains("tna-heading-l") ||
+      $el.parentNode.classList.contains("tna-heading-m") ||
+      $el.parentNode.classList.contains("tna-heading-s")
+    ) {
+      return "title_link";
+    }
+    return "link";
+  };
+
   analytics.addListeners("[data-tna-analytics-section]", "html-attr-scope", [
     {
       eventName: "click",
@@ -103,7 +125,7 @@ if (ga4Id) {
         data_component_name: componentFromElement,
         data_section: ($el, $scope) =>
           $scope.dataset["tnaAnalyticsSection"] || null,
-        data_link_type: componentFromElement,
+        data_link_type: linkTypeFromElement,
         data_link: helpers.valueGetters.text,
         data_label: ($el) => $el.dataset["tnaAnalyticsLabel"] || null,
         data_position: ($el, $scope, event, index) => index,
@@ -119,7 +141,7 @@ if (ga4Id) {
         data_component_name: componentFromElement,
         data_section: ($el, $scope) =>
           $scope.dataset["tnaAnalyticsSection"] || null,
-        data_link_type: componentFromElement,
+        data_link_type: linkTypeFromElement,
         data_link: helpers.valueGetters.text,
         data_label: ($el) => $el.dataset["tnaAnalyticsLabel"] || null,
         data_position: ($el, $scope, event, index, instance) => instance,
