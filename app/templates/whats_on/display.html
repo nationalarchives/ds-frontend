@@ -192,6 +192,7 @@
             {{ page_data.location.full_address | safe }}
             {%- if page_data.location.postcode %}
               <div itemprop="location" itemscope itemtype="https://schema.org/Place">
+                <meta itemprop="name" content="{{ page_data.location.space_name }}">
                 <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                   {%- if page_data.location.address_line_1 %}
                   <meta itemprop="streetAddress" content="{{ page_data.location.address_line_1 }}">
