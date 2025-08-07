@@ -22,11 +22,14 @@
       <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
     </div>
     <div class="tna-column tna-column--full tna-!--margin-top-m">
-      <div class="tna-button-group">
+      <div class="tna-button-group" data-tna-analytics-section="{{ pageTitle }}">
         {%- for child in groups.dates['items'] %}
         {{ tnaButton({
           'text': child.title,
-          'href': child.url
+          'href': child.url,
+          'attributes': {
+            'data-tna-analytics-event': 'select_feature'
+          }
         }) }}
         {%- endfor %}
       </div>
@@ -36,11 +39,11 @@
 
 {%- for section in page_data.whats_on_page_selections %}
 {%- set alternative_block = loop.index % 2 == 0 %}
-<div class="tna-section{{ ' tna-background-contrast' if alternative_block else '' }}">
+<div class="tna-section{{ ' tna-background-contrast' if alternative_block else '' }}" data-tna-analytics-section="{{ section.selected_page.title }}">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
-        <a href="{{ section.selected_page.url }}">{{ section.selected_page.title }}</a>
+        <a href="{{ section.selected_page.url }}" data-tna-analytics-event="select_cta">{{ section.selected_page.title }}</a>
       </h2>
       <p>{{ section.selected_page.teaser_text }}</p>
     </div>
@@ -71,6 +74,10 @@
         'horizontal': True,
         'style': 'accent',
         'fullAreaClick': True,
+        'hrefAttributes': {
+          'data-tna-analytics-event': 'select_feature',
+          'data-tna-analytics-label': section.selected_page.featured_page.type_label
+        },
         'classes': 'tna-!--margin-top-m'
       } %}
       {%- if section.selected_page.featured_page.teaser_image %}
@@ -116,6 +123,10 @@
         'text': page.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
+        'hrefAttributes': {
+          'data-tna-analytics-event': 'select_feature',
+          'data-tna-analytics-label': page.type_label
+        },
         'classes': 'tna-card--full-height'
       } %}
       {%- if page.teaser_image %}
@@ -149,7 +160,7 @@
       <h2 class="tna-heading-l">{{ groups[group].title }}</h2>
     </div>
   </div>
-  <ul class="tna-container">
+  <ul class="tna-container" data-tna-analytics-section="{{ groups[group].title }}">
     {%- for page in groups[group]['items'] %}
     <li class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {%- set card_content = {
@@ -161,6 +172,10 @@
         'text': page.teaser_text,
         'style': 'contrast',
         'fullAreaClick': True,
+        'hrefAttributes': {
+          'data-tna-analytics-event': 'select_feature',
+          'data-tna-analytics-label': (groups[group].card_supertitle + ': ' if groups[group].card_supertitle else '') + page.title
+        },
         'classes': 'tna-card--full-height tna-card--small-body'
       } %}
       {%- if page.teaser_image_ %}
