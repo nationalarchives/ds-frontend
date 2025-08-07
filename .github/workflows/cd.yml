@@ -37,8 +37,6 @@ jobs:
     permissions:
       packages: write
       contents: write
-    env:
-      DISABLE_WIZ: true
     steps:
       - uses: actions/checkout@v4
       - name: Generate version tag
