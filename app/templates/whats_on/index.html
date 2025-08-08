@@ -174,7 +174,7 @@
         'fullAreaClick': True,
         'hrefAttributes': {
           'data-tna-analytics-event': 'select_feature',
-          'data-tna-analytics-label': (groups[group].card_supertitle + ': ' if groups[group].card_supertitle else '') + page.title
+          'data-tna-analytics-label': groups[group].card_supertitle or null
         },
         'classes': 'tna-card--full-height tna-card--small-body'
       } %}
