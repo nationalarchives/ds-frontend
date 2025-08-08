@@ -74,11 +74,7 @@ if (ga4Id) {
 
   const componentFromElement = ($el) => {
     if ($el.classList.contains("tna-card__heading-link")) {
-      const $card = $el.closest(".tna-card");
-      if ($card.querySelector(".tna-card__image-container")) {
-        return "card";
-      }
-      return "card_no_image";
+      return "card";
     } else if ($el.classList.contains("tna-button")) {
       return "button";
     } else if (
