@@ -55,6 +55,21 @@ $background-brand-colour: "yellow";
   }
 }
 
+.tna-hero {
+  .tna-column & {
+    @include borders.rounded-border;
+
+    overflow: hidden;
+
+    &__figure {
+      @include media.on-larger-than-mobile {
+        padding-top: spacing.space(9);
+        padding-bottom: spacing.space(2);
+      }
+    }
+  }
+}
+
 .tna-footer {
   margin-top: 0 !important;
 }
