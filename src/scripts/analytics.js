@@ -124,7 +124,7 @@ if (ga4Id) {
         data_link_type: linkTypeFromElement,
         data_link: helpers.valueGetters.text,
         data_label: ($el) => $el.dataset["tnaAnalyticsLabel"] || null,
-        data_position: ($el, $scope, event, index) => index,
+        data_position: helpers.valueGetters.index,
       },
     },
     {
@@ -140,7 +140,22 @@ if (ga4Id) {
         data_link_type: linkTypeFromElement,
         data_link: helpers.valueGetters.text,
         data_label: ($el) => $el.dataset["tnaAnalyticsLabel"] || null,
-        data_position: ($el, $scope, event, index, instance) => instance,
+        data_position: helpers.valueGetters.instance,
+      },
+    },
+    {
+      eventName: "click",
+      targetElement: "[data-tna-analytics-event='select_promotion']",
+      on: "click",
+      data: {},
+      rootEventName: "select_promotion",
+      rootData: {
+        creative_name: ($el) => $el.dataset["tnaAnalyticsCreativeName"] || null,
+        promotion_id: () =>
+          document
+            .querySelector("meta[name='tna.page.title']")
+            ?.getAttribute("content") || null,
+        creative_slot: helpers.valueGetters.instance,
       },
     },
   ]);

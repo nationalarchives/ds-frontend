@@ -244,12 +244,14 @@
     </div>
     {%- endfor %}
     {%- endif %}
-    <div class="tna-column tna-column--full tna-!--margin-top-l">
+    <div class="tna-column tna-column--full tna-!--margin-top-l" data-tna-analytics-section>
       <div class="tna-newsletter">
         <div class="tna-newsletter_inner">
           <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
           <div class="tna-newsletter__body">
-            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe">Get priority booking</a></h3>
+            <h3 class="tna-heading-m">
+              <a href="https://pages.enews.nationalarchives.gov.uk/pages/subscribe" data-tna-analytics-event="select_promotion" data-tna-analytics-creative-name="email_subscription">Get priority booking</a>
+            </h3>
             <p>Subscribe to our weekly newsletter for exhibition updates and early booking for events, including talks and tours.</p>
           </div>
         </div>
@@ -348,7 +350,7 @@
   {% endfor %}
 
   {% if page_data.speakers %}
-  <div class="tna-container tna-section tna-!--no-padding-top">
+  <div class="tna-container tna-section tna-!--no-padding-top" data-tna-analytics-section="Speakers">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <div class="etna-author-list etna-author-list--horizontal- tna-column tna-!--margin-top-l">
         <h2 class="etna-author-list__heading tna-heading-l tna-!--padding-bottom-m">Speakers</h2>
@@ -364,7 +366,7 @@
               <p class="etna-author-list__name">
                 <strong>
                   {%- if speaker.url %}
-                  <a href="{{ speaker.url }}" rel="author">
+                  <a href="{{ speaker.url }}" rel="author" data-tna-analytics-event="select_feature">
                     <span itemprop="name">{{ speaker.name or speaker.title }}</span>
                   </a>
                   <link itemprop="url" href="{{ speaker.url }}">
@@ -385,7 +387,7 @@
   {% endif %}
 
   {% if page_data.series %}
-  <div class="tna-section tna-!--padding-top-s">
+  <div class="tna-section tna-!--padding-top-s" data-tna-analytics-section="Series">
     <div class="tna-container">
       {% for series in page_data.series %}
       <div class="tna-column tna-column--full tna-!--padding-top-m" id="series-{{ series.title | slugify }}">
@@ -399,7 +401,11 @@
           'text': series.teaser_text,
           'style': 'accent',
           'fullAreaClick': True,
-          'horizontal': True
+          'horizontal': True,
+          'hrefAttributes': {
+            'data-tna-analytics-event': 'select_feature',
+            'data-tna-analytics-label': 'Series'
+          }
         } %}
         {%- if series.teaser_image %}
           {% set card_content = dict(card_content, **{
