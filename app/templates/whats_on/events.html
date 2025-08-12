@@ -36,7 +36,7 @@
 </div>
 
 {%- if page_data.featured_page %}
-<div class="tna-section">
+<div class="tna-section" data-tna-analytics-section="Featured">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       {% set featured_card_content = {
@@ -66,6 +66,10 @@
         'horizontal': True,
         'fullAreaClick': True,
         'style': 'accent',
+        'hrefAttributes': {
+          'data-tna-analytics-event': 'select_feature',
+          'data-tna-analytics-label': 'Featured ' + page_data.featured_page.type_label
+        },
         'classes': 'tna-card--full-height'
       } %}
       {%- if page_data.featured_page.teaser_image %}
@@ -101,7 +105,7 @@
     {%- endif %}
   </div>
 </div>
-<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl">
+<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl" data-tna-analytics-section="Events">
   {% for event in events %}
   <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
     {% set event_card_content = {
@@ -130,6 +134,10 @@
       'text': event.teaser_text,
       'fullAreaClick': True,
       'style': 'plain',
+      'hrefAttributes': {
+        'data-tna-analytics-event': 'select_feature',
+        'data-tna-analytics-label': event.type_label
+      },
       'classes': 'tna-card--full-height'
     } %}
     {%- if event.teaser_image %}
@@ -165,7 +173,7 @@
     {%- endif %}
   </div>
 </div>
-<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl">
+<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl" data-tna-analytics-section="Exhibitions and displays">
   {% for exhibition in exhibitions %}
   <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
     {% set exhibition_card_content = {
@@ -194,6 +202,10 @@
       'text': exhibition.teaser_text,
       'fullAreaClick': True,
       'style': 'plain',
+      'hrefAttributes': {
+        'data-tna-analytics-event': 'select_feature',
+        'data-tna-analytics-label': exhibition.type_label
+      },
       'classes': 'tna-card--full-height'
     } %}
     {%- if exhibition.teaser_image %}
