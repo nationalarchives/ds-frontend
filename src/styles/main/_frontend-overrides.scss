@@ -199,6 +199,10 @@ sup[data-footnoteid] {
   }
 }
 
+.tna-picture__caption {
+  @include typography.detail-font;
+}
+
 .tna-picture__caption,
 .tna-hero__information {
   /* stylelint-disable no-descending-specificity */
