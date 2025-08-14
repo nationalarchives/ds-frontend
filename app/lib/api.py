@@ -11,9 +11,6 @@ class ResourceForbidden(Exception):
 
 
 class JSONAPIClient:
-    api_url = ""
-    params = {}
-
     def __init__(self, api_url, params={}):
         self.api_url = api_url
         self.params = params
