@@ -92,11 +92,16 @@ class Base(object):
 
     SHOW_PHASE_BANNER_ON_URIS: list[str] = [
         "/about/",
+        "/annual-report-and-accounts-2024-25/",
         "/blogs/",
+        "/cookies/",
         "/explore-the-collection/",
         "/help/",
+        "/image/",
+        "/mi5-official-secrets/",
         "/people/",
         "/whats-on/",
+        "/video/",
     ]
 
 
