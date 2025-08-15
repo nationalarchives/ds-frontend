@@ -4,7 +4,7 @@ import os
 from app.lib.util import strtobool
 
 
-class Features(object):
+class Features:
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
     FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
         os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "False")
@@ -13,7 +13,7 @@ class Features(object):
     FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
 
 
-class Base(object):
+class Production(Features):
     ENVIRONMENT_NAME: str = os.environ.get("ENVIRONMENT_NAME", "production")
 
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
@@ -106,17 +106,13 @@ class Base(object):
     ]
 
 
-class Production(Base, Features):
-    pass
-
-
-class Staging(Base, Features):
+class Staging(Production):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
 
 
-class Develop(Base, Features):
+class Develop(Production):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
@@ -126,7 +122,7 @@ class Develop(Base, Features):
     )
 
 
-class Test(Base, Features):
+class Test(Production):
     ENVIRONMENT_NAME = "test"
 
     DEBUG = True
