@@ -17,9 +17,11 @@
               {{ block_value.title }}
             </h{{ itemHeadingLevel }}>
           </hgroup>
+          {%- if block_value.media.description %}
           <div itemprop="description" class="tna-!--margin-top-s">
             {{ block_value.media.description | tna_html | safe }}
           </div>
+          {%- endif %}
         </div>
       </div>
       <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
