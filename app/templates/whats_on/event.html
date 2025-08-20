@@ -235,7 +235,7 @@
       {%- endfor %}
       {% set ns.card_body = ns.card_body + '</ul>' %}
       {{ tnaCard({
-        'title': session_date.date | pretty_date,
+        'title': (session_date.date | pretty_date) + ('' if (session_date.date | is_today_or_future) else ' (past event)'),
         'body': ns.card_body | safe,
         'headingLevel': 3,
         'headingSize': 's',
