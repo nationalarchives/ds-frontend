@@ -7,7 +7,7 @@ from app.lib.util import strtobool
 class Features:
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
     FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
-        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "False")
+        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "True")
     )
     FEATURE_LOGO_ADORNMENTS_CSS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_CSS", "")
     FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
@@ -116,10 +116,6 @@ class Develop(Production):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
 
     CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
-
-    FEATURE_NEW_ETC_HOMEPAGE: bool = strtobool(
-        os.getenv("FEATURE_NEW_ETC_HOMEPAGE", "True")
-    )
 
 
 class Test(Production):
