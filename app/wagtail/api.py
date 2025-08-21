@@ -1,7 +1,7 @@
 from urllib.parse import unquote
 
 from app.lib.api import JSONAPIClient
-from flask import current_app, request
+from flask import current_app
 from pydash import objects
 
 
@@ -12,9 +12,8 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("WAGTAIL_API_URL not set")
     client = JSONAPIClient(api_url)
     client.add_parameter("format", "json")
-    # if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
-    #     client.add_parameter("site", site_hostname)
-    client.add_parameter("site", request.host)
+    if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
+        client.add_parameter("site", site_hostname)
     client.add_parameters(params)
     data = client.get(uri)
     return data
