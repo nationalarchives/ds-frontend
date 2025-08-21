@@ -61,7 +61,7 @@
 
 {%- for item in page_data.body %}
 {%- if item.type == 'large_card_links' %}
-  <div class="tna-section tna-!--padding-top-s tna-background-contrast">
+  <div class="tna-section tna-!--padding-top-s">
     <ul class="tna-container tna-container--align-centre">
       {%- for page in ['page_1', 'page_2'] %}
       <li class="tna-column tna-column--width-5-12 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
@@ -85,6 +85,7 @@
             }
           ],
           'fullAreaClick': True,
+          'style': 'plain',
           'classes': 'tna-card--full-height'
         }) }}
       </li>
