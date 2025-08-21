@@ -1,7 +1,7 @@
 import math
 from datetime import datetime
 
-# from app.lib.cache import cache, path_cache_key_prefix
+from app.lib.cache import cache, path_cache_key_prefix
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
 from flask import (
@@ -15,14 +15,8 @@ from flask import (
 
 
 @bp.route("/sitemap.xml")
-# @cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
+@cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_index():
-    current_app.logger.info("=== Generating sitemap index ===")
-    current_app.logger.info(f"HOST HEADER: {request.headers.get('Host')}")
-    current_app.logger.info(f"ALL HEADERS: {request.headers}")
-    current_app.logger.info(f"HOST:        {request.host}")
-    current_app.logger.info(f"URL:         {request.url}")
-    current_app.logger.info(f"FULL PATH:   {request.url}")
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
@@ -55,7 +49,7 @@ def sitemaps():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-# @cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
+@cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_dynamic(sitemap_page):
     current_app.logger.info("=== Generating sitemap index ===")
     current_app.logger.info(f"HOST HEADER: {request.headers.get('Host')}")
