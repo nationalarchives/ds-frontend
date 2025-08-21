@@ -157,8 +157,9 @@ def page(path):
     """
 
     try:
-        # Get the page details from Wagtail by the requested URI
-        page_data = page_details_by_uri(unquote(f"/{path}/"))
+        if path != "/":
+            path = f"/{path}/"
+        page_data = page_details_by_uri(unquote(path))
     except ResourceNotFound:
         # If no page is found, try to match the requested path with any of the external
         # redirects added in Wagtail
