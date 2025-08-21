@@ -299,7 +299,7 @@
                     <strong>
                       <meta itemprop="url" content="{{ author.author.full_url }}">
                       <meta itemprop="jobTitle" content="{{ author.author.role }}">
-                      <a href="{{ url_for('wagtail.page', path=author.author.url.strip('/'), page=1) }}" rel="author">
+                      <a href="{{ author.author.url }}?page=1" rel="author">
                         <span class="tna-visually-hidden">View all articles by</span>
                         <span itemprop="name">{{ author.author.title }}</span>
                       </a>
