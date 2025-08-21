@@ -21,14 +21,10 @@
 {%- set hero_intro %}
   <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.intro | safe }}</div>
 {%- endset %}
-
-{%- set hero_image_caption %}
-  {{ page_data.hero_image_caption | safe }}
-  {%- if page_data.hero_image.copyright %}
-    <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
-  {%- endif %}
-{%- endset %}
-
+{% set hero_image_caption = page_data.hero_image_caption or '' %}
+{%- if page_data.hero_image.copyright %}
+  {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
+{%- endif %}
 {{ tnaHero({
   'supertitle': page_data.type_label,
   'title': page_data.title,
