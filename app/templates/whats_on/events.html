@@ -12,16 +12,6 @@
 {{- meta(page_data) }}
 {% endblock %}
 
-{% block skipLink %}
-{%- if events | length %}
-{{ tnaSkipLink({
-  'href': 'events-list',
-  'text': 'Skip to list of events'
-}) }}
-{%- endif %}
-{{ super() }}
-{% endblock %}
-
 {% block content %}
 <div class="tna-section tna-!--padding-bottom-m">
   <div class="tna-container">
@@ -96,7 +86,7 @@
 {%- endif %}
 
 {%- if events | length %}
-<div class="tna-container tna-!--padding-top-s" id="events-list">
+<div class="tna-container tna-!--padding-top-s">
   <div class="tna-column tna-column--full">
     {%- if exhibitions | length %}
     <h2 class="tna-heading-l">Events</h2>
