@@ -207,10 +207,17 @@ def page(path):
         rediect_url = objects.get(page_data, "meta.url")
         return redirect(rediect_url, code=302)
 
+    # Do not cache certain page types
+    page_types_to_not_cache = ["cookies.CookiesPage"]
+    if objects.get(page_data, "meta.type", None) in page_types_to_not_cache:
+        timeout = 1
+    else:
+        timeout = current_app.config.get("CACHE_DEFAULT_TIMEOUT")
+
     # Render the page
     return CachedResponse(
         response=make_response(render_content_page(page_data)),
-        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
+        timeout=timeout,
     )
 
 
