@@ -94,11 +94,8 @@ def preview_protected_page(page_id):
         return render_content_page(page_data)
 
     # If the page is no longer password protected, redirect to the main page URL
-    if path := objects.get(page_data, "meta.url"):
-        return redirect(
-            url_for("wagtail.page", path=path.strip("/")),
-            code=302,
-        )
+    if url := objects.get(page_data, "meta.url"):
+        return redirect(url, code=302)
 
     return render_template("errors/api.html"), 502
 
@@ -121,16 +118,9 @@ def page_permalink(page_id):
         current_app.logger.error(f"Failed to get page details: {e}")
         return render_template("errors/api.html"), 502
 
-    if path := objects.get(page_data, "meta.url"):
+    if url := objects.get(page_data, "meta.url"):
         # If the page has a URL, redirect to it
-        return redirect(
-            url_for(
-                "wagtail.page",
-                path=path.strip("/"),
-                **request.args.to_dict(),
-            ),
-            code=302,
-        )
+        return redirect(url, code=302)
 
     # If the page does not have a URL, log an error and return a 502 error page
     current_app.logger.error(f"Cannot generate permalink for page: {page_id}")
@@ -204,23 +194,17 @@ def page(path):
 
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
-    if rediect_path := objects.get(page_data, "meta.alias_of.url"):
+    if rediect_url := objects.get(page_data, "meta.alias_of.url"):
         if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
-            return redirect(
-                url_for("wagtail.page", path=rediect_path.strip("/")),
-                code=302,
-            )
+            return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it
     # which covers internal redirects added in Wagtail
     if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
         urlparse(objects.get(page_data, "meta.url")).path != urlparse(f"/{path}/").path
     ):
-        rediect_path = objects.get(page_data, "meta.url").strip("/")
-        return redirect(
-            url_for("wagtail.page", path=rediect_path),
-            code=302,
-        )
+        rediect_url = objects.get(page_data, "meta.url")
+        return redirect(rediect_url, code=302)
 
     # Render the page
     return CachedResponse(
