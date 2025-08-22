@@ -57,6 +57,7 @@ def preview_protected_page(page_id):
     """
     Renders a preview of a Wagtail page that is password protected.
     """
+
     try:
         # Get the page details from Wagtail by its and include the provided password
         password = objects.get(request.form, "password", "")
@@ -118,8 +119,8 @@ def page_permalink(page_id):
         current_app.logger.error(f"Failed to get page details: {e}")
         return render_template("errors/api.html"), 502
 
+    # If the page has a URL, redirect to it
     if url := objects.get(page_data, "meta.url"):
-        # If the page has a URL, redirect to it
         return redirect(url, code=302)
 
     # If the page does not have a URL, log an error and return a 502 error page
