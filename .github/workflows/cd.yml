@@ -86,7 +86,7 @@ jobs:
       - name: Install jq
         run: sudo apt-get install jq
       - name: Update config
-        run: jq --indent 4 '(.services.frontend.version|="${{ needs.build.outputs.version }}")' config/develop.json > tmp.$$.json && mv tmp.$$.json config/develop.json
+        run: jq --indent 4 '(.services.frontend.version|="${{ needs.build.outputs.version }}") | (.services.wagtaildocs.version|="${{ needs.build.outputs.version }}")' config/develop.json > tmp.$$.json && mv tmp.$$.json config/develop.json
       - name: Push new version
         run: |
           git add config/develop.json
