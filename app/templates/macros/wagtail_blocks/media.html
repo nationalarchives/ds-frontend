@@ -55,6 +55,7 @@
       {% endif %}
     </div>
     {%- endif %}
+
     {%- if block_value.media.chapters %}
     <div class="tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
@@ -87,6 +88,19 @@
       }) }}
     </div>
     {%- endif %}
+
+    {%- if block_value.media.alternate_version_link %}
+    {%- set alt_version_text = 'alternative version of "' + block_value.title + '"' %}
+    {%- if block_value.media.alternate_version_type == 'Audio Described' %}
+      {%- set alt_version_text = 'audio described version of "' + block_value.title + '"' %}
+    {%- elif block_value.media.alternate_version_type == 'Subtitled' %}
+      {%- set alt_version_text = 'subtitled version of "' + block_value.title + '"' %}
+    {%- endif %}
+    <p class="tna-!--margin-top-xs">
+      <small>See the <a href="{{ block_value.media.alternate_version_link }}">{{ alt_version_text }}</a>.</small>
+    </p>
+    {%- endif %}
+
     <meta itemprop="contentUrl" content="{{ block_value.media.file }}">
     <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=block_value.media.uuid, _external=True, _scheme='https') }}">
     <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">

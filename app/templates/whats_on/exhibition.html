@@ -436,6 +436,19 @@
             {% endif %}
             <p>Your browser doesn't support HTML5 video. <a href="{{ video.value.media.url }}">Download the video file</a>.</p>
           </video>
+
+          {%- if video.value.media.alternate_version_link %}
+          {%- set alt_version_text = 'alternative version of "' + page_data.video_title + '"' %}
+          {%- if video.value.media.alternate_version_type == 'Audio Described' %}
+            {%- set alt_version_text = 'audio described version of "' + page_data.video_title + '"' %}
+          {%- elif video.value.media.alternate_version_type == 'Subtitled' %}
+            {%- set alt_version_text = 'subtitled version of "' + page_data.video_title + '"' %}
+          {%- endif %}
+          <p class="tna-!--margin-top-xs">
+            <small>See the <a href="{{ video.value.media.alternate_version_link }}">{{ alt_version_text }}</a>.</small>
+          </p>
+          {%- endif %}
+
           <meta itemprop="name" content="{{ video.value.title }}">
           <meta itemprop="contentUrl" content="{{ video.value.media.file }}">
           <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=video.value.media.uuid, _external=True, _scheme='https') }}">
