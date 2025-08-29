@@ -133,13 +133,13 @@
       <div class="tna-column tna-column--full">
         {% set ns = namespace(sidebar_items=[]) %}
         {% set ns.sidebar_items = [{
-          'text': page_data.intro_title or ('About ' + page_data.title),
-          'href': '#' + ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
+          'text': page_data.intro_title or ('About ' ~ page_data.title),
+          'href': '#' ~ ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
         }] %}
         {% if page_data.exhibition_highlights or page_data.video %}
           {% set ns.sidebar_items = ns.sidebar_items + [{
             'text': page_data.exhibition_highlights_title or 'Exhibition highlights',
-            'href': '#' + ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
+            'href': '#' ~ ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
           }] %}
         {% endif %}
         {% if page_data.location and (page_data.end_date | is_today_or_future) %}
@@ -151,19 +151,19 @@
         {% if page_data.event_links %}
           {% set ns.sidebar_items = ns.sidebar_items + [{
             'text': page_data.event_title or 'Events',
-            'href': '#' + ((page_data.event_title | slugify) if page_data.event_title else 'events')
+            'href': '#' ~ ((page_data.event_title | slugify) if page_data.event_title else 'events')
           }] %}
         {% endif %}
         {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
           {% set ns.sidebar_items = ns.sidebar_items + [{
             'text': page_data.related_pages_title,
-            'href': '#' + (page_data.related_pages_title | slugify)
+            'href': '#' ~ (page_data.related_pages_title | slugify)
           }] %}
         {% endif %}
         {% if page_data.shop %}
           {% set ns.sidebar_items = ns.sidebar_items + [{
             'text': page_data.shop[0].value.title,
-            'href': '#' + (page_data.shop[0].value.title | slugify)
+            'href': '#' ~ (page_data.shop[0].value.title | slugify)
           }] %}
         {% endif %}
         {{ tnaSidebar({
@@ -178,7 +178,7 @@
   </section>
   <div class="tna-container tna-!--margin-bottom-l">
     <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
-      <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' + page_data.title) }}</h2>
+      <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' ~ page_data.title) }}</h2>
       <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top" itemprop="about">
         {{ page_data.intro | safe }}
       </div>
@@ -410,7 +410,7 @@
           'headingLevel': 3,
           'body': exhibition_highlights.value.description | tna_html | safe,
           'items': gallery_images,
-          'id': 'gallery-' + exhibition_highlights.id
+          'id': 'gallery-' ~ exhibition_highlights.id
         }) }}
       </div>
     </div>
@@ -438,11 +438,11 @@
           </video>
 
           {%- if video.value.media.alternate_version_link %}
-          {%- set alt_version_text = 'alternative version of "' + page_data.video_title + '"' %}
+          {%- set alt_version_text = 'alternative version of "' ~ page_data.video_title ~ '"' %}
           {%- if video.value.media.alternate_version_type == 'Audio Described' %}
-            {%- set alt_version_text = 'audio described version of "' + page_data.video_title + '"' %}
+            {%- set alt_version_text = 'audio described version of "' ~ page_data.video_title ~ '"' %}
           {%- elif video.value.media.alternate_version_type == 'Subtitled' %}
-            {%- set alt_version_text = 'subtitled version of "' + page_data.video_title + '"' %}
+            {%- set alt_version_text = 'subtitled version of "' ~ page_data.video_title ~ '"' %}
           {%- endif %}
           <p class="tna-!--margin-top-xs">
             <small>See the <a href="{{ video.value.media.alternate_version_link }}">{{ alt_version_text }}</a>.</small>

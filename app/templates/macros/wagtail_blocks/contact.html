@@ -22,7 +22,7 @@
         Telephone
       </dt>
       <dd>
-        <a href="tel:{{ block_value.telephone }}">{{ block_value.telephone }}</a>
+        <a href="tel:{{ block_value.telephone | replace(' ', '') }}">{{ block_value.telephone | replace(' ', '&nbsp;') }}</a>
       </dd>
       {%- endif %}
       {%- if block_value.chat_link %}

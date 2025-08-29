@@ -4,7 +4,7 @@
   {% set files = [] %}
   {%- for document in block_value.documents %}
     {% set files = files.append({
-      'id': 'doc-' + block_id + '-' + (document.file.id | string) + '-' + (loop.index | string),
+      'id': 'doc-' ~ block_id ~ '-' ~ (document.file.id | string) ~ '-' ~ (loop.index | string),
       'text': document.file.title,
       'href': document.file.url,
       'fileType': document.file.type | upper,

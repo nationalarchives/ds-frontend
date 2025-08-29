@@ -71,7 +71,7 @@
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
           <div class="tna-button-group">
             {{ tnaButton({
-              'text': 'Back to ' + page_data.first_name + '’s profile',
+              'text': 'Back to ' ~ page_data.first_name ~ '’s profile',
               'href': page_data.meta.url,
               'small': True,
               'plain': True,
@@ -220,7 +220,7 @@
             {% if more_articles %}
             <div class="tna-button-group tna-button-group--centred tna-!--margin-bottom-l">
               {{ tnaButton({
-                'text': 'Browse all articles by ' + page_data.first_name,
+                'text': 'Browse all articles by ' ~ page_data.first_name,
                 'href': '?page=1'
               }) }}
             </div>
@@ -246,7 +246,7 @@
                   'meta': [
                     {
                       'title': 'Price',
-                      'text': ('&pound;' | safe) + item.price
+                      'text': ('&pound;' | safe) ~ item.price
                     }
                   ],
                   'imageSrc': item.image.jpeg.full_url,

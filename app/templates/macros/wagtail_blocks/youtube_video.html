@@ -17,7 +17,7 @@
     {%- if block_value.transcript %}
     <div class="tna-background-contrast etna-media-block__transcript">
       {{ tnaDetails({
-        'title': 'Video transcript for "' + block_value.title + '"',
+        'title': 'Video transcript for "' ~ block_value.title ~ '"',
         'body': block_value.transcript | tna_html
       }) }}
     </div>

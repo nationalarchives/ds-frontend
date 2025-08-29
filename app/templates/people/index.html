@@ -41,8 +41,8 @@
       }] %}
       {% for role in roles %}
         {% set roles_list = roles_list.append({
-          'label': role + 's',
-          'href': '?role=' + (role | lower),
+          'label': role ~ 's',
+          'href': '?role=' ~ (role | lower),
           'selected': request.args.get('role') == (role | lower)
         }) %}
       {% endfor %}
@@ -124,7 +124,7 @@
       {%- else %}
         {% set card_content = dict(card_content, **{
           'imageSrc': url_for('static', filename='images/blank-profile.svg'),
-          'imageAlt': 'Profile photo for ' + person.title,
+          'imageAlt': 'Profile photo for ' ~ person.title,
           'imageWidth': 512,
           'imageHeight': 512
         }) %}

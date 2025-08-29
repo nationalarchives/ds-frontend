@@ -52,20 +52,20 @@
 
       {% set media_details = '' %}
 
-      {% set media_details = media_details + '<dt>File type</dt>' %}
-      {% set media_details = media_details + '<dd itemprop="encodingFormat">' + media_data.mime + '</dd>' %}
+      {% set media_details = media_details ~ '<dt>File type</dt>' %}
+      {% set media_details = media_details ~ '<dd itemprop="encodingFormat">' ~ media_data.mime ~ '</dd>' %}
 
       {% if media_data.duration %}
-      {% set media_details = media_details + '<dt>Duration</dt>' %}
-      {% set media_details = media_details + '<dd>' + (media_data.duration | seconds_to_time) + '<meta itemprop="duration" content="' + (media_data.duration | seconds_to_iso_8601_duration) + '"></dd>' %}
+      {% set media_details = media_details ~ '<dt>Duration</dt>' %}
+      {% set media_details = media_details ~ '<dd>' ~ (media_data.duration | seconds_to_time) ~ '<meta itemprop="duration" content="' ~ (media_data.duration | seconds_to_iso_8601_duration) ~ '"></dd>' %}
       {% endif %}
 
       {% if media_data.created_at %}
-      {% set media_details = media_details + '<dt>Date</dt>' %}
-      {% set media_details = media_details + '<dd itemprop="datePublished">' + (media_data.created_at | pretty_date) + '</dd>' %}
+      {% set media_details = media_details ~ '<dt>Date</dt>' %}
+      {% set media_details = media_details ~ '<dd itemprop="datePublished">' ~ (media_data.created_at | pretty_date) ~ '</dd>' %}
       {% endif %}
 
-      {% set media_details = '<dl class="tna-dl tna-dl--plain">' + media_details + '</dl>' %}
+      {% set media_details = '<dl class="tna-dl tna-dl--plain">' ~ media_details ~ '</dl>' %}
 
       {{ tnaDetails({
         'title': 'Media details',

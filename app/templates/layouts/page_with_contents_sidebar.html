@@ -19,7 +19,7 @@
       'items': headings,
       'type': 'sections' if aToZSidebar else 'contents',
       'sticky': True,
-      'classes': 'tna-sidebar--static-on-mobile tna-!--padding-top-s' + (' tna-sidebar--a-z' if aToZSidebar else '')
+      'classes': 'tna-sidebar--static-on-mobile tna-!--padding-top-s' ~ (' tna-sidebar--a-z' if aToZSidebar else '')
     }) }}
   </div>
   {%- endif %}

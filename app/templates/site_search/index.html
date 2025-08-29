@@ -51,8 +51,8 @@
       {{ tnaCompoundFilters({
         'items': [
           {
-            'label': '"' + q + '"',
-            'href': '?' + qs_remove('q'),
+            'label': '"' ~ q ~ '"',
+            'href': '?' ~ qs_remove('q'),
             'title': 'Start a new search'
           }
         ],
@@ -65,14 +65,14 @@
       <h2 class="tna-visually-hidden">Change results view</h2>
       <div class="tna-button-group tna-button-group--small tna-button-group--horizontal-on-tiny">
         {{ tnaButton({
-          'text': 'List view' + (' (current)' if not request.args.view or request.args.view == 'list' else ''),
-          'href': '?' + qs_toggler('view', 'list'),
+          'text': 'List view' ~ (' (current)' if not request.args.view or request.args.view == 'list' else ''),
+          'href': '?' ~ qs_toggler('view', 'list'),
           'icon': 'list',
           'accent': not request.args.view or request.args.view == 'list'
         }) }}
         {{ tnaButton({
-          'text': 'Grid view' + (' (current)' if request.args.view == 'grid' else ''),
-          'href': '?' + qs_toggler('view', 'grid'),
+          'text': 'Grid view' ~ (' (current)' if request.args.view == 'grid' else ''),
+          'href': '?' ~ qs_toggler('view', 'grid'),
           'icon': 'grip',
           'accent': request.args.view == 'grid'
         }) }}

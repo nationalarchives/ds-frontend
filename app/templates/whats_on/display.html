@@ -140,7 +140,7 @@
           'classes': 'tna-!--margin-bottom-m'
         }) }}
       {%- endif %}
-      <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' + page_data.title) }}</h2>
+      <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' ~ page_data.title) }}</h2>
       <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top" itemprop="about">
         {{ page_data.intro | safe }}
       </div>
@@ -262,7 +262,7 @@
           'headingLevel': 3,
           'body': display_highlights.value.description | tna_html | safe,
           'items': gallery_images,
-          'id': 'gallery-' + display_highlights.id
+          'id': 'gallery-' ~ display_highlights.id
         }) }}
       </div>
     </div>
