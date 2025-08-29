@@ -99,16 +99,16 @@
   {{ discoverySearch() }}
 </section>
 
-{%- set stories_hero_image_caption = '' %}
+{%- set stories_hero_image_caption = page_data.stories_hero_image_caption %}
 {%- if page_data.stories_hero_image.copyright %}
   {%- set stories_hero_image_caption = stories_hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.stories_hero_image.copyright | tna_html) + '</div>' %}
 {%- endif %}
 
 {{ tnaHero({
-  'title': page_data.articles_title,
+  'title': page_data.stories_title,
   'headingLevel': 2,
   'headingSize': 'l',
-  'text': page_data.articles_introduction,
+  'text': page_data.stories_introduction,
   'imageSrc': page_data.stories_hero_image.jpeg.full_url,
   'imageWidth': page_data.stories_hero_image.jpeg.width,
   'imageHeight': page_data.stories_hero_image.jpeg.height,
@@ -139,7 +139,7 @@
   'actions': [
     {
       'text': 'Browse all stories',
-      'href': './stories/'
+      'href': page_data.stories_page.url
     }
   ],
   'style': 'accent',
