@@ -15,9 +15,9 @@
 {%- set breadcrumbsStyle = 'accent-light' -%}
 {%- if year %}
   {%- if month_name %}
-    {%- set pageTitle = pageTitle + ' - ' + month_name + ' ' + (year | string) -%}
+    {%- set pageTitle = pageTitle ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}
     {%- else %}
-    {%- set pageTitle = pageTitle + ' - ' + (year | string) -%}
+    {%- set pageTitle = pageTitle ~ ' - ' ~ (year | string) -%}
   {%- endif %}
 {%- endif %}
 

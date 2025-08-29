@@ -212,7 +212,7 @@
           {{ tnaButton({
             'text': 'Book now',
             'href': page_data.booking_link,
-            'title': 'Book now: ' + page_data.title + ' event'
+            'title': 'Book now: ' ~ page_data.title ~ ' event'
           }) }}
         </div>
         {%- endif %}
@@ -228,14 +228,14 @@
     <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-vertical-s">
       {% set ns = namespace(card_body='<ul class="tna-ul">') %}
       {%- for session in session_date.sessions %}
-        {% set ns.card_body = ns.card_body + '<li>' %}
-        {% set ns.card_body = ns.card_body + pretty_datetime_range(session.start, session.end, hide_date_if_single_day=True) %}
-        {% set ns.card_body = ns.card_body + (' <strong class="tna-chip tna-chip--inline">Sold out</strong>' if session.sold_out else '') %}
-        {% set ns.card_body = ns.card_body + '</li>' %}
+        {% set ns.card_body = ns.card_body ~ '<li>' %}
+        {% set ns.card_body = ns.card_body ~ pretty_datetime_range(session.start, session.end, hide_date_if_single_day=True) %}
+        {% set ns.card_body = ns.card_body ~ (' <strong class="tna-chip tna-chip--inline">Sold out</strong>' if session.sold_out else '') %}
+        {% set ns.card_body = ns.card_body ~ '</li>' %}
       {%- endfor %}
-      {% set ns.card_body = ns.card_body + '</ul>' %}
+      {% set ns.card_body = ns.card_body ~ '</ul>' %}
       {{ tnaCard({
-        'title': (session_date.date | pretty_date) + ('' if (session_date.date | is_today_or_future) else ' (past event)'),
+        'title': (session_date.date | pretty_date) ~ ('' if (session_date.date | is_today_or_future) else ' (past event)'),
         'body': ns.card_body | safe,
         'headingLevel': 3,
         'headingSize': 's',
@@ -342,7 +342,7 @@
           'headingLevel': 3,
           'body': event_highlights.value.description | tna_html | safe,
           'items': gallery_images,
-          'id': 'gallery-' + event_highlights.id
+          'id': 'gallery-' ~ event_highlights.id
         }) }}
       </div>
     </div>

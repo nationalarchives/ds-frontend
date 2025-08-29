@@ -5,7 +5,7 @@
   {% for item in block_value.images %}
     {% set image_caption = (item.caption | tna_html) or '' %}
     {%- if item.image.copyright %}
-      {% set image_caption = image_caption + '<div class="tna-gallery__copyright" itemprop="copyrightNotice">' + (item.image.copyright | tna_html) + '</div>' %}
+      {% set image_caption = image_caption ~ '<div class="tna-gallery__copyright" itemprop="copyrightNotice">' ~ (item.image.copyright | tna_html) ~ '</div>' %}
     {%- endif %}
     {% set items = items.append({
       'src': item.image.jpeg.full_url,

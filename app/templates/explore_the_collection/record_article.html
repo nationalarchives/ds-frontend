@@ -64,14 +64,14 @@
       {% set picture_information = [] %}
       {%- if item.image.transcript %}
         {% set picture_information = picture_information + [{
-          'id': 'transcript-' + item.image.id | string,
+          'id': 'transcript-' ~ item.image.id | string,
           'title': item.image.transcript.heading or 'Transcript',
           'body': item.image.transcript.text | tna_html
         }] %}
       {%- endif %}
       {%- if item.image.translation %}
         {% set picture_information = picture_information + [{
-          'id': 'translation-' + item.image.id | string,
+          'id': 'translation-' ~ item.image.id | string,
           'title': item.image.translation.heading or 'Translation',
           'body': item.image.translation.text | tna_html
         }] %}
@@ -124,7 +124,7 @@
           {{ tnaButton({
             'text': 'View record details',
             '_href': url_for('catalogue.catalogue_item', id=page_data.record.iaid),
-            'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + page_data.record.iaid,
+            'href': 'https://discovery.nationalarchives.gov.uk/details/r/' ~ page_data.record.iaid,
             'accent': True
           }) }}
           {%- if page_data.image_library_link %}
@@ -161,7 +161,7 @@
     {% set galleries = galleries.append({
       'id': gallery.image.id,
       'title': gallery.image.title,
-      'href': page_data.featured_highlight_gallery.url + '#gallery-image-' + (loop.index | string),
+      'href': page_data.featured_highlight_gallery.url ~ '#gallery-image-' ~ (loop.index | string),
       'src': gallery.image.jpeg.full_url,
       'alt': gallery.image.description,
       'width': gallery.image.jpeg.width,
@@ -171,7 +171,7 @@
     {%- endfor %}
     {{ tnaIndexGrid({
       'supertitle': page_data.featured_highlight_gallery.type_label,
-      'title': 'Related gallery: ' + page_data.featured_highlight_gallery.title,
+      'title': 'Related gallery: ' ~ page_data.featured_highlight_gallery.title,
       'href': page_data.featured_highlight_gallery.url,
       'text': page_data.featured_highlight_gallery.teaser_text,
       'headingLevel': 2,

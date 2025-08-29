@@ -1,7 +1,7 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 
 {% macro back_to_top(margin_top, hide_hr) %}
-<div class="tna-container tna-!--hide-on-print{{ ' tna-!--margin-top-' + margin_top if margin_top else '' }}">
+<div class="tna-container tna-!--hide-on-print{{ ' tna-!--margin-top-' ~ margin_top if margin_top else '' }}">
   <div class="tna-column tna-column--full">
     {% if not hide_hr %}
     <hr class="tna-!--margin-bottom-s">

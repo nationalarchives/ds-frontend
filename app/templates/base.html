@@ -79,7 +79,7 @@
 {%- if feature.PHASE_BANNER and display_phase_banner() %}
 {% set phase_banner = {
   'phase': 'Beta',
-  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' + request.url + '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
+  'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ request.url ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
   'classes': 'tna-background-contrast'
 } %}
 {%- endif %}

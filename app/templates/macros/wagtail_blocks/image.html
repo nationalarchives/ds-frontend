@@ -7,22 +7,22 @@
   {%- if not hide_transcript %}
     {%- if block_value.image.transcript %}
       {%- if not block_value.image.translation %}
-        {% set information_label_open = 'Open ' + (block_value.image.transcript.heading | lower) %}
-        {% set information_label_close = 'Close ' + (block_value.image.transcript.heading | lower) %}
+        {% set information_label_open = 'Open ' ~ (block_value.image.transcript.heading | lower) %}
+        {% set information_label_close = 'Close ' ~ (block_value.image.transcript.heading | lower) %}
       {%- endif %}
       {% set picture_information = picture_information + [{
-        'id': 'transcript-' + id,
+        'id': 'transcript-' ~ id,
         'title': block_value.image.transcript.heading or 'Transcript',
         'body': block_value.image.transcript.text | tna_html | safe
       }] %}
     {%- endif %}
     {%- if block_value.image.translation %}
       {%- if not block_value.image.transcript %}
-        {% set information_label_open = 'Open ' + (block_value.image.translation.heading + ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
-        {% set information_label_close = 'Close ' + (block_value.image.translation.heading + ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+        {% set information_label_open = 'Open ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+        {% set information_label_close = 'Close ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
       {%- endif %}
       {% set picture_information = picture_information + [{
-        'id': 'translation-' + id,
+        'id': 'translation-' ~ id,
         'title': block_value.image.translation.heading or 'Translation',
         'body': block_value.image.translation.text | tna_html | safe
       }] %}
@@ -30,7 +30,7 @@
   {%- endif %}
   {% set image_caption = (block_value.caption | tna_html) or '' %}
   {%- if block_value.image.copyright %}
-    {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
+    {% set image_caption = image_caption ~ '<div class="tna-picture__copyright" itemprop="copyrightNotice">' ~ (block_value.image.copyright | tna_html) ~ '</div>' %}
   {%- endif %}
   {% set picture_content = {
     'src': block_value.image.jpeg.full_url,

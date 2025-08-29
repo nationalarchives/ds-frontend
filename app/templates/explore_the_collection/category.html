@@ -23,7 +23,7 @@
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {% set hero_image_caption = page_data.hero_image_caption or '' %}
 {%- if page_data.hero_image.copyright %}
-  {% set hero_image_caption = hero_image_caption + '<div class="tna-hero__copyright" itemprop="copyrightNotice">' + (page_data.hero_image.copyright | tna_html) + '</div>' %}
+  {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
 {%- endif %}
 {{ tnaHero({
   'title': page_data.title,
@@ -63,7 +63,7 @@
     {% set children = children.append({
       'id': child.id,
       'title': child.title,
-      'subtitle': (child.highlight_image_count | string) + ' images',
+      'subtitle': (child.highlight_image_count | string) ~ ' images',
       'href': child.url,
       'src': child.teaser_image.jpeg.full_url,
       'alt': child.teaser_image.description,
@@ -72,7 +72,7 @@
     }) %}
   {%- endfor %}
   {{ tnaIndexGrid({
-    'title': page_data.title + ' highlights in pictures',
+    'title': page_data.title ~ ' highlights in pictures',
     'headingLevel': 2,
     'headingSize': 'l',
     'items': children,

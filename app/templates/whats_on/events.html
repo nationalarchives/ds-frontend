@@ -30,7 +30,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       {% set featured_card_content = {
-        'supertitle': 'Featured ' + page_data.featured_page.type_label,
+        'supertitle': 'Featured ' ~ page_data.featured_page.type_label,
         'title': page_data.featured_page.title,
         'headingLevel': 2,
         'headingSize': 'l',
@@ -58,7 +58,7 @@
         'style': 'accent',
         'hrefAttributes': {
           'data-tna-analytics-event': 'select_feature',
-          'data-tna-analytics-label': 'Featured ' + page_data.featured_page.type_label
+          'data-tna-analytics-label': 'Featured ' ~ page_data.featured_page.type_label
         },
         'classes': 'tna-card--full-height'
       } %}
