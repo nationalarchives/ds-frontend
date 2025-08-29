@@ -105,10 +105,10 @@
 {%- endif %}
 
 {{ tnaHero({
-  'title': page_data.stories_title,
+  'title': page_data.stories_title or page_data.stories_page.title,
   'headingLevel': 2,
   'headingSize': 'l',
-  'text': page_data.stories_introduction,
+  'text': page_data.stories_introduction or page_data.stories_page.teaser_text,
   'imageSrc': page_data.stories_hero_image.jpeg.full_url,
   'imageWidth': page_data.stories_hero_image.jpeg.width,
   'imageHeight': page_data.stories_hero_image.jpeg.height,
