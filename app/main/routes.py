@@ -1,3 +1,4 @@
+import html
 import json
 import os
 from urllib.parse import quote, unquote
@@ -32,17 +33,17 @@ def set_cookies():
     if "cookies_policy" in request.cookies:
         current_cookies_policy = json.loads(unquote(request.cookies["cookies_policy"]))
     usage = (
-        strtobool(request.form["usage"])
+        strtobool(html.escape(request.form["usage"]))
         if "usage" in request.form
         else bool(current_cookies_policy["usage"])
     )
     settings = (
-        strtobool(request.form["settings"])
+        strtobool(html.escape(request.form["settings"]))
         if "settings" in request.form
         else bool(current_cookies_policy["settings"])
     )
     marketing = (
-        strtobool(request.form["marketing"])
+        strtobool(html.escape(request.form["marketing"]))
         if "marketing" in request.form
         else bool(current_cookies_policy["marketing"])
     )
@@ -52,7 +53,8 @@ def set_cookies():
         "marketing": marketing,
         "essential": True,
     }
-    response = make_response(redirect(f"{request.form['referrer']}?saved=true"))
+    referrer = request.form.get("referrer", "/cookies/")
+    response = make_response(redirect(f"{referrer}?saved=true"))
     response.set_cookie(
         "cookies_policy",
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
