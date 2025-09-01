@@ -21,6 +21,7 @@
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
+    <link rel="canonical" href="{{ page_data.meta.html_url }}">
 {% endblock %}
 
 {% block contentHeader %}

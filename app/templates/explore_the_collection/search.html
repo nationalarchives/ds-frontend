@@ -24,6 +24,11 @@
 ] -%}
 {%- set breadcrumbsStyle = 'accent' -%}
 
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.html_url }}">
+{% endblock %}
+
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='search.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
