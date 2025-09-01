@@ -33,17 +33,17 @@ def set_cookies():
     if "cookies_policy" in request.cookies:
         current_cookies_policy = json.loads(unquote(request.cookies["cookies_policy"]))
     usage = (
-        strtobool(html.escape(request.form["usage"]))
+        strtobool(html.escape(request.form["usage"].replace("\\", "")))
         if "usage" in request.form
         else bool(current_cookies_policy["usage"])
     )
     settings = (
-        strtobool(html.escape(request.form["settings"]))
+        strtobool(html.escape(request.form["settings"].replace("\\", "")))
         if "settings" in request.form
         else bool(current_cookies_policy["settings"])
     )
     marketing = (
-        strtobool(html.escape(request.form["marketing"]))
+        strtobool(html.escape(request.form["marketing"].replace("\\", "")))
         if "marketing" in request.form
         else bool(current_cookies_policy["marketing"])
     )
