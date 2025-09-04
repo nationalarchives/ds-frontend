@@ -98,6 +98,7 @@ class Production(Features):
         "/image/",
         "/mi5-official-secrets/",
         "/people/",
+        "/professional-guidance-and-services/",
         "/whats-on/",
         "/video/",
     ]
