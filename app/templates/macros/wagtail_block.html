@@ -10,6 +10,7 @@
 {%- from 'macros/wagtail_blocks/gallery.html' import wagtailGallery -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
+{%- from 'macros/wagtail_blocks/people_listing.html' import wagtailPeopleListing -%}
 {%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
@@ -90,6 +91,9 @@
   
   {%- elif content_item.type == 'do_dont_list' %}
   {{ wagtailDoDontList(content_item.value, next_heading_level) }}
+  
+  {%- elif content_item.type == 'people_listing' %}
+  {{ wagtailPeopleListing(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'warning_text' %}
   {{ tnaWarning({

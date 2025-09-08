@@ -1,0 +1,43 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{% macro wagtailPeopleListing(block_value, itemHeadingLevel) %}
+  <div class="tna-container tna-container--nested tna-!--margin-top-s">
+    {%- for person in block_value.people %}
+    <div class="tna-column tna-column--full tna-!--margin-top-s">
+      {% set card_content = {
+        'supertitle': block_value.role,
+        'title': person.title,
+        'headingLevel': itemHeadingLevel,
+        'headingSize': 'm',
+        'href': person.page_path,
+        'body': ('<p><small><strong>' ~ (person.role) ~ '</strong></small></p><p>' ~ (person.teaser_text | tna_html) ~ '</p>') | safe,
+        'fullAreaClick': True,
+        'horizontal': True,
+        'horizontalSmallImage': True,
+        'horizontalOnSmall': True,
+        'horizontalFlipped': True,
+        'style': 'tint',
+        'classes': 'tna-card--featured-link'
+      } %}
+      {%- if person.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'lazyImage': True,
+          'imageSrc': person.teaser_image.jpeg.full_url,
+          'imageAlt': person.teaser_image.description,
+          'imageWidth': person.teaser_image.jpeg.width,
+          'imageHeight': person.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': person.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': person.teaser_image.webp.width,
+              'height': person.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </div>
+    {%- endfor %}
+  </div>
+{% endmacro %}
