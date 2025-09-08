@@ -10,7 +10,13 @@
         'headingLevel': itemHeadingLevel,
         'headingSize': 'm',
         'href': person.page_path,
-        'body': ('<p><small><strong>' ~ (person.role) ~ '</strong></small></p><p>' ~ (person.teaser_text | tna_html) ~ '</p>') | safe,
+        'text': person.teaser_text | tna_html | safe,
+        'meta': [
+          {
+            'title': 'Role',
+            'text': person.role
+          }
+        ],
         'fullAreaClick': True,
         'horizontal': True,
         'horizontalSmallImage': True,
