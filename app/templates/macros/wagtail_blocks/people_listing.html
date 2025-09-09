@@ -5,7 +5,7 @@
     {%- for person in block_value.people %}
     <div class="tna-column tna-column--full tna-!--margin-top-s">
       {% set card_content = {
-        'supertitle': block_value.role,
+        'supertitle': person.role_tags[0].name if (person.role_tags | length) > 0 else None,
         'title': person.title,
         'headingLevel': itemHeadingLevel,
         'headingSize': 'm',
