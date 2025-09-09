@@ -4,19 +4,18 @@
   <div class="tna-container tna-container--nested tna-!--margin-top-s">
     {%- for person in block_value.people %}
     <div class="tna-column tna-column--full tna-!--margin-top-s">
-      {% set card_content = {
-        'supertitle': person.role_tags[0].name if (person.role_tags | length) > 0 else None,
+      {%- set ns = namespace(roles=[]) %}
+      {%- for role in person.role_tags %}
+        {%- set ns.roles = ns.roles + [{'title': 'Role','text': role.name}] %}
+      {%- endfor %}
+      {%- set card_content = {
         'title': person.title,
         'headingLevel': itemHeadingLevel,
         'headingSize': 'm',
         'href': person.page_path,
-        'text': person.teaser_text | tna_html | safe,
-        'meta': [
-          {
-            'title': 'Role',
-            'text': person.role
-          }
-        ],
+        'body': ('<div><p><strong>' ~ person.role ~ '</strong></p><p class="tna-!--margin-top-xs">' ~ (person.teaser_text | tna_html) ~ '</p></div>') | safe,
+        'meta': ns.roles,
+        'accentMeta': True,
         'fullAreaClick': True,
         'horizontal': True,
         'horizontalSmallImage': True,
