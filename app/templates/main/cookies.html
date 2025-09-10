@@ -22,23 +22,52 @@
   {%- if details_page %}
   <p>For a full breakdown, see <a href="{{ details_page.url }}">our detailed cookie information</a>.</p>
   {%- endif %}
-  <h3 class="tna-heading-m tna-!--no-padding-top">Strictly necessary cookies</h3>
+  <h3 class="tna-heading-m">Types of cookie</h3>
+  <dl class="tna-dl tna-dl--stacked">
+    <dt>Essential</dt>
+    <dd>
+      <p>These cookies are necessary for the website to function and cannot be switched off in our systems. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work.</p>
+      <p>These cookies do not store any personally identifiable information.</p>
+    </dd>
+    <dt>
+      <a href="#usage">Usage</a>
+    </dt>
+    <dd>
+      <p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site.</p>
+      <p>All information these cookies collect is aggregated and therefore anonymous.</p>
+      <p>These cookies collect information about:</p>
+      <ul class="tna-ul tna-!--no-margin-top">
+        <li>how you got to these sites</li>
+        <li>the pages you visit and how long you spend on each page</li>
+        <li>what you click on while you’re visiting these sites</li>
+      </ul>
+      <p>We do not allow Google to use or share this data for their own purposes.</p>
+    </dd>
+    <dt>
+      <a href="#settings">Settings</a>
+    </dt>
+    <dd>These cookies allow the website to remember choices you make and can provide enhanced, more personal features.</dd>
+    <dt>
+      <a href="#marketing">Marketing</a>
+    </dt>
+    <dd>These cookies track your preferences for marketing purposes. They are often used by third party services such as YouTube to allow better video suggestions.</dd>
+  </dl>
+  <!-- <h3 class="tna-heading-m tna-!--no-padding-top">Strictly necessary cookies</h3>
   <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
-  <p>They always need to be on.</p>
+  <p>They always need to be on.</p> -->
   {{ tnaRadios({
-    'label': 'Cookies that measure website use',
+    'label': 'Do you want to accept cookies that measure website use?',
     'headingLevel': 3,
-    'headingSize': 'm',
-    'hintHtml': '<p>We use Google Analytics cookies to measure how you use National Archives websites.</p><p>These cookies collect information about:</p><ul class="tna-ul"><li>how you got to these sites</li><li>the pages you visit and how long you spend on each page</li><li>what you click on while you’re visiting these sites</li></ul><p>We do not allow Google to use or share this data for their own purposes.</p>',
+    'headingSize': 's',
     'id': 'usage',
     'name': 'usage',
     'items': [
       {
-        'text': 'Use cookies that measure my website use',
+        'text': 'Yes',
         'value': 'true'
       },
       {
-        'text': 'Do not use cookies that measure my website use',
+        'text': 'No',
         'value': 'false'
       }
     ],
@@ -46,19 +75,18 @@
     'classes': 'tna-form__group--full-sized-hint'
   }) }}
   {{ tnaRadios({
-    'label': 'Cookies that remember your settings',
+    'label': 'Do you want to accept cookies that remember your settings?',
     'headingLevel': 3,
-    'headingSize': 'm',
-    'hint': 'These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.',
+    'headingSize': 's',
     'id': 'settings',
     'name': 'settings',
     'items': [
       {
-        'text': 'Use cookies that remember my settings on the site',
+        'text': 'Yes',
         'value': 'true'
       },
       {
-        'text': 'Do not use cookies that remember my settings on the site',
+        'text': 'No',
         'value': 'false'
       }
     ],
@@ -66,19 +94,18 @@
     'classes': 'tna-form__group--full-sized-hint'
   }) }}
   {{ tnaRadios({
-    'label': 'Cookies that are used for marketing',
+    'label': 'Do you want to accept cookies that are used for marketing?',
     'headingLevel': 3,
-    'headingSize': 'm',
-    'hint': 'These cookies track your preferences for marketing purposes. They are often used by third party services such as YouTube to allow better video suggestions.',
+    'headingSize': 's',
     'id': 'marketing',
     'name': 'marketing',
     'items': [
       {
-        'text': 'Use cookies that are for marketing purposes',
+        'text': 'Yes',
         'value': 'true'
       },
       {
-        'text': 'Do not use cookies that are for marketing purposes',
+        'text': 'No',
         'value': 'false'
       }
     ],
