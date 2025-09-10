@@ -14,8 +14,6 @@ Ensure the page has a description and all the relevant elements to help with SEO
 
 By default, we inject `page_data` into the Wagtail page templates. It includes everything that comes out of the `/pages/` API endpoint from Wagtail.
 
-See an [example of the Wagtail API output](https://beta.nationalarchives.gov.uk/api/v2/pages/5/).
-
 ### Theme accent
 
 Set `themeAccent` to one of the [available accent colours](https://nationalarchives.github.io/design-system/styles/colours/#accent-colours).
