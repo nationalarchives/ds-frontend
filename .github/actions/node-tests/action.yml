@@ -9,3 +9,6 @@ runs:
     - name: Run Node tests
       run: npm run test:all
       shell: bash
+    - name: Audit Node dependencies
+      run: npm audit
+      shell: bash
