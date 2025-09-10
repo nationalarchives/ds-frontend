@@ -27,10 +27,6 @@ This contains reusable functionality that can be used throughout the site. Notab
 
 The main routs for the site, including the healthcheck endpoint and static paths for `robots.txt` and `service-worker.min.js`.
 
-### `app/search`
-
-These routes are declared so we can construct URLs using the `url_for` function in this service but they should mirror the actual routes defined in the [`ds-sitemap-search` repository](https://github.com/nationalarchives/ds-sitemap-search/blob/main/app/sitemap_search/routes.py).
-
 ### `app/sitemaps`
 
 Routes for creating the [XML sitemap](http://localhost:65535/sitemap.xml) and all the sub-sitemaps, e.g. [/sitemaps/sitemap_1.xml](http://localhost:65535/sitemaps/sitemap_1.xml), [/sitemaps/sitemap_2.xml](http://localhost:65535/sitemaps/sitemap_2.xml).
