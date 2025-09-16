@@ -157,6 +157,65 @@ p.etna-small-paragraph {
   @include typography.font-size(16);
 }
 
+.etna-partner-logos {
+  @include spacing.space-above;
+
+  padding: spacing.space(2);
+
+  @include colour.tint;
+
+  @include borders.rounded-border;
+
+  &__heading {
+    margin-bottom: spacing.space(2);
+
+    line-height: 1;
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: spacing.space(2) spacing.space(3);
+
+    list-style: none;
+  }
+
+  &__item {
+  }
+
+  &__image {
+    width: auto;
+    height: 8rem;
+
+    .tna-template--system-theme & {
+      @media (prefers-color-scheme: dark) {
+        &--light {
+          display: none !important;
+        }
+
+        &--dark {
+          display: block !important;
+        }
+      }
+    }
+
+    .tna-template--dark-theme & {
+      &--light {
+        display: none !important;
+      }
+
+      &--dark {
+        display: block !important;
+      }
+    }
+  }
+
+  @include media.on-mobile {
+    padding: spacing.space(1);
+  }
+}
+
 .etna-email {
   display: inline-flex;
   flex-wrap: wrap;

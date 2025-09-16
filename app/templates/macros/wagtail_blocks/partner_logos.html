@@ -1,0 +1,16 @@
+{% macro wagtailPartnerLogos(block_value, itemHeadingLevel) %}
+  <div class="etna-partner-logos">
+    <h{{ itemHeadingLevel }} class="etna-partner-logos__heading tna-heading-s">{{ block_value.heading or 'In partnership with' }}</h{{ itemHeadingLevel }}>
+    <ul class="etna-partner-logos__items">
+      {%- for logo in block_value.logos %}
+      <li class="etna-partner-logos__item">
+        <p class="tna-visually-hidden">{{ logo.name }}</p>
+        <img class="etna-partner-logos__image{% if logo.image_dark %} etna-partner-logos__image--light{% endif %}" src="{{ logo.image.jpeg.url if logo.image.jpeg else logo.image }}" width="200" alt="" aria-hidden="true">
+        {%- if logo.image_dark %}
+        <img class="etna-partner-logos__image etna-partner-logos__image--dark" src="{{ logo.image_dark.jpeg.url if logo.image_dark.jpeg else logo.image_dark }}" width="200" alt="" aria-hidden="true" hidden>
+        {%- endif %}
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+{% endmacro %}
