@@ -160,16 +160,8 @@ p.etna-small-paragraph {
 .etna-partner-logos {
   @include spacing.space-above;
 
-  padding: spacing.space(2);
-
-  @include colour.tint;
-
-  @include borders.rounded-border;
-
   &__heading {
-    margin-bottom: spacing.space(2);
-
-    line-height: 1;
+    margin-bottom: spacing.space(1.5);
   }
 
   &__items {
@@ -177,18 +169,13 @@ p.etna-small-paragraph {
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: flex-start;
-    gap: spacing.space(2) spacing.space(2);
+    gap: spacing.space(2) spacing.space(3);
 
     list-style: none;
   }
 
   &__item {
     text-align: center;
-
-    & + & {
-      padding-left: spacing.space(2);
-      @include colour.colour-border("keyline", 1px, solid, left);
-    }
   }
 
   &__image {
@@ -212,7 +199,7 @@ p.etna-small-paragraph {
         }
 
         &--dark {
-          display: block !important;
+          display: flex !important;
         }
       }
     }
@@ -223,7 +210,7 @@ p.etna-small-paragraph {
       }
 
       &--dark {
-        display: block !important;
+        display: flex !important;
       }
     }
   }
@@ -233,13 +220,6 @@ p.etna-small-paragraph {
 
     &__items {
       flex-direction: column;
-    }
-
-    &__item {
-      & + & {
-        padding-left: 0;
-        border-left: none;
-      }
     }
   }
 }
