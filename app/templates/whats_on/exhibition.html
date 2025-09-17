@@ -263,7 +263,7 @@
       </div>
       {%- if page_data.partnership %}
       <p itemprop="contributor" itemscope itemtype="https://schema.org/Organization">
-        <small>In partnership with <span class="tna-visually-hidden" itemprop="name">{{ page_data.partnership.name }}.</span></small>
+        <small>{{ page_data.partnership_lead_text or 'In partnership with' }} <span class="tna-visually-hidden" itemprop="name">{{ page_data.partnership.name }}.</span></small>
       </p>
       <picture class="tna-exhibition-partner-logo" aria-hidden="true">
         <source type="image/webp" srcset="{{ page_data.partnership.logo.webp.url }}" width="{{ (page_data.partnership.logo.webp.width / 2) | int }}" height="{{ (page_data.partnership.logo.webp.height / 2) | int }}">
