@@ -1,13 +1,19 @@
 {% macro wagtailPartnerLogos(block_value, itemHeadingLevel) %}
   <div class="etna-partner-logos">
-    <h{{ itemHeadingLevel }} class="etna-partner-logos__heading tna-heading-s">{{ block_value.heading or 'In partnership with' }}</h{{ itemHeadingLevel }}>
+    <h{{ itemHeadingLevel }} class="etna-partner-logos__heading tna-heading-s">{{ block_value.lead_text or 'In partnership with' }}</h{{ itemHeadingLevel }}>
     <ul class="etna-partner-logos__items">
-      {%- for logo in block_value.logos %}
+      {%- for partner in block_value.logos %}
       <li class="etna-partner-logos__item">
-        <p class="tna-visually-hidden">{{ logo.name }}</p>
-        <img class="etna-partner-logos__image{% if logo.image_dark %} etna-partner-logos__image--light{% endif %}" src="{{ logo.image.jpeg.url if logo.image.jpeg else logo.image }}" width="200" alt="" aria-hidden="true">
-        {%- if logo.image_dark %}
-        <img class="etna-partner-logos__image etna-partner-logos__image--dark" src="{{ logo.image_dark.jpeg.url if logo.image_dark.jpeg else logo.image_dark }}" width="200" alt="" aria-hidden="true" hidden>
+        <p class="tna-visually-hidden">{{ partner.name }}</p>
+        <picture class="etna-partner-logos__image{% if partner.logo_dark %} etna-partner-logos__image--light{% endif %}">
+          <source type="image/webp" srcset="{{ partner.logo.webp.url }}" width="{{ (partner.logo.webp.width / 2) | int }}" height="{{ (partner.logo.webp.height / 2) | int }}">
+          <img src="{{ partner.logo.jpeg.url }}" width="{{ (partner.logo.jpeg.width / 2) | int }}" height="{{ (partner.logo.jpeg.height / 2) | int }}" alt="">
+        </picture>
+        {%- if partner.logo_dark %}
+        <picture class="etna-partner-logos__image etna-partner-logos__image--dark" hidden>
+          <source type="image/webp" srcset="{{ partner.logo_dark.webp.url }}" width="{{ (partner.logo_dark.webp.width / 2) | int }}" height="{{ (partner.logo_dark.webp.height / 2) | int }}">
+          <img src="{{ partner.logo_dark.jpeg.url }}" width="{{ (partner.logo_dark.jpeg.width / 2) | int }}" height="{{ (partner.logo_dark.jpeg.height / 2) | int }}" alt="">
+        </picture>
         {%- endif %}
       </li>
       {%- endfor %}

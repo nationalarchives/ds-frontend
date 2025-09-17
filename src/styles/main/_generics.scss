@@ -175,18 +175,32 @@ p.etna-small-paragraph {
   &__items {
     display: flex;
     flex-wrap: wrap;
+    align-items: stretch;
     justify-content: flex-start;
-    gap: spacing.space(2) spacing.space(3);
+    gap: spacing.space(2) spacing.space(2);
 
     list-style: none;
   }
 
   &__item {
+    text-align: center;
+
+    & + & {
+      padding-left: spacing.space(2);
+      @include colour.colour-border("keyline", 1px, solid, left);
+    }
   }
 
   &__image {
     width: auto;
-    height: 8rem;
+    height: 5rem;
+
+    display: inline-block;
+
+    img {
+      width: auto;
+      height: 100%;
+    }
 
     .tna-template--system-theme & {
       @media (prefers-color-scheme: dark) {
@@ -211,8 +225,22 @@ p.etna-small-paragraph {
     }
   }
 
-  @include media.on-mobile {
+  @include media.on-tiny {
     padding: spacing.space(1);
+
+    &__items {
+      flex-direction: column;
+      gap: spacing.space(1);
+    }
+
+    &__item {
+      & + & {
+        padding-top: spacing.space(1);
+        padding-left: 0;
+        border-left: none;
+        @include colour.colour-border("keyline", 1px, solid, top);
+      }
+    }
   }
 }
 
