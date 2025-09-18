@@ -158,12 +158,12 @@
   }
 
   @include media.on-small {
-  &.tna-card--horizontal-small-image {
-    .tna-card__image-container {
-      width: 8rem;
-      height: 8rem;
+    &.tna-card--horizontal-small-image {
+      .tna-card__image-container {
+        width: 8rem;
+        height: 8rem;
+      }
     }
-  }
   }
 
   &:not(.tna-card--horizontal-on-small) {
