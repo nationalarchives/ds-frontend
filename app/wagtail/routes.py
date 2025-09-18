@@ -206,7 +206,7 @@ def page(path):
         != urlparse(f"/{quote(path)}/").path
     ):
         rediect_url = objects.get(page_data, "meta.url")
-        return redirect(rediect_url, code=302)
+        return redirect(quote(rediect_url), code=302)
 
     # Do not cache certain page types
     page_types_to_not_cache = ["cookies.CookiesPage"]
