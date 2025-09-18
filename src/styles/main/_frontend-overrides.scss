@@ -153,27 +153,6 @@ sup[data-footnoteid] {
     @include card.horizontal-card-layout("--featured-link", 1);
   }
 
-  &--person &__image-container {
-    width: 75%;
-    aspect-ratio: 1;
-    margin-right: auto;
-    margin-left: auto;
-
-    overflow: hidden;
-
-    background: none;
-
-    border-radius: 100%;
-
-    @include media.on-tiny {
-      width: 50%;
-    }
-
-    @include colour.on-high-contrast-and-forced-colours {
-      margin-top: spacing.space(1);
-    }
-  }
-
   @include colour.on-forced-colours {
     @include colour.colour-border("keyline", 1px);
   }
