@@ -126,7 +126,7 @@
   }
 }
 
-.tna-card--person-listing {
+.tna-card--person {
   grid-template-columns: min-content 1fr;
 
   .tna-card__image-container {
@@ -148,6 +148,22 @@
     overflow: hidden;
 
     border-radius: 100%;
+  }
+
+  &.tna-card--horizontal-small-image {
+    .tna-card__image-container {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+
+  @include media.on-small {
+  &.tna-card--horizontal-small-image {
+    .tna-card__image-container {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
   }
 
   &:not(.tna-card--horizontal-on-small) {

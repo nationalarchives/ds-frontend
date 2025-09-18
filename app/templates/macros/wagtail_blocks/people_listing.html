@@ -9,12 +9,11 @@
       'headingSize': 'm',
       'href': person.page_path,
       'body': ('<div><p><strong>' ~ person.role ~ '</strong></p><p class="tna-!--margin-top-xs">' ~ (person.teaser_text | tna_html) ~ '</p></div>') | safe,
-      'accentMeta': True,
       'fullAreaClick': True,
       'horizontal': True,
       'horizontalOnSmall': False,
       'style': 'plain',
-      'classes': 'tna-card--person-listing' ~ (' tna-!--margin-top-s' if not loop.first else '')
+      'classes': 'tna-card--person' ~ (' tna-!--margin-top-s' if not loop.first else '')
     } %}
     {%- if person.image %}
       {% set card_content = dict(card_content, **{

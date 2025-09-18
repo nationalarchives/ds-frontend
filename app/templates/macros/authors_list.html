@@ -20,6 +20,16 @@
               <link itemprop="url" href="{{ author.url }}">
             </strong>
           </p>
+          {%- if author.role_tags | length %}
+          <dl class="tna-dl-chips tna-!--margin-vertical-xs">
+            <dt>Roles</dt>
+            {%- for role_tag in author.role_tags %}
+            <dd>
+              <span class="tna-dl-chips__item">{{ role_tag.name }}</span>
+            </dd>
+            {%- endfor %}
+          </dl>
+          {%- endif %}
           <p class="etna-author-list__description" itemprop="jobTitle">{{ author.role }}</p>
         </div>
       </li>
