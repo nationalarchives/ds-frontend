@@ -126,19 +126,12 @@
   }
 }
 
-
-
-
-
-
-
-
 .tna-card--person {
   grid-template-columns: min-content 1fr;
 
   .tna-card__image-container {
-    max-width: calc(100% - spacing.space(2));
     width: 12rem;
+    max-width: calc(100% - spacing.space(2));
     height: auto;
     aspect-ratio: 1 / 1;
     margin: spacing.space(1);
@@ -149,8 +142,6 @@
     flex-shrink: 0;
     object-fit: cover;
     @include colour.colour-border("keyline", 1px);
-
-
   }
 
   .tna-card__image {
@@ -169,12 +160,12 @@
   }
 
   &:not(.tna-card--horizontal) {
-      align-items: center;
+    align-items: center;
 
-      .tna-card__heading,
-      .tna-card__body {
-        align-self: stretch;
-      }
+    .tna-card__heading,
+    .tna-card__body {
+      align-self: stretch;
+    }
   }
 
   @include media.on-small {
