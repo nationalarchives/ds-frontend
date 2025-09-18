@@ -125,3 +125,53 @@
     break-inside: avoid;
   }
 }
+
+.tna-card--person-listing {
+  grid-template-columns: min-content 1fr;
+
+  .tna-card__image-container {
+    width: 12rem;
+    height: 12rem;
+    margin: spacing.space(1);
+
+    background: none;
+
+    border-radius: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+    @include colour.colour-border("keyline", 1px);
+  }
+
+  .tna-card__image {
+    margin: spacing.space(0.25);
+
+    overflow: hidden;
+
+    border-radius: 100%;
+  }
+
+  &:not(.tna-card--horizontal-on-small) {
+    @include media.on-small {
+      align-items: center;
+
+      .tna-card__heading,
+      .tna-card__body {
+        align-self: stretch;
+      }
+    }
+  }
+
+  @include media.on-tiny {
+    align-items: center;
+
+    .tna-card__heading,
+    .tna-card__body {
+      align-self: stretch;
+    }
+
+    .tna-card__image-container {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+}

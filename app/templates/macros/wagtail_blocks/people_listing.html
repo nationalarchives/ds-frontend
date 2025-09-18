@@ -1,48 +1,47 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 
 {% macro wagtailPeopleListing(block_value, itemHeadingLevel) %}
-  <div class="tna-container tna-container--nested tna-!--margin-top-s">
+  <div class="etna-space-above">
     {%- for person in block_value.people %}
-    <div class="tna-column tna-column--full tna-!--margin-top-s">
-      {%- set ns = namespace(roles=[]) %}
-      {%- for role in person.role_tags %}
-        {%- set ns.roles = ns.roles + [{'title': 'Role','text': role.name}] %}
-      {%- endfor %}
-      {%- set card_content = {
-        'title': person.title,
-        'headingLevel': itemHeadingLevel,
-        'headingSize': 'm',
-        'href': person.page_path,
-        'body': ('<div><p><strong>' ~ person.role ~ '</strong></p><p class="tna-!--margin-top-xs">' ~ (person.teaser_text | tna_html) ~ '</p></div>') | safe,
-        'meta': ns.roles,
-        'accentMeta': True,
-        'fullAreaClick': True,
-        'horizontal': True,
-        'horizontalSmallImage': True,
-        'horizontalOnSmall': True,
-        'horizontalFlipped': True,
-        'style': 'tint',
-        'classes': 'tna-card--featured-link'
-      } %}
-      {%- if person.teaser_image %}
-        {% set card_content = dict(card_content, **{
-          'lazyImage': True,
-          'imageSrc': person.teaser_image.jpeg.full_url,
-          'imageAlt': person.teaser_image.description,
-          'imageWidth': person.teaser_image.jpeg.width,
-          'imageHeight': person.teaser_image.jpeg.height,
-          'imageSources': [
-            {
-              'src': person.teaser_image.webp.full_url,
-              'type': 'image/webp',
-              'width': person.teaser_image.webp.width,
-              'height': person.teaser_image.webp.height
-            }
-          ]
-        }) %}
-      {%- endif %}
-      {{ tnaCard(card_content) }}
-    </div>
+    {%- set card_content = {
+      'title': person.title,
+      'headingLevel': itemHeadingLevel,
+      'headingSize': 'm',
+      'href': person.page_path,
+      'body': ('<div><p><strong>' ~ person.role ~ '</strong></p><p class="tna-!--margin-top-xs">' ~ (person.teaser_text | tna_html) ~ '</p></div>') | safe,
+      'accentMeta': True,
+      'fullAreaClick': True,
+      'horizontal': True,
+      'horizontalOnSmall': False,
+      'style': 'plain',
+      'classes': 'tna-card--person-listing' ~ (' tna-!--margin-top-s' if not loop.first else '')
+    } %}
+    {%- if person.image %}
+      {% set card_content = dict(card_content, **{
+        'lazyImage': True,
+        'imageSrc': person.image.jpeg.full_url,
+        'imageAlt': person.image.description,
+        'imageWidth': person.image.jpeg.width,
+        'imageHeight': person.image.jpeg.height,
+        'imageSources': [
+          {
+            'src': person.image.webp.full_url,
+            'type': 'image/webp',
+            'width': person.image.webp.width,
+            'height': person.image.webp.height
+          }
+        ]
+      }) %}
+    {%- else %}
+      {% set card_content = dict(card_content, **{
+        'imageSrc': url_for('static', filename='images/blank-profile.svg'),
+        'imageAlt': '',
+        'imageWidth': 128,
+        'imageHeight': 128
+      }) %}
+    {%- endif %}
+    {{ tnaCard(card_content) }}
     {%- endfor %}
   </div>
 {% endmacro %}
+
