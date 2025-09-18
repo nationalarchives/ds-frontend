@@ -63,6 +63,23 @@ class GeneralWagtailTestCase(unittest.TestCase):
         self.assertEqual(rv.location, "/foobar/")
 
     @requests_mock.Mocker()
+    def test_encoded_path_redirect(self, m):
+        mock_alias_endpoint = (
+            f"{self.mock_api_url}/pages/find/?format=json&html_path=/jam%C3%A9s-biggs/"
+        )
+        mock_alias_respsone = {
+            "id": 518,
+            "meta": {"url": "/jamés-biggs/"},
+        }
+        m.get(mock_alias_endpoint, json=mock_alias_respsone, status_code=200)
+        rv = self.app.get("/jam%C3%A9s-biggs/")
+        self.assertEqual(rv.status_code, 302)
+        self.assertEqual(rv.location, "/jam%C3%A9s-biggs/")
+        rv = self.app.get("/jamés-biggs/")
+        self.assertEqual(rv.status_code, 302)
+        self.assertEqual(rv.location, "/jam%C3%A9s-biggs/")
+
+    @requests_mock.Mocker()
     def test_alias_page_redirect(self, m):
         mock_alias_endpoint = (
             f"{self.mock_api_url}/pages/find/?format=json&html_path=/foobar-alias/"

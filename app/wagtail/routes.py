@@ -1,5 +1,5 @@
 import math
-from urllib.parse import unquote, urlparse
+from urllib.parse import quote, unquote, urlparse
 
 from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.lib.cache import cache, page_cache_key_prefix
@@ -202,7 +202,8 @@ def page(path):
     # If the page has a URL that is different from the requested path, redirect to it
     # which covers internal redirects added in Wagtail
     if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
-        urlparse(objects.get(page_data, "meta.url")).path != urlparse(f"/{path}/").path
+        urlparse(objects.get(page_data, "meta.url")).path
+        != urlparse(f"/{quote(path)}/").path
     ):
         rediect_url = objects.get(page_data, "meta.url")
         return redirect(rediect_url, code=302)
