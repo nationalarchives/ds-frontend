@@ -9,7 +9,6 @@ from flask import (
     make_response,
     redirect,
     render_template,
-    request,
     url_for,
 )
 
