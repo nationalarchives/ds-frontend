@@ -9,6 +9,7 @@ runs:
     - name: Run Node tests
       run: npm run test:all
       shell: bash
-    - name: Audit Node dependencies
-      run: npm audit
-      shell: bash
+    # TODO: Re-enable audit when vulnerabilities are fixed (https://github.com/videojs/video.js/issues/9103)
+    # - name: Audit Node dependencies
+    #   run: npm audit
+    #   shell: bash

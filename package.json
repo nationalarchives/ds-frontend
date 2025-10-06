@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@nationalarchives/frontend": "0.23.1",
-    "@sentry/browser": "^9.5.0",
-    "video.js": "^8.18.1",
+    "@sentry/browser": "^10.17.0",
+    "video.js": "^8.21.1",
     "videojs-youtube": "^3.0.1"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "prettier": "^3.0.2",
     "sass": "^1.69.4",
     "stylelint": "^16.1.0",
-    "stylelint-config-standard-scss": "^15.0.0",
+    "stylelint-config-standard-scss": "^16.0.0",
     "stylelint-order": "^7.0.0",
     "stylelint-selector-bem-pattern": "^4.0.1",
     "terser-webpack-plugin": "^5.3.10",
