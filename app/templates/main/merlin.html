@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{%- from 'components/files-list/macro.html' import tnaFilesList -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'blue' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  }
+] -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
+
+{%- set pageTitle = 'Atomic Weapons Establishment: Merlin Records Concerning Nuclear Test Veterans and the Nuclear Testing Programme' -%}
+
+{% block content %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
+</div>
+<div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-xl">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+      <p class="tna-large-paragraph">Individual MERLIN records can be accessed through our online catalogue, Discovery. They are catalogued within our series <a href="https://discovery.nationalarchives.gov.uk/details/r/C20816086">ES 38</a>.</p>
+    </div>
+  </div>
+</div>
+<div class="tna-container tna-!--margin-top-l">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <p>In view of the size of the collection and ongoing public interest in these records, The National Archives has put in place a bulk access service.</p>
+    <p>All records that are available to be viewed through Discovery can also be accessed and downloaded through the site available at the link below.</p>
+    <p>The content will be updated as records are transferred to The National Archives and published on Discovery. Any content that has been redacted on the version that is available through Discovery will also be redacted on the version available through the bulk access service.</p>
+    {{ tnaFilesList({
+      'itemHeadingLevel': 2,
+      'items': [
+        {
+          'id': 'merlin-zip',
+          'text': 'Merlin records',
+          'href': '#',
+          'fileType': 'ZIP',
+          'fileSize': '1.7MB',
+          'description': 'TODO',
+          'icon': 'archive'
+        }
+      ],
+      'fullAreaClick': true
+    }) }}
+  </div>
+</div>
+{% endblock %}

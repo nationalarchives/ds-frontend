@@ -22,6 +22,12 @@ def browse():
     return render_template("main/browse.html", global_alert=global_alerts())
 
 
+@bp.route("/merlin/")
+@cache.cached(key_prefix=page_cache_key_prefix)
+def merlin():
+    return render_template("main/merlin.html", global_alert=global_alerts())
+
+
 @bp.route("/cookies/set/", methods=["POST"])
 def set_cookies():
     current_cookies_policy = {
