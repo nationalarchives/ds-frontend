@@ -197,10 +197,8 @@ $videojs-track-height: 0.5em;
     }
 
     @include colour.on-forced-colours {
-      & {
-        @include colour.colour-border("keyline", 3px);
-        border-top-width: 2px;
-      }
+      @include colour.colour-border("keyline", 3px);
+      border-top-width: 2px;
 
       .vjs-progress-holder {
         margin-right: 20px;
@@ -310,7 +308,7 @@ $videojs-track-height: 0.5em;
     padding-top: spacing.space(1);
     padding-left: spacing.space(1);
 
-    word-wrap: break-word;
+    overflow-wrap: break-word;
 
     border-radius: 0 0 bordersVars.$rounded-border-radius
       bordersVars.$rounded-border-radius;
