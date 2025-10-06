@@ -220,3 +220,11 @@ sup[data-footnoteid] {
     }
   }
 }
+
+.tna-hero {
+  .tna-container & {
+    @include borders.rounded-border;
+
+    overflow: hidden;
+  }
+}
