@@ -1,7 +1,6 @@
 import logging
 
 import sentry_sdk
-from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
@@ -78,17 +77,6 @@ def create_app(config_class):
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
     app.logger.setLevel(gunicorn_error_logger.level or "DEBUG")
-
-    cache.init_app(
-        app,
-        config={
-            "CACHE_TYPE": app.config.get("CACHE_TYPE"),
-            "CACHE_DEFAULT_TIMEOUT": app.config.get("CACHE_DEFAULT_TIMEOUT"),
-            "CACHE_IGNORE_ERRORS": app.config.get("CACHE_IGNORE_ERRORS"),
-            "CACHE_DIR": app.config.get("CACHE_DIR"),
-            "CACHE_REDIS_URL": app.config.get("CACHE_REDIS_URL"),
-        },
-    )
 
     csp_self = "'self'"
     csp_none = "'none'"

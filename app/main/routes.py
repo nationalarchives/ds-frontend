@@ -3,7 +3,6 @@ import json
 import os
 from urllib.parse import quote, unquote
 
-from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
@@ -17,13 +16,11 @@ def healthcheck():
 
 
 @bp.route("/browse/")
-@cache.cached(key_prefix=page_cache_key_prefix)
 def browse():
     return render_template("main/browse.html", global_alert=global_alerts())
 
 
 @bp.route("/merlin/")
-@cache.cached(key_prefix=page_cache_key_prefix)
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
 

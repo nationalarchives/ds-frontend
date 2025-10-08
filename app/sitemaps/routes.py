@@ -1,7 +1,6 @@
 import math
 from datetime import datetime
 
-from app.lib.cache import cache, path_cache_key_prefix
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
 from flask import (
@@ -14,7 +13,6 @@ from flask import (
 
 
 @bp.route("/sitemap.xml")
-@cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_index():
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
@@ -48,7 +46,6 @@ def sitemaps():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cache.cached(timeout=14400, key_prefix=path_cache_key_prefix)  # 4 hours
 def sitemap_dynamic(sitemap_page):
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")

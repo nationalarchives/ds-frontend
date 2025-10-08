@@ -70,12 +70,6 @@ class Production(Features):
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
-    CACHE_TYPE: str = os.environ.get("CACHE_TYPE", "FileSystemCache")
-    CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "900"))
-    CACHE_IGNORE_ERRORS: bool = True
-    CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
-    CACHE_REDIS_URL: str = os.environ.get("CACHE_REDIS_URL", "")
-
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
     REDIRECT_WAGTAIL_ALIAS_PAGES: bool = strtobool(
@@ -107,13 +101,9 @@ class Production(Features):
 class Staging(Production):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
 
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "60"))
-
 
 class Develop(Production):
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
-
-    CACHE_DEFAULT_TIMEOUT = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
 
 
 class Test(Production):
@@ -127,9 +117,6 @@ class Test(Production):
     SENTRY_SAMPLE_RATE = 0
 
     WAGTAIL_API_URL = "http://wagtail.test/api/v2"
-
-    CACHE_TYPE = "SimpleCache"
-    CACHE_DEFAULT_TIMEOUT = 1
 
     FORCE_HTTPS = False
     PREFERRED_URL_SCHEME = "http"

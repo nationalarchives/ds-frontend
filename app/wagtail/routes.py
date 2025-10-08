@@ -2,20 +2,17 @@ import math
 from urllib.parse import quote, unquote, urlparse
 
 from app.lib.api import ResourceForbidden, ResourceNotFound
-from app.lib.cache import cache, page_cache_key_prefix
 from app.lib.pagination import pagination_object
 from app.wagtail import bp
 from app.wagtail.api import global_alerts, search
 from app.wagtail.render import render_content_page
 from flask import (
     current_app,
-    make_response,
     redirect,
     render_template,
     request,
     url_for,
 )
-from flask_caching import CachedResponse
 from pydash import objects
 
 from .api import (
@@ -102,7 +99,6 @@ def preview_protected_page(page_id):
 
 
 @bp.route("/page/<int:page_id>/")
-@cache.cached(key_prefix=page_cache_key_prefix)
 def page_permalink(page_id):
     """
     Redirects to the Wagtail page by its ID, if it exists, acting as a permalink.
@@ -125,15 +121,11 @@ def page_permalink(page_id):
 
     # If the page does not have a URL, log an error and return a 502 error page
     current_app.logger.error(f"Cannot generate permalink for page: {page_id}")
-    return CachedResponse(
-        response=make_response(render_template("errors/api.html"), 502),
-        timeout=1,
-    )
+    return render_template("errors/api.html"), 502
 
 
 @bp.route("/", defaults={"path": "/"})
 @bp.route("/<path:path>/")
-@cache.cached(key_prefix=page_cache_key_prefix)
 def page(path):
     """
     This function handles the majority of Wagtail page requests.
@@ -155,33 +147,21 @@ def page(path):
         # redirects added in Wagtail
         if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
             return try_external_redirect(path)
-        return CachedResponse(
-            response=make_response(render_template("errors/page_not_found.html"), 404),
-            timeout=1,
-        )
+        return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
         # In the unlikely case that the API returns a 403, show a forbidden error page
-        return CachedResponse(
-            response=make_response(render_template("errors/forbidden.html"), 403),
-            timeout=1,
-        )
+        return render_template("errors/forbidden.html"), 403
     except Exception as e:
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
         current_app.logger.error(f"Failed to render page: {e}")
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
+        return render_template("errors/api.html"), 502
 
     # If the page data does not contain meta information, return a 502 error
     # as it is not possible to render the page without it
     if "meta" not in page_data:
         current_app.logger.error("Page meta not available")
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
+        return render_template("errors/api.html"), 502
 
     # If the page is password protected, redirect to the preview page
     if objects.get(page_data, "meta.privacy") == "password":
@@ -208,18 +188,8 @@ def page(path):
         rediect_url = objects.get(page_data, "meta.url")
         return redirect(quote(rediect_url), code=302)
 
-    # Do not cache certain page types
-    page_types_to_not_cache = ["cookies.CookiesPage"]
-    if objects.get(page_data, "meta.type", None) in page_types_to_not_cache:
-        timeout = 1
-    else:
-        timeout = current_app.config.get("CACHE_DEFAULT_TIMEOUT")
-
     # Render the page
-    return CachedResponse(
-        response=make_response(render_content_page(page_data)),
-        timeout=timeout,
-    )
+    return render_content_page(page_data)
 
 
 def try_external_redirect(path):
@@ -262,7 +232,6 @@ def try_external_redirect(path):
 
 
 @bp.route("/video/<uuid:media_uuid>/")
-@cache.cached(key_prefix=page_cache_key_prefix)
 def media_page(media_uuid):
     """
     Renders a video details page.
@@ -271,31 +240,16 @@ def media_page(media_uuid):
     try:
         media_data = media(media_uuid=media_uuid)
     except ResourceNotFound:
-        return CachedResponse(
-            response=make_response(render_template("errors/page_not_found.html"), 404),
-            timeout=1,
-        )
+        return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
-        return CachedResponse(
-            response=make_response(render_template("errors/forbidden.html"), 403),
-            timeout=1,
-        )
+        return render_template("errors/forbidden.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to get video: {e}")
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    return CachedResponse(
-        response=make_response(
-            render_template("media/video.html", media_data=media_data)
-        ),
-        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
-    )
+        return render_template("errors/api.html"), 502
+    return render_template("media/video.html", media_data=media_data)
 
 
 @bp.route("/image/<uuid:image_uuid>/")
-@cache.cached(key_prefix=page_cache_key_prefix)
 def image_page(image_uuid):
     """
     Renders an image details page.
@@ -304,27 +258,13 @@ def image_page(image_uuid):
     try:
         image_data = image(image_uuid=image_uuid)
     except ResourceNotFound:
-        return CachedResponse(
-            response=make_response(render_template("errors/page_not_found.html"), 404),
-            timeout=1,
-        )
+        return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
-        return CachedResponse(
-            response=make_response(render_template("errors/forbidden.html"), 403),
-            timeout=1,
-        )
+        return render_template("errors/forbidden.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to get video: {e}")
-        return CachedResponse(
-            response=make_response(render_template("errors/api.html"), 502),
-            timeout=1,
-        )
-    return CachedResponse(
-        response=make_response(
-            render_template("media/image.html", image_data=image_data)
-        ),
-        timeout=current_app.config.get("CACHE_DEFAULT_TIMEOUT"),
-    )
+        return render_template("errors/api.html"), 502
+    return render_template("media/image.html", image_data=image_data)
 
 
 @bp.route("/explore-the-collection/search/")
