@@ -36,16 +36,16 @@
 {% block content %}
 <div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
   <div class="tna-container">
-    <form id="search-site" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('site_search.index') }}" role="search">
+    <form id="search-site" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('search.index') }}" role="search">
       {{ tnaSearchField({
-        'label': 'Search The National Archives website',
+        'label': 'Search this website',
         'headingLevel': 1,
         'headingSize': 'l',
-        'hint': 'Find articles and research guides',
         'id': 'search',
         'name': 'q',
         'value': q
       }) }}
+      {#
       {% if q %}
       <h2 class="tna-heading-s tna-!--no-padding-top">Selected filters</h2>
       {{ tnaCompoundFilters({
@@ -59,6 +59,7 @@
         'classes': 'tna-!--margin-top-xs'
       }) }}
       {% endif %}
+      #}
       <input type="hidden" name="view" value="{{ request.args.view or 'list' }}">
     </form>
     <div class="tna-column tna-column--full">
@@ -104,7 +105,7 @@
         'horizontal': not request.args.view or request.args.view == 'list',
         'horizontalSmallImage': True,
         'horizontalFlipped': True,
-        'horizontalOnSmall': True,
+        'horizontalOnSmall': not request.args.view or request.args.view == 'list',
         'style': 'tint' if not request.args.view or request.args.view == 'list' else 'plain',
         'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
       } %}

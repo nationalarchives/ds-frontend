@@ -55,7 +55,7 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
 
 def pagination_object(current_page, total_pages, current_args, boundaries=1, around=1):
     if total_pages == 0:
-        return {}
+        return None
     current_page = int(current_page)
     pagination_object = {}
     pagination_object["items"] = [

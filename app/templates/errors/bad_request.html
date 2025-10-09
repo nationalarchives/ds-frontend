@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{%- set pageTitle = 'The page you requested cannot be served' -%}
+{%- set status_code = status_code or 400 -%}
+
+{% block content %}
+<div class="tna-container">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-section">
+    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+    <p>You have requested a page that cannot be served. This could be because the web address is incorrect.</p>
+    <p>If the web address is correct or you selected a link or button, <a href="https://www.nationalarchives.gov.uk/contact-us/">contact us</a> to let us help.</p>
+  </div>
+</div>
+{% endblock %}
