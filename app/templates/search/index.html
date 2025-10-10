@@ -9,7 +9,7 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'explore_the_collection/partials/discovery-search.html' import discoverySearch -%}
 
-{%- set themeAccent = 'black' if global_alert.mourning_notice else 'orange' -%}
+{%- set themeAccent = 'black' if global_alert.mourning_notice else 'blue' -%}
 
 {%- set pageTitle = 'Search the website' -%}
 {%- set breadcrumbs = [
@@ -137,7 +137,7 @@
   </div>
   {% endif %}
 </section>
-{% elif results %}
+{% else %}
 <div class="tna-container tna-!--padding-top-l" id="results">
   <div class="tna-column tna-column--full">
     <h2 class="tna-heading-xl">No results found</h2>
@@ -147,12 +147,6 @@
       <li>Try different keywords</li>
       <li>Broaden your search keywords</li>
     </ul>
-  </div>
-</div>
-{% else %}
-<div class="tna-container tna-!--padding-top-l">
-  <div class="tna-column tna-column--full">
-    <h2 class="tna-heading-xl">SEARCH FOR SOMETHING</h2>
   </div>
 </div>
 {% endif %}
