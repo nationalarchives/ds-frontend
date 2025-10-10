@@ -42,8 +42,7 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('usage') else 'false',
-    'classes': 'tna-form__group--full-sized-hint'
+    'selected': 'true' if cookie_preference('usage') else 'false'
   }) }}
   {{ tnaRadios({
     'label': 'Cookies that remember your settings',
@@ -62,8 +61,7 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('settings') else 'false',
-    'classes': 'tna-form__group--full-sized-hint'
+    'selected': 'true' if cookie_preference('settings') else 'false'
   }) }}
   {{ tnaRadios({
     'label': 'Cookies that are used for marketing',
@@ -82,8 +80,7 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('marketing') else 'false',
-    'classes': 'tna-form__group--full-sized-hint'
+    'selected': 'true' if cookie_preference('marketing') else 'false'
   }) }}
   <input type="hidden" name="referrer" value="{{ page_data.meta.html_url }}">
   <div class="tna-button-group">
