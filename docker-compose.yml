@@ -4,7 +4,7 @@ services:
       context: .
       args:
         IMAGE: ghcr.io/nationalarchives/tna-python-root
-        IMAGE_TAG: preview
+        IMAGE_TAG: 0
     environment:
       - RUNTIME=develop
       - ENVIRONMENT_NAME=develop
