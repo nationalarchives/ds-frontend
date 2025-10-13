@@ -8,6 +8,7 @@ services:
     environment:
       - RUNTIME=develop
       - ENVIRONMENT_NAME=develop
+      - ALLOW_INSECURE=true
       - CONFIG=config.Develop
       - DEBUG=true
       - SECRET_KEY=abc123
