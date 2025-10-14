@@ -93,9 +93,6 @@ jobs:
           COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
           git commit -m "Update frontend to v${{ needs.build.outputs.version }}" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
           git push origin main
-      - name: Notify Sentry of release
-        run: |
-          curl ${{ secrets.SENTRY_RELEASE_WEBHOOK }} -X POST -H 'Content-Type: application/json' -d '{"version": "v${{ needs.build.outputs.version }}"}'
 
   # update-dblclk:
   #   runs-on: ubuntu-latest
