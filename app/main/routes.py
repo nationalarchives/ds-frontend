@@ -57,6 +57,8 @@ def set_cookies():
         "essential": True,
     }
     referrer = request.form.get("referrer", "/cookies/")
+    if not referrer.startswith("/"):
+        referrer = "/cookies/"
     response = make_response(redirect(f"{referrer}?saved=true"))
     response.set_cookie(
         "cookies_policy",
