@@ -1,18 +1,11 @@
 {% extends 'base.html' %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set themeAccent = 'black' if global_alert.mourning_notice else 'green' -%}
-{#
-{%- set breadcrumbs = [
-  {
-    'text': 'Home',
-    'href': '/'
-  }
-] -%}
-{%- set breadcrumbsStyle = 'accent-light' -%}
-#}
 
 {%- set pageTitle = 'Atomic Weapons Establishment: Merlin records' -%}
 
@@ -25,7 +18,7 @@
 <div class="tna-background-accent-light">
   {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
 </div>
-<div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-xl">
+<div class="tna-background-accent-light tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <hgroup class="tna-hgroup-xl">
@@ -57,4 +50,6 @@
     <p>The content will be updated as records are transferred to The National Archives and published on Discovery. Any content that has been redacted on the version that is available through Discovery will also be redacted on the version available through this bulk access service.</p>
   </div>
 </div>
+{{ feedback() }}
+{{ back_to_top() }}
 {% endblock %}
