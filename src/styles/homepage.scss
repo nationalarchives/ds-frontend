@@ -6,29 +6,20 @@
 $foreground-brand-colour: "navy";
 $background-brand-colour: "yellow";
 
-.etna-homepage-hero {
-  overflow: hidden;
-
-  position: relative;
-
-  background-color: colour.brand-colour($background-brand-colour);
-
-  &__image {
-    width: 100%;
-    height: 100%;
-
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-
-    object-fit: cover;
+.tna-hero {
+  &--home &__figure {
+    min-height: max(96px, 20rem);
   }
 
-  &__content {
-    padding-top: clamp(8rem, 20vw, 16rem);
-
+  &--home &__inner--custom {
     position: relative;
     z-index: 4;
+  }
+
+  &--home &__content-inner {
+    padding: 0;
+
+    background: transparent;
   }
 
   .tna-heading-xl,
@@ -53,20 +44,36 @@ $background-brand-colour: "yellow";
   .tna-button-group {
     gap: spacing.space(0.5) spacing.space(1);
   }
-}
 
-.tna-hero {
-  .tna-column & {
-    @include borders.rounded-border;
+  @include media.on-mobile {
+    &--home &__figure {
+      padding-top: spacing.space(5);
+      padding-bottom: spacing.space(2);
+    }
 
-    overflow: hidden;
+    &--home &__inner {
+      background: transparent !important;
+    }
 
-    &__figure {
-      @include media.on-larger-than-mobile {
-        padding-top: spacing.space(9);
-        padding-bottom: spacing.space(2);
+    &--home &__content-inner {
+      padding-top: spacing.space(2);
+    }
+
+    &--home &__image {
+      overflow: hidden;
+
+      position: absolute;
+
+      img {
+        height: 100%;
       }
     }
+  }
+}
+
+.tna-card {
+  &--wider-horizontal-image {
+    grid-template-columns: clamp(20rem, 33%, 25rem) 1fr;
   }
 }
 

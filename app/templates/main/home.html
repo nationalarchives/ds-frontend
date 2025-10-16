@@ -21,230 +21,224 @@
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm', 'm') }}
-<section class="tna-background-contrast- etna-homepage-hero">
-  <img src="https://www.nationalarchives.gov.uk/wp-content/uploads/2025/04/brutalist-part-building-1.jpg" class="etna-homepage-hero__image" alt="">
-  <div class="etna-homepage-hero__content">
-    <div class="tna-container tna-!--padding-vertical-m">
-      <div class="tna-column tna-column--full">
-        <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      </div>
-      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-xs">
-        <div class="tna-large-paragraph tna-large-paragraph--bold">{{ page_data.intro | tna_html | safe }}</div>
-        <div class="tna-button-group">
-          {{ tnaButton({
-            'text': 'Help with your research',
-            'href': '#',
-            'icon': 'chevron-right',
-            'rightAlignIcon': True,
-            'classes': 'tna-button--solid-hover'
-          }) }}
-          {{ tnaButton({
-            'text': 'Search the catalogue',
-            'href': '#',
-            'icon': 'chevron-right',
-            'rightAlignIcon': True,
-            'classes': 'tna-button--solid-hover'
-          }) }}
-          {{ tnaButton({
-            'text': 'Plan your visit',
-            'href': '#',
-            'icon': 'chevron-right',
-            'rightAlignIcon': True,
-            'classes': 'tna-button--solid-hover'
-          }) }}
+<header class="tna-hero tna-hero--home">
+  <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+    <meta itemprop="description" content="{{ page_data.hero_image.description }}">
+    <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') }}">
+    <meta itemprop="name" content="{{ page_data.hero_image.title }}">
+    <meta itemprop="contentUrl" content="{{ page_data.hero_image.jpeg.full_url }}">
+    <meta itemprop="width" content="{{ page_data.hero_image.jpeg.width }}">
+    <meta itemprop="height" content="{{ page_data.hero_image.jpeg.height }}">
+    <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
+    <div class="tna-container tna-hero__inner--custom">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hero__content">
+        <div class="tna-hero__content-inner">
+          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+          <div class="tna-large-paragraph tna-large-paragraph--bold">{{ page_data.intro | tna_html | safe }}</div>
+          <div class="tna-button-group">
+            {{ tnaButton({
+              'text': 'Help with your research',
+              'href': '/help-with-your-research/',
+              'icon': 'chevron-right',
+              'rightAlignIcon': True,
+              'classes': 'tna-button--solid-hover'
+            }) }}
+            {{ tnaButton({
+              'text': 'Search the catalogue',
+              'href': 'https://discovery.nationalarchives.gov.uk/',
+              'icon': 'chevron-right',
+              'rightAlignIcon': True,
+              'classes': 'tna-button--solid-hover'
+            }) }}
+            {{ tnaButton({
+              'text': 'Plan your visit',
+              'href': '/about/visit-us/',
+              'icon': 'chevron-right',
+              'rightAlignIcon': True,
+              'classes': 'tna-button--solid-hover'
+            }) }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- <div class="tna-section tna-container">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    {%- for content_item in page_data.body %}
-    {%- if content_item.type == 'paragraph_with_heading' %}
-    <h2 class="tna-heading-l">{{ content_item.value.heading }}</h2>
-    {{ content_item.value.paragraph | tna_html | safe }}
-    {%- endif %}
-    {%- endfor %}
-  </div>
-</div> -->
-
-<section class="tna-section tna-container">
-  <div class="tna-column tna-column--full">
-    <!-- {{ tnaCard({
-      'supertitle': 'Exhibition',
-      'title': 'MI5: Official Secrets',
-      'headingLevel': 2,
-      'headingSize': 'l',
-      'href': '/mi5-official-secrets/',
-      'body': '<p>Step inside the hidden world of MI5 and explore the extraordinary stories behind the security of a nation.</p><p>For the first time, MI5’s history will go on display to the public in a major new exhibition, made possible through an unprecedented partnership between the Security Service and The National Archives.</p>',
-      'meta': [
+    <picture class="tna-hero__image">
+      {%- for source in [
         {
-          'title': 'Date',
-          'text': 'Opening 5 April 2025',
-          'icon': 'calendar'
-        },
-        {
-          'title': 'Location',
-          'text': 'The National Archives, Kew',
-          'icon': 'location-dot'
-        }
-      ],
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/homepage-banner.jpg',
-      'imageAlt': '',
-      'imageWidth': 840,
-      'imageHeight': 240,
-      'style': 'contrast',
-      'fullAreaClick': True,
-      'horizontal': True,
-      'horizontalSmallImage': True
-    }) }} -->
-    {{ tnaHero({
-      'supertitle': 'Exhibition',
-      'title': 'MI5: Official Secrets',
-      'headingLevel': 2,
-      'headingSize': 'l',
-      'body': '<p class="tna-large-paragraph">Visit our 5-star rated exhibition, made in partnership with MI5.</p>',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/media/images/OfficialSecretsWebs_BQygOTy.7bef24fe.fill-1200x480.format-jpeg.jpegquality-60.bgcolor-fff.jpg',
-      'imageAlt': '',
-      'imageWidth': 1200,
-      'imageHeight': 480,
-      'imageSources': [
-        {
-          'src': "https://www.nationalarchives.gov.uk/media/images/OfficialSecretsWebs_j59amdL.7bef24fe.fill-600x400.format-webp.webpquality-60.bgcolor-fff.webp",
-          'width': 600,
-          'height': 400,
+          'src': page_data.hero_image_small.webp.full_url,
+          'width': page_data.hero_image_small.webp.width,
+          'height': page_data.hero_image_small.webp.height,
           'type': 'image/webp',
           'media': '(max-width: 48em)'
         },
         {
-          'src': "https://www.nationalarchives.gov.uk/media/images/OfficialSecretsWebsi_UA6a0MN.7bef24fe.fill-600x400.format-jpeg.jpegquality-60.bgcolor-fff.jpg",
-          'width': 600,
-          'height': 400,
+          'src': page_data.hero_image_small.jpeg.full_url,
+          'width': page_data.hero_image_small.jpeg.width,
+          'height': page_data.hero_image_small.jpeg.height,
           'type': 'image/jpeg',
           'media': '(max-width: 48em)'
         },
         {
-          'src': "https://www.nationalarchives.gov.uk/media/images/OfficialSecretsWeb_rYIfgjR.7bef24fe.fill-1200x480.format-webp.webpquality-60.bgcolor-fff.webp",
-          'width': 1200,
-          'height': 480,
+          'src': page_data.hero_image.webp.full_url,
+          'width': page_data.hero_image.webp.width,
+          'height': page_data.hero_image.webp.height,
           'type': 'image/webp'
         }
-      ],
-      'actions': [
-        {
-          'text': 'Visit the exhibition',
-          'href': '/mi5-official-secrets/',
-          'icon': 'chevron-right',
-          'rightAlignIcon': True
-        }
-      ],
-      'narrow': True,
-      'style': 'contrast'
-    }) }}
+      ] %}
+      <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else page_data.hero_image.jpeg.width }}" height="{{ source.height if source.height else page_data.hero_image.jpeg.height }}"{% if source.media %} media="{{ source.media }}"{% endif %}>
+      {%- endfor %}
+      <img src="{{ page_data.hero_image.jpeg.url }}" alt="{{ page_data.hero_image.description }}" width="{{ page_data.hero_image.jpeg.width }}" height="{{ page_data.hero_image.jpeg.height }}" fetchpriority="high" itemprop="url">
+    </picture>
+    {%- if page_data.hero_image_caption or page_data.hero_image.copyright -%}
+    <figcaption class="tna-hero__caption">
+      <details class="tna-hero__details">
+        <summary class="tna-hero__details-summary tna-button tna-button--small tna-button--icon-only-mobile" aria-label="Additional information about this image">
+          <i class="fa-solid fa-circle-info tna-hero__details-summary-icon" aria-hidden="true"></i>
+          About this image
+        </summary>
+        <div class="tna-hero__information" itemprop="description">
+          {{ page_data.hero_image_caption | safe }}
+          {%- if page_data.hero_image.copyright %}
+          <div class="tna-hero__copyright" itemprop="copyrightNotice">
+            {{ page_data.hero_image.copyright | tna_html | safe }}
+          </div>
+          {%- endif %}
+        </div>
+      </details>
+    </figcaption>
+    {%- endif -%}
+  </figure>
+</header>
+
+<section class="tna-section tna-container">
+  <div class="tna-column tna-column--full">
+    <!-- TODO: "featured_page" OR "featured_external_link" -->
+    {%- if page_data.primary_promo[0].type == 'featured_page' %}
+      {% set card_content = {
+        'supertitle': page_data.primary_promo[0].value.page.type_label,
+        'title': page_data.primary_promo[0].value.page.title,
+        'headingLevel': 2,
+        'headingSize': 'l',
+        'href': page_data.primary_promo[0].value.page.url,
+        'text': page_data.primary_promo[0].value.page.teaser_text,
+        'style': 'contrast',
+        'fullAreaClick': True,
+        'horizontal': True,
+        'horizontalSmallImage': True,
+        'classes': 'tna-card--wider-horizontal-image'
+      } %}
+      {%- if page_data.primary_promo[0].value.page.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.primary_promo[0].value.page.teaser_image.jpeg.url,
+          'imageAlt': page_data.primary_promo[0].value.page.teaser_image.description,
+          'imageWidth': page_data.primary_promo[0].value.page.teaser_image.jpeg.width,
+          'imageHeight': page_data.primary_promo[0].value.page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.primary_promo[0].value.page.teaser_image.webp.url,
+              'width': page_data.primary_promo[0].value.page.teaser_image.webp.width,
+              'height': page_data.primary_promo[0].value.page.teaser_image.webp.height,
+              'type': 'image/webp'
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    {%- elif page_data.primary_promo[0].type == 'featured_external_link' %}
+      {% set card_content = {
+        'supertitle': page_data.primary_promo[0].value.supertitle,
+        'title': page_data.primary_promo[0].value.title,
+        'headingLevel': 2,
+        'headingSize': 's',
+        'href': page_data.primary_promo[0].value.url,
+        'text': page_data.primary_promo[0].value.description,
+        'style': 'contrast',
+        'fullAreaClick': True,
+        'horizontal': True,
+        'horizontalSmallImage': True,
+        'classes': 'tna-card--wider-horizontal-image'
+      } %}
+      {%- if page_data.primary_promo[0].value.image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.primary_promo[0].value.image.jpeg.full_url,
+          'imageAlt': page_data.primary_promo[0].value.image.description,
+          'imageWidth': page_data.primary_promo[0].value.image.jpeg.width,
+          'imageHeight': page_data.primary_promo[0].value.image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.primary_promo[0].value.image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.primary_promo[0].value.image.webp.width,
+              'height': page_data.primary_promo[0].value.image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    {%- endif %}
   </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {{ tnaCard({
-      'supertitle': 'Feature',
-      'title': 'On the Record: Working Women in History',
-      'headingLevel': 2,
-      'headingSize': 's',
-      'href': '#',
-      'text': 'Tune into our podcast to explore the lives of working women over the centuries.',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/working-women-homepage.jpg',
-      'imageAlt': '',
-      'imageWidth': 384,
-      'imageHeight': 185,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    }) }}
-  </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {{ tnaCard({
-      'supertitle': 'Feature',
-      'title': 'Karl Muller and the fatal lemon',
-      'headingLevel': 2,
-      'headingSize': 's',
-      'href': '#',
-      'text': 'When can a lemon have fatal consequences?',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/lemon-homepage.jpg',
-      'imageAlt': '',
-      'imageWidth': 384,
-      'imageHeight': 185,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    }) }}
-  </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {{ tnaCard({
-      'supertitle': 'Event',
-      'title': 'MI5: Official Secrets Events Programme',
-      'headingLevel': 2,
-      'headingSize': 's',
-      'href': '#',
-      'text': 'Explore our exciting programme of in-person and online events.',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/MI5-events-homepage.jpg',
-      'imageAlt': '',
-      'imageWidth': 384,
-      'imageHeight': 185,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    }) }}
-  </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {{ tnaCard({
-      'supertitle': 'Feature',
-      'title': 'The story of Sophia Duleep Singh',
-      'headingLevel': 2,
-      'headingSize': 's',
-      'href': '#',
-      'text': 'Learn more about this formidable figure in the women\'s suffrage movement.',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/sophia-duleep-singh-homepage.jpg',
-      'imageAlt': '',
-      'imageWidth': 384,
-      'imageHeight': 185,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    }) }}
-  </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {{ tnaCard({
-      'supertitle': 'Event',
-      'title': 'Writing on the Wall: Graffiti and Rebellion in Eighteenth Century Britain',
-      'headingLevel': 2,
-      'headingSize': 's',
-      'href': '#',
-      'text': 'What if walls could talk? For historian Madeleine Pelling, they can.',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2025/03/writing-on-the-wall-homepage.jpg',
-      'imageAlt': '',
-      'imageWidth': 384,
-      'imageHeight': 185,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    }) }}
-  </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
-    {{ tnaCard({
-      'supertitle': 'Event',
-      'title': 'Book your reading room visit',
-      'headingLevel': 2,
-      'headingSize': 's',
-      'href': '#',
-      'text': 'To view our documents we encourage you to book your visit in advance.',
-      'imageSrc': 'https://www.nationalarchives.gov.uk/wp-content/uploads/sites/24/2024/08/repositories-web.jpg',
-      'imageAlt': '',
-      'imageWidth': 758,
-      'imageHeight': 576,
-      'style': 'plain',
-      'fullAreaClick': True,
-      'classes': 'tna-card--full-height'
-    }) }}
-  </div>
+  {%- for page in page_data.secondary_promos %}
+    <div class="tna-column tna-column--width-1-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+      {%- if page.type == 'featured_page' %}
+        {% set card_content = {
+          'supertitle': page.value.page.type_label,
+          'title': page.value.page.title,
+          'headingLevel': 2,
+          'headingSize': 's',
+          'href': page.value.page.url,
+          'text': page.value.page.teaser_text,
+          'style': 'plain',
+          'fullAreaClick': True,
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if page.value.page.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': page.value.page.teaser_image.jpeg.full_url,
+            'imageAlt': page.value.page.teaser_image.description,
+            'imageWidth': page.value.page.teaser_image.jpeg.width,
+            'imageHeight': page.value.page.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page.value.page.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': page.value.page.teaser_image.webp.width,
+                'height': page.value.page.teaser_image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      {%- elif page.type == 'featured_external_link' %}
+        {% set card_content = {
+          'supertitle': page.value.supertitle,
+          'title': page.value.title,
+          'headingLevel': 2,
+          'headingSize': 's',
+          'href': page.value.url,
+          'text': page.value.description,
+          'style': 'plain',
+          'fullAreaClick': True,
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if page.value.image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': page.value.image.jpeg.full_url,
+            'imageAlt': page.value.image.description,
+            'imageWidth': page.value.image.jpeg.width,
+            'imageHeight': page.value.image.jpeg.height,
+            'imageSources': [
+              {
+                'src': page.value.image.webp.full_url,
+                'type': 'image/webp',
+                'width': page.value.image.webp.width,
+                'height': page.value.image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      {%- endif %}
+    </div>
+  {%- endfor %}
 </section>
 
 <section class="tna-section tna-background-accent-light tna-!--padding-top-s">
