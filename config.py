@@ -90,6 +90,7 @@ class Production(Features):
         "/explore-the-collection/",
         "/help/",
         "/image/",
+        "/merlin/",
         "/mi5-official-secrets/",
         "/people/",
         "/professional-guidance-and-services/",
