@@ -114,9 +114,9 @@ sup[data-footnoteid] {
 
     box-sizing: border-box;
 
-    @include colour.on-high-contrast-and-forced-colours {
-      height: auto;
-    }
+    // @include colour.on-high-contrast-and-forced-colours {
+    //   height: auto;
+    // }
   }
 
   &--promoted-item {
