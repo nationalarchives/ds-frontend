@@ -89,3 +89,20 @@ if (cookies.isPolicyAccepted("settings")) {
 //       $emailButton.innerHTML = originalEmailButtonHTML;
 //     });
 //   });
+
+const apiHost = "http://localhost:8000";
+fetch(`${apiHost}/userbar/`)
+  .then((res) => res.text())
+  .then((userbar) => {
+    const $userbar = document.createElement("div");
+    $userbar.id = "wagtail-userbar";
+    $userbar.innerHTML = userbar;
+    document.body.appendChild($userbar);
+  });
+
+const vendorScript = document.createElement("script");
+vendorScript.src = `${apiHost}/wagtail-static/wagtailadmin/js/vendor.js`;
+document.body.appendChild(vendorScript);
+const userbarScript = document.createElement("script");
+userbarScript.src = `${apiHost}/wagtail-static/wagtailadmin/js/userbar.js`;
+document.body.appendChild(userbarScript);
