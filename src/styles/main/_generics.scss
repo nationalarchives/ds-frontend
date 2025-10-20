@@ -150,6 +150,24 @@ abbr {
   }
 }
 
+/* stylelint-disable no-descending-specificity */
+.tna-ol > li {
+  list-style-type: decimal;
+
+  & & {
+    list-style-type: lower-alpha;
+  }
+
+  & & & {
+    list-style-type: lower-roman;
+  }
+
+  & & & & {
+    list-style-type: decimal;
+  }
+}
+/* stylelint-enable no-descending-specificity */
+
 p.etna-small-paragraph {
   margin-top: 0;
   margin-bottom: spacing.space(0.5);
