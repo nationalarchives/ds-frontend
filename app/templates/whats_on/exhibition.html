@@ -184,7 +184,7 @@
         {{ page_data.intro | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
-        {{ wagtail_streamfield(page_data.body, 2, page_data.footnotes) }}
+        {{ wagtail_streamfield(page_data.body, 3, page_data.footnotes) }}
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
