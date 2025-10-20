@@ -6,7 +6,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
 
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent' -%}
 
 {% block head %}
@@ -19,11 +19,11 @@
 <div class="tna-section tna-background-accent">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
       <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
     </div>
     <div class="tna-column tna-column--full tna-!--margin-top-m">
-      <div class="tna-button-group" data-tna-analytics-section="{{ pageTitle }}">
+      <div class="tna-button-group" data-tna-analytics-section="{{ page_data.title }}">
         {%- for child in groups.dates['items'] %}
         {{ tnaButton({
           'text': child.title,

@@ -2,7 +2,7 @@
 
 {%- from 'macros/meta.html' import meta -%}
 
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block head %}
 {{ super() }}

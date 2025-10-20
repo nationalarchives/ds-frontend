@@ -17,7 +17,7 @@
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block head %}
 {{ super() }}

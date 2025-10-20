@@ -7,7 +7,7 @@
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' if not page_data.hero_image else '' -%}
 
 {% block head %}

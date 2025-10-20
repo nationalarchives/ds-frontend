@@ -5,7 +5,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
 
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set themeAccent = 'green' -%}
 {%- set noPadding = True -%}
 {%- set aToZSidebar = True -%}

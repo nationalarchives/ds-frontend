@@ -5,7 +5,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/meta.html' import meta -%}
 
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block head %}
 {{ super() }}
@@ -19,7 +19,7 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <hgroup class="tna-hgroup-xl">
         <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
-        <h1 class="tna-hgroup__title">{{ pageTitle }}</h1>
+        <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
       </hgroup>
       <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
     </div>

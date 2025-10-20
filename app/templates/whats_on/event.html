@@ -12,7 +12,7 @@
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set pageTitle = page_data.title -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent' -%}
 
 {% block head %}
