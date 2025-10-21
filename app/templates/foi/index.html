@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/meta.html' import meta -%}
+
+{%- set themeAccent = 'black' if page_data.mourning_notice else (themeAccent or 'blue') -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
+
+{% block head %}
+{{ super() }}
+{{- meta(page_data) }}
+    <link rel="canonical" href="{{ request.url }}{{ '?page=' ~ (page | string) if 'page' not in request.args }}">
+{% endblock %}
+
+{% block content %}
+{%- if page_data.global_alert or page_data.mourning_notice %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 's') }}
+</div>
+{%- endif %}
+<div class="tna-section tna-!--padding-top-m tna-background-accent-light">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+      {%- if page_data.intro %}
+      <div class="tna-large-paragraph tna-!--margin-top-s">
+        {{ page_data.intro | tna_html | safe }}
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+</div>
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {%- for year in requests %}
+      <h2 class="tna-heading-l">{{ year.heading }}</h2>
+      {%- for month in year['items'] %}
+      <h3 class="tna-heading-m tna-!--no-margin-top">{{ month.heading }} {{ year.heading }}</h3>
+      <ol class="tna-ol tna-ul--spaced">
+        {%- for request in month['items'] %}
+        <li>
+          <h2 class="tna-heading-s">
+            <a href="{{ request.url }}">{{ request.title }}</a>
+          </h2>
+          <p class="tna-!--no-margin-top">Freedom of information request reference: {{ request.reference }}</p>
+        </li>
+        {%- endfor %}
+      </ol>
+      {%- endfor %}
+      {%- endfor %}
+    </div>
+  </div>
+</div>
+{%- if pages > 1 %}
+<div class="tna-container">
+  <div class="tna-column tna-column--full tna-!--margin-top-xl">
+    {{ tnaPagination(pagination) }}
+  </div>
+</div>
+{%- endif %}
+{% endblock %}

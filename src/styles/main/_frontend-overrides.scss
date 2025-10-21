@@ -20,6 +20,10 @@
   overflow-wrap: break-word;
 }
 
+p > a {
+  overflow-wrap: break-word;
+}
+
 .tna-ol {
   &--footnotes {
     @include typography.font-size(16);

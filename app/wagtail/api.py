@@ -342,3 +342,16 @@ def search(query, page, limit=None, params={}):
             "order": "-id",
         }
     return wagtail_request_handler(uri, params)
+
+
+def foi_requests(
+    page,
+    limit=None,
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (page - 1) * limit
+    uri = "foi/"
+    params = params | {"offset": offset, "limit": limit, "order": "-date"}
+    return wagtail_request_handler(uri, params)

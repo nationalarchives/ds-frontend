@@ -15,6 +15,8 @@ from .pages.collections.explorer_index_page import explorer_index_page
 from .pages.collections.highlight_gallery_page import highlight_gallery_page
 from .pages.cookies.cookie_details_page import cookie_details_page
 from .pages.cookies.cookies_page import cookies_page
+from .pages.foi.foi_index_page import foi_index_page
+from .pages.foi.foi_request_page import foi_request_page
 from .pages.generic_pages.general_page import general_page
 from .pages.generic_pages.hub_page import hub_page
 from .pages.home.home_page import home_page
@@ -70,6 +72,9 @@ page_type_templates = {
     "whatson.WhatsOnSeriesPage": whats_on_series_page,
     "whatson.WhatsOnDateListingPage": whats_on_date_listing_page,
     "whatson.WhatsOnLocationListingPage": whats_on_location_listing_page,
+    # FOI
+    "foi.FoiIndexPage": foi_index_page,
+    "foi.FoiRequestPage": foi_request_page,
 }
 
 
