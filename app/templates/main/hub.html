@@ -2,6 +2,8 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
@@ -131,5 +133,7 @@
         {% endfor %}
       </ul>
     </nav>
+    {{ feedback() }}
+    {{ back_to_top('l') }}
   </main>
 {% endblock %}

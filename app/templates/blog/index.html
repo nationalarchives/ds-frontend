@@ -6,6 +6,7 @@
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
@@ -53,6 +54,89 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='blog.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
+{% set sidebar_contents %}
+<div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-column--order-3">
+  {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+  {% set blogs_list = [] %}
+  {% for blog in blogs %}
+    {% set blogs_list = blogs_list.append({
+      'text': blog.title,
+      'href': blog.url,
+      'current': request.path == blog.url
+    }) %}
+  {% endfor %}
+  {{ tnaSidebar({
+    'title': 'All blogs',
+    'headingLevel': 2,
+    'items': blogs_list,
+    'type': 'pages'
+  }) }}
+  {%- endif %}
+  
+  {%- if categories %}
+  <h2 class="tna-heading-m">Filter posts by category</h2>
+  {% set categories_list = [] %}
+  {% for category in categories %}
+    {% set categories_list = categories_list.append({
+      'label': category.title,
+      'href': category.url,
+      'selected': request.path == category.url
+    }) %}
+  {% endfor %}
+  {{ tnaQuickFilters({
+    'items': categories_list,
+    'stack': True,
+    'classes': 'tna-!--margin-top-s'
+  }) }}
+  {%- endif %}
+
+  {%- if date_filters %}
+  <h2 class="tna-heading-m">Filter posts by date</h2>
+  {{ tnaQuickFilters({
+    'items': date_filters,
+    'stack': True,
+    'classes': 'tna-!--margin-top-s'
+  }) }}
+  {%- endif %}
+
+  {%- if page_data.meta.type == 'blog.BlogIndexPage' or (page_data.meta.type == 'blog.BlogPage' and page_data.id) %}
+  <h2 class="tna-heading-m">Feeds</h2>
+  <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
+    {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
+      {{ tnaButton({
+        'text': 'RSS feed',
+        'href': url_for('feeds.rss_all_feed'),
+        'title': 'Subscribe to the RSS feed for this blog',
+        'icon': 'rss'
+      }) }}
+      {{ tnaButton({
+        'text': 'Atom feed',
+        'href': url_for('feeds.rss_all_feed', format='atom'),
+        'title': 'Subscribe to the Atom feed for this blog',
+        'icon': 'atom'
+      }) }}
+    {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
+      {{ tnaButton({
+        'text': 'RSS feed',
+        'href': url_for('feeds.rss_feed', blog_id=page_data.id),
+        'title': 'Subscribe to the RSS feed for this blog',
+        'icon': 'rss'
+      }) }}
+      {{ tnaButton({
+        'text': 'Atom feed',
+        'href': url_for('feeds.rss_feed', blog_id=page_data.id, format='atom'),
+        'title': 'Subscribe to the Atom feed for this blog',
+        'icon': 'atom'
+      }) }}
+    {%- endif %}
+  </div>
+  <p class="tna-!--margin-top-xs">
+    <small><a href="{{ page_data.blogs_feeds_page.url }}">All blog feeds</a></small>
+  </p>
+  {%- endif %}
+</div>
+{% endset %}
+
 {% block main %}
   {% block beforeContent %}
     {{ super() }}
@@ -84,7 +168,6 @@
     </div>
 
     {%- if total_blog_posts %}
-
       {%- if page == 1 and blog_posts %}
       <div class="etna-background-accent-light-half">
         <div class="tna-container">
@@ -200,86 +283,7 @@
           {{ tnaPagination(pagination) }}
         </div>
         {% endif %}
-        <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-column--order-3">
-          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
-          {% set blogs_list = [] %}
-          {% for blog in blogs %}
-            {% set blogs_list = blogs_list.append({
-              'text': blog.title,
-              'href': blog.url,
-              'current': request.path == blog.url
-            }) %}
-          {% endfor %}
-          {{ tnaSidebar({
-            'title': 'All blogs',
-            'headingLevel': 2,
-            'items': blogs_list,
-            'type': 'pages'
-          }) }}
-          {%- endif %}
-          
-          {%- if categories %}
-          <h2 class="tna-heading-m">Filter posts by category</h2>
-          {% set categories_list = [] %}
-          {% for category in categories %}
-            {% set categories_list = categories_list.append({
-              'label': category.title,
-              'href': category.url,
-              'selected': request.path == category.url
-            }) %}
-          {% endfor %}
-          {{ tnaQuickFilters({
-            'items': categories_list,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
-
-          {%- if date_filters %}
-          <h2 class="tna-heading-m">Filter posts by date</h2>
-          {{ tnaQuickFilters({
-            'items': date_filters,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
-
-          {%- if page_data.meta.type == 'blog.BlogIndexPage' or (page_data.meta.type == 'blog.BlogPage' and page_data.id) %}
-          <h2 class="tna-heading-m">Feeds</h2>
-          <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
-            {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
-              {{ tnaButton({
-                'text': 'RSS feed',
-                'href': url_for('feeds.rss_all_feed'),
-                'title': 'Subscribe to the RSS feed for this blog',
-                'icon': 'rss'
-              }) }}
-              {{ tnaButton({
-                'text': 'Atom feed',
-                'href': url_for('feeds.rss_all_feed', format='atom'),
-                'title': 'Subscribe to the Atom feed for this blog',
-                'icon': 'atom'
-              }) }}
-            {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
-              {{ tnaButton({
-                'text': 'RSS feed',
-                'href': url_for('feeds.rss_feed', blog_id=page_data.id),
-                'title': 'Subscribe to the RSS feed for this blog',
-                'icon': 'rss'
-              }) }}
-              {{ tnaButton({
-                'text': 'Atom feed',
-                'href': url_for('feeds.rss_feed', blog_id=page_data.id, format='atom'),
-                'title': 'Subscribe to the Atom feed for this blog',
-                'icon': 'atom'
-              }) }}
-            {%- endif %}
-          </div>
-          <p class="tna-!--margin-top-xs">
-            <small><a href="{{ page_data.blogs_feeds_page.url }}">All blog feeds</a></small>
-          </p>
-          {%- endif %}
-        </div>
+        {{ sidebar_contents }}
       </div>
       {%- if authors %}
       <div class="tna-background-tint tna-!--margin-top-l tna-section">
@@ -316,15 +320,16 @@
       {%- endif %}
 
     {%- else %}
-    <div class="tna-container tna-section">
-      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-container tna-!--padding-bottom-l">
+      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
         <h2 class="tna-heading-l">No posts found</h2>
-        {%- if year and month %}
+        {%- if month %}
         <p>Try widening your date filtering to <a href="?year={{ year }}">blog posts from {{ year }}</a>.</p>
         {%- elif blogs %}
         <p>See <a href="{{ blogs[0].url }}">all our blogs</a>.</p>
         {%- endif %}
       </div>
+      {{ sidebar_contents }}
     </div>
     {%- endif %}
 
@@ -340,6 +345,8 @@
       </div>
       {%- endif %}
     </div>
+
+    {{ feedback() }}
     
     {{ back_to_top('l', True) }}
   </main>

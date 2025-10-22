@@ -4,6 +4,7 @@
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/authors_list.html' import authors_list -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
@@ -148,6 +149,7 @@
       </div>
       {%- endif %}
     </article>
+    {{ feedback() }}
     {{ back_to_top() }}
   </main>
 {% endblock %}
