@@ -16,12 +16,13 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='event.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm', 'm') }}
 {%- if page_data.hero_image %}
-<header class="tna-hero tna-hero--home">
+<header class="tna-hero tna-background-accent tna-hero--home-">
   <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
     <meta itemprop="description" content="{{ page_data.hero_image.description }}">
     <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') }}">
@@ -30,33 +31,35 @@
     <meta itemprop="width" content="{{ page_data.hero_image.jpeg.width }}">
     <meta itemprop="height" content="{{ page_data.hero_image.jpeg.height }}">
     <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-    <div class="tna-container tna-hero__inner--custom">
+    <div class="tna-container tna-hero__inner tna-hero__inner--custom-">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hero__content">
         <div class="tna-hero__content-inner">
-          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-          <div class="tna-large-paragraph tna-large-paragraph--bold">{{ page_data.intro | tna_html | safe }}</div>
-          <div class="tna-button-group">
-            {{ tnaButton({
-              'text': 'Help with your research',
-              'href': '/help-with-your-research/',
-              'icon': 'chevron-right',
-              'rightAlignIcon': True,
-              'classes': 'tna-button--solid-hover'
-            }) }}
-            {{ tnaButton({
-              'text': 'Search the catalogue',
-              'href': 'https://discovery.nationalarchives.gov.uk/',
-              'icon': 'chevron-right',
-              'rightAlignIcon': True,
-              'classes': 'tna-button--solid-hover'
-            }) }}
-            {{ tnaButton({
-              'text': 'Plan your visit',
-              'href': '/about/visit-us/',
-              'icon': 'chevron-right',
-              'rightAlignIcon': True,
-              'classes': 'tna-button--solid-hover'
-            }) }}
+          <div class="tna-hero__content-text">
+            <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+            <div class="tna-large-paragraph tna-large-paragraph--bold">{{ page_data.intro | tna_html | safe }}</div>
+            <div class="tna-button-group">
+              {{ tnaButton({
+                'text': 'Help with your research',
+                'href': '/help-with-your-research/',
+                'icon': 'chevron-right',
+                'rightAlignIcon': True,
+                'classes': 'tna-button--solid-hover'
+              }) }}
+              {{ tnaButton({
+                'text': 'Search the catalogue',
+                'href': 'https://discovery.nationalarchives.gov.uk/',
+                'icon': 'chevron-right',
+                'rightAlignIcon': True,
+                'classes': 'tna-button--solid-hover'
+              }) }}
+              {{ tnaButton({
+                'text': 'Plan your visit',
+                'href': '/about/visit-us/',
+                'icon': 'chevron-right',
+                'rightAlignIcon': True,
+                'classes': 'tna-button--solid-hover'
+              }) }}
+            </div>
           </div>
         </div>
       </div>

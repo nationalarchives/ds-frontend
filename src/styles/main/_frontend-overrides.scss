@@ -102,7 +102,7 @@ sup[data-footnoteid] {
   border-radius: 0.1px;
 
   &:target a.tna-footnote {
-    @include a11y.focus-outline-without-offset;
+    // @include a11y.focus-outline-without-offset;
   }
 }
 
@@ -111,16 +111,6 @@ sup[data-footnoteid] {
 
   &--small-body &__body {
     @include typography.font-size(16);
-  }
-
-  &--full-height {
-    height: 100%;
-
-    box-sizing: border-box;
-
-    // @include colour.on-high-contrast-and-forced-colours {
-    //   height: auto;
-    // }
   }
 
   &--promoted-item {
