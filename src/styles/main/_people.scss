@@ -31,16 +31,10 @@
     position: relative;
   }
 
-  // &__item:has(&__name a:hover) {
-  //   border-radius: 0.1px;
-  //   @include colour.colour-outline("keyline", 1px, solid);
-  //   outline-offset: a11yVariables.$focus-outline-width - 1px;
-  // }
-
-  // &__item:has(&__name a:focus),
-  // &__item:has(&__name a:active) {
-  //   outline: none;
-  // }
+  &__item:has(&__name a:focus),
+  &__item:has(&__name a:active) {
+    @include a11y.no-focus-outline;
+  }
 
   &__image {
     width: 5rem;
@@ -69,13 +63,12 @@
       &:hover {
         &::before {
           @include colour.colour-outline("keyline", 1px, solid);
-          outline-offset: a11yVariables.$focus-outline-width - 1px;
         }
       }
 
       &:focus,
       &:active {
-        outline: none;
+        @include a11y.no-focus-outline;
       }
 
       &:focus {
