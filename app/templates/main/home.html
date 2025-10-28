@@ -2,6 +2,7 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 
@@ -16,101 +17,74 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='event.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
 {% endblock %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm', 'm') }}
 {%- if page_data.hero_image %}
-<header class="tna-hero tna-background-accent tna-hero--home-">
-  <figure class="tna-hero__figure" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-    <meta itemprop="description" content="{{ page_data.hero_image.description }}">
-    <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.hero_image.uuid, _external=True, _scheme='https') }}">
-    <meta itemprop="name" content="{{ page_data.hero_image.title }}">
-    <meta itemprop="contentUrl" content="{{ page_data.hero_image.jpeg.full_url }}">
-    <meta itemprop="width" content="{{ page_data.hero_image.jpeg.width }}">
-    <meta itemprop="height" content="{{ page_data.hero_image.jpeg.height }}">
-    <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-    <div class="tna-container tna-hero__inner tna-hero__inner--custom-">
-      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hero__content">
-        <div class="tna-hero__content-inner">
-          <div class="tna-hero__content-text">
-            <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-            <div class="tna-large-paragraph tna-large-paragraph--bold">{{ page_data.intro | tna_html | safe }}</div>
-            <div class="tna-button-group">
-              {{ tnaButton({
-                'text': 'Help with your research',
-                'href': '/help-with-your-research/',
-                'icon': 'chevron-right',
-                'rightAlignIcon': True,
-                'classes': 'tna-button--solid-hover'
-              }) }}
-              {{ tnaButton({
-                'text': 'Search the catalogue',
-                'href': 'https://discovery.nationalarchives.gov.uk/',
-                'icon': 'chevron-right',
-                'rightAlignIcon': True,
-                'classes': 'tna-button--solid-hover'
-              }) }}
-              {{ tnaButton({
-                'text': 'Plan your visit',
-                'href': '/about/visit-us/',
-                'icon': 'chevron-right',
-                'rightAlignIcon': True,
-                'classes': 'tna-button--solid-hover'
-              }) }}
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+    <div class="tna-large-paragraph tna-large-paragraph--bold">{{ page_data.intro | tna_html | safe }}</div>
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': 'Help with your research',
+        'href': '/help-with-your-research/',
+        'icon': 'chevron-right',
+        'rightAlignIcon': True,
+        'classes': 'tna-button--solid-hover'
+      }) }}
+      {{ tnaButton({
+        'text': 'Search the catalogue',
+        'href': 'https://discovery.nationalarchives.gov.uk/',
+        'icon': 'chevron-right',
+        'rightAlignIcon': True,
+        'classes': 'tna-button--solid-hover'
+      }) }}
+      {{ tnaButton({
+        'text': 'Plan your visit',
+        'href': '/about/visit-us/',
+        'icon': 'chevron-right',
+        'rightAlignIcon': True,
+        'classes': 'tna-button--solid-hover'
+      }) }}
     </div>
-    <picture class="tna-hero__image">
-      {%- for source in [
-        {
-          'src': page_data.hero_image_small.webp.full_url,
-          'width': page_data.hero_image_small.webp.width,
-          'height': page_data.hero_image_small.webp.height,
-          'type': 'image/webp',
-          'media': '(max-width: 48em)'
-        },
-        {
-          'src': page_data.hero_image_small.jpeg.full_url,
-          'width': page_data.hero_image_small.jpeg.width,
-          'height': page_data.hero_image_small.jpeg.height,
-          'type': 'image/jpeg',
-          'media': '(max-width: 48em)'
-        },
-        {
-          'src': page_data.hero_image.webp.full_url,
-          'width': page_data.hero_image.webp.width,
-          'height': page_data.hero_image.webp.height,
-          'type': 'image/webp'
-        }
-      ] %}
-      <source srcset="{{ source.src }}" type="{{ source.type }}" width="{{ source.width if source.width else page_data.hero_image.jpeg.width }}" height="{{ source.height if source.height else page_data.hero_image.jpeg.height }}"{% if source.media %} media="{{ source.media }}"{% endif %}>
-      {%- endfor %}
-      <img src="{{ page_data.hero_image.jpeg.url }}" alt="{{ page_data.hero_image.description }}" width="{{ page_data.hero_image.jpeg.width }}" height="{{ page_data.hero_image.jpeg.height }}" fetchpriority="high" itemprop="url">
-    </picture>
-    {%- if page_data.hero_image_caption or page_data.hero_image.copyright -%}
-    <figcaption class="tna-hero__caption">
-      <details class="tna-hero__details">
-        <summary class="tna-hero__details-summary tna-button tna-button--small tna-button--icon-only-mobile" aria-label="Additional information about this image">
-          <i class="fa-solid fa-circle-info tna-hero__details-summary-icon" aria-hidden="true"></i>
-          About this image
-        </summary>
-        <div class="tna-hero__information" itemprop="description">
-          {{ page_data.hero_image_caption | safe }}
-          {%- if page_data.hero_image.copyright %}
-          <div class="tna-hero__copyright" itemprop="copyrightNotice">
-            {{ page_data.hero_image.copyright | tna_html | safe }}
-          </div>
-          {%- endif %}
-        </div>
-      </details>
-    </figcaption>
-    {%- endif -%}
-  </figure>
-</header>
+  </div>
+</div>
+{% set hero_image_caption = page_data.hero_image_caption or '' %}
+{%- if page_data.hero_image.copyright %}
+  {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html | safe) ~ '</div>' %}
+{%- endif %}
+{{ tnaHero({
+  'imageSrc': page_data.hero_image.jpeg.full_url,
+  'imageAlt': page_data.hero_image.description,
+  'imageWidth': page_data.hero_image.jpeg.width,
+  'imageHeight': page_data.hero_image.jpeg.height,
+  'imageCaption': hero_image_caption,
+  'imageSources': [
+    {
+      'src': page_data.hero_image_small.webp.full_url,
+      'width': page_data.hero_image_small.webp.width,
+      'height': page_data.hero_image_small.webp.height,
+      'type': 'image/webp',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.hero_image_small.jpeg.full_url,
+      'width': page_data.hero_image_small.jpeg.width,
+      'height': page_data.hero_image_small.jpeg.height,
+      'type': 'image/jpeg',
+      'media': '(max-width: 48em)'
+    },
+    {
+      'src': page_data.hero_image.webp.full_url,
+      'width': page_data.hero_image.webp.width,
+      'height': page_data.hero_image.webp.height,
+      'type': 'image/webp'
+    }
+  ],
+  'narrow': True
+}, page_data.hero_image.uuid, page_data.hero_image.title) }}
 {%- endif %}
 
 <section class="tna-section tna-container">
