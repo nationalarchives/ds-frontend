@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm', 'm') }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm') }}
 {%- if page_data.hero_image %}
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -100,7 +100,7 @@
         'headingSize': 'l',
         'href': page.value.page.url,
         'text': page.value.page.teaser_text,
-        'style': 'contrast',
+        'style': 'accent',
         'fullAreaClick': True,
         'horizontal': True,
         'horizontalSmallImage': True,
