@@ -1,0 +1,66 @@
+.etna-partner-logos {
+  @include spacing.space-above;
+
+  &__heading {
+    margin-bottom: spacing.space(1.5);
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: spacing.space(2) spacing.space(3);
+
+    list-style: none;
+  }
+
+  &__item {
+    text-align: center;
+  }
+
+  &__image {
+    width: auto;
+    max-width: 20rem;
+    height: 5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: auto;
+      max-height: 100%;
+    }
+
+    .tna-template--system-theme & {
+      @media (prefers-color-scheme: dark) {
+        &--light {
+          display: none !important;
+        }
+
+        &--dark {
+          display: flex !important;
+        }
+      }
+    }
+
+    .tna-template--dark-theme & {
+      &--light {
+        display: none !important;
+      }
+
+      &--dark {
+        display: flex !important;
+      }
+    }
+  }
+
+  @include media.on-tiny {
+    padding: spacing.space(1);
+
+    &__items {
+      flex-direction: column;
+    }
+  }
+}

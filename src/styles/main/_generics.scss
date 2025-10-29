@@ -48,37 +48,37 @@ abbr {
   display: block;
 }
 
-.etna-background-list {
-  margin: spacing.space(1) 0 0 spacing.space(2);
+// .etna-background-list {
+//   margin: spacing.space(1) 0 0 spacing.space(2);
 
-  display: flex;
-  flex-direction: column;
-  gap: spacing.space(1);
+//   display: flex;
+//   flex-direction: column;
+//   gap: spacing.space(1);
 
-  list-style: none;
+//   list-style: none;
 
-  &:first-child {
-    margin-top: 0;
-  }
+//   &:first-child {
+//     margin-top: 0;
+//   }
 
-  li {
-    padding: spacing.space(1);
+//   li {
+//     padding: spacing.space(1);
 
-    @include colour.colour-background("background-tint");
+//     @include colour.colour-background("background-tint");
 
-    @include colour.thick-keyline-accent(left);
+//     @include colour.thick-keyline-accent(left);
 
-    .tna-heading-s {
-      ~ p {
-        margin-top: spacing.space(0.5);
-      }
-    }
-  }
+//     .tna-heading-s {
+//       ~ p {
+//         margin-top: spacing.space(0.5);
+//       }
+//     }
+//   }
 
-  @include media.on-mobile {
-    margin-left: 0;
-  }
-}
+//   @include media.on-mobile {
+//     margin-left: 0;
+//   }
+// }
 
 .etna-etc-search .tna-form__hint {
   margin-top: spacing.space(0.25);
@@ -89,65 +89,6 @@ abbr {
 
   @include media.on-mobile {
     @include typography.font-size(17);
-  }
-}
-
-.etna-do-dont-list {
-  @include spacing.space-above;
-
-  display: flex;
-  gap: spacing.space(1);
-
-  @include media.on-mobile {
-    flex-direction: column;
-  }
-
-  &__block {
-    padding: spacing.space(0.5) spacing.space(1);
-
-    flex: 1;
-
-    @include colour.tint;
-
-    @include borders.rounded-border;
-  }
-
-  &__heading {
-    @include colour.thick-keyline-dark(bottom);
-  }
-
-  .etna-ul-ticks,
-  .etna-ul-crosses {
-    margin-top: spacing.space(0.5);
-
-    list-style: none;
-
-    li {
-      position: relative;
-    }
-
-    .fa-solid {
-      width: spacing.space(1.75);
-
-      position: absolute;
-      top: 0;
-      right: 100%;
-
-      line-height: inherit;
-      text-align: left;
-
-      + p {
-        margin-top: 0;
-      }
-    }
-
-    .fa-check {
-      color: colour.brand-colour("green");
-    }
-
-    .fa-xmark {
-      color: colour.brand-colour("pink");
-    }
   }
 }
 
@@ -174,73 +115,6 @@ p.etna-small-paragraph {
   margin-bottom: spacing.space(0.5);
 
   @include typography.font-size(16);
-}
-
-.etna-partner-logos {
-  @include spacing.space-above;
-
-  &__heading {
-    margin-bottom: spacing.space(1.5);
-  }
-
-  &__items {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: spacing.space(2) spacing.space(3);
-
-    list-style: none;
-  }
-
-  &__item {
-    text-align: center;
-  }
-
-  &__image {
-    width: auto;
-    max-width: 20rem;
-    height: 5rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      width: auto;
-      max-height: 100%;
-    }
-
-    .tna-template--system-theme & {
-      @media (prefers-color-scheme: dark) {
-        &--light {
-          display: none !important;
-        }
-
-        &--dark {
-          display: flex !important;
-        }
-      }
-    }
-
-    .tna-template--dark-theme & {
-      &--light {
-        display: none !important;
-      }
-
-      &--dark {
-        display: flex !important;
-      }
-    }
-  }
-
-  @include media.on-tiny {
-    padding: spacing.space(1);
-
-    &__items {
-      flex-direction: column;
-    }
-  }
 }
 
 .etna-email {
@@ -272,134 +146,6 @@ p.etna-small-paragraph {
   .tna-template--system-theme & {
     @media (prefers-color-scheme: dark) {
       @include colour.colour-border("keyline", 1px, dotted, top);
-    }
-  }
-}
-
-.tna-records-list {
-  @include spacing.space-above;
-  margin-bottom: 0;
-  padding: 0;
-
-  list-style: none;
-
-  @include colour.thick-keyline-accent(top);
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: spacing.space(2);
-
-    position: relative;
-
-    @include colour.colour-border("keyline", 1px);
-    border-top-width: 0;
-
-    @include a11y.faux-full-outline(".tna-records-list__title-description a");
-
-    &:last-child {
-      border-radius: 0 0 borderVars.$rounded-border-radius
-        borderVars.$rounded-border-radius;
-    }
-  }
-
-  &__image {
-    width: 6rem;
-    height: auto;
-  }
-
-  &__details {
-    margin: 0;
-    padding: spacing.space(0.5) spacing.space(1) spacing.space(0.5)
-      spacing.space(2.5);
-
-    flex: 1;
-
-    &::before {
-      content: "";
-
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: spacing.space(1.5);
-      @include colour.colour-border("keyline", 1px, dotted, left);
-    }
-
-    &::after {
-      content: "";
-
-      width: spacing.space(0.5);
-      height: spacing.space(0.5);
-
-      position: absolute;
-      top: 50%;
-      left: spacing.space(0.5);
-
-      border-radius: 100%;
-
-      box-shadow: inset 0 1px 1.5px rgb(0 0 0 / 50%);
-
-      transform: translateY(-50%);
-    }
-  }
-
-  &__title-label,
-  &__date-label {
-    display: none;
-  }
-
-  &__collection-description,
-  &__title-description,
-  &__date-description {
-    width: 100%;
-    margin: 0;
-  }
-
-  &__collection-label,
-  &__collection-description {
-    display: inline-block;
-  }
-
-  &__collection-label {
-    &::after {
-      content: ":";
-      content: ":" / "";
-    }
-  }
-
-  &__collection-description {
-  }
-
-  &__title-label {
-  }
-
-  &__title-description {
-    padding-bottom: spacing.space(0.25);
-
-    @include typography.detail-font(true);
-  }
-
-  &__date-label {
-  }
-
-  &__date-description {
-    @include colour.colour-font("font-light");
-    @include typography.font-size(16);
-  }
-
-  @include media.on-tiny {
-    &__item {
-      flex-direction: column;
-      align-items: flex-start;
-
-      gap: spacing.space(1);
-    }
-
-    &__details {
-      padding-top: spacing.space(0.5);
-      padding-right: spacing.space(1);
-      padding-bottom: spacing.space(0.5);
     }
   }
 }

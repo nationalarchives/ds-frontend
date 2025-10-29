@@ -1,0 +1,58 @@
+.etna-do-dont-list {
+  @include spacing.space-above;
+
+  display: flex;
+  gap: spacing.space(1);
+
+  @include media.on-mobile {
+    flex-direction: column;
+  }
+
+  &__block {
+    padding: spacing.space(0.5) spacing.space(1);
+
+    flex: 1;
+
+    @include colour.tint;
+
+    @include borders.rounded-border;
+  }
+
+  &__heading {
+    @include colour.thick-keyline-dark(bottom);
+  }
+
+  .etna-ul-ticks,
+  .etna-ul-crosses {
+    margin-top: spacing.space(0.5);
+
+    list-style: none;
+
+    li {
+      position: relative;
+    }
+
+    .fa-solid {
+      width: spacing.space(1.75);
+
+      position: absolute;
+      top: 0;
+      right: 100%;
+
+      line-height: inherit;
+      text-align: left;
+
+      + p {
+        margin-top: 0;
+      }
+    }
+
+    .fa-check {
+      color: colour.brand-colour("green");
+    }
+
+    .fa-xmark {
+      color: colour.brand-colour("pink");
+    }
+  }
+}
