@@ -1,6 +1,7 @@
 @use "@nationalarchives/frontend/nationalarchives/variables/borders" as
   borderVars;
 
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
@@ -285,15 +286,17 @@ p.etna-small-paragraph {
   @include colour.thick-keyline-accent(top);
 
   &__item {
-    padding: spacing.space(1) spacing.space(1.5);
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: spacing.space(2);
 
+    position: relative;
+
     @include colour.colour-border("keyline", 1px);
     border-top-width: 0;
+
+    @include a11y.faux-full-outline(".tna-records-list__title-description a");
 
     &:last-child {
       border-radius: 0 0 borderVars.$rounded-border-radius
@@ -308,8 +311,37 @@ p.etna-small-paragraph {
 
   &__details {
     margin: 0;
+    padding: spacing.space(0.5) spacing.space(1) spacing.space(0.5)
+      spacing.space(2.5);
 
     flex: 1;
+
+    &::before {
+      content: "";
+
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: spacing.space(1.5);
+      @include colour.colour-border("keyline", 1px, dotted, left);
+    }
+
+    &::after {
+      content: "";
+
+      width: spacing.space(0.5);
+      height: spacing.space(0.5);
+
+      position: absolute;
+      top: 50%;
+      left: spacing.space(0.5);
+
+      border-radius: 100%;
+
+      box-shadow: inset 0 1px 1.5px rgb(0 0 0 / 50%);
+
+      transform: translateY(-50%);
+    }
   }
 
   &__title-label,
@@ -358,12 +390,16 @@ p.etna-small-paragraph {
 
   @include media.on-tiny {
     &__item {
-      padding: spacing.space(1);
-
       flex-direction: column;
       align-items: flex-start;
 
       gap: spacing.space(1);
+    }
+
+    &__details {
+      padding-top: spacing.space(0.5);
+      padding-right: spacing.space(1);
+      padding-bottom: spacing.space(0.5);
     }
   }
 }
