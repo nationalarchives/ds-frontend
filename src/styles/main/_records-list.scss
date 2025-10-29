@@ -1,3 +1,11 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  borderVars;
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
 .tna-records-list {
   @include spacing.space-above;
   margin-bottom: 0;

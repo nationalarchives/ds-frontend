@@ -1,3 +1,6 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+
 .etna-partner-logos {
   @include spacing.space-above;
 
