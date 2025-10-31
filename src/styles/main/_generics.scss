@@ -92,8 +92,7 @@ abbr {
   }
 }
 
-/* stylelint-disable no-descending-specificity */
-.tna-ol > li {
+.tna-ol:not(.tna-ol--plain) {
   list-style-type: decimal;
 
   & & {
@@ -108,7 +107,6 @@ abbr {
     list-style-type: decimal;
   }
 }
-/* stylelint-enable no-descending-specificity */
 
 p.etna-small-paragraph {
   margin-top: 0;
