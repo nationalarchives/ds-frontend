@@ -1,4 +1,5 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -51,9 +52,15 @@
   margin-top: spacing.space(0.5);
 }
 
-.tna-picture--plain {
-  margin-right: 0;
-  margin-left: 0;
+.tna-picture {
+  &--plain {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  &--plain &__image {
+    @include borders.rounded-border;
+  }
 }
 
 .tna-enhanced-map {
