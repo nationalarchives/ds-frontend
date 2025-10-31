@@ -359,6 +359,8 @@ $videojs-track-height: 0.5em;
 
       overflow: auto;
 
+      border-radius: 0.1px;
+
       @include colour.thick-keyline(left);
 
       &::before {
