@@ -1,9 +1,9 @@
 import math
 
-from app.lib.datetime import group_items_by_year_and_month
 from app.lib.pagination import pagination_object
 from app.wagtail.api import foi_requests
 from flask import current_app, render_template, request
+from tna_utilities.datetime import group_items_by_year_and_month
 
 
 def foi_index_page(page_data):

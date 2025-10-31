@@ -648,6 +648,18 @@ files = [
 Jinja2 = ">=3"
 
 [[package]]
+name = "tna-utilities"
+version = "0.0.1rc1"
+description = "A library of common National Archives Python functions"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "tna_utilities-0.0.1rc1-py3-none-any.whl", hash = "sha256:9764a88936b93637fdf83789d466f73832a93a98ff2123d8c0e1168372bf7d0b"},
+    {file = "tna_utilities-0.0.1rc1.tar.gz", hash = "sha256:9ea06747e3d1a2e4c9fa68135a989a87d69a1ac5b63f440fb70fc2e0a8bf7109"},
+]
+
+[[package]]
 name = "tomli"
 version = "2.3.0"
 description = "A lil' TOML parser"
@@ -773,4 +785,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "9aa5d4ed6e46340bb395994bd47193615067d371e76cf7609df545b59d919ab4"
+content-hash = "4b218cd59cf1689e92b7f05a5ebd300f54f4a9346c2db36dc0be20cfb3f7f422"
