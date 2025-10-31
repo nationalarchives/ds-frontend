@@ -56,6 +56,7 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
       },
       () => {
         video.el().querySelector("iframe")?.setAttribute("tabindex", "-1");
+        video.el().removeAttribute("tabindex");
       },
     );
     video.one("play", (player) =>
@@ -79,32 +80,44 @@ if (cookies.isPolicyAccepted("marketing")) {
 document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
   const id = $video.getAttribute("id");
   const poster = $video.dataset.poster || null;
-  const video = videojs($video, {
-    experimentalSvgIcons: true,
-    enableSmoothSeeking: true,
-    textTrackSettings: false,
-    controlBar: {
-      volumePanel: false,
+  const video = videojs(
+    $video,
+    {
+      experimentalSvgIcons: true,
+      enableSmoothSeeking: true,
+      textTrackSettings: false,
+      controlBar: {
+        volumePanel: false,
+      },
+      poster,
     },
-    poster,
-  });
+    () => {
+      video.el().removeAttribute("tabindex");
+    },
+  );
   videoJsInstances[id] = video;
 });
 
 document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
   const id = $audio.getAttribute("id");
-  const audio = videojs($audio, {
-    audioOnlyMode: true,
-    enableSmoothSeeking: true,
-    experimentalSvgIcons: true,
-    controlBar: {
-      skipButtons: {
-        forward: 10,
-        backward: 10,
+  const audio = videojs(
+    $audio,
+    {
+      audioOnlyMode: true,
+      enableSmoothSeeking: true,
+      experimentalSvgIcons: true,
+      controlBar: {
+        skipButtons: {
+          forward: 10,
+          backward: 10,
+        },
+        volumePanel: false,
       },
-      volumePanel: false,
     },
-  });
+    () => {
+      audio.el().removeAttribute("tabindex");
+    },
+  );
   videoJsInstances[id] = audio;
 });
 
