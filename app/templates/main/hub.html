@@ -11,6 +11,7 @@
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' if not page_data.hero_image else '' -%}
+{%- set alert_banner_top_margin = None if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) else 'm' %}
 
 {% block head %}
 {{ super() }}
@@ -24,7 +25,7 @@
   {% endblock %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.hero_image %}
-    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, alert_banner_top_margin, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
     {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
@@ -65,7 +66,7 @@
     }, page_data.hero_image.uuid, page_data.hero_image.title) }}
     {%- else %}
     <div class="tna-background-accent-light">
-      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, alert_banner_top_margin) }}
       <div class="tna-section">
         <div class="tna-container">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">

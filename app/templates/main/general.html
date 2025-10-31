@@ -15,8 +15,8 @@
 {%- set breadcrumbsStyle = '' if page_data.hero_image else 'accent-light' -%}
 {%- set showSidebar = page_data.page_sidebar == 'contents' or page_data.page_sidebar == 'sections' or (page_data.page_sidebar == 'pages' and page_siblings | length > 1) -%}
 {%- set sidebarPositionRight = page_data.page_sidebar == 'pages' -%}
-
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
+{%- set alert_banner_top_margin = None if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) else 'm' %}
 
 {% block head %}
 {{ super() }}
@@ -43,7 +43,7 @@
   <main class="tna-main {{ mainClasses }}" id="main-content">
   {% block hero %}
   {%- if page_data.hero_image %}
-    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, alert_banner_top_margin, 'm') }}
     {% set hero_image_caption = page_data.hero_image_caption or '' %}
     {%- if page_data.hero_image.copyright %}
       {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
@@ -118,7 +118,7 @@
   {%- else %}
     {%- if page_data.global_alert or page_data.mourning_notice %}
     <div class="tna-background-accent-light">
-      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, alert_banner_top_margin) }}
     </div>
     {%- endif %}
     <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-l">
