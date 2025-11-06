@@ -7,7 +7,7 @@
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
 
-{%- set theme = request.cookies.get('theme') or 'system' -%}
+{%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
 {# Explicitly set light mode until more pages support dark mode #}
 {%- set theme = 'light' -%}
 {%- set themeAccent = themeAccent or 'yellow' -%}
@@ -50,7 +50,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="preconnect" href="https://use.typekit.net">
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
@@ -87,21 +87,21 @@
 
 {% block beforeContent %}
 {%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
-      {%- if breadcrumbsStyle %}
-      <div class="tna-background-{{ breadcrumbsStyle }}">
-      {%- endif %}
-        <div class="tna-container">
-          <div class="tna-column tna-column--full">
-            {{ tnaBreadcrumbs({
-              'items': breadcrumbs or page_data.meta.breadcrumbs,
-              'structuredData': True,
-              'classes': 'tna-!--padding-vertical-s'
-            }) }}
-          </div>
-        </div>
-      {%- if breadcrumbsStyle %}
+  {%- if breadcrumbsStyle %}
+  <div class="tna-background-{{ breadcrumbsStyle }}">
+  {%- endif %}
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        {{ tnaBreadcrumbs({
+          'items': breadcrumbs or page_data.meta.breadcrumbs,
+          'structuredData': True,
+          'classes': 'tna-!--padding-vertical-s'
+        }) }}
       </div>
-      {%- endif %}
+    </div>
+  {%- if breadcrumbsStyle %}
+  </div>
+  {%- endif %}
 {%- endif %}
 {% endblock %}
 
