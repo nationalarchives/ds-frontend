@@ -48,39 +48,7 @@ abbr {
   display: block;
 }
 
-// .etna-background-list {
-//   margin: spacing.space(1) 0 0 spacing.space(2);
-
-//   display: flex;
-//   flex-direction: column;
-//   gap: spacing.space(1);
-
-//   list-style: none;
-
-//   &:first-child {
-//     margin-top: 0;
-//   }
-
-//   li {
-//     padding: spacing.space(1);
-
-//     @include colour.colour-background("background-tint");
-
-//     @include colour.thick-keyline-accent(left);
-
-//     .tna-heading-s {
-//       ~ p {
-//         margin-top: spacing.space(0.5);
-//       }
-//     }
-//   }
-
-//   @include media.on-mobile {
-//     margin-left: 0;
-//   }
-// }
-
-.etna-etc-search .tna-form__hint {
+.etna-etc-search .tna-form-item__hint {
   margin-top: spacing.space(0.25);
   margin-bottom: spacing.space(0.5);
 
@@ -106,13 +74,6 @@ abbr {
   & & & & {
     list-style-type: decimal;
   }
-}
-
-p.etna-small-paragraph {
-  margin-top: 0;
-  margin-bottom: spacing.space(0.5);
-
-  @include typography.font-size(16);
 }
 
 .etna-email {

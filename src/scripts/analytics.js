@@ -7,18 +7,6 @@ const ga4Id = document.documentElement.getAttribute("data-ga4id");
 if (ga4Id) {
   const analytics = new GA4({ id: ga4Id });
 
-  // analytics.addListeners(".etna-article", "article", [
-  //   {
-  //     eventName: "section.toggle",
-  //     targetElement: ".etna-article__section-button",
-  //     on: "click",
-  //     data: {
-  //       state: helpers.valueGetters.expanded,
-  //       value: helpers.valueGetters.text,
-  //     },
-  //   },
-  // ]);
-
   analytics.addListeners("body", "page", [
     {
       eventName: "double_click",

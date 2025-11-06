@@ -7,6 +7,10 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 @use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
+.tna-template {
+  font-display: swap;
+}
+
 // H1UserAgentFontSizeInSection
 // https://github.com/GoogleChrome/lighthouse/issues/16404#issuecomment-2754716763
 :where(h1) {
@@ -24,57 +28,57 @@ p > a {
   overflow-wrap: break-word;
 }
 
-.tna-ol {
-  &--footnotes {
-    @include typography.font-size(16);
+// .tna-ol {
+//   &--footnotes {
+//     @include typography.font-size(16);
 
-    counter-reset: footnotes;
+//     counter-reset: footnotes;
 
-    &:has(li[data-footnoteidshort]) {
-      padding-left: spacing.space(4);
-    }
+//     &:has(li[data-footnoteidshort]) {
+//       padding-left: spacing.space(4);
+//     }
 
-    li {
-      padding-right: spacing.space(0.375);
-      padding-left: spacing.space(0.375);
-      counter-increment: footnotes;
+//     li {
+//       padding-right: spacing.space(0.375);
+//       padding-left: spacing.space(0.375);
+//       counter-increment: footnotes;
 
-      clear: both;
+//       clear: both;
 
-      &::marker {
-        @include colour.colour-font("font-base");
+//       &::marker {
+//         @include colour.colour-font("font-base");
 
-        content: "[" counter(footnotes) "] ";
+//         content: "[" counter(footnotes) "] ";
 
-        font-size: 80%;
-        @include typography.main-font-weight;
-      }
+//         font-size: 80%;
+//         @include typography.main-font-weight;
+//       }
 
-      &:target {
-        @include colour.tint;
-      }
+//       &:target {
+//         @include colour.tint;
+//       }
 
-      &[data-footnoteidshort] {
-        &::marker {
-          content: "[" attr(data-footnoteidshort) "] ";
-        }
-      }
+//       &[data-footnoteidshort] {
+//         &::marker {
+//           content: "[" attr(data-footnoteidshort) "] ";
+//         }
+//       }
 
-      a[href^="#footnote-"] {
-        margin-right: spacing.space(0.25);
+//       a[href^="#footnote-"] {
+//         margin-right: spacing.space(0.25);
 
-        display: inline-block;
+//         display: inline-block;
 
-        float: left;
+//         float: left;
 
-        &:focus {
-          position: relative;
-          z-index: 1;
-        }
-      }
-    }
-  }
-}
+//         &:focus {
+//           position: relative;
+//           z-index: 1;
+//         }
+//       }
+//     }
+//   }
+// }
 
 .tna-dl {
   &--left-biased {
@@ -98,31 +102,19 @@ p > a {
   }
 }
 
-sup[data-footnoteid] {
-  border-radius: 0.1px;
+// sup[data-footnoteid] {
+//   border-radius: 0.1px;
 
-  &:target a.tna-footnote {
-    // @include a11y.focus-outline-without-offset;
-  }
-}
+//   &:target a.tna-footnote {
+//     // @include a11y.focus-outline-without-offset;
+//   }
+// }
 
 .tna-card {
   z-index: 1;
 
   &--small-body &__body {
     @include typography.font-size(16);
-  }
-
-  &--promoted-item {
-    @include colour.thick-keyline-accent(top);
-
-    .tna-card__inner {
-      &:not(:has(.tna-card__image-container)) {
-        padding-top: spacing.space(1);
-
-        border-top: none;
-      }
-    }
   }
 
   &--featured-link {
@@ -146,10 +138,6 @@ sup[data-footnoteid] {
   @include media.on-larger-than-mobile {
     @include card.horizontal-card-layout("--featured-link", 1);
   }
-
-  @include colour.on-forced-colours {
-    @include colour.colour-border("keyline", 1px);
-  }
 }
 
 .tna-chip {
@@ -158,45 +146,12 @@ sup[data-footnoteid] {
   }
 }
 
-// Search Discovery promo box
-.tna-form {
-  &__hint {
-    p,
-    .tna-ul {
-      margin-top: spacing.space(0.5);
-
-      &:first-child {
-        margin-top: 0;
-      }
-    }
-  }
-}
-
-// .tna-picture__caption {
-//   @include typography.detail-font;
-// }
-
 .tna-picture__caption,
-.tna-hero__information {
-  /* stylelint-disable no-descending-specificity */
+.tna-hero__information,
+.tna-gallery__copyright {
   p + p {
     margin-top: spacing.space(0.5);
   }
-  /* stylelint-enable no-descending-specificity */
-}
-
-.tna-gallery {
-  .tna-template &:fullscreen {
-    @include colour.contrast;
-  }
-}
-
-.tna-gallery__copyright {
-  /* stylelint-disable no-descending-specificity */
-  p + p {
-    margin-top: 0;
-  }
-  /* stylelint-enable no-descending-specificity */
 }
 
 .tna-gallery__copyright,
