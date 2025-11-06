@@ -39,7 +39,7 @@
       <h2 class="tna-heading-l">{{ year.heading }}</h2>
       {%- for month in year['items'] %}
       <h3 class="tna-heading-m tna-!--no-margin-top">{{ month.heading }} {{ year.heading }}</h3>
-      <ol class="tna-ol tna-ul--spaced">
+      <ol class="tna-ol tna-ol--spaced tna-ol--dashed">
         {%- for request in month['items'] %}
         <li>
           <h2 class="tna-heading-s">
