@@ -184,7 +184,8 @@
                 'width': page.value.page.teaser_image.webp.width,
                 'height': page.value.page.teaser_image.webp.height
               }
-            ]
+            ],
+            'lazyImage': True
           }) %}
         {%- endif %}
         {{ tnaCard(card_content) }}
@@ -213,7 +214,8 @@
                 'width': page.value.image.webp.width,
                 'height': page.value.image.webp.height
               }
-            ]
+            ],
+            'lazyImage': True
           }) %}
         {%- endif %}
         {{ tnaCard(card_content) }}
