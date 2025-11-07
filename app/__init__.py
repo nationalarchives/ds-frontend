@@ -96,6 +96,7 @@ def create_app(config_class):
             "object-src": csp_none,
         }
         | csp_rules,
+        content_security_policy_report_uri=app.config.get("CSP_REPORT_URL", None),
         feature_policy={
             "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN", csp_self),
             "picture-in-picture": app.config.get(
