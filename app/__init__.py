@@ -86,7 +86,9 @@ def create_app(config_class):
         for key, value in app.config.get_namespace(
             "CSP_", lowercase=True, trim_namespace=True
         ).items()
-        if not key.startswith("feature_") and value not in [None, [default_csp]]
+        if not key.startswith("feature_")
+        and not key.startswith("report_")
+        and value not in [None, [default_csp]]
     }
     talisman.init_app(
         app,

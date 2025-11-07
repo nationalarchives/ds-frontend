@@ -12,7 +12,6 @@ class Features:
 
 class Production(Features):
     ENVIRONMENT_NAME: str = os.environ.get("ENVIRONMENT_NAME", "production")
-
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
     CONTAINER_IMAGE: str = os.environ.get("CONTAINER_IMAGE", "")
     TNA_FRONTEND_VERSION: str = ""
@@ -68,6 +67,10 @@ class Production(Features):
         "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
     ).split(",")
     CSP_REPORT_URL: str = os.environ.get("CSP_REPORT_URL", "")
+    # if CSP_REPORT_URL:
+    #     CSP_REPORT_URL += (
+    #         f"&sentry_environment={ENVIRONMENT_NAME}" if ENVIRONMENT_NAME else ""
+    #     ) + (f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else "")
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
