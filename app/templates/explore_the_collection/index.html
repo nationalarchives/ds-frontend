@@ -95,8 +95,12 @@
 {%- endif %}
 {%- endfor %}
 
-<section class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
-  {{ discoverySearch() }}
+<section class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {{ discoverySearch() }}
+    </div>
+  </div>
 </section>
 
 {%- set stories_hero_image_caption = page_data.stories_hero_image_caption or "" %}
