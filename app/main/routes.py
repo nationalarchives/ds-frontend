@@ -66,6 +66,7 @@ def set_cookies():
         domain=current_app.config.get("COOKIE_DOMAIN"),
         secure=True,
         samesite="Lax",
+        httponly=False,
     )
     response.set_cookie(
         "dontShowCookieNotice",
@@ -73,6 +74,7 @@ def set_cookies():
         domain=current_app.config.get("COOKIE_DOMAIN"),
         secure=True,
         samesite="Lax",
+        httponly=False,
     )
     if not usage:
         for cookie in request.cookies:
