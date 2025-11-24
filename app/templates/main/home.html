@@ -6,7 +6,7 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/meta.html' import meta -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'black' -%}
 
 {% block head %}
 {{ super() }}
@@ -20,9 +20,8 @@
 {% endblock %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm') }}
-{%- if page_data.hero_image %}
-<div class="tna-container tna-section">
+{%- set top_content %}
+<div class="tna-container">
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
     <div class="tna-scene-setter">{{ page_data.intro | tna_html | safe }}</div>
@@ -52,6 +51,12 @@
       }) }}
     </div>
   </div>
+</div>
+{%- endset %}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, 'm') }}
+{%- if page_data.hero_image %}
+<div class="tna-section">
+  {{ top_content }}
 </div>
 {% set hero_image_caption = page_data.hero_image_caption or '' %}
 {%- if page_data.hero_image.copyright %}
@@ -87,6 +92,10 @@
   ],
   'narrow': True
 }, page_data.hero_image.uuid, page_data.hero_image.title) }}
+{%- else %}
+<div class="tna-section tna-background-accent-light">
+  {{ top_content }}
+</div>
 {%- endif %}
 
 <section class="tna-section tna-container">
@@ -100,7 +109,7 @@
         'headingSize': 'l',
         'href': page.value.page.url,
         'text': page.value.page.teaser_text,
-        'style': 'accent',
+        'style': 'contrast',
         'fullAreaClick': True,
         'horizontal': True,
         'horizontalSmallImage': True,
