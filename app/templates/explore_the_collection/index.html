@@ -21,10 +21,12 @@
 {%- set hero_intro %}
   <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.intro | safe }}</div>
 {%- endset %}
-{% set hero_image_caption = page_data.hero_image_caption or '' %}
-{%- if page_data.hero_image.copyright %}
-  {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
-{%- endif %}
+{%- set hero_image_caption %}
+  {{- page_data.hero_image_caption | safe -}}
+  {%- if page_data.hero_image.copyright -%}
+    <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+  {%- endif -%}
+{%- endset %}
 {{ tnaHero({
   'supertitle': page_data.type_label,
   'title': page_data.title,
@@ -103,10 +105,12 @@
   </div>
 </section>
 
-{%- set stories_hero_image_caption = page_data.stories_hero_image_caption or "" %}
-{%- if page_data.stories_hero_image.copyright %}
-  {%- set stories_hero_image_caption = stories_hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.stories_hero_image.copyright | tna_html) ~ '</div>' %}
-{%- endif %}
+{%- set stories_hero_image_caption %}
+  {{- page_data.stories_hero_image_caption | safe -}}
+  {%- if page_data.stories_hero_image.copyright -%}
+    <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.stories_hero_image.copyright | tna_html | safe }}</div>
+  {%- endif -%}
+{%- endset %}
 
 {{ tnaHero({
   'title': page_data.stories_title or page_data.stories_page.title,
