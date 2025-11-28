@@ -19,7 +19,9 @@ RUN tna-build
 RUN mkdir /app/app/static/assets; \
     cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets;
 # Delete source files, tests and docs
-RUN rm -fR /app/src /app/test /app/docs
+RUN rm -fR /app/src
+
+RUN tna-clean
 
 # Run the application
-CMD ["tna-run", "ds_frontend:app"]
+CMD ["tna-wsgi", "ds_frontend:app"]
