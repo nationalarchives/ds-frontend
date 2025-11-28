@@ -22,4 +22,4 @@ RUN mkdir /app/app/static/assets; \
 RUN rm -fR /app/src /app/test /app/docs
 
 # Run the application
-CMD ["tna-run", "ds_frontend:app"]
+CMD ["tna-run", "main:app"]
