@@ -1,9 +1,14 @@
 .dockerignore
 .env
 .git
+.github
+.pytest_cache
+.vscode
 docker-compose.yml
 Dockerfile
+LICENCE
 README.md
+mkdocs.yml
 node_modules
 tmp
 .babelrc.json
@@ -12,3 +17,5 @@ tmp
 .gitignore
 .prettierignore
 stylelint.config.mjs
+docs
+test
