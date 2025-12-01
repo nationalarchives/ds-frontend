@@ -8,7 +8,7 @@
       <div class="tna-button-group">
         {{ tnaButton({
           'text': 'Complete our short survey (opens in new tab)',
-          'href': 'https://www.smartsurvey.co.uk/s/DN07V0/?area=footer&source=' ~ request.url,
+          'href': 'https://www.smartsurvey.co.uk/s/DN07V0/?area=footer&source=' ~ (request.url | url_encode),
           'attributes': {
             'target': '_blank',
             'rel': 'noreferrer nofollow noopener'

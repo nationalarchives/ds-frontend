@@ -2,7 +2,7 @@ import json
 import math
 import re
 from datetime import datetime
-from urllib.parse import unquote, urlparse
+from urllib.parse import quote_plus, unquote, urlparse
 
 from app.lib.datetime import get_date_from_string
 from markupsafe import Markup
@@ -46,6 +46,10 @@ def unslugify(s, capitalize_first=True):
     if capitalize_first:
         s[0] = s[0].capitalize()
     return " ".join(s)
+
+
+def url_encode(s):
+    return quote_plus(s)
 
 
 def multiline_address_to_single_line(s):

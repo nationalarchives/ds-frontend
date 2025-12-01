@@ -11,7 +11,7 @@
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
-    <link rel="canonical" href="{{ request.url }}{{ '?page=' ~ (page | string) if 'page' not in request.args }}">
+    <link rel="canonical" href="{{ request.url | url_encode }}{{ '?page=' ~ (page | string) if 'page' not in request.args }}">
 {% endblock %}
 
 {% block content %}
@@ -43,7 +43,7 @@
         {%- for request in month['items'] %}
         <li>
           <h2 class="tna-heading-s">
-            <a href="{{ request.url }}">{{ request.title }}</a>
+            <a href="{{ request.url | url_encode }}">{{ request.title }}</a>
           </h2>
           <p class="tna-!--no-margin-top">Freedom of information request reference: {{ request.reference }}</p>
         </li>

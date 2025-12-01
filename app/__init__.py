@@ -40,6 +40,7 @@ from app.lib.template_filters import (
     slugify,
     tna_html,
     unslugify,
+    url_encode,
     wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
@@ -149,6 +150,7 @@ def create_app(config_class):
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)
     app.add_template_filter(unslugify)
+    app.add_template_filter(url_encode)
     app.add_template_filter(wagtail_streamfield_contains_media)
     app.add_template_filter(wagtail_table_parser)
 
