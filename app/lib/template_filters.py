@@ -1,6 +1,7 @@
 import json
 import math
 import re
+import textwrap
 from datetime import datetime
 from urllib.parse import quote_plus, unquote, urlparse
 
@@ -46,6 +47,10 @@ def unslugify(s, capitalize_first=True):
     if capitalize_first:
         s[0] = s[0].capitalize()
     return " ".join(s)
+
+
+def truncate(s, length, suffix="..."):
+    return textwrap.shorten(s, width=length, placeholder=suffix)
 
 
 def url_encode(s):
