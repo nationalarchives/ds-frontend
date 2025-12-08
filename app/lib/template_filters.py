@@ -1,14 +1,12 @@
 import json
-import math
 import re
 import textwrap
-from datetime import datetime
 from urllib.parse import quote_plus, unquote, urlparse
 
-from app.lib.datetime import get_date_from_string
 from markupsafe import Markup
+from tna_utilities.datetime import pretty_date
 
-from .content_parser import (  # add_abbreviations,; replace_footnotes,
+from .content_parser import (
     add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
@@ -24,8 +22,8 @@ def tna_html(s):
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
-    # s = replace_footnotes(s)
-    # s = add_abbreviations(s)
+    # s = replace_footnotes(s)  # from .content_parser import replace_footnotes
+    # s = add_abbreviations(s)  # from .content_parser import add_abbreviations
     s = add_rel_to_external_links(s)
     return s
 
@@ -67,30 +65,6 @@ def multiline_address_to_single_line(s):
     return s
 
 
-def seconds_to_time(s):
-    if not s:
-        return "00h 00m 00s"
-    total_seconds = int(s)
-    hours = math.floor(total_seconds / 3600)
-    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
-    seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    return f"{str(hours).rjust(2, '0')}h {str(minutes).rjust(2, '0')}m {str(seconds).rjust(2, '0')}s"
-
-
-def seconds_to_iso_8601_duration(s):
-    if not s:
-        return "PT0S"
-    total_seconds = int(s)
-    hours = math.floor(total_seconds / 3600)
-    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
-    seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    if hours:
-        return f"PT{hours}H{minutes}M{seconds}S"
-    if minutes:
-        return f"PT{minutes}M{seconds}S"
-    return f"PT{seconds}S"
-
-
 def get_url_domain(s):
     try:
         domain = urlparse(s).netloc
@@ -98,35 +72,6 @@ def get_url_domain(s):
         return domain
     except Exception:
         return s
-
-
-def pretty_date(s, show_day=False, show_time=False):
-    if not s:
-        return s
-    try:
-        date = datetime.strptime(s, "%Y-%m-%d")
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m")
-        return date.strftime("%B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y")
-        return date.strftime("%Y")
-    except ValueError:
-        pass
-    if date := get_date_from_string(s):
-        if show_time:
-            return (
-                date.strftime("%A %-d %B %Y, %H:%M")
-                if show_day
-                else date.strftime("%-d %B %Y, %H:%M")
-            )
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    return s
 
 
 def pretty_date_with_day(s):
@@ -139,48 +84,6 @@ def pretty_date_with_time(s):
 
 def pretty_date_with_day_and_time(s):
     return pretty_date(s, show_day=True, show_time=True)
-
-
-def pretty_price(s):
-    price = s if s else 0
-    if price == 0 or price == "0":
-        return "Free"
-    return f"£{currency(price)}"
-
-
-def is_today_or_future(s):
-    try:
-        date = get_date_from_string(s).date()
-    except AttributeError:
-        return False
-    today = datetime.now().date()
-    return today <= date
-
-
-def currency(s):
-    if not s:
-        return "0"
-    float_number = float(s)
-    int_number = int(float_number)
-    if int_number == float_number:
-        return str("{:,}".format(int_number))
-    return str("{:,.2f}".format(float_number))
-
-
-def rfc_822_format(s):
-    if not s:
-        return s
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    except ValueError:
-        pass
-    return s
 
 
 def file_type_icon(s):
