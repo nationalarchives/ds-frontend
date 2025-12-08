@@ -10,7 +10,7 @@ ARG CONTAINER_IMAGE
 ENV CONTAINER_IMAGE="$CONTAINER_IMAGE"
 
 # Copy in the application code
-COPY . .
+COPY --chown=app . .
 
 # Install dependencies
 RUN tna-build
