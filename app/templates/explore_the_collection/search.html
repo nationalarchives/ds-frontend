@@ -22,7 +22,7 @@
     'href': '/explore-the-collection/'
   }
 ] -%}
-{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% block stylesheets %}
 {{ super() }}
@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
+<div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
   <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
     <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
       {{ tnaSearchField({
