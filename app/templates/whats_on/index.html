@@ -61,7 +61,7 @@
         'meta': [
           {
             'title': 'Cost',
-            'text': (section.selected_page.featured_page.price | pretty_price | safe) if section.selected_page.featured_page.price else (pretty_price_range(section.selected_page.featured_page.min_price, section.selected_page.featured_page.max_price) | safe),
+            'text': (section.selected_page.featured_page.price | pretty_price | safe) if section.selected_page.featured_page.price else (pretty_price_range(section.selected_page.featured_page.min_price, section.selected_page.featured_page.max_price) | safe) if section.selected_page.featured_page.min_price or section.selected_page.featured_page.max_price else 'Free',
             'icon': 'ticket'
           },
           {
@@ -111,7 +111,7 @@
         'meta': [
           {
             'title': 'Cost',
-            'text': (page.price | pretty_price | safe) if page.price else (pretty_price_range(page.min_price, page.max_price) | safe),
+            'text': (page.price | pretty_price | safe) if page.price else (pretty_price_range(page.min_price, page.max_price) | safe) if page.min_price or page.max_price else 'Free',
             'icon': 'ticket'
           },
           {

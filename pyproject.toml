@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 flask = "^3.1.0"
 requests = "^2.31.0"
 tna-frontend-jinja = "0.29.1"
@@ -15,6 +15,7 @@ flask-talisman = "^1.1.0"
 sentry-sdk = {extras = ["flask"], version = "^2.8.0"}
 pydash = "^8.0.3"
 redis = "^6.0.0"
+tna-utilities = "^1.0.0"
 
 [tool.poetry.group.dev]
 optional = true
