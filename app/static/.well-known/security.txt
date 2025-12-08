@@ -1,5 +1,5 @@
 Contact: https://hackerone.com/9d458421-1a73-4abd-bc02-fa5fc4d76325/embedded_submissions/new
 Preferred-Languages: en
-Canonical: https://nationalarchives.gov.uk/.well-known/security.txt
-Policy: https://nationalarchives.gov.uk/.well-known/disclosure-policy.txt
+Canonical: https://www.nationalarchives.gov.uk/.well-known/security.txt
+Policy: https://www.nationalarchives.gov.uk/.well-known/disclosure-policy.txt
 Expires: Fri, 28 Jan 2026 23:59:59 +0000

@@ -16,6 +16,18 @@
   'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
 
+{#-
+  Truncate any pageTitle that would cause the length to exceed 70 characters
+  See https://html-validate.org/rules/long-title.html
+-#}
+{%- set maxTitleLength = 70 -%}
+{%- set siteTitle = 'The National Archives' -%}
+{%- set siteTitleLength = siteTitle | length -%}
+{%- set titleCharsRemaining = maxTitleLength - siteTitleLength -%}
+{%- if (pageTitle | length) > titleCharsRemaining -%}
+  {%- set pageTitle = pageTitle | truncate(titleCharsRemaining) -%}
+{%- endif -%}
+
 {% block headIcons %}
     <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
@@ -79,7 +91,7 @@
   'defaultContent': True,
   'phaseBanner': {
     'phase': 'Beta',
-    'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ request.url ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
+    'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ (request.url | url_encode) ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
     'classes': 'tna-background-contrast'
   } if feature.PHASE_BANNER and display_phase_banner() else None
 }) | indent(6) }}
