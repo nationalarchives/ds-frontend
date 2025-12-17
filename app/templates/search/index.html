@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -23,7 +23,7 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='search.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block skipLink %}
 {{ tnaSkipLink({
@@ -31,7 +31,7 @@
   'text': 'Skip to list of results'
 }) }}
 {{ super() }}
-{% endblock %}
+{% endblock skipLink %}
 
 {% block content %}
 <div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
@@ -86,7 +86,7 @@
   {% if total_results %}
   <div class="tna-container">
     <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
-      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
     </div>
   </div>
   {% endif %}
@@ -159,4 +159,4 @@
     </div>
   </div>
 </section>
-{% endblock %}
+{% endblock content %}

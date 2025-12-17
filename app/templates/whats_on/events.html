@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
@@ -11,7 +11,7 @@
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block content %}
 <div class="tna-section tna-!--padding-bottom-m">
@@ -232,4 +232,4 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}

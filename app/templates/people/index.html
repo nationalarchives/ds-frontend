@@ -1,4 +1,4 @@
-{% extends 'layouts/page_with_contents_sidebar.html' %}
+{% extends "layouts/page_with_contents_sidebar.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
@@ -16,18 +16,18 @@
   'text': 'Skip to list of people'
 }) }}
 {{ super() }}
-{% endblock %}
+{% endblock skipLink %}
 
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block contentHeader %}
 <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
 {{ page_data.intro | safe }}
-{% endblock %}
+{% endblock contentHeader %}
 
 {% block afterContentHeader %}
 {#
@@ -55,7 +55,7 @@
   </div>
 </div>
 #}
-{% endblock %}
+{% endblock afterContentHeader %}
 
 {% set sidebarTitle = 'People by last name' %}
 {% set sidebarHeadingSize = 's' %}
@@ -76,7 +76,9 @@
   {%- if ns.first_letter != person.last_name.0 | upper %}
     
     {%- if ns.first_letter != '' %}
+    {# djlint:off #}
     </ul>
+    {# djlint:on #}
     {%- endif %}
 
     {%- set ns.first_letter = person.last_name.0 | upper %}
@@ -141,4 +143,4 @@
     {%- endfor %}
     </ul>
   </nav>
-{% endblock %}
+{% endblock content %}

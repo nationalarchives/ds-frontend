@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- set pageTitle = image_data.title -%}
 
@@ -17,7 +17,7 @@
     </div>
     {% endif %}
 
-    <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}" class="tna-!--margin-top-m">
+    <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" alt="{{ image_data.description }}" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}" class="tna-!--margin-top-m">
 
     {% if image_data.transcription %}
     <h2 class="tna-heading-l">{{ image_data.transcription_heading | unslugify }}</h2>
@@ -50,4 +50,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
+{% endblock content %}

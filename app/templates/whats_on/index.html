@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -13,7 +13,7 @@
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block content %}
 <div class="tna-section tna-background-accent">
@@ -205,4 +205,4 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}

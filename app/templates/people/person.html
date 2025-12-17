@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -18,17 +18,17 @@
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='person-profile.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block main %}
   {% block beforeContent %}
     {{ super() }}
-  {% endblock %}
+  {% endblock beforeContent %}
   <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/ProfilePage">
     <meta itemprop="dateCreated" content="{{ page_data.meta.first_published_at }}">
     {%- if page_data.global_alert or page_data.mourning_notice %}
@@ -246,7 +246,7 @@
                   'meta': [
                     {
                       'title': 'Price',
-                      'text': ('&pound;' | safe) ~ item.price
+                      'text': ('£' | safe) ~ item.price
                     }
                   ],
                   'imageSrc': item.image.jpeg.full_url,
@@ -272,9 +272,9 @@
     {{ feedback() }}
     {{ back_to_top() }}
   </main>
-{% endblock %}
+{% endblock main %}
 
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+{% endblock bodyEnd %}

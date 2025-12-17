@@ -1,4 +1,4 @@
-{% extends 'main/general.html' %}
+{% extends "main/general.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/radios/macro.html' import tnaRadios -%}
@@ -6,10 +6,10 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block cookies %}
-{% endblock %}
+{% endblock cookies %}
 
 {% block content %}
 <form method="post" action="{{ url_for('main.set_cookies') }}" id="cookie-settings">
@@ -91,9 +91,9 @@
     }) }}
   </div>
 </form>
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
-<script src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+    <script src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{% endblock bodyEnd %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
@@ -15,7 +15,7 @@
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block content %}
 {%- if page_data.global_alert or page_data.mourning_notice %}
@@ -89,9 +89,9 @@
   </div>
 </div>
   {{ back_to_top('l') }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+{% endblock bodyEnd %}

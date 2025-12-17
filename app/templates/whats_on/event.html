@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -19,12 +19,12 @@
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='event.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -121,7 +121,7 @@
             <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
             {{ 'Dates' if sessions_by_date | length > 1 else 'Date' }}
           </dt>
-          <dd{{ ' class="tna-!--no-padding-bottom"' if page_data.various_dates else '' }}>
+          <dd class="{{ 'tna-!--no-padding-bottom' if page_data.various_dates else '' }}">
             {%- if sessions_by_date | length > 1 %}
             {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
             {%- else %}
@@ -200,7 +200,7 @@
             Part of series
           </dt>
           {%- for series in page_data.series %}
-          <dd{{ (' class="tna-!--no-padding-bottom"' | safe) if (page_data.series | length) > 1 and not loop.last else '' }}>
+          <dd class="{{ 'tna-!--no-padding-bottom' if (page_data.series | length) > 1 and not loop.last else '' }}">
             <a href="#series-{{ series.title | slugify }}">{{ series.title }}</a>
           </dd>
           {%- endfor %}
@@ -434,4 +434,4 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}

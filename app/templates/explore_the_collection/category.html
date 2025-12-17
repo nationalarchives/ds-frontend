@@ -1,4 +1,4 @@
-{% extends 'explore_the_collection/base.html' %}
+{% extends "explore_the_collection/base.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
@@ -17,7 +17,7 @@
     {%- elif page_data.meta.type == 'collections.TopicExplorerPage' %}
     <meta name="tna_root:taxonomy_topic" content="{{ page_data.title }}">
     {%- endif %}
-{% endblock %}
+{% endblock head %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -154,4 +154,4 @@
 {%- endif %}
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}

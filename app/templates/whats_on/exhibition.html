@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -23,7 +23,7 @@
 {{ super() }}
 {{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
@@ -31,7 +31,7 @@
     {%- if page_data.video %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -607,7 +607,7 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
@@ -615,4 +615,4 @@
     {%- if page_data.video %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

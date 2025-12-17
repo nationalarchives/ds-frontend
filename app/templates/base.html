@@ -43,7 +43,7 @@
     <link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
     <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
     <link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
-{% endblock %}
+{% endblock headIcons %}
 
 {% block head %}
     <!--<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">-->
@@ -59,7 +59,7 @@
     <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
-{% endblock %}
+{% endblock head %}
 
 {% block stylesheets %}
     <link rel="preconnect" href="https://use.typekit.net" crossorigin>
@@ -74,7 +74,7 @@
     {% if feature.LOGO_ADORNMENTS_CSS %}
     <link rel="stylesheet" href="{{ feature.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_date() }}" media="screen">
     {% endif %}
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block cookies %}
 {%- if not page_data or not page_data.page_preview %}
@@ -84,7 +84,7 @@
   'preferencesSetKey': 'dontShowCookieNotice'
 }) | indent(6) }}
 {%- endif %}
-{% endblock %}
+{% endblock cookies %}
 
 {% block header %}
 {{ tnaGlobalHeader({
@@ -95,7 +95,7 @@
     'classes': 'tna-background-contrast'
   } if feature.PHASE_BANNER and display_phase_banner() else None
 }) | indent(6) }}
-{% endblock %}
+{% endblock header %}
 
 {% block beforeContent %}
 {%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
@@ -114,7 +114,7 @@
   </div>
   {%- endif %}
 {%- endif %}
-{% endblock %}
+{% endblock beforeContent %}
 
 {% block footer %}
 {{ tnaFooter({
@@ -123,7 +123,7 @@
   'defaultContent': True,
   'classes': 'tna-!--margin-top-l'
 }) | indent(4) }}
-{% endblock %}
+{% endblock footer %}
 
 {% block bodyEnd %}
 {%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
@@ -134,4 +134,4 @@
 {%- if feature.LOGO_ADORNMENTS_JS %}
     <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_date() }}"></script>
 {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

@@ -7,7 +7,7 @@
       <div class="tna-container tna-container--nested">
         {%- if block_value.background_image %}
         <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
-          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="" itemprop="image">
+          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="" itemprop="image" width="{{ block_value.background_image.jpeg.width }}" height="{{ block_value.background_image.jpeg.height }}">
         </div>
         {%- endif %}
         <div class="tna-column tna-column--flex-1">
