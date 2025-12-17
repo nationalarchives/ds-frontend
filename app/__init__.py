@@ -39,6 +39,8 @@ from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
 from tna_utilities.currency import currency, pretty_price, pretty_price_range
 from tna_utilities.datetime import (
+    get_date_from_string,
+    is_today_in_date_range,
     is_today_or_future,
     pretty_date,
     pretty_date_range,
@@ -46,7 +48,6 @@ from tna_utilities.datetime import (
     rfc_822_date_format,
     seconds_to_duration,
     seconds_to_iso_8601_duration,
-    is_today_in_date_range,get_date_from_string
 )
 
 
@@ -169,14 +170,10 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            qs_active=lambda filter, by: qs_active(request.args.to_dict(), filter, by),
-            qs_toggler=lambda filter, by: qs_toggler(
-                request.args.to_dict(), filter, by
-            ),
-            qs_update=lambda filter, value: qs_update(
-                request.args.to_dict(), filter, value
-            ),
-            qs_remove=lambda filter: qs_remove(request.args.to_dict(), filter),
+            qs_active=lambda filter, by: qs_active(request, filter, by),
+            qs_toggler=lambda filter, by: qs_toggler(request, filter, by),
+            qs_update=lambda filter, value: qs_update(request, filter, value),
+            qs_remove=lambda filter: qs_remove(request, filter),
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "CONTAINER_IMAGE": app.config.get("CONTAINER_IMAGE"),

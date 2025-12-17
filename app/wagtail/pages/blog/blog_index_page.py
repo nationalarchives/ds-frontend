@@ -1,5 +1,6 @@
 import datetime
 import math
+from tna_utilities.urls import QueryStringTransformer
 
 from app.lib.pagination import pagination_object
 from app.lib.query import qs_active, qs_toggler
@@ -60,7 +61,16 @@ def blog_index_page(page_data, year=None, month=None, day=None):
     pages = math.ceil(total_blog_posts / children_per_page)
     if total_blog_posts and page > pages:
         return render_template("errors/page_not_found.html"), 404
-    existing_qs_as_dict = request.args.to_dict()
+
+
+
+    # existing_qs_as_dict = request.args.to_dict()
+    # normalised_args = list(request.args.lists())
+    # qs = QueryStringTransformer(normalised_args)
+
+
+
+
     date_filters = [
         {
             "label": "Any date",
