@@ -127,7 +127,10 @@
     ],
     'narrow': True,
     'layout': page_data.hero_layout,
-    'style': 'accent-light' if page_data.hero_style == 'accent' else page_data.hero_style
+    'style': 'accent-light' if page_data.hero_style == 'accent' else page_data.hero_style,
+    'attributes': {
+      'itemprop': 'image'
+    }
   }, page_data.hero_image.uuid, page_data.hero_image.title) }}
   <div class="tna-container tna-!--padding-vertical-m">
     <div class="tna-column tna-column--full">

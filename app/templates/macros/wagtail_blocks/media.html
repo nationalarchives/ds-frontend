@@ -69,10 +69,10 @@
                   <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
-                <h{{ itemHeadingLevel ~ 1 }} class="tna-heading-s media-chapter-heading">
+                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading">
                   {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
-                </h{{ itemHeadingLevel ~ 1 }}>
-                {{ chapter.transcript | safe }}
+                </h{{ itemHeadingLevel + 1 }}>
+                {{ chapter.transcript | tna_html | safe }}
               </li>
               {%- endfor %}
             </ol>
