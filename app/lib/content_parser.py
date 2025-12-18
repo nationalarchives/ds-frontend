@@ -24,6 +24,8 @@ def strip_wagtail_attributes(html):
 
 def replace_line_breaks(html):
     html = html.replace("\r\n", "<br>")
+    html = html.replace("<br/>", "<br>")
+    html = html.replace("<br />", "<br>")
     return html
 
 
