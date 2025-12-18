@@ -2,6 +2,7 @@ import json
 import os
 
 from app.lib.util import strtobool
+from pydash import objects
 
 
 class Features:
@@ -14,21 +15,20 @@ class Production(Features):
     ENVIRONMENT_NAME: str = os.environ.get("ENVIRONMENT_NAME", "production")
     BUILD_VERSION: str = os.environ.get("BUILD_VERSION", "")
     CONTAINER_IMAGE: str = os.environ.get("CONTAINER_IMAGE", "")
+
     TNA_FRONTEND_VERSION: str = ""
     try:
-        with open(
-            os.path.join(
-                os.path.realpath(os.path.dirname(__file__)),
-                "node_modules/@nationalarchives/frontend",
-                "package.json",
+        package_lock_json_path = os.path.join(
+            os.path.realpath(os.path.dirname(__file__)),
+            "package-lock.json",
+        )
+        with open(package_lock_json_path) as package_json:
+            data = json.load(package_json)
+            TNA_FRONTEND_VERSION: str = objects.get(
+                data, "packages.node_modules/@nationalarchives/frontend.version", ""
             )
-        ) as package_json:
-            try:
-                data = json.load(package_json)
-                TNA_FRONTEND_VERSION = data["version"] or ""
-            except ValueError:
-                pass
-    except FileNotFoundError:
+    except Exception:
+        # Error reading the version of TNA Frontend
         pass
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
