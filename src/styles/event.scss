@@ -8,11 +8,11 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 
-@use "@nationalarchives/frontend/nationalarchives/components/hero/hero" as
-  heroVars;
+$hero-shift-units: 2;
+$hero-padding-units: 3 !default;
 
 .tna-hero {
-  margin-bottom: spacing.space(heroVars.$layer-shift-units);
+  margin-bottom: spacing.space($hero-shift-units);
 
   &__details {
     max-width: gridVars.$largest-container-width;
@@ -39,8 +39,8 @@
 
   &__figure {
     min-height: auto;
-    padding-top: spacing.space(heroVars.$layer-padding-units);
-    padding-bottom: spacing.space(heroVars.$layer-padding-units);
+    padding-top: spacing.space($hero-padding-units);
+    padding-bottom: spacing.space($hero-padding-units);
 
     align-items: center;
 
@@ -55,8 +55,8 @@
 
     overflow: hidden;
 
-    top: spacing.space(heroVars.$layer-shift-units);
-    bottom: spacing.space(heroVars.$layer-shift-units * -1);
+    top: spacing.space($hero-shift-units);
+    bottom: spacing.space($hero-shift-units * -1);
 
     left: 50%;
 
