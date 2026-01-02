@@ -6,7 +6,8 @@
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
 <figure class="tna-picture {{ ' '.join(containerClasses) }}" data-module="tna-picture"{% if params.informationLabelOpen %} data-information-label-open="{{ params.informationLabelOpen }}"{% endif %}{% if params.informationLabelClose %} data-information-label-close="{{ params.informationLabelClose }}"{% endif %} {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} itemprop="image" itemscope itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
   {%- if uuid %}
-  <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') }}">
+  {%- set image_page_url = url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') %}
+  <meta itemprop="url" content="{{ image_page_url }}">
   {%- endif %}
   {%- if image_name %}
   <meta itemprop="name" content="{{ image_name }}">

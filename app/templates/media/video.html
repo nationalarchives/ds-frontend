@@ -13,7 +13,8 @@
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/VideoObject">
   <meta itemprop="uploadDate" content="{{ media_data.created_at }}">
   <meta itemprop="contentUrl" content="{{ media_data.full_url }}">
-  <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=media_data.uuid, _external=True, _scheme='https') }}">
+  {%- set media_page_url = url_for('wagtail.media_page', media_uuid=media_data.uuid, _external=True, _scheme='https') %}
+  <meta itemprop="url" content="{{ media_page_url }}">
   {% if media_data.thumbnail %}
   {# <meta itemprop="thumbnailUrl" content="{{ media_data.thumbnail.jpeg.full_url }}"> #}
   {% endif %}

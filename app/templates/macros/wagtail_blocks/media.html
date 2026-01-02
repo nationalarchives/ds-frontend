@@ -102,7 +102,8 @@
     {%- endif %}
 
     <meta itemprop="contentUrl" content="{{ block_value.media.file }}">
-    <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=block_value.media.uuid, _external=True, _scheme='https') }}">
+    {%- set media_page_url = url_for('wagtail.media_page', media_uuid=block_value.media.uuid, _external=True, _scheme='https') %}
+    <meta itemprop="url" content="{{ media_page_url }}">
     <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
   </div>
 {% endmacro %}

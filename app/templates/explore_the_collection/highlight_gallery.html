@@ -50,7 +50,8 @@
       <meta itemprop="width" content="{{ highlight.image.jpeg.width }}">
       <meta itemprop="height" content="{{ highlight.image.jpeg.height }}">
       <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-      <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=highlight.image.uuid, _external=True, _scheme='https') }}">
+      {%- set image_page_url = url_for('wagtail.image_page', image_uuid=highlight.image.uuid, _external=True, _scheme='https') %}
+      <meta itemprop="url" content="{{ image_page_url }}">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h2 class="tna-heading-l tna-!--padding-top-s" itemprop="name" id="gallery-image-{{ loop.index }}">{{ highlight.title }}</h2>

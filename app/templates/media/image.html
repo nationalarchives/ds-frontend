@@ -4,7 +4,8 @@
 
 {% block content %}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/ImageObject">
-  <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') }}">
+  {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
+  <meta itemprop="url" content="{{ image_page_url }}">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Image</p>

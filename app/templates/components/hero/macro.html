@@ -26,7 +26,8 @@
   <figure class="tna-hero__figure" itemscope itemtype="https://schema.org/ImageObject">
     <meta itemprop="description" content="{{ params.imageAlt }}">
     {%- if uuid %}
-    <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') }}">
+    {%- set image_page_url = url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') %}
+    <meta itemprop="url" content="{{ image_page_url }}">
     {%- endif %}
     {%- if image_name %}
     <meta itemprop="name" content="{{ image_name }}">
