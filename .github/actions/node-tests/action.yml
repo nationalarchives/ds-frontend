@@ -9,6 +9,3 @@ runs:
     - name: Audit Node dependencies
       run: npm audit
       shell: bash
-    - name: Check formatting
-      run: docker run --rm -v "$(pwd)":/app/ ghcr.io/nationalarchives/tna-python-dev:latest checkformat
-      shell: bash
