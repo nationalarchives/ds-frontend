@@ -32,6 +32,7 @@ def qs_update(existing_qs, filter, value):
     try:
         rtn_qs.pop(filter)
     except KeyError:
+        # The key was not present, nothing to do.
         pass
     rtn_qs.update({filter: value})
     return urlencode(rtn_qs)
@@ -42,6 +43,7 @@ def qs_remove(existing_qs, filter):
     try:
         rtn_qs.pop(filter)
     except KeyError:
+        # The key was not present, nothing to do.
         pass
     return urlencode(rtn_qs)
 
