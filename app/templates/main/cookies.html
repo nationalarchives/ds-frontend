@@ -82,7 +82,7 @@
     ],
     'selected': 'true' if cookie_preference('marketing') else 'false'
   }) }}
-  <input type="hidden" name="referrer" value="{{ page_data.meta.html_url }}">
+  <input type="hidden" name="referrer" value="{{ page_data.meta.url }}">
   <div class="tna-button-group">
     {{ tnaButton({
       'text': 'Save changes',

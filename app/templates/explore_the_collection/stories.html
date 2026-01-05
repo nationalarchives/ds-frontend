@@ -10,7 +10,7 @@
 
 {% block head %}
 {{ super() }}
-    <link rel="canonical" href="{{ request.url | url_encode }}{{ '?page=' ~ (page | string) if 'page' not in request.args }}">
+    <link rel="canonical" href="{{ page_data.meta.url }}?page={{ page }}">
 {% endblock head %}
 
 {% block content %}
