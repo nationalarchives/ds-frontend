@@ -13,7 +13,7 @@ from flask import current_app, render_template, request
 from pydash import objects
 
 
-def blog_index_page(page_data, year=None, month=None, day=None):
+def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
     children_per_page = 12
     page = (
         int(request.args.get("page"))
