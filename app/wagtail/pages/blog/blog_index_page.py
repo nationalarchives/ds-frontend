@@ -35,11 +35,11 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         else datetime.datetime.now().month if request.args.get("day") else None
     )
     month_name = datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
-    day = day or (
-        int(request.args.get("day"))
-        if request.args.get("day") and request.args.get("day").isnumeric()
-        else None
-    )
+    # day = day or (
+    #     int(request.args.get("day"))
+    #     if request.args.get("day") and request.args.get("day").isnumeric()
+    #     else None
+    # )
     blogs_data = top_blogs()
     blog_post_counts_data = blog_post_counts()
     authors = blog_authors()

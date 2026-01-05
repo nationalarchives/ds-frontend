@@ -5,7 +5,7 @@ import textwrap
 from datetime import datetime
 from urllib.parse import quote_plus, unquote, urlparse
 
-from app.lib.datetime import get_date_from_string
+from app.lib.date_time import get_date_from_string
 from markupsafe import Markup
 
 from .content_parser import (  # add_abbreviations,; replace_footnotes,

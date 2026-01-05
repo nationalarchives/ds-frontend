@@ -1,4 +1,4 @@
-from app.lib.datetime import get_date_from_string
+from app.lib.date_time import get_date_from_string
 from flask import render_template
 
 

@@ -1,6 +1,6 @@
 import unittest
 
-from app.lib.datetime import get_date_from_string, group_items_by_year_and_month
+from app.lib.date_time import get_date_from_string, group_items_by_year_and_month
 
 
 class DateTimeTestCase(unittest.TestCase):
