@@ -6,10 +6,9 @@ runs:
     - name: Install Node dependencies
       run: npm install
       shell: bash
-    - name: Run Node tests
-      run: npm run test:all
+    - name: Audit Node dependencies
+      run: npm audit
       shell: bash
-    # TODO: Re-enable audit when vulnerabilities are fixed (https://github.com/videojs/video.js/issues/9103)
-    # - name: Audit Node dependencies
-    #   run: npm audit
-    #   shell: bash
+    - name: Check formatting
+      run: docker compose run app checkformat
+      shell: bash
