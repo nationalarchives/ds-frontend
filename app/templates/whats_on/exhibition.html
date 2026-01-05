@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -22,8 +22,8 @@
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
@@ -31,7 +31,7 @@
     {%- if page_data.video %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -59,124 +59,128 @@
     <meta itemprop="url" content="https://www.nationalarchives.gov.uk/">
   </div>
 
-  <section class="tna-background-tint">
-    {%- set hero_intro %}
-      {% if page_data.subtitle %}
-        <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.subtitle | tna_html | safe }}</div>
-      {% endif %}
-      {%- if page_data.start_date or page_data.end_date or page_data.price %}
-        <dl class="tna-dl-chips tna-dl-chips--plain">
-          {%- if page_data.start_date or page_data.end_date %}
-          <dt>Date</dt>
-          <dd>
-            <span class="tna-dl-chips__item">
-              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              {{ 'All-year round' if page_data.all_year else pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) }}
-            </span>
-          </dd>
-          {%- endif %}
-          {%- if 'price' in page_data %}
-          <dt>Price</dt>
-          <dd>
-            <span class="tna-dl-chips__item">
-              <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-              {{ page_data.price | pretty_price }}
-            </span>
-          </dd>
-          {%- endif %}
-        </dl>
-      {%- endif %}
-    {%- endset %}
+  {%- set hero_intro %}
+    {% if page_data.subtitle %}
+      <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.subtitle | tna_html | safe }}</div>
+    {% endif %}
+    {%- if page_data.start_date or page_data.end_date or page_data.price %}
+      <dl class="tna-dl-chips tna-dl-chips--plain">
+        {%- if page_data.start_date or page_data.end_date %}
+        <dt>Date</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+            {{ 'All-year round' if page_data.all_year else pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) }}
+          </span>
+        </dd>
+        {%- endif %}
+        {%- if 'price' in page_data %}
+        <dt>Price</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+            {{ page_data.price | pretty_price }}
+          </span>
+        </dd>
+        {%- endif %}
+      </dl>
+    {%- endif %}
+  {%- endset %}
 
-    {%- set hero_image_caption %}
-      {{- page_data.hero_image_caption | safe -}}
-      {%- if page_data.hero_image.copyright -%}
-        <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
-      {%- endif -%}
-    {%- endset %}
+  {%- set hero_image_caption %}
+    {{- page_data.hero_image_caption | safe -}}
+    {%- if page_data.hero_image.copyright -%}
+      <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+    {%- endif -%}
+  {%- endset %}
 
-    {{ tnaHero({
-      'supertitle': page_data.type_label,
-      'title': page_data.title,
-      'body': hero_intro,
-      'imageSrc': page_data.hero_image.jpeg.full_url,
-      'imageAlt': page_data.hero_image.description,
-      'imageWidth': page_data.hero_image.jpeg.width,
-      'imageHeight': page_data.hero_image.jpeg.height,
-      'imageCaption': hero_image_caption,
-      'imageSources': [
-        {
-          'src': page_data.hero_image_small.webp.full_url,
-          'width': page_data.hero_image_small.webp.width,
-          'height': page_data.hero_image_small.webp.height,
-          'type': 'image/webp',
-          'media': '(max-width: 48em)'
-        },
-        {
-          'src': page_data.hero_image_small.jpeg.full_url,
-          'width': page_data.hero_image_small.jpeg.width,
-          'height': page_data.hero_image_small.jpeg.height,
-          'type': 'image/jpeg',
-          'media': '(max-width: 48em)'
-        },
-        {
-          'src': page_data.hero_image.webp.full_url,
-          'width': page_data.hero_image.webp.width,
-          'height': page_data.hero_image.webp.height,
-          'type': 'image/webp'
-        }
-      ],
-      'narrow': True,
-      'layout': page_data.hero_layout,
-      'style': page_data.hero_style
-    }, page_data.hero_image.uuid, page_data.hero_image.title) }}
-    <div class="tna-container tna-!--padding-vertical-m">
-      <div class="tna-column tna-column--full">
-        {% set ns = namespace(sidebar_items=[]) %}
-        {% set ns.sidebar_items = [{
-          'text': page_data.intro_title or ('About ' ~ page_data.title),
-          'href': '#' ~ ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
+  {{ tnaHero({
+    'supertitle': page_data.type_label,
+    'title': page_data.title,
+    'body': hero_intro,
+    'imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageAlt': page_data.hero_image.description,
+    'imageWidth': page_data.hero_image.jpeg.width,
+    'imageHeight': page_data.hero_image.jpeg.height,
+    'imageCaption': hero_image_caption,
+    'imageSources': [
+      {
+        'src': page_data.hero_image_small.webp.full_url,
+        'width': page_data.hero_image_small.webp.width,
+        'height': page_data.hero_image_small.webp.height,
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image_small.jpeg.full_url,
+        'width': page_data.hero_image_small.jpeg.width,
+        'height': page_data.hero_image_small.jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.webp.full_url,
+        'width': page_data.hero_image.webp.width,
+        'height': page_data.hero_image.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'narrow': True,
+    'layout': page_data.hero_layout,
+    'style': 'accent-light' if page_data.hero_style == 'accent' else page_data.hero_style,
+    'attributes': {
+      'itemprop': 'image'
+    }
+  }, page_data.hero_image.uuid, page_data.hero_image.title) }}
+  <div class="tna-container tna-!--padding-vertical-m">
+    <div class="tna-column tna-column--full">
+      {% set ns = namespace(sidebar_items=[]) %}
+      {% set ns.sidebar_items = [{
+        'text': page_data.intro_title or ('About ' ~ page_data.title),
+        'href': '#' ~ ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
+      }] %}
+      {% if page_data.exhibition_highlights or page_data.video %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.exhibition_highlights_title or 'Exhibition highlights',
+          'href': '#' ~ ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
         }] %}
-        {% if page_data.exhibition_highlights or page_data.video %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.exhibition_highlights_title or 'Exhibition highlights',
-            'href': '#' ~ ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
-          }] %}
-        {% endif %}
-        {% if page_data.location and (page_data.end_date | get_date_from_string | is_today_or_future) %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': 'Plan your visit',
-            'href': '#plan-your-visit'
-          }] %}
-        {% endif %}
-        {% if page_data.event_links %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.event_title or 'Events',
-            'href': '#' ~ ((page_data.event_title | slugify) if page_data.event_title else 'events')
-          }] %}
-        {% endif %}
-        {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.related_pages_title,
-            'href': '#' ~ (page_data.related_pages_title | slugify)
-          }] %}
-        {% endif %}
-        {% if page_data.shop %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.shop[0].value.title,
-            'href': '#' ~ (page_data.shop[0].value.title | slugify)
-          }] %}
-        {% endif %}
-        {{ tnaSidebar({
-          'title': 'On this page',
-          'headingLevel': 2,
-          'headingSize': 's',
-          'items': ns.sidebar_items,
-          'type': 'contents'
-        }) }}
-      </div>
+      {% endif %}
+      {% if page_data.location and (page_data.end_date | get_date_from_string | is_today_or_future) %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': 'Plan your visit',
+          'href': '#plan-your-visit'
+        }] %}
+      {% endif %}
+      {% if page_data.event_links %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.event_title or 'Events',
+          'href': '#' ~ ((page_data.event_title | slugify) if page_data.event_title else 'events')
+        }] %}
+      {% endif %}
+      {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.related_pages_title,
+          'href': '#' ~ (page_data.related_pages_title | slugify)
+        }] %}
+      {% endif %}
+      {% if page_data.shop %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.shop[0].value.title,
+          'href': '#' ~ (page_data.shop[0].value.title | slugify)
+        }] %}
+      {% endif %}
+      {{ tnaSidebar({
+        'title': 'On this page',
+        'headingLevel': 2,
+        'headingSize': 's',
+        'items': ns.sidebar_items,
+        'type': 'contents'
+      }) }}
     </div>
-  </section>
+  </div>
+  
+  <hr>
+  
   <div class="tna-container tna-!--margin-bottom-l">
     <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
       <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' ~ page_data.title) }}</h2>
@@ -356,7 +360,8 @@
 
           <meta itemprop="name" content="{{ video.value.title }}">
           <meta itemprop="contentUrl" content="{{ video.value.media.file }}">
-          <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=video.value.media.uuid, _external=True, _scheme='https') }}">
+          {%- set media_page_url = url_for('wagtail.media_page', media_uuid=video.value.media.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ media_page_url }}">
         </div>
         {% endif %}
       </div>
@@ -403,7 +408,8 @@
       {%- if page_data.location.image %}
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+          {%- set image_page_url = url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ image_page_url }}">
           <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
           <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
           <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
@@ -606,7 +612,7 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
@@ -614,4 +620,4 @@
     {%- if page_data.video %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

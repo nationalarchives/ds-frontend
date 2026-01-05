@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'macros/meta.html' import meta -%}
 
@@ -7,4 +7,4 @@
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
-{% endblock %}
+{% endblock head %}

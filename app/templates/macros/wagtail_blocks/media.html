@@ -7,7 +7,7 @@
       <div class="tna-container tna-container--nested">
         {%- if block_value.background_image %}
         <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
-          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="" itemprop="image">
+          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="" itemprop="image" width="{{ block_value.background_image.jpeg.width }}" height="{{ block_value.background_image.jpeg.height }}">
         </div>
         {%- endif %}
         <div class="tna-column tna-column--flex-1">
@@ -72,7 +72,7 @@
                 <h{{ itemHeadingLevel ~ 1 }} class="tna-heading-s media-chapter-heading">
                   {{ chapter.time | seconds_to_duration }} - {{ chapter.heading }}
                 </h{{ itemHeadingLevel ~ 1 }}>
-                {{ chapter.transcript | safe }}
+                {{ chapter.transcript | tna_html | safe }}
               </li>
               {%- endfor %}
             </ol>
@@ -102,7 +102,8 @@
     {%- endif %}
 
     <meta itemprop="contentUrl" content="{{ block_value.media.file }}">
-    <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=block_value.media.uuid, _external=True, _scheme='https') }}">
+    {%- set media_page_url = url_for('wagtail.media_page', media_uuid=block_value.media.uuid, _external=True, _scheme='https') %}
+    <meta itemprop="url" content="{{ media_page_url }}">
     <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
   </div>
 {% endmacro %}

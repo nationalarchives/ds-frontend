@@ -1,4 +1,4 @@
-{% extends 'explore_the_collection/base.html' %}
+{% extends "explore_the_collection/base.html" %}
 
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -11,13 +11,13 @@
 
 {% block head %}
 {{ super() }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='highlight-gallery.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
@@ -50,7 +50,8 @@
       <meta itemprop="width" content="{{ highlight.image.jpeg.width }}">
       <meta itemprop="height" content="{{ highlight.image.jpeg.height }}">
       <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-      <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=highlight.image.uuid, _external=True, _scheme='https') }}">
+      {%- set image_page_url = url_for('wagtail.image_page', image_uuid=highlight.image.uuid, _external=True, _scheme='https') %}
+      <meta itemprop="url" content="{{ image_page_url }}">
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           <h2 class="tna-heading-l tna-!--padding-top-s" itemprop="name" id="gallery-image-{{ loop.index }}">{{ highlight.title }}</h2>
@@ -133,4 +134,4 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}

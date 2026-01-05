@@ -1,10 +1,11 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- set pageTitle = image_data.title -%}
 
 {% block content %}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/ImageObject">
-  <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') }}">
+  {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
+  <meta itemprop="url" content="{{ image_page_url }}">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
     <hgroup class="tna-hgroup-xl">
       <p class="tna-hgroup__supertitle">Image</p>
@@ -17,7 +18,7 @@
     </div>
     {% endif %}
 
-    <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}" class="tna-!--margin-top-m">
+    <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" alt="{{ image_data.description }}" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}" class="tna-!--margin-top-m">
 
     {% if image_data.transcription %}
     <h2 class="tna-heading-l">{{ image_data.transcription_heading | unslugify }}</h2>
@@ -50,4 +51,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
+{% endblock content %}

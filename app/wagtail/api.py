@@ -322,6 +322,7 @@ def global_alerts():
         return global_alerts_data
     except Exception as e:
         current_app.logger.error(f"Failed to get global alerts: {e}")
+        return None
 
 
 def search(query, page, limit=None, params={}):

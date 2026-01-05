@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
@@ -33,21 +33,21 @@
 {% block main %}
   {% block beforeContent %}
     {{ super() }}
-  {% endblock %}
+  {% endblock beforeContent %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     <div class="tna-background-accent-light">
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
       <div class="tna-container tna-section tna-!--padding-bottom-xl">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          {% block contentHeader %}{% endblock %}
+          {% block contentHeader %}{% endblock contentHeader %}
         </div>
       </div>
     </div>
-    {% block afterContentHeader %}{% endblock %}
+    {% block afterContentHeader %}{% endblock afterContentHeader %}
     {% call simplePageWithSidebar(aToZSidebar or False, noPadding or False, sidebarTitle or None, sidebarHeadingSize or None) %}
-    {% block content %}{% endblock %}
+    {% block content %}{% endblock content %}
     {% endcall %}
     {{ feedback() }}
     {{ back_to_top() }}
   </main>
-{% endblock %}
+{% endblock main %}

@@ -7,6 +7,9 @@ def group_items_by_year_and_month(items, date_key):  # noqa: C901
         if request_date := item.get(date_key):
             try:
                 request_datetime = datetime.fromisoformat(request_date)
+            except ValueError:
+                request_datetime = None
+            if request_datetime:
                 month = request_datetime.strftime("%B")
                 year = request_datetime.strftime("%Y")
                 year_index = next(
@@ -34,7 +37,4 @@ def group_items_by_year_and_month(items, date_key):  # noqa: C901
                         )
                     else:
                         grouped[year_index]["items"][month_index]["items"].append(item)
-            except ValueError:
-                request_datetime = None
-                pass
     return grouped

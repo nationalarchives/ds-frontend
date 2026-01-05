@@ -6,12 +6,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .tna-hero {
-  &:not(.tna-background-accent, .tna-hero--split) &__content-inner {
-    @include media.on-larger-than-mobile {
-      @include colour.colour-border("accent-border", 1rem, solid, left);
-    }
-  }
-
   p .fa-solid {
     margin-right: spacing.space(0.75);
 

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- set pageTitle = 'Page not found' -%}
 {%- set status_code = 404 -%}
@@ -14,7 +14,7 @@
       <h2 class="tna-heading-l">Helpful links</h2>
       <ul class="tna-ul">
         <li>Check the UK Government Web Archive for an <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/+/{{ request.base_url }}" id="wa_link">archived version of this page</a></li>
-        <li>Return to the <a href="/">homepage</a></li>
+        <li>Return to the <a href="{{ url_for('wagtail.page') }}">homepage</a></li>
         <li>Search <a href="https://discovery.nationalarchives.gov.uk">Discovery</a>, our catalogue</li>
         <li>Use a <a href="https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/">research guide</a> to help with your historical research</li>
         <li>Find something in the <a href="https://www.nationalarchives.gov.uk/help/a-to-z/">A-Z</a></li>
@@ -24,4 +24,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
+{% endblock content %}

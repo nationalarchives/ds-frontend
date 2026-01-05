@@ -546,14 +546,14 @@ fixture = ["fixtures"]
 
 [[package]]
 name = "sentry-sdk"
-version = "2.47.0"
+version = "2.48.0"
 description = "Python client for Sentry (https://sentry.io)"
 optional = false
 python-versions = ">=3.6"
 groups = ["main"]
 files = [
-    {file = "sentry_sdk-2.47.0-py2.py3-none-any.whl", hash = "sha256:d72f8c61025b7d1d9e52510d03a6247b280094a327dd900d987717a4fce93412"},
-    {file = "sentry_sdk-2.47.0.tar.gz", hash = "sha256:8218891d5e41b4ea8d61d2aed62ed10c80e39d9f2959d6f939efbf056857e050"},
+    {file = "sentry_sdk-2.48.0-py2.py3-none-any.whl", hash = "sha256:6b12ac256769d41825d9b7518444e57fa35b5642df4c7c5e322af4d2c8721172"},
+    {file = "sentry_sdk-2.48.0.tar.gz", hash = "sha256:5213190977ff7fdff8a58b722fb807f8d5524a80488626ebeda1b5676c0c1473"},
 ]
 
 [package.dependencies]
@@ -612,14 +612,14 @@ unleash = ["UnleashClient (>=6.0.1)"]
 
 [[package]]
 name = "tna-frontend-jinja"
-version = "0.29.1"
+version = "0.30.0"
 description = "TNA Frontend Jinja templates"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "tna_frontend_jinja-0.29.1-py3-none-any.whl", hash = "sha256:5b019f4e2f52716404efff0b22fc3f312f7d7ff8ff57a8fc3f36c32f42809816"},
-    {file = "tna_frontend_jinja-0.29.1.tar.gz", hash = "sha256:8766fabb9c286678f191f658ca4ba29a12db436034134b55e17018abf03cd41e"},
+    {file = "tna_frontend_jinja-0.30.0-py3-none-any.whl", hash = "sha256:207786abfa6ec560ec95758f8d09c35e20614f5612dacea7d105b1011b78d480"},
+    {file = "tna_frontend_jinja-0.30.0.tar.gz", hash = "sha256:d559bd9169e109e52fbd4d505851a461452d0384c4bb70691658c93ff6b746e4"},
 ]
 
 [package.dependencies]

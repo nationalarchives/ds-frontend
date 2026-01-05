@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -22,8 +22,8 @@
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
@@ -31,7 +31,7 @@
     {%- if page_data.video %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -129,7 +129,10 @@
       ],
       'narrow': True,
       'layout': 'shift',
-      'style': 'contrast'
+      'style': 'contrast',
+      'attributes': {
+        'itemprop': 'image'
+      }
     }, page_data.hero_image.uuid, page_data.hero_image.title) }}
   </section>
   <div class="tna-container tna-!--margin-bottom-l">
@@ -309,7 +312,8 @@
       {%- if page_data.location.image %}
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+          {%- set image_page_url = url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ image_page_url }}">
           <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
           <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
           <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
@@ -459,11 +463,11 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
     {%- if page_data.video %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

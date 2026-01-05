@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -12,8 +12,8 @@
 {% block head %}
 {{ super() }}
 {{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block content %}
 <div class="tna-section tna-background-accent">
@@ -175,11 +175,11 @@
         'fullAreaClick': True,
         'hrefAttributes': {
           'data-tna-analytics-event': 'select_feature',
-          'data-tna-analytics-label': groups[group].card_supertitle or null
+          'data-tna-analytics-label': groups[group].card_supertitle or None
         },
         'classes': 'tna-card--full-height tna-card--small-body'
       } %}
-      {%- if page.teaser_image_ %}
+      {# {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': page.teaser_image.jpeg.full_url,
           'imageAlt': page.teaser_image.description,
@@ -194,7 +194,7 @@
             }
           ]
         }) %}
-      {%- endif %}
+      {%- endif %} #}
       {{ tnaCard(card_content) }}
     </li>
     {%- endfor %}
@@ -205,4 +205,4 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
