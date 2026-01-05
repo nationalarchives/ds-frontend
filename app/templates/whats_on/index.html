@@ -179,7 +179,7 @@
         },
         'classes': 'tna-card--full-height tna-card--small-body'
       } %}
-      {%- if page.teaser_image_ %}
+      {# {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': page.teaser_image.jpeg.full_url,
           'imageAlt': page.teaser_image.description,
@@ -194,7 +194,7 @@
             }
           ]
         }) %}
-      {%- endif %}
+      {%- endif %} #}
       {{ tnaCard(card_content) }}
     </li>
     {%- endfor %}
