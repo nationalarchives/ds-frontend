@@ -13,12 +13,15 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
 {%- set pageTitle = page_data.short_title or page_data.title -%}
+{%- set pageTitleLong = page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
 {%- if year %}
   {%- if month_name %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}
+    {%- set pageTitleLong = pageTitleLong ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}
     {%- else %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ (year | string) -%}
+    {%- set pageTitleLong = pageTitleLong ~ ' - ' ~ (year | string) -%}
   {%- endif %}
 {%- endif %}
 
@@ -151,11 +154,11 @@
       <div class="tna-container">
         <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
           {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
-          <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+          <h1 class="tna-heading-xl">{{ pageTitleLong }}</h1>
           {%- else %}
           <hgroup class="tna-hgroup-xl">
             <p class="tna-hgroup__supertitle">Blog</p>
-            <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
+            <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitleLong }}</h1>
           </hgroup>
           {%- endif %}
           {%- if page_data.intro %}
