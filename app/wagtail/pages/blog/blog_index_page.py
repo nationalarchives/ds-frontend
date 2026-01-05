@@ -20,26 +20,25 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         if request.args.get("page") and request.args.get("page").isnumeric()
         else 1
     )
-    year = year or (
-        int(request.args.get("year"))
-        if request.args.get("year") and request.args.get("year").isnumeric()
-        else (
-            datetime.datetime.now().year
-            if request.args.get("month") or request.args.get("day")
-            else None
+    if not year and request.args.get("year"):
+        year = int(request.args.get("year"))
+    if year is not None:
+        if year <= 0:
+            return render_template("errors/bad_request.html"), 400
+        if year > datetime.datetime.now().year:
+            return render_template("errors/page_not_found.html"), 404
+    if not month and request.args.get("month"):
+        if not request.args.get("month").isnumeric() or int(
+            request.args.get("month")
+        ) not in range(1, 13):
+            return render_template("errors/bad_request.html"), 400
+        month = int(request.args.get("month"))
+    try:
+        month_name = (
+            datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
         )
-    )
-    month = month or (
-        int(request.args.get("month"))
-        if request.args.get("month") and request.args.get("month").isnumeric()
-        else datetime.datetime.now().month if request.args.get("day") else None
-    )
-    month_name = datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
-    # day = day or (
-    #     int(request.args.get("day"))
-    #     if request.args.get("day") and request.args.get("day").isnumeric()
-    #     else None
-    # )
+    except ValueError:
+        return render_template("errors/bad_request.html"), 400
     blogs_data = top_blogs()
     blog_post_counts_data = blog_post_counts()
     authors = blog_authors()
