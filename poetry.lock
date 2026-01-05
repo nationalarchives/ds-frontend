@@ -27,14 +27,14 @@ files = [
 
 [[package]]
 name = "certifi"
-version = "2025.11.12"
+version = "2026.1.4"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.7"
 groups = ["main", "dev"]
 files = [
-    {file = "certifi-2025.11.12-py3-none-any.whl", hash = "sha256:97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b"},
-    {file = "certifi-2025.11.12.tar.gz", hash = "sha256:d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316"},
+    {file = "certifi-2026.1.4-py3-none-any.whl", hash = "sha256:9943707519e4add1115f44c2bc244f782c0249876bf51b6599fee1ffbedd685c"},
+    {file = "certifi-2026.1.4.tar.gz", hash = "sha256:ac726dd470482006e014ad384921ed6438c457018f4b3d204aea4281258b2120"},
 ]
 
 [[package]]
@@ -627,14 +627,14 @@ Jinja2 = ">=3"
 
 [[package]]
 name = "tna-utilities"
-version = "1.0.0"
+version = "1.2.0"
 description = "A library of common National Archives Python functions"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "tna_utilities-1.0.0-py3-none-any.whl", hash = "sha256:95dc57b3dfda6478053816c8a35a46182531210e99743316c1cdbe4825e99111"},
-    {file = "tna_utilities-1.0.0.tar.gz", hash = "sha256:dcb3f308083e29a119d167bb4d4a0a5b17f9c4ac72656961534ddb809430d183"},
+    {file = "tna_utilities-1.2.0-py3-none-any.whl", hash = "sha256:016e38e2aeebf27dea5fe694e04b6123d8b6631c9eda4df4c60cbf92c399c4b5"},
+    {file = "tna_utilities-1.2.0.tar.gz", hash = "sha256:2cb07d22e06a2a26b450ab29f57f4d2c8d0b0b358d05e479134fc24c97edbdba"},
 ]
 
 [[package]]
@@ -705,14 +705,14 @@ markers = {dev = "python_version == \"3.10\""}
 
 [[package]]
 name = "urllib3"
-version = "2.6.1"
+version = "2.6.2"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "dev"]
 files = [
-    {file = "urllib3-2.6.1-py3-none-any.whl", hash = "sha256:e67d06fe947c36a7ca39f4994b08d73922d40e6cca949907be05efa6fd75110b"},
-    {file = "urllib3-2.6.1.tar.gz", hash = "sha256:5379eb6e1aba4088bae84f8242960017ec8d8e3decf30480b3a1abdaa9671a3f"},
+    {file = "urllib3-2.6.2-py3-none-any.whl", hash = "sha256:ec21cddfe7724fc7cb4ba4bea7aa8e2ef36f607a4bab81aa6ce42a13dc3f03dd"},
+    {file = "urllib3-2.6.2.tar.gz", hash = "sha256:016f9c98bb7e98085cb2b4b17b87d2c702975664e4f060c6532e64d1c1a5e797"},
 ]
 
 [package.extras]
@@ -742,4 +742,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "33f71059a02a65c42d90050a1ef5d239e1a17ed401cd4244a382b20d15e4e582"
+content-hash = "4add4a77c8da1330dfd5280d727b5d64f5191ef535dc30ebbf5fd844ca29220d"
