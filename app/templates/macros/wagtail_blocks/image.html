@@ -50,14 +50,10 @@
     'informationLabelOpen': information_label_open,
     'informationLabelClose': information_label_close,
     'information': picture_information,
-    'classes': 'tna-picture--plain' if plain_image else ''
+    'classes': 'tna-picture--plain' if plain_image else '',
+    'attributes': {
+      'itemprop': itemprop or 'image'
+    }
   } %}
-  {% if itemprop %}
-    {% set picture_content = dict(picture_content, **{
-      'attributes': {
-        'itemprop': itemprop
-      }
-    }) %}
-  {% endif %}
   {{ tnaPicture(picture_content, block_value.image.uuid, block_value.image.title) }}
 {% endmacro %}
