@@ -22,8 +22,8 @@
   {%- set containerClasses = containerClasses + ['tna-hero--narrow'] -%}
 {%- endif -%}
 {% set hasContent = params.title or params.body or params.text %}
-<{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true">
-  <figure class="tna-hero__figure" itemscope itemtype="https://schema.org/ImageObject">
+<{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true" itemscope itemtype="https://schema.org/ImageObject">
+  <figure class="tna-hero__figure">
     <meta itemprop="description" content="{{ params.imageAlt }}">
     {%- if uuid %}
     {%- set image_page_url = url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') %}
