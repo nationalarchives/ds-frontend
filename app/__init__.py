@@ -4,13 +4,9 @@ import sentry_sdk
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
-    is_today_in_date_range,
     now_iso_8601,
     now_iso_8601_date,
     now_rfc_822,
-    pretty_date_range,
-    pretty_datetime_range,
-    pretty_price_range,
 )
 from app.lib.query import (
     qs_active,
@@ -20,22 +16,15 @@ from app.lib.query import (
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
-    currency,
     file_type_icon,
     get_url_domain,
     headings_list,
-    is_today_or_future,
     multiline_address_to_single_line,
     number_to_text,
     parse_json,
-    pretty_date,
     pretty_date_with_day,
     pretty_date_with_day_and_time,
     pretty_date_with_time,
-    pretty_price,
-    rfc_822_format,
-    seconds_to_iso_8601_duration,
-    seconds_to_time,
     sidebar_items_from_wagtail_streamfield,
     slugify,
     tna_html,
@@ -48,6 +37,18 @@ from app.lib.template_filters import (
 from flask import Flask, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
+from tna_utilities.currency import currency, pretty_price, pretty_price_range
+from tna_utilities.datetime import (
+    get_date_from_string,
+    is_today_in_date_range,
+    is_today_or_future,
+    pretty_date,
+    pretty_date_range,
+    pretty_datetime_range,
+    rfc_822_date_format,
+    seconds_to_duration,
+    seconds_to_iso_8601_duration,
+)
 
 
 def create_app(config_class):
@@ -133,6 +134,7 @@ def create_app(config_class):
 
     app.add_template_filter(currency)
     app.add_template_filter(file_type_icon)
+    app.add_template_filter(get_date_from_string)
     app.add_template_filter(get_url_domain)
     app.add_template_filter(headings_list)
     app.add_template_filter(is_today_or_future)
@@ -144,9 +146,9 @@ def create_app(config_class):
     app.add_template_filter(pretty_date_with_day_and_time)
     app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(pretty_price)
-    app.add_template_filter(rfc_822_format)
+    app.add_template_filter(rfc_822_date_format)
     app.add_template_filter(seconds_to_iso_8601_duration)
-    app.add_template_filter(seconds_to_time)
+    app.add_template_filter(seconds_to_duration)
     app.add_template_filter(sidebar_items_from_wagtail_streamfield)
     app.add_template_filter(slugify)
     app.add_template_filter(tna_html)
@@ -168,14 +170,10 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            qs_active=lambda filter, by: qs_active(request.args.to_dict(), filter, by),
-            qs_toggler=lambda filter, by: qs_toggler(
-                request.args.to_dict(), filter, by
-            ),
-            qs_update=lambda filter, value: qs_update(
-                request.args.to_dict(), filter, value
-            ),
-            qs_remove=lambda filter: qs_remove(request.args.to_dict(), filter),
+            qs_active=lambda filter, by: qs_active(request, filter, by),
+            qs_toggler=lambda filter, by: qs_toggler(request, filter, by),
+            qs_update=lambda filter, value: qs_update(request, filter, value),
+            qs_remove=lambda filter: qs_remove(request, filter),
             app_config={
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "CONTAINER_IMAGE": app.config.get("CONTAINER_IMAGE"),

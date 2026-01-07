@@ -239,7 +239,7 @@
       {%- endfor %}
       {% set ns.card_body = ns.card_body ~ '</ul>' %}
       {{ tnaCard({
-        'title': (session_date.date | pretty_date) ~ ('' if (session_date.date | is_today_or_future) else ' (past event)'),
+        'title': (session_date.date | pretty_date) ~ ('' if (session_date.date | get_date_from_string | is_today_or_future) else ' (past event)'),
         'body': ns.card_body | safe,
         'headingLevel': 3,
         'headingSize': 's',
@@ -264,7 +264,7 @@
   </div>
 
   {% if page_data.location %}
-  <section class="tna-section tna-background-tint tna-!--no-padding-bottom-tiny" id="location-details"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
+  <section class="tna-section tna-background-tint tna-!--no-padding-bottom-tiny" id="location-details"{{ '' if (page_data.end_date | get_date_from_string | is_today_or_future) else ' hidden' }}>
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l">

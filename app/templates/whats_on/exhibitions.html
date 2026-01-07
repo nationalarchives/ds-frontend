@@ -47,7 +47,7 @@
           },
           {
             'title': 'Cost',
-            'text': pretty_price_range(page_data.featured_page.min_price, page_data.featured_page.max_price),
+            'text': pretty_price_range(page_data.featured_page.min_price, page_data.featured_page.max_price) if page_data.featured_page.min_price or page_data.featured_page.max_price else 'Free',
             'icon': 'ticket'
           }
         ],

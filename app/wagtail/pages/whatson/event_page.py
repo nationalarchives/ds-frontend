@@ -1,5 +1,5 @@
-from app.lib.date_time import get_date_from_string
 from flask import render_template
+from tna_utilities.datetime import get_date_from_string
 
 
 def event_page(page_data):
