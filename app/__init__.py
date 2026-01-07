@@ -25,6 +25,7 @@ from app.lib.template_filters import (
     get_url_domain,
     headings_list,
     is_today_or_future,
+    month_year,
     multiline_address_to_single_line,
     number_to_text,
     parse_json,
@@ -142,6 +143,7 @@ def create_app(config_class):
     app.add_template_filter(pretty_date_with_day)
     app.add_template_filter(pretty_date_with_time)
     app.add_template_filter(pretty_date_with_day_and_time)
+    app.add_template_filter(month_year)
     app.add_template_filter(multiline_address_to_single_line)
     app.add_template_filter(pretty_price)
     app.add_template_filter(rfc_822_format)

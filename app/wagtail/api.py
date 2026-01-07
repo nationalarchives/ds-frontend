@@ -354,5 +354,5 @@ def foi_requests(
         limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
     offset = (page - 1) * limit
     uri = "foi/"
-    params = params | {"offset": offset, "limit": limit, "order": "-date"}
+    params = params | {"offset": offset, "limit": limit, "order": "-date,reference"}
     return wagtail_request_handler(uri, params)

@@ -141,6 +141,29 @@ def pretty_date_with_day_and_time(s):
     return pretty_date(s, show_day=True, show_time=True)
 
 
+def month_year(s):
+    if not s:
+        return s
+    try:
+        date = datetime.strptime(s, "%Y-%m-%d")
+        return date.strftime("%B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m")
+        return date.strftime("%B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y")
+        return date.strftime("%Y")
+    except ValueError:
+        pass
+    if date := get_date_from_string(s):
+        return date.strftime("%B %Y")
+    return s
+
+
 def pretty_price(s):
     price = s if s else 0
     if price == 0 or price == "0":
