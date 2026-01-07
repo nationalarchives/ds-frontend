@@ -10,7 +10,6 @@ LICENCE
 README.md
 mkdocs.yml
 node_modules
-tmp
 .babelrc.json
 .eslintrc.js
 .flake8
