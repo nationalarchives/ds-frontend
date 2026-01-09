@@ -21,6 +21,8 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         else 1
     )
     if not year and request.args.get("year"):
+        if not request.args.get("year").isnumeric():
+            return render_template("errors/bad_request.html"), 400
         year = int(request.args.get("year"))
     if year is not None:
         if year <= 0:

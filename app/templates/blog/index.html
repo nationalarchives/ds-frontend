@@ -18,10 +18,10 @@
 {%- if year %}
   {%- if month_name %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}
-    {%- set pageTitleLong = pageTitleLong ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}
-    {%- else %}
+    {%- set pageTitleLong = pageTitleLong ~ ' - posts from ' ~ month_name ~ ' ' ~ (year | string) -%}
+  {%- else %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ (year | string) -%}
-    {%- set pageTitleLong = pageTitleLong ~ ' - ' ~ (year | string) -%}
+    {%- set pageTitleLong = pageTitleLong ~ ' - posts from ' ~ (year | string) -%}
   {%- endif %}
 {%- endif %}
 
