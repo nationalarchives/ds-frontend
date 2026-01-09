@@ -24,7 +24,7 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn("ok", rv.text)
 
-    def test_well_known_valid_paths(self):
+    def test_well_known_security(self):
         rv = self.app.get("/.well-known/security.txt")
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Contact: ", rv.text)
@@ -32,21 +32,33 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertIn("Canonical: ", rv.text)
         self.assertIn("Policy: ", rv.text)
         self.assertIn("Expires: ", rv.text)
-        rv = self.app.get("/.well-known/./security.txt")
+
+    def test_well_known_disclosure_policy(self):
+        rv = self.app.get("/.well-known/disclosure-policy.txt")
         self.assertEqual(rv.status_code, 200)
 
-    def test_well_known_invalid_paths(self):
-        rv = self.app.get("/.well-known/~/security.txt")
+    def test_well_known_thanks(self):
+        rv = self.app.get("/.well-known/thanks.txt")
         self.assertEqual(rv.status_code, 200)
-        self.assertIn("Contact: ", rv.text)
-        rv = self.app.get("/.well-known/~/.bashrc")
-        self.assertEqual(rv.status_code, 404)
+
+    def test_well_known_risky_paths(self):
         rv = self.app.get("/.well-known/./security.txt")
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Contact: ", rv.text)
+
+        rv = self.app.get("/.well-known/~/security.txt")
+        self.assertEqual(rv.status_code, 404)
+
         rv = self.app.get("/.well-known/../security.txt")
-        self.assertEqual(rv.status_code, 200)
-        self.assertIn("Contact: ", rv.text)
+        self.assertEqual(rv.status_code, 404)
+
+        rv = self.app.get("/.well-known/~/.bashrc")
+        self.assertEqual(rv.status_code, 404)
+
         rv = self.app.get("/.well-known//security.txt")
         self.assertEqual(rv.status_code, 308)
         self.assertEqual(rv.location, "http://localhost/.well-known//security.txt/")
+
+    def test_robots(self):
+        rv = self.app.get("/robots.txt")
+        self.assertEqual(rv.status_code, 200)

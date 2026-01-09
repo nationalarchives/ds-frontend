@@ -6,8 +6,15 @@ from urllib.parse import quote, unquote
 from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
-from flask import current_app, make_response, redirect, render_template, request
-from werkzeug.utils import secure_filename
+from flask import (
+    current_app,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+)
+from werkzeug.exceptions import NotFound
 
 
 @bp.route("/healthcheck/live/")
@@ -97,7 +104,9 @@ def robots():
 
 @bp.route("/.well-known/<path:filename>")
 def well_known(filename):
-    static_file = f".well-known/{secure_filename(filename)}"
-    if os.path.exists(os.path.join(current_app.static_folder, static_file)):
-        return current_app.send_static_file(static_file)
-    return render_template("errors/page_not_found.html"), 404
+    try:
+        return send_from_directory(
+            os.path.join(current_app.root_path, "static", ".well-known"), filename
+        )
+    except NotFound:
+        return render_template("errors/page_not_found.html"), 404
