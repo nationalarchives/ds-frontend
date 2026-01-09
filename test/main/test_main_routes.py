@@ -62,3 +62,7 @@ class MainBlueprintTestCase(unittest.TestCase):
     def test_robots(self):
         rv = self.app.get("/robots.txt")
         self.assertEqual(rv.status_code, 200)
+
+    def test_manifest(self):
+        rv = self.app.get("/manifest.json")
+        self.assertEqual(rv.status_code, 200)

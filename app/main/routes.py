@@ -97,6 +97,11 @@ def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
+@bp.route("/manifest.json")
+def manifest():
+    return current_app.send_static_file("manifest.json")
+
+
 @bp.route("/robots.txt")
 def robots():
     return current_app.send_static_file("robots.txt")
