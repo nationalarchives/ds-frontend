@@ -46,7 +46,7 @@ class ContentParserTestCase(unittest.TestCase):
             )
             self.assertEqual(
                 result,
-                """  <div class="tna-table-wrapper" role="group" aria-describedby="table-caption-table_id">
+                """  <div class="tna-table-wrapper" tabindex="0" role="group" aria-describedby="table-caption-table_id">
     <table class="tna-table">
       <caption class="tna-table__caption" id="table-caption-table_id">
         Ages of members of the Doe family
