@@ -1,20 +1,15 @@
-@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
-@use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 @use "@nationalarchives/frontend/nationalarchives/components/forms";
 
 #cookie-settings-success {
-  border-radius: 0.1px;
-
-  &[tabindex="0"]:focus {
-    @include a11y.focus-outline;
-  }
+  @include borders.rounded-border;
 }
 
 .tna-fieldset__hint {
   p,
   .tna-ul {
-    margin-top: 0;
+    margin-top: spacing.space(0.5);
   }
 }
