@@ -31,6 +31,7 @@ Disallow: /help-with-your-research/research-guides/living-people
 Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
 
 User-agent: *
+Content-Signal: ai-train=no, search=yes, ai-input=no
 Disallow: /_404-tests
 Disallow: /1939-data-room
 Disallow: /08-10-13scripts
@@ -125,7 +126,6 @@ Disallow: /ia/
 Disallow: /hospitalrecords/includes/
 Disallow: /househistory
 Disallow: /ichora5
-
 Allow: /images/news/
 Allow: /images/news/112/
 Allow: /images/about/
@@ -185,5 +185,7 @@ Disallow: /wdytya
 Disallow: /xml
 Disallow: /yourarchives
 Disallow: /zzz/
+Disallow: /tag/
 
-Sitemap: https://nationalarchives.gov.uk/sitemap.xml
+Sitemap: https://www.nationalarchives.gov.uk/sitemap.xml
+Sitemap: https://www.nationalarchives.gov.uk/sitemap_index.xml
