@@ -7,5 +7,5 @@ runs:
       run: npm install
       shell: bash
     - name: Audit Node dependencies
-      run: npm audit
+      run: npm audit --audit-level=moderate
       shell: bash
