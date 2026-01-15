@@ -21,7 +21,7 @@ docker compose exec app cp -r /app/node_modules/@nationalarchives/frontend/natio
 
 ### Preview application
 
-<http://localhost:65535/>
+<http://localhost:65497/>
 
 ## Environment variables
 
