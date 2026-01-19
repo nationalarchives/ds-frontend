@@ -7,7 +7,6 @@ services:
         IMAGE_TAG: preview
     environment:
       - ENVIRONMENT_NAME=localhost
-      - ALLOW_INSECURE=true
       - CONFIG=config.Develop
       - DEBUG=true
       - SECRET_KEY=abc123
