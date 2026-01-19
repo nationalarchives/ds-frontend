@@ -60,8 +60,8 @@
     <div class="tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
-          <summary class="tna-details__summary">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
-          <div class="tna-details__content">
+          <summary class="tna-details__summary" id="media-title-{{ id }}">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
+          <div class="tna-details__content" tabindex="0" role="region" aria-labelledby="media-title-{{ id }}">
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
               <li>

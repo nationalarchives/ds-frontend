@@ -6,8 +6,21 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
+@use "@nationalarchives/frontend/nationalarchives/utilities/tables";
 
 @import "video.js/src/css/vjs";
+
+@property --left-shadow {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(255 0 0 / 100%);
+}
+
+@property --right-shadow {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgb(0 0 100% / 100%);
+}
 
 .etna-video {
   width: 100%;
@@ -359,9 +372,25 @@ $videojs-track-height: 0.5em;
 
       overflow: auto;
 
-      border-radius: 0.1px;
+      background:
+        radial-gradient(
+          ellipse 50% #{tables.$table-overflow-shadow-width} at center top,
+          var(--left-fade),
+          rgb(0 0 0 / 0%)
+        ),
+        radial-gradient(
+            ellipse 50% #{tables.$table-overflow-shadow-width} at center bottom,
+            var(--right-fade),
+            rgb(0 0 0 / 0%)
+          )
+          transparent;
 
+      border-radius: 0.1px;
       @include colour.thick-keyline(left);
+
+      animation: scrollfade linear;
+      animation-timeline: --scrollfade;
+      scroll-timeline: --scrollfade y;
 
       &::before {
         visibility: hidden;
