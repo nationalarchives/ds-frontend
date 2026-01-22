@@ -4,8 +4,8 @@ services:
       context: .
       args:
         BUILD_IMAGE_TAG: multistage-builds
-        # IMAGE: ghcr.io/nationalarchives/tna-python-dev
-        IMAGE: tna-python-dev
+        IMAGE: ghcr.io/nationalarchives/tna-python-dev
+        # IMAGE: tna-python-dev
         IMAGE_TAG: multistage-builds
     environment:
       - ENVIRONMENT_NAME=localhost
