@@ -1,8 +1,8 @@
 ARG BUILD_IMAGE=ghcr.io/nationalarchives/tna-python-dev
-ARG BUILD_IMAGE_TAG=latest
+ARG BUILD_IMAGE_TAG=multistage-builds
 
 ARG IMAGE=ghcr.io/nationalarchives/tna-python
-ARG IMAGE_TAG=latest
+ARG IMAGE_TAG=multistage-builds
 
 
 
