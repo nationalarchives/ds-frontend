@@ -3,14 +3,18 @@ services:
     build:
       context: .
       args:
-        IMAGE: ghcr.io/nationalarchives/tna-python-dev
-        IMAGE_TAG: preview
+        BUILD_IMAGE_TAG: multistage-builds
+        # IMAGE: ghcr.io/nationalarchives/tna-python-dev
+        IMAGE: tna-python-dev
+        IMAGE_TAG: multistage-builds
     environment:
       - ENVIRONMENT_NAME=localhost
       - CONFIG=config.Develop
+      # - APPLICATION_PROTOCOL=http
       - DEBUG=true
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
+      # - NODE_ENV=development
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
       # - WAGTAIL_SITE_HOSTNAME=wagtail.localhost
       - COOKIE_DOMAIN=localhost
