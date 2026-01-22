@@ -2,10 +2,10 @@ services:
   app:
     build:
       context: .
-      # args:
+      args:
         # BUILD_IMAGE: tna-python-dev
         # BUILD_IMAGE_TAG: local
-        # IMAGE: ghcr.io/nationalarchives/tna-python-dev
+        IMAGE: ghcr.io/nationalarchives/tna-python-dev
         # IMAGE: tna-python-dev
         # IMAGE_TAG: local
     environment:
