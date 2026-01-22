@@ -2,15 +2,16 @@ services:
   app:
     build:
       context: .
-      args:
-        BUILD_IMAGE_TAG: multistage-builds
-        IMAGE: ghcr.io/nationalarchives/tna-python-dev
+      # args:
+        # BUILD_IMAGE: tna-python-dev
+        # BUILD_IMAGE_TAG: local
+        # IMAGE: ghcr.io/nationalarchives/tna-python-dev
         # IMAGE: tna-python-dev
-        IMAGE_TAG: multistage-builds
+        # IMAGE_TAG: local
     environment:
       - ENVIRONMENT_NAME=localhost
       - CONFIG=config.Develop
-      # - APPLICATION_PROTOCOL=http
+      - APPLICATION_PROTOCOL=http
       - DEBUG=true
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev

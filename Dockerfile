@@ -11,7 +11,7 @@ FROM "$BUILD_IMAGE":"$BUILD_IMAGE_TAG" AS build
 ENV NPM_BUILD_COMMAND=compile
 
 # Copy in the application code
-COPY --chown=app . .
+COPY . .
 
 # Install dependencies
 RUN tna-build
@@ -30,7 +30,7 @@ ARG CONTAINER_IMAGE
 ENV CONTAINER_IMAGE="$CONTAINER_IMAGE"
 
 # Copy in the application code
-COPY --chown=app . .
+COPY . .
 
 # Install dependencies
 RUN tna-build
@@ -39,7 +39,7 @@ RUN tna-build
 COPY --from=build /app/app/static /app/app/static
 
 # Clean up build dependencies
-RUN tna-clean /app/src
+RUN tna-clean
 
 # Run the application
 CMD ["tna-wsgi", "main:app"]
