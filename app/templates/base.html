@@ -10,7 +10,7 @@
 {%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
 {# Explicitly set light mode until more pages support dark mode #}
 {%- set theme = 'light' -%}
-{%- set themeAccent = themeAccent or 'yellow' -%}
+{%- set themeAccent = themeAccent or 'green' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
   'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
