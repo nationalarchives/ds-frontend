@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
@@ -6,11 +6,8 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else (themeAccent or 'blue') -%}
-{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = '' if page_data.hero_image else 'accent-light' -%}
 {%- set showSidebar = page_data.page_sidebar == 'contents' or page_data.page_sidebar == 'sections' or (page_data.page_sidebar == 'pages' and page_siblings | length > 1) -%}
 {%- set sidebarPositionRight = page_data.page_sidebar == 'pages' -%}
@@ -19,7 +16,6 @@
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.url }}">
 {% endblock head %}
 

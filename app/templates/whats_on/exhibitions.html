@@ -1,15 +1,11 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'macros/meta.html' import meta -%}
-
-{%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.url }}">
 {% endblock head %}
 

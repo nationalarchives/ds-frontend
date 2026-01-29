@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -11,17 +11,12 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
-{%- set pageTitle = page_data.short_title or page_data.title -%}
-
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.url }}">
 {% endblock head %}
 
@@ -129,7 +124,7 @@
       ],
       'narrow': True,
       'layout': 'shift',
-      'style': 'contrast',
+      'style': 'accent-light',
       'attributes': {
         'itemprop': 'image'
       }

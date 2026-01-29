@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -8,11 +8,8 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
-{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set pageTitleLong = page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
 {%- if year %}
@@ -27,7 +24,6 @@
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     {% if 'day' in request.args and 'month' in request.args and 'year' in request.args %}
     <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&day={{ request.args.get('day') }}&page={{ page }}">
     {% elif 'month' in request.args and 'year' in request.args %}
