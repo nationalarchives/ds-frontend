@@ -80,7 +80,8 @@
 {%- if not page_data or not page_data.page_preview %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
-  'cookiesUrl': '/cookies/'
+  'cookiesUrl': '/cookies/',
+  'preferencesSetKey': 'dontShowCookieNotice'
 }) | indent(6) }}
 {%- endif %}
 {% endblock cookies %}
