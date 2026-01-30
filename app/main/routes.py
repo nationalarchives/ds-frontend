@@ -22,11 +22,6 @@ def healthcheck():
     return "ok"
 
 
-@bp.route("/browse/")
-def browse():
-    return render_template("main/browse.html", global_alert=global_alerts())
-
-
 @bp.route("/merlin/")
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
