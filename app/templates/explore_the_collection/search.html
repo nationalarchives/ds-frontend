@@ -9,6 +9,7 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'explore_the_collection/partials/discovery-search.html' import discoverySearch -%}
 
+{%- set themeAccent = 'black' if global_alert.mourning_notice else (themeAccent or 'green') -%}
 {%- set pageTitle = 'Search the website' -%}
 {%- set breadcrumbs = [
   {
@@ -36,52 +37,55 @@
 {% endblock skipLink %}
 
 {% block content %}
-<div class="tna-background-accent-light tna-!--padding-top-m tna-!--padding-bottom-l">
-  <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
-    <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-      {{ tnaSearchField({
-        'label': 'Search Explore the collection',
-        'headingLevel': 1,
-        'headingSize': 'l',
-        'hint': 'Find articles and stories from our collection',
-        'id': 'search',
-        'name': 'q',
-        'value': q
-      }) }}
-      {% if q %}
-      {{ tnaRadios({
-        'label': 'Order results by',
-        'headingLevel': 2,
-        'headingSize': 'm',
-        'id': 'order',
-        'name': 'order',
-        'items': [
-          {
-            'text': 'Relevance',
-            'value': 'relevance'
-          },
-          {
-            'text': 'Date published',
-            'value': 'date'
-          },
-          {
-            'text': 'Title (A-Z)',
-            'value': 'title'
-          }
-        ],
-        'selected': request.args.order or 'relevance',
-        'inline': True
-      }) }}
-      <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update results',
-          'buttonElement': True,
-          'buttonType': 'submit'
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
+  <div class="tna-!--padding-top-m tna-!--padding-bottom-l">
+    <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
+      <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        {{ tnaSearchField({
+          'label': 'Search Explore the collection',
+          'headingLevel': 1,
+          'headingSize': 'l',
+          'hint': 'Find articles and stories from our collection',
+          'id': 'search',
+          'name': 'q',
+          'value': q
         }) }}
+        {% if q %}
+        {{ tnaRadios({
+          'label': 'Order results by',
+          'headingLevel': 2,
+          'headingSize': 'm',
+          'id': 'order',
+          'name': 'order',
+          'items': [
+            {
+              'text': 'Relevance',
+              'value': 'relevance'
+            },
+            {
+              'text': 'Date published',
+              'value': 'date'
+            },
+            {
+              'text': 'Title (A-Z)',
+              'value': 'title'
+            }
+          ],
+          'selected': request.args.order or 'relevance',
+          'inline': True
+        }) }}
+        <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
+          {{ tnaButton({
+            'text': 'Update results',
+            'buttonElement': True,
+            'buttonType': 'submit'
+          }) }}
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 {% if total_results %}
 <section id="results">

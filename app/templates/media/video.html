@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {%- from 'components/details/macro.html' import tnaDetails -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set pageTitle = media_data.title -%}
 
@@ -10,6 +11,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
+{{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/VideoObject">
   <meta itemprop="uploadDate" content="{{ media_data.created_at }}">
   <meta itemprop="contentUrl" content="{{ media_data.full_url }}">

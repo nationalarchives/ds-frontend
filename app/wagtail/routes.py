@@ -246,7 +246,9 @@ def media_page(media_uuid):
     except Exception as e:
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
-    return render_template("media/video.html", media_data=media_data)
+    return render_template(
+        "media/video.html", media_data=media_data, global_alert=global_alerts()
+    )
 
 
 @bp.route("/image/<uuid:image_uuid>/")
@@ -264,7 +266,9 @@ def image_page(image_uuid):
     except Exception as e:
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
-    return render_template("media/image.html", image_data=image_data)
+    return render_template(
+        "media/image.html", image_data=image_data, global_alert=global_alerts()
+    )
 
 
 @bp.route("/explore-the-collection/search/")

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
 {%- set pageTitle = image_data.title -%}
 
 {% block content %}
+{{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/ImageObject">
   {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
   <meta itemprop="url" content="{{ image_page_url }}">

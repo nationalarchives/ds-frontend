@@ -4,6 +4,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set breadcrumbsStyle = 'accent-light' -%}
 
@@ -13,23 +14,26 @@
 {% endblock head %}
 
 {% block content %}
-<div class="tna-section tna-background-accent-light">
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
-      <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
-    </div>
-    <div class="tna-column tna-column--full tna-!--margin-top-m">
-      <div class="tna-button-group" data-tna-analytics-section="{{ page_data.title }}">
-        {%- for child in groups.dates['items'] %}
-        {{ tnaButton({
-          'text': child.title,
-          'href': child.url,
-          'attributes': {
-            'data-tna-analytics-event': 'select_feature'
-          }
-        }) }}
-        {%- endfor %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+  <div class="tna-section tna-!--padding-top-m">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+        <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+      </div>
+      <div class="tna-column tna-column--full tna-!--margin-top-m">
+        <div class="tna-button-group" data-tna-analytics-section="{{ page_data.title }}">
+          {%- for child in groups.dates['items'] %}
+          {{ tnaButton({
+            'text': child.title,
+            'href': child.url,
+            'attributes': {
+              'data-tna-analytics-event': 'select_feature'
+            }
+          }) }}
+          {%- endfor %}
+        </div>
       </div>
     </div>
   </div>
