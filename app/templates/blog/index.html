@@ -141,27 +141,27 @@
     {{ super() }}
   {% endblock beforeContent %}
   <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/Blog">
-    {%- if page_data.global_alert or page_data.mourning_notice %}
     <div class="tna-background-accent-light">
-      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-    </div>
-    {%- endif %}
-    <div class="tna-background-accent-light tna-section">
-      <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
-          <h1 class="tna-heading-xl">{{ pageTitleLong }}</h1>
-          {%- else %}
-          <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">Blog</p>
-            <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitleLong }}</h1>
-          </hgroup>
-          {%- endif %}
-          {%- if page_data.intro %}
-          <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="description">
-            {{ page_data.intro | tna_html | safe }}
+      {%- if page_data.global_alert or page_data.mourning_notice %}
+        {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+      {%- endif %}
+      <div class="tna-section tna-!--padding-top-m">
+        <div class="tna-container">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+            {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+            <h1 class="tna-heading-xl">{{ pageTitleLong }}</h1>
+            {%- else %}
+            <hgroup class="tna-hgroup-xl">
+              <p class="tna-hgroup__supertitle">Blog</p>
+              <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitleLong }}</h1>
+            </hgroup>
+            {%- endif %}
+            {%- if page_data.intro %}
+            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="description">
+              {{ page_data.intro | tna_html | safe }}
+            </div>
+            {%- endif %}
           </div>
-          {%- endif %}
         </div>
       </div>
     </div>
@@ -189,7 +189,7 @@
               'fullAreaClick': True,
               'horizontal': True,
               'horizontalFlipped': True,
-              'style': 'accent',
+              'style': 'contrast',
               'attributes': {
                 'itemprop': 'blogPost',
                 'itemtype': 'https://schema.org/BlogPosting'
