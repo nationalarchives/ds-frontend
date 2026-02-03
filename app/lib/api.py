@@ -11,9 +11,17 @@ class ResourceForbidden(Exception):
 
 
 class JSONAPIClient:
-    def __init__(self, api_url, params=None):
+    def __init__(self, api_url, defaultHeaders=None, defaultParams=None):
         self.api_url = api_url
-        self.params = {} if params is None else params
+        self.headers = (
+            {
+                "Cache-Control": "no-cache",
+                "Accept": "application/json",
+            }
+            if defaultHeaders is None
+            else defaultHeaders
+        )
+        self.params = {} if defaultParams is None else defaultParams
 
     def add_parameter(self, key, value):
         self.params[key] = value
@@ -21,17 +29,19 @@ class JSONAPIClient:
     def add_parameters(self, params):
         self.params = self.params | params
 
+    def add_header(self, key, value):
+        self.headers[key] = value
+
+    def add_headers(self, headers):
+        self.headers = self.headers | headers
+
     def get(self, path="/"):
         url = f"{self.api_url}/{path.lstrip('/')}"
-        headers = {
-            "Cache-Control": "no-cache",
-            "Accept": "application/json",
-        }
         try:
             response = get(
                 url,
                 params=self.params,
-                headers=headers,
+                headers=self.headers,
             )
         except ConnectionError:
             current_app.logger.error("JSON API connection error")

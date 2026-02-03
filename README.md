@@ -36,6 +36,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SENTRY_JS_ID`                        | The ID of the Sentry client project to catch issues                         | _none_                                        |
 | `SENTRY_SAMPLE_RATE`                  | How often to sample traces and profiles (0-1.0)                             | production: `0.1`, staging: `1`, develop: `0` |
 | `WAGTAIL_API_URL`                     | The base URL of the content API, including the `/api/v2` path               | _none_                                        |
+| `WAGTAIL_API_KEY`                     | A token used to access the Wagtail API                                      | _none_                                        |
 | `WAGTAIL_SITE_HOSTNAME`               | The site hostname in Wagtail, the default site is used if none is specified | _none_                                        |
 | `WAGTAILAPI_LIMIT_MAX`                | The default maximum number of items to request from the Wagtail API         | `20`                                          |
 | `ITEMS_PER_SITEMAP`                   | The maximum number of items to add to a single sitemap XML file             | `500`                                         |
