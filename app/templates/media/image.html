@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
 {%- set pageTitle = image_data.title -%}
 
 {% block content %}
+{{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
 <div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/ImageObject">
   {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
   <meta itemprop="url" content="{{ image_page_url }}">
@@ -34,7 +37,7 @@
   <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
     <div class="tna-aside tna-aside--tight tna-background-tint">
       <h2 class="tna-heading-m">Image details</h2>
-      <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-!--margin-top-s">
+      <dl class="tna-dl tna-dl--stacked tna-!--margin-top-s">
         <dt>Width</dt>
         <dd itemprop="width">{{ image_data.jpeg.width | string }}px</dd>
         <dt>Height</dt>

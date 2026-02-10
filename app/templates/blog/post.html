@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
@@ -6,21 +6,16 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
-{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
-
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.url }}">
-    {%- if page_data.meta.parent %}
+    {% if page_data.meta.parent %}
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.meta.parent.id) }}" title="{{ page_data.meta.parent.title }}">
     <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.meta.parent.id, format='atom') }}" title="{{ page_data.meta.parent.title }}">
     {%- endif %}

@@ -85,6 +85,7 @@ class Production(Features):
         os.getenv("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS", "True")
     )
 
+    SHOW_PHASE_BANNER_ON_HOMEPAGE: bool = True
     SHOW_PHASE_BANNER_ON_URIS: list[str] = [
         "/about/",
         "/annual-report-and-accounts-2024-25/",

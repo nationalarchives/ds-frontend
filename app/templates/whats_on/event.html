@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -9,15 +9,12 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set pageTitle = page_data.short_title or page_data.title -%}
-{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.url }}">
 {% endblock head %}
 
@@ -97,7 +94,7 @@
       }
     ],
     'narrow': True,
-    'style': 'accent',
+    'style': 'accent-light',
     'layout': 'split',
     'attributes': {
       'itemprop': 'image'
@@ -119,7 +116,7 @@
     <div class="tna-column tna-column--width-1-3 tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l">
       <div class="tna-aside tna-aside--tight etna-event-details">
         <h2 class="tna-visually-hidden">Event details</h2>
-        <dl class="tna-dl tna-dl--plain tna-dl--stacked tna-dl--icon-padding tna-!--no-margin-top">
+        <dl class="tna-dl tna-dl--stacked tna-!--no-margin-top">
           <dt>
             <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
             {{ 'Dates' if sessions_by_date | length > 1 else 'Date' }}

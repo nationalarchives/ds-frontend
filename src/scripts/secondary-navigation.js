@@ -64,51 +64,51 @@ if ($secondaryNavigation && $pageBody) {
         showSectionByIndex(0, switchFocus);
       }
     };
-    const $sectionsPagination = document.getElementById(
-      "page-section-navigation",
-    );
-    const $sectionsPaginationPrevious = document.getElementById(
-      "page-section-navigation__previous",
-    );
-    const $sectionsPaginationPreviousText = document.getElementById(
-      "page-section-navigation__previous-text",
-    );
-    // const $sectionsPaginationCurrentText = document.getElementById(
-    //   "page-section-navigation__current-item-text",
+    // const $sectionsPagination = document.getElementById(
+    //   "page-section-navigation",
     // );
-    const $sectionsPaginationNext = document.getElementById(
-      "page-section-navigation__next",
-    );
-    const $sectionsPaginationNextText = document.getElementById(
-      "page-section-navigation__next-text",
-    );
+    // const $sectionsPaginationPrevious = document.getElementById(
+    //   "page-section-navigation__previous",
+    // );
+    // const $sectionsPaginationPreviousText = document.getElementById(
+    //   "page-section-navigation__previous-text",
+    // );
+    // // const $sectionsPaginationCurrentText = document.getElementById(
+    // //   "page-section-navigation__current-item-text",
+    // // );
+    // const $sectionsPaginationNext = document.getElementById(
+    //   "page-section-navigation__next",
+    // );
+    // const $sectionsPaginationNextText = document.getElementById(
+    //   "page-section-navigation__next-text",
+    // );
     const updatePaginationLabels = () => {
-      if (selectedIndex > 0) {
-        $sectionsPaginationPrevious.removeAttribute("hidden");
-        $sectionsPaginationPrevious.setAttribute(
-          "aria-controls",
-          sections[selectedIndex - 1].id,
-        );
-        // $sectionsPaginationPreviousText.innerHTML =
-        //   `Previous:<br>${sections[selectedIndex - 1].$button.innerText}`;
-        $sectionsPaginationPreviousText.innerText = `Previous: ${sections[selectedIndex - 1].$button.innerText}`;
-      } else {
-        $sectionsPaginationPrevious.setAttribute("hidden", "");
-      }
-      if (selectedIndex + 1 < sections.length) {
-        $sectionsPaginationNext.removeAttribute("hidden");
-        $sectionsPaginationNext.setAttribute(
-          "aria-controls",
-          sections[selectedIndex + 1].id,
-        );
-        // $sectionsPaginationNextText.innerHTML =
-        //   `Next:<br>${sections[selectedIndex + 1].$button.innerText}`;
-        $sectionsPaginationNextText.innerText = `Next: ${sections[selectedIndex + 1].$button.innerText}`;
-      } else {
-        $sectionsPaginationNext.setAttribute("hidden", "");
-      }
-      // $sectionsPaginationCurrentText.innerText = sections[selectedIndex].$button.innerText;
-      // $sectionsPaginationCurrentText.innerText = `Section ${selectedIndex + 1} of ${sections.length}`;
+      // if (selectedIndex > 0) {
+      //   $sectionsPaginationPrevious.removeAttribute("hidden");
+      //   $sectionsPaginationPrevious.setAttribute(
+      //     "aria-controls",
+      //     sections[selectedIndex - 1].id,
+      //   );
+      //   // $sectionsPaginationPreviousText.innerHTML =
+      //   //   `Previous:<br>${sections[selectedIndex - 1].$button.innerText}`;
+      //   $sectionsPaginationPreviousText.innerText = `Previous: ${sections[selectedIndex - 1].$button.innerText}`;
+      // } else {
+      //   $sectionsPaginationPrevious.setAttribute("hidden", "");
+      // }
+      // if (selectedIndex + 1 < sections.length) {
+      //   $sectionsPaginationNext.removeAttribute("hidden");
+      //   $sectionsPaginationNext.setAttribute(
+      //     "aria-controls",
+      //     sections[selectedIndex + 1].id,
+      //   );
+      //   // $sectionsPaginationNextText.innerHTML =
+      //   //   `Next:<br>${sections[selectedIndex + 1].$button.innerText}`;
+      //   $sectionsPaginationNextText.innerText = `Next: ${sections[selectedIndex + 1].$button.innerText}`;
+      // } else {
+      //   $sectionsPaginationNext.setAttribute("hidden", "");
+      // }
+      // // $sectionsPaginationCurrentText.innerText = sections[selectedIndex].$button.innerText;
+      // // $sectionsPaginationCurrentText.innerText = `Section ${selectedIndex + 1} of ${sections.length}`;
     };
     sections.forEach((section, index) => {
       section.$section.setAttribute("role", "tabpanel");
@@ -148,23 +148,23 @@ if ($secondaryNavigation && $pageBody) {
         e.preventDefault();
       }
     });
-    $sectionsPagination?.removeAttribute("hidden");
-    const postSectionsPaginationClick = () => {
-      updatePaginationLabels();
-      const $section = sections[selectedIndex].$section;
-      const $heading = $section.querySelector("h2:first-child[id]");
-      window.history.replaceState(null, null, `#${$heading.id}`);
-      $heading.scrollIntoView({ block: "nearest" });
-      $section.focus();
-    };
-    $sectionsPaginationPrevious?.addEventListener("click", () => {
-      previousSection(false);
-      postSectionsPaginationClick();
-    });
-    $sectionsPaginationNext?.addEventListener("click", () => {
-      nextSection(false);
-      postSectionsPaginationClick();
-    });
+    // $sectionsPagination?.removeAttribute("hidden");
+    // const postSectionsPaginationClick = () => {
+    //   updatePaginationLabels();
+    //   const $section = sections[selectedIndex].$section;
+    //   const $heading = $section.querySelector("h2:first-child[id]");
+    //   window.history.replaceState(null, null, `#${$heading.id}`);
+    //   $heading.scrollIntoView({ block: "nearest" });
+    //   $section.focus();
+    // };
+    // $sectionsPaginationPrevious?.addEventListener("click", () => {
+    //   previousSection(false);
+    //   postSectionsPaginationClick();
+    // });
+    // $sectionsPaginationNext?.addEventListener("click", () => {
+    //   nextSection(false);
+    //   postSectionsPaginationClick();
+    // });
     updatePaginationLabels();
   }
 

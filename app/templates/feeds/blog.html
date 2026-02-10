@@ -2,7 +2,7 @@
 
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block content %}
@@ -12,7 +12,7 @@
       <h1 class="tna-heading-xl">Blog feeds</h1>
       {{ page_data.body | tna_html | safe }}
       <h2 class="tna-heading-l">Feed links</h2>
-      <dl class="tna-dl tna-dl--left-biased">
+      <dl class="tna-dl tna-dl--zebra">
         <dt>{{ page_data.blogs_index.title }} (all posts)</dt>
         <dd>
           <a href="{{ page_data.blogs_index.url }}" aria-label="{{ page_data.blogs_index.title }}" title="{{ page_data.blogs_index.title }}">HTML</a> |

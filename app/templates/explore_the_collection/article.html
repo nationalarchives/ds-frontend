@@ -1,4 +1,4 @@
-{% extends "explore_the_collection/base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'explore_the_collection/partials/article-blocks.html' import articleBlocks -%}
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
@@ -10,7 +10,6 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'blue' -%}
 {%- set og_type = 'article' -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}

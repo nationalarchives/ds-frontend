@@ -1,4 +1,4 @@
-{% extends "explore_the_collection/base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -10,7 +10,6 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set og_type = 'article' -%}
 
 {% block head %}
@@ -108,7 +107,7 @@
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-2-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny">
         <h2 class="tna-heading-l">Why this record matters</h2>
-        <dl class="tna-dl tna-dl--plain">
+        <dl class="tna-dl">
           <dt>Date</dt>
           <dd>{{ page_data.date_text }}</dd>
           {%- if page_data.record %}

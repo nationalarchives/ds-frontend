@@ -2,6 +2,7 @@
 
 {%- from 'macros/meta.html' import meta -%}
 
+{%- set themeAccent = 'black' if page_data.mourning_notice else (themeAccent or 'green') -%}
 {%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block head %}

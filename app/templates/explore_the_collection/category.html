@@ -1,4 +1,4 @@
-{% extends "explore_the_collection/base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
@@ -6,8 +6,6 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
 
 {% block head %}
 {{ super() }}

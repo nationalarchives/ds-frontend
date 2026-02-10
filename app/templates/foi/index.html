@@ -1,17 +1,13 @@
-{% extends "base.html" %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else (themeAccent or 'blue') -%}
-{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     <link rel="canonical" href="{{ page_data.meta.url }}?page={{ page }}">
 {% endblock head %}
 
@@ -44,7 +40,7 @@
         {%- for request in month['items'] %}
         <li>
           <h2 class="tna-heading-s">
-            <a href="{{ request.url | url_encode }}">{{ request.title }}</a>
+            <a href="{{ request.url }}">{{ request.title }}</a>
           </h2>
           <p class="tna-!--no-margin-top">Freedom of information request reference: {{ request.reference }}</p>
         </li>
