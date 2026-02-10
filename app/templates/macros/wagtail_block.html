@@ -58,7 +58,7 @@
   </div>
 
   {%- elif content_item.type == 'description_list' %}
-  <dl class="tna-dl tna-dl--plain tna-dl--spaced">
+  <dl class="tna-dl tna-dl--lined">
     {%- for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
     <dd>{{ item.detail | safe }}</dd>

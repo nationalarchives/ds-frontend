@@ -80,28 +80,6 @@ p > a {
 //   }
 // }
 
-.tna-dl {
-  &--left-biased {
-    @include media.on-larger-than-tiny {
-      dt {
-        width: 60%;
-      }
-
-      dd {
-        width: 40%;
-      }
-    }
-  }
-
-  &--icon-padding {
-    > dt {
-      .fa-solid {
-        text-align: center;
-      }
-    }
-  }
-}
-
 // sup[data-footnoteid] {
 //   border-radius: 0.1px;
 

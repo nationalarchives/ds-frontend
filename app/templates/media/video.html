@@ -68,7 +68,7 @@
       {% set media_details = media_details ~ '<dd itemprop="datePublished">' ~ (media_data.created_at | pretty_date) ~ '</dd>' %}
       {% endif %}
 
-      {% set media_details = '<dl class="tna-dl tna-dl--plain">' ~ media_details ~ '</dl>' %}
+      {% set media_details = '<dl class="tna-dl">' ~ media_details ~ '</dl>' %}
 
       {{ tnaDetails({
         'title': 'Media details',
