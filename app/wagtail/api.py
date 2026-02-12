@@ -10,9 +10,13 @@ def wagtail_request_handler(uri, params={}):
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
-    client = JSONAPIClient(api_url, defaultParams={"format": "json"})
+    defaultHeaders = {}
     if api_key := current_app.config.get("WAGTAIL_API_KEY"):
-        client.add_header("Authorization", f"Token {api_key}")
+        defaultHeaders["Authorization"] = f"Token {api_key}"
+    defaultParams = {"format": "json"}
+    client = JSONAPIClient(
+        api_url, defaultHeaders=defaultHeaders, defaultParams=defaultParams
+    )
     if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
         client.add_parameter("site", site_hostname)
     client.add_parameters(params)
