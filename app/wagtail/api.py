@@ -6,18 +6,18 @@ from pydash import objects
 
 
 def wagtail_request_handler(uri, params={}):
-    api_url = current_app.config.get("WAGTAIL_API_URL")
+    api_url = current_app.config["WAGTAIL_API_URL"]
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
     defaultHeaders = {}
-    if api_key := current_app.config.get("WAGTAIL_API_KEY"):
+    if api_key := current_app.config["WAGTAIL_API_KEY"]:
         defaultHeaders["Authorization"] = f"Token {api_key}"
     defaultParams = {"format": "json"}
     client = JSONAPIClient(
         api_url, defaultHeaders=defaultHeaders, defaultParams=defaultParams
     )
-    if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
+    if site_hostname := current_app.config["WAGTAIL_SITE_HOSTNAME"]:
         client.add_parameter("site", site_hostname)
     client.add_parameters(params)
     data = client.get(uri)
@@ -46,7 +46,7 @@ def breadcrumbs(page_id):
 
 def all_pages(params={}, batch=1, limit=None):
     if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+        limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (batch - 1) * limit
     params = params | {"offset": offset, "limit": limit}
     uri = "pages/"
@@ -91,7 +91,7 @@ def page_children(page_id, params={}, limit=None):
     uri = "pages/"
     params = params | {
         "child_of": page_id,
-        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "limit": limit or current_app.config["WAGTAILAPI_LIMIT_MAX"],
         "include_aliases": "",
     }
     return wagtail_request_handler(uri, params)
@@ -103,7 +103,7 @@ def page_ancestors(page_id, params={}, limit=None):
     uri = "pages/"
     params = params | {
         "ancestor_of": page_id,
-        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "limit": limit or current_app.config["WAGTAILAPI_LIMIT_MAX"],
         "include_aliases": "",
     }
     try:
@@ -119,7 +119,7 @@ def page_descendants(page_id, params={}, limit=None):
     uri = "pages/"
     params = params | {
         "descendant_of": page_id,
-        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "limit": limit or current_app.config["WAGTAILAPI_LIMIT_MAX"],
         "include_aliases": "",
     }
     try:
@@ -136,7 +136,7 @@ def pages_paginated(
     params={},
 ):
     if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+        limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = ((page - 1) * limit) + initial_offset
     uri = "pages/"
     params = params | {
@@ -231,7 +231,7 @@ def blog_posts_paginated(
     params={},
 ):
     if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+        limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = ((page - 1) * limit) + initial_offset
     uri = "blog_posts/"
     params = params | {
@@ -289,7 +289,7 @@ def authors_paginated(
     params={},
 ):
     if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+        limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (page - 1) * limit
     uri = "authors/"
     params = params | {
@@ -332,7 +332,7 @@ def global_alerts():
 
 def search(query, page, limit=None, params={}):
     if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+        limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (page - 1) * limit
     uri = "pages/"
     params = params | {
@@ -356,7 +356,7 @@ def foi_requests(
     params={},
 ):
     if not limit:
-        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+        limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (page - 1) * limit
     uri = "foi/"
     params = params | {"offset": offset, "limit": limit, "order": "-date,reference"}

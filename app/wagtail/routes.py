@@ -145,7 +145,7 @@ def page(path):
     except ResourceNotFound:
         # If no page is found, try to match the requested path with any of the external
         # redirects added in Wagtail
-        if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
+        if current_app.config["SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"]:
             return try_external_redirect(path)
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
@@ -176,12 +176,12 @@ def page(path):
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
     if rediect_url := objects.get(page_data, "meta.alias_of.url"):
-        if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
+        if current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
             return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it
     # which covers internal redirects added in Wagtail
-    if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
+    if current_app.config["SERVE_WAGTAIL_PAGE_REDIRECTIONS"] and (
         urlparse(objects.get(page_data, "meta.url")).path
         != urlparse(f"/{quote(path)}/").path
     ):

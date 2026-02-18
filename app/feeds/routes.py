@@ -11,7 +11,7 @@ from pydash import objects
 
 @bp.route("/blogs.xml")
 def rss_all_feed():
-    items = current_app.config.get("ITEMS_PER_BLOG_FEED")
+    items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
         blog_posts = blog_posts_paginated(page=1, limit=items)
@@ -35,7 +35,7 @@ def rss_all_feed():
 
 @bp.route("/blogs/<int:blog_id>.xml")
 def rss_feed(blog_id):
-    items = current_app.config.get("ITEMS_PER_BLOG_FEED")
+    items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)

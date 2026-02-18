@@ -17,7 +17,7 @@ def sitemap_index():
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
-    items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
+    items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     for page in range(1, pages + 1):
         sitemap_urls.append(
@@ -48,7 +48,7 @@ def sitemaps():
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
 def sitemap_dynamic(sitemap_page):
     dynamic_urls = list()
-    items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
+    items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     wagtail_pages = all_pages(
         batch=sitemap_page,
         limit=items_per_sitemap,

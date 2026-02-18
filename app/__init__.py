@@ -55,7 +55,7 @@ def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
 
-    if app.config.get("SENTRY_DSN"):
+    if app.config["SENTRY_DSN"]:
 
         def before_send(event: Event, hint: Hint) -> Event | None:
             # Filter out preview page errors
@@ -64,16 +64,16 @@ def create_app(config_class):
             return event
 
         sentry_sdk.init(
-            dsn=app.config.get("SENTRY_DSN"),
-            environment=app.config.get("ENVIRONMENT_NAME"),
+            dsn=app.config["SENTRY_DSN"],
+            environment=app.config["ENVIRONMENT_NAME"],
             release=(
-                f"ds-frontend@{app.config.get('BUILD_VERSION')}"
-                if app.config.get("BUILD_VERSION")
+                f"ds-frontend@{app.config['BUILD_VERSION']}"
+                if app.config["BUILD_VERSION"]
                 else ""
             ),
-            sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
-            traces_sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
-            profiles_sample_rate=app.config.get("SENTRY_SAMPLE_RATE"),
+            sample_rate=app.config["SENTRY_SAMPLE_RATE"],
+            traces_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
+            profiles_sample_rate=app.config["SENTRY_SAMPLE_RATE"],
             before_send=before_send,
         )
 
@@ -101,14 +101,14 @@ def create_app(config_class):
             "object-src": csp_none,
         }
         | csp_rules,
-        content_security_policy_report_uri=app.config.get("CSP_REPORT_URL", None),
+        content_security_policy_report_uri=app.config["CSP_REPORT_URL"] or None,
         feature_policy={
             "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN", csp_self),
             "picture-in-picture": app.config.get(
                 "CSP_FEATURE_PICTURE_IN_PICTURE", csp_self
             ),
         },
-        force_https=app.config.get("FORCE_HTTPS"),
+        force_https=app.config["FORCE_HTTPS"],
     )
 
     @app.after_request
@@ -179,19 +179,19 @@ def create_app(config_class):
             ),
             qs_remove=lambda filter: qs_remove(request.args.to_dict(), filter),
             app_config={
-                "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
-                "CONTAINER_IMAGE": app.config.get("CONTAINER_IMAGE"),
-                "BUILD_VERSION": app.config.get("BUILD_VERSION"),
-                "TNA_FRONTEND_VERSION": app.config.get("TNA_FRONTEND_VERSION"),
-                "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
-                "GA4_ID": app.config.get("GA4_ID"),
-                "SENTRY_JS_ID": app.config.get("SENTRY_JS_ID"),
-                "SENTRY_SAMPLE_RATE": app.config.get("SENTRY_SAMPLE_RATE"),
+                "ENVIRONMENT_NAME": app.config["ENVIRONMENT_NAME"],
+                "CONTAINER_IMAGE": app.config["CONTAINER_IMAGE"],
+                "BUILD_VERSION": app.config["BUILD_VERSION"],
+                "TNA_FRONTEND_VERSION": app.config["TNA_FRONTEND_VERSION"],
+                "COOKIE_DOMAIN": app.config["COOKIE_DOMAIN"],
+                "GA4_ID": app.config["GA4_ID"],
+                "SENTRY_JS_ID": app.config["SENTRY_JS_ID"],
+                "SENTRY_SAMPLE_RATE": app.config["SENTRY_SAMPLE_RATE"],
             },
             feature={
-                "PHASE_BANNER": app.config.get("FEATURE_PHASE_BANNER"),
-                "LOGO_ADORNMENTS_CSS": app.config.get("FEATURE_LOGO_ADORNMENTS_CSS"),
-                "LOGO_ADORNMENTS_JS": app.config.get("FEATURE_LOGO_ADORNMENTS_JS"),
+                "PHASE_BANNER": app.config["FEATURE_PHASE_BANNER"],
+                "LOGO_ADORNMENTS_CSS": app.config["FEATURE_LOGO_ADORNMENTS_CSS"],
+                "LOGO_ADORNMENTS_JS": app.config["FEATURE_LOGO_ADORNMENTS_JS"],
             },
         )
 

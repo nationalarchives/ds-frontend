@@ -65,7 +65,7 @@ def set_cookies():
     response.set_cookie(
         "cookies_policy",
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
-        domain=current_app.config.get("COOKIE_DOMAIN"),
+        domain=current_app.config["COOKIE_DOMAIN"],
         max_age=31536000,  # 365 days
         secure=True,
         samesite="Lax",
@@ -74,7 +74,7 @@ def set_cookies():
     response.set_cookie(
         "dontShowCookieNotice",
         "true",
-        domain=current_app.config.get("COOKIE_DOMAIN"),
+        domain=current_app.config["COOKIE_DOMAIN"],
         max_age=31536000,  # 365 days
         secure=True,
         samesite="Lax",

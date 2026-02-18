@@ -125,7 +125,4 @@ def display_phase_banner():
     return any(
         request.path.startswith(uri)
         for uri in current_app.config.get("SHOW_PHASE_BANNER_ON_URIS", [])
-    ) or (
-        current_app.config.get("SHOW_PHASE_BANNER_ON_HOMEPAGE", False)
-        and request.path == "/"
-    )
+    ) or (current_app.config["SHOW_PHASE_BANNER_ON_HOMEPAGE"] and request.path == "/")
