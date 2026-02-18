@@ -22,6 +22,11 @@ def healthcheck():
     return "ok"
 
 
+@bp.route("/healthcheck/version/")
+def healthcheck_version():
+    return current_app.config["BUILD_VERSION"]
+
+
 @bp.route("/merlin/")
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())

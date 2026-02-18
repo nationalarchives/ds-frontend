@@ -117,6 +117,7 @@ class Develop(Production):
 
 class Test(Production):
     ENVIRONMENT_NAME = "test"
+    BUILD_VERSION = "test"
 
     DEBUG = True
     TESTING = True

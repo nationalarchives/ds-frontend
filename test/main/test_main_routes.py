@@ -24,6 +24,11 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn("ok", rv.text)
 
+    def test_healthcheck_version(self):
+        rv = self.app.get("/healthcheck/version/")
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("test", rv.text)
+
     def test_well_known_security(self):
         rv = self.app.get("/.well-known/security.txt")
         self.assertEqual(rv.status_code, 200)
