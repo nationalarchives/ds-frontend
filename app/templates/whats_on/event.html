@@ -24,7 +24,9 @@
 {% endblock stylesheets %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+</div>
 <div itemscope itemtype="https://schema.org/Event">
   <meta itemprop="name" content="{{ page_data.title }}">
   {%- if page_data.location.online -%}
