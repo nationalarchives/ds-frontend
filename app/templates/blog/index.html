@@ -322,8 +322,8 @@
     <div class="tna-container tna-!--padding-bottom-l">
       <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
         <h2 class="tna-heading-l">No posts found</h2>
-        {%- if month %}
-        <p>Try widening your date filtering to <a href="?year={{ year }}">blog posts from {{ year }}</a>.</p>
+        {%- if month and year %}
+        <p>Try widening your date filtering to <a href="?year={{ year }}">all blog posts from {{ year }}</a>.</p>
         {%- elif blogs %}
         <p>See <a href="{{ blogs[0].url }}">all our blogs</a>.</p>
         {%- endif %}
