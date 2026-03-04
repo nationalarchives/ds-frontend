@@ -21,11 +21,10 @@
   See https://html-validate.org/rules/long-title.html
 -#}
 {%- set maxTitleLength = 70 -%}
-{%- set siteTitle = 'The National Archives' -%}
-{%- set siteTitleLength = siteTitle | length -%}
-{%- set titleCharsRemaining = maxTitleLength - siteTitleLength -%}
+{%- set siteTitle = siteTitle or defaultSiteTitle or 'The National Archives' -%}
+{%- set titleCharsRemaining = maxTitleLength - ((siteTitle | length) + 3) -%}
 {%- if (pageTitle | length) > titleCharsRemaining -%}
-  {%- set pageTitle = pageTitle | truncate(titleCharsRemaining) -%}
+  {%- set pageTitle = pageTitle | truncate(titleCharsRemaining, False, '...', 0) -%}
 {%- endif -%}
 
 {% block headIcons %}
