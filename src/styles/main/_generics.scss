@@ -60,22 +60,6 @@ abbr {
   }
 }
 
-.tna-ol:not(.tna-ol--plain) {
-  list-style-type: decimal;
-
-  & & {
-    list-style-type: lower-alpha;
-  }
-
-  & & & {
-    list-style-type: lower-roman;
-  }
-
-  & & & & {
-    list-style-type: decimal;
-  }
-}
-
 .etna-email {
   display: inline-flex;
   flex-wrap: wrap;
