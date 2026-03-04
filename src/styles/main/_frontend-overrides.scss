@@ -24,8 +24,11 @@
   overflow-wrap: break-word;
 }
 
-p > a {
-  overflow-wrap: break-word;
+p,
+dd {
+  a {
+    overflow-wrap: anywhere;
+  }
 }
 
 // .tna-ol {
