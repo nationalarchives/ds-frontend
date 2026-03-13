@@ -55,7 +55,7 @@
             </div>
             {%- endif %}
             <p>
-              <small>Published {{ page_data.published_date.value | pretty_date }}
+              <small>Published <time datetime="{{ page_data.published_date.value | strip_time_from_date }}">{{ page_data.published_date.value | pretty_date }}</time>
                 {% set authors_list_top = [] %}
                 {% for author in page_data.authors -%}
                   {% set authors_list_top = authors_list_top.append({

@@ -136,6 +136,12 @@ def pretty_date_with_day_and_time(s):
     return pretty_date(s, show_day=True, show_time=True)
 
 
+def strip_time_from_date(s):
+    if date := get_date_from_string(s):
+        return date.strftime("%Y-%m-%d")
+    return s
+
+
 def month_year(s):
     if not s:
         return s
