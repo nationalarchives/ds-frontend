@@ -34,7 +34,8 @@ def foi_index_page(page_data):
 
     requests = group_items_by_year_and_month(requests_raw, "date")
 
-    pages = math.ceil(requests_raw["meta"]["total_count"] / children_per_page)
+    total_requests = requests_raw["meta"]["total_count"]
+    pages = math.ceil(total_requests / children_per_page)
     try:
         pagination = pagination_object(page, pages, request.args)
     except AssertionError:
@@ -48,4 +49,6 @@ def foi_index_page(page_data):
         pagination=pagination,
         page=page,
         pages=pages,
+        children_per_page=children_per_page,
+        total_requests=total_requests,
     )

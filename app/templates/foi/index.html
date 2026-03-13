@@ -20,7 +20,7 @@
 <div class="tna-section tna-!--padding-top-m tna-background-accent-light">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+      <h1 class="tna-heading-xl">{{ page_data.title }}{% if page > 1 %}, page {{ page }} of {{ pages }}{% endif %}</h1>
       {%- if page_data.intro %}
       <div class="tna-large-paragraph tna-!--margin-top-s">
         {{ page_data.intro | tna_html | safe }}
@@ -32,6 +32,8 @@
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_requests else total_requests }}</strong> of <strong>{{ total_requests }}</strong> requests.</p>
+
       {%- for year in requests %}
       <h2 class="tna-heading-l">{{ year.heading }}</h2>
       {%- for month in year['items'] %}
