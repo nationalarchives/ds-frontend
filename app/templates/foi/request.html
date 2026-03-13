@@ -29,7 +29,9 @@
         <dt>Freedom of information request reference</dt>
         <dd>{{ page_data.reference }}</dd>
         <dt>Request resolved</dt>
-        <dd>{{ page_data.date | month_year }}</dd>
+        <dd>
+          <time datetime="{{ page_data.date | strip_day_from_date }}">{{ page_data.date | month_year }}</time>
+        </dd>
       </dl>
     </div>
   </div>

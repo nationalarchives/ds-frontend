@@ -35,9 +35,13 @@
       <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_requests else total_requests }}</strong> of <strong>{{ total_requests }}</strong> requests.</p>
 
       {%- for year in requests %}
-      <h2 class="tna-heading-l">{{ year.heading }}</h2>
+      <h2 class="tna-heading-l">
+        <time datetime="{{ year.heading }}">{{ year.heading }}</time>
+      </h2>
       {%- for month in year['items'] %}
-      <h3 class="tna-heading-m tna-!--no-margin-top">{{ month.heading }} {{ year.heading }}</h3>
+      <h3 class="tna-heading-m tna-!--no-margin-top">
+        <time datetime="{{ year.heading }}-{{ month.index }}">{{ month.heading }} {{ year.heading }}</time>
+      </h3>
       <ol class="tna-ol tna-ol--spaced tna-ol--dashed">
         {%- for request in month['items'] %}
         <li>

@@ -142,6 +142,12 @@ def strip_time_from_date(s):
     return s
 
 
+def strip_day_from_date(s):
+    if date := get_date_from_string(s):
+        return date.strftime("%Y-%m")
+    return s
+
+
 def month_year(s):
     if not s:
         return s

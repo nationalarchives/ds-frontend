@@ -39,6 +39,7 @@ from app.lib.template_filters import (
     seconds_to_time,
     sidebar_items_from_wagtail_streamfield,
     slugify,
+    strip_day_from_date,
     strip_time_from_date,
     tna_html,
     unslugify,
@@ -143,6 +144,7 @@ def create_app(config_class):
     app.add_template_filter(pretty_date_with_day)
     app.add_template_filter(pretty_date_with_time)
     app.add_template_filter(pretty_date_with_day_and_time)
+    app.add_template_filter(strip_day_from_date)
     app.add_template_filter(strip_time_from_date)
     app.add_template_filter(month_year)
     app.add_template_filter(multiline_address_to_single_line)
