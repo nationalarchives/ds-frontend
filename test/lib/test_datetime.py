@@ -57,6 +57,7 @@ class DateTimeTestCase(unittest.TestCase):
                 "items": [
                     {
                         "heading": "May",
+                        "index": "05",
                         "items": [
                             {"id": 1, "date": "2022-05-15"},
                             {"id": 2, "date": "2022-05-20"},
@@ -64,6 +65,7 @@ class DateTimeTestCase(unittest.TestCase):
                     },
                     {
                         "heading": "June",
+                        "index": "06",
                         "items": [
                             {"id": 3, "date": "2022-06-10"},
                             {"id": 6, "date": "2022-06-15"},
@@ -76,10 +78,12 @@ class DateTimeTestCase(unittest.TestCase):
                 "items": [
                     {
                         "heading": "December",
+                        "index": "12",
                         "items": [{"id": 4, "date": "2021-12-25"}],
                     },
                     {
                         "heading": "November",
+                        "index": "11",
                         "items": [{"id": 5, "date": "2021-11-11"}],
                     },
                 ],

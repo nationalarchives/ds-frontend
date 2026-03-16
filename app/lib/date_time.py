@@ -45,7 +45,7 @@ def group_items_by_year_and_month(items, date_key):  # noqa: C901
                 request_datetime = None
             if request_datetime:
                 month = request_datetime.strftime("%B")
-                month_index = request_datetime.strftime("%m")
+                month_number = request_datetime.strftime("%m")
                 year = request_datetime.strftime("%Y")
                 year_index = next(
                     (i for i, d in enumerate(grouped) if d["heading"] == year), None
@@ -57,7 +57,7 @@ def group_items_by_year_and_month(items, date_key):  # noqa: C901
                             "items": [
                                 {
                                     "heading": month,
-                                    "index": month_index,
+                                    "index": month_number,
                                     "items": [item],
                                 }
                             ],
@@ -74,7 +74,7 @@ def group_items_by_year_and_month(items, date_key):  # noqa: C901
                     )
                     if month_index is None:
                         grouped[year_index]["items"].append(
-                            {"heading": month, "index": month_index, "items": [item]}
+                            {"heading": month, "index": month_number, "items": [item]}
                         )
                     else:
                         grouped[year_index]["items"][month_index]["items"].append(item)
