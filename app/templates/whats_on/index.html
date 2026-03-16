@@ -172,13 +172,11 @@
         'headingSize': 's',
         'href': page.url,
         'text': page.teaser_text,
-        'style': 'plain',
         'fullAreaClick': True,
         'hrefAttributes': {
           'data-tna-analytics-event': 'select_feature',
           'data-tna-analytics-label': groups[group].card_supertitle or None
-        },
-        'classes': 'tna-card--full-height tna-card--small-body'
+        }
       } %}
       {# {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
