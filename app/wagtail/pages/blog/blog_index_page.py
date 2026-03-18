@@ -15,26 +15,47 @@ from pydash import objects
 
 def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
     children_per_page = 12
-    page = (
-        int(request.args.get("page"))
-        if request.args.get("page") and request.args.get("page").isnumeric()
-        else 1
-    )
-    if not year and request.args.get("year"):
-        if not request.args.get("year").isnumeric():
+    page = 1
+    if request.args.get("page"):
+        try:
+            page = int(request.args.get("page", 1))
+        except ValueError:
+            current_app.logger.warning(
+                f"Invalid page number '{request.args.get('page')}' for page {page_data['id']}"
+            )
             return render_template("errors/bad_request.html"), 400
-        year = int(request.args.get("year"))
+    if page < 1:
+        current_app.logger.warning(
+            f"Page number {page} is less than 1 for page {page_data['id']}"
+        )
+        return render_template("errors/bad_request.html"), 400
+    if not year:
+        year = request.args.get("year", "")
+        if year and not year.isnumeric():
+            current_app.logger.warning(
+                f"Invalid year '{year}' for page {page_data['id']}"
+            )
+            return render_template("errors/bad_request.html"), 400
+        year = int(year) if year else None
     if year is not None:
         if year <= 0:
+            current_app.logger.warning(
+                f"Year {year} is not a positive integer for page {page_data['id']}"
+            )
             return render_template("errors/bad_request.html"), 400
         if year > datetime.datetime.now().year:
+            current_app.logger.warning(
+                f"Year {year} is in the future for page {page_data['id']}"
+            )
             return render_template("errors/page_not_found.html"), 404
-    if not month and request.args.get("month"):
-        if not request.args.get("month").isnumeric() or int(
-            request.args.get("month")
-        ) not in range(1, 13):
+    if not month:
+        month = request.args.get("month", "")
+        if month and (not month.isnumeric() or int(month) not in range(1, 13)):
+            current_app.logger.warning(
+                f"Invalid month '{month}' for page {page_data['id']}"
+            )
             return render_template("errors/bad_request.html"), 400
-        month = int(request.args.get("month"))
+        month = int(month) if month else None
     try:
         month_name = (
             datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
@@ -54,7 +75,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         )
     except Exception as e:
         current_app.logger.error(
-            f"Failed to get blog posts for page {page_data["id"]}: {e}"
+            f"Failed to get blog posts for page {page_data['id']}: {e}"
         )
         blog_posts_data = {}
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
@@ -85,7 +106,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
                 and not month,
             }
         )
-        if year == year_count["year"]:
+        if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
                 each_month_name = datetime.date(year, month_count["month"], 1).strftime(
                     "%B"

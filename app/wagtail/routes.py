@@ -280,11 +280,20 @@ def search_explore_the_collection():
     """
 
     children_per_page = 12
-    page = (
-        int(request.args.get("page"))
-        if request.args.get("page") and request.args.get("page").isnumeric()
-        else 1
-    )
+    page = 1
+    if request.args.get("page"):
+        try:
+            page = int(request.args.get("page", 1))
+        except ValueError:
+            current_app.logger.warning(
+                f"Invalid page number '{request.args.get('page')}' for Explore the collection search"
+            )
+            return render_template("errors/bad_request.html"), 400
+    if page < 1:
+        current_app.logger.warning(
+            f"Page number {page} is less than 1 for Explore the collection search"
+        )
+        return render_template("errors/bad_request.html"), 400
     query = unquote(request.args.get("q", "")).strip(" ")
     existing_qs_as_dict = request.args.to_dict()
     params = {"descendant_of_path": "/explore-the-collection/"}

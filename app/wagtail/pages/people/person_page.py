@@ -9,11 +9,14 @@ from pydash import objects
 def person_page(page_data):
     articles_preview_list = 4
     articles_per_page = 12
-    page = (
-        int(request.args.get("page"))
-        if request.args.get("page") and request.args.get("page").isnumeric()
-        else 0
-    )
+    page = 0
+    if request.args.get("page"):
+        try:
+            page = int(request.args.get("page", 1))
+        except ValueError:
+            return render_template("errors/bad_request.html"), 400
+    if page < 0:
+        return render_template("errors/bad_request.html"), 400
     try:
         articles = authored_pages_paginated(
             author_id=page_data["id"],
