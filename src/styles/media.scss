@@ -10,18 +10,6 @@
 
 @import "video.js/src/css/vjs";
 
-// @property --left-shadow {
-//   syntax: "<color>";
-//   inherits: false;
-//   initial-value: rgb(255 0 0 / 100%);
-// }
-
-// @property --right-shadow {
-//   syntax: "<color>";
-//   inherits: false;
-//   initial-value: rgb(0 0 100% / 100%);
-// }
-
 .etna-video {
   width: 100%;
 
@@ -238,6 +226,8 @@ $videojs-track-height: 0.5em;
 
 .etna-audio.video-js {
   height: $videojs-control-bar-height;
+
+  background: transparent;
 
   .vjs-control-bar {
     height: 100%;
