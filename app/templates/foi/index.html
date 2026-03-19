@@ -45,9 +45,9 @@
       <ol class="tna-ol tna-ol--spaced tna-ol--dashed">
         {%- for request in month['items'] %}
         <li>
-          <h2 class="tna-heading-s">
+          <h4 class="tna-heading-s">
             <a href="{{ request.url }}">{{ request.title }}</a>
-          </h2>
+          </h4>
           <p class="tna-!--no-margin-top">Freedom of information request reference: {{ request.reference }}</p>
         </li>
         {%- endfor %}
