@@ -42,17 +42,25 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
                 {
                     "id": 3,
                     "title": "The National Archives Beta",
-                    "url": "/",
+                    "short_title": "The National Archives Beta",
+                    "page_path": "/",
+                    "url": f"{domain}/",
                     "full_url": f"{domain}/",
+                    "type": "home.HomePage",
                     "type_label": "Home",
                     "teaser_text": "ETNA homepage",
                     "teaser_image": None,
+                    "first_published_at": "2021-07-28T09:37:55.003000Z",
+                    "last_published_at": "2026-02-04T16:02:57.309445Z",
                 },
                 {
                     "id": 5,
                     "title": "Explore the collection",
-                    "url": "/explore-the-collection/",
+                    "short_title": "Explore the collection",
+                    "page_path": "/explore-the-collection/",
+                    "url": f"{domain}/explore-the-collection/",
                     "full_url": f"{domain}/explore-the-collection/",
+                    "type": "collections.ExplorerIndexPage",
                     "type_label": "Explorer index",
                     "teaser_text": "Choose a topic or time period and start exploring some of our most important and unusual records.",
                     "teaser_image": {
@@ -71,12 +79,17 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
                             "height": 400,
                         },
                     },
+                    "first_published_at": "2021-04-15T15:37:56.896513Z",
+                    "last_published_at": "2025-07-29T11:55:39.069358Z",
                 },
                 {
                     "id": 53,
                     "title": "Explore by topic",
-                    "url": "/explore-the-collection/explore-by-topic/",
+                    "short_title": "Explore by topic",
+                    "page_path": "/explore-the-collection/explore-by-topic/",
+                    "url": f"{domain}/explore-the-collection/explore-by-topic/",
                     "full_url": f"{domain}/explore-the-collection/explore-by-topic/",
+                    "type": "collections.TopicExplorerIndexPage",
                     "type_label": "Topic explorer index",
                     "teaser_text": "Our collection shines a light on many aspects of life, from the stories of states to different people's experiences. Browse these topics for just a taste.",
                     "teaser_image": {
@@ -95,6 +108,8 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
                             "height": 400,
                         },
                     },
+                    "first_published_at": "2021-07-13T13:05:42.402902Z",
+                    "last_published_at": "2025-07-30T10:32:42.694208Z",
                 },
             ],
         }
@@ -107,3 +122,6 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
             rv.text,
         )
+        self.assertIn("<lastmod>2026-02-04</lastmod>", rv.text)
+        self.assertIn("<lastmod>2025-07-29</lastmod>", rv.text)
+        self.assertIn("<lastmod>2025-07-30</lastmod>", rv.text)
