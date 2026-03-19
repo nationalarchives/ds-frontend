@@ -10,17 +10,17 @@
 
 @import "video.js/src/css/vjs";
 
-@property --left-shadow {
-  syntax: "<color>";
-  inherits: false;
-  initial-value: rgb(255 0 0 / 100%);
-}
+// @property --left-shadow {
+//   syntax: "<color>";
+//   inherits: false;
+//   initial-value: rgb(255 0 0 / 100%);
+// }
 
-@property --right-shadow {
-  syntax: "<color>";
-  inherits: false;
-  initial-value: rgb(0 0 100% / 100%);
-}
+// @property --right-shadow {
+//   syntax: "<color>";
+//   inherits: false;
+//   initial-value: rgb(0 0 100% / 100%);
+// }
 
 .etna-video {
   width: 100%;
@@ -262,6 +262,18 @@ $videojs-track-height: 0.5em;
 .etna-video.video-js {
   cursor: pointer;
 
+  .vjs-tech {
+    z-index: 0;
+
+    border-radius: 0.1px;
+
+    &:focus:not(:focus-visible) {
+      outline: none !important;
+
+      box-shadow: none !important;
+    }
+  }
+
   &:hover .vjs-big-play-button,
   .vjs-big-play-button:focus {
     @include colour.colour-font("background");
@@ -271,26 +283,9 @@ $videojs-track-height: 0.5em;
   .vjs-control-bar {
     height: $videojs-control-bar-height;
 
-    background: linear-gradient(
-      0deg,
-      rgb(0% 0% 0% / 90%) 0%,
-      rgb(0% 0% 0% / 89.1%) 6.25%,
-      rgb(0% 0% 0% / 86.6%) 12.5%,
-      rgb(0% 0% 0% / 82.4%) 18.75%,
-      rgb(0% 0% 0% / 76.8%) 25%,
-      rgb(0% 0% 0% / 70%) 31.25%,
-      rgb(0% 0% 0% / 62.2%) 37.5%,
-      rgb(0% 0% 0% / 53.8%) 43.75%,
-      rgb(0% 0% 0% / 45%) 50%,
-      rgb(0% 0% 0% / 36.2%) 56.25%,
-      rgb(0% 0% 0% / 27.8%) 62.5%,
-      rgb(0% 0% 0% / 20%) 68.75%,
-      rgb(0% 0% 0% / 13.2%) 75%,
-      rgb(0% 0% 0% / 7.58%) 81.25%,
-      rgb(0% 0% 0% / 3.43%) 87.5%,
-      rgb(0% 0% 0% / 0.865%) 93.75%,
-      rgb(0% 0% 0% / 0%) 100%
-    );
+    z-index: 2;
+
+    background-color: rgb(0 0 0 / 65%);
   }
 
   &.etna-video--youtube {

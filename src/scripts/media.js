@@ -122,11 +122,14 @@ document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
 });
 
 Object.entries(videoJsInstances).forEach(([key, instance]) => {
-  instance.on("play", () =>
+  instance.on("play", () => {
     Object.entries(videoJsInstances).forEach(([key2, instance2]) =>
       key2 !== key ? instance2.pause() : null,
-    ),
-  );
+    );
+  });
+  instance.on("pause", () => {
+    instance.el().querySelector(".vjs-play-control")?.focus();
+  });
 });
 
 document
