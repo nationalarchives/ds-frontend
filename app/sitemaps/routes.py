@@ -47,6 +47,9 @@ def sitemaps():
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
 def sitemap_dynamic(sitemap_page):
+    exclude_urls = [
+        "/maintenance/",
+    ]
     dynamic_urls = list()
     items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     wagtail_pages = all_pages(
@@ -59,14 +62,17 @@ def sitemap_dynamic(sitemap_page):
     if sitemap_page > pages:
         return render_template("errors/page_not_found.html"), 404
     for page in wagtail_pages["items"]:
+        if page["page_path"] in exclude_urls:
+            continue
         try:
             lastmodified_date = datetime.strptime(
                 page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
             )
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
-        except KeyError:
-            lastmodified_date = None
-        except ValueError:
+        except Exception as e:
+            current_app.logger.error(
+                f"Error parsing last_published_at for page {page['id']}: {e}"
+            )
             lastmodified_date = None
         url = {
             "loc": page["full_url"],
