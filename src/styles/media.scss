@@ -7,6 +7,8 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 @use "@nationalarchives/frontend/nationalarchives/utilities/tables";
+@use "@nationalarchives/frontend/nationalarchives/components/button/button" as
+  button;
 
 @import "video.js/src/css/vjs";
 
@@ -156,21 +158,6 @@ $videojs-track-height: 0.5em;
       right: -#{math.div($videojs-icon-size, 2)};
     }
 
-    .vjs-big-play-button {
-      height: 2em;
-      margin-top: -1em;
-
-      @include colour.accent;
-
-      border: none;
-      @include borders.rounded-border;
-
-      .vjs-svg-icon {
-        width: 1.5em;
-        height: 1.5em;
-      }
-    }
-
     .vjs-svg-icon:hover,
     .vjs-control:focus .vjs-svg-icon {
       -webkit-filter: none;
@@ -188,8 +175,12 @@ $videojs-track-height: 0.5em;
       @include typography.font-size(14);
     }
 
-    .vjs-text-track-display div {
-      font-family: inherit !important;
+    .vjs-text-track-display {
+      bottom: $videojs-control-bar-height;
+
+      div {
+        font-family: inherit !important;
+      }
     }
 
     .vjs-menu li {
@@ -209,11 +200,6 @@ $videojs-track-height: 0.5em;
         @include colour.colour-border("keyline", 1px, solid, top);
 
         background: #000 !important;
-      }
-
-      .vjs-big-play-button,
-      .vjs-slider {
-        @include colour.colour-border("keyline", 1px);
       }
 
       .vjs-button + .vjs-button,
@@ -264,10 +250,33 @@ $videojs-track-height: 0.5em;
     }
   }
 
-  &:hover .vjs-big-play-button,
-  .vjs-big-play-button:focus {
-    @include colour.colour-font("background");
-    @include colour.colour-background("font-base");
+  .vjs-big-play-button {
+    height: 2em;
+    margin-top: -1em;
+
+    @include colour.colour-background("button-accented-background");
+
+    @include borders.rounded-border;
+    @include colour.colour-border(
+      "button-accented-background",
+      button.$button-border-width
+    );
+
+    transition: none;
+
+    .vjs-svg-icon {
+      width: 1.5em;
+      height: 1.5em;
+      @include colour.colour-font("button-accented-text");
+    }
+  }
+
+  &:hover .vjs-big-play-button {
+    @include colour.colour-background("contrast-button-background");
+
+    .vjs-svg-icon {
+      @include colour.colour-font("base-font-dark");
+    }
   }
 
   .vjs-control-bar {

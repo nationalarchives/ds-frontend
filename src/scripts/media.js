@@ -127,9 +127,9 @@ Object.entries(videoJsInstances).forEach(([key, instance]) => {
       key2 !== key ? instance2.pause() : null,
     );
   });
-  instance.on("pause", () => {
-    instance.el().querySelector(".vjs-play-control")?.focus();
-  });
+  // instance.on("pause", () => {
+  //   instance.el().querySelector(".vjs-play-control")?.focus();
+  // });
 });
 
 document
