@@ -69,12 +69,22 @@
   {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
 
   {%- elif content_item.type == 'quote' %}
-  <blockquote class="tna-blockquote">
+  <blockquote class="tna-blockquote"{%- if content_item.value.href %} cite="{{ content_item.value.href }}"{%- endif %}>
     <div class="tna-blockquote__quote">
       {{ content_item.value.quote | tna_html | safe }}
     </div>
-    {%- if content_item.value.attribution %}
-    <footer class="tna-blockquote__citation">{{ content_item.value.attribution }}</footer>
+    {%- if content_item.value.attribution or (content_item.value.citation_link_text and content_item.value.href) %}
+    <footer class="tna-blockquote__citation">
+      {%- if content_item.value.attribution and content_item.value.attribution_link %}
+      <a href="{{ content_item.value.attribution_link }}">{{ content_item.value.attribution }}</a>
+      {%- else %}
+      {{ content_item.value.attribution }}
+      {%- endif %}
+      {%- if content_item.value.citation_link_text and content_item.value.href %}
+      {%- if content_item.value.attribution %} {% endif -%}
+      <a href="{{ content_item.value.href }}"><cite>{{ content_item.value.citation_link_text }}</cite></a>
+      {%- endif %}
+    </footer>
     {%- endif %}
   </blockquote>
 
