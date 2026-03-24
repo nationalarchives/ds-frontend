@@ -73,18 +73,11 @@
     <div class="tna-blockquote__quote">
       {{ content_item.value.quote | tna_html | safe }}
     </div>
-    {%- if content_item.value.attribution or (content_item.value.citation_link_text and content_item.value.href) %}
-    <footer class="tna-blockquote__citation">
-      {%- if content_item.value.attribution and content_item.value.attribution_link %}
-      <a href="{{ content_item.value.attribution_link }}">{{ content_item.value.attribution }}</a>
-      {%- else %}
-      {{ content_item.value.attribution }}
-      {%- endif %}
-      {%- if content_item.value.citation_link_text and content_item.value.href %}
-      {%- if content_item.value.attribution %} {% endif -%}
-      <a href="{{ content_item.value.href }}"><cite>{{ content_item.value.citation_link_text }}</cite></a>
-      {%- endif %}
-    </footer>
+    {%- set attribution = content_item.value.attribution %}
+    {%- set citation = content_item.value.citation %}
+    {%- set citation_internal = content_item.value.citation_internal %}
+    {%- if attribution or citation or citation_internal %}
+    <p class="tna-blockquote__attribution"><cite class="tna-blockquote__citation">{% if attribution %}{{ attribution }}{% endif %}{% if citation %}{% if attribution %}, {% endif %}{{ citation }}{% endif %}{% if citation_internal %}{% if attribution or citation %}, {% endif %}{{ citation_internal }}{% endif %}</cite></p>
     {%- endif %}
   </blockquote>
 
