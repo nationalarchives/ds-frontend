@@ -69,7 +69,7 @@
   {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
 
   {%- elif content_item.type == 'quote' %}
-  <blockquote class="tna-blockquote"{%- if content_item.value.href %} cite="{{ content_item.value.href }}"{%- endif %}>
+  <blockquote class="tna-blockquote"{%- if content_item.value.citation_url %} cite="{{ content_item.value.citation_url }}"{%- endif %}>
     <div class="tna-blockquote__quote">
       {{ content_item.value.quote | tna_html | safe }}
     </div>
