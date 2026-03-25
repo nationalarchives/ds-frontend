@@ -69,11 +69,10 @@
   {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
 
   {%- elif content_item.type == 'quote' %}
-
-  <blockquote class="tna-blockquote"{%- if content_item.value.citation_url %} cite="{{ content_item.value.citation_url }}"{%- endif %}>
-    <div class="tna-blockquote__quote">
+  <div class="tna-blockquote">
+    <blockquote class="tna-blockquote__quote"{%- if content_item.value.citation_url %} cite="{{ content_item.value.citation_url }}"{%- endif %}>
       {{ content_item.value.quote | tna_html | safe }}
-    </div>
+    </blockquote>
     {%- set attribution = content_item.value.attribution %}
     {%- set citation = content_item.value.citation %}
     {%- if attribution or citation %}
@@ -85,8 +84,7 @@
         {{ citation }}
       </cite>
       {%- endif %}
-    </p>
-    {%- endif %}
+    </p>    {%- endif %}
   </div>
 
   {%- elif content_item.type == 'featured_external_link' %}
