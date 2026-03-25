@@ -69,6 +69,7 @@
   {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
 
   {%- elif content_item.type == 'quote' %}
+
   <blockquote class="tna-blockquote"{%- if content_item.value.citation_url %} cite="{{ content_item.value.citation_url }}"{%- endif %}>
     <div class="tna-blockquote__quote">
       {{ content_item.value.quote | tna_html | safe }}
@@ -86,7 +87,7 @@
       {%- endif %}
     </p>
     {%- endif %}
-  </blockquote>
+  </div>
 
   {%- elif content_item.type == 'featured_external_link' %}
   {{ wagtailFeaturedExternalLink(content_item.value, next_heading_level) }}
