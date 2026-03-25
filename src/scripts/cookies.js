@@ -1,11 +1,7 @@
-// import { Cookies } from "@nationalarchives/frontend/nationalarchives/all.mjs";
-
-// const cookies = new Cookies();
-
 const cookies = window.TNAFrontendCookies;
-const $successMessage = document.getElementById("cookie-settings-success");
 
 if (cookies) {
+  const $successMessage = document.getElementById("cookie-settings-success");
   const $form = document.getElementById("cookie-settings");
   if ($form && $successMessage) {
     $form.addEventListener("submit", (e) => {
@@ -14,7 +10,7 @@ if (cookies) {
       cookies.setPolicy("usage", formData.get("usage") === "true");
       cookies.setPolicy("settings", formData.get("settings") === "true");
       cookies.setPolicy("marketing", formData.get("marketing") === "true");
-      cookies.set("dontShowCookieNotice", true);
+      cookies.set("cookie_preferences_set", true);
       $successMessage.removeAttribute("hidden");
       $successMessage.setAttribute("tabindex", "0");
       $successMessage.focus();
@@ -23,7 +19,9 @@ if (cookies) {
         ?.setAttribute("hidden", true);
     });
   }
+  if ($successMessage) {
+    $successMessage.addEventListener("blur", () => {
+      $successMessage.setAttribute("tabindex", "-1");
+    });
+  }
 }
-$successMessage.addEventListener("blur", () => {
-  $successMessage.setAttribute("tabindex", "-1");
-});
