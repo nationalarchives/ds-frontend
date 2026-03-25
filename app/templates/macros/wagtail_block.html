@@ -75,9 +75,8 @@
     </div>
     {%- set attribution = content_item.value.attribution %}
     {%- set citation = content_item.value.citation %}
-    {%- set citation_internal = content_item.value.citation_internal %}
-    {%- if attribution or citation or citation_internal %}
-    <p class="tna-blockquote__attribution"><cite class="tna-blockquote__citation">{% if attribution %}{{ attribution }}{% endif %}{% if citation %}{% if attribution %}, {% endif %}{{ citation }}{% endif %}{% if citation_internal %}{% if attribution or citation %}, {% endif %}{{ citation_internal }}{% endif %}</cite></p>
+    {%- if attribution or citation %}
+    <p class="tna-blockquote__attribution"><cite class="tna-blockquote__citation">{% if attribution %}{{ attribution }}{% endif %}{% if citation %}{% if attribution %}, {% endif %}{{ citation }}{% endif %}</cite></p>
     {%- endif %}
   </blockquote>
 
