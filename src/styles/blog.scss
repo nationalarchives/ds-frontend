@@ -61,7 +61,7 @@
     @include typography.main-font-weight;
   }
 
-  &__citation {
+  &__attribution {
     padding-top: spacing.space(1);
 
     @include typography.main-font-weight-medium;
