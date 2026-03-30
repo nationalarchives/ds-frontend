@@ -99,9 +99,9 @@
 {% block beforeContent %}
 {%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
   {%- if breadcrumbsStyle %}
-  <div class="tna-background-{{ breadcrumbsStyle }} tna-!--hide-on-print">
+  <div class="tna-background-{{ breadcrumbsStyle }}">
   {%- endif %}
-    <div class="tna-container">
+    <div class="tna-container tna-!--hide-on-print">
       <div class="tna-column tna-column--full tna-!--padding-vertical-s">
         {{ tnaBreadcrumbs({
           'items': breadcrumbs or page_data.meta.breadcrumbs,
