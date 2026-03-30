@@ -7,6 +7,10 @@
   width: 100% !important;
 }
 
+.tna-picture__transcript {
+  max-height: none;
+}
+
 a:not(
   [href^="#"],
   [href^="?"],
@@ -18,6 +22,9 @@ a:not(
 ) {
   &::after {
     content: " (" attr(href) ")";
+
+    font-size: 0.8em;
+    vertical-align: baseline;
 
     font-style: italic;
     word-break: break-all;
