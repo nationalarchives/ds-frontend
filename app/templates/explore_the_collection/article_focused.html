@@ -15,6 +15,7 @@
 {%- set og_type = 'article' -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
+{%- set bodyContainsCodeBlock = page_data.body | wagtail_streamfield_contains_code_block -%}
 
 {% block head %}
 {{ super() }}
@@ -29,6 +30,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='article.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    {%- endif %}
+    {%- if bodyContainsCodeBlock %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print"> -->
     {%- endif %}
 {% endblock stylesheets %}
 
@@ -149,5 +153,8 @@
     <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {%- endif %}
+    {%- if bodyContainsCodeBlock %}
+    <script src="{{ url_for('static', filename='code.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
 {% endblock bodyEnd %}

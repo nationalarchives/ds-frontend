@@ -34,6 +34,9 @@
 // @use "@nationalarchives/frontend/nationalarchives/components/textarea";
 @use "@nationalarchives/frontend/nationalarchives/components/warning";
 
+// TODO: Until we split out inline <code> and .tna-code-block styles, we need support for inline code everywhere
+@use "@nationalarchives/frontend/nationalarchives/code";
+
 @use "main/frontend-overrides";
 @use "main/generics";
 @use "main/tables";
@@ -44,4 +47,3 @@
 @use "main/partner-logos";
 @use "main/records-list";
 @use "main/do-dont-list";
-@use "main/sidebar" as etnaSidebar;
