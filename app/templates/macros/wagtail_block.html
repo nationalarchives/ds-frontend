@@ -78,11 +78,13 @@
     {%- set citation = content_item.value.citation %}
     {%- if attribution or citation %}
     <p class="tna-blockquote__attribution">
+      {%- if citation_url %}<a href="{{ citation_url }}">{% endif -%}
       {% if attribution %}{{ attribution }}{%- endif -%}
       {%- if citation -%}
       {{- ', ' if attribution else '' }}
-      <cite class="tna-blockquote__citation">{% if citation_url %}<a href="{{ citation_url }}">{{ citation }}</a>{% else %}{{ citation }}{% endif %}</cite>
+      <cite class="tna-blockquote__citation">{{ citation }}</cite>
       {%- endif %}
+      {%- if citation_url %}</a>{% endif %}
     </p>    {%- endif %}
   </div>
 
