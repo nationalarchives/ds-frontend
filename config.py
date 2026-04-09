@@ -94,12 +94,15 @@ class Production(Features):
         "/explore-the-collection/",
         "/help/",
         "/image/",
+        "/maintenance/",
         "/merlin/",
         "/mi5-official-secrets/",
         "/people/",
         "/professional-guidance-and-services/",
+        "/strategy-2025-2030/",
         "/whats-on/",
         "/video/",
+        "/visit/",
     ]
 
 

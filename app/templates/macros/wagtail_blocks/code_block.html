@@ -1,0 +1,5 @@
+{% macro wagtailCodeBlock(block_value) %}
+  <div class="tna-code-block{% if block_value.allow_copying %} tna-code-block--copy{% endif %}"{% if block_value.filename %} title="{{ block_value.filename }}"{% endif %}>
+    <pre class="tna-code-block__pre"><code class="language-{{ block_value.language or 'plain' }}">{{ block_value.code | forceescape }}</code></pre>
+  </div>
+{% endmacro %}

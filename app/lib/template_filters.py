@@ -305,18 +305,23 @@ def headings_list(s):
     return headings
 
 
-def wagtail_streamfield_contains_media(streamfield):
+def wagtail_streamfield_contains_block(streamfield, block_types):
     for streamfield_item in streamfield:
         if streamfield_item["type"] == "content_section":
             for block in streamfield_item["value"]["content"]:
-                if block["type"] == "youtube_video" or block["type"] == "media":
+                if block["type"] in block_types:
                     return True
-        elif (
-            streamfield_item["type"] == "youtube_video"
-            or streamfield_item["type"] == "media"
-        ):
+        elif streamfield_item["type"] in block_types:
             return True
     return False
+
+
+def wagtail_streamfield_contains_code_block(streamfield):
+    return wagtail_streamfield_contains_block(streamfield, ["code"])
+
+
+def wagtail_streamfield_contains_media(streamfield):
+    return wagtail_streamfield_contains_block(streamfield, ["youtube_video", "media"])
 
 
 def sidebar_items_from_wagtail_streamfield(content):

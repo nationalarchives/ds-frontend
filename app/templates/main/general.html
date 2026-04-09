@@ -12,6 +12,7 @@
 {%- set showSidebar = page_data.page_sidebar == 'contents' or page_data.page_sidebar == 'sections' or (page_data.page_sidebar == 'pages' and page_siblings | length > 1) -%}
 {%- set sidebarPositionRight = page_data.page_sidebar == 'pages' -%}
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
+{%- set bodyContainsCodeBlock = page_data.body | wagtail_streamfield_contains_code_block -%}
 {%- set alert_banner_top_margin = None if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) else 'm' %}
 
 {% block head %}
@@ -23,6 +24,9 @@
 {{ super() }}
     {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    {%- endif %}
+    {%- if bodyContainsCodeBlock %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print"> -->
     {%- endif %}
     {%- if page_data.page_sidebar == 'section_tabs' or page_data.page_sidebar == 'pages_tabs' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='secondary-navigation.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
@@ -256,6 +260,9 @@
 {{ super() }}
     {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {%- endif %}
+    {%- if bodyContainsCodeBlock %}
+    <script src="{{ url_for('static', filename='code.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
     {%- if page_data.footnotes %}
     <script src="{{ url_for('static', filename='footnotes.min.js', v=app_config.BUILD_VERSION) }}" defer></script>

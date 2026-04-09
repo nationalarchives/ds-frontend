@@ -33,7 +33,7 @@
     {%- endif %}
   {% endfor %}
   {% if footnotes %}
-    <h2 class="tna-heading-l" id="footnotes">Footnotes</h2>
+    <h{{ initial_next_heading_level }} class="tna-heading-l" id="footnotes">Footnotes</h{{ initial_next_heading_level }}>
     <ol id="footnotes-list" class="tna-ol tna-ol--footnotes">
       {% for footnote in footnotes %}
       <li id="footnote-{{ footnote.uuid }}" data-footnoteid="{{ footnote.uuid }}" data-footnoteidshort="{{ footnote.uuid[0:6] }}">

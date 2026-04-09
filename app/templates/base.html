@@ -80,7 +80,7 @@
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': '/cookies/',
-  'preferencesSetKey': 'dontShowCookieNotice'
+  'preferencesSetKey': 'cookie_preferences_set'
 }) | indent(6) }}
 {%- endif %}
 {% endblock cookies %}
@@ -101,7 +101,7 @@
   {%- if breadcrumbsStyle %}
   <div class="tna-background-{{ breadcrumbsStyle }}">
   {%- endif %}
-    <div class="tna-container">
+    <div class="tna-container tna-!--hide-on-print">
       <div class="tna-column tna-column--full tna-!--padding-vertical-s">
         {{ tnaBreadcrumbs({
           'items': breadcrumbs or page_data.meta.breadcrumbs,
