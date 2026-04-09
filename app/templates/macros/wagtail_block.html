@@ -70,7 +70,8 @@
 
   {%- elif content_item.type == 'quote' %}
   <div class="tna-blockquote">
-    <blockquote class="tna-blockquote__quote"{%- if content_item.value.citation_url %} cite="{{ content_item.value.citation_url }}"{%- endif %}>
+    {%- set citation_url = content_item.value.citation_url %}
+    <blockquote class="tna-blockquote__quote"{%- if citation_url %} cite="{{ citation_url }}"{%- endif %}>
       {{ content_item.value.quote | tna_html | safe }}
     </blockquote>
     {%- set attribution = content_item.value.attribution %}
@@ -80,9 +81,7 @@
       {% if attribution %}{{ attribution }}{%- endif -%}
       {%- if citation -%}
       {{- ', ' if attribution else '' }}
-      <cite class="tna-blockquote__citation">
-        {{ citation }}
-      </cite>
+      <cite class="tna-blockquote__citation">{% if citation_url %}<a href="{{ citation_url }}">{{ citation }}</a>{% else %}{{ citation }}{% endif %}</cite>
       {%- endif %}
     </p>    {%- endif %}
   </div>
