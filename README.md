@@ -42,6 +42,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `ITEMS_PER_SITEMAP`                   | The maximum number of items to add to a single sitemap XML file             | `500`                                         |
 | `ITEMS_PER_BLOG_FEED`                 | The maximum number of items to add to a single RSS or Atom feed             | `50`                                          |
 | `COOKIE_DOMAIN`                       | The domain to save cookie preferences against                               | _none_                                        |
+| `COOKIE_PREFERENCES_URL`              | The URL for changing cookie preferences                                     | _none_                                        |
 | `CSP_IMG_SRC`                         | A comma separated list of CSP rules for `img-src`                           | `'self'`                                      |
 | `CSP_SCRIPT_SRC`                      | A comma separated list of CSP rules for `script-src`                        | `'self'`                                      |
 | `CSP_STYLE_SRC`                       | A comma separated list of CSP rules for `style-src`                         | `'self'`                                      |

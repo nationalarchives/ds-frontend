@@ -47,6 +47,7 @@ class Production(Features):
     ITEMS_PER_BLOG_FEED: int = int(os.environ.get("ITEMS_PER_BLOG_FEED", "50"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
+    COOKIE_PREFERENCES_URL: str = os.environ.get("COOKIE_PREFERENCES_URL", "/cookies/")
 
     CSP_IMG_SRC: list[str] = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
     CSP_SCRIPT_SRC: list[str] = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")

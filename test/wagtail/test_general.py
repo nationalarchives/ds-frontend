@@ -8,12 +8,13 @@ from app import create_app
 
 class GeneralWagtailTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app("config.Test").test_client()
+        self.app = create_app("config.Test")
+        self.client = self.app.test_client()
         self.domain = "http://localhost"
-        self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
+        self.mock_api_url = self.app.config["WAGTAIL_API_URL"]
 
     def test_no_api_response(self):
-        rv = self.app.get("/foobar/")
+        rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 502)
         self.assertIn(
             '<h1 class="tna-heading-xl">There is a problem with the service</h1>',
@@ -27,7 +28,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
         )
         mock_respsone = "not json"
         m.get(mock_endpoint, json=mock_respsone, status_code=200)
-        rv = self.app.get("/foobar/")
+        rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 502)
         self.assertIn(
             '<h1 class="tna-heading-xl">There is a problem with the service</h1>',
@@ -43,7 +44,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "message": "Password required to view this resource.",
         }
         m.get(mock_endpoint, json=mock_respsone, status_code=200)
-        rv = self.app.get("/preview/1/")
+        rv = self.client.get("/preview/1/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(
             '<h1 class="tna-heading-xl">Password required</h1>',
@@ -58,7 +59,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "meta": {"url": "/foobar/"},
         }
         m.get(mock_alias_endpoint, json=mock_alias_respsone, status_code=200)
-        rv = self.app.get("/preview/1/")
+        rv = self.client.get("/preview/1/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "/foobar/")
 
@@ -72,10 +73,10 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "meta": {"url": "/jamés-biggs/"},
         }
         m.get(mock_alias_endpoint, json=mock_alias_respsone, status_code=200)
-        rv = self.app.get("/jam%C3%A9s-biggs/")
+        rv = self.client.get("/jam%C3%A9s-biggs/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "/jam%C3%A9s-biggs/")
-        rv = self.app.get("/jamés-biggs/")
+        rv = self.client.get("/jamés-biggs/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "/jam%C3%A9s-biggs/")
 
@@ -89,7 +90,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "meta": {"alias_of": {"id": 2, "url": "/foobar/"}},
         }
         m.get(mock_alias_endpoint, json=mock_alias_respsone, status_code=200)
-        rv = self.app.get("/foobar-alias/")
+        rv = self.client.get("/foobar-alias/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "/foobar/")
 
@@ -104,7 +105,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
         mock_respsone = {"message": "not found"}
         m.get(mock_content_endpoint, json=mock_respsone, status_code=404)
         m.get(mock_redirect_endpoint, json=mock_respsone, status_code=404)
-        rv = self.app.get("/foobar/")
+        rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 404)
         self.assertIn(
             '<h1 class="tna-heading-xl">Page not found</h1>',
@@ -132,7 +133,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "is_permanent": True,
         }
         m.get(mock_redirect_endpoint, json=mock_redirect_respsone, status_code=200)
-        rv = self.app.get("/foobar/")
+        rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 301)
         self.assertEqual(rv.location, "https://gov.uk/")
 
@@ -157,7 +158,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "is_permanent": False,
         }
         m.get(mock_redirect_endpoint, json=mock_redirect_respsone, status_code=200)
-        rv = self.app.get("/foobar/")
+        rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "https://gov.uk/")
 
@@ -180,6 +181,6 @@ class GeneralWagtailTestCase(unittest.TestCase):
             "is_permanent": True,
         }
         m.get(mock_redirect_endpoint, json=mock_redirect_respsone, status_code=200)
-        rv = self.app.get("/foobar/?b=bar&a=foo")
+        rv = self.client.get("/foobar/?b=bar&a=foo")
         self.assertEqual(rv.status_code, 301)
         self.assertEqual(rv.location, "https://gov.uk/")

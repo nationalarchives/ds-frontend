@@ -5,7 +5,6 @@
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
-{%- from 'components/header/macro.html' import tnaHeader -%}
 
 {%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
 {# Explicitly set light mode until more pages support dark mode #}
@@ -79,8 +78,7 @@
 {%- if not page_data or not page_data.page_preview %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
-  'cookiesUrl': '/cookies/',
-  'preferencesSetKey': 'cookie_preferences_set'
+  'cookiesUrl': app_config.COOKIE_PREFERENCES_URL
 }) | indent(6) }}
 {%- endif %}
 {% endblock cookies %}

@@ -7,9 +7,10 @@ from app import create_app
 
 class WagtailPrivacyTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app("config.Test").test_client()
+        self.app = create_app("config.Test")
+        self.client = self.app.test_client()
         self.domain = "http://localhost"
-        self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
+        self.mock_api_url = self.app.config["WAGTAIL_API_URL"]
 
     @requests_mock.Mocker()
     def test_private_page_preview_redirection(self, m):
@@ -22,7 +23,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
             "message": "Password required to view this resource.",
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/foobar/")
+        rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "/preview/352/")
 
@@ -35,7 +36,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
             "message": "Password required to view this resource.",
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/preview/352/")
+        rv = self.client.get("/preview/352/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(
             '<h1 class="tna-heading-xl">Password required</h1>',
@@ -55,7 +56,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
             "message": "Password required to view this resource.",
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.post(
+        rv = self.client.post(
             "/preview/352/",
             content_type="multipart/form-data",
             data={"password": ""},
@@ -85,7 +86,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
             "message": "Incorrect password.",
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.post(
+        rv = self.client.post(
             "/preview/352/",
             content_type="multipart/form-data",
             data={"password": "wrongpassword"},
@@ -116,7 +117,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
             "time_periods": [],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.post(
+        rv = self.client.post(
             "/preview/352/",
             content_type="multipart/form-data",
             data={"password": "correctpassword"},
@@ -151,6 +152,6 @@ class WagtailPrivacyTestCase(unittest.TestCase):
             },
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/preview/352/")
+        rv = self.client.get("/preview/352/")
         self.assertEqual(rv.status_code, 302)
         self.assertEqual(rv.location, "/foobar/")
