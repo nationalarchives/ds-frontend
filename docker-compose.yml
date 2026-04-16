@@ -8,6 +8,7 @@ services:
     environment:
       - ENVIRONMENT_NAME=localhost
       - CONFIG=config.Develop
+      - BUILD_VERSION=local
       - DEBUG=true
       # - EXPLAIN_TEMPLATE_LOADING=true
       - SECRET_KEY=abc123

@@ -7,9 +7,10 @@ from app import create_app
 
 class SitemapsBlueprintTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app("config.Test").test_client()
+        self.app = create_app("config.Test")
+        self.client = self.app.test_client()
         self.domain = "http://localhost"
-        self.mock_api_url = self.app.application.config["WAGTAIL_API_URL"]
+        self.mock_api_url = self.app.config["WAGTAIL_API_URL"]
 
     @requests_mock.Mocker()
     def test_sitemap_index(self, m):
@@ -20,7 +21,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             "items": [],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/sitemap.xml")
+        rv = self.client.get("/sitemap.xml")
         self.assertIn(f"<loc>{domain}/sitemaps/sitemap_1.xml</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/sitemaps/sitemap_2.xml</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/sitemaps/sitemap_3.xml</loc>", rv.text)
@@ -114,7 +115,7 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             ],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.app.get("/sitemaps/sitemap_1.xml")
+        rv = self.client.get("/sitemaps/sitemap_1.xml")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(f"<loc>{domain}/</loc>", rv.text)
         self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
