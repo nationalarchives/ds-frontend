@@ -14,8 +14,6 @@ from app.lib.template_filters import (
     pretty_price,
     seconds_to_iso_8601_duration,
     seconds_to_time,
-    slugify,
-    unslugify,
 )
 
 
@@ -123,22 +121,6 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(seconds_to_iso_8601_duration(3599), "PT59M59S")
         self.assertEqual(seconds_to_iso_8601_duration(3600), "PT1H0M0S")
         self.assertEqual(seconds_to_iso_8601_duration(3601), "PT1H0M1S")
-
-    def test_slugify(self):
-        self.assertEqual(slugify(""), "")
-        self.assertEqual(slugify("test"), "test")
-        self.assertEqual(slugify("  test TEST"), "test-test")
-        self.assertEqual(slugify("test 12 3 -4 "), "test-12-3-4")
-        self.assertEqual(slugify("test---test"), "test-test")
-        self.assertEqual(slugify("test---"), "test")
-        self.assertEqual(slugify("test---$"), "test")
-        self.assertEqual(slugify("test---$---"), "test")
-
-    def test_unslugify(self):
-        self.assertEqual(unslugify("test-test"), "Test test")
-        self.assertEqual(unslugify("test-test", False), "test test")
-        self.assertEqual(unslugify("test-123"), "Test 123")
-        self.assertEqual(unslugify("test-1-2-3"), "Test 1 2 3")
 
     def test_pretty_price(self):
         self.assertEqual(pretty_price(0), "Free")

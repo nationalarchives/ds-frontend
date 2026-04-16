@@ -1,4 +1,5 @@
 import logging
+import os
 
 import sentry_sdk
 from app.lib.context_processor import (
@@ -38,11 +39,9 @@ from app.lib.template_filters import (
     seconds_to_iso_8601_duration,
     seconds_to_time,
     sidebar_items_from_wagtail_streamfield,
-    slugify,
     strip_day_from_date,
     strip_time_from_date,
     tna_html,
-    unslugify,
     url_encode,
     wagtail_streamfield_contains_code_block,
     wagtail_streamfield_contains_media,
@@ -51,6 +50,7 @@ from app.lib.template_filters import (
 from flask import Flask, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
+from tna_utilities.string import slugify, unslugify
 
 
 def create_app(config_class):
@@ -81,49 +81,16 @@ def create_app(config_class):
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
-    app.logger.setLevel(gunicorn_error_logger.level or "DEBUG")
-
-    csp_self = "'self'"
-    csp_none = "'none'"
-    default_csp = csp_self
-    csp_rules = {
-        key.replace("_", "-"): value
-        for key, value in app.config.get_namespace(
-            "CSP_", lowercase=True, trim_namespace=True
-        ).items()
-        if not key.startswith("feature_")
-        and not key.startswith("report_")
-        and value not in [None, [default_csp]]
-    }
-    talisman.init_app(
-        app,
-        content_security_policy={
-            "default-src": default_csp,
-            "base-uri": csp_none,
-            "object-src": csp_none,
-        }
-        | csp_rules,
-        content_security_policy_report_uri=app.config["CSP_REPORT_URL"] or None,
-        feature_policy={
-            "fullscreen": app.config.get("CSP_FEATURE_FULLSCREEN", csp_self),
-            "picture-in-picture": app.config.get(
-                "CSP_FEATURE_PICTURE_IN_PICTURE", csp_self
-            ),
-        },
-        force_https=app.config["FORCE_HTTPS"],
+    app.logger.setLevel(
+        gunicorn_error_logger.level or os.getenv("LOG_LEVEL", "debug").upper()
     )
 
-    @app.after_request
-    def apply_extra_headers(response):
-        if "X-Permitted-Cross-Domain-Policies" not in response.headers:
-            response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
-        if "Cross-Origin-Embedder-Policy" not in response.headers:
-            response.headers["Cross-Origin-Embedder-Policy"] = "unsafe-none"
-        if "Cross-Origin-Opener-Policy" not in response.headers:
-            response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-        if "Cross-Origin-Resource-Policy" not in response.headers:
-            response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
-        return response
+    talisman.init_app(
+        app,
+        content_security_policy=app.config["CONTENT_SECURITY_POLICY"],
+        allow_google_content_security_policy=True,
+        force_https=app.config["FORCE_HTTPS"],
+    )
 
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True

@@ -232,18 +232,6 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
-name = "flask-talisman"
-version = "1.1.0"
-description = "HTTP security headers for Flask."
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "flask-talisman-1.1.0.tar.gz", hash = "sha256:c5f486f5f54420729f84b3c3850cd63f96e8b033a9629bee66c524ea363797ff"},
-    {file = "flask_talisman-1.1.0-py2.py3-none-any.whl", hash = "sha256:3c42b610ebe49b0e35ca150e179bf51aa1da01e4635b49a674868ea681046208"},
-]
-
-[[package]]
 name = "idna"
 version = "3.11"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -629,6 +617,25 @@ jinja2 = ">=3"
 wtforms = ["flask-wtf[email]"]
 
 [[package]]
+name = "tna-utilities"
+version = "1.4.0"
+description = "A library of common National Archives Python functions"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "tna_utilities-1.4.0-py3-none-any.whl", hash = "sha256:0dcbb38efc1f27b87c3de47dc421bbf572595bb661127c0a893dff9981538022"},
+    {file = "tna_utilities-1.4.0.tar.gz", hash = "sha256:b36cd0319122d5f3ff2d17bf0f1193cae4924370ab6fcc60f8c07a5ad4b4bfe5"},
+]
+
+[package.dependencies]
+Flask = {version = "*", optional = true, markers = "extra == \"flask\""}
+requests = "*"
+
+[package.extras]
+flask = ["Flask"]
+
+[[package]]
 name = "tomli"
 version = "2.4.0"
 description = "A lil' TOML parser"
@@ -738,4 +745,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "7e15d5de231328c73df098f819e2cbffc9cc7d7c8d2853ce00da8228cd09e325"
+content-hash = "b79f6093a83e168a8f137762b4009678e26988e5a9c954e76d83851edeade617"

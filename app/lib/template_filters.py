@@ -6,6 +6,7 @@ from urllib.parse import quote_plus, unquote, urlparse
 
 from app.lib.date_time import get_date_from_string
 from markupsafe import Markup
+from tna_utilities.string import slugify
 
 from .content_parser import (  # add_abbreviations,; replace_footnotes,
     add_rel_to_external_links,
@@ -27,25 +28,6 @@ def tna_html(s):
     # s = add_abbreviations(s)
     s = add_rel_to_external_links(s)
     return s
-
-
-def slugify(s):
-    if not s:
-        return s
-    s = s.lower().strip()
-    s = re.sub(r"[^\w\s-]", "", s)
-    s = re.sub(r"[\s_-]+", "-", s)
-    s = re.sub(r"^-+|-+$", "", s)
-    return s
-
-
-def unslugify(s, capitalize_first=True):
-    if not s:
-        return s
-    s = s.split("-")
-    if capitalize_first:
-        s[0] = s[0].capitalize()
-    return " ".join(s)
 
 
 def url_encode(s):

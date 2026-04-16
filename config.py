@@ -49,28 +49,21 @@ class Production(Features):
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
     COOKIE_PREFERENCES_URL: str = os.environ.get("COOKIE_PREFERENCES_URL", "/cookies/")
 
-    CSP_IMG_SRC: list[str] = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
-    CSP_SCRIPT_SRC: list[str] = os.environ.get("CSP_SCRIPT_SRC", "'self'").split(",")
-    CSP_STYLE_SRC: list[str] = os.environ.get("CSP_STYLE_SRC", "'self'").split(",")
-    CSP_FONT_SRC: list[str] = os.environ.get("CSP_FONT_SRC", "'self'").split(",") + [
-        "data:"  # video.js
-    ]
-    CSP_CONNECT_SRC: list[str] = os.environ.get("CSP_CONNECT_SRC", "'self'").split(",")
-    CSP_MEDIA_SRC: list[str] = os.environ.get("CSP_MEDIA_SRC", "'self'").split(",")
-    CSP_WORKER_SRC: list[str] = os.environ.get("CSP_WORKER_SRC", "'self'").split(",")
-    CSP_FRAME_SRC: list[str] = os.environ.get("CSP_FRAME_SRC", "'self'").split(",")
-    CSP_FRAME_ANCESTORS: list[str] = os.environ.get(
-        "CSP_FRAME_ANCESTORS", "'self'"
-    ).split(",")
-    CSP_FEATURE_FULLSCREEN: list[str] = os.environ.get(
-        "CSP_FEATURE_FULLSCREEN", "'self'"
-    ).split(",")
-    CSP_FEATURE_PICTURE_IN_PICTURE: list[str] = os.environ.get(
-        "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
-    ).split(",")
-    CSP_REPORT_URL: str = os.environ.get("CSP_REPORT_URL", "")
-    if CSP_REPORT_URL:
-        CSP_REPORT_URL += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
+    CSP_REPORT_URI: str = os.environ.get("CSP_REPORT_URI", "")
+    if CSP_REPORT_URI and BUILD_VERSION:
+        CSP_REPORT_URI += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
+    CONTENT_SECURITY_POLICY: dict = {
+        "connect-src": os.environ.get("CSP_CONNECT_SRC", "").split(","),
+        "font-src": os.environ.get("CSP_FONT_SRC", "").split(","),
+        "frame-ancestors": os.environ.get("CSP_FRAME_ANCESTORS", "").split(","),
+        "frame-src": os.environ.get("CSP_FRAME_SRC", "").split(","),
+        "img-src": os.environ.get("CSP_IMG_SRC", "").split(","),
+        "media-src": os.environ.get("CSP_MEDIA_SRC", "").split(","),
+        "report-uri": CSP_REPORT_URI,
+        "script-src": os.environ.get("CSP_SCRIPT_SRC", "").split(","),
+        "style-src": os.environ.get("CSP_STYLE_SRC", "").split(","),
+        "worker-src": os.environ.get("CSP_WORKER_SRC", "").split(","),
+    }
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
