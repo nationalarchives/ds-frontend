@@ -82,7 +82,7 @@ def create_app(config_class):
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
     app.logger.setLevel(
-        gunicorn_error_logger.level or os.getenv("LOG_LEVEL", "debug").upper()
+        gunicorn_error_logger.level or os.getenv("LOG_LEVEL", "warning").upper()
     )
 
     talisman.init_app(
