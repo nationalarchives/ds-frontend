@@ -46,7 +46,7 @@ class Production(Features):
     ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "500"))
     ITEMS_PER_BLOG_FEED: int = int(os.environ.get("ITEMS_PER_BLOG_FEED", "50"))
 
-    COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
+    COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", ".nationalarchives.gov.uk")
     COOKIE_PREFERENCES_URL: str = os.environ.get("COOKIE_PREFERENCES_URL", "/cookies/")
 
     CSP_REPORT_URI: str = os.environ.get("CSP_REPORT_URI", "")
