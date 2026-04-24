@@ -16,7 +16,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Run tests
         uses: ./.github/actions/node-tests
 
@@ -25,7 +27,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Run tests
         uses: ./.github/actions/python-tests
 
@@ -34,7 +38,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Run tests
         uses: ./.github/actions/check-formatting
 
@@ -48,12 +54,14 @@ jobs:
       packages: write
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Generate version tag
         id: version-tag
-        uses: nationalarchives/ds-docker-actions/.github/actions/get-version-tag@main
+        uses: nationalarchives/ds-docker-actions/.github/actions/get-version-tag@main # zizmor: ignore[unpinned-uses] Owned by The National Archives
       - name: Build Docker image
-        uses: nationalarchives/ds-docker-actions/.github/actions/build@main
+        uses: nationalarchives/ds-docker-actions/.github/actions/build@main # zizmor: ignore[unpinned-uses] Owned by The National Archives
         with:
           version: ${{ steps.version-tag.outputs.version-tag }}
           latest: ${{ github.ref == 'refs/heads/main' }}
@@ -65,7 +73,7 @@ jobs:
           wiz-project-id: ${{ secrets.WIZ_PROJECT_DIGITALSERVICES }}
       - name: Create tag
         if: github.ref == 'refs/heads/main'
-        uses: actions/github-script@v5
+        uses: actions/github-script@211cb3fefb35a799baa5156f9321bb774fe56294 # v5.2.0
         with:
           script: |
             github.rest.git.createRef({
@@ -85,7 +93,7 @@ jobs:
       - build
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: nationalarchives/ds-infrastructure-web
           ref: main
@@ -104,33 +112,3 @@ jobs:
           COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
           git commit -m "Update frontend to v${{ needs.build.outputs.version }}" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
           git push origin main
-
-  # update-dblclk:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   needs:
-  #     - build
-  #   if: github.ref == 'refs/heads/main'
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #       with:
-  #         repository: nationalarchives/ds-etna
-  #         ref: proof-of-concept
-  #         token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-  #     - name: Set up git config
-  #       run: |
-  #         git config user.name "${{ github.triggering_actor }}"
-  #         git config user.email "<>"
-  #     - name: Install yq
-  #       uses: dcarbone/install-yq-action@v1.1.1
-  #     - name: Update config
-  #       run: |
-  #         yq '(.services.frontend.image|="ghcr.io/${{ github.repository_owner }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ needs.build.outputs.version }}")' docker-compose.yml > tmp.$$.yml && mv tmp.$$.yml docker-compose.yml
-  #         yq '(.services.frontend-wagtail-docs.image|="ghcr.io/${{ github.repository_owner }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ needs.build.outputs.version }}")' docker-compose.yml > tmp.$$.yml && mv tmp.$$.yml docker-compose.yml
-  #     - name: Push new version
-  #       run: |
-  #         git add docker-compose.yml
-  #         COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
-  #         git commit -m "Update frontend to v${{ needs.build.outputs.version }}" -m "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
-  #         git push origin proof-of-concept
