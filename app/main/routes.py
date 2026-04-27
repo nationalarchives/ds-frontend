@@ -77,7 +77,7 @@ def set_cookies():
         httponly=False,
     )
     response.set_cookie(
-        "cookie_preferences_set",
+        current_app.config["COOKIE_PREFERENCES_KEY"],
         "true",
         domain=current_app.config["COOKIE_DOMAIN"],
         max_age=31536000,  # 365 days
