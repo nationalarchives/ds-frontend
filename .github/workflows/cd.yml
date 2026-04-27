@@ -7,7 +7,6 @@ on:
       - main
       - feature/*
       - fix/*
-      - dependabot/*
 
 concurrency:
   group: cd-${{ github.ref }}
