@@ -79,7 +79,7 @@
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': app_config.COOKIE_PREFERENCES_URL,
-  'preferencesSetKey': 'dontShowCookieNotice'
+  'preferencesSetKey': app_config.COOKIE_PREFERENCES_KEY
 }) | indent(6) }}
 {%- endif %}
 {% endblock cookies %}
