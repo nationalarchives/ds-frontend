@@ -2,7 +2,7 @@ import math
 from datetime import datetime
 
 from app.sitemaps import bp
-from app.wagtail.api import all_pages
+from app.wagtail.api import all_pages, fetch
 from flask import (
     current_app,
     make_response,
@@ -15,7 +15,7 @@ from flask import (
 @bp.route("/sitemap.xml")
 def sitemap_index():
     sitemap_urls = []
-    wagtail_pages = all_pages(limit=1)
+    wagtail_pages = fetch(all_pages(limit=1))
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
@@ -52,10 +52,12 @@ def sitemap_dynamic(sitemap_page):
     ]
     dynamic_urls = list()
     items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
-    wagtail_pages = all_pages(
-        batch=sitemap_page,
-        limit=items_per_sitemap,
-        params={"order": "id"},
+    wagtail_pages = fetch(
+        all_pages(
+            batch=sitemap_page,
+            limit=items_per_sitemap,
+            params={"order": "id"},
+        )
     )
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)

@@ -2,7 +2,7 @@ import math
 
 from app.lib.date_time import group_items_by_year_and_month
 from app.lib.pagination import pagination_object
-from app.wagtail.api import foi_requests
+from app.wagtail.api import fetch, foi_requests
 from flask import current_app, render_template, request
 
 
@@ -17,9 +17,11 @@ def foi_index_page(page_data):
     if page < 1:
         return render_template("errors/bad_request.html"), 400
     try:
-        requests_raw = foi_requests(
-            page,
-            children_per_page,
+        requests_raw = fetch(
+            foi_requests(
+                page,
+                children_per_page,
+            )
         )
     except ConnectionError:
         current_app.logger.error(

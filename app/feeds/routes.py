@@ -2,6 +2,7 @@ from app.feeds import bp
 from app.lib.api import ResourceNotFound
 from app.wagtail.api import (
     blog_posts_paginated,
+    fetch,
     page_details,
     page_details_by_type,
 )
@@ -13,8 +14,10 @@ from pydash import objects
 def rss_all_feed():
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
-        blog_data = page_details_by_type("blog.BlogIndexPage")
-        blog_posts = blog_posts_paginated(page=1, limit=items)
+        blog_data, blog_posts = fetch(
+            page_details_by_type("blog.BlogIndexPage"),
+            blog_posts_paginated(page=1, limit=items),
+        )
     except Exception as e:
         current_app.logger.error(f"Failed to render blog feeds list: {e}")
         return render_template("errors/api.html"), 502
@@ -37,8 +40,10 @@ def rss_all_feed():
 def rss_feed(blog_id):
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
-        blog_data = page_details(blog_id)
-        blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)
+        blog_data, blog_posts = fetch(
+            page_details(blog_id),
+            blog_posts_paginated(1, blog_id=blog_id, limit=items),
+        )
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except Exception as e:

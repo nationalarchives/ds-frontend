@@ -1,4 +1,4 @@
-from app.wagtail.api import page_children
+from app.wagtail.api import fetch, page_children
 from flask import current_app, render_template
 from pydash import objects
 
@@ -10,8 +10,8 @@ def general_page(page_data):
         or page_data["page_sidebar"] == "pages_tabs"
     ) and objects.get(page_data, "meta.parent.id"):
         try:
-            page_sibling_items = page_children(
-                page_data["meta"]["parent"]["id"], limit=50
+            page_sibling_items = fetch(
+                page_children(page_data["meta"]["parent"]["id"], limit=50)
             )
             page_siblings = (
                 page_sibling_items["items"] if "items" in page_sibling_items else []

@@ -5,7 +5,7 @@ from urllib.parse import quote, unquote
 
 from app.lib.util import strtobool
 from app.main import bp
-from app.wagtail.api import global_alerts
+from app.wagtail.api import fetch, global_alerts_request, process_global_alerts
 from flask import (
     current_app,
     make_response,
@@ -29,7 +29,10 @@ def healthcheck_version():
 
 @bp.route("/merlin/")
 def merlin():
-    return render_template("main/merlin.html", global_alert=global_alerts())
+    return render_template(
+        "main/merlin.html",
+        global_alert=process_global_alerts(fetch(global_alerts_request())),
+    )
 
 
 @bp.route("/cookies/set/", methods=["POST"])

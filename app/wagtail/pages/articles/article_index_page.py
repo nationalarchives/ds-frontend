@@ -1,7 +1,7 @@
 import math
 
 from app.lib.pagination import pagination_object
-from app.wagtail.api import page_children_paginated
+from app.wagtail.api import fetch, page_children_paginated
 from flask import current_app, render_template, request
 
 
@@ -16,11 +16,13 @@ def article_index_page(page_data):
     if page < 1:
         return render_template("errors/bad_request.html"), 400
     try:
-        children_data = page_children_paginated(
-            page_data["id"],
-            page,
-            children_per_page,
-            params={"order": "-first_published_at"},
+        children_data = fetch(
+            page_children_paginated(
+                page_data["id"],
+                page,
+                children_per_page,
+                params={"order": "-first_published_at"},
+            )
         )
     except ConnectionError:
         current_app.logger.error(

@@ -4,7 +4,12 @@ from urllib.parse import quote, unquote, urlparse
 from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.lib.pagination import pagination_object
 from app.wagtail import bp
-from app.wagtail.api import global_alerts, search
+from app.wagtail.api import (
+    fetch,
+    global_alerts_request,
+    process_global_alerts,
+    search,
+)
 from app.wagtail.render import render_content_page
 from flask import (
     current_app,
@@ -32,7 +37,7 @@ def preview_page():
     if not content_type or not token:
         return render_template("errors/page_not_found.html"), 404
     try:
-        page_data = page_preview(content_type, token)
+        page_data = fetch(page_preview(content_type, token))
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
@@ -59,9 +64,11 @@ def preview_protected_page(page_id):
         # Get the page details from Wagtail by its and include the provided password
         password = objects.get(request.form, "password", "")
         params = {"password": password}
-        page_data = page_details(
-            page_id=page_id,
-            params=params,
+        page_data = fetch(
+            page_details(
+                page_id=page_id,
+                params=params,
+            )
         )
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
@@ -106,7 +113,7 @@ def page_permalink(page_id):
 
     try:
         # Get the page details from Wagtail by its ID
-        page_data = page_details(page_id)
+        page_data = fetch(page_details(page_id))
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
@@ -141,7 +148,7 @@ def page(path):
 
     try:
         # Get the page details from Wagtail by the requested URI
-        page_data = page_details_by_uri(unquote(f"/{path}/"))
+        page_data = fetch(page_details_by_uri(unquote(f"/{path}/")))
     except ResourceNotFound:
         # If no page is found, try to match the requested path with any of the external
         # redirects added in Wagtail
@@ -213,7 +220,7 @@ def try_external_redirect(path):
 
     try:
         # Attempt to get the redirect data by the requested path
-        redirect_data = redirect_by_uri(path)
+        redirect_data = fetch(redirect_by_uri(path))
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except Exception as e:
@@ -238,7 +245,10 @@ def media_page(media_uuid):
     """
 
     try:
-        media_data = media(media_uuid=media_uuid)
+        media_data, global_alerts_data = fetch(
+            media(media_uuid=media_uuid),
+            global_alerts_request(),
+        )
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
@@ -247,7 +257,9 @@ def media_page(media_uuid):
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
     return render_template(
-        "media/video.html", media_data=media_data, global_alert=global_alerts()
+        "media/video.html",
+        media_data=media_data,
+        global_alert=process_global_alerts(global_alerts_data),
     )
 
 
@@ -258,7 +270,10 @@ def image_page(image_uuid):
     """
 
     try:
-        image_data = image(image_uuid=image_uuid)
+        image_data, global_alerts_data = fetch(
+            image(image_uuid=image_uuid),
+            global_alerts_request(),
+        )
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
@@ -267,7 +282,9 @@ def image_page(image_uuid):
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
     return render_template(
-        "media/image.html", image_data=image_data, global_alert=global_alerts()
+        "media/image.html",
+        image_data=image_data,
+        global_alert=process_global_alerts(global_alerts_data),
     )
 
 
@@ -302,11 +319,14 @@ def search_explore_the_collection():
         params = params | {"order": "-first_published_at"}
     elif order != "relevance":
         params = params | {"order": order}
-    results = search(
-        query=query,
-        page=page,
-        limit=children_per_page,
-        params=params,
+    results, global_alerts_data = fetch(
+        search(
+            query=query,
+            page=page,
+            limit=children_per_page,
+            params=params,
+        ),
+        global_alerts_request(),
     )
     total_results = objects.get(results, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page)
@@ -316,7 +336,7 @@ def search_explore_the_collection():
         "explore_the_collection/search.html",
         q=query,
         existing_qs=existing_qs_as_dict,
-        global_alert=global_alerts(),
+        global_alert=process_global_alerts(global_alerts_data),
         results=results,
         page=page,
         pages=pages,

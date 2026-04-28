@@ -1,7 +1,7 @@
 import math
 
 from app.lib.pagination import pagination_object
-from app.wagtail.api import authored_pages_paginated
+from app.wagtail.api import authored_pages_paginated, fetch
 from flask import current_app, render_template, request
 from pydash import objects
 
@@ -18,13 +18,15 @@ def person_page(page_data):
     if page < 0:
         return render_template("errors/bad_request.html"), 400
     try:
-        articles = authored_pages_paginated(
-            author_id=page_data["id"],
-            page=page or 1,
-            limit=articles_per_page if page else articles_preview_list,
-            params={
-                "order": "-id",
-            },
+        articles = fetch(
+            authored_pages_paginated(
+                author_id=page_data["id"],
+                page=page or 1,
+                limit=articles_per_page if page else articles_preview_list,
+                params={
+                    "order": "-id",
+                },
+            )
         )
     except ConnectionError:
         current_app.logger.error(
