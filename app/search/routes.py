@@ -3,7 +3,12 @@ from urllib.parse import unquote
 
 from app.lib.pagination import pagination_object
 from app.search import bp
-from app.wagtail.api import global_alerts, search
+from app.wagtail.api import (
+    fetch,
+    global_alerts_request,
+    process_global_alerts,
+    search,
+)
 from flask import render_template, request
 from pydash import objects
 
@@ -22,7 +27,10 @@ def index():
     query = unquote(request.args.get("q", "")).strip(" ")
     existing_qs_as_dict = request.args.to_dict()
     # results = search(query, page, children_per_page) if query else []
-    results = search(query, page, children_per_page)
+    results, global_alerts_data = fetch(
+        search(query, page, children_per_page),
+        global_alerts_request(),
+    )
     total_results = objects.get(results, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page)
     try:
@@ -34,7 +42,7 @@ def index():
         "search/index.html",
         q=query,
         existing_qs=existing_qs_as_dict,
-        global_alert=global_alerts(),
+        global_alert=process_global_alerts(global_alerts_data),
         results=results,
         page=page,
         pages=pages,

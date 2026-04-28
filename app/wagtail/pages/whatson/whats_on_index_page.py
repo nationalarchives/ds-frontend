@@ -1,9 +1,9 @@
-from app.wagtail.api import page_children
+from app.wagtail.api import fetch, page_children
 from flask import render_template
 
 
 def whats_on_index_page(page_data):
-    all_children = page_children(page_data["id"]).get("items", [])
+    all_children = fetch(page_children(page_data["id"])).get("items", [])
     groups = {
         "children": {
             "title": "Browse what’s on",

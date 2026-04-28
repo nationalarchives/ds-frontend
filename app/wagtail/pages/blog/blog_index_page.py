@@ -7,6 +7,7 @@ from app.wagtail.api import (
     blog_authors,
     blog_post_counts,
     blog_posts_paginated,
+    fetch,
     top_blogs,
 )
 from flask import current_app, render_template, request
@@ -62,22 +63,18 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         )
     except ValueError:
         return render_template("errors/bad_request.html"), 400
-    blogs_data = top_blogs()
-    blog_post_counts_data = blog_post_counts()
-    authors = blog_authors()
-    try:
-        blog_posts_data = blog_posts_paginated(
+    blogs_data, blog_post_counts_data, authors, blog_posts_data = fetch(
+        top_blogs(),
+        blog_post_counts(),
+        blog_authors(),
+        blog_posts_paginated(
             page=page,
             year=year,
             month=month,
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
-        )
-    except Exception as e:
-        current_app.logger.error(
-            f"Failed to get blog posts for page {page_data['id']}: {e}"
-        )
-        blog_posts_data = {}
+        ).with_default({}),
+    )
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
     pages = math.ceil(total_blog_posts / children_per_page)
     if total_blog_posts and page > pages:

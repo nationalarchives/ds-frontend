@@ -1,12 +1,14 @@
-from app.wagtail.api import page_children
+from app.wagtail.api import fetch, page_children
 from flask import current_app, render_template
 
 
 def cookies_page(page_data):
     details_page = None
     try:
-        children_data = page_children(
-            page_data["id"], {"type": "cookies.CookieDetailsPage", "limit": 1}
+        children_data = fetch(
+            page_children(
+                page_data["id"], {"type": "cookies.CookieDetailsPage", "limit": 1}
+            )
         )
         details_page = children_data["items"][0]
     except ConnectionError:

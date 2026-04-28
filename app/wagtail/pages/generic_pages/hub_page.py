@@ -1,4 +1,4 @@
-from app.wagtail.api import page_children
+from app.wagtail.api import fetch, page_children
 from flask import current_app, render_template
 
 
@@ -6,7 +6,7 @@ def hub_page(page_data):
     children = []
     if not page_data["links"]:
         try:
-            all_children = page_children(page_data["id"])
+            all_children = fetch(page_children(page_data["id"]))
             children = all_children["items"]
         except ConnectionError:
             current_app.logger.error(
