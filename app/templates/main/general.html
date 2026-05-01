@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
     {%- if bodyContainsCodeBlock %}
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
     {%- if page_data.page_sidebar == 'section_tabs' or page_data.page_sidebar == 'pages_tabs' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='secondary-navigation.css', v=app_config.BUILD_VERSION) }}" media="screen,print">

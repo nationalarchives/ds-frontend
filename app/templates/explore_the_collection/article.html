@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
     {%- if bodyContainsCodeBlock %}
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
 {% endblock stylesheets %}
 

@@ -1,5 +1,5 @@
-import { init } from "@nationalarchives/frontend/nationalarchives/code.mjs";
-// Prism.js core language support (imported in code.mjs):
+import "prismjs";
+// Prism.js core language support
 // - Markup
 // - HTML
 // - XML
@@ -12,6 +12,7 @@ import { init } from "@nationalarchives/frontend/nationalarchives/code.mjs";
 // - C-like
 // - JavaScript
 
+// Extra language support
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-git";
 import "prismjs/components/prism-graphql";
@@ -20,5 +21,3 @@ import "prismjs/components/prism-markdown";
 import "prismjs/components/prism-powershell";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-yaml";
-
-init();
