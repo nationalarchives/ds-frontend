@@ -15,7 +15,7 @@ services:
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
       - WAGTAIL_API_KEY
-      - COOKIE_DOMAIN=localhost
+      - COOKIE_DOMAIN=.localhost
       - CSP_IMG_SRC=localhost:8000,localhost:65529,*.google-analytics.com,*.gstatic.com,*.nationalarchives.gov.uk,i.ytimg.com,img.youtube.com,maps.googleapis.com
       - CSP_SCRIPT_SRC=*.youtube.com,localhost:65529
       - CSP_STYLE_SRC=localhost:65529,p.typekit.net,use.typekit.net,'unsafe-inline'
