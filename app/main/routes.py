@@ -32,6 +32,11 @@ def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
 
 
+@bp.route("/404/")
+def page_not_found():
+    return render_template("errors/page_not_found.html"), 404
+
+
 @bp.route("/cookies/set/", methods=["POST"])
 def set_cookies():
     current_cookies_policy = {
