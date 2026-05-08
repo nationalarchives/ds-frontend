@@ -72,3 +72,8 @@ class MainBlueprintTestCase(unittest.TestCase):
     def test_manifest(self):
         rv = self.client.get("/manifest.json")
         self.assertEqual(rv.status_code, 200)
+
+    def test_404(self):
+        rv = self.client.get("/404/")
+        self.assertEqual(rv.status_code, 404)
+        self.assertIn("Page not found", rv.text)
