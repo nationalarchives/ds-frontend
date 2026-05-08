@@ -1,0 +1,44 @@
+exclude = [
+    "migrations"
+]
+
+[lint]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "B",
+    "W",
+    "Q",
+    "I",
+    "C90",
+    "FAST",
+    "DJ",
+    "FIX",
+    "A",
+    "LOG",
+    "T20",
+    "RET",
+    "SIM",
+    "TD",
+    "N",
+    "PL",
+    "UP",
+    "RUF",
+    "TRY"
+]
+allowed-confusables = [
+    "—",
+    "–",
+    "’"
+]
+
+[lint.per-file-ignores]
+"__init__.py" = [
+    "E402",
+    "F401"
+]
+
+[lint.mccabe]
+max-complexity = 12

@@ -1,8 +1,9 @@
 import json
 import os
 
-from app.lib.util import strtobool
 from pydash import objects
+
+from app.lib.util import strtobool
 
 
 class Features:
@@ -56,18 +57,7 @@ class Production(Features):
     CSP_REPORT_URI: str = os.environ.get("CSP_REPORT_URI", "")
     if CSP_REPORT_URI and BUILD_VERSION:
         CSP_REPORT_URI += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
-    CONTENT_SECURITY_POLICY: dict = {
-        "connect-src": os.environ.get("CSP_CONNECT_SRC", "").split(","),
-        "font-src": os.environ.get("CSP_FONT_SRC", "").split(","),
-        "frame-ancestors": os.environ.get("CSP_FRAME_ANCESTORS", "").split(","),
-        "frame-src": os.environ.get("CSP_FRAME_SRC", "").split(","),
-        "img-src": os.environ.get("CSP_IMG_SRC", "").split(","),
-        "media-src": os.environ.get("CSP_MEDIA_SRC", "").split(","),
-        "report-uri": CSP_REPORT_URI,
-        "script-src": os.environ.get("CSP_SCRIPT_SRC", "").split(","),
-        "style-src": os.environ.get("CSP_STYLE_SRC", "").split(","),
-        "worker-src": os.environ.get("CSP_WORKER_SRC", "").split(","),
-    }
+    CONTENT_SECURITY_POLICY: dict
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "True"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
@@ -84,24 +74,41 @@ class Production(Features):
     )
 
     SHOW_PHASE_BANNER_ON_HOMEPAGE: bool = True
-    SHOW_PHASE_BANNER_ON_URIS: list[str] = [
-        "/about/",
-        "/annual-report-and-accounts-2024-25/",
-        "/blogs/",
-        "/cookies/",
-        "/explore-the-collection/",
-        "/help/",
-        "/image/",
-        "/maintenance/",
-        "/merlin/",
-        "/mi5-official-secrets/",
-        "/people/",
-        "/professional-guidance-and-services/",
-        "/strategy-2025-2030/",
-        "/whats-on/",
-        "/video/",
-        "/visit/",
-    ]
+    SHOW_PHASE_BANNER_ON_URIS: list[str]
+
+    def __init__(self) -> None:
+        self.CONTENT_SECURITY_POLICY = {
+            "connect-src": os.environ.get("CSP_CONNECT_SRC", "").split(","),
+            "font-src": os.environ.get("CSP_FONT_SRC", "").split(","),
+            "frame-ancestors": os.environ.get("CSP_FRAME_ANCESTORS", "").split(","),
+            "frame-src": os.environ.get("CSP_FRAME_SRC", "").split(","),
+            "img-src": os.environ.get("CSP_IMG_SRC", "").split(","),
+            "media-src": os.environ.get("CSP_MEDIA_SRC", "").split(","),
+            "report-uri": self.CSP_REPORT_URI,
+            "script-src": os.environ.get("CSP_SCRIPT_SRC", "").split(","),
+            "style-src": os.environ.get("CSP_STYLE_SRC", "").split(","),
+            "worker-src": os.environ.get("CSP_WORKER_SRC", "").split(","),
+        }
+
+        self.SHOW_PHASE_BANNER_ON_URIS = [
+            "/about/",
+            "/annual-report-and-accounts-2024-25/",
+            "/blogs/",
+            "/cookies/",
+            "/explore-the-collection/",
+            "/help/",
+            "/image/",
+            "/maintenance/",
+            "/merlin/",
+            "/mi5-official-secrets/",
+            "/people/",
+            "/professional-guidance-and-services/",
+            "/strategy-2025-2030/",
+            "/whats-on/",
+            "/video/",
+            "/visit/",
+        ]
+
 
 
 class Staging(Production):

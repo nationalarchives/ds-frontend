@@ -1,11 +1,6 @@
 import math
 from urllib.parse import quote, unquote, urlparse
 
-from app.lib.api import ResourceForbidden, ResourceNotFound
-from app.lib.pagination import pagination_object
-from app.wagtail import bp
-from app.wagtail.api import global_alerts, search
-from app.wagtail.render import render_content_page
 from flask import (
     current_app,
     redirect,
@@ -14,6 +9,12 @@ from flask import (
     url_for,
 )
 from pydash import objects
+
+from app.lib.api import ResourceForbidden, ResourceNotFound
+from app.lib.pagination import pagination_object
+from app.wagtail import bp
+from app.wagtail.api import global_alerts, search
+from app.wagtail.render import render_content_page
 
 from .api import (
     image,
@@ -37,15 +38,15 @@ def preview_page():
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get page preview data: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get page preview data")
         return render_template("errors/api.html"), 502
     try:
         return render_content_page(
             page_data | {"page_preview": True, "id": objects.get(page_data, "id", 0)}
         )
-    except Exception as e:
-        current_app.logger.error(f"Failed to render page preview: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to render page preview")
         return render_template("errors/api.html"), 502
 
 
@@ -67,8 +68,8 @@ def preview_protected_page(page_id):
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to render page preview: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to render page preview")
         return render_template("errors/api.html"), 502
 
     # Check if the page is password protected
@@ -111,8 +112,8 @@ def page_permalink(page_id):
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get page details: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get page details")
         return render_template("errors/api.html"), 502
 
     # If the page has a URL, redirect to it
@@ -151,10 +152,10 @@ def page(path):
     except ResourceForbidden:
         # In the unlikely case that the API returns a 403, show a forbidden error page
         return render_template("errors/forbidden.html"), 403
-    except Exception as e:
+    except Exception:
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
-        current_app.logger.error(f"Failed to render page: {e}")
+        current_app.logger.exception("Failed to render page")
         return render_template("errors/api.html"), 502
 
     # If the page data does not contain meta information, return a 502 error
@@ -175,8 +176,7 @@ def page(path):
 
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
-    if rediect_url := objects.get(page_data, "meta.alias_of.url"):
-        if current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
+    if rediect_url := objects.get(page_data, "meta.alias_of.url") and current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
             return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it
@@ -216,8 +216,8 @@ def try_external_redirect(path):
         redirect_data = redirect_by_uri(path)
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
-    except Exception as e:
-        current_app.logger.error(f"Failed to get redirect: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get redirect")
         return render_template("errors/api.html"), 502
 
     # Get the redirect destination and whether it is permanent
@@ -243,8 +243,8 @@ def media_page(media_uuid):
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get video: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get video")
         return render_template("errors/api.html"), 502
     return render_template(
         "media/video.html", media_data=media_data, global_alert=global_alerts()
@@ -263,8 +263,8 @@ def image_page(image_uuid):
         return render_template("errors/page_not_found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get video: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get image")
         return render_template("errors/api.html"), 502
     return render_template(
         "media/image.html", image_data=image_data, global_alert=global_alerts()

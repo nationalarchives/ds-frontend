@@ -1,3 +1,6 @@
+from flask import current_app, make_response, render_template, request, url_for
+from pydash import objects
+
 from app.feeds import bp
 from app.lib.api import ResourceNotFound
 from app.wagtail.api import (
@@ -5,8 +8,6 @@ from app.wagtail.api import (
     page_details,
     page_details_by_type,
 )
-from flask import current_app, make_response, render_template, request, url_for
-from pydash import objects
 
 
 @bp.route("/blogs.xml")
@@ -15,8 +16,8 @@ def rss_all_feed():
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
         blog_posts = blog_posts_paginated(page=1, limit=items)
-    except Exception as e:
-        current_app.logger.error(f"Failed to render blog feeds list: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to render blog feeds list")
         return render_template("errors/api.html"), 502
     xml = render_template(
         (
@@ -41,8 +42,8 @@ def rss_feed(blog_id):
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)
     except ResourceNotFound:
         return render_template("errors/page_not_found.html"), 404
-    except Exception as e:
-        current_app.logger.error(f"Failed to get blog data for page {blog_id}: {e}")
+    except Exception:
+        current_app.logger.exception(f"Failed to get blog data for page {blog_id}")
         return render_template("errors/api.html"), 502
     if objects.get(blog_data, "meta.type") != "blog.BlogPage":
         return render_template("errors/page_not_found.html"), 404

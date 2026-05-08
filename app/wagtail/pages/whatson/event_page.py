@@ -1,5 +1,6 @@
-from app.lib.date_time import get_date_from_string
 from flask import render_template
+
+from app.lib.date_time import get_date_from_string
 
 
 def event_page(page_data):
@@ -11,7 +12,7 @@ def event_page(page_data):
                 sessions_by_date_unsorted[date] = []
             sessions_by_date_unsorted[date].append(session)
     sessions_by_date = []
-    for date in sessions_by_date_unsorted.keys():
+    for date in sessions_by_date_unsorted:
         sessions_by_date.append(
             {
                 "date": date,

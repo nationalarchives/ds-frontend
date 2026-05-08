@@ -1,11 +1,14 @@
 from urllib.parse import unquote
 
-from app.lib.api import JSONAPIClient
 from flask import current_app
 from pydash import objects
 
+from app.lib.api import JSONAPIClient
 
-def wagtail_request_handler(uri, params={}):
+
+def wagtail_request_handler(uri, params=None):
+    if params is None:
+        params = {}
     api_url = current_app.config["WAGTAIL_API_URL"]
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
@@ -20,8 +23,7 @@ def wagtail_request_handler(uri, params={}):
     if site_hostname := current_app.config["WAGTAIL_SITE_HOSTNAME"]:
         client.add_parameter("site", site_hostname)
     client.add_parameters(params)
-    data = client.get(uri)
-    return data
+    return client.get(uri)
 
 
 def breadcrumbs(page_id):
@@ -44,7 +46,9 @@ def breadcrumbs(page_id):
     ]
 
 
-def all_pages(params={}, batch=1, limit=None):
+def all_pages(params=None, batch=1, limit=None):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (batch - 1) * limit
@@ -53,7 +57,9 @@ def all_pages(params={}, batch=1, limit=None):
     return wagtail_request_handler(uri, params)
 
 
-def page_details(page_id, params={}):
+def page_details(page_id, params=None):
+    if params is None:
+        params = {}
     uri = f"pages/{page_id}/"
     params = params | {
         "include_aliases": "",
@@ -61,7 +67,9 @@ def page_details(page_id, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_details_by_uri(page_uri, params={}):
+def page_details_by_uri(page_uri, params=None):
+    if params is None:
+        params = {}
     uri = "pages/find/"
     params = params | {
         "html_path": page_uri,
@@ -70,7 +78,9 @@ def page_details_by_uri(page_uri, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_details_by_type(type, params={}):
+def page_details_by_type(type, params=None):
+    if params is None:
+        params = {}
     uri = "pages/"
     params = params | {
         "type": type,
@@ -79,13 +89,17 @@ def page_details_by_type(type, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_preview(content_type, token, params={}):
+def page_preview(content_type, token, params=None):
+    if params is None:
+        params = {}
     uri = "page_preview/1/"
     params = params | {"content_type": content_type, "token": token}
     return wagtail_request_handler(uri, params)
 
 
-def page_children(page_id, params={}, limit=None):
+def page_children(page_id, params=None, limit=None):
+    if params is None:
+        params = {}
     if not page_id:
         return {}
     uri = "pages/"
@@ -97,7 +111,9 @@ def page_children(page_id, params={}, limit=None):
     return wagtail_request_handler(uri, params)
 
 
-def page_ancestors(page_id, params={}, limit=None):
+def page_ancestors(page_id, params=None, limit=None):
+    if params is None:
+        params = {}
     if not page_id:
         return {}
     uri = "pages/"
@@ -108,12 +124,14 @@ def page_ancestors(page_id, params={}, limit=None):
     }
     try:
         return wagtail_request_handler(uri, params)
-    except Exception as e:
-        current_app.logger.error(f"Failed to get ancestors for page {page_id}: {e}")
+    except Exception:
+        current_app.logger.exception(f"Failed to get ancestors for page {page_id}")
         return {}
 
 
-def page_descendants(page_id, params={}, limit=None):
+def page_descendants(page_id, params=None, limit=None):
+    if params is None:
+        params = {}
     if not page_id:
         return {}
     uri = "pages/"
@@ -124,8 +142,8 @@ def page_descendants(page_id, params={}, limit=None):
     }
     try:
         return wagtail_request_handler(uri, params)
-    except Exception as e:
-        current_app.logger.error(f"Failed to get decendants for page {page_id}: {e}")
+    except Exception:
+        current_app.logger.exception(f"Failed to get decendants for page {page_id}")
         return {}
 
 
@@ -133,8 +151,10 @@ def pages_paginated(
     page,
     limit=None,
     initial_offset=0,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = ((page - 1) * limit) + initial_offset
@@ -151,8 +171,10 @@ def page_children_paginated(
     page,
     limit=None,
     initial_offset=0,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not page_id:
         return {}
     return pages_paginated(
@@ -170,8 +192,10 @@ def authored_pages_paginated(
     author_id,
     page,
     limit=None,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     return pages_paginated(
         page=page,
         limit=limit,
@@ -182,17 +206,23 @@ def authored_pages_paginated(
     )
 
 
-def media(media_uuid, params={}):
+def media(media_uuid, params=None):
+    if params is None:
+        params = {}
     uri = f"media/{media_uuid}/"
     return wagtail_request_handler(uri, params)
 
 
-def image(image_uuid, params={}):
+def image(image_uuid, params=None):
+    if params is None:
+        params = {}
     uri = f"images/{image_uuid}/"
     return wagtail_request_handler(uri, params)
 
 
-def redirect_by_uri(path, params={}):
+def redirect_by_uri(path, params=None):
+    if params is None:
+        params = {}
     uri = "redirects/find/"
     params = params | {
         "html_path": unquote(path),
@@ -200,22 +230,28 @@ def redirect_by_uri(path, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def blogs(params={}):
+def blogs(params=None):
+    if params is None:
+        params = {}
     uri = "blogs/"
     return wagtail_request_handler(uri, params)
 
 
-def blog_index(params={}):
+def blog_index(params=None):
+    if params is None:
+        params = {}
     uri = "blogs/index/"
     return wagtail_request_handler(uri, params)
 
 
-def top_blogs(params={}):
+def top_blogs(params=None):
+    if params is None:
+        params = {}
     uri = "blogs/top/"
     try:
         return wagtail_request_handler(uri, params)
-    except Exception as e:
-        current_app.logger.error(f"Failed to get all blogs: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get all blogs")
         return []
 
 
@@ -228,8 +264,10 @@ def blog_posts_paginated(
     limit=None,
     initial_offset=0,
     order="-published_date",
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = ((page - 1) * limit) + initial_offset
@@ -251,8 +289,10 @@ def blog_post_counts(
     year=None,
     month=None,
     author=None,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     uri = "blog_posts/count/"
     params = params | {
         "year": year,
@@ -262,23 +302,25 @@ def blog_post_counts(
     }
     try:
         return wagtail_request_handler(uri, params)
-    except Exception as e:
-        current_app.logger.error(f"Failed to get blog post counts: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get blog post counts")
         return []
 
 
 def blog_authors(
     blog_id=None,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     uri = "blog_posts/authors/"
     params = params | {
         "descendant_of": blog_id,
     }
     try:
         return wagtail_request_handler(uri, params)
-    except Exception as e:
-        current_app.logger.error(f"Failed to get blog authors: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get blog authors")
         return []
 
 
@@ -286,8 +328,10 @@ def authors_paginated(
     author_id,
     page,
     limit=None,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (page - 1) * limit
@@ -300,7 +344,9 @@ def authors_paginated(
     return wagtail_request_handler(uri, params)
 
 
-def events(type=None, location=None, from_date=None, to_date=None, params={}):
+def events(type=None, location=None, from_date=None, to_date=None, params=None):
+    if params is None:
+        params = {}
     uri = "events/"
     if type:
         params = params | {"type": type}
@@ -325,12 +371,14 @@ def global_alerts():
         if objects.get(home_page_alerts, "global_alert.cascade"):
             global_alerts_data["global_alert"] = home_page_alerts["global_alert"]
         return global_alerts_data
-    except Exception as e:
-        current_app.logger.error(f"Failed to get global alerts: {e}")
+    except Exception:
+        current_app.logger.exception("Failed to get global alerts")
         return None
 
 
-def search(query, page, limit=None, params={}):
+def search(query, page, limit=None, params=None):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (page - 1) * limit
@@ -339,22 +387,17 @@ def search(query, page, limit=None, params={}):
         "offset": offset,
         "limit": limit,
     }
-    if query:
-        params = params | {
-            "search": query,
-        }
-    else:
-        params = params | {
-            "order": "-id",
-        }
+    params = params | {"search": query} if query else params | {"order": "-id"}
     return wagtail_request_handler(uri, params)
 
 
 def foi_requests(
     page,
     limit=None,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = (page - 1) * limit

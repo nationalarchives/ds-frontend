@@ -3,9 +3,6 @@ import json
 import os
 from urllib.parse import quote, unquote
 
-from app.lib.util import strtobool
-from app.main import bp
-from app.wagtail.api import global_alerts
 from flask import (
     current_app,
     make_response,
@@ -15,6 +12,10 @@ from flask import (
     send_from_directory,
 )
 from werkzeug.exceptions import NotFound
+
+from app.lib.util import strtobool
+from app.main import bp
+from app.wagtail.api import global_alerts
 
 
 @bp.route("/healthcheck/live/")

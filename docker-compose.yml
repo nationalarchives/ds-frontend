@@ -4,7 +4,7 @@ services:
       context: .
       args:
         IMAGE: ghcr.io/nationalarchives/tna-python-dev
-        IMAGE_TAG: preview
+        IMAGE_TAG: ruff
     environment:
       - ENVIRONMENT_NAME=localhost
       - CONFIG=config.Develop

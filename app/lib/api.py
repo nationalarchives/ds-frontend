@@ -43,27 +43,27 @@ class JSONAPIClient:
                 params=self.params,
                 headers=self.headers,
             )
-        except ConnectionError:
-            current_app.logger.error("JSON API connection error")
-            raise Exception("A connection error occured")
-        except Timeout:
-            current_app.logger.error("JSON API timeout")
-            raise Exception("The request timed out")
-        except TooManyRedirects:
-            current_app.logger.error("JSON API had too many redirects")
-            raise Exception("Too many redirects")
+        except ConnectionError as e:
+            current_app.logger.exception("JSON API connection error")
+            raise Exception("A connection error occured") from e
+        except Timeout as e:
+            current_app.logger.exception("JSON API timeout")
+            raise Exception("The request timed out") from e
+        except TooManyRedirects as e:
+            current_app.logger.exception("JSON API had too many redirects")
+            raise Exception("Too many redirects") from e
         except Exception as e:
-            current_app.logger.error(f"Unknown JSON API exception: {e}")
-            raise Exception(e)
+            current_app.logger.exception("Unknown JSON API exception")
+            raise Exception(e) from e
         current_app.logger.debug(response.url)
         if response.status_code == codes.ok:
             try:
                 return response.json()
-            except JSONDecodeError:
-                current_app.logger.error("JSON API provided non-JSON response")
-                raise Exception("Non-JSON response provided")
+            except JSONDecodeError as e:
+                current_app.logger.exception("JSON API provided non-JSON response")
+                raise Exception("Non-JSON response provided") from e
         if response.status_code == 400:
-            current_app.logger.error(f"Bad request: {response.url}")
+            current_app.logger.exception(f"Bad request: {response.url}")
             raise Exception("Bad request")
         if response.status_code == 403:
             current_app.logger.warning("Forbidden")
@@ -71,5 +71,5 @@ class JSONAPIClient:
         if response.status_code == 404:
             current_app.logger.warning("Resource not found")
             raise ResourceNotFound("Resource not found")
-        current_app.logger.error(f"JSON API responded with {response.status_code}")
+        current_app.logger.exception(f"JSON API responded with {response.status_code}")
         raise Exception("Request failed")

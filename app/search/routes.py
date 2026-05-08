@@ -1,11 +1,12 @@
 import math
 from urllib.parse import unquote
 
+from flask import render_template, request
+from pydash import objects
+
 from app.lib.pagination import pagination_object
 from app.search import bp
 from app.wagtail.api import global_alerts, search
-from flask import render_template, request
-from pydash import objects
 
 
 @bp.route("/")

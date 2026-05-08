@@ -1,8 +1,6 @@
 import math
 from datetime import datetime
 
-from app.sitemaps import bp
-from app.wagtail.api import all_pages
 from flask import (
     current_app,
     make_response,
@@ -10,6 +8,9 @@ from flask import (
     render_template,
     url_for,
 )
+
+from app.sitemaps import bp
+from app.wagtail.api import all_pages
 
 
 @bp.route("/sitemap.xml")
@@ -70,7 +71,7 @@ def sitemap_dynamic(sitemap_page):
             )
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
         except Exception as e:
-            current_app.logger.error(
+            current_app.logger.exception(
                 f"Error parsing last_published_at for page {page['id']}: {e}"
             )
             lastmodified_date = None

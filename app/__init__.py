@@ -2,6 +2,11 @@ import logging
 import os
 
 import sentry_sdk
+from flask import Flask, request
+from jinja2 import ChoiceLoader, PackageLoader
+from sentry_sdk.types import Event, Hint
+from tna_utilities.string import slugify, unslugify
+
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
@@ -47,10 +52,6 @@ from app.lib.template_filters import (
     wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
-from flask import Flask, request
-from jinja2 import ChoiceLoader, PackageLoader
-from sentry_sdk.types import Event, Hint
-from tna_utilities.string import slugify, unslugify
 
 
 def create_app(config_class):
@@ -141,14 +142,14 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            qs_active=lambda filter, by: qs_active(request.args.to_dict(), filter, by),
-            qs_toggler=lambda filter, by: qs_toggler(
-                request.args.to_dict(), filter, by
+            qs_active=lambda filter_name, by: qs_active(request.args.to_dict(), filter_name, by),
+            qs_toggler=lambda filter_name, by: qs_toggler(
+                request.args.to_dict(), filter_name, by
             ),
-            qs_update=lambda filter, value: qs_update(
-                request.args.to_dict(), filter, value
+            qs_update=lambda filter_name, value: qs_update(
+                request.args.to_dict(), filter_name, value
             ),
-            qs_remove=lambda filter: qs_remove(request.args.to_dict(), filter),
+            qs_remove=lambda filter_name: qs_remove(request.args.to_dict(), filter_name),
             app_config={
                 "ENVIRONMENT_NAME": app.config["ENVIRONMENT_NAME"],
                 "CONTAINER_IMAGE": app.config["CONTAINER_IMAGE"],

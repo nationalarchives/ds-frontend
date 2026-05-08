@@ -1,6 +1,9 @@
 import datetime
 import math
 
+from flask import current_app, render_template, request
+from pydash import objects
+
 from app.lib.pagination import pagination_object
 from app.lib.query import qs_active, qs_toggler
 from app.wagtail.api import (
@@ -10,11 +13,9 @@ from app.wagtail.api import (
     page_descendants,
     top_blogs,
 )
-from flask import current_app, render_template, request
-from pydash import objects
 
 
-def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
+def blog_page(page_data, year=None, month=None, day=None):
     children_per_page = 12
     page = 1
     if request.args.get("page"):
@@ -81,8 +82,8 @@ def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
             initial_offset=0 if page == 1 else 1,
         )
     except Exception as e:
-        current_app.logger.error(
-            f"Failed to get blog posts for page {page_data["id"]}: {e}"
+        current_app.logger.exception(
+            f"Failed to get blog posts for page {page_data['id']}: {e}"
         )
         blog_posts_data = {}
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
