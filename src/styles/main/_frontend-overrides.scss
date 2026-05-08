@@ -7,10 +7,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 @use "@nationalarchives/frontend/nationalarchives/components/card/card";
 
-.tna-template {
-  font-display: swap;
-}
-
 // H1UserAgentFontSizeInSection
 // https://github.com/GoogleChrome/lighthouse/issues/16404#issuecomment-2754716763
 :where(h1) {
