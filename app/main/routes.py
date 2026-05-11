@@ -32,9 +32,29 @@ def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
 
 
+@bp.route("/400/")
+def bad_request():
+    return render_template("errors/bad_request.html"), 400
+
+
+@bp.route("/403/")
+def forbidden():
+    return render_template("errors/forbidden.html"), 403
+
+
 @bp.route("/404/")
 def page_not_found():
     return render_template("errors/page_not_found.html"), 404
+
+
+@bp.route("/500/")
+def server_error():
+    return render_template("errors/server.html"), 500
+
+
+@bp.route("/502/")
+def api_error():
+    return render_template("errors/api.html"), 502
 
 
 @bp.route("/cookies/set/", methods=["POST"])
