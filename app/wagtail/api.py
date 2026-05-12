@@ -13,12 +13,12 @@ def wagtail_request_handler(uri, params=None):
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
-    defaultHeaders = {}
+    default_headers = {}
     if api_key := current_app.config["WAGTAIL_API_KEY"]:
-        defaultHeaders["Authorization"] = f"Token {api_key}"
-    defaultParams = {"format": "json"}
+        default_headers["Authorization"] = f"Token {api_key}"
+    default_params = {"format": "json"}
     client = JSONAPIClient(
-        api_url, defaultHeaders=defaultHeaders, defaultParams=defaultParams
+        api_url, default_headers=default_headers, default_params=default_params
     )
     if site_hostname := current_app.config["WAGTAIL_SITE_HOSTNAME"]:
         client.add_parameter("site", site_hostname)
@@ -78,12 +78,12 @@ def page_details_by_uri(page_uri, params=None):
     return wagtail_request_handler(uri, params)
 
 
-def page_details_by_type(type, params=None):
+def page_details_by_type(page_type, params=None):
     if params is None:
         params = {}
     uri = "pages/"
     params = params | {
-        "type": type,
+        "type": page_type,
         "include_aliases": "",
     }
     return wagtail_request_handler(uri, params)
@@ -344,12 +344,12 @@ def authors_paginated(
     return wagtail_request_handler(uri, params)
 
 
-def events(type=None, location=None, from_date=None, to_date=None, params=None):
+def events(event_type=None, location=None, from_date=None, to_date=None, params=None):
     if params is None:
         params = {}
     uri = "events/"
-    if type:
-        params = params | {"type": type}
+    if event_type:
+        params = params | {"type": event_type}
     if location == "at_tna":
         params = params | {"at_tna": True}
     elif location == "online":

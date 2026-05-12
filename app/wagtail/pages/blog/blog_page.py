@@ -15,7 +15,7 @@ from app.wagtail.api import (
 )
 
 
-def blog_page(page_data, year=None, month=None, day=None):
+def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
     children_per_page = 12
     page = 1
     if request.args.get("page"):
@@ -81,9 +81,9 @@ def blog_page(page_data, year=None, month=None, day=None):
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
-    except Exception as e:
+    except Exception:
         current_app.logger.exception(
-            f"Failed to get blog posts for page {page_data['id']}: {e}"
+            f"Failed to get blog posts for page {page_data['id']}"
         )
         blog_posts_data = {}
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)

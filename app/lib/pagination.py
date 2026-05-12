@@ -38,8 +38,8 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
         else (
             "..."
             if end_middle_chunk < start_final_chunk
-            else ""
-            if boundaries + 1 <= end_middle_chunk
+            # else ""
+            # if boundaries + 1 <= end_middle_chunk
             else ""
         )
     )

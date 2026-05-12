@@ -12,12 +12,12 @@ def event_page(page_data):
                 sessions_by_date_unsorted[date] = []
             sessions_by_date_unsorted[date].append(session)
     sessions_by_date = []
-    for date in sessions_by_date_unsorted:
+    for date, sessions in sessions_by_date_unsorted.items():
         sessions_by_date.append(
             {
                 "date": date,
                 "sessions": sorted(
-                    sessions_by_date_unsorted[date],
+                    sessions,
                     key=lambda x: x.get("start"),
                 ),
             }

@@ -11,17 +11,17 @@ class ResourceForbidden(Exception):
 
 
 class JSONAPIClient:
-    def __init__(self, api_url, defaultHeaders=None, defaultParams=None):
+    def __init__(self, api_url, default_headers=None, default_params=None):
         self.api_url = api_url
         self.headers = {
             "Cache-Control": "no-cache",
             "Accept": "application/json",
         }
         self.params = {}
-        if defaultHeaders is not None:
-            self.headers = self.headers | defaultHeaders
-        if defaultParams is not None:
-            self.params = self.params | defaultParams
+        if default_headers is not None:
+            self.headers = self.headers | default_headers
+        if default_params is not None:
+            self.params = self.params | default_params
 
     def add_parameter(self, key, value):
         self.params[key] = value
