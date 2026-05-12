@@ -28,15 +28,9 @@ select = [
     "RUF",
     "TRY"
 ]
-allowed-confusables = [
-    "—",
-    "–",
-    "’"
-]
 
 [lint.per-file-ignores]
 "__init__.py" = [
-    "E402",
     "F401"
 ]
 
