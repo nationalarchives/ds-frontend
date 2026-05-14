@@ -11,9 +11,9 @@ from flask import (
     request,
     send_from_directory,
 )
+from tna_utilities import strtobool
 from werkzeug.exceptions import NotFound
 
-from app.lib.util import strtobool
 from app.main import bp
 from app.wagtail.api import global_alerts
 

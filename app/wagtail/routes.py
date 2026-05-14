@@ -176,7 +176,10 @@ def page(path):
 
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
-    if rediect_url := objects.get(page_data, "meta.alias_of.url") and current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
+    if (
+        rediect_url := objects.get(page_data, "meta.alias_of.url")
+        and current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]
+    ):
         return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it

@@ -70,9 +70,9 @@ def sitemap_dynamic(sitemap_page):
                 page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
             )
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
-        except Exception as e:
+        except Exception:
             current_app.logger.exception(
-                f"Error parsing last_published_at for page {page['id']}: {e}"
+                f"Error parsing last_published_at for page {page['id']}"
             )
             lastmodified_date = None
         url = {

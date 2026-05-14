@@ -44,9 +44,13 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
         )
     )
 
-    pagination_items = (
-        [*initial_chunk_numbers, prev_linker, *middle_chunk_numbers, next_linker, *final_chunk_numbers]
-    )
+    pagination_items = [
+        *initial_chunk_numbers,
+        prev_linker,
+        *middle_chunk_numbers,
+        next_linker,
+        *final_chunk_numbers,
+    ]
 
     return [item for item in pagination_items if item]
 

@@ -6,13 +6,19 @@ from pydash import objects
 from app.lib.api import JSONAPIClient
 
 
+class WagtailUrlNotSetError(Exception):
+    def __init__(self, message="WAGTAIL_API_URL not set"):
+        super().__init__(message)
+
+
+
 def wagtail_request_handler(uri, params=None):
     if params is None:
         params = {}
     api_url = current_app.config["WAGTAIL_API_URL"]
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
-        raise Exception("WAGTAIL_API_URL not set")
+        raise WagtailUrlNotSetError
     default_headers = {}
     if api_key := current_app.config["WAGTAIL_API_KEY"]:
         default_headers["Authorization"] = f"Token {api_key}"
@@ -370,10 +376,11 @@ def global_alerts():
         global_alerts_data = {"mourning_notice": home_page_alerts["mourning_notice"]}
         if objects.get(home_page_alerts, "global_alert.cascade"):
             global_alerts_data["global_alert"] = home_page_alerts["global_alert"]
-        return global_alerts_data
     except Exception:
         current_app.logger.exception("Failed to get global alerts")
         return None
+    else:
+        return global_alerts_data
 
 
 def search(query, page, limit=None, params=None):

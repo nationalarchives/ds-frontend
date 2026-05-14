@@ -102,33 +102,38 @@ def create_app(config_class):
         ]
     )
 
-    app.add_template_filter(currency)
-    app.add_template_filter(file_type_icon)
-    app.add_template_filter(get_url_domain)
-    app.add_template_filter(headings_list)
-    app.add_template_filter(is_today_or_future)
-    app.add_template_filter(number_to_text)
-    app.add_template_filter(parse_json)
-    app.add_template_filter(pretty_date)
-    app.add_template_filter(pretty_date_with_day)
-    app.add_template_filter(pretty_date_with_time)
-    app.add_template_filter(pretty_date_with_day_and_time)
-    app.add_template_filter(strip_day_from_date)
-    app.add_template_filter(strip_time_from_date)
-    app.add_template_filter(month_year)
-    app.add_template_filter(multiline_address_to_single_line)
-    app.add_template_filter(pretty_price)
-    app.add_template_filter(rfc_822_format)
-    app.add_template_filter(seconds_to_iso_8601_duration)
-    app.add_template_filter(seconds_to_time)
-    app.add_template_filter(sidebar_items_from_wagtail_streamfield)
-    app.add_template_filter(slugify)
-    app.add_template_filter(tna_html)
-    app.add_template_filter(unslugify)
-    app.add_template_filter(url_encode)
-    app.add_template_filter(wagtail_streamfield_contains_code_block)
-    app.add_template_filter(wagtail_streamfield_contains_media)
-    app.add_template_filter(wagtail_table_parser)
+    filter_functions = [
+        currency,
+        file_type_icon,
+        get_url_domain,
+        headings_list,
+        is_today_or_future,
+        number_to_text,
+        parse_json,
+        pretty_date,
+        pretty_date_with_day,
+        pretty_date_with_time,
+        pretty_date_with_day_and_time,
+        strip_day_from_date,
+        strip_time_from_date,
+        month_year,
+        multiline_address_to_single_line,
+        pretty_price,
+        rfc_822_format,
+        seconds_to_iso_8601_duration,
+        seconds_to_time,
+        sidebar_items_from_wagtail_streamfield,
+        slugify,
+        tna_html,
+        unslugify,
+        url_encode,
+        wagtail_streamfield_contains_code_block,
+        wagtail_streamfield_contains_media,
+        wagtail_table_parser,
+    ]
+
+    for filter_function in filter_functions:
+        app.add_template_filter(filter_function)
 
     @app.context_processor
     def context_processor():
@@ -142,14 +147,18 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            qs_active=lambda filter_name, by: qs_active(request.args.to_dict(), filter_name, by),
+            qs_active=lambda filter_name, by: qs_active(
+                request.args.to_dict(), filter_name, by
+            ),
             qs_toggler=lambda filter_name, by: qs_toggler(
                 request.args.to_dict(), filter_name, by
             ),
             qs_update=lambda filter_name, value: qs_update(
                 request.args.to_dict(), filter_name, value
             ),
-            qs_remove=lambda filter_name: qs_remove(request.args.to_dict(), filter_name),
+            qs_remove=lambda filter_name: qs_remove(
+                request.args.to_dict(), filter_name
+            ),
             app_config={
                 "ENVIRONMENT_NAME": app.config["ENVIRONMENT_NAME"],
                 "CONTAINER_IMAGE": app.config["CONTAINER_IMAGE"],

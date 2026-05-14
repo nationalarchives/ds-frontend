@@ -3,8 +3,7 @@ import os
 from typing import ClassVar
 
 from pydash import objects
-
-from app.lib.util import strtobool
+from tna_utilities import strtobool
 
 
 class Features:
@@ -104,7 +103,6 @@ class Production(Features):
         "/video/",
         "/visit/",
     ]
-
 
 
 class Staging(Production):
