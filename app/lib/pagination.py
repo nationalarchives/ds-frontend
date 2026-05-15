@@ -38,17 +38,19 @@ def pagination_list(current_page, total_pages, boundaries=1, around=1):
         else (
             "..."
             if end_middle_chunk < start_final_chunk
-            else "" if boundaries + 1 <= end_middle_chunk else ""
+            # else ""
+            # if boundaries + 1 <= end_middle_chunk
+            else ""
         )
     )
 
-    pagination_items = (
-        initial_chunk_numbers
-        + [prev_linker]
-        + middle_chunk_numbers
-        + [next_linker]
-        + final_chunk_numbers
-    )
+    pagination_items = [
+        *initial_chunk_numbers,
+        prev_linker,
+        *middle_chunk_numbers,
+        next_linker,
+        *final_chunk_numbers,
+    ]
 
     return [item for item in pagination_items if item]
 
@@ -72,20 +74,24 @@ def pagination_object(current_page, total_pages, current_args, boundaries=1, aro
     ]
     if current_page > 1:
         pagination_object["previous"] = {
-            "href": f"?{qs_update(
-                current_args,
-                'page',
-                current_page - 1,
-            )}",
+            "href": f"?{
+                qs_update(
+                    current_args,
+                    'page',
+                    current_page - 1,
+                )
+            }",
             "title": "Previous page of results",
         }
     if current_page < total_pages:
         pagination_object["next"] = {
-            "href": f"?{qs_update(
-                current_args,
-                'page',
-                current_page + 1,
-            )}",
+            "href": f"?{
+                qs_update(
+                    current_args,
+                    'page',
+                    current_page + 1,
+                )
+            }",
             "title": "Next page of results",
         }
     return pagination_object

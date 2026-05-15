@@ -1,9 +1,10 @@
 import math
 
-from app.lib.pagination import pagination_object
-from app.wagtail.api import authored_pages_paginated
 from flask import current_app, render_template, request
 from pydash import objects
+
+from app.lib.pagination import pagination_object
+from app.wagtail.api import authored_pages_paginated
 
 
 def person_page(page_data):
@@ -27,12 +28,12 @@ def person_page(page_data):
             },
         )
     except ConnectionError:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"API error getting author articles for page {page_data['id']}"
         )
         return render_template("errors/api.html"), 502
     except Exception:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"Exception getting author articles for page {page_data['id']}"
         )
         return render_template("errors/server.html"), 500

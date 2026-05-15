@@ -26,8 +26,8 @@ services:
       - CSP_FRAME_SRC=*.youtube-nocookie.com,https://www.openstreetmap.org
       - CSP_FRAME_ANCESTORS=localhost:8000
       # - FEATURE_PHASE_BANNER=False
-      - FEATURE_LOGO_ADORNMENTS_CSS=http://localhost:65529/enrichment/css/logo-adornments.css
-      - FEATURE_LOGO_ADORNMENTS_JS=http://localhost:65529/enrichment/js/logo-adornments.js
+      - FEATURE_LOGO_ADORNMENTS_CSS=https://localhost/enrichment/css/logo-adornments.css
+      - FEATURE_LOGO_ADORNMENTS_JS=https://localhost/enrichment/js/logo-adornments.js
       - GA4_ID=GTM-KX8ZWVZG
     ports:
       - 65497:8080

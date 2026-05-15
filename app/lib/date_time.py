@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def get_date_from_string(s):  # noqa: C901
+def get_date_from_string(s):
     if not s:
         return None
     try:
@@ -35,7 +35,7 @@ def get_date_from_string(s):  # noqa: C901
     return None
 
 
-def group_items_by_year_and_month(items, date_key):  # noqa: C901
+def group_items_by_year_and_month(items, date_key):
     grouped = []
     for item in items.get("items", []):
         if request_date := item.get(date_key):

@@ -1,9 +1,10 @@
 import math
 
+from flask import current_app, render_template, request
+
 from app.lib.date_time import group_items_by_year_and_month
 from app.lib.pagination import pagination_object
 from app.wagtail.api import foi_requests
-from flask import current_app, render_template, request
 
 
 def foi_index_page(page_data):
@@ -22,12 +23,12 @@ def foi_index_page(page_data):
             children_per_page,
         )
     except ConnectionError:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"API error getting children for page {page_data['id']}"
         )
         return render_template("errors/api.html"), 502
     except Exception:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"Exception getting children for page {page_data['id']}"
         )
         return render_template("errors/server.html"), 500

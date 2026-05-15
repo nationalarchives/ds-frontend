@@ -4,9 +4,10 @@ import re
 from datetime import datetime
 from urllib.parse import quote_plus, unquote, urlparse
 
-from app.lib.date_time import get_date_from_string
 from markupsafe import Markup
 from tna_utilities.string import slugify
+
+from app.lib.date_time import get_date_from_string
 
 from .content_parser import (  # add_abbreviations,; replace_footnotes,
     add_rel_to_external_links,
@@ -26,8 +27,7 @@ def tna_html(s):
     s = replace_line_breaks(s)
     # s = replace_footnotes(s)
     # s = add_abbreviations(s)
-    s = add_rel_to_external_links(s)
-    return s
+    return add_rel_to_external_links(s)
 
 
 def url_encode(s):
@@ -40,8 +40,7 @@ def multiline_address_to_single_line(s):
     s = re.sub(r"</p>\s*<p>", ", ", s)
     s = re.sub(r"^\s*<p>", "", s)
     s = re.sub(r"</p>\s*$", "", s)
-    s = re.sub(r"(,\s*){2,}", ", ", s)
-    return s
+    return re.sub(r"(,\s*){2,}", ", ", s)
 
 
 def seconds_to_time(s):
@@ -71,8 +70,7 @@ def seconds_to_iso_8601_duration(s):
 def get_url_domain(s):
     try:
         domain = urlparse(s).netloc
-        domain = re.sub(r"^www\.", "", domain)
-        return domain
+        return re.sub(r"^www\.", "", domain)
     except Exception:
         return s
 
@@ -155,7 +153,7 @@ def month_year(s):
 
 def pretty_price(s):
     price = s if s else 0
-    if price == 0 or price == "0":
+    if price in {0, "0"}:
         return "Free"
     return f"£{currency(price)}"
 
@@ -175,8 +173,8 @@ def currency(s):
     float_number = float(s)
     int_number = int(float_number)
     if int_number == float_number:
-        return str("{:,}".format(int_number))
-    return str("{:,.2f}".format(float_number))
+        return str(f"{int_number:,}")
+    return str(f"{float_number:,.2f}")
 
 
 def rfc_822_format(s):
@@ -263,28 +261,25 @@ def headings_list(s):
                     if next_heading["level"] > prev_heading["level"]:
                         prev_heading["children"] = prev_heading["children"] or []
                         return group_headings(index, prev_heading["children"])
-                    elif next_heading["level"] == prev_heading["level"]:
+                    if next_heading["level"] == prev_heading["level"]:
                         grouping.append(next_heading)
                         index = index + 1
                         return group_headings(index, grouping)
-                    else:
-                        raise Exception({"index": index, "heading": next_heading})
+                    raise Exception({"index": index, "heading": next_heading})
                 except Exception as e:
                     (higher_heading,) = e.args
                     if higher_heading["heading"]["level"] == prev_heading["level"]:
                         grouping.append(higher_heading["heading"])
                         higher_heading["index"] = higher_heading["index"] + 1
                         return group_headings(higher_heading["index"], grouping)
-                    else:
-                        raise Exception(higher_heading)
+                    raise Exception(higher_heading) from e
             else:
                 grouping.append(next_heading)
                 index = index + 1
                 group_headings(index, grouping)
         return grouping
 
-    headings = group_headings(0, [])
-    return headings
+    return group_headings(0, [])
 
 
 def wagtail_streamfield_contains_block(streamfield, block_types):

@@ -1,8 +1,9 @@
 import json
 import os
+from typing import ClassVar
 
-from app.lib.util import strtobool
 from pydash import objects
+from tna_utilities import strtobool
 
 
 class Features:
@@ -56,7 +57,7 @@ class Production(Features):
     CSP_REPORT_URI: str = os.environ.get("CSP_REPORT_URI", "")
     if CSP_REPORT_URI and BUILD_VERSION:
         CSP_REPORT_URI += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
-    CONTENT_SECURITY_POLICY: dict = {
+    CONTENT_SECURITY_POLICY: ClassVar[dict] = {
         "connect-src": os.environ.get("CSP_CONNECT_SRC", "").split(","),
         "font-src": os.environ.get("CSP_FONT_SRC", "").split(","),
         "frame-ancestors": os.environ.get("CSP_FRAME_ANCESTORS", "").split(","),
@@ -84,7 +85,7 @@ class Production(Features):
     )
 
     SHOW_PHASE_BANNER_ON_HOMEPAGE: bool = True
-    SHOW_PHASE_BANNER_ON_URIS: list[str] = [
+    SHOW_PHASE_BANNER_ON_URIS: ClassVar[list[str]] = [
         "/about/",
         "/annual-report-and-accounts-2024-25/",
         "/blogs/",

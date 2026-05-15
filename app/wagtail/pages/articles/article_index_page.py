@@ -1,8 +1,9 @@
 import math
 
+from flask import current_app, render_template, request
+
 from app.lib.pagination import pagination_object
 from app.wagtail.api import page_children_paginated
-from flask import current_app, render_template, request
 
 
 def article_index_page(page_data):
@@ -23,12 +24,12 @@ def article_index_page(page_data):
             params={"order": "-first_published_at"},
         )
     except ConnectionError:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"API error getting children for page {page_data['id']}"
         )
         return render_template("errors/api.html"), 502
     except Exception:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"Exception getting children for page {page_data['id']}"
         )
         return render_template("errors/server.html"), 500

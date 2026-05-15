@@ -1,5 +1,6 @@
-from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
 from flask import render_template
+
+from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
 
 
 def record_article_page(page_data):

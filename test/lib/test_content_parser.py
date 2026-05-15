@@ -1,12 +1,11 @@
 import unittest
 
+from app import create_app
 from app.lib.content_parser import (
     b_to_strong,
     lists_to_tna_lists,
     strip_wagtail_attributes,
 )
-
-from app import create_app
 
 
 class ContentParserTestCase(unittest.TestCase):

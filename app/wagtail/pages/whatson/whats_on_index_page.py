@@ -1,5 +1,6 @@
-from app.wagtail.api import page_children
 from flask import render_template
+
+from app.wagtail.api import page_children
 
 
 def whats_on_index_page(page_data):
@@ -30,7 +31,6 @@ def whats_on_index_page(page_data):
         },
     }
     for page in all_children:
-        print(f"Processing page: {page['title']} ({page['type']})")
         if page["type"] in [
             "whatson.EventsListingPage",
             "whatson.ExhibitionsListingPage",

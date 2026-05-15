@@ -2,34 +2,32 @@ import json
 from datetime import datetime
 from urllib.parse import unquote
 
+from flask import current_app, request
+
 from app.lib.date_time import get_date_from_string
 from app.lib.template_filters import pretty_price
-from flask import current_app, request
 
 
 def now_iso_8601():
     now = datetime.now()
-    now_date = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    return now_date
+    return now.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def now_iso_8601_date():
     now = datetime.now()
-    now_date = now.strftime("%Y-%m-%d")
-    return now_date
+    return now.strftime("%Y-%m-%d")
 
 
 def now_rfc_822():
     now = datetime.now()
-    now_date = now.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    return now_date
+    return now.strftime("%a, %-d %b %Y %H:%M:%S GMT")
 
 
 def cookie_preference(policy):
     if "cookies_policy" in request.cookies:
         cookies_policy = request.cookies["cookies_policy"]
         preferences = json.loads(unquote(cookies_policy))
-        return preferences[policy] if policy in preferences else None
+        return preferences.get(policy, None)
     return None
 
 
@@ -84,14 +82,14 @@ def pretty_date_range(s_from, s_to, omit_days=False, lowercase_first=False):
                 if omit_days:
                     return date_to_string
                 return f"{date_from.strftime('%-d')} to {date_to_string}"
-            return f"{date_from.strftime('%B' if omit_days else "%-d %B")} to {date_to_string}"
-        return f"{date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")} to {date_to_string}"
+            return f"{date_from.strftime('%B' if omit_days else '%-d %B')} to {date_to_string}"
+        return f"{date_from.strftime('%B %Y' if omit_days else '%-d %B %Y')} to {date_to_string}"
     if date_from:
         start = "from" if lowercase_first else "From"
-        return f"{start} {date_from.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
+        return f"{start} {date_from.strftime('%B %Y' if omit_days else '%-d %B %Y')}"
     if date_to:
         start = "now to" if lowercase_first else "Now to"
-        return f"{start} {date_to.strftime('%B %Y' if omit_days else "%-d %B %Y")}"
+        return f"{start} {date_to.strftime('%B %Y' if omit_days else '%-d %B %Y')}"
     return f"{s_from} to {s_to}"
 
 
