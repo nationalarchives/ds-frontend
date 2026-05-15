@@ -18,9 +18,6 @@ from .content_parser import (  # add_abbreviations,; replace_footnotes,
 )
 
 
-
-
-
 def tna_html(s):
     if not s:
         return s

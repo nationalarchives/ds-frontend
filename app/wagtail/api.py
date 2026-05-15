@@ -11,7 +11,6 @@ class WagtailUrlNotSetError(Exception):
         super().__init__(message)
 
 
-
 def wagtail_request_handler(uri, params=None):
     if params is None:
         params = {}
