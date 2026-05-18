@@ -75,6 +75,19 @@ def get_url_domain(s):
         return s
 
 
+def supertitle_from_domain(url):
+    domain = get_url_domain(url)
+    if "nationalarchives.gov.uk" not in domain:
+        return domain
+    web_archive_url = "webarchive.nationalarchives.gov.uk/ukgwa/"
+    string_after_web_archive_url = (
+        url.split(web_archive_url)[1] if web_archive_url in url else ""
+    )
+    if web_archive_url in url and string_after_web_archive_url:
+        return "Archived page"
+    return ""
+
+
 def pretty_date(s, show_day=False, show_time=False):
     if not s:
         return s

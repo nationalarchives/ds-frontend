@@ -2,7 +2,7 @@ from flask import current_app, make_response, render_template, request, url_for
 from pydash import objects
 
 from app.feeds import bp
-from app.lib.api import ResourceNotFound
+from app.lib.api import ResourceNotFoundError
 from app.wagtail.api import (
     blog_posts_paginated,
     page_details,
@@ -40,7 +40,7 @@ def rss_feed(blog_id):
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
     except Exception:
         current_app.logger.exception(f"Failed to get blog data for page {blog_id}")

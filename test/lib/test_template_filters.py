@@ -14,6 +14,7 @@ from app.lib.template_filters import (
     pretty_price,
     seconds_to_iso_8601_duration,
     seconds_to_time,
+    supertitle_from_domain,
 )
 
 
@@ -151,6 +152,46 @@ class ContentParserTestCase(unittest.TestCase):
                 "https://discovery.nationalarchives.gov.uk/results/r?_q=ufo&_sd=&_ed=&_hb="
             ),
             "discovery.nationalarchives.gov.uk",
+        )
+
+    def test_supertitle_from_domain(self):
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://www.nationalarchives.gov.uk/explore-the-collection/stories/john-blanke/"
+            ),
+            "",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://discovery.nationalarchives.gov.uk/results/r?_q=ufo&_sd=&_ed=&_hb="
+            ),
+            "",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://webarchive.nationalarchives.gov.uk/ukgwa/20210201171307/https://alpha.nationalarchives.gov.uk/"
+            ),
+            "Archived page",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://webarchive.nationalarchives.gov.uk/ukgwa/https://alpha.nationalarchives.gov.uk/"
+            ),
+            "Archived page",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://webarchive.nationalarchives.gov.uk/ukgwa/+/https://alpha.nationalarchives.gov.uk/"
+            ),
+            "Archived page",
+        )
+        self.assertEqual(
+            supertitle_from_domain("https://webarchive.nationalarchives.gov.uk/ukgwa/"),
+            "",
+        )
+        self.assertEqual(
+            supertitle_from_domain("https://github.com/nationalarchives/"),
+            "github.com",
         )
 
     def test_multiline_address_to_single_line(self):
