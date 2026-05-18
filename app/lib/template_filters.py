@@ -83,14 +83,7 @@ def supertitle_from_domain(url):
     string_after_web_archive_url = (
         url.split(web_archive_url)[1] if web_archive_url in url else ""
     )
-    print(string_after_web_archive_url)
-    first_char_of_string_after_web_archive_url = (
-        string_after_web_archive_url[0] if string_after_web_archive_url else ""
-    )
-    if web_archive_url in url and (
-        string_after_web_archive_url
-        and not first_char_of_string_after_web_archive_url == "+"
-    ):
+    if web_archive_url in url and string_after_web_archive_url:
         return "Archived page"
     return ""
 

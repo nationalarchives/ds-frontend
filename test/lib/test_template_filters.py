@@ -183,7 +183,7 @@ class ContentParserTestCase(unittest.TestCase):
             supertitle_from_domain(
                 "https://webarchive.nationalarchives.gov.uk/ukgwa/+/https://alpha.nationalarchives.gov.uk/"
             ),
-            "",
+            "Archived page",
         )
         self.assertEqual(
             supertitle_from_domain("https://webarchive.nationalarchives.gov.uk/ukgwa/"),
