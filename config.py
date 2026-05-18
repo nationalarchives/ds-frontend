@@ -86,13 +86,15 @@ class Production(Features):
 
     SHOW_PHASE_BANNER_ON_HOMEPAGE: bool = True
     SHOW_PHASE_BANNER_ON_URIS: ClassVar[list[str]] = [
-        "/about/",
+        "/about-us/",
         "/annual-report-and-accounts-2024-25/",
         "/blogs/",
         "/cookies/",
+        "/education/",
         "/explore-the-collection/",
         "/help/",
         "/image/",
+        "/information-management/",
         "/maintenance/",
         "/merlin/",
         "/mi5-official-secrets/",
