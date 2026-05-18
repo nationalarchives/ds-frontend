@@ -10,7 +10,7 @@ from flask import (
 )
 from pydash import objects
 
-from app.lib.api import ResourceForbidden, ResourceNotFound
+from app.lib.api import ResourceForbiddenError, ResourceNotFoundError
 from app.lib.pagination import pagination_object
 from app.wagtail import bp
 from app.wagtail.api import global_alerts, search
@@ -34,9 +34,9 @@ def preview_page():
         return render_template("errors/page_not_found.html"), 404
     try:
         page_data = page_preview(content_type, token)
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
+    except ResourceForbiddenError:
         return render_template("errors/forbidden.html"), 403
     except Exception:
         current_app.logger.exception("Failed to get page preview data")
@@ -64,9 +64,9 @@ def preview_protected_page(page_id):
             page_id=page_id,
             params=params,
         )
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
+    except ResourceForbiddenError:
         return render_template("errors/forbidden.html"), 403
     except Exception:
         current_app.logger.exception("Failed to render page preview")
@@ -108,9 +108,9 @@ def page_permalink(page_id):
     try:
         # Get the page details from Wagtail by its ID
         page_data = page_details(page_id)
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
+    except ResourceForbiddenError:
         return render_template("errors/forbidden.html"), 403
     except Exception:
         current_app.logger.exception("Failed to get page details")
@@ -143,13 +143,13 @@ def page(path):
     try:
         # Get the page details from Wagtail by the requested URI
         page_data = page_details_by_uri(unquote(f"/{path}/"))
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         # If no page is found, try to match the requested path with any of the external
         # redirects added in Wagtail
         if current_app.config["SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"]:
             return try_external_redirect(path)
         return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
+    except ResourceForbiddenError:
         # In the unlikely case that the API returns a 403, show a forbidden error page
         return render_template("errors/forbidden.html"), 403
     except Exception:
@@ -176,9 +176,9 @@ def page(path):
 
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
-    if rediect_url := objects.get(page_data, "meta.alias_of.url"):
-        if current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
-            return redirect(rediect_url, code=302)
+    rediect_url = objects.get(page_data, "meta.alias_of.url")
+    if rediect_url and current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
+        return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it
     # which covers internal redirects added in Wagtail
@@ -215,7 +215,7 @@ def try_external_redirect(path):
     try:
         # Attempt to get the redirect data by the requested path
         redirect_data = redirect_by_uri(path)
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
     except Exception:
         current_app.logger.exception("Failed to get redirect")
@@ -240,9 +240,9 @@ def media_page(media_uuid):
 
     try:
         media_data = media(media_uuid=media_uuid)
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
+    except ResourceForbiddenError:
         return render_template("errors/forbidden.html"), 403
     except Exception:
         current_app.logger.exception("Failed to get video")
@@ -260,9 +260,9 @@ def image_page(image_uuid):
 
     try:
         image_data = image(image_uuid=image_uuid)
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
+    except ResourceForbiddenError:
         return render_template("errors/forbidden.html"), 403
     except Exception:
         current_app.logger.exception("Failed to get image")
