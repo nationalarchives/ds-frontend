@@ -32,28 +32,30 @@
   {%- if block_value.image.copyright %}
     {% set image_caption = image_caption ~ '<div class="tna-picture__copyright" itemprop="copyrightNotice">' ~ (block_value.image.copyright | tna_html) ~ '</div>' %}
   {%- endif %}
-  {% set picture_content = {
-    'src': block_value.image.jpeg.full_url,
-    'alt': block_value.image.description,
-    'width': block_value.image.jpeg.width,
-    'height': block_value.image.jpeg.height,
-    'sources': [
-      {
-        'src': block_value.image.webp.full_url,
-        'type': 'image/webp',
-        'width': block_value.image.webp.width,
-        'height': block_value.image.webp.height
+  {%- if block_value.image.jpeg and block_value.image.webp %}
+    {% set picture_content = {
+      'src': block_value.image.jpeg.full_url,
+      'alt': block_value.image.description,
+      'width': block_value.image.jpeg.width,
+      'height': block_value.image.jpeg.height,
+      'sources': [
+        {
+          'src': block_value.image.webp.full_url,
+          'type': 'image/webp',
+          'width': block_value.image.webp.width,
+          'height': block_value.image.webp.height
+        }
+      ],
+      'caption': image_caption,
+      'microdataCaption': (block_value.caption | striptags) or '',
+      'informationLabelOpen': information_label_open,
+      'informationLabelClose': information_label_close,
+      'information': picture_information,
+      'classes': 'tna-picture--plain' if plain_image else '',
+      'attributes': {
+        'itemprop': itemprop or 'image'
       }
-    ],
-    'caption': image_caption,
-    'microdataCaption': (block_value.caption | striptags) or '',
-    'informationLabelOpen': information_label_open,
-    'informationLabelClose': information_label_close,
-    'information': picture_information,
-    'classes': 'tna-picture--plain' if plain_image else '',
-    'attributes': {
-      'itemprop': itemprop or 'image'
-    }
-  } %}
-  {{ tnaPicture(picture_content, block_value.image.uuid, block_value.image.title) }}
+    } %}
+    {{ tnaPicture(picture_content, block_value.image.uuid, block_value.image.title) }}
+  {%- endif %}
 {% endmacro %}
