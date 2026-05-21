@@ -3,8 +3,8 @@ services:
     build:
       context: .
       args:
-        IMAGE: tna-python-dev
-        IMAGE_TAG: local
+        IMAGE: ghcr.io/nationalarchives/tna-python-dev
+        IMAGE_TAG: preview
     environment:
       - ENVIRONMENT_NAME=localhost
       - CONFIG=config.Develop
