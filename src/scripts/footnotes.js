@@ -39,20 +39,19 @@ const footnotes = Array.from(
       (footnoteCite) => `${footnotePrefix}${footnoteCite.id}` === footnote.id,
     ),
   }))
-  .sort((a, b) => {
-    if (a.firstInstance === -1 && b.firstInstance === -1) {
+  .sort((itemA, itemB) => {
+    if (itemA.firstInstance === -1 && itemB.firstInstance === -1) {
       return 0;
-    } else if (b.firstInstance === -1) {
+    } else if (itemB.firstInstance === -1) {
       return -1;
-    } else if (a.firstInstance === -1) {
+    } else if (itemA.firstInstance === -1) {
       return 1;
-    } else if (a.firstInstance < b.firstInstance) {
+    } else if (itemA.firstInstance < itemB.firstInstance) {
       return -1;
-    } else if (a.firstInstance > b.firstInstance) {
+    } else if (itemA.firstInstance > itemB.firstInstance) {
       return 1;
-    } else {
-      return 0;
     }
+    return 0;
   });
 
 footnoteCites.forEach((footnoteCite) => {

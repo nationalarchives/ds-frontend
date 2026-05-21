@@ -1,13 +1,13 @@
 import {
-  initAll,
   Cookies,
+  initAll,
 } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker.register("/service-worker.min.js");
+// If ("serviceWorker" in navigator) {
+//   Navigator.serviceWorker.register("/service-worker.min.js");
 // }
 
 initAll();
@@ -26,7 +26,7 @@ const initNotifications = () => {
       const $alertDismissButton = $globalAlert.querySelector(
         ".etna-global-alert__dismiss",
       );
-      const alertUid = parseInt($alertDismissButton.value);
+      const alertUid = parseInt($alertDismissButton.value, 10);
       if (initialDismissedNotifications.includes(alertUid)) {
         $globalAlert.hidden = true;
       } else {
@@ -36,7 +36,7 @@ const initNotifications = () => {
             cookies.get("dismissed_notifications") || "[]",
           );
           const dismissedNotificationsSet = new Set(dismissedNotifications);
-          dismissedNotificationsSet.add(parseInt(alertUid));
+          dismissedNotificationsSet.add(parseInt(alertUid, 10));
           cookies.set(
             "dismissed_notifications",
             JSON.stringify(Array.from(dismissedNotificationsSet)),
@@ -62,7 +62,7 @@ if (cookies.isPolicyAccepted("settings")) {
   initNotifications();
 } else {
   cookies.once("changePolicy", (policies) => {
-    if (policies["settings"]) {
+    if (policies.settings) {
       initNotifications();
     }
   });

@@ -15,7 +15,7 @@ if ($secondaryNavigation && $pageBody) {
       return {
         $button: $pageSectionItemLink,
         id,
-        $section: $section,
+        $section,
       };
     });
     let selectedIndex = sections.findIndex(
@@ -24,8 +24,37 @@ if ($secondaryNavigation && $pageBody) {
     if (selectedIndex < 0) {
       selectedIndex = 0;
     }
+    const updatePaginationLabels = () => {
+      // if (selectedIndex > 0) {
+      //   $sectionsPaginationPrevious.removeAttribute("hidden");
+      //   $sectionsPaginationPrevious.setAttribute(
+      //     "aria-controls",
+      //     sections[selectedIndex - 1].id,
+      //   );
+      //   // $sectionsPaginationPreviousText.innerHTML =
+      //   //   `Previous:<br>${sections[selectedIndex - 1].$button.innerText}`;
+      //   $sectionsPaginationPreviousText.innerText = `Previous: ${sections[selectedIndex - 1].$button.innerText}`;
+      // } else {
+      //   $sectionsPaginationPrevious.setAttribute("hidden", "");
+      // }
+      // if (selectedIndex + 1 < sections.length) {
+      //   $sectionsPaginationNext.removeAttribute("hidden");
+      //   $sectionsPaginationNext.setAttribute(
+      //     "aria-controls",
+      //     sections[selectedIndex + 1].id,
+      //   );
+      //   // $sectionsPaginationNextText.innerHTML =
+      //   //   `Next:<br>${sections[selectedIndex + 1].$button.innerText}`;
+      //   $sectionsPaginationNextText.innerText = `Next: ${sections[selectedIndex + 1].$button.innerText}`;
+      // } else {
+      //   $sectionsPaginationNext.setAttribute("hidden", "");
+      // }
+      // // $sectionsPaginationCurrentText.innerText = sections[selectedIndex].$button.innerText;
+      // // $sectionsPaginationCurrentText.innerText = `Section ${selectedIndex + 1} of ${sections.length}`;
+    };
     const showSectionByIndex = (indexToShow, switchFocus = false) => {
       selectedIndex = indexToShow;
+      /* eslint-disable-next-line max-statements */
       sections.forEach((section, index) => {
         if (index === indexToShow) {
           section.$section.removeAttribute("hidden");
@@ -82,34 +111,6 @@ if ($secondaryNavigation && $pageBody) {
     // const $sectionsPaginationNextText = document.getElementById(
     //   "page-section-navigation__next-text",
     // );
-    const updatePaginationLabels = () => {
-      // if (selectedIndex > 0) {
-      //   $sectionsPaginationPrevious.removeAttribute("hidden");
-      //   $sectionsPaginationPrevious.setAttribute(
-      //     "aria-controls",
-      //     sections[selectedIndex - 1].id,
-      //   );
-      //   // $sectionsPaginationPreviousText.innerHTML =
-      //   //   `Previous:<br>${sections[selectedIndex - 1].$button.innerText}`;
-      //   $sectionsPaginationPreviousText.innerText = `Previous: ${sections[selectedIndex - 1].$button.innerText}`;
-      // } else {
-      //   $sectionsPaginationPrevious.setAttribute("hidden", "");
-      // }
-      // if (selectedIndex + 1 < sections.length) {
-      //   $sectionsPaginationNext.removeAttribute("hidden");
-      //   $sectionsPaginationNext.setAttribute(
-      //     "aria-controls",
-      //     sections[selectedIndex + 1].id,
-      //   );
-      //   // $sectionsPaginationNextText.innerHTML =
-      //   //   `Next:<br>${sections[selectedIndex + 1].$button.innerText}`;
-      //   $sectionsPaginationNextText.innerText = `Next: ${sections[selectedIndex + 1].$button.innerText}`;
-      // } else {
-      //   $sectionsPaginationNext.setAttribute("hidden", "");
-      // }
-      // // $sectionsPaginationCurrentText.innerText = sections[selectedIndex].$button.innerText;
-      // // $sectionsPaginationCurrentText.innerText = `Section ${selectedIndex + 1} of ${sections.length}`;
-    };
     sections.forEach((section, index) => {
       section.$section.setAttribute("role", "tabpanel");
       section.$section.setAttribute("aria-labelledby", section.$button.id);
@@ -119,9 +120,9 @@ if ($secondaryNavigation && $pageBody) {
       });
     });
     showSectionByIndex(selectedIndex);
-    $secondaryNavigation.addEventListener("keydown", (e) => {
+    $secondaryNavigation.addEventListener("keydown", (event) => {
       let preventDefaultKeyAction = false;
-      switch (e.key) {
+      switch (event.key) {
         case "ArrowLeft":
         case "ArrowUp":
           previousSection();
@@ -144,8 +145,8 @@ if ($secondaryNavigation && $pageBody) {
           break;
       }
       if (preventDefaultKeyAction) {
-        e.stopPropagation();
-        e.preventDefault();
+        event.stopPropagation();
+        event.preventDefault();
       }
     });
     // $sectionsPagination?.removeAttribute("hidden");

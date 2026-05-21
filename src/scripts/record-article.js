@@ -1,4 +1,5 @@
 class Gallery {
+  /* eslint-disable-next-line max-lines-per-function, max-statements */
   constructor($module) {
     this.$module = $module;
     this.$items =
@@ -56,6 +57,7 @@ class Gallery {
     }
   }
 
+  /* eslint-disable-next-line max-statements */
   handleToggleGallery() {
     this.opened = !this.opened;
     if (this.opened) {
