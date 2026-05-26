@@ -384,6 +384,7 @@ $videojs-track-height: 0.5em;
 
       animation: scrollfade linear;
       animation-timeline: --scrollfade;
+
       scroll-timeline: --scrollfade y;
 
       &::before {

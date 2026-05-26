@@ -125,11 +125,13 @@
     aspect-ratio: 1 / 1;
     margin: spacing.space(1);
 
+    flex-shrink: 0;
+
+    object-fit: cover;
+
     background: none;
 
     border-radius: 100%;
-    flex-shrink: 0;
-    object-fit: cover;
     @include colour.colour-border("keyline", 1px);
   }
 

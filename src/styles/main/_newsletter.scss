@@ -43,11 +43,11 @@
   &__body {
     padding: spacing.space(1.5) spacing.space(2);
 
+    flex: 1;
+
     border-left-width: 0 !important;
     border-radius: 0 bordersVars.$rounded-border-radius
       bordersVars.$rounded-border-radius 0;
-
-    flex: 1;
 
     @include colour.colour-border("keyline", 1px);
 
