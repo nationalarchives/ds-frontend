@@ -4,8 +4,8 @@ if (cookies) {
   const $successMessage = document.getElementById("cookie-settings-success");
   const $form = document.getElementById("cookie-settings");
   if ($form && $successMessage) {
-    $form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    $form.addEventListener("submit", (event) => {
+      event.preventDefault();
       const formData = new FormData($form);
       cookies.setPolicy("usage", formData.get("usage") === "true");
       cookies.setPolicy("settings", formData.get("settings") === "true");

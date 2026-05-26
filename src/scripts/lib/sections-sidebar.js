@@ -1,10 +1,11 @@
 export default class SectionsSidebarHighlighter {
+  /* eslint-disable-next-line max-statements */
   constructor($level2Headings, $sidebarItems) {
     if (!$level2Headings || !$sidebarItems) {
       return;
     }
     if ($level2Headings.length !== $sidebarItems.length) {
-      throw "Sets are different sizes";
+      throw new Error("Sets are different sizes");
     }
     this.$level2Headings = $level2Headings;
     this.$sidebarItems = $sidebarItems;
@@ -34,12 +35,15 @@ export default class SectionsSidebarHighlighter {
       const isCurrentItem =
         $sidebarItem.querySelector("a[href]").getAttribute("href") ===
         currentSectionHref;
-      isCurrentItem
-        ? $sidebarItem.classList.add("tna-sidebar__item--current")
-        : $sidebarItem.classList.remove("tna-sidebar__item--current");
+      if (isCurrentItem) {
+        $sidebarItem.classList.add("tna-sidebar__item--current");
+      } else {
+        $sidebarItem.classList.remove("tna-sidebar__item--current");
+      }
     });
   }
 
+  /* eslint-disable-next-line max-statements */
   highlightCurrentSection() {
     if (this.onMobile.matches) {
       this.$sidebarItems.forEach(($sidebarItem) => {
