@@ -1,23 +1,20 @@
 import videojs from "video.js";
+
 // import "videojs-youtube";
 import { initYoutubeEmbedApi } from "./lib/videojs-youtube-modified";
 
 const cookies = window.TNAFrontendCookies;
-
-let videoJsInstances = {};
-
+const videoJsInstances = {};
 const $youTubeVideoInstances = document.querySelectorAll(
   "a.etna-video--youtube[id]",
 );
-
-const updateYoutubeVideoMessages = ($youTubeVideoInstances) => {
-  $youTubeVideoInstances.forEach(($video) => {
+const updateYoutubeVideoMessages = ($youTubeVideoInstancesToUpdate) => {
+  $youTubeVideoInstancesToUpdate.forEach(($video) => {
     $video.querySelector(".etna-video__label-cookies-message-js")?.remove();
   });
 };
-
-const initYouTubeVideos = ($youTubeVideoInstances) => {
-  $youTubeVideoInstances.forEach(($video) => {
+const initYouTubeVideos = ($youTubeVideoInstancesToInit) => {
+  $youTubeVideoInstancesToInit.forEach(($video) => {
     const id = $video.getAttribute("id");
     const $newVideo = document.createElement("video");
     $newVideo.classList.add("etna-video", "etna-video--youtube", "video-js");
@@ -50,6 +47,7 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
           ytControls: 0,
           color: "white",
           enablePrivacyEnhancedMode: true,
+          /* eslint-disable-next-line camelcase */
           iv_load_policy: 3,
           rel: 0,
         },
@@ -70,7 +68,7 @@ if (cookies.isPolicyAccepted("marketing")) {
   initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
 } else {
   cookies.once("changePolicy", (policies) => {
-    if (policies["marketing"]) {
+    if (policies.marketing) {
       initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
     }
   });
@@ -123,8 +121,8 @@ document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
 
 Object.entries(videoJsInstances).forEach(([key, instance]) => {
   instance.on("play", () => {
-    Object.entries(videoJsInstances).forEach(([key2, instance2]) =>
-      key2 !== key ? instance2.pause() : null,
+    Object.entries(videoJsInstances).forEach(
+      ([key2, instance2]) => key2 !== key && instance2.pause(),
     );
   });
   // instance.on("pause", () => {
@@ -142,8 +140,6 @@ document
       if (videoJsInstances[id]) {
         videoJsInstances[id].currentTime(time);
         videoJsInstances[id].play();
-      } else {
-        console.error(`Can't find ID ${id}`);
       }
     });
   });

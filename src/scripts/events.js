@@ -26,8 +26,8 @@ if ($eventFiltersHeading && $eventFilters) {
   };
 
   const isMobile = window.matchMedia("(max-width: 48em)");
-  isMobile.onchange = (e) => {
-    if (e.matches) {
+  isMobile.onchange = (event) => {
+    if (event.matches) {
       if (wasOpenOnMobile) {
         showEventFilters();
       } else {
