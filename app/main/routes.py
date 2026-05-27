@@ -117,6 +117,8 @@ def set_cookies():
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
                 response.delete_cookie(cookie)
+    # TODO: Replace with @vary_by_cookies decorator when released
+    response.headers["Vary"] = "Cookie"
     return response
 
 
