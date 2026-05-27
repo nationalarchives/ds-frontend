@@ -66,8 +66,10 @@ def set_cookies():
         "marketing": False,
         "essential": True,
     }
-    if "cookies_policy" in request.cookies:
-        current_cookies_policy = json.loads(unquote(request.cookies["cookies_policy"]))
+    if current_app.config["COOKIE_PREFERENCES_KEY"] in request.cookies:
+        current_cookies_policy = json.loads(
+            unquote(request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]])
+        )
     usage = (
         strtobool(html.escape(request.form["usage"].replace("\\", "")))
         if "usage" in request.form
@@ -94,7 +96,7 @@ def set_cookies():
         referrer = "/cookies/"
     response = make_response(redirect(f"{referrer}?saved=true"))
     response.set_cookie(
-        "cookies_policy",
+        current_app.config["COOKIE_PREFERENCES_KEY"],
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
         domain=current_app.config["COOKIE_DOMAIN"],
         max_age=31536000,  # 365 days
@@ -103,7 +105,7 @@ def set_cookies():
         httponly=False,
     )
     response.set_cookie(
-        current_app.config["COOKIE_PREFERENCES_KEY"],
+        current_app.config["COOKIE_PREFERENCES_SET_KEY"],
         "true",
         domain=current_app.config["COOKIE_DOMAIN"],
         max_age=31536000,  # 365 days
@@ -115,6 +117,8 @@ def set_cookies():
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
                 response.delete_cookie(cookie)
+    # TODO: Replace with @vary_by_cookies decorator when released
+    response.headers["Vary"] = "Cookie"
     return response
 
 
