@@ -107,6 +107,9 @@ def create_app(config_class):
 
     @app.after_request
     def fix_http_only_cookies_preference(response):
+        """
+        TODO: Remove after 12 months (2027-06) when all incorrect cookies should have been set with the correct attributes.
+        """
         cookie_preference_key = current_app.config["COOKIE_PREFERENCES_KEY"]
         if cookie_preference_key in request.cookies:
             value = request.cookies[cookie_preference_key]
@@ -129,7 +132,7 @@ def create_app(config_class):
             response.set_cookie(
                 cookie_preference_key,
                 value,
-                max_age=31536000,  # 365 days
+                max_age=60 * 60 * 24 * 7,  # 7 days
                 secure=True,
                 samesite="Lax",
                 httponly=False,
@@ -144,7 +147,7 @@ def create_app(config_class):
             response.set_cookie(
                 cookie_preference_set_key,
                 value,
-                max_age=31536000,  # 365 days
+                max_age=60 * 60 * 24 * 7,  # 7 days
                 secure=True,
                 samesite="Lax",
                 httponly=False,
