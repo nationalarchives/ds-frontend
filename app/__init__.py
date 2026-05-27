@@ -1,8 +1,10 @@
+import json
 import logging
 import os
+from urllib.parse import quote, unquote
 
 import sentry_sdk
-from flask import Flask, request
+from flask import Flask, current_app, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
 from tna_utilities.string import slugify, unslugify
@@ -103,6 +105,52 @@ def create_app(config_class):
         ]
     )
 
+    @app.after_request
+    def fix_http_only_cookies_preference(response):
+        cookie_preference_key = current_app.config["COOKIE_PREFERENCES_KEY"]
+        if cookie_preference_key in request.cookies:
+            value = request.cookies[cookie_preference_key]
+            try:
+                value_json = json.loads(unquote(value))
+            except json.JSONDecodeError:
+                value_json = {}
+            if not isinstance(value_json, dict):
+                value_json = {
+                    "usage": False,
+                    "settings": False,
+                    "marketing": False,
+                    "essential": True,
+                }
+            else:
+                for key in {"usage", "settings", "marketing", "essential"}:
+                    if key not in value_json:
+                        value_json[key] = False if key != "essential" else True
+            value = quote(json.dumps(value_json, separators=(",", ":")))
+            response.set_cookie(
+                cookie_preference_key,
+                value,
+                max_age=31536000,  # 365 days
+                secure=True,
+                samesite="Lax",
+                httponly=False,
+            )
+        cookie_preference_set_key = current_app.config["COOKIE_PREFERENCES_SET_KEY"]
+        if cookie_preference_set_key in request.cookies:
+            value = (
+                "true"
+                if request.cookies[cookie_preference_set_key] == "true"
+                else "false"
+            )
+            response.set_cookie(
+                cookie_preference_set_key,
+                value,
+                max_age=31536000,  # 365 days
+                secure=True,
+                samesite="Lax",
+                httponly=False,
+            )
+        return response
+
     filter_functions = [
         currency,
         file_type_icon,
@@ -168,7 +216,7 @@ def create_app(config_class):
                 "TNA_FRONTEND_VERSION": app.config["TNA_FRONTEND_VERSION"],
                 "COOKIE_DOMAIN": app.config["COOKIE_DOMAIN"],
                 "COOKIE_PREFERENCES_URL": app.config["COOKIE_PREFERENCES_URL"],
-                "COOKIE_PREFERENCES_KEY": app.config["COOKIE_PREFERENCES_KEY"],
+                "COOKIE_PREFERENCES_SET_KEY": app.config["COOKIE_PREFERENCES_SET_KEY"],
                 "GA4_ID": app.config["GA4_ID"],
                 "SENTRY_JS_ID": app.config["SENTRY_JS_ID"],
                 "SENTRY_SAMPLE_RATE": app.config["SENTRY_SAMPLE_RATE"],

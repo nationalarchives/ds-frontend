@@ -49,9 +49,10 @@ class Production(Features):
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", ".nationalarchives.gov.uk")
     COOKIE_PREFERENCES_URL: str = os.environ.get("COOKIE_PREFERENCES_URL", "/cookies/")
-    # COOKIE_PREFERENCES_KEY also set in src/scripts/cookies.js
-    COOKIE_PREFERENCES_KEY: str = os.environ.get(
-        "COOKIE_PREFERENCES_KEY", "dontShowCookieNotice"
+    COOKIE_PREFERENCES_KEY: str = "cookies_policy"
+    # COOKIE_PREFERENCES_SET_KEY also set in src/scripts/cookies.js
+    COOKIE_PREFERENCES_SET_KEY: str = os.environ.get(
+        "COOKIE_PREFERENCES_SET_KEY", "dontShowCookieNotice"
     )
 
     CSP_REPORT_URI: str = os.environ.get("CSP_REPORT_URI", "")
