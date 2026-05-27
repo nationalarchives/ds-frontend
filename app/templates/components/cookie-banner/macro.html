@@ -1,0 +1,65 @@
+{% macro tnaCookieBanner(params) %}
+
+{#
+  TODO: This is a temporary cookie banner macro to allow users to set cookies that are not httpOnly
+  This custom macro needs to be removed 2026-11-19, one year after the fix https://github.com/nationalarchives/ds-frontend/commit/8277d49cec4d57bbd262b5a512132278ebb59c2e.
+#}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{%- set containerClasses = [params.classes] if params.classes else [] -%}
+<section class="tna-cookie-banner {{ ' '.join(containerClasses) }}" data-module="tna-cookie-banner" aria-label="Cookies on {{ params.serviceName }}"
+{%- if params.preferencesSetKey %} data-preferences-key="{{ params.preferencesSetKey }}"{% endif %}
+{%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}{% if value != '' %}="{{ value }}"{% endif %}{% endfor %}{% endif %} hidden>
+  <div class="tna-container">
+    <div class="tna-column tna-column--full tna-cookie-banner__message tna-cookie-banner__message--prompt">
+      <h2 class="tna-heading-m">{{ params.title or "This website uses cookies" }}</h2>
+      {% if params.body %}
+      {{ params.body | safe }}
+      {% else %}
+      <p>We use some essential cookies to make this service work.</p>
+      <p>We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+      {% endif %}
+      <div class="tna-button-group">
+        <form method="post" action="{{ url_for('main.set_cookies') }}">
+          {{ tnaButton({
+              "text": "Accept cookies",
+              "buttonElement": True,
+              "buttonType": "submit",
+              "attributes": {
+                "value": "accept"
+              }
+          }) }}
+          <input type="hidden" name="usage" value="true">
+          <input type="hidden" name="settings" value="true">
+          <input type="hidden" name="marketing" value="true">
+          <input type="hidden" name="referrer" value="{{ request.path or '' }}">
+        </form>
+        <form method="post" action="{{ url_for('main.set_cookies') }}">
+          {{ tnaButton({
+            "text": "Reject cookies",
+            "buttonElement": True,
+            "buttonType": "submit",
+            "attributes": {
+              "value": "reject"
+            }
+          }) }}
+          <input type="hidden" name="usage" value="false">
+          <input type="hidden" name="settings" value="false">
+          <input type="hidden" name="marketing" value="false">
+          <input type="hidden" name="referrer" value="{{ request.path or '' }}">
+        </form>
+        {{ tnaButton({
+          "text": "Set cookie preferences",
+          "href": params.cookiesUrl,
+          "plain": True
+        }) }}
+      </div>
+    </div>
+    <div class="tna-column tna-column--full tna-cookie-banner__message tna-cookie-banner__message--accepted tna-!--no-focus-style" hidden>
+    </div>
+    <div class="tna-column tna-column--full tna-cookie-banner__message tna-cookie-banner__message--rejected tna-!--no-focus-style" hidden>
+    </div>
+  </div>
+</section>
+{% endmacro %}
