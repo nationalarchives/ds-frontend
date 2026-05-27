@@ -1,4 +1,4 @@
-// TODO: Re-enable in one year (2027-06) when all cookies should have the httpOnly flag removed
+// TODO: Re-enable 2026-11-19 when all cookies should have the httpOnly flag removed
 
 // const cookies = window.TNAFrontendCookies;
 
