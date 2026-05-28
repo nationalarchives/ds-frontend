@@ -1,1 +1,161 @@
-TEACHING RESOURCE
+{% extends "wagtail_base.html" %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{%- set pageTitle = page_data.short_title or page_data.title -%}
+{%- set breadcrumbsStyle = 'accent-light' -%}
+
+{% block content %}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+<div class="tna-background-accent-light">
+  {%- set hero_image_caption %}
+    {{- page_data.hero_image_caption | safe -}}
+    {%- if page_data.hero_image.copyright -%}
+      <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+    {%- endif -%}
+  {%- endset %}
+  {%- set hero_body %}
+    <div class="tna-large-paragraph">
+      {{ page_data.intro | tna_html | safe }}
+    </div>
+    {%- if page_data.enquiry_question %}
+    <div class="tna-container tna-container--nested tna-!--margin-top-m">
+      <div class="tna-column">
+        <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+      </div>
+      <div class="tna-column tna-column--flex-1">
+        {{ page_data.enquiry_question | tna_html | safe }}
+      </div>
+    </div>
+    {%- endif %}
+  {%- endset %}
+  {{ tnaHero({
+    'supertitle': page_data.type_label,
+    'title': page_data.title,
+    'body': hero_body,
+    'imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageAlt': page_data.hero_image.description,
+    'imageWidth': page_data.hero_image.jpeg.width,
+    'imageHeight': page_data.hero_image.jpeg.height,
+    'imageCaption': hero_image_caption,
+    'imageSources': [
+      {
+        'src': page_data.hero_image_small.webp.full_url,
+        'width': page_data.hero_image_small.webp.width,
+        'height': page_data.hero_image_small.webp.height,
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image_small.jpeg.full_url,
+        'width': page_data.hero_image_small.jpeg.width,
+        'height': page_data.hero_image_small.jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.webp.full_url,
+        'width': page_data.hero_image.webp.width,
+        'height': page_data.hero_image.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'layout': 'split'
+  }, page_data.hero_image.uuid, page_data.hero_image.title) }}
+</div>
+
+<div class="tna-background-contrast">
+  <div class="tna-container tna-!--padding-vertical-m">
+    <div class="tna-column tna-column--width-1-3 tna-column--full-tiny">
+      <h2 class="tna-heading-m">Key stage</h2>
+      <ul class="tna-ul">
+        {%- for key_stage in page_data.key_stages %}
+        <li>
+          <a href="#{{ key_stage.slug }}">{{ key_stage.short_key_stage }} ({{ key_stage.public_age_range }})</a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-column--full-tiny">
+      <h2 class="tna-heading-m">Time period</h2>
+      <ul class="tna-ul">
+        {%- for time_period in page_data.time_periods %}
+        <li>
+          <a href="#{{ time_period.slug }}">{{ time_period.name }}</a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-column--full-tiny">
+      <h2 class="tna-heading-m">Theme</h2>
+      <ul class="tna-ul">
+        {%- for theme in page_data.themes %}
+        <li>
+          <a href="#{{ theme.slug }}">{{ theme.name }}</a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {%- if page_data.custom_warning_text %}
+        {{ tnaWarning({
+          'headingLevel': 2,
+          'body': page_data.custom_warning_text | tna_html | safe,
+          'classes': 'tna-!--margin-bottom-m'
+        }) }}
+      {%- endif %}
+      <h2 class="tna-heading-l">{{ page_data.sources_title or 'Investigate the sources' }}</h2>
+      {%- if page_data.sources_introduction %}
+        {{ page_data.sources_introduction }}
+      {%- endif %}
+
+      {%- for source in page_data.sources %}
+      <h3 class="tna-heading-m">Source {{ loop.index }}: {{ source.title }}</h3>
+      {{ source.media }}
+      <hr>
+      <h4 class="tna-heading-s">source.featured_link</h4>
+      {{ source.featured_link }}
+      <hr>
+      <h4 class="tna-heading-s">source.description</h4>
+      {{ source.description }}
+      <hr>
+      <h4 class="tna-heading-s">source.question</h4>
+      {{ source.question }}
+      <hr>
+      {%- endfor %}
+      
+      <h2 class="tna-heading-s">page_data.teachers_notes</h2>
+      {{ page_data.teachers_notes }}
+      <hr>
+      <h2 class="tna-heading-s">page_data.curriculum_connections</h2>
+      {{ page_data.curriculum_connections }}
+      <hr>
+      <h2 class="tna-heading-s">page_data.extension_activities</h2>
+      {{ page_data.extension_activities }}
+      <hr>
+      <h2 class="tna-heading-s">page_data.background_information</h2>
+      {{ page_data.background_information }}
+      <hr>
+      <h2 class="tna-heading-s">page_data.further_information_title</h2>
+      {{ page_data.further_information_title }}
+      <hr>
+      <h2 class="tna-heading-s">page_data.further_information</h2>
+      {{ page_data.further_information }}
+    </div>
+  </div>
+</div>
+
+{{ feedback() }}
+{{ back_to_top() }}
+
+{% endblock content %}
