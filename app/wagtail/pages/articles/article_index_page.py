@@ -1,6 +1,7 @@
 import math
 
 from flask import current_app, render_template, request
+from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import (
     api_error,
@@ -12,6 +13,7 @@ from app.lib.pagination import pagination_object
 from app.wagtail.api import page_children_paginated
 
 
+@cacheable_duration(3600)
 def article_index_page(page_data):
     children_per_page = 12
     page = 1

@@ -1,4 +1,4 @@
-from flask import current_app
+from flask import current_app, make_response
 from pydash import objects
 
 from app.error_pages.routes import api_error, page_not_found_error
@@ -80,11 +80,18 @@ page_type_templates = {
 }
 
 
+# TODO: Change this to use a decorator on the cookies_page function when the next version of TNA Python Utilities is released
+page_types_to_vary_by_cookies = {"cookies.CookiesPage"}
+
+
 def render_content_page(page_data):
     page_type = objects.get(page_data, "meta.type")
     if page_type:
         if page_type in page_type_templates:
-            return page_type_templates[page_type](page_data)
+            response = make_response(page_type_templates[page_type](page_data))
+            if page_type in page_types_to_vary_by_cookies:
+                response.headers["Vary"] = "Cookie"
+            return response
         current_app.logger.error(f"Template for {page_type} not handled")
         return page_not_found_error()
     current_app.logger.error("Page meta information not included")

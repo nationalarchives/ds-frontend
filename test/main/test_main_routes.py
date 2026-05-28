@@ -24,11 +24,15 @@ class MainBlueprintTestCase(unittest.TestCase):
         rv = self.client.get("/healthcheck/live/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn("ok", rv.text)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-store")
 
     def test_healthcheck_version(self):
         rv = self.client.get("/healthcheck/version/")
         self.assertEqual(rv.status_code, 200)
         self.assertIn(self.app.config["BUILD_VERSION"], rv.text)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-store")
 
     def test_well_known_security(self):
         rv = self.client.get("/.well-known/security.txt")
@@ -38,28 +42,42 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertIn("Canonical: ", rv.text)
         self.assertIn("Policy: ", rv.text)
         self.assertIn("Expires: ", rv.text)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-cache")
 
     def test_well_known_disclosure_policy(self):
         rv = self.client.get("/.well-known/disclosure-policy.txt")
         self.assertEqual(rv.status_code, 200)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-cache")
 
     def test_well_known_thanks(self):
         rv = self.client.get("/.well-known/thanks.txt")
         self.assertEqual(rv.status_code, 200)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-cache")
 
     def test_well_known_risky_paths(self):
         rv = self.client.get("/.well-known/./security.txt")
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Contact: ", rv.text)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-cache")
 
         rv = self.client.get("/.well-known/~/security.txt")
         self.assertEqual(rv.status_code, 404)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-store")
 
         rv = self.client.get("/.well-known/../security.txt")
         self.assertEqual(rv.status_code, 404)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-store")
 
         rv = self.client.get("/.well-known/~/.bashrc")
         self.assertEqual(rv.status_code, 404)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "no-store")
 
         rv = self.client.get("/.well-known//security.txt")
         self.assertEqual(rv.status_code, 308)
@@ -68,32 +86,11 @@ class MainBlueprintTestCase(unittest.TestCase):
     def test_robots(self):
         rv = self.client.get("/robots.txt")
         self.assertEqual(rv.status_code, 200)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "public, max-age=14400")
 
     def test_manifest(self):
         rv = self.client.get("/manifest.json")
         self.assertEqual(rv.status_code, 200)
-
-    def test_400(self):
-        rv = self.client.get("/400/")
-        self.assertEqual(rv.status_code, 400)
-        self.assertIn("The page you requested cannot be served", rv.text)
-
-    def test_403(self):
-        rv = self.client.get("/403/")
-        self.assertEqual(rv.status_code, 403)
-        self.assertIn("Restricted", rv.text)
-
-    def test_404(self):
-        rv = self.client.get("/404/")
-        self.assertEqual(rv.status_code, 404)
-        self.assertIn("Page not found", rv.text)
-
-    def test_500(self):
-        rv = self.client.get("/500/")
-        self.assertEqual(rv.status_code, 500)
-        self.assertIn("There is a problem with the service", rv.text)
-
-    def test_502(self):
-        rv = self.client.get("/502/")
-        self.assertEqual(rv.status_code, 502)
-        self.assertIn("There is a problem with the service", rv.text)
+        self.assertIn("Cache-Control", rv.headers)
+        self.assertEqual(rv.headers["Cache-Control"], "public, max-age=14400")

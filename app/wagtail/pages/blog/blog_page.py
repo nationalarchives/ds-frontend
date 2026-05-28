@@ -3,6 +3,7 @@ import math
 
 from flask import current_app, render_template, request
 from pydash import objects
+from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import bad_request_error, page_not_found_error
 from app.lib.pagination import pagination_object
@@ -16,6 +17,7 @@ from app.wagtail.api import (
 )
 
 
+@cacheable_duration(3600)
 def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
     children_per_page = 12
     page = 1
