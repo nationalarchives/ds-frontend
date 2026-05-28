@@ -70,11 +70,7 @@ def set_cookies():
     referrer = request.form.get("referrer", "/cookies/?saved=true")
     referrer = referrer.replace("\\", "")
     parsed_referrer = urlparse(referrer)
-    if (
-        not referrer.startswith("/")
-        or parsed_referrer.netloc
-        or parsed_referrer.scheme
-    ):
+    if not referrer.startswith("/") or parsed_referrer.netloc or parsed_referrer.scheme:
         referrer = "/cookies/?saved=true"
     response = make_response(redirect(referrer))
     response.set_cookie(
