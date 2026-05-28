@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{%- set pageTitle = 'Page archived' -%}
+{%- set status_code = 410 -%}
+
+{% block content %}
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+    <p>This page has been archived in the <a href="https://www.nationalarchives.gov.uk/webarchive/">UK Government Web Archive</a>.</p>
+    {% if last_archived_date %}
+    <p>It was last saved <strong><time datetime="{{ last_archived_date }}">{{ last_archived_date_pretty }}</time></strong> ({{ last_archived_age }}).</p>
+    {% endif %}
+    <div class="tna-button-group">
+      {{ tnaButton({
+        "text": "View archived page",
+        "href": archived_page_url | escape
+      }) }}
+    </div>
+    <p>If you believe this is an error, please <a href="https://www.nationalarchives.gov.uk/contact-us/">contact us</a> for assistance.</p>
+  </div>
+</div>
+{% endblock content %}

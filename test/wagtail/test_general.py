@@ -95,7 +95,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
         self.assertEqual(rv.location, "/foobar/")
 
     @requests_mock.Mocker()
-    def test_page_not_found(self, m):
+    def test_page_not_found_error(self, m):
         mock_content_endpoint = (
             f"{self.mock_api_url}/pages/find/?format=json&html_path=/foobar/"
         )

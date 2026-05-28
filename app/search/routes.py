@@ -3,13 +3,16 @@ from urllib.parse import unquote
 
 from flask import render_template, request
 from pydash import objects
+from tna_utilities.flask import cacheable_duration
 
+from app.error_pages.routes import bad_request_error, page_not_found_error
 from app.lib.pagination import pagination_object
 from app.search import bp
 from app.wagtail.api import global_alerts, search
 
 
 @bp.route("/")
+@cacheable_duration(3600)
 def index():
     children_per_page = 12
     page = 1
@@ -17,9 +20,9 @@ def index():
         try:
             page = int(request.args.get("page", 1))
         except ValueError:
-            return render_template("errors/bad_request.html"), 400
+            return bad_request_error()
     if page < 1:
-        return render_template("errors/bad_request.html"), 400
+        return bad_request_error()
     query = unquote(request.args.get("q", "")).strip(" ")
     existing_qs_as_dict = request.args.to_dict()
     # results = search(query, page, children_per_page) if query else []
@@ -30,7 +33,7 @@ def index():
         pagination = pagination_object(page, pages, request.args)
     except AssertionError:
         # The requested page is out of range, 404
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     return render_template(
         "search/index.html",
         q=query,

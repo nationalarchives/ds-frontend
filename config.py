@@ -107,6 +107,16 @@ class Production(Features):
         "/visit/",
     ]
 
+    WEBARCHIVE_BASE_URL: str = os.environ.get(
+        "WEBARCHIVE_BASE_URL", "https://webarchive.nationalarchives.gov.uk/ukgwa/+"
+    ).rstrip("/")
+    WEBARCHIVE_CDXJ_API_URL: str = os.environ.get(
+        "WEBARCHIVE_CDXJ_API_URL", "https://webarchive.nationalarchives.gov.uk/ukgwa"
+    ).rstrip("/")
+    WEBARCHIVE_CDXJ_API_PATH: str = os.environ.get(
+        "WEBARCHIVE_CDXJ_API_PATH", "cdx"
+    ).rstrip("/")
+
 
 class Staging(Production):
     DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))

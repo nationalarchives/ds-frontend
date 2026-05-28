@@ -1,11 +1,19 @@
 import math
 
 from flask import current_app, render_template, request
+from tna_utilities.flask import cacheable_duration
 
+from app.error_pages.routes import (
+    api_error,
+    bad_request_error,
+    page_not_found_error,
+    server_error,
+)
 from app.lib.pagination import pagination_object
 from app.wagtail.api import page_children_paginated
 
 
+@cacheable_duration(3600)
 def article_index_page(page_data):
     children_per_page = 12
     page = 1
@@ -13,9 +21,9 @@ def article_index_page(page_data):
         try:
             page = int(request.args.get("page", 1))
         except ValueError:
-            return render_template("errors/bad_request.html"), 400
+            return bad_request_error()
     if page < 1:
-        return render_template("errors/bad_request.html"), 400
+        return bad_request_error()
     try:
         children_data = page_children_paginated(
             page_data["id"],
@@ -27,18 +35,18 @@ def article_index_page(page_data):
         current_app.logger.exception(
             f"API error getting children for page {page_data['id']}"
         )
-        return render_template("errors/api.html"), 502
+        return api_error()
     except Exception:
         current_app.logger.exception(
             f"Exception getting children for page {page_data['id']}"
         )
-        return render_template("errors/server.html"), 500
+        return server_error()
     pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
     try:
         pagination = pagination_object(page, pages, request.args)
     except AssertionError:
         # The requested page is out of range, 404
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     return render_template(
         "explore_the_collection/stories.html",
         page_data=page_data,

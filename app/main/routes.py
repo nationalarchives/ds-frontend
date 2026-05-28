@@ -1,7 +1,7 @@
 import html
 import json
 import os
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlparse
 
 from flask import (
     current_app,
@@ -12,50 +12,30 @@ from flask import (
     send_from_directory,
 )
 from tna_utilities import strtobool
+from tna_utilities.flask import cacheable_duration, do_not_cache
 from werkzeug.exceptions import NotFound
 
+from app.error_pages.routes import page_not_found_error
 from app.main import bp
 from app.wagtail.api import global_alerts
 
 
 @bp.route("/healthcheck/live/")
+@do_not_cache()
 def healthcheck():
     return "ok"
 
 
 @bp.route("/healthcheck/version/")
+@do_not_cache()
 def healthcheck_version():
     return current_app.config["BUILD_VERSION"]
 
 
 @bp.route("/merlin/")
+@cacheable_duration(3600)
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
-
-
-@bp.route("/400/")
-def bad_request():
-    return render_template("errors/bad_request.html"), 400
-
-
-@bp.route("/403/")
-def forbidden():
-    return render_template("errors/forbidden.html"), 403
-
-
-@bp.route("/404/")
-def page_not_found():
-    return render_template("errors/page_not_found.html"), 404
-
-
-@bp.route("/500/")
-def server_error():
-    return render_template("errors/server.html"), 500
-
-
-@bp.route("/502/")
-def api_error():
-    return render_template("errors/api.html"), 502
 
 
 @bp.route("/cookies/set/", methods=["POST"])
@@ -91,10 +71,12 @@ def set_cookies():
         "marketing": marketing,
         "essential": True,
     }
-    referrer = request.form.get("referrer", "/cookies/")
-    if not referrer.startswith("/"):
-        referrer = "/cookies/"
-    response = make_response(redirect(f"{referrer}?saved=true"))
+    referrer = request.form.get("referrer", "/cookies/?saved=true")
+    referrer = referrer.replace("\\", "")
+    parsed_referrer = urlparse(referrer)
+    if not referrer.startswith("/") or parsed_referrer.netloc or parsed_referrer.scheme:
+        referrer = "/cookies/?saved=true"
+    response = make_response(redirect(referrer))
     response.set_cookie(
         current_app.config["COOKIE_PREFERENCES_KEY"],
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
@@ -117,22 +99,23 @@ def set_cookies():
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
                 response.delete_cookie(cookie)
-    # TODO: Replace with @vary_by_cookies decorator when released
-    response.headers["Vary"] = "Cookie"
     return response
 
 
 @bp.route("/service-worker.min.js")
+@cacheable_duration(14400)
 def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
 @bp.route("/manifest.json")
+@cacheable_duration(14400)
 def manifest():
     return current_app.send_static_file("manifest.json")
 
 
 @bp.route("/robots.txt")
+@cacheable_duration(14400)
 def robots():
     return current_app.send_static_file("robots.txt")
 
@@ -144,4 +127,4 @@ def well_known(filename):
             os.path.join(current_app.root_path, "static", ".well-known"), filename
         )
     except NotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
