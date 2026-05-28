@@ -1,7 +1,7 @@
 import html
 import json
 import os
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlparse
 
 from flask import (
     current_app,
@@ -68,7 +68,13 @@ def set_cookies():
         "essential": True,
     }
     referrer = request.form.get("referrer", "/cookies/?saved=true")
-    if not referrer.startswith("/"):
+    referrer = referrer.replace("\\", "")
+    parsed_referrer = urlparse(referrer)
+    if (
+        not referrer.startswith("/")
+        or parsed_referrer.netloc
+        or parsed_referrer.scheme
+    ):
         referrer = "/cookies/?saved=true"
     response = make_response(redirect(referrer))
     response.set_cookie(
