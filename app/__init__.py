@@ -180,13 +180,15 @@ def create_app(config_class):
             },
         )
 
+    from .error_pages import bp as error_pages_bp
     from .feeds import bp as feeds_bp
-    from .main import bp as site_bp
+    from .main import bp as main_bp
     from .search import bp as search_bp
     from .sitemaps import bp as sitemaps_bp
     from .wagtail import bp as wagtail_bp
 
-    app.register_blueprint(site_bp)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(error_pages_bp)
     app.register_blueprint(sitemaps_bp)
     app.register_blueprint(feeds_bp, url_prefix="/feeds")
     app.register_blueprint(search_bp, url_prefix="/search")

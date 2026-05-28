@@ -1,7 +1,7 @@
 import html
 import json
 import os
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote, urlparse
 
 from flask import (
     current_app,
@@ -14,6 +14,7 @@ from flask import (
 from tna_utilities import strtobool
 from werkzeug.exceptions import NotFound
 
+from app.error_pages.routes import page_not_found_error
 from app.main import bp
 from app.wagtail.api import global_alerts
 
@@ -31,31 +32,6 @@ def healthcheck_version():
 @bp.route("/merlin/")
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
-
-
-@bp.route("/400/")
-def bad_request():
-    return render_template("errors/bad_request.html"), 400
-
-
-@bp.route("/403/")
-def forbidden():
-    return render_template("errors/forbidden.html"), 403
-
-
-@bp.route("/404/")
-def page_not_found():
-    return render_template("errors/page_not_found.html"), 404
-
-
-@bp.route("/500/")
-def server_error():
-    return render_template("errors/server.html"), 500
-
-
-@bp.route("/502/")
-def api_error():
-    return render_template("errors/api.html"), 502
 
 
 @bp.route("/cookies/set/", methods=["POST"])
@@ -91,10 +67,12 @@ def set_cookies():
         "marketing": marketing,
         "essential": True,
     }
-    referrer = request.form.get("referrer", "/cookies/")
-    if not referrer.startswith("/"):
-        referrer = "/cookies/"
-    response = make_response(redirect(f"{referrer}?saved=true"))
+    referrer = request.form.get("referrer", "/cookies/?saved=true")
+    referrer = referrer.replace("\\", "")
+    parsed_referrer = urlparse(referrer)
+    if not referrer.startswith("/") or parsed_referrer.netloc or parsed_referrer.scheme:
+        referrer = "/cookies/?saved=true"
+    response = make_response(redirect(referrer))
     response.set_cookie(
         current_app.config["COOKIE_PREFERENCES_KEY"],
         quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
@@ -144,4 +122,4 @@ def well_known(filename):
             os.path.join(current_app.root_path, "static", ".well-known"), filename
         )
     except NotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()

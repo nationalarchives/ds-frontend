@@ -1,5 +1,7 @@
-from flask import current_app, render_template
+from flask import current_app
 from pydash import objects
+
+from app.error_pages.routes import api_error, page_not_found_error
 
 from .pages.articles.article_index_page import article_index_page
 from .pages.articles.article_page import article_page
@@ -84,6 +86,6 @@ def render_content_page(page_data):
         if page_type in page_type_templates:
             return page_type_templates[page_type](page_data)
         current_app.logger.error(f"Template for {page_type} not handled")
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     current_app.logger.error("Page meta information not included")
-    return render_template("errors/api.html"), 502
+    return api_error()

@@ -9,6 +9,7 @@ from flask import (
     url_for,
 )
 
+from app.error_pages.routes import page_not_found_error
 from app.sitemaps import bp
 from app.wagtail.api import all_pages
 
@@ -61,7 +62,7 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     for page in wagtail_pages["items"]:
         if page["page_path"] in exclude_urls:
             continue

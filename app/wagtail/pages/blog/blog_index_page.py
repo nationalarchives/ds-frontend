@@ -4,6 +4,7 @@ import math
 from flask import current_app, render_template, request
 from pydash import objects
 
+from app.error_pages.routes import bad_request_error, page_not_found_error
 from app.lib.pagination import pagination_object
 from app.lib.query import qs_active, qs_toggler
 from app.wagtail.api import (
@@ -24,45 +25,45 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
             current_app.logger.warning(
                 f"Invalid page number '{request.args.get('page')}' for page {page_data['id']}"
             )
-            return render_template("errors/bad_request.html"), 400
+            return bad_request_error()
     if page < 1:
         current_app.logger.warning(
             f"Page number {page} is less than 1 for page {page_data['id']}"
         )
-        return render_template("errors/bad_request.html"), 400
+        return bad_request_error()
     if not year:
         year = request.args.get("year", "")
         if year and not year.isnumeric():
             current_app.logger.warning(
                 f"Invalid year '{year}' for page {page_data['id']}"
             )
-            return render_template("errors/bad_request.html"), 400
+            return bad_request_error()
         year = int(year) if year else None
     if year is not None:
         if year <= 0:
             current_app.logger.warning(
                 f"Year {year} is not a positive integer for page {page_data['id']}"
             )
-            return render_template("errors/bad_request.html"), 400
+            return bad_request_error()
         if year > datetime.datetime.now().year:
             current_app.logger.warning(
                 f"Year {year} is in the future for page {page_data['id']}"
             )
-            return render_template("errors/page_not_found.html"), 404
+            return page_not_found_error()
     if not month:
         month = request.args.get("month", "")
         if month and (not month.isnumeric() or int(month) not in range(1, 13)):
             current_app.logger.warning(
                 f"Invalid month '{month}' for page {page_data['id']}"
             )
-            return render_template("errors/bad_request.html"), 400
+            return bad_request_error()
         month = int(month) if month else None
     try:
         month_name = (
             datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
         )
     except ValueError:
-        return render_template("errors/bad_request.html"), 400
+        return bad_request_error()
     blogs_data = top_blogs()
     blog_post_counts_data = blog_post_counts()
     authors = blog_authors()
@@ -82,7 +83,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
     pages = math.ceil(total_blog_posts / children_per_page)
     if total_blog_posts and page > pages:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     existing_qs_as_dict = request.args.to_dict()
     date_filters = [
         {
