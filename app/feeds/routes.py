@@ -1,5 +1,6 @@
 from flask import current_app, make_response, render_template, request, url_for
 from pydash import objects
+from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import api_error, page_not_found_error
 from app.feeds import bp
@@ -12,6 +13,7 @@ from app.wagtail.api import (
 
 
 @bp.route("/blogs.xml")
+@cacheable_duration(14400)
 def rss_all_feed():
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
@@ -36,6 +38,7 @@ def rss_all_feed():
 
 
 @bp.route("/blogs/<int:blog_id>.xml")
+@cacheable_duration(14400)
 def rss_feed(blog_id):
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:

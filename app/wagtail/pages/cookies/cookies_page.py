@@ -1,8 +1,10 @@
 from flask import current_app, render_template
+from tna_utilities.flask import do_not_cache
 
 from app.wagtail.api import page_children
 
 
+@do_not_cache()
 def cookies_page(page_data):
     details_page = None
     try:

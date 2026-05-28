@@ -12,6 +12,7 @@ from flask import (
     send_from_directory,
 )
 from tna_utilities import strtobool
+from tna_utilities.flask import cacheable_duration, do_not_cache
 from werkzeug.exceptions import NotFound
 
 from app.error_pages.routes import page_not_found_error
@@ -20,16 +21,19 @@ from app.wagtail.api import global_alerts
 
 
 @bp.route("/healthcheck/live/")
+@do_not_cache()
 def healthcheck():
     return "ok"
 
 
 @bp.route("/healthcheck/version/")
+@do_not_cache()
 def healthcheck_version():
     return current_app.config["BUILD_VERSION"]
 
 
 @bp.route("/merlin/")
+@cacheable_duration(3600)
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
 
@@ -95,22 +99,23 @@ def set_cookies():
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
                 response.delete_cookie(cookie)
-    # TODO: Replace with @vary_by_cookies decorator when released
-    response.headers["Vary"] = "Cookie"
     return response
 
 
 @bp.route("/service-worker.min.js")
+@cacheable_duration(14400)
 def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
 @bp.route("/manifest.json")
+@cacheable_duration(14400)
 def manifest():
     return current_app.send_static_file("manifest.json")
 
 
 @bp.route("/robots.txt")
+@cacheable_duration(14400)
 def robots():
     return current_app.send_static_file("robots.txt")
 
