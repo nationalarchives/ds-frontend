@@ -6,11 +6,10 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set pageTitle = page_data.short_title or page_data.title -%}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, '', 'm') }}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {{ tnaHero({
   'title': pageTitle,
   'body': page_data.intro,
