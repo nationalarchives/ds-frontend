@@ -20,6 +20,7 @@ $source-list-marker-spacing: 1;
 
     .fa-solid {
       font-size: 2em;
+      // @include colour.colour-font("icon-light");
     }
 
     p {

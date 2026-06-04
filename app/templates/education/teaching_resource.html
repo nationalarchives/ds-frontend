@@ -1,5 +1,6 @@
 {% extends "wagtail_base.html" %}
 
+{%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
@@ -76,72 +77,32 @@
   }, page_data.hero_image.uuid, page_data.hero_image.title) }}
 </div>
 
-<div class="tna-background-contrast-">
+<div class="tna-background-contrast">
+  <h2 class="tna-visually-hidden">Tags</h2>
   <div class="tna-container tna-!--padding-vertical-m">
     <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-m">Key stage</h2>
-      <ul class="tna-ul">
+      <h3 class="tna-heading-s">Key stage</h3>
+      <ul class="tna-ul tna-!--margin-top-xs">
         {%- for key_stage in page_data.key_stages %}
-        <li>
-          <a href="#{{ key_stage.slug }}">{{ key_stage.short_key_stage }} ({{ key_stage.public_age_range }})</a>
-        </li>
+        <li>{{ key_stage.short_key_stage }} ({{ key_stage.public_age_range }})</li>
         {%- endfor %}
       </ul>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-m">Time period</h2>
-      <ul class="tna-ul">
+      <h3 class="tna-heading-s">Time period</h3>
+      <ul class="tna-ul tna-!--margin-top-xs">
         {%- for time_period in page_data.time_periods %}
-        <li>
-          <a href="#{{ time_period.slug }}">{{ time_period.name }}</a>
-        </li>
+        <li>{{ time_period.name }}</li>
         {%- endfor %}
       </ul>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
-      <h2 class="tna-heading-m">Theme</h2>
-      <ul class="tna-ul">
+      <h3 class="tna-heading-s">Theme</h3>
+      <ul class="tna-ul tna-!--margin-top-xs">
         {%- for theme in page_data.themes %}
-        <li>
-          <a href="#{{ theme.slug }}">{{ theme.name }}</a>
-        </li>
+        <li>{{ theme.name }}</li>
         {%- endfor %}
       </ul>
-    </div>
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-s tna-!--margin-top-s">Key stage</h2>
-      <dl class="tna-dl-chips tna-dl-chips--plain- tna-!--margin-top-xs">
-        <dt>Key stage</dt>
-        {%- for key_stage in page_data.key_stages %}
-        <dd>
-          <a href="#{{ key_stage.slug }}" class="tna-dl-chips__item">
-            {{ key_stage.short_key_stage }} ({{ key_stage.public_age_range }})
-          </a>
-        </dd>
-        {%- endfor %}
-      </dl>
-      <h2 class="tna-heading-s tna-!--margin-top-s">Time period</h2>
-      <dl class="tna-dl-chips tna-dl-chips--plain- tna-!--margin-top-xs">
-        <dt>Time period</dt>
-        {%- for time_period in page_data.time_periods %}
-        <dd>
-          <a href="#{{ time_period.slug }}" class="tna-dl-chips__item">
-            {{ time_period.name }}
-          </a>
-        </dd>
-        {%- endfor %}
-      </dl>
-      <h2 class="tna-heading-s tna-!--margin-top-s">Theme</h2>
-      <dl class="tna-dl-chips tna-dl-chips--plain- tna-!--margin-top-xs">
-        <dt>Theme</dt>
-        {%- for theme in page_data.themes %}
-        <dd>
-          <a href="#{{ theme.slug }}" class="tna-dl-chips__item">
-            {{ theme.name }}
-          </a>
-        </dd>
-        {%- endfor %}
-      </dl>
     </div>
   </div>
 </div>
@@ -159,6 +120,18 @@
       {% do ns.source_list.append({
         'text': 'Teachers notes',
         'href': '#teachers-notes'
+      }) %}
+      {% do ns.source_list.append({
+        'text': 'Extension activities',
+        'href': '#extension-activities'
+      }) %}
+      {% do ns.source_list.append({
+        'text': 'Background information',
+        'href': '#background-information'
+      }) %}
+      {% do ns.source_list.append({
+        'text': page_data.further_information_title or 'Further information',
+        'href': '#further-information'
       }) %}
       {{ tnaSidebar({
         'title': 'On this page',
@@ -205,20 +178,31 @@
       <div id="teachers-notes" class="tna-aside tna-background-accent-light">
         <h2 class="tna-heading-l">Teachers notes</h2>
         {{ page_data.teachers_notes | tna_html | safe }}
-        <h3 class="tna-heading-l">Connections to the curriculum</h3>
-        {{ page_data.curriculum_connections }}
-        <hr>
+        <h3 class="tna-heading-m">Connections to the curriculum</h3>
+        {% set ns = namespace(accordion_items=[]) %}
+        {%- for item in page_data.curriculum_connections %}
+          {% do ns.accordion_items.append({
+            'title': item.key_stage.name ~ ' (' ~ item.key_stage.public_age_range ~ ')',
+            'body': item.description | tna_html | safe
+          }) %}
+        {%- endfor %}
+        {{ tnaAccordion({
+          'itemHeadingLevel': 4,
+          'items': ns.accordion_items,
+          'id': 'curriculum-connections',
+          'classes': 'tna-!--margin-top-s'
+        }) }}
       </div>
 
-      <h2 class="tna-heading-l">page_data.extension_activities</h2>
-      {{ page_data.extension_activities }}
+      <h2 class="tna-heading-l" id="extension-activities">Extension activities</h2>
+      <!-- {{ page_data.extension_activities }} -->
       {{ wagtail_streamfield(page_data.extension_activities, 3) }}
       <hr>
-      <h2 class="tna-heading-l">Background information</h2>
+      <h2 class="tna-heading-l" id="background-information">Background information</h2>
       <!-- {{ page_data.background_information }} -->
       {{ wagtail_streamfield(page_data.background_information, 3) }}
       <hr>
-      <h2 class="tna-heading-l">{{ page_data.further_information_title or 'Further information' }}</h2>
+      <h2 class="tna-heading-l" id="further-information">{{ page_data.further_information_title or 'Further information' }}</h2>
       <!-- {{ page_data.further_information }} -->
       {{ wagtail_streamfield(page_data.further_information, 3) }}
     </div>
