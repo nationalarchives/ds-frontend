@@ -58,9 +58,9 @@
   'narrow': True
 }, page_data.hero_image.uuid, page_data.hero_image.title) }}
 <section class="tna-section">
-  {% set children = [] %}
+  {% set ns = namespace(children=[]) %}
   {%- for child in page_data.related_highlight_gallery_pages %}
-    {% set children = children.append({
+    {% do ns.children.append({
       'id': child.id,
       'title': child.title,
       'subtitle': (child.highlight_image_count | string) ~ ' images',
@@ -75,7 +75,7 @@
     'title': page_data.title ~ ' highlights in pictures',
     'headingLevel': 2,
     'headingSize': 'l',
-    'items': children,
+    'items': ns.children,
     'columns': 3,
     'columnsSmall': 2,
     'columnsTiny': 1

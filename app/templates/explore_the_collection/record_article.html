@@ -153,10 +153,10 @@
 
   {%- if page_data.featured_highlight_gallery %}
   <section class="tna-section tna-background-accent-light">
-    {% set galleries = [] %}
+    {% set ns = namespace(galleries=[]) %}
     {%- for gallery in page_data.featured_highlight_gallery.highlight_cards %}
     {%- if loop.index <= 4 %}
-    {% set galleries = galleries.append({
+    {% do ns.galleries.append({
       'id': gallery.image.id,
       'title': gallery.image.title,
       'href': page_data.featured_highlight_gallery.url ~ '#gallery-image-' ~ (loop.index | string),
@@ -174,7 +174,7 @@
       'text': page_data.featured_highlight_gallery.teaser_text,
       'headingLevel': 2,
       'headingSize': 'l',
-      'items': galleries,
+      'items': ns.galleries,
       'columns': 4,
       'columnsMedium': 2,
       'columnsSmall': 2,

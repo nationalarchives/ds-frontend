@@ -102,6 +102,7 @@ def create_app(config_class):
             PackageLoader("tna_frontend_jinja"),
         ]
     )
+    app.jinja_env.add_extension("jinja2.ext.do")
 
     filter_functions = [
         currency,

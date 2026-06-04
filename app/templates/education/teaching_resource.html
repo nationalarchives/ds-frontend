@@ -149,17 +149,21 @@
 <div class="tna-!--padding-bottom-l">
   <div class="tna-container">
     <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
-      {% set source_list = [] %}
+      {% set ns = namespace(source_list=[]) %}
       {% for source in page_data.sources %}
-        {% set source_list = source_list.append({
+        {% do ns.source_list.append({
           'text': 'Source ' ~ loop.index,
           'href': '#teaching-resource-source-' ~ loop.index
         }) %}
       {% endfor %}
+      {% do ns.source_list.append({
+        'text': 'Teachers notes',
+        'href': '#teachers-notes'
+      }) %}
       {{ tnaSidebar({
         'title': 'On this page',
         'headingLevel': 2,
-        'items': source_list,
+        'items': ns.source_list,
         'type': 'sections',
         'sticky': True,
         'classes': 'tna-!--padding-top-s tna-!--margin-top-m'
@@ -185,13 +189,10 @@
             {{ source.title }}
           </h3>
           <div class="tna-education-ol__item-body">
-            {{ wagtail_streamfield(source.media, 4) }}
-            <h4 class="tna-heading-s">source.featured_link</h4>
-            {{ source.featured_link }}
-            <hr>
-            <h4 class="tna-heading-s">Description</h4>
             {{ source.description | tna_html | safe }}
-            <hr>
+            {{ wagtail_streamfield(source.media, 4) }}
+            <p class="tna-heading-xl">=== TODO: source.featured_link ===</p>
+            {{ source.featured_link }}
             {%- for question in source.question %}
             <h4 class="tna-heading-s">{{ question.value.question_heading }}</h4>
             {{ question.value.question_description | tna_html | safe }}
@@ -201,11 +202,14 @@
         {%- endfor %}
       </ol>
 
-      <h2 class="tna-heading-l">Teachers notes</h2>
-      {{ page_data.teachers_notes | tna_html | safe }}
-      <h2 class="tna-heading-l">page_data.curriculum_connections</h2>
-      {{ page_data.curriculum_connections }}
-      <hr>
+      <div id="teachers-notes" class="tna-aside tna-background-accent-light">
+        <h2 class="tna-heading-l">Teachers notes</h2>
+        {{ page_data.teachers_notes | tna_html | safe }}
+        <h3 class="tna-heading-l">Connections to the curriculum</h3>
+        {{ page_data.curriculum_connections }}
+        <hr>
+      </div>
+
       <h2 class="tna-heading-l">page_data.extension_activities</h2>
       {{ page_data.extension_activities }}
       {{ wagtail_streamfield(page_data.extension_activities, 3) }}

@@ -1,9 +1,9 @@
 {%- from 'components/files-list/macro.html' import tnaFilesList -%}
 
 {% macro wagtailDocuments(block_value, block_id, itemHeadingLevel) %}
-  {% set files = [] %}
+  {% set ns = namespace(files=[]) %}
   {%- for document in block_value.documents %}
-    {% set files = files.append({
+    {% do ns.files.append({
       'id': 'doc-' ~ block_id ~ '-' ~ (document.file.id | string) ~ '-' ~ (loop.index | string),
       'text': document.file.title,
       'href': document.file.url,
@@ -16,7 +16,7 @@
   {%- endfor %}
   {{ tnaFilesList({
     'itemHeadingLevel': itemHeadingLevel,
-    'items': files,
+    'items': ns.files,
     'fullAreaClick': True
   }) }}
 {% endmacro %}
