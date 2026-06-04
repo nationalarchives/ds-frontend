@@ -18,7 +18,6 @@ module.exports = {
     "secondary-navigation": "./src/scripts/secondary-navigation.js",
     sentry: "./src/scripts/sentry.js",
     "service-worker": "./src/scripts/service-worker.js",
-    sidebar: "./src/scripts/sidebar.js",
   },
   mode: "production",
   module: {

@@ -172,6 +172,9 @@ def create_app(config_class):
                 "GA4_ID": app.config["GA4_ID"],
                 "SENTRY_JS_ID": app.config["SENTRY_JS_ID"],
                 "SENTRY_SAMPLE_RATE": app.config["SENTRY_SAMPLE_RATE"],
+                "SIDEBAR_SCROLL_TOP_THRESHOLD": app.config[
+                    "SIDEBAR_SCROLL_TOP_THRESHOLD"
+                ],
             },
             feature={
                 "PHASE_BANNER": app.config["FEATURE_PHASE_BANNER"],
