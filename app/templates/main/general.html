@@ -196,9 +196,9 @@
         'items': sidebar_items,
         'type': page_data.page_sidebar,
         'sticky': True,
-        'classes': 'tna-sidebar--static-on-mobile tna-!--padding-top-s tna-!--margin-top-m',
+        'classes': 'tna-!--padding-top-s tna-!--margin-top-m',
         'attributes': {
-          'id': 'page-sidebar'
+          'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
         }
       }) }}
     </div>
@@ -266,9 +266,6 @@
     {%- endif %}
     {%- if page_data.footnotes %}
     <script src="{{ url_for('static', filename='footnotes.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-    {%- endif %}
-    {%- if page_data.page_sidebar == 'sections' %}
-    <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
     {%- if page_data.page_sidebar == 'section_tabs' or page_data.page_sidebar == 'pages_tabs' %}
     <script src="{{ url_for('static', filename='secondary-navigation.min.js', v=app_config.BUILD_VERSION) }}" defer></script>

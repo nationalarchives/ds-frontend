@@ -101,10 +101,10 @@
     }
 
     &__link {
+      position: relative;
+
       border-top: none;
       border-bottom: none;
-
-      position: relative;
 
       &--current {
         &::before {

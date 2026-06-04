@@ -8,7 +8,7 @@
     "dev": "npm run dev:css & npm run dev:js &"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.40.0",
+    "@nationalarchives/frontend": "0.42.0",
     "@sentry/browser": "^10.17.0",
     "prismjs": "^1.30.0",
     "video.js": "^8.21.1",
@@ -17,7 +17,6 @@
   "devDependencies": {
     "@babel/core": "^7.22.11",
     "@babel/preset-env": "^7.22.10",
-    "@nationalarchives/eslint-config": "^0.1.4",
     "babel-loader": "^10.0.0",
     "sass": "^1.69.4",
     "terser-webpack-plugin": "^5.3.10",

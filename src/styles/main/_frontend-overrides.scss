@@ -158,9 +158,9 @@ dd {
 .tna-sidebar {
   &--a-z {
     .tna-sidebar__items {
-      flex-flow: row wrap;
-
       gap: spacing.space(0.5);
+
+      flex-flow: row wrap;
     }
 
     .tna-sidebar__link {
@@ -176,17 +176,15 @@ dd {
       @include typography.font-size(20);
 
       @include colour.colour-border("keyline", 1px);
-      border-radius: 100%;
+      @include borders.rounded-border;
 
       &:hover,
       &:focus {
         @include colour.tint;
       }
     }
-  }
 
-  @include media.on-larger-than-mobile {
-    &--a-z {
+    @include media.on-larger-than-mobile {
       padding-right: spacing.space(1);
     }
   }
