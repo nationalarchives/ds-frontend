@@ -33,7 +33,7 @@ $source-list-marker-spacing: 1;
 .tna-education-ol {
   display: flex;
   flex-direction: column;
-  gap: spacing.space(2);
+  gap: spacing.space(3);
 
   list-style: none;
   counter-reset: sources;
