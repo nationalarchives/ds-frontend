@@ -30,7 +30,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
-        <a href="#">Teaching resources</a>
+        <a href="{{ page_data.teaching_resources_listing.url }}">{{ page_data.teaching_resources_listing.title }}</a>
       </h2>
       {%- if page_data.teaching_resources_teaser_override %}
       <p>{{ page_data.teaching_resources_teaser_override }}</p>
@@ -38,6 +38,39 @@
       {{ page_data.teaching_resources_listing_page }}
       {%- endif %}
     </div>
+    {%- if page_data.featured_teaching_resource %}
+    <div class="tna-column tna-column--full tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page_data.featured_teaching_resource.type_label,
+        'title': page_data.featured_teaching_resource.title,
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': page_data.featured_teaching_resource.url,
+        'text': page_data.featured_teaching_resource.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'horizontal': True,
+        'style': 'accent'
+      } %}
+      {%- if page_data.featured_teaching_resource.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.featured_teaching_resource.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_teaching_resource.teaser_image.description,
+          'imageWidth': page_data.featured_teaching_resource.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_teaching_resource.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_teaching_resource.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_teaching_resource.teaser_image.webp.width,
+              'height': page_data.featured_teaching_resource.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </div>
+    {%- endif %}
   </div>
   <ul class="tna-container">
     {% for page in page_data.latest_teaching_resources -%}
@@ -95,9 +128,42 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">
-        <a href="#">Education sessions</a>
+        <a href="{{ page_data.education_sessions_listing.url }}">{{ page_data.education_sessions_listing.title }}</a>
       </h2>
     </div>
+    {%- if page_data.featured_education_session %}
+    <div class="tna-column tna-column--full tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page_data.featured_education_session.type_label,
+        'title': page_data.featured_education_session.title,
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': page_data.featured_education_session.url,
+        'text': page_data.featured_education_session.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'horizontal': True,
+        'style': 'accent'
+      } %}
+      {%- if page_data.featured_education_session.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.featured_education_session.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_education_session.teaser_image.description,
+          'imageWidth': page_data.featured_education_session.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_education_session.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_education_session.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_education_session.teaser_image.webp.width,
+              'height': page_data.featured_education_session.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </div>
+    {%- endif %}
   </div>
   <ul class="tna-container">
     {% for page in page_data.latest_education_sessions -%}
