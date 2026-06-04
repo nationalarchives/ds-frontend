@@ -8,6 +8,7 @@ const $footnoteCites = Array.from(
     `[data-${footnoteCiteIdDataAttribute}]:has(a[href^="#${footnotePrefix}"])`,
   ),
 );
+/* eslint-disable-next-line no-secrets/no-secrets */
 const letters = "abcdefghijklmnopqrstuvwxyz";
 
 const footnoteCites = $footnoteCites.map(($footnoteCite) => ({

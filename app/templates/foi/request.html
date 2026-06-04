@@ -67,11 +67,11 @@
         'sticky': True,
         'classes': 'tna-!--padding-top-s',
         'attributes': {
-          'id': 'page-sidebar'
+          'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
         }
       }) }}
     </div>
-    <div id="page-body" class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
       <h2 class="tna-heading-l tna-!--padding-top-s" id="request">Request</h2>
       {{ wagtail_streamfield(page_data.request, 3) }}
       <h2 class="tna-heading-l" id="outcome">Outcome</h2>
@@ -87,8 +87,3 @@
 </div>
   {{ back_to_top('l') }}
 {% endblock content %}
-
-{% block bodyEnd %}
-{{ super() }}
-    <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock bodyEnd %}

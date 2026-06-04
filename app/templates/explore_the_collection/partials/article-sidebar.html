@@ -1,6 +1,6 @@
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 
-{% macro articleSidebar(blocks) %}
+{% macro articleSidebar(blocks, sidebar_scroll_top_threshold) %}
   {% set items = [] %}
   {%- for block in blocks %}
     {% set items = items.append({
@@ -16,7 +16,7 @@
     'sticky': True,
     'classes': 'tna-!--padding-top-s tna-!--margin-bottom-l tna-!--hide-on-small- tna-!--hide-on-tiny-',
     'attributes': {
-      'id': 'page-sidebar'
+      'data-scroll-top-threshold': sidebar_scroll_top_threshold
     }
   }) }}
 {% endmacro %}

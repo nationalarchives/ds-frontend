@@ -1,2 +1,1 @@
-// TODO: Not used until we split out inline <code> and .tna-code-block styles - once we have, the code block styles can be used in this file, and the import in main.scss can be removed
-@use "@nationalarchives/frontend/nationalarchives/code-block";
+@use "@nationalarchives/frontend/nationalarchives/components/code-block";

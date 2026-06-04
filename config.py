@@ -117,6 +117,10 @@ class Production(Features):
         "WEBARCHIVE_CDXJ_API_PATH", "cdx"
     ).rstrip("/")
 
+    SIDEBAR_SCROLL_TOP_THRESHOLD: int = int(
+        os.getenv("SIDEBAR_SCROLL_TOP_THRESHOLD", "16")
+    )
+
 
 class Staging(Production):
     DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
