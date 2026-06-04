@@ -2,13 +2,26 @@
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='education.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -20,19 +33,13 @@
     {%- endif -%}
   {%- endset %}
   {%- set hero_body %}
-    <div class="tna-large-paragraph">
-      {{ page_data.intro | tna_html | safe }}
-    </div>
     {%- if page_data.enquiry_question %}
-    <div class="tna-container tna-container--nested tna-!--margin-top-m">
-      <div class="tna-column">
-        <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
-      </div>
-      <div class="tna-column tna-column--flex-1">
-        {{ page_data.enquiry_question | tna_html | safe }}
-      </div>
+    <div class="tna-hero__enquiry-question">
+      <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+      <p>{{ page_data.enquiry_question }}</p>
     </div>
     {%- endif %}
+    {{ page_data.intro | tna_html | safe }}
   {%- endset %}
   {{ tnaHero({
     'supertitle': page_data.type_label,
@@ -69,9 +76,9 @@
   }, page_data.hero_image.uuid, page_data.hero_image.title) }}
 </div>
 
-<div class="tna-background-contrast">
+<div class="tna-background-contrast-">
   <div class="tna-container tna-!--padding-vertical-m">
-    <div class="tna-column tna-column--width-1-3 tna-column--full-tiny">
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-m">Key stage</h2>
       <ul class="tna-ul">
         {%- for key_stage in page_data.key_stages %}
@@ -81,7 +88,7 @@
         {%- endfor %}
       </ul>
     </div>
-    <div class="tna-column tna-column--width-1-3 tna-column--full-tiny">
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-m">Time period</h2>
       <ul class="tna-ul">
         {%- for time_period in page_data.time_periods %}
@@ -91,7 +98,7 @@
         {%- endfor %}
       </ul>
     </div>
-    <div class="tna-column tna-column--width-1-3 tna-column--full-tiny">
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-m">Theme</h2>
       <ul class="tna-ul">
         {%- for theme in page_data.themes %}
@@ -101,12 +108,64 @@
         {%- endfor %}
       </ul>
     </div>
+    <div class="tna-column tna-column--full">
+      <h2 class="tna-heading-s tna-!--margin-top-s">Key stage</h2>
+      <dl class="tna-dl-chips tna-dl-chips--plain- tna-!--margin-top-xs">
+        <dt>Key stage</dt>
+        {%- for key_stage in page_data.key_stages %}
+        <dd>
+          <a href="#{{ key_stage.slug }}" class="tna-dl-chips__item">
+            {{ key_stage.short_key_stage }} ({{ key_stage.public_age_range }})
+          </a>
+        </dd>
+        {%- endfor %}
+      </dl>
+      <h2 class="tna-heading-s tna-!--margin-top-s">Time period</h2>
+      <dl class="tna-dl-chips tna-dl-chips--plain- tna-!--margin-top-xs">
+        <dt>Time period</dt>
+        {%- for time_period in page_data.time_periods %}
+        <dd>
+          <a href="#{{ time_period.slug }}" class="tna-dl-chips__item">
+            {{ time_period.name }}
+          </a>
+        </dd>
+        {%- endfor %}
+      </dl>
+      <h2 class="tna-heading-s tna-!--margin-top-s">Theme</h2>
+      <dl class="tna-dl-chips tna-dl-chips--plain- tna-!--margin-top-xs">
+        <dt>Theme</dt>
+        {%- for theme in page_data.themes %}
+        <dd>
+          <a href="#{{ theme.slug }}" class="tna-dl-chips__item">
+            {{ theme.name }}
+          </a>
+        </dd>
+        {%- endfor %}
+      </dl>
+    </div>
   </div>
 </div>
 
-<div class="tna-section">
+<div class="tna-!--padding-bottom-l">
   <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
+      {% set source_list = [] %}
+      {% for source in page_data.sources %}
+        {% set source_list = source_list.append({
+          'text': 'Source ' ~ loop.index,
+          'href': '#teaching-resource-source-' ~ loop.index
+        }) %}
+      {% endfor %}
+      {{ tnaSidebar({
+        'title': 'On this page',
+        'headingLevel': 2,
+        'items': source_list,
+        'type': 'sections',
+        'sticky': True,
+        'classes': 'tna-!--padding-top-s tna-!--margin-top-m'
+      }) }}
+    </div>
+    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m">
       {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
           'headingLevel': 2,
@@ -118,39 +177,46 @@
       {%- if page_data.sources_introduction %}
         {{ page_data.sources_introduction }}
       {%- endif %}
+      <ol class="tna-education-ol">
+        {%- for source in page_data.sources %}
+        <li class="tna-education-ol__item" id="teaching-resource-source-{{ loop.index }}">
+          <h3 class="tna-education-ol__item-header">
+            <span class="tna-education-ol__item-header-super">Source {{ loop.index }}<span class="tna-visually-hidden">:</span></span>
+            {{ source.title }}
+          </h3>
+          <div class="tna-education-ol__item-body">
+            {{ wagtail_streamfield(source.media, 4) }}
+            <h4 class="tna-heading-s">source.featured_link</h4>
+            {{ source.featured_link }}
+            <hr>
+            <h4 class="tna-heading-s">Description</h4>
+            {{ source.description | tna_html | safe }}
+            <hr>
+            {%- for question in source.question %}
+            <h4 class="tna-heading-s">{{ question.value.question_heading }}</h4>
+            {{ question.value.question_description | tna_html | safe }}
+            {%- endfor -%}
+          </div>
+        </li>
+        {%- endfor %}
+      </ol>
 
-      {%- for source in page_data.sources %}
-      <h3 class="tna-heading-m">Source {{ loop.index }}: {{ source.title }}</h3>
-      {{ source.media }}
-      <hr>
-      <h4 class="tna-heading-s">source.featured_link</h4>
-      {{ source.featured_link }}
-      <hr>
-      <h4 class="tna-heading-s">source.description</h4>
-      {{ source.description }}
-      <hr>
-      <h4 class="tna-heading-s">source.question</h4>
-      {{ source.question }}
-      <hr>
-      {%- endfor %}
-      
-      <h2 class="tna-heading-s">page_data.teachers_notes</h2>
-      {{ page_data.teachers_notes }}
-      <hr>
-      <h2 class="tna-heading-s">page_data.curriculum_connections</h2>
+      <h2 class="tna-heading-l">Teachers notes</h2>
+      {{ page_data.teachers_notes | tna_html | safe }}
+      <h2 class="tna-heading-l">page_data.curriculum_connections</h2>
       {{ page_data.curriculum_connections }}
       <hr>
-      <h2 class="tna-heading-s">page_data.extension_activities</h2>
+      <h2 class="tna-heading-l">page_data.extension_activities</h2>
       {{ page_data.extension_activities }}
+      {{ wagtail_streamfield(page_data.extension_activities, 3) }}
       <hr>
-      <h2 class="tna-heading-s">page_data.background_information</h2>
-      {{ page_data.background_information }}
+      <h2 class="tna-heading-l">Background information</h2>
+      <!-- {{ page_data.background_information }} -->
+      {{ wagtail_streamfield(page_data.background_information, 3) }}
       <hr>
-      <h2 class="tna-heading-s">page_data.further_information_title</h2>
-      {{ page_data.further_information_title }}
-      <hr>
-      <h2 class="tna-heading-s">page_data.further_information</h2>
-      {{ page_data.further_information }}
+      <h2 class="tna-heading-l">{{ page_data.further_information_title or 'Further information' }}</h2>
+      <!-- {{ page_data.further_information }} -->
+      {{ wagtail_streamfield(page_data.further_information, 3) }}
     </div>
   </div>
 </div>
@@ -159,3 +225,8 @@
 {{ back_to_top() }}
 
 {% endblock content %}
+
+{% block bodyEnd %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{% endblock bodyEnd %}

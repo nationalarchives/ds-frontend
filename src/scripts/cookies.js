@@ -1,3 +1,4 @@
+/* eslint-disable-next-line no-warning-comments */
 // TODO: Re-enable 2026-11-19 when all cookies should have the httpOnly flag removed
 
 // const cookies = window.TNAFrontendCookies;
