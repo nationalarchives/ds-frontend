@@ -1,6 +1,7 @@
 import math
 
 from flask import current_app, render_template, request
+from pydash import objects
 from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import (
@@ -41,7 +42,8 @@ def article_index_page(page_data):
             f"Exception getting children for page {page_data['id']}"
         )
         return server_error()
-    pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
+    total_results = objects.get(children_data, "meta.total_count", 0)
+    pages = math.ceil(total_results / children_per_page)
     try:
         pagination = pagination_object(page, pages, request.args)
     except AssertionError:

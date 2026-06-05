@@ -1,0 +1,231 @@
+{% extends "wagtail_base.html" %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{% block content %}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+{{ tnaHero({
+  'title': page_data.title,
+  'body': page_data.intro,
+  'imageSrc': 'https://picsum.photos/id/56/1200/480',
+  'imageAlt': 'A mountain range',
+  'imageWidth': 1200,
+  'imageHeight': 480,
+  'imageSources': {
+    'src': 'https://picsum.photos/id/56/1200/480',
+    'width': 600,
+    'height': 400,
+    'type': 'image/jpeg',
+    'media': '(max-width: 48em)'
+  },
+  'narrow': True
+}) }}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">
+        <a href="{{ page_data.teaching_resources_listing.url }}">{{ page_data.teaching_resources_listing.title }}</a>
+      </h2>
+      {%- if page_data.teaching_resources_teaser_override %}
+      <p class="tna-large-paragraph">{{ page_data.teaching_resources_teaser_override }}</p>
+      {%- else %}
+      <p class="tna-large-paragraph">{{ page_data.teaching_resources_listing.teaser_text }}</p>
+      {%- endif %}
+    </div>
+    {%- if page_data.featured_teaching_resource %}
+    <div class="tna-column tna-column--full tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page_data.featured_teaching_resource.type_label,
+        'title': page_data.featured_teaching_resource.title,
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': page_data.featured_teaching_resource.url,
+        'text': page_data.featured_teaching_resource_teaser_override or page_data.featured_teaching_resource.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'horizontal': True,
+        'style': 'accent'
+      } %}
+      {%- if page_data.featured_teaching_resource.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.featured_teaching_resource.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_teaching_resource.teaser_image.description,
+          'imageWidth': page_data.featured_teaching_resource.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_teaching_resource.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_teaching_resource.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_teaching_resource.teaser_image.webp.width,
+              'height': page_data.featured_teaching_resource.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </div>
+    {%- endif %}
+  </div>
+  <ul class="tna-container">
+    {% for page in page_data.latest_teaching_resources -%}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page.type_label,
+        'title': page.title,
+        'headingLevel': 3,
+        'headingSize': 'm',
+        'href': page.url,
+        'meta': [
+          {
+            'title': 'Key stage',
+            'text': 'TODO',
+            'icon': 'graduation-cap'
+          },
+          {
+            'title': 'Theme',
+            'text': 'TODO',
+            'icon': 'scroll'
+          },
+          {
+            'title': 'Time period',
+            'text': 'TODO',
+            'icon': 'hourglass'
+          }
+        ],
+        'text': page.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if page.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page.teaser_image.jpeg.full_url,
+          'imageAlt': page.teaser_image.description,
+          'imageWidth': page.teaser_image.jpeg.width,
+          'imageHeight': page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page.teaser_image.webp.width,
+              'height': page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {% endfor -%}
+  </ul>
+</div>
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">
+        <a href="{{ page_data.education_sessions_listing.url }}">{{ page_data.education_sessions_listing.title }}</a>
+      </h2>
+      {%- if page_data.education_sessions_teaser_override %}
+      <p class="tna-large-paragraph">{{ page_data.education_sessions_teaser_override }}</p>
+      {%- else %}
+      <p class="tna-large-paragraph">{{ page_data.education_sessions_listing.teaser_text }}</p>
+      {%- endif %}
+    </div>
+    {%- if page_data.featured_education_session %}
+    <div class="tna-column tna-column--full tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page_data.featured_education_session.type_label,
+        'title': page_data.featured_education_session.title,
+        'headingLevel': 3,
+        'headingSize': 'l',
+        'href': page_data.featured_education_session.url,
+        'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'horizontal': True,
+        'style': 'accent'
+      } %}
+      {%- if page_data.featured_education_session.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page_data.featured_education_session.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_education_session.teaser_image.description,
+          'imageWidth': page_data.featured_education_session.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_education_session.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_education_session.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_education_session.teaser_image.webp.width,
+              'height': page_data.featured_education_session.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </div>
+    {%- endif %}
+  </div>
+  <ul class="tna-container">
+    {% for page in page_data.latest_education_sessions -%}
+    <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page.type_label,
+        'title': page.title,
+        'headingLevel': 3,
+        'headingSize': 'm',
+        'href': page.url,
+        'meta': [
+          {
+            'title': 'Key stage',
+            'text': 'TODO',
+            'icon': 'graduation-cap'
+          },
+          {
+            'title': 'Theme',
+            'text': 'TODO',
+            'icon': 'scroll'
+          },
+          {
+            'title': 'Time period',
+            'text': 'TODO',
+            'icon': 'hourglass'
+          }
+        ],
+        'text': page.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if page.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page.teaser_image.jpeg.full_url,
+          'imageAlt': page.teaser_image.description,
+          'imageWidth': page.teaser_image.jpeg.width,
+          'imageHeight': page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page.teaser_image.webp.width,
+              'height': page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {% endfor -%}
+  </ul>
+</div>
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      TODO: OTHER PAGES
+      {{ page_data.education_read_more_links }}
+    </div>
+  </div>
+</div>
+{% endblock content %}

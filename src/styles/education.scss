@@ -1,0 +1,110 @@
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
+@use "@nationalarchives/frontend/nationalarchives/tools/colour";
+@use "@nationalarchives/frontend/nationalarchives/tools/grid";
+@use "@nationalarchives/frontend/nationalarchives/tools/media";
+@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
+@use "@nationalarchives/frontend/nationalarchives/tools/typography";
+
+$source-list-marker-size: 3;
+$source-list-marker-spacing: 1;
+
+.tna-hero {
+  &__enquiry-question {
+    @include spacing.space-above;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: spacing.space(0.75);
+
+    @include spacing.space-above;
+
+    .fa-solid {
+      font-size: 2em;
+      // @include colour.colour-font("icon-light");
+    }
+
+    p {
+      margin-top: 0;
+      @include typography.main-font-weight-bold;
+      line-height: 1.5;
+    }
+
+    @include media.on-tiny {
+      padding-left: spacing.space(0.75);
+      padding-block: spacing.space(0.5);
+
+      flex-direction: column;
+      align-items: flex-start;
+
+      @include colour.thick-keyline-accent(left);
+    }
+  }
+}
+
+.tna-education-ol {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.space(3);
+
+  list-style: none;
+  counter-reset: sources;
+
+  @include spacing.space-above;
+
+  &__item {
+    padding-top: spacing.space(1);
+
+    counter-increment: sources;
+  }
+
+  &__item-header {
+    margin-left: spacing.space(
+      $source-list-marker-size + $source-list-marker-spacing
+    );
+
+    position: relative;
+
+    font-size: inherit;
+
+    @include typography.main-font;
+    @include typography.main-font-weight;
+
+    &::before {
+      content: counter(sources);
+
+      min-width: spacing.space($source-list-marker-size - 1);
+      aspect-ratio: 1;
+      padding: 0 spacing.space(0.5);
+
+      display: block;
+
+      position: absolute;
+      top: 0;
+      right: calc(100% + spacing.space($source-list-marker-spacing));
+
+      font-size: 1.25em;
+
+      line-height: spacing.space($source-list-marker-size);
+      text-align: center;
+      @include typography.main-font-weight-bold;
+
+      @include colour.contrast;
+
+      @include borders.rounded-border;
+    }
+  }
+
+  &__item-header-super {
+    margin-bottom: spacing.space(0.25);
+
+    display: block;
+
+    line-height: 1;
+
+    @include typography.main-font-weight-bold;
+  }
+
+  &__item-body {
+    @include spacing.space-above;
+  }
+}

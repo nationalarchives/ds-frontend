@@ -50,21 +50,30 @@ def set_cookies():
         current_cookies_policy = json.loads(
             unquote(request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]])
         )
-    usage = (
-        strtobool(html.escape(request.form["usage"].replace("\\", "")))
-        if "usage" in request.form
-        else bool(current_cookies_policy["usage"])
-    )
-    settings = (
-        strtobool(html.escape(request.form["settings"].replace("\\", "")))
-        if "settings" in request.form
-        else bool(current_cookies_policy["settings"])
-    )
-    marketing = (
-        strtobool(html.escape(request.form["marketing"].replace("\\", "")))
-        if "marketing" in request.form
-        else bool(current_cookies_policy["marketing"])
-    )
+    try:
+        usage = (
+            strtobool(html.escape(request.form["usage"].replace("\\", "")))
+            if "usage" in request.form
+            else bool(current_cookies_policy["usage"])
+        )
+    except ValueError:
+        usage = False
+    try:
+        settings = (
+            strtobool(html.escape(request.form["settings"].replace("\\", "")))
+            if "settings" in request.form
+            else bool(current_cookies_policy["settings"])
+        )
+    except ValueError:
+        settings = False
+    try:
+        marketing = (
+            strtobool(html.escape(request.form["marketing"].replace("\\", "")))
+            if "marketing" in request.form
+            else bool(current_cookies_policy["marketing"])
+        )
+    except ValueError:
+        marketing = False
     new_cookies_policy = {
         "usage": usage,
         "settings": settings,

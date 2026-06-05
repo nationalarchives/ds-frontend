@@ -1,0 +1,106 @@
+{% extends "wagtail_base.html" %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
+{%- from 'components/search-field/macro.html' import tnaSearchField -%}
+{%- from 'components/skip-link/macro.html' import tnaSkipLink -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{% block skipLink %}
+{%- if total_results %}
+{{ tnaSkipLink({
+  'href': 'results',
+  'text': 'Skip to list of results'
+}) }}
+{%- endif %}
+{{ super() }}
+{% endblock skipLink %}
+
+{% block content %}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+      <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+    </hgroup>
+    <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+  </div>
+  <form class="tna-column tna-column--full tna-!--margin-top-m" method="get" action="{{ page_data.meta.url }}" role="search">
+    {{ tnaSearchField({
+      'label': 'Search ' ~ (page_data.title | lower),
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'id': 'search',
+      'name': 'q',
+      'value': q
+    }) }}
+  </form>
+</div>
+
+<h2 class="tna-visually-hidden">Results</h2>
+{% if total_results %}
+  <section id="results">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+      </div>
+    </div>
+    <ul class="tna-container tna-!--margin-top-m">
+    {%- for child in children %}
+      <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-m">
+        {% set card_content = {
+          'supertitle': child.type_label,
+          'title': child.title,
+          'headingLevel': 3,
+          'headingSize': 'm',
+          'href': child.url,
+          'text': child.teaser_text,
+          'style': 'plain',
+          'fullAreaClick': True,
+          'style': 'plain',
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if child.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': child.teaser_image.jpeg.full_url,
+            'imageAlt': child.teaser_image.description,
+            'imageWidth': child.teaser_image.jpeg.width,
+            'imageHeight': child.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': child.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': child.teaser_image.webp.width,
+                'height': child.teaser_image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      </li>
+    {%- endfor %}
+    </ul>
+    {% if pages > 1 %}
+    <div class="tna-container">
+      <div class="tna-column tna-column--full tna-!--margin-top-m">
+        {{ tnaPagination(pagination) }}
+      </div>
+    </div>
+    {% endif %}
+  </section>
+{% else %}
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <h3 class="tna-heading-l">No results found{% if q %} for &quot;{{ q }}&quot;{% endif %}</h3>
+      <p>Try searching with different keywords, or <a href="{{ page_data.meta.url }}">clear your search</a>.</p>
+    </div>
+  </div>
+{% endif %}
+
+{{ feedback('l') }}
+{{ back_to_top() }}
+
+{% endblock content %}
