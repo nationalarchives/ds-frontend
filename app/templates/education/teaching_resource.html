@@ -10,7 +10,6 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set pageTitle = page_data.short_title or page_data.title -%}
 {%- set breadcrumbsStyle = 'accent-light' -%}
 
 {% block head %}
@@ -25,8 +24,8 @@
 {% endblock stylesheets %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 <div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
   {%- set hero_image_caption %}
     {{- page_data.hero_image_caption | safe -}}
     {%- if page_data.hero_image.copyright -%}

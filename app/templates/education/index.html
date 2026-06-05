@@ -6,12 +6,10 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set pageTitle = page_data.short_title or page_data.title -%}
-
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {{ tnaHero({
-  'title': pageTitle,
+  'title': page_data.title,
   'body': page_data.intro,
   'imageSrc': 'https://picsum.photos/id/56/1200/480',
   'imageAlt': 'A mountain range',
@@ -33,9 +31,9 @@
         <a href="{{ page_data.teaching_resources_listing.url }}">{{ page_data.teaching_resources_listing.title }}</a>
       </h2>
       {%- if page_data.teaching_resources_teaser_override %}
-      <p>{{ page_data.teaching_resources_teaser_override }}</p>
-      {%- elif page_data.teaching_resources_listing_page %}
-      {{ page_data.teaching_resources_listing_page }}
+      <p class="tna-large-paragraph">{{ page_data.teaching_resources_teaser_override }}</p>
+      {%- else %}
+      <p class="tna-large-paragraph">{{ page_data.teaching_resources_listing.teaser_text }}</p>
       {%- endif %}
     </div>
     {%- if page_data.featured_teaching_resource %}
@@ -46,7 +44,7 @@
         'headingLevel': 3,
         'headingSize': 'l',
         'href': page_data.featured_teaching_resource.url,
-        'text': page_data.featured_teaching_resource.teaser_text,
+        'text': page_data.featured_teaching_resource_teaser_override or page_data.featured_teaching_resource.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
         'horizontal': True,
@@ -130,6 +128,11 @@
       <h2 class="tna-heading-l">
         <a href="{{ page_data.education_sessions_listing.url }}">{{ page_data.education_sessions_listing.title }}</a>
       </h2>
+      {%- if page_data.education_sessions_teaser_override %}
+      <p class="tna-large-paragraph">{{ page_data.education_sessions_teaser_override }}</p>
+      {%- else %}
+      <p class="tna-large-paragraph">{{ page_data.education_sessions_listing.teaser_text }}</p>
+      {%- endif %}
     </div>
     {%- if page_data.featured_education_session %}
     <div class="tna-column tna-column--full tna-!--margin-top-m">
@@ -139,7 +142,7 @@
         'headingLevel': 3,
         'headingSize': 'l',
         'href': page_data.featured_education_session.url,
-        'text': page_data.featured_education_session.teaser_text,
+        'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
         'horizontal': True,
@@ -221,6 +224,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       TODO: OTHER PAGES
+      {{ page_data.education_read_more_links }}
     </div>
   </div>
 </div>
