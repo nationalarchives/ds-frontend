@@ -28,6 +28,16 @@ $source-list-marker-spacing: 1;
       @include typography.main-font-weight-bold;
       line-height: 1.5;
     }
+
+    @include media.on-tiny {
+      padding-left: spacing.space(0.75);
+      padding-block: spacing.space(0.5);
+
+      flex-direction: column;
+      align-items: flex-start;
+
+      @include colour.thick-keyline-accent(left);
+    }
   }
 }
 
