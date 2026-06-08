@@ -71,7 +71,7 @@
     {%- endif %}
   </div>
   <ul class="tna-container">
-    {% for page in page_data.latest_teaching_resources -%}
+    {%- for page in page_data.latest_teaching_resources -%}
     <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {% set card_content = {
         'supertitle': page.type_label,
@@ -119,7 +119,7 @@
       {%- endif %}
       {{ tnaCard(card_content) }}
     </li>
-    {% endfor -%}
+    {%- endfor -%}
   </ul>
 </div>
 <div class="tna-section">
@@ -169,7 +169,7 @@
     {%- endif %}
   </div>
   <ul class="tna-container">
-    {% for page in page_data.latest_education_sessions -%}
+    {%- for page in page_data.latest_education_sessions -%}
     <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {% set card_content = {
         'supertitle': page.type_label,
@@ -217,15 +217,48 @@
       {%- endif %}
       {{ tnaCard(card_content) }}
     </li>
-    {% endfor -%}
+    {%- endfor -%}
   </ul>
 </div>
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      TODO: OTHER PAGES
-      {{ page_data.education_read_more_links }}
+      <h2 class="tna-heading-l">Other</h2>
     </div>
   </div>
+  <ul class="tna-container">
+    {%- for page in page_data.education_read_more_links -%}
+    <li class="tna-column tna-column--width-2-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': page.selected_page.type_label,
+        'title': page.selected_page.title,
+        'headingLevel': 3,
+        'headingSize': 'm',
+        'href': page.selected_page.url,
+        'text': page.selected_page.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if page.selected_page.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': page.selected_page.teaser_image.jpeg.full_url,
+          'imageAlt': page.selected_page.teaser_image.description,
+          'imageWidth': page.selected_page.teaser_image.jpeg.width,
+          'imageHeight': page.selected_page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page.selected_page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page.selected_page.teaser_image.webp.width,
+              'height': page.selected_page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {%- endfor -%}
+  </ul>
 </div>
 {% endblock content %}
