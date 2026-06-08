@@ -155,9 +155,6 @@ def page(path):
         if current_app.config["SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"]:
             return try_external_redirect(path)
         return page_not_found_error()
-    except ResourceForbiddenError:
-        # In the unlikely case that the API returns a 403, show a forbidden error page
-        return forbidden_error()
     except Exception:
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
