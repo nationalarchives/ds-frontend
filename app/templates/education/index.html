@@ -5,25 +5,11 @@
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/hero.html' import hero -%}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{{ tnaHero({
-  'title': page_data.title,
-  'body': page_data.intro,
-  'imageSrc': 'https://picsum.photos/id/56/1200/480',
-  'imageAlt': 'A mountain range',
-  'imageWidth': 1200,
-  'imageHeight': 480,
-  'imageSources': {
-    'src': 'https://picsum.photos/id/56/1200/480',
-    'width': 600,
-    'height': 400,
-    'type': 'image/jpeg',
-    'media': '(max-width: 48em)'
-  },
-  'narrow': True
-}) }}
+{% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}{% endcall %}
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -44,6 +30,23 @@
         'headingLevel': 3,
         'headingSize': 'l',
         'href': page_data.featured_teaching_resource.url,
+        'meta': [
+          {
+            'title': 'Key stage',
+            'text': 'TODO',
+            'icon': 'graduation-cap'
+          },
+          {
+            'title': 'Theme',
+            'text': 'TODO',
+            'icon': 'scroll'
+          },
+          {
+            'title': 'Time period',
+            'text': 'TODO',
+            'icon': 'hourglass'
+          }
+        ],
         'text': page_data.featured_teaching_resource_teaser_override or page_data.featured_teaching_resource.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
@@ -142,6 +145,23 @@
         'headingLevel': 3,
         'headingSize': 'l',
         'href': page_data.featured_education_session.url,
+        'meta': [
+          {
+            'title': 'Key stage',
+            'text': 'TODO',
+            'icon': 'graduation-cap'
+          },
+          {
+            'title': 'Theme',
+            'text': 'TODO',
+            'icon': 'scroll'
+          },
+          {
+            'title': 'Time period',
+            'text': 'TODO',
+            'icon': 'hourglass'
+          }
+        ],
         'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,

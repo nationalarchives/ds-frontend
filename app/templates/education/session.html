@@ -1,9 +1,9 @@
 {% extends "wagtail_base.html" %}
 
-{%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/hero.html' import hero -%}
 
 {%- set breadcrumbsStyle = 'accent-light' -%}
 
@@ -31,39 +31,15 @@
       {{ page_data.intro | tna_html | safe }}
     </div>
   {%- endset %}
-  {{ tnaHero({
-    'supertitle': page_data.type_label,
-    'title': page_data.title,
-    'body': hero_body,
-    'imageSrc': page_data.hero_image.jpeg.full_url,
-    'imageAlt': page_data.hero_image.description,
-    'imageWidth': page_data.hero_image.jpeg.width,
-    'imageHeight': page_data.hero_image.jpeg.height,
-    'imageCaption': hero_image_caption,
-    'imageSources': [
-      {
-        'src': page_data.hero_image_small.webp.full_url,
-        'width': page_data.hero_image_small.webp.width,
-        'height': page_data.hero_image_small.webp.height,
-        'type': 'image/webp',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': page_data.hero_image_small.jpeg.full_url,
-        'width': page_data.hero_image_small.jpeg.width,
-        'height': page_data.hero_image_small.jpeg.height,
-        'type': 'image/jpeg',
-        'media': '(max-width: 48em)'
-      },
-      {
-        'src': page_data.hero_image.webp.full_url,
-        'width': page_data.hero_image.webp.width,
-        'height': page_data.hero_image.webp.height,
-        'type': 'image/webp'
-      }
-    ],
-    'layout': 'split'
-  }, page_data.hero_image.uuid, page_data.hero_image.title) }}
+  {% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}
+    {%- if page_data.enquiry_question %}
+    <div class="tna-hero__enquiry-question">
+      <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+      <p>{{ page_data.enquiry_question }}</p>
+    </div>
+    {%- endif %}
+    {{ page_data.intro | tna_html | safe }}
+  {% endcall %}
 </div>
 
 {{ page_data }}
