@@ -25,7 +25,7 @@ def forbidden_error():
 @do_not_cache()
 def page_not_found_error():
     client = SimpleJsonApiClient(current_app.config["WEBARCHIVE_CDXJ_API_URL"])
-    url = request.full_path
+    url = request.url
     try:
         result = client.get(
             current_app.config["WEBARCHIVE_CDXJ_API_PATH"],
