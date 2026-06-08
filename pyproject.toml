@@ -34,3 +34,6 @@ include = '\.pyi?$'
 testpaths = [
     "test",
 ]
+
+[solver]
+min-release-age = 7
