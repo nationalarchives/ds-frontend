@@ -98,7 +98,7 @@
   {%- elif content_item.type == 'featured_page' %}
   {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
   
-  {%- elif content_item.type == 'media' %}
+  {%- elif content_item.type == 'media' or content_item.type == 'video' %}
   {{ wagtailMedia(content_item.value, content_item.id, next_heading_level) }}
   
   {%- elif content_item.type == 'partner_logos' %}
