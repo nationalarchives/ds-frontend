@@ -70,7 +70,6 @@
 <div class="tna-container tna-!--padding-bottom-l">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-l">
     {{ wagtail_streamfield(page_data.description, 2) }}
-
     {%- if page_data.curriculum_connection_description %}
     <h2 class="tna-heading-l">Connections to the curriculum</h2>
     {{ page_data.curriculum_connection_description | tna_html | safe }}
@@ -91,13 +90,19 @@
         <i class="fa-solid fa-calendar" aria-hidden="true"></i>
         Date
       </dt>
-      <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+      <dd>
+        {%- if page_data.start_date or page_data.end_date %}
+        {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
+        {%- else %}
+        All year
+        {%- endif %}
+      </dd>
 
       <dt>
         <i class="fa-solid fa-ticket" aria-hidden="true"></i>
         Price
       </dt>
-      <dd>{{ page_data.price | pretty_price }} {{ page_data.price_detail }}</dd>
+      <dd>{{ page_data.price | pretty_price }}{% if page_data.price %} {{ page_data.price_detail }}{% endif %}</dd>
 
       {%- set locations_with_durations = page_data.session_locations | rejectattr('duration', 'none') | list %}
       {%- if locations_with_durations %}
@@ -121,6 +126,7 @@
       {%- endfor %}
     </dl>
     
+    {%- if page_data.booking_link %}
     <div class="tna-button-group">
       {{ tnaButton({
         'text': 'Book now',
@@ -130,6 +136,7 @@
         }
       }) }}
     </div>
+    {%- endif %}
   </div>
 </div>
 
@@ -175,6 +182,13 @@
         'headingLevel': 3,
         'headingSize': 'm',
         'href': session.url,
+        'meta': [
+          {
+            'title': 'Key stage',
+            'text': session.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
+          }
+        ],
         'text': session.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,

@@ -33,17 +33,17 @@
         'meta': [
           {
             'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
+            'text': page_data.featured_teaching_resource.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           },
           {
             'title': 'Theme',
-            'text': 'TODO',
+            'text': page_data.featured_teaching_resource.themes | map(attribute='name') | join(', '),
             'icon': 'scroll'
           },
           {
             'title': 'Time period',
-            'text': 'TODO',
+            'text': page_data.featured_teaching_resource.time_periods | map(attribute='name') | join(', '),
             'icon': 'hourglass'
           }
         ],
@@ -85,17 +85,17 @@
         'meta': [
           {
             'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
+            'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           },
           {
             'title': 'Theme',
-            'text': 'TODO',
+            'text': page.themes | map(attribute='name') | join(', '),
             'icon': 'scroll'
           },
           {
             'title': 'Time period',
-            'text': 'TODO',
+            'text': page.time_periods | map(attribute='name') | join(', '),
             'icon': 'hourglass'
           }
         ],
@@ -148,17 +148,17 @@
         'meta': [
           {
             'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
+            'text': page_data.featured_education_session.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           },
           {
             'title': 'Theme',
-            'text': 'TODO',
+            'text': page_data.featured_education_session.themes | map(attribute='name') | join(', '),
             'icon': 'scroll'
           },
           {
             'title': 'Time period',
-            'text': 'TODO',
+            'text': page_data.featured_education_session.time_periods | map(attribute='name') | join(', '),
             'icon': 'hourglass'
           }
         ],
@@ -200,17 +200,17 @@
         'meta': [
           {
             'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
+            'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           },
           {
             'title': 'Theme',
-            'text': 'TODO',
+            'text': page.themes | map(attribute='name') | join(', '),
             'icon': 'scroll'
           },
           {
             'title': 'Time period',
-            'text': 'TODO',
+            'text': page.time_periods | map(attribute='name') | join(', '),
             'icon': 'hourglass'
           }
         ],
