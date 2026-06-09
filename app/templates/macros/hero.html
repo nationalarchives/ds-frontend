@@ -1,6 +1,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 
 {% macro hero(page_data, hero_image, hero_image_small, options) %}
+  {%- set options = options or {} %}
   {%- set hero_image_caption %}
     {{- page_data.hero_image_caption | safe -}}
     {%- if page_data.hero_image.copyright -%}
