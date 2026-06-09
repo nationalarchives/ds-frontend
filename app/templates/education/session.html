@@ -1,1 +1,49 @@
-SESSION
+{% extends "wagtail_base.html" %}
+
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/hero.html' import hero -%}
+
+{%- set breadcrumbsStyle = 'accent-light' -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='education.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+  {%- set hero_image_caption %}
+    {{- page_data.hero_image_caption | safe -}}
+    {%- if page_data.hero_image.copyright -%}
+      <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+    {%- endif -%}
+  {%- endset %}
+  {%- set hero_body %}
+    <div class="tna-large-paragraph">
+      {{ page_data.intro | tna_html | safe }}
+    </div>
+  {%- endset %}
+  {% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}
+    {%- if page_data.enquiry_question %}
+    <div class="tna-hero__enquiry-question">
+      <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+      <p>{{ page_data.enquiry_question }}</p>
+    </div>
+    {%- endif %}
+    {{ page_data.intro | tna_html | safe }}
+  {% endcall %}
+</div>
+
+{{ page_data }}
+
+{{ feedback() }}
+{{ back_to_top() }}
+{% endblock content %}
