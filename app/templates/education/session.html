@@ -27,44 +27,58 @@
   {% call hero(page_data, page_data.hero_image, page_data.hero_image_small, {
     'narrow': True
   }) %}
-    {%- if page_data.enquiry_question %}
-    <div class="tna-hero__enquiry-question">
-      <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
-      <p>{{ page_data.enquiry_question }}</p>
+    <div class="tna-large-paragraph">
+      {{ page_data.intro | tna_html | safe }}
     </div>
-    {%- endif %}
-    {{ page_data.intro | tna_html | safe }}
-  {% endcall %}
-</div>
+    <dl class="tna-dl">
+      <dt>
+        <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+        Date
+      </dt>
+      <dd>
+        {%- if page_data.start_date or page_data.end_date %}
+        {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
+        {%- else %}
+        All year
+        {%- endif %}
+      </dd>
 
-<div class="tna-background-contrast">
-  <h2 class="tna-visually-hidden">Tags</h2>
-  <div class="tna-container tna-!--padding-bottom-m">
-    <!-- <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      <h3 class="tna-heading-s">Key stage</h3>
-      <ul class="tna-ul tna-!--margin-top-xs">
-        {%- for key_stage in page_data.key_stages %}
-        <li>{{ key_stage.name }} ({{ key_stage.public_age_range }})</li>
-        {%- endfor %}
-      </ul>
-    </div> -->
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      <h3 class="tna-heading-s">Time period</h3>
-      <ul class="tna-ul tna-!--margin-top-xs">
-        {%- for time_period in page_data.time_periods %}
-        <li>{{ time_period.name }}</li>
-        {%- endfor %}
-      </ul>
-    </div>
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      <h3 class="tna-heading-s">Theme</h3>
-      <ul class="tna-ul tna-!--margin-top-xs">
-        {%- for theme in page_data.themes %}
-        <li>{{ theme.name }}</li>
-        {%- endfor %}
-      </ul>
-    </div>
-  </div>
+      {%- set locations = page_data.session_locations | rejectattr('location_type', 'equalto', 'custom') | list %}
+      {%- if locations %}
+      <dt>
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        Location{{ 's' if page_data.session_locations | length > 1 else '' }}
+      </dt>
+      <dd>
+        {{ locations | map(attribute='location_type_display') | join(', ') }}
+      </dd>
+      {%- endif %}
+
+      <dt>
+        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
+      </dt>
+      {%- for key_stage in page_data.key_stages %}
+      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      {%- endfor %}
+
+      <dt>
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
+        Theme{{ 's' if page_data.themes | length > 1 else '' }}
+      </dt>
+      {%- for theme in page_data.themes %}
+      <dd>{{ theme.name }}</dd>
+      {%- endfor %}
+
+      <dt>
+        <i class="fa-solid fa-hourglass" aria-hidden="true"></i>
+        Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
+      </dt>
+      {%- for time_period in page_data.time_periods %}
+      <dd>{{ time_period.name }}</dd>
+      {%- endfor %}
+    </dl>
+  {% endcall %}
 </div>
 
 <div class="tna-container tna-!--padding-bottom-l">
@@ -80,11 +94,34 @@
     <dl class="tna-dl tna-dl--stacked">
       <dt>
         <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-        Location
+        Location{{ 's' if page_data.session_locations | length > 1 else '' }}
       </dt>
-      {%- for location in page_data.session_locations %}
-      <dd>{{ location.location_type_display }}</dd>
-      {%- endfor %}
+      <dd>
+        {% macro address_display(location) %}
+          {%- if location.location_type == 'custom' %}
+            {{ [
+              location.venue_name,
+              location.address_line_1,
+              location.address_line_2,
+              location.postcode
+            ] | select | join('<br>') | safe }}
+          {%- else %}
+            {{ location.location_type_display }}
+          {%- endif %}
+        {% endmacro %}
+
+        {%- if page_data.session_locations | length > 1 %}
+        <ul class="tna-ul">
+        {%- for location in page_data.session_locations %}
+          <li>
+            {{ address_display(location) }}
+          </li>
+        {%- endfor %}
+        </ul>
+        {%- else %}
+          {{ address_display(page_data.session_locations[0]) }}
+        {%- endif %}
+      </dd>
 
       <dt>
         <i class="fa-solid fa-calendar" aria-hidden="true"></i>
@@ -110,16 +147,20 @@
         <i class="fa-solid fa-clock" aria-hidden="true"></i>
         Duration
       </dt>
-      {%- for location in locations_with_durations %}
-        {%- if location.duration %}
-        <dd>{{ location.location_type_display }}: {{ location.duration }}</dd>
-        {%- endif %}
-      {%- endfor %}
+      <dd>
+        <ul class="tna-ul">
+        {%- for location in locations_with_durations %}
+          {%- if location.duration %}
+          <li>{{ location.location_type_display }}: {{ location.duration }}</li>
+          {%- endif %}
+        {%- endfor %}
+        </ul>
+      </dd>
       {%- endif %}
 
       <dt>
         <i class="fa-solid fa-user-group" aria-hidden="true"></i>
-        Recommended ages
+        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
       </dt>
       {%- for key_stage in page_data.key_stages %}
       <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
@@ -150,13 +191,6 @@
   </div>
 </div>
 {%- endif %}
-
-<div class="tna-section tna-container">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <h2 class="tna-heading-l">Locations</h2>
-    {{ page_data.session_locations }}
-  </div>
-</div>
 
 <div class="tna-section tna-container">
   <div class="tna-column tna-column--full">
