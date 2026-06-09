@@ -171,19 +171,16 @@
 
       {%- if page_data.extension_activities %}
       <h2 class="tna-heading-l" id="extension-activities">Extension activities</h2>
-      <!-- {{ page_data.extension_activities }} -->
       {{ wagtail_streamfield(page_data.extension_activities, 3) }}
       {%- endif %}
       
       {%- if page_data.background_information %}
       <h2 class="tna-heading-l" id="background-information">Background information</h2>
-      <!-- {{ page_data.background_information }} -->
       {{ wagtail_streamfield(page_data.background_information, 3) }}
       {%- endif %}
       
       {%- if page_data.further_information %}
       <h2 class="tna-heading-l" id="further-information">{{ page_data.further_information_title or 'Further information' }}</h2>
-      <!-- {{ page_data.further_information }} -->
       {{ wagtail_streamfield(page_data.further_information, 3) }}
       {%- endif %}
     </div>
