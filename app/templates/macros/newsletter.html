@@ -1,11 +1,13 @@
-{% macro newsletter(title, url) %}
+{% macro newsletter(title, url, heading_level) %}
+{%- set heading_level = heading_level or 2 %}
 <div class="tna-newsletter" data-tna-analytics-section>
+  <h{{ heading_level }} class="tna-visually-hidden">Newsletter</h{{ heading_level }}>
   <div class="tna-newsletter_inner">
     <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
     <div class="tna-newsletter__body">
-      <h3 class="tna-heading-m">
+      <p class="tna-heading-m">
         <a href="{{ url or 'https://pages.enews.nationalarchives.gov.uk/pages/subscribe' }}" data-tna-analytics-event="select_promotion" data-tna-analytics-creative-name="email_subscription">{{ title or 'Get the latest updates' }}</a>
-      </h3>
+      </p>
       {%- if caller %}
       {{ caller() }}
       {%- else %}
