@@ -148,13 +148,17 @@
         Duration
       </dt>
       <dd>
+        {%- if locations_with_durations | length == 1 %}
+          {{ locations_with_durations[0].duration }}
+        {%- else %}
         <ul class="tna-ul">
         {%- for location in locations_with_durations %}
           {%- if location.duration %}
-          <li>{{ location.location_type_display }}: {{ location.duration }}</li>
+          <li>{{ location.venue_name if location.location_type == 'custom' else location.location_type_display }}: {{ location.duration }}</li>
           {%- endif %}
         {%- endfor %}
         </ul>
+        {%- endif %}
       </dd>
       {%- endif %}
 
