@@ -1,9 +1,12 @@
 {% extends "wagtail_base.html" %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/hero.html' import hero -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set breadcrumbsStyle = 'accent-light' -%}
 
@@ -20,18 +23,9 @@
 {% block content %}
 <div class="tna-background-accent-light">
   {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-  {%- set hero_image_caption %}
-    {{- page_data.hero_image_caption | safe -}}
-    {%- if page_data.hero_image.copyright -%}
-      <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
-    {%- endif -%}
-  {%- endset %}
-  {%- set hero_body %}
-    <div class="tna-large-paragraph">
-      {{ page_data.intro | tna_html | safe }}
-    </div>
-  {%- endset %}
-  {% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}
+  {% call hero(page_data, page_data.hero_image, page_data.hero_image_small, {
+    'narrow': True
+  }) %}
     {%- if page_data.enquiry_question %}
     <div class="tna-hero__enquiry-question">
       <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
@@ -42,7 +36,168 @@
   {% endcall %}
 </div>
 
-{{ page_data }}
+<div class="tna-background-contrast">
+  <h2 class="tna-visually-hidden">Tags</h2>
+  <div class="tna-container tna-!--padding-bottom-m">
+    <!-- <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+      <h3 class="tna-heading-s">Key stage</h3>
+      <ul class="tna-ul tna-!--margin-top-xs">
+        {%- for key_stage in page_data.key_stages %}
+        <li>{{ key_stage.name }} ({{ key_stage.public_age_range }})</li>
+        {%- endfor %}
+      </ul>
+    </div> -->
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+      <h3 class="tna-heading-s">Time period</h3>
+      <ul class="tna-ul tna-!--margin-top-xs">
+        {%- for time_period in page_data.time_periods %}
+        <li>{{ time_period.name }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+      <h3 class="tna-heading-s">Theme</h3>
+      <ul class="tna-ul tna-!--margin-top-xs">
+        {%- for theme in page_data.themes %}
+        <li>{{ theme.name }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="tna-container tna-!--padding-bottom-l">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-l">
+    {{ wagtail_streamfield(page_data.description, 2) }}
+
+    {%- if page_data.curriculum_connection_description %}
+    <h2 class="tna-heading-l">Connections to the curriculum</h2>
+    {{ page_data.curriculum_connection_description | tna_html | safe }}
+    {%- endif %}
+  </div>
+  <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-l">
+    <h2 class="tna-heading-l">Key details</h2>
+    <dl class="tna-dl tna-dl--stacked">
+      <dt>
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        Location
+      </dt>
+      {%- for location in page_data.session_locations %}
+      <dd>{{ location.location_type_display }}</dd>
+      {%- endfor %}
+
+      <dt>
+        <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+        Date
+      </dt>
+      <dd>{{ pretty_date_range(page_data.start_date, page_data.end_date) }}</dd>
+
+      <dt>
+        <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+        Price
+      </dt>
+      <dd>{{ page_data.price | pretty_price }} {{ page_data.price_detail }}</dd>
+
+      {%- set locations_with_durations = page_data.session_locations | rejectattr('duration', 'none') | list %}
+      {%- if locations_with_durations %}
+      <dt>
+        <i class="fa-solid fa-clock" aria-hidden="true"></i>
+        Duration
+      </dt>
+      <dd>
+        <ul class="tna-ul">
+        {%- for location in locations_with_durations %}
+          {%- if location.duration %}
+          <li>{{ location.location_type_display }}: {{ location.duration }}</li>
+          {%- endif %}
+        {%- endfor %}
+        </ul>
+      </dd>
+      {%- endif %}
+
+      <dt>
+        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+        Recommended ages
+      </dt>
+      {%- for key_stage in page_data.key_stages %}
+      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      {%- endfor %}
+    </dl>
+    
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': 'Book now',
+        'href': page_data.booking_link,
+        'attributes': {
+          'rel': 'noreferrer nofollow noopener'
+        }
+      }) }}
+    </div>
+  </div>
+</div>
+
+{%- if page_data.highlights %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">page_data.highlights</h2>
+      {{ page_data.highlights }}
+    </div>
+  </div>
+</div>
+{%- endif %}
+
+<div class="tna-section tna-container">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <h2 class="tna-heading-l">Locations</h2>
+    {{ page_data.session_locations }}
+  </div>
+</div>
+
+{%- if page_data.related_education_sessions %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h2 class="tna-heading-l">More education sessions</h2>
+    </div>
+  </div>
+  <ul class="tna-container">
+    {%- for session in page_data.related_education_sessions %}
+    <li class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+      {% set card_content = {
+        'supertitle': session.type_label,
+        'title': session.title,
+        'headingLevel': 3,
+        'headingSize': 'm',
+        'href': session.url,
+        'text': session.teaser_text,
+        'style': 'plain',
+        'fullAreaClick': True,
+        'style': 'plain',
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if session.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': session.teaser_image.jpeg.full_url,
+          'imageAlt': session.teaser_image.description,
+          'imageWidth': session.teaser_image.jpeg.width,
+          'imageHeight': session.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': session.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': session.teaser_image.webp.width,
+              'height': session.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {%- endfor %}
+  </ul>
+</div>
+{%- endif %}
 
 {{ feedback() }}
 {{ back_to_top() }}
