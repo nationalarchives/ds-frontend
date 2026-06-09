@@ -28,7 +28,9 @@
 {% block content %}
 <div class="tna-background-accent-light">
   {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-  {% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}
+  {% call hero(page_data, page_data.hero_image, page_data.hero_image_small, {
+    'narrow': True
+  }) %}
     {%- if page_data.enquiry_question %}
     <div class="tna-hero__enquiry-question">
       <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
@@ -150,7 +152,7 @@
 
       <div id="teachers-notes" class="tna-aside tna-background-accent-light">
         <h2 class="tna-heading-l">Teachers notes</h2>
-        {{ page_data.teachers_notes | tna_html | safe }}
+        {{ wagtail_streamfield(page_data.teachers_notes, 3) }}
         <h3 class="tna-heading-m">Connections to the curriculum</h3>
         {% set ns = namespace(accordion_items=[]) %}
         {%- for item in page_data.curriculum_connections %}
