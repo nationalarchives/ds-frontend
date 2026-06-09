@@ -6,6 +6,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/hero.html' import hero -%}
+{%- from 'macros/newsletter.html' import newsletter -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {%- set breadcrumbsStyle = 'accent-light' -%}
@@ -104,15 +105,11 @@
         <i class="fa-solid fa-clock" aria-hidden="true"></i>
         Duration
       </dt>
-      <dd>
-        <ul class="tna-ul">
-        {%- for location in locations_with_durations %}
-          {%- if location.duration %}
-          <li>{{ location.location_type_display }}: {{ location.duration }}</li>
-          {%- endif %}
-        {%- endfor %}
-        </ul>
-      </dd>
+      {%- for location in locations_with_durations %}
+        {%- if location.duration %}
+        <dd>{{ location.location_type_display }}: {{ location.duration }}</dd>
+        {%- endif %}
+      {%- endfor %}
       {%- endif %}
 
       <dt>
@@ -151,6 +148,14 @@
   <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
     <h2 class="tna-heading-l">Locations</h2>
     {{ page_data.session_locations }}
+  </div>
+</div>
+
+<div class="tna-section tna-container">
+  <div class="tna-column tna-column--full">
+    {% call newsletter('Be the first to hear about new education resources') %}
+      <p>Subscribe to our regular newsletter for education updates and early booking for online sessions.</p>
+    {% endcall %}
   </div>
 </div>
 

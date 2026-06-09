@@ -1,0 +1,17 @@
+{% macro newsletter(title, url) %}
+<div class="tna-newsletter" data-tna-analytics-section>
+  <div class="tna-newsletter_inner">
+    <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
+    <div class="tna-newsletter__body">
+      <h3 class="tna-heading-m">
+        <a href="{{ url or 'https://pages.enews.nationalarchives.gov.uk/pages/subscribe' }}" data-tna-analytics-event="select_promotion" data-tna-analytics-creative-name="email_subscription">{{ title or 'Get the latest updates' }}</a>
+      </h3>
+      {%- if caller %}
+      {{ caller() }}
+      {%- else %}
+      <p>Subscribe to our weekly newsletter for updates and early booking for events, including talks, tours and online sessions.</p>
+      {%- endif %}
+    </div>
+  </div>
+</div>
+{% endmacro %}
