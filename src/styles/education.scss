@@ -1,3 +1,5 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  borderVars;
 @use "@nationalarchives/frontend/nationalarchives/variables/grid" as gridVars;
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
@@ -45,24 +47,33 @@ $source-list-line-width: 3px;
 .tna-education-top-details {
   height: 100%;
 
-  @include colour.thick-keyline-accent(left, true);
-  @include colour.accent-light;
+  display: flex;
+  flex-direction: row;
 
-  .tna-container {
-    height: 100%;
-    padding-top: spacing.space(1);
-    padding-bottom: spacing.space(1);
-
-    @include media.on-tiny {
-      flex-direction: column;
-    }
+  @include media.on-tiny {
+    flex-direction: column;
   }
 
   &__icon {
-    margin-top: spacing.space(0.5);
-    margin-bottom: spacing.space(1);
+    padding: spacing.space(1) spacing.space(0.75);
 
-    font-size: 2em;
+    font-size: 1.5em;
+
+    @include colour.accent;
+
+    border-top-left-radius: borderVars.$rounded-border-radius;
+    border-bottom-left-radius: borderVars.$rounded-border-radius;
+  }
+
+  &__content {
+    padding: spacing.space(0.75) spacing.space(1) spacing.space(1);
+
+    flex: 1;
+
+    border-left: none !important;
+    @include colour.colour-border("keyline", 1px, solid);
+    border-top-right-radius: borderVars.$rounded-border-radius;
+    border-bottom-right-radius: borderVars.$rounded-border-radius;
   }
 }
 

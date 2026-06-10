@@ -40,7 +40,7 @@
         'href': page_data.featured_teaching_resource.url,
         'meta': [
           {
-            'title': 'Key stage',
+            'title': 'Age range',
             'text': page_data.featured_teaching_resource.key_stages | map(attribute='short_key_stage') | join(', '),
             'icon': 'user-group'
           },
@@ -92,19 +92,9 @@
         'href': page.url,
         'meta': [
           {
-            'title': 'Key stage',
+            'title': 'Age range',
             'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
             'icon': 'user-group'
-          },
-          {
-            'title': 'Theme',
-            'text': page.themes | map(attribute='name') | join(', '),
-            'icon': 'scroll'
-          },
-          {
-            'title': 'Time period',
-            'text': page.time_periods | map(attribute='name') | join(', '),
-            'icon': 'hourglass'
           }
         ],
         'text': page.teaser_text,
@@ -155,7 +145,7 @@
         'href': page_data.featured_education_session.url,
         'meta': [
           {
-            'title': 'Key stage',
+            'title': 'Age range',
             'text': page_data.featured_education_session.key_stages | map(attribute='short_key_stage') | join(', '),
             'icon': 'user-group'
           },
@@ -207,19 +197,9 @@
         'href': page.url,
         'meta': [
           {
-            'title': 'Key stage',
+            'title': 'Age range',
             'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
             'icon': 'user-group'
-          },
-          {
-            'title': 'Theme',
-            'text': page.themes | map(attribute='name') | join(', '),
-            'icon': 'scroll'
-          },
-          {
-            'title': 'Time period',
-            'text': page.time_periods | map(attribute='name') | join(', '),
-            'icon': 'hourglass'
           }
         ],
         'text': page.teaser_text,
