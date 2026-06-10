@@ -238,28 +238,28 @@
     {%- for page in page_data.education_read_more_links -%}
     <li class="tna-column tna-column--width-2-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
       {% set card_content = {
-        'supertitle': page.selected_page.type_label,
-        'title': page.selected_page.title,
+        'supertitle': page.type_label,
+        'title': page.title,
         'headingLevel': 3,
         'headingSize': 'm',
-        'href': page.selected_page.url,
-        'text': page.selected_page.teaser_text,
+        'href': page.url,
+        'text': page.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
         'classes': 'tna-card--full-height'
       } %}
-      {%- if page.selected_page.teaser_image %}
+      {%- if page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': page.selected_page.teaser_image.jpeg.full_url,
-          'imageAlt': page.selected_page.teaser_image.description,
-          'imageWidth': page.selected_page.teaser_image.jpeg.width,
-          'imageHeight': page.selected_page.teaser_image.jpeg.height,
+          'imageSrc': page.teaser_image.jpeg.full_url,
+          'imageAlt': page.teaser_image.description,
+          'imageWidth': page.teaser_image.jpeg.width,
+          'imageHeight': page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': page.selected_page.teaser_image.webp.full_url,
+              'src': page.teaser_image.webp.full_url,
               'type': 'image/webp',
-              'width': page.selected_page.teaser_image.webp.width,
-              'height': page.selected_page.teaser_image.webp.height
+              'width': page.teaser_image.webp.width,
+              'height': page.teaser_image.webp.height
             }
           ]
         }) %}
