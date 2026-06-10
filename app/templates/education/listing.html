@@ -28,6 +28,7 @@
     </hgroup>
     <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
   </div>
+  {#
   <form class="tna-column tna-column--full tna-!--margin-top-m" method="get" action="{{ page_data.meta.url }}" role="search">
     {{ tnaSearchField({
       'label': 'Search ' ~ (page_data.title | lower),
@@ -38,6 +39,7 @@
       'value': q
     }) }}
   </form>
+  #}
 </div>
 
 <h2 class="tna-visually-hidden">Results</h2>
@@ -45,10 +47,62 @@
   <section id="results">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
-      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
       </div>
     </div>
     <ul class="tna-container tna-!--margin-top-m">
+    {% set featured = page_data.featured_teaching_resource or page_data.featured_education_session %}
+    {%- if featured %}
+      <li class="tna-column tna-column--full tna-!--margin-bottom-m">
+        {% set card_content = {
+          'supertitle': featured.type_label,
+          'title': featured.title,
+          'headingLevel': 3,
+          'headingSize': 'l',
+          'href': featured.url,
+          'meta': [
+            {
+              'title': 'Age range',
+              'text': featured.key_stages | map(attribute='short_key_stage') | join(', '),
+              'icon': 'user-group'
+            },
+            {
+              'title': 'Theme',
+              'text': featured.themes | map(attribute='name') | join(', '),
+              'icon': 'scroll'
+            },
+            {
+              'title': 'Time period',
+              'text': featured.time_periods | map(attribute='name') | join(', '),
+              'icon': 'hourglass'
+            }
+          ],
+          'text': featured.teaser_override or featured.teaser_text,
+          'style': 'plain',
+          'fullAreaClick': True,
+          'horizontal': True,
+          'style': 'accent',
+          'classes': 'tna-card--full-height'
+        } %}
+        {%- if featured.teaser_image %}
+          {% set card_content = dict(card_content, **{
+            'imageSrc': featured.teaser_image.jpeg.full_url,
+            'imageAlt': featured.teaser_image.description,
+            'imageWidth': featured.teaser_image.jpeg.width,
+            'imageHeight': featured.teaser_image.jpeg.height,
+            'imageSources': [
+              {
+                'src': featured.teaser_image.webp.full_url,
+                'type': 'image/webp',
+                'width': featured.teaser_image.webp.width,
+                'height': featured.teaser_image.webp.height
+              }
+            ]
+          }) %}
+        {%- endif %}
+        {{ tnaCard(card_content) }}
+      </li>
+    {%- endif %}
     {%- for child in children %}
       <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-m">
         {% set card_content = {
