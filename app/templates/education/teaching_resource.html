@@ -38,42 +38,77 @@
     </div>
     {%- endif %}
     {{ page_data.intro | tna_html | safe }}
+    <dl class="tna-dl">
+      <dt>
+        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
+      </dt>
+      {%- for key_stage in page_data.key_stages %}
+      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      {%- endfor %}
+
+      <!--
+      <dt>
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
+        Theme{{ 's' if page_data.themes | length > 1 else '' }}
+      </dt>
+      {%- for theme in page_data.themes %}
+      <dd>{{ theme.name }}</dd>
+      {%- endfor %}
+
+      <dt>
+        <i class="fa-solid fa-hourglass" aria-hidden="true"></i>
+        Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
+      </dt>
+      {%- for time_period in page_data.time_periods %}
+      <dd>{{ time_period.name }}</dd>
+      {%- endfor %}
+      -->
+    </dl>
   {% endcall %}
 </div>
 
-<div class="tna-background-contrast">
-  <h2 class="tna-visually-hidden">Tags</h2>
-  <div class="tna-container tna-!--padding-bottom-m">
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      <h3 class="tna-heading-s">Key stage</h3>
-      <ul class="tna-ul tna-!--margin-top-xs">
-        {%- for key_stage in page_data.key_stages %}
-        <li>{{ key_stage.name }} ({{ key_stage.public_age_range }})</li>
-        {%- endfor %}
-      </ul>
+<h2 class="tna-visually-hidden">About this resource</h2>
+<div class="tna-container tna-!--padding-top-l tna-!--padding-bottom-s">
+  <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+    <div class="tna-education-top-details">
+      <div class="tna-container">
+        <div class="tna-column">
+          <i class="fa-solid fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+        </div>
+        <div class="tna-column tna-column--flex-1">
+          <h3 class="tna-heading-m">Time period{{ 's' if page_data.time_periods | length > 1 else '' }}</h3>
+          <ul class="tna-ul tna-!--margin-top-xs">
+            {%- for time_period in page_data.time_periods %}
+            <li>{{ time_period.name }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      <h3 class="tna-heading-s">Time period</h3>
-      <ul class="tna-ul tna-!--margin-top-xs">
-        {%- for time_period in page_data.time_periods %}
-        <li>{{ time_period.name }}</li>
-        {%- endfor %}
-      </ul>
-    </div>
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
-      <h3 class="tna-heading-s">Theme</h3>
-      <ul class="tna-ul tna-!--margin-top-xs">
-        {%- for theme in page_data.themes %}
-        <li>{{ theme.name }}</li>
-        {%- endfor %}
-      </ul>
+  </div>
+  <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+    <div class="tna-education-top-details">
+      <div class="tna-container">
+        <div class="tna-column">
+          <i class="fa-solid fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+        </div>
+        <div class="tna-column tna-column--flex-1">
+          <h3 class="tna-heading-m">Theme{{ 's' if page_data.themes | length > 1 else '' }}</h3>
+          <ul class="tna-ul tna-!--margin-top-xs">
+            {%- for theme in page_data.themes %}
+            <li>{{ theme.name }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="tna-!--padding-bottom-l">
   <div class="tna-container">
-    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny">
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny">
       {% set ns = namespace(source_list=[]) %}
       {% for source in page_data.sources %}
         {% do ns.source_list.append({
@@ -109,10 +144,13 @@
         'items': ns.source_list,
         'type': 'sections',
         'sticky': True,
-        'classes': 'tna-!--padding-top-s tna-!--margin-top-m'
+        'classes': 'tna-!--padding-top-s tna-!--margin-top-m',
+        'attributes': {
+          'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
+        }
       }) }}
     </div>
-    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m">
+    <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m">
       {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
           'headingLevel': 2,
@@ -128,8 +166,8 @@
         {%- for source in page_data.sources %}
         <li class="tna-education-ol__item" id="teaching-resource-source-{{ loop.index }}">
           <h3 class="tna-education-ol__item-header">
-            <span class="tna-education-ol__item-header-super">Source {{ loop.index }}<span class="tna-visually-hidden">:</span></span>
-            {{ source.title }}
+            <span class="tna-education-ol__item-header-super tna-heading-m">Source {{ loop.index }}<span class="tna-visually-hidden">:</span></span>
+            <span class="tna-large-paragraph">{{ source.title }}</span>
           </h3>
           <div class="tna-education-ol__item-body">
             {{ source.description | tna_html | safe }}
@@ -150,7 +188,7 @@
         {%- endfor %}
       </ol>
 
-      <div id="teachers-notes" class="tna-aside tna-background-accent-light">
+      <div id="teachers-notes" class="tna-aside tna-background-accent-light tna-!--margin-top-xl">
         <h2 class="tna-heading-l">Teachers notes</h2>
         {{ wagtail_streamfield(page_data.teachers_notes, 3) }}
         <h3 class="tna-heading-m">Connections to the curriculum</h3>

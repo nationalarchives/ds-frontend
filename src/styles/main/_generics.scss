@@ -12,8 +12,10 @@
   @include spacing.space-above;
 }
 
-.etna-thick-keyline-accent-top {
-  @include colour.thick-keyline-accent(top);
+.etna-thick-keyline-accent-left {
+  @include colour.thick-keyline-accent(left);
+  border-top-right-radius: borderVars.$rounded-border-radius;
+  border-bottom-right-radius: borderVars.$rounded-border-radius;
 }
 
 abbr {

@@ -9,7 +9,15 @@
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}{% endcall %}
+{% call hero(page_data, page_data.hero_image, page_data.hero_image_small,{
+  'narrow': True,
+  'layout': '',
+  'style': ''
+}) %}
+  <div class="tna-large-paragraph">
+    {{ page_data.intro | tna_html | safe }}
+  </div>
+{% endcall %}
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">

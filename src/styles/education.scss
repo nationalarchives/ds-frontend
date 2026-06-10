@@ -1,3 +1,4 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/grid" as gridVars;
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
@@ -6,6 +7,7 @@
 
 $source-list-marker-size: 3;
 $source-list-marker-spacing: 1;
+$source-list-line-width: 3px;
 
 .tna-hero {
   &__enquiry-question {
@@ -40,6 +42,30 @@ $source-list-marker-spacing: 1;
   }
 }
 
+.tna-education-top-details {
+  height: 100%;
+
+  @include colour.thick-keyline-accent(left, true);
+  @include colour.accent-light;
+
+  .tna-container {
+    height: 100%;
+    padding-top: spacing.space(1);
+    padding-bottom: spacing.space(1);
+
+    @include media.on-tiny {
+      flex-direction: column;
+    }
+  }
+
+  &__icon {
+    margin-top: spacing.space(0.5);
+    margin-bottom: spacing.space(1);
+
+    font-size: 2em;
+  }
+}
+
 .tna-education-ol {
   display: flex;
   flex-direction: column;
@@ -52,8 +78,33 @@ $source-list-marker-spacing: 1;
 
   &__item {
     padding-top: spacing.space(1);
+    // margin-left: -#{spacing.space(
+    //   gridVars.$gutter-width / 2
+    // )};
+
+    position: relative;
 
     counter-increment: sources;
+
+    &::before {
+      content: "";
+
+      width: $source-list-line-width;
+
+      display: block;
+
+      position: absolute;
+      top: spacing.space(1);
+      bottom: 0;
+      left: calc(
+        #{spacing.space($source-list-marker-size / 2)} -
+          #{$source-list-line-width / 2}
+      );
+
+      @include colour.contrast;
+
+      @include borders.rounded-border;
+    }
   }
 
   &__item-header {
@@ -97,13 +148,12 @@ $source-list-marker-spacing: 1;
     margin-bottom: spacing.space(0.25);
 
     display: block;
-
-    line-height: 1;
-
-    @include typography.main-font-weight-bold;
   }
 
   &__item-body {
     @include spacing.space-above;
+    padding-left: spacing.space(
+      $source-list-marker-size + $source-list-marker-spacing
+    );
   }
 }

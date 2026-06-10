@@ -62,6 +62,7 @@
       <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
       {%- endfor %}
 
+      <!--
       <dt>
         <i class="fa-solid fa-scroll" aria-hidden="true"></i>
         Theme{{ 's' if page_data.themes | length > 1 else '' }}
@@ -77,8 +78,47 @@
       {%- for time_period in page_data.time_periods %}
       <dd>{{ time_period.name }}</dd>
       {%- endfor %}
+      -->
     </dl>
   {% endcall %}
+</div>
+
+<h2 class="tna-visually-hidden">About this session</h2>
+<div class="tna-container tna-!--padding-top-l tna-!--padding-bottom-s">
+  <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+    <div class="tna-education-top-details">
+      <div class="tna-container">
+        <div class="tna-column">
+          <i class="fa-solid fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+        </div>
+        <div class="tna-column tna-column--flex-1">
+          <h3 class="tna-heading-m">Time period{{ 's' if page_data.time_periods | length > 1 else '' }}</h3>
+          <ul class="tna-ul tna-!--margin-top-xs">
+            {%- for time_period in page_data.time_periods %}
+            <li>{{ time_period.name }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+    <div class="tna-education-top-details">
+      <div class="tna-container">
+        <div class="tna-column">
+          <i class="fa-solid fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+        </div>
+        <div class="tna-column tna-column--flex-1">
+          <h3 class="tna-heading-m">Theme{{ 's' if page_data.themes | length > 1 else '' }}</h3>
+          <ul class="tna-ul tna-!--margin-top-xs">
+            {%- for theme in page_data.themes %}
+            <li>{{ theme.name }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="tna-container tna-!--padding-bottom-l">
