@@ -102,6 +102,12 @@
   <div class="tna-container">
     <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny">
       {% set ns = namespace(source_list=[]) %}
+      {%- if page_data.sources | length > 1 %}
+      {% do ns.source_list.append({
+        'text': 'Sources overview',
+        'href': '#sources-overview'
+      }) %}
+      {% endif %}
       {% for source in page_data.sources %}
         {% do ns.source_list.append({
           'text': 'Source ' ~ loop.index,
@@ -150,6 +156,35 @@
           'classes': 'tna-!--margin-bottom-m'
         }) }}
       {%- endif %}
+
+      {%- if page_data.sources | length > 1 %}
+      <div id="sources-overview" class="tna-aside tna-background-accent-light tna-education-sources-overview">
+        <h2 class="tna-heading-l">Sources overview</h2>
+        <p>Select a source to view it in more detail and find enquiry questions to examine it with your class.</p>
+        <ul class="tna-education-sources-overview__list">
+        {%- for source in page_data.sources %}
+          {%- set first_source_with_image = source.media | selectattr('type', 'in', ['image', 'youtube_video']) | list | first %}
+          <li class="tna-education-sources-overview__list-item">
+            <a href="#teaching-resource-source-{{ loop.index }}" class="tna-education-sources-overview__list-item-link">
+              {%- if first_source_with_image %}
+                {%- if first_source_with_image.type == 'image' %}
+                  <img src="{{ first_source_with_image.value.image.jpeg.full_url }}" alt="{{ first_source_with_image.value.image.description }}" width="{{ first_source_with_image.value.image.jpeg.width }}" height="{{ first_source_with_image.value.image.jpeg.height }}">
+                {%- elif first_source_with_image.type == 'youtube_video' %}
+                  <img src="{{ first_source_with_image.value.preview_image.jpeg.full_url }}" alt="{{ first_source_with_image.value.preview_image.description }}" width="{{ first_source_with_image.value.preview_image.jpeg.width }}" height="{{ first_source_with_image.value.preview_image.jpeg.height }}">
+                {%- else %}
+                  <img src="" alt="" width="1" height="1" aria-hidden="true">
+                {%- endif %}
+              {%- else %}
+                <img src="" alt="" width="1" height="1" aria-hidden="true">
+              {%- endif %}
+              <span class="tna-visually-hidden">Jump to source {{ loop.index }}:</span> {{ source.title | truncate(50) }}
+            </a>
+          </li>
+        {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+
       <h2 class="tna-heading-l">{{ page_data.sources_title or 'Investigate the sources' }}</h2>
       {%- if page_data.sources_introduction %}
         {{ page_data.sources_introduction | tna_html | safe }}
