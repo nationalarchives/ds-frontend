@@ -151,7 +151,7 @@
         {%- endfor %}
         </ul>
         {%- else %}
-          {{ address_display(page_data.session_locations[0]) }}
+          {{ address_display(page_data.session_locations | first) }}
         {%- endif %}
       </dd>
 
@@ -181,7 +181,7 @@
       </dt>
       <dd>
         {%- if locations_with_durations | length == 1 %}
-          {{ locations_with_durations[0].duration }}
+          {{ (locations_with_durations | first).duration }}
         {%- else %}
         <ul class="tna-ul">
         {%- for location in locations_with_durations %}
