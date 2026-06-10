@@ -57,6 +57,23 @@
           'headingLevel': 3,
           'headingSize': 'm',
           'href': child.url,
+          'meta': [
+            {
+              'title': 'Key stage',
+              'text': child.key_stages | map(attribute='short_key_stage') | join(', '),
+              'icon': 'user-group'
+            },
+            {
+              'title': 'Theme',
+              'text': child.themes | map(attribute='name') | join(', '),
+              'icon': 'scroll'
+            },
+            {
+              'title': 'Time period',
+              'text': child.time_periods | map(attribute='name') | join(', '),
+              'icon': 'hourglass'
+            }
+          ],
           'text': child.teaser_text,
           'style': 'plain',
           'fullAreaClick': True,

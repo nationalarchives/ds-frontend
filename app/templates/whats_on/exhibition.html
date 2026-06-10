@@ -10,6 +10,7 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/newsletter.html' import newsletter -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
@@ -588,15 +589,9 @@
     </div>
     {% endfor %}
     <div class="tna-column tna-column--full tna-!--margin-top-l">
-      <div class="tna-newsletter">
-        <div class="tna-newsletter_inner">
-          <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
-          <div class="tna-newsletter__body">
-            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/{{ 'spy' if page_data.meta.slug == 'mi5-official-secrets' else 'subscribe' }}">Get the latest updates</a></h3>
-            <p>Subscribe to our weekly newsletter for exhibition updates and early booking for events, including talks and tours.</p>
-          </div>
-        </div>
-      </div>
+      {% call newsletter() %}
+        <p>Subscribe to our weekly newsletter for exhibition updates and early booking for events, including talks and tours.</p>
+      {% endcall %}
     </div>
   </div>
 </section>

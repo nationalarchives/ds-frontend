@@ -9,7 +9,15 @@
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{% call hero(page_data, page_data.hero_image, page_data.hero_image_small) %}{% endcall %}
+{% call hero(page_data, page_data.hero_image, page_data.hero_image_small,{
+  'narrow': True,
+  'layout': '',
+  'style': ''
+}) %}
+  <div class="tna-large-paragraph">
+    {{ page_data.intro | tna_html | safe }}
+  </div>
+{% endcall %}
 <div class="tna-section">
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
@@ -32,18 +40,18 @@
         'href': page_data.featured_teaching_resource.url,
         'meta': [
           {
-            'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
+            'title': 'Age range',
+            'text': page_data.featured_teaching_resource.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           },
           {
             'title': 'Theme',
-            'text': 'TODO',
+            'text': page_data.featured_teaching_resource.themes | map(attribute='name') | join(', '),
             'icon': 'scroll'
           },
           {
             'title': 'Time period',
-            'text': 'TODO',
+            'text': page_data.featured_teaching_resource.time_periods | map(attribute='name') | join(', '),
             'icon': 'hourglass'
           }
         ],
@@ -84,19 +92,9 @@
         'href': page.url,
         'meta': [
           {
-            'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
-          },
-          {
-            'title': 'Theme',
-            'text': 'TODO',
-            'icon': 'scroll'
-          },
-          {
-            'title': 'Time period',
-            'text': 'TODO',
-            'icon': 'hourglass'
+            'title': 'Age range',
+            'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           }
         ],
         'text': page.teaser_text,
@@ -147,18 +145,18 @@
         'href': page_data.featured_education_session.url,
         'meta': [
           {
-            'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
+            'title': 'Age range',
+            'text': page_data.featured_education_session.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           },
           {
             'title': 'Theme',
-            'text': 'TODO',
+            'text': page_data.featured_education_session.themes | map(attribute='name') | join(', '),
             'icon': 'scroll'
           },
           {
             'title': 'Time period',
-            'text': 'TODO',
+            'text': page_data.featured_education_session.time_periods | map(attribute='name') | join(', '),
             'icon': 'hourglass'
           }
         ],
@@ -199,19 +197,9 @@
         'href': page.url,
         'meta': [
           {
-            'title': 'Key stage',
-            'text': 'TODO',
-            'icon': 'graduation-cap'
-          },
-          {
-            'title': 'Theme',
-            'text': 'TODO',
-            'icon': 'scroll'
-          },
-          {
-            'title': 'Time period',
-            'text': 'TODO',
-            'icon': 'hourglass'
+            'title': 'Age range',
+            'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
+            'icon': 'user-group'
           }
         ],
         'text': page.teaser_text,

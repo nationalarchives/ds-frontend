@@ -1,6 +1,7 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 
 {% macro hero(page_data, hero_image, hero_image_small, options) %}
+  {%- set options = options or {} %}
   {%- set hero_image_caption %}
     {{- page_data.hero_image_caption | safe -}}
     {%- if page_data.hero_image.copyright -%}
@@ -38,8 +39,8 @@
         'type': 'image/webp'
       }
     ],
-    'narrow': options.narrow if options.narrow is not none else True,
-    'style': options.style or 'accent-light',
-    'layout': options.layout or 'split'
+    'narrow': options.narrow if 'narrow' in options and options.narrow is not none else True,
+    'style': 'accent-light' if 'style' not in options or options.style is none else options.style,
+    'layout': 'split' if 'layout' not in options or options.layout is none else options.layout
   }, hero_image.uuid, hero_image.title) }}
 {% endmacro %}
