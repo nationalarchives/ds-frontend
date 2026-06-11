@@ -164,14 +164,20 @@
         <p>Select a source to view it in more detail and find enquiry questions to examine it with your class.</p>
         <ol class="tna-education-sources-overview__list">
         {%- for source in page_data.sources %}
-          {%- set first_source_with_image = source.media | selectattr('type', 'in', ['image', 'youtube_video']) | list | first %}
+          {%- set first_source = source.media | first %}
           <li class="tna-education-sources-overview__list-item">
             <a href="#teaching-resource-source-{{ loop.index }}" class="tna-education-sources-overview__list-item-link">
-              {%- if first_source_with_image %}
-                {%- if first_source_with_image.type == 'image' %}
-                  <img src="{{ first_source_with_image.value.image.jpeg.full_url }}" alt="{{ first_source_with_image.value.image.description }}" width="{{ first_source_with_image.value.image.jpeg.width }}" height="{{ first_source_with_image.value.image.jpeg.height }}">
-                {%- elif first_source_with_image.type == 'youtube_video' %}
-                  <img src="{{ first_source_with_image.value.preview_image.jpeg.full_url }}" alt="{{ first_source_with_image.value.preview_image.description }}" width="{{ first_source_with_image.value.preview_image.jpeg.width }}" height="{{ first_source_with_image.value.preview_image.jpeg.height }}">
+              {%- if first_source %}
+                {%- if first_source.type == 'image' %}
+                  <img src="{{ first_source.value.image.jpeg.full_url }}" alt="{{ first_source.value.image.description }}" width="{{ first_source.value.image.jpeg.width }}" height="{{ first_source.value.image.jpeg.height }}">
+                {%- elif first_source.type == 'media' %}
+                  {%- if first_source.value.thumbnail %}
+                    <img src="{{ first_source.value.thumbnail.jpeg.full_url }}" alt="{{ first_source.value.thumbnail.description }}" width="{{ first_source.value.thumbnail.jpeg.width }}" height="{{ first_source.value.thumbnail.jpeg.height }}">
+                  {%- else %}
+                    <img src="" alt="" width="1" height="1" aria-hidden="true">
+                  {%- endif %}
+                {%- elif first_source.type == 'youtube_video' %}
+                  <img src="{{ first_source.value.preview_image.jpeg.full_url }}" alt="{{ first_source.value.preview_image.description }}" width="{{ first_source.value.preview_image.jpeg.width }}" height="{{ first_source.value.preview_image.jpeg.height }}">
                 {%- else %}
                   <img src="" alt="" width="1" height="1" aria-hidden="true">
                 {%- endif %}
