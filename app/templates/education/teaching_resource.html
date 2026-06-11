@@ -214,18 +214,7 @@
               <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
             {%- endfor %}
             </ol>
-
-            {#
-            {{ wagtail_streamfield(source.media, 4) }}
-            {%- for link in source.featured_link %}
-              {%- if link.type == 'internal_link' %}
-                {{ wagtailFeaturedPage(link.value, 4) }}
-              {%- elif link.type == 'external_link' %}
-                {{ wagtailFeaturedExternalLink(link.value, 4) }}
-              {%- endif %}
-            {%- endfor %}
-            #}
-
+            
             {%- for question in source.question %}
             <h4 class="tna-heading-s">{{ question.value.question_heading }}</h4>
             {{ question.value.question_description | tna_html | safe }}
