@@ -8,6 +8,7 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/hero.html' import hero -%}
+{%- from 'macros/wagtail_block.html' import wagtail_block -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_blocks/featured_external_link.html' import wagtailFeaturedExternalLink -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
@@ -161,7 +162,7 @@
       <div id="sources-overview" class="tna-aside tna-background-accent-light tna-education-sources-overview">
         <h2 class="tna-heading-l">Sources overview</h2>
         <p>Select a source to view it in more detail and find enquiry questions to examine it with your class.</p>
-        <ul class="tna-education-sources-overview__list">
+        <ol class="tna-education-sources-overview__list">
         {%- for source in page_data.sources %}
           {%- set first_source_with_image = source.media | selectattr('type', 'in', ['image', 'youtube_video']) | list | first %}
           <li class="tna-education-sources-overview__list-item">
@@ -181,7 +182,7 @@
             </a>
           </li>
         {%- endfor %}
-        </ul>
+        </ol>
       </div>
       {%- endif %}
 
@@ -191,13 +192,24 @@
       {%- endif %}
       <ol class="tna-education-ol">
         {%- for source in page_data.sources %}
-        <li class="tna-education-ol__item" id="teaching-resource-source-{{ loop.index }}">
+        {%- set source_index = loop.index %}
+        <li id="teaching-resource-source-{{ source_index }}" class="tna-education-ol__item">
           <h3 class="tna-education-ol__item-header">
             <span class="tna-education-ol__item-header-super tna-heading-m">Source {{ loop.index }}<span class="tna-visually-hidden">:</span></span>
             <span class="tna-large-paragraph">{{ source.title }}</span>
           </h3>
           <div class="tna-education-ol__item-body">
             {{ source.description | tna_html | safe }}
+            <ol class="tna-education-ol__sublist">
+            {%- for media in source.media %}
+              <li id="teaching-resource-source-{{ source_index }}-{{ loop.index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4) }}</li>
+            {%- endfor %}
+            {%- for link in source.featured_link %}
+              <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
+            {%- endfor %}
+            </ol>
+
+            {#
             {{ wagtail_streamfield(source.media, 4) }}
             {%- for link in source.featured_link %}
               {%- if link.type == 'internal_link' %}
@@ -206,6 +218,8 @@
                 {{ wagtailFeaturedExternalLink(link.value, 4) }}
               {%- endif %}
             {%- endfor %}
+            #}
+
             {%- for question in source.question %}
             <h4 class="tna-heading-s">{{ question.value.question_heading }}</h4>
             {{ question.value.question_description | tna_html | safe }}

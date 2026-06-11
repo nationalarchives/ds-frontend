@@ -10,6 +10,8 @@
 $source-list-marker-size: 3;
 $source-list-marker-spacing: 1;
 $source-list-line-width: 3px;
+$source-list-marker-size-small: 2;
+// $source-list-marker-small-border-width: 2px;
 
 .tna-hero {
   &__enquiry-question {
@@ -67,7 +69,7 @@ $source-list-line-width: 3px;
     flex: 1;
 
     border-left-width: 0 !important;
-    @include colour.colour-border("keyline", 1px, solid);
+    @include colour.colour-border("keyline", 1px);
     border-top-right-radius: borderVars.$rounded-border-radius;
     border-bottom-right-radius: borderVars.$rounded-border-radius;
   }
@@ -179,9 +181,6 @@ $source-list-line-width: 3px;
 
   &__item {
     padding-top: spacing.space(1);
-    // margin-left: -#{spacing.space(
-    //   gridVars.$gutter-width / 2
-    // )};
 
     position: relative;
 
@@ -256,5 +255,63 @@ $source-list-line-width: 3px;
     padding-left: spacing.space(
       $source-list-marker-size + $source-list-marker-spacing
     );
+  }
+
+  &__sublist {
+    @include spacing.space-above;
+    display: flex;
+    flex-direction: column;
+    gap: spacing.space(2);
+
+    list-style: none;
+    counter-reset: sources-sublist;
+  }
+
+  &__sublist:has(&__sublist-item:nth-child(2)) &__sublist-item {
+    position: relative;
+
+    counter-increment: sources-sublist;
+
+    &::before {
+      content: counter(sources) counter(sources-sublist, lower-alpha);
+
+      min-width: spacing.space($source-list-marker-size-small - 0.5);
+      aspect-ratio: 1;
+      padding: 0 spacing.space(0.25);
+
+      display: block;
+
+      position: absolute;
+      top: 0;
+      // right: calc(
+      //   100% + spacing.space($source-list-marker-spacing) +
+      //     #{spacing.space(
+      //       ($source-list-marker-size - $source-list-marker-size-small) / 2
+      //     )} -
+      //     #{$source-list-marker-small-border-width / 2}
+      // );
+      right: calc(
+        100% + spacing.space($source-list-marker-spacing) +
+          #{spacing.space(
+            ($source-list-marker-size - $source-list-marker-size-small) / 2
+          )}
+      );
+
+      font-size: 0.75em;
+
+      line-height: spacing.space($source-list-marker-size-small);
+      text-align: center;
+      @include typography.main-font-weight-bold;
+
+      // @include colour.base;
+      @include colour.contrast;
+
+      @include borders.rounded-border;
+
+      // @include colour.colour-border(
+      //   "keyline-dark",
+      //   $source-list-marker-small-border-width
+      // );
+    }
   }
 }
