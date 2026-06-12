@@ -2,16 +2,16 @@
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{%- set pageTitle = 'Page archived' -%}
+{%- set pageTitle = 'Page no longer exists' -%}
 {%- set status_code = 410 -%}
 
 {% block content %}
 <div class="tna-container tna-section">
   <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
     <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
-    <p>This page has been archived in the <a href="https://www.nationalarchives.gov.uk/webarchive/">UK Government Web Archive</a>.</p>
+    <p>A version of the old page can still be viewed in the <a href="https://www.nationalarchives.gov.uk/webarchive/">UK Government Web Archive</a>.</p>
     {% if last_archived_date %}
-    <p>It was last saved <strong><time datetime="{{ last_archived_date }}">{{ last_archived_date_pretty }}</time></strong> ({{ last_archived_age }}).</p>
+    <p>The archive shows the page as it appeared on <strong><time datetime="{{ last_archived_date }}">{{ last_archived_date_pretty }}</time></strong> ({{ last_archived_age }}).</p>
     {% endif %}
     <div class="tna-button-group">
       {{ tnaButton({

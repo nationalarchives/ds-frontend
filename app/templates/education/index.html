@@ -3,6 +3,7 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/hero.html' import hero -%}
@@ -229,23 +230,25 @@
   </ul>
 </div>
 <div class="tna-section">
-  <div class="tna-container">
+  <!-- <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       <h2 class="tna-heading-l">Other</h2>
     </div>
-  </div>
+  </div> -->
   <ul class="tna-container">
     {%- for page in page_data.education_read_more_links -%}
-    <li class="tna-column tna-column--width-2-3 tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-m">
+    <li class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-s">
       {% set card_content = {
         'supertitle': page.type_label,
         'title': page.title,
-        'headingLevel': 3,
+        'headingLevel': 2,
         'headingSize': 'm',
         'href': page.url,
         'text': page.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
+        'horizontal': True,
+        'horizontalSmallImage': True,
         'classes': 'tna-card--full-height'
       } %}
       {%- if page.teaser_image %}
@@ -269,4 +272,7 @@
     {%- endfor -%}
   </ul>
 </div>
+
+{{ feedback() }}
+{{ back_to_top() }}
 {% endblock content %}

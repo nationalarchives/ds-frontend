@@ -183,8 +183,30 @@ $videojs-track-height: 0.5em;
       }
     }
 
-    .vjs-menu li {
-      text-transform: none;
+    .vjs-menu {
+      .vjs-menu-content {
+        padding: 2px;
+
+        overflow: visible;
+        @include borders.rounded-border;
+      }
+
+      .vjs-menu-item {
+        text-transform: none;
+        @include borders.rounded-border;
+      }
+
+      *:not(.vjs-selected):focus {
+        &:not(:focus-visible),
+        &:not(.focus-visible) {
+          position: relative;
+          z-index: 1;
+        }
+      }
+    }
+
+    .vjs-menu-button-popup .vjs-menu {
+      z-index: 1;
     }
 
     @include colour.on-forced-colours {

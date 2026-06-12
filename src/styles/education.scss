@@ -6,10 +6,13 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
+@use "@nationalarchives/frontend/nationalarchives/components/button/button";
 
 $source-list-marker-size: 3;
 $source-list-marker-spacing: 1;
-$source-list-line-width: 3px;
+$source-list-marker-size-small: 2;
+$source-list-line-width: 4px;
+$forced-colours-border: 1px;
 
 .tna-hero {
   &__enquiry-question {
@@ -56,6 +59,7 @@ $source-list-line-width: 3px;
     font-size: 1.5em;
 
     @include colour.accent;
+    border: 1px solid transparent;
 
     border-top-left-radius: borderVars.$rounded-border-radius;
     border-bottom-left-radius: borderVars.$rounded-border-radius;
@@ -67,7 +71,7 @@ $source-list-line-width: 3px;
     flex: 1;
 
     border-left-width: 0 !important;
-    @include colour.colour-border("keyline", 1px, solid);
+    @include colour.colour-border("keyline", $forced-colours-border);
     border-top-right-radius: borderVars.$rounded-border-radius;
     border-bottom-right-radius: borderVars.$rounded-border-radius;
   }
@@ -96,6 +100,80 @@ $source-list-line-width: 3px;
   }
 }
 
+.tna-education-sources-overview {
+  &__list {
+    margin-top: spacing.space(1);
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    align-items: start;
+    gap: spacing.space(2);
+
+    list-style: none;
+    counter-reset: sources-overview;
+  }
+
+  &__list-item {
+    counter-increment: sources-overview;
+  }
+
+  &__list-item-link {
+    @include typography.font-size(16);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: spacing.space(0.25);
+
+    position: relative;
+
+    &::before {
+      content: counter(sources-overview) / "";
+
+      width: spacing.space(2);
+      aspect-ratio: 2;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+
+      line-height: spacing.space(2);
+      text-align: center;
+      @include typography.main-font-weight-bold;
+
+      @include colour.contrast;
+
+      @include borders.rounded-border;
+    }
+
+    &::after {
+      content: "";
+
+      aspect-ratio: 1;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1;
+
+      @include colour.colour-border(
+        "keyline-dark",
+        button.$button-border-width
+      );
+    }
+
+    img {
+      width: auto;
+      aspect-ratio: 1;
+
+      object-fit: cover;
+      @include colour.contrast;
+    }
+  }
+}
+
 .tna-education-ol {
   display: flex;
   flex-direction: column;
@@ -108,9 +186,6 @@ $source-list-line-width: 3px;
 
   &__item {
     padding-top: spacing.space(1);
-    // margin-left: -#{spacing.space(
-    //   gridVars.$gutter-width / 2
-    // )};
 
     position: relative;
 
@@ -119,7 +194,7 @@ $source-list-line-width: 3px;
     &::before {
       content: "";
 
-      width: $source-list-line-width;
+      width: calc($source-list-line-width - 2px);
 
       display: block;
 
@@ -134,6 +209,7 @@ $source-list-line-width: 3px;
       @include colour.contrast;
 
       @include borders.rounded-border;
+      border: $forced-colours-border solid transparent;
     }
   }
 
@@ -160,7 +236,10 @@ $source-list-line-width: 3px;
 
       position: absolute;
       top: 0;
-      right: calc(100% + spacing.space($source-list-marker-spacing));
+      right: calc(
+        100% + spacing.space($source-list-marker-spacing) -
+          $forced-colours-border
+      );
 
       font-size: 1.25em;
 
@@ -170,6 +249,7 @@ $source-list-line-width: 3px;
 
       @include colour.contrast;
 
+      border: $forced-colours-border solid transparent;
       @include borders.rounded-border;
     }
   }
@@ -185,5 +265,65 @@ $source-list-line-width: 3px;
     padding-left: spacing.space(
       $source-list-marker-size + $source-list-marker-spacing
     );
+  }
+
+  &__sublist {
+    @include spacing.space-above;
+    display: flex;
+    flex-direction: column;
+    gap: spacing.space(2);
+
+    list-style: none;
+    counter-reset: sources-sublist;
+  }
+
+  &__sublist:has(&__sublist-item:nth-child(2)) &__sublist-item {
+    position: relative;
+
+    counter-increment: sources-sublist;
+
+    &::before {
+      content: counter(sources) counter(sources-sublist, lower-alpha);
+
+      min-width: spacing.space($source-list-marker-size-small - 0.5);
+      aspect-ratio: 1;
+      padding: 0 spacing.space(0.25);
+
+      display: block;
+
+      position: absolute;
+      top: 0;
+      // right: calc(
+      //   100% + spacing.space($source-list-marker-spacing) +
+      //     #{spacing.space(
+      //       ($source-list-marker-size - $source-list-marker-size-small) / 2
+      //     )} -
+      //     #{$source-list-marker-small-border-width / 2}
+      // );
+      right: calc(
+        100% + spacing.space($source-list-marker-spacing) +
+          #{spacing.space(
+            ($source-list-marker-size - $source-list-marker-size-small) / 2
+          )} -
+          $forced-colours-border
+      );
+
+      font-size: 0.75em;
+
+      line-height: spacing.space($source-list-marker-size-small);
+      text-align: center;
+      @include typography.main-font-weight-bold;
+
+      // @include colour.base;
+      @include colour.contrast;
+
+      border: $forced-colours-border solid transparent;
+      @include borders.rounded-border;
+
+      // @include colour.colour-border(
+      //   "keyline-dark",
+      //   $source-list-marker-small-border-width
+      // );
+    }
   }
 }
