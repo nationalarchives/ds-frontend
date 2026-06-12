@@ -6,12 +6,13 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
+@use "@nationalarchives/frontend/nationalarchives/components/button/button";
 
 $source-list-marker-size: 3;
 $source-list-marker-spacing: 1;
-$source-list-line-width: 3px;
 $source-list-marker-size-small: 2;
-// $source-list-marker-small-border-width: 2px;
+$source-list-line-width: 4px;
+$forced-colours-border: 1px;
 
 .tna-hero {
   &__enquiry-question {
@@ -58,6 +59,7 @@ $source-list-marker-size-small: 2;
     font-size: 1.5em;
 
     @include colour.accent;
+    border: 1px solid transparent;
 
     border-top-left-radius: borderVars.$rounded-border-radius;
     border-bottom-left-radius: borderVars.$rounded-border-radius;
@@ -69,7 +71,7 @@ $source-list-marker-size-small: 2;
     flex: 1;
 
     border-left-width: 0 !important;
-    @include colour.colour-border("keyline", 1px);
+    @include colour.colour-border("keyline", $forced-colours-border);
     border-top-right-radius: borderVars.$rounded-border-radius;
     border-bottom-right-radius: borderVars.$rounded-border-radius;
   }
@@ -103,7 +105,7 @@ $source-list-marker-size-small: 2;
     margin-top: spacing.space(1);
 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
     align-items: start;
     gap: spacing.space(2);
 
@@ -156,7 +158,10 @@ $source-list-marker-size-small: 2;
       left: 0;
       z-index: 1;
 
-      @include colour.colour-border("keyline-dark", 3px);
+      @include colour.colour-border(
+        "keyline-dark",
+        button.$button-border-width
+      );
     }
 
     img {
@@ -189,7 +194,7 @@ $source-list-marker-size-small: 2;
     &::before {
       content: "";
 
-      width: $source-list-line-width;
+      width: calc($source-list-line-width - 2px);
 
       display: block;
 
@@ -204,6 +209,7 @@ $source-list-marker-size-small: 2;
       @include colour.contrast;
 
       @include borders.rounded-border;
+      border: $forced-colours-border solid transparent;
     }
   }
 
@@ -230,7 +236,10 @@ $source-list-marker-size-small: 2;
 
       position: absolute;
       top: 0;
-      right: calc(100% + spacing.space($source-list-marker-spacing));
+      right: calc(
+        100% + spacing.space($source-list-marker-spacing) -
+          $forced-colours-border
+      );
 
       font-size: 1.25em;
 
@@ -240,6 +249,7 @@ $source-list-marker-size-small: 2;
 
       @include colour.contrast;
 
+      border: $forced-colours-border solid transparent;
       @include borders.rounded-border;
     }
   }
@@ -294,7 +304,8 @@ $source-list-marker-size-small: 2;
         100% + spacing.space($source-list-marker-spacing) +
           #{spacing.space(
             ($source-list-marker-size - $source-list-marker-size-small) / 2
-          )}
+          )} -
+          $forced-colours-border
       );
 
       font-size: 0.75em;
@@ -306,6 +317,7 @@ $source-list-marker-size-small: 2;
       // @include colour.base;
       @include colour.contrast;
 
+      border: $forced-colours-border solid transparent;
       @include borders.rounded-border;
 
       // @include colour.colour-border(
