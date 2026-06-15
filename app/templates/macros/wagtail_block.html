@@ -59,7 +59,19 @@
   </div>
 
   {%- elif content_item.type == 'description_list' %}
-  <dl class="tna-dl tna-dl--lined">
+  {%- set extra_dl_classes = [] %}
+  {%- if content_item.value.settings %}
+    {%- if content_item.value.settings.style %}
+      {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--' ~ content_item.value.settings.style] %}
+    {%- endif %}
+    {%- if content_item.value.settings.column_balancing %}
+      {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--' ~ content_item.value.settings.column_balancing] %}
+    {%- endif %}
+    {%- if content_item.value.settings.stacked %}
+      {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--stacked'] %}
+    {%- endif %}
+  {%- endif %}
+  <dl class="tna-dl{%- if extra_dl_classes %} {{ extra_dl_classes | join(' ') }}{%- endif %}">
     {%- for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
     <dd>{{ item.detail | safe }}</dd>
