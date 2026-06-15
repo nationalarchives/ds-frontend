@@ -67,13 +67,13 @@
 {%- endif %}
 
 {%- set og_image = None %}
-{% if page_data.meta and page_data.meta.facebook_og_image %}
-    {% set og_image = {
-        'src': page_data.meta.facebook_og_image.jpeg.full_url,
-        'width': page_data.meta.facebook_og_image.jpeg.width,
-        'height': page_data.meta.facebook_og_image.jpeg.height,
-        'type': 'image/jpeg'
-      } %}
+{% if page_data.meta and page_data.meta.search_image %}
+{%- set og_image = {
+    'src': page_data.meta.search_image.jpeg.full_url,
+    'width': page_data.meta.search_image.jpeg.width,
+    'height': page_data.meta.search_image.jpeg.height,
+    'type': 'image/jpeg'
+  } %}
 {%- elif page_data.meta and page_data.meta.teaser_image %}
 {%- set og_image = {
     'src': page_data.meta.teaser_image.jpeg.full_url,
@@ -97,10 +97,6 @@
       } %}
 {%- elif og_image %}
     {% set og_image_twitter = og_image %}
-{%- elif page_data.meta and page_data.meta.teaser_image %}
-    {% set og_image_twitter = {
-        'src': page_data.meta.teaser_image.jpeg.full_url
-    } %}
 {%- endif %}
 
 {% if og_image_twitter %}
