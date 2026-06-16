@@ -101,7 +101,7 @@
 
 <div class="tna-!--padding-bottom-l">
   <div class="tna-container">
-    <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny tna-!--hide-on-print">
       {% set ns = namespace(source_list=[]) %}
       {%- if page_data.sources | length > 1 %}
       {% do ns.source_list.append({
@@ -149,7 +149,7 @@
         }
       }) }}
     </div>
-    <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m">
+    <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m etna-!--full-width-on-print">
       {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
           'headingLevel': 2,
@@ -159,7 +159,7 @@
       {%- endif %}
 
       {%- if page_data.sources | length > 1 %}
-      <div id="sources-overview" class="tna-aside tna-background-accent-light tna-education-sources-overview">
+      <div id="sources-overview" class="tna-aside tna-background-accent-light tna-education-sources-overview tna-!--hide-on-print">
         <h2 class="tna-heading-l">Sources overview</h2>
         <p>Select a source to view it in more detail and find enquiry questions to examine it with your class.</p>
         <ol class="tna-education-sources-overview__list">

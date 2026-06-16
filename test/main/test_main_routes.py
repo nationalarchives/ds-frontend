@@ -94,3 +94,80 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn("Cache-Control", rv.headers)
         self.assertEqual(rv.headers["Cache-Control"], "public, max-age=14400")
+
+    def test_set_cookies(self):
+        rv = self.client.post(
+            "/cookies/set/",
+            data={"usage": "true", "settings": "true", "marketing": "false"},
+        )
+        self.assertEqual(rv.status_code, 302)
+        self.assertIn("Set-Cookie", rv.headers)
+        self.assertIn(
+            "cookies_policy=%7B%22usage%22%3Atrue%2C%22settings%22%3Atrue%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+            rv.headers["Set-Cookie"],
+        )
+
+    def test_set_cookies_inc_essential(self):
+        rv = self.client.post(
+            "/cookies/set/",
+            data={
+                "usage": "true",
+                "settings": "true",
+                "marketing": "true",
+                "essential": "false",
+            },
+        )
+        self.assertEqual(rv.status_code, 302)
+        self.assertIn("Set-Cookie", rv.headers)
+        self.assertIn(
+            "cookies_policy=%7B%22usage%22%3Atrue%2C%22settings%22%3Atrue%2C%22marketing%22%3Atrue%2C%22essential%22%3Atrue%7D",
+            rv.headers["Set-Cookie"],
+        )
+
+    def test_set_cookies_partial(self):
+        rv = self.client.post(
+            "/cookies/set/",
+            data={"usage": "true"},
+        )
+        self.assertEqual(rv.status_code, 302)
+        self.assertIn("Set-Cookie", rv.headers)
+        self.assertIn(
+            "cookies_policy=%7B%22usage%22%3Atrue%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+            rv.headers["Set-Cookie"],
+        )
+
+    def test_set_cookies_incorrect(self):
+        rv = self.client.post(
+            "/cookies/set/",
+            data={"foo": "bar", "usage": "pizza"},
+        )
+        self.assertEqual(rv.status_code, 302)
+        self.assertIn("Set-Cookie", rv.headers)
+        self.assertIn(
+            "cookies_policy=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+            rv.headers["Set-Cookie"],
+        )
+
+    def test_set_cookies_invalid(self):
+        rv = self.client.post(
+            "/cookies/set/",
+            data="foobar",
+        )
+        self.assertEqual(rv.status_code, 302)
+        self.assertIn("Set-Cookie", rv.headers)
+        self.assertIn(
+            "cookies_policy=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+            rv.headers["Set-Cookie"],
+        )
+
+    def test_set_cookies_really_bad(self):
+        rv = self.client.post(
+            "/cookies/set/",
+            data={"settings": "&quot; xssattr_marker=&quot;"},
+        )
+        self.assertEqual(rv.status_code, 302)
+        self.assertIn("Set-Cookie", rv.headers)
+        self.assertIn(
+            "cookies_policy=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+            rv.headers["Set-Cookie"],
+        )
