@@ -6,7 +6,6 @@ module.exports = {
   entry: {
     main: "./src/scripts/main.js",
     analytics: "./src/scripts/analytics.js",
-    article: "./src/scripts/article.js",
     code: "./src/scripts/code.js",
     cookies: "./src/scripts/cookies.js",
     events: "./src/scripts/events.js",

@@ -39,8 +39,8 @@
         'type': 'image/webp'
       }
     ],
-    'narrow': options.narrow if 'narrow' in options and options.narrow is not none else True,
+    'large': options.large if 'large' in options and options.large is not none else False,
     'style': 'accent-light' if 'style' not in options or options.style is none else options.style,
-    'layout': 'split' if 'layout' not in options or options.layout is none else options.layout
+    'layout': options.layout if 'layout' in options and options.layout is not none else 'split'
   }, hero_image.uuid, hero_image.title) }}
 {% endmacro %}

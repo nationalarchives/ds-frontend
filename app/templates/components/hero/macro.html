@@ -4,25 +4,28 @@
 {% from "components/button/macro.html" import tnaButton %}
 
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
+{%- set backgroundClasses = [] -%}
 {%- if params.style == "contrast" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-contrast'] -%}
+  {%- set backgroundClasses = backgroundClasses + ['tna-background-contrast'] -%}
 {%- elif params.style == "tint" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
+  {%- set backgroundClasses = backgroundClasses + ['tna-background-tint'] -%}
 {%- elif params.style == "accent" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
+  {%- set backgroundClasses = backgroundClasses + ['tna-background-accent'] -%}
 {%- elif params.style == "accent-light" -%}
-  {%- set containerClasses = containerClasses + ['tna-background-accent-light'] -%}
+  {%- set backgroundClasses = backgroundClasses + ['tna-background-accent-light'] -%}
 {%- endif -%}
 {%- if params.layout == "shift" -%}
   {%- set containerClasses = containerClasses + ['tna-hero--shift'] -%}
 {%- elif params.layout == "split" -%}
   {%- set containerClasses = containerClasses + ['tna-hero--split'] -%}
+{%- elif params.layout == "over" -%}
+  {%- set containerClasses = containerClasses + ['tna-hero--over'] -%}
 {%- endif -%}
-{%- if params.narrow -%}
-  {%- set containerClasses = containerClasses + ['tna-hero--narrow'] -%}
+{%- if params.large -%}
+  {%- set containerClasses = containerClasses + ['tna-hero--large'] -%}
 {%- endif -%}
 {% set hasContent = params.title or params.body or params.text %}
-<{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true" itemscope itemtype="https://schema.org/ImageObject">
+<{{ params.element or ('header' if hasContent else 'div') }} class="tna-hero{% if backgroundClasses %} {{ backgroundClasses | join(' ') }}{% endif %} {{ ' '.join(containerClasses) }}" {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} data-overwritten-component-template="true" itemscope itemtype="https://schema.org/ImageObject">
   <figure class="tna-hero__figure">
     <meta itemprop="description" content="{{ params.imageAlt }}">
     {%- if uuid %}
@@ -38,8 +41,8 @@
     <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
     {%- if hasContent -%}
     <div class="tna-container tna-hero__inner">
-      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-hero__content">
-        <div class="tna-hero__content-inner">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-hero__content">
+        <div class="tna-hero__content-inner{% if backgroundClasses %} {{ backgroundClasses | join(' ') }}{% endif %}">
           {%- if params.title %}
           {%- if params.supertitle %}
           <hgroup class="tna-hgroup-{{ params.headingSize or 'xl' }} tna-hero__heading">

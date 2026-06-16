@@ -17,7 +17,10 @@
 @use "@nationalarchives/frontend/nationalarchives/components/gallery";
 @use "@nationalarchives/frontend/nationalarchives/components/global-header";
 // @use "@nationalarchives/frontend/nationalarchives/components/header";
-@use "@nationalarchives/frontend/nationalarchives/components/hero";
+// @use "@nationalarchives/frontend/nationalarchives/components/hero";
+@use "@nationalarchives/frontend/nationalarchives/components/hero/hero" with (
+  $vertical-padding-large: 3
+);
 @use "@nationalarchives/frontend/nationalarchives/components/index-grid";
 @use "@nationalarchives/frontend/nationalarchives/components/pagination";
 @use "@nationalarchives/frontend/nationalarchives/components/phase-banner";

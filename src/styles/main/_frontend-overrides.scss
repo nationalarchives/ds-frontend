@@ -9,11 +9,11 @@
 
 // H1UserAgentFontSizeInSection
 // https://github.com/GoogleChrome/lighthouse/issues/16404#issuecomment-2754716763
-:where(h1) {
-  margin-block: 0.67em;
+// :where(h1) {
+//   margin-block: 0.67em;
 
-  font-size: 2em;
-}
+//   font-size: 2em;
+// }
 
 .tna-heading-xl,
 .tna-hgroup-xl .tna-hgroup__title {
@@ -124,7 +124,6 @@ dd {
 }
 
 .tna-picture__caption,
-.tna-hero__information,
 .tna-gallery__copyright {
   p + p {
     margin-top: spacing.space(0.5);
@@ -148,10 +147,13 @@ dd {
 }
 
 .tna-hero {
-  .tna-container & {
-    @include borders.rounded-border;
-
-    overflow: hidden;
+  &.tna-background-tint,
+  &.tna-background-contrast,
+  &.tna-background-accent,
+  &.tna-background-accent-light {
+    &::before {
+      display: none;
+    }
   }
 }
 

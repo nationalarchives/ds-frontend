@@ -29,6 +29,8 @@
   {%- set containerClasses = containerClasses + ['tna-background-tint'] -%}
 {%- elif params.style == "accent" -%}
   {%- set containerClasses = containerClasses + ['tna-background-accent'] -%}
+{%- elif params.style == "accent-light" -%}
+  {%- set containerClasses = containerClasses + ['tna-background-accent-light'] -%}
 {%- endif -%}
 {%- set classes = ' '.join(containerClasses) -%}
 {%- set schemaMarkup = 'itemtype' in params.attributes -%}
