@@ -327,3 +327,10 @@ $forced-colours-border: 1px;
     }
   }
 }
+
+@include media.on-print {
+  .tna-\!--hide-on-print:first-child + * {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
