@@ -1,8 +1,3 @@
-@use "@nationalarchives/frontend/nationalarchives/tools/borders";
-@use "@nationalarchives/frontend/nationalarchives/tools/colour";
-@use "@nationalarchives/frontend/nationalarchives/tools/media";
-@use "@nationalarchives/frontend/nationalarchives/tools/spacing";
-
 .tna-card {
   &--wider-horizontal-image {
     grid-template-columns: clamp(20rem, 33%, 25rem) 1fr;

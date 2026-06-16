@@ -161,21 +161,21 @@
           }) }}
         </div>
         {%- endif %}
-        <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections">
-          <section class="tna-section tna-!--padding-top-m etna-article__section">
+        <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
+          <section class="tna-section tna-!--padding-top-m">
             <h2 id="about" class="tna-heading-l tna-!--padding-top-s">About</h2>
             {{ page_data.summary | tna_html | safe }}
           </section>
           {%- if page_data.research_summary %}
           <hr class="tna-!--margin-top-s">
-          <section class="tna-section tna-!--padding-top-m etna-article__section">
+          <section class="tna-section tna-!--padding-top-m">
             <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
             {{ wagtail_streamfield(page_data.research_summary, 3, page_data.footnotes) }}
           </section>
           {%- endif %}
           {%- if articles or page_data.archived_blog_url %}
           <hr class="tna-!--margin-top-s">
-          <section class="tna-!--padding-top-m etna-article__section">
+          <section class="tna-!--padding-top-m">
             <h2 id="articles" class="tna-heading-l tna-!--padding-top-s">Articles</h2>
             {% if articles %}
             <ul class="tna-container tna-container--nested tna-!--padding-top-m">
@@ -232,7 +232,7 @@
           {%- endif %}
           {%- if page_data.shop_items %}
           <hr class="tna-!--margin-top-s">
-          <section class="tna-section tna-!--padding-top-m etna-article__section">
+          <section class="tna-section tna-!--padding-top-m">
             <h2 id="shop-items" class="tna-heading-l tna-!--padding-top-s">Shop items</h2>
             <ul class="tna-container tna-container--nested">
               {% for item in page_data.shop_items %}

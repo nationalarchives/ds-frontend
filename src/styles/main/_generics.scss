@@ -112,20 +112,3 @@ abbr {
     padding-top: 0;
   }
 }
-
-@include media.on-medium {
-  .tna-column--full-medium .tna-sidebar__items {
-    overflow-y: visible;
-  }
-}
-
-@include media.on-small {
-  .tna-column--full-small .tna-sidebar__items {
-    overflow-y: visible;
-  }
-}
-@include media.on-tiny {
-  .tna-column--full-tiny .tna-sidebar__items {
-    overflow-y: visible;
-  }
-}
