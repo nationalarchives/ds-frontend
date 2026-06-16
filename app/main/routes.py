@@ -47,8 +47,10 @@ def set_cookies():
         "essential": True,
     }
     if current_app.config["COOKIE_PREFERENCES_KEY"] in request.cookies:
-        current_cookies_policy = json.loads(
-            unquote(request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]])
+        current_cookies_policy.update(
+            json.loads(
+                unquote(request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]])
+            )
         )
     try:
         usage = (
