@@ -9,6 +9,9 @@
     <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
     <p>You have requested a page that cannot be served. This could be because the web address is incorrect.</p>
     <p>If the web address is correct or you selected a link or button, <a href="https://www.nationalarchives.gov.uk/contact-us/">contact us</a> to let us help.</p>
+    <p>
+      <small>Error code: {{ status_code }}</small>
+    </p>
   </div>
 </div>
 {% endblock content %}
