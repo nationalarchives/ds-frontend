@@ -44,16 +44,6 @@
             'title': 'Age range',
             'text': page_data.featured_teaching_resource.key_stages | map(attribute='short_key_stage') | join(', '),
             'icon': 'user-group'
-          },
-          {
-            'title': 'Theme',
-            'text': page_data.featured_teaching_resource.themes | map(attribute='name') | join(', '),
-            'icon': 'scroll'
-          },
-          {
-            'title': 'Time period',
-            'text': page_data.featured_teaching_resource.time_periods | map(attribute='name') | join(', '),
-            'icon': 'hourglass'
           }
         ],
         'text': page_data.featured_teaching_resource_teaser_override or page_data.featured_teaching_resource.teaser_text,
@@ -151,14 +141,14 @@
             'icon': 'user-group'
           },
           {
-            'title': 'Theme',
-            'text': page_data.featured_education_session.themes | map(attribute='name') | join(', '),
-            'icon': 'scroll'
+            'title': 'Date',
+            'text': pretty_date_range(page_data.featured_education_session.start_date, page_data.featured_education_session.end_date) if page_data.featured_education_session.start_date or page_data.featured_education_session.end_date else 'All year',
+            'icon': 'calendar'
           },
           {
-            'title': 'Time period',
-            'text': page_data.featured_education_session.time_periods | map(attribute='name') | join(', '),
-            'icon': 'hourglass'
+            'title': 'Locations',
+            'text': 'Various locations' if (page_data.featured_education_session.session_locations | length) > 1 else page_data.featured_education_session.session_locations | map(attribute='location_type_display') | first,
+            'icon': 'location-dot'
           }
         ],
         'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text,
@@ -201,6 +191,16 @@
             'title': 'Age range',
             'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
             'icon': 'user-group'
+          },
+          {
+            'title': 'Date',
+            'text': pretty_date_range(page.start_date, page.end_date) if page.start_date or page.end_date else 'All year',
+            'icon': 'calendar'
+          },
+          {
+            'title': 'Locations',
+            'text': 'Various locations' if (page.session_locations | length) > 1 else page.session_locations | map(attribute='location_type_display') | first,
+            'icon': 'location-dot'
           }
         ],
         'text': page.teaser_text,

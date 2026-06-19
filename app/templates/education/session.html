@@ -32,6 +32,14 @@
     </div>
     <dl class="tna-dl">
       <dt>
+        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
+      </dt>
+      {%- for key_stage in page_data.key_stages %}
+      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      {%- endfor %}
+      
+      <dt>
         <i class="fa-solid fa-calendar" aria-hidden="true"></i>
         Date
       </dt>
@@ -53,14 +61,6 @@
         {{ locations | map(attribute='location_type_display') | join(', ') }}
       </dd>
       {%- endif %}
-
-      <dt>
-        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
-        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
-      </dt>
-      {%- for key_stage in page_data.key_stages %}
-      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
-      {%- endfor %}
 
       <!--
       <dt>
