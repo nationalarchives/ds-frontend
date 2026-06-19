@@ -67,15 +67,15 @@
               'icon': 'user-group'
             },
             {
-              'title': 'Theme',
-              'text': featured.themes | map(attribute='name') | join(', '),
-              'icon': 'scroll'
-            },
+              'title': 'Date',
+              'text': pretty_date_range(featured.start_date, featured.end_date) if featured.start_date or featured.end_date else 'All year',
+              'icon': 'calendar'
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
             {
-              'title': 'Time period',
-              'text': featured.time_periods | map(attribute='name') | join(', '),
-              'icon': 'hourglass'
-            }
+              'title': 'Locations',
+              'text': 'Various locations' if (featured.session_locations | length) > 1 else featured.session_locations | map(attribute='location_type_display') | first,
+              'icon': 'location-dot'
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None
           ],
           'text': featured.teaser_override or featured.teaser_text,
           'fullAreaClick': True,
@@ -115,7 +115,17 @@
               'title': 'Key stage',
               'text': child.key_stages | map(attribute='short_key_stage') | join(', '),
               'icon': 'user-group'
-            }
+            },
+            {
+              'title': 'Date',
+              'text': pretty_date_range(child.start_date, child.end_date) if child.start_date or child.end_date else 'All year',
+              'icon': 'calendar'
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
+            {
+              'title': 'Locations',
+              'text': 'Various locations' if (child.session_locations | length) > 1 else child.session_locations | map(attribute='location_type_display') | first,
+              'icon': 'location-dot'
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None
           ],
           'text': child.teaser_text,
           'style': 'plain',
