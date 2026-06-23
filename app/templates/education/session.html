@@ -51,34 +51,19 @@
         {%- endif %}
       </dd>
 
-      {%- set locations = page_data.session_locations | rejectattr('location_type', 'equalto', 'custom') | list %}
-      {%- if locations %}
+      {%- if page_data.session_locations | length %}
       <dt>
         <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
         Location{{ 's' if page_data.session_locations | length > 1 else '' }}
       </dt>
       <dd>
-        {{ locations | map(attribute='location_type_display') | join(', ') }}
+        {%- set locations_list = [] %}
+        {%- for location in page_data.session_locations %}
+          {%- do locations_list.append(location.venue_name or location.location_type_display) %}
+        {%- endfor %}
+        {{ locations_list | join(', ') }}
       </dd>
       {%- endif %}
-
-      <!--
-      <dt>
-        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
-        Theme{{ 's' if page_data.themes | length > 1 else '' }}
-      </dt>
-      {%- for theme in page_data.themes %}
-      <dd>{{ theme.name }}</dd>
-      {%- endfor %}
-
-      <dt>
-        <i class="fa-solid fa-hourglass" aria-hidden="true"></i>
-        Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
-      </dt>
-      {%- for time_period in page_data.time_periods %}
-      <dd>{{ time_period.name }}</dd>
-      {%- endfor %}
-      -->
     </dl>
   {% endcall %}
 </div>
