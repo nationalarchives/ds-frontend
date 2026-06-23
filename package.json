@@ -11,16 +11,16 @@
     "@nationalarchives/frontend": "0.44.1",
     "@sentry/browser": "^10.17.0",
     "prismjs": "^1.30.0",
-    "video.js": "^8.21.1",
+    "video.js": "8.23.7",
     "videojs-youtube": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.11",
-    "@babel/preset-env": "^7.22.10",
+    "@babel/core": "^8.0.0",
+    "@babel/preset-env": "^8.0.0",
     "babel-loader": "^10.0.0",
     "sass": "^1.69.4",
     "terser-webpack-plugin": "^5.3.10",
     "webpack": "^5.88.2",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^7.0.0"
   }
 }
