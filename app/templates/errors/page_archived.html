@@ -1,28 +1,16 @@
-{% extends "base.html" %}
+{% extends "errors/base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 
-{%- set pageTitle = 'Page no longer exists' -%}
-{%- set status_code = 410 -%}
-
-{% block content %}
-<div class="tna-container tna-section">
-  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
-    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
-    <p>A version of the old page can still be viewed in the <a href="https://www.nationalarchives.gov.uk/webarchive/">UK Government Web Archive</a>.</p>
-    {% if last_archived_date %}
-    <p>The archive shows the page as it appeared on <strong><time datetime="{{ last_archived_date }}">{{ last_archived_date_pretty }}</time></strong> ({{ last_archived_age }}).</p>
-    {% endif %}
-    <div class="tna-button-group">
-      {{ tnaButton({
-        "text": "View archived page",
-        "href": archived_page_url | escape
-      }) }}
-    </div>
-    <p>If you believe this is an error, please <a href="https://www.nationalarchives.gov.uk/contact-us/">contact us</a> for assistance.</p>
-    <p>
-      <small>Error code: {{ status_code }}</small>
-    </p>
-  </div>
+{% block error_content %}
+<p>A version of the old page can still be viewed in the <a href="https://www.nationalarchives.gov.uk/webarchive/">UK Government Web Archive</a>.</p>
+{% if last_archived_date %}
+<p>The archive shows the page as it appeared on <strong><time datetime="{{ last_archived_date }}">{{ last_archived_date_pretty }}</time></strong> ({{ last_archived_age }}).</p>
+{% endif %}
+<div class="tna-button-group">
+  {{ tnaButton({
+    "text": "View archived page",
+    "href": archived_page_url | escape
+  }) }}
 </div>
-{% endblock content %}
+{% endblock error_content %}

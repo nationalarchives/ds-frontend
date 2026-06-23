@@ -2,7 +2,7 @@ from flask import current_app, make_response, render_template, request, url_for
 from pydash import objects
 from tna_utilities.flask import cacheable_duration
 
-from app.error_pages.routes import api_error, page_not_found_error
+from app.error_pages.routes import bad_gateway_error, page_not_found_error
 from app.feeds import bp
 from app.lib.api import ResourceNotFoundError
 from app.wagtail.api import (
@@ -21,7 +21,7 @@ def rss_all_feed():
         blog_posts = blog_posts_paginated(page=1, limit=items)
     except Exception:
         current_app.logger.exception("Failed to render blog feeds list")
-        return api_error()
+        return bad_gateway_error()
     xml = render_template(
         (
             "feeds/blog_atom_feed.xml"
@@ -48,7 +48,7 @@ def rss_feed(blog_id):
         return page_not_found_error()
     except Exception:
         current_app.logger.exception(f"Failed to get blog data for page {blog_id}")
-        return api_error()
+        return bad_gateway_error()
     if objects.get(blog_data, "meta.type") != "blog.BlogPage":
         return page_not_found_error()
     xml = render_template(
