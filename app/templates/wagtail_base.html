@@ -4,8 +4,9 @@
 
 {%- set themeAccent = 'black' if page_data.mourning_notice else (themeAccent or 'green') -%}
 {%- set pageTitle = page_data.short_title or page_data.title -%}
+{%- set og_title_prefix = og_title_prefix or None -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
+{{- meta(page_data, og_title_prefix) }}
 {% endblock head %}

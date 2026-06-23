@@ -11,7 +11,7 @@
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 
 {%- set pageTitleLong = page_data.title -%}
-{%- set breadcrumbsStyle = 'accent-light' -%}
+{%- set breadcrumbs_style = 'accent-light' -%}
 {%- if year %}
   {%- if month_name %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}

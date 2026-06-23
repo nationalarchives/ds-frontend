@@ -8,7 +8,7 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set breadcrumbsStyle = '' if page_data.hero_image else 'accent-light' -%}
+{%- set breadcrumbs_style = '' if page_data.hero_image else 'accent-light' -%}
 {%- set showSidebar = page_data.page_sidebar == 'contents' or page_data.page_sidebar == 'sections' or (page_data.page_sidebar == 'pages' and page_siblings | length > 1) -%}
 {%- set sidebarPositionRight = page_data.page_sidebar == 'pages' -%}
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}

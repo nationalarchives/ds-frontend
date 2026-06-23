@@ -9,7 +9,7 @@
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set breadcrumbsStyle = 'accent-light' -%}
+{%- set breadcrumbs_style = 'accent-light' -%}
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
 {%- set bodyContainsCodeBlock = page_data.body | wagtail_streamfield_contains_code_block -%}
 

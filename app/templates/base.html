@@ -97,8 +97,8 @@
 
 {% block beforeContent %}
 {%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
-  {%- if breadcrumbsStyle %}
-  <div class="tna-background-{{ breadcrumbsStyle }}">
+  {%- if breadcrumbs_style %}
+  <div class="tna-background-{{ breadcrumbs_style }}">
   {%- endif %}
     <div class="tna-container tna-!--hide-on-print">
       <div class="tna-column tna-column--full tna-!--padding-vertical-s">
@@ -108,7 +108,7 @@
         }) }}
       </div>
     </div>
-  {%- if breadcrumbsStyle %}
+  {%- if breadcrumbs_style %}
   </div>
   {%- endif %}
 {%- endif %}
