@@ -1,4 +1,4 @@
-{% macro meta(page_data) %}
+{% macro meta(page_data, og_title_prefix) %}
 {%- set siteName = 'The National Archives' -%}
 {%- set title = page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' -%}
 {%- set description = page_data.meta.search_description if page_data.meta else '' -%}
@@ -49,7 +49,11 @@
     <meta property="og:locale" content="en_GB">
     <meta name="twitter:card" content="summary">
 {% if title %}
+{% if og_title_prefix %}
+    <meta property="og:title" content="{{ og_title_prefix }}: {{ title }}">
+{%- else %}
     <meta property="og:title" content="{{ title }}">
+{%- endif %}
 {%- endif %}
 
 {% if page_data.meta and page_data.meta.twitter_og_title %}
