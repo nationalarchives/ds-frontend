@@ -21,11 +21,12 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             "items": [],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.client.get("/sitemap.xml")
-        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_1.xml</loc>", rv.text)
-        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_2.xml</loc>", rv.text)
-        self.assertIn(f"<loc>{domain}/sitemaps/sitemap_3.xml</loc>", rv.text)
-        self.assertNotIn(f"<loc>{domain}/sitemaps/sitemap_4.xml</loc>", rv.text)
+        with self.client as c:
+            rv = c.get("/sitemap.xml")
+            self.assertIn(f"<loc>{domain}/sitemaps/sitemap_1.xml</loc>", rv.text)
+            self.assertIn(f"<loc>{domain}/sitemaps/sitemap_2.xml</loc>", rv.text)
+            self.assertIn(f"<loc>{domain}/sitemaps/sitemap_3.xml</loc>", rv.text)
+            self.assertNotIn(f"<loc>{domain}/sitemaps/sitemap_4.xml</loc>", rv.text)
 
     @requests_mock.Mocker()
     def test_sitemap_page_1_xml(self, m):
@@ -115,14 +116,15 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             ],
         }
         m.get(mock_endpoint, json=mock_respsone)
-        rv = self.client.get("/sitemaps/sitemap_1.xml")
-        self.assertEqual(rv.status_code, 200)
-        self.assertIn(f"<loc>{domain}/</loc>", rv.text)
-        self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
-        self.assertIn(
-            f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
-            rv.text,
-        )
-        self.assertIn("<lastmod>2026-02-04</lastmod>", rv.text)
-        self.assertIn("<lastmod>2025-07-29</lastmod>", rv.text)
-        self.assertIn("<lastmod>2025-07-30</lastmod>", rv.text)
+        with self.client as c:
+            rv = c.get("/sitemaps/sitemap_1.xml")
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn(f"<loc>{domain}/</loc>", rv.text)
+            self.assertIn(f"<loc>{domain}/explore-the-collection/</loc>", rv.text)
+            self.assertIn(
+                f"<loc>{domain}/explore-the-collection/explore-by-topic/</loc>",
+                rv.text,
+            )
+            self.assertIn("<lastmod>2026-02-04</lastmod>", rv.text)
+            self.assertIn("<lastmod>2025-07-29</lastmod>", rv.text)
+            self.assertIn("<lastmod>2025-07-30</lastmod>", rv.text)

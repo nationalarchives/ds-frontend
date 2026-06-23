@@ -1,7 +1,7 @@
 from flask import current_app, render_template
 from tna_utilities.flask import cacheable_duration
 
-from app.error_pages.routes import api_error, server_error
+from app.error_pages.routes import bad_gateway_error, server_error
 from app.wagtail.api import page_children
 
 
@@ -16,7 +16,7 @@ def hub_page(page_data):
             current_app.logger.exception(
                 f"API error getting children for page {page_data['id']}"
             )
-            return api_error()
+            return bad_gateway_error()
         except Exception:
             current_app.logger.exception(
                 f"Exception getting children for page {page_data['id']}"

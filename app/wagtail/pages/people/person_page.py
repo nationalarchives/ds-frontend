@@ -5,7 +5,7 @@ from pydash import objects
 from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import (
-    api_error,
+    bad_gateway_error,
     bad_request_error,
     page_not_found_error,
     server_error,
@@ -39,7 +39,7 @@ def person_page(page_data):
         current_app.logger.exception(
             f"API error getting author articles for page {page_data['id']}"
         )
-        return api_error()
+        return bad_gateway_error()
     except Exception:
         current_app.logger.exception(
             f"Exception getting author articles for page {page_data['id']}"

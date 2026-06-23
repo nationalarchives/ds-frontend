@@ -115,7 +115,7 @@ class Production(Features):
     ).rstrip("/")
     WEBARCHIVE_CDXJ_API_PATH: str = os.environ.get(
         "WEBARCHIVE_CDXJ_API_PATH", "cdx"
-    ).rstrip("/")
+    ).strip("/")
 
     SIDEBAR_SCROLL_TOP_THRESHOLD: int = int(
         os.getenv("SIDEBAR_SCROLL_TOP_THRESHOLD", "16")

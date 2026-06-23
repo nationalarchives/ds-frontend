@@ -47,24 +47,6 @@
       {%- for key_stage in page_data.key_stages %}
       <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
       {%- endfor %}
-
-      <!--
-      <dt>
-        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
-        Theme{{ 's' if page_data.themes | length > 1 else '' }}
-      </dt>
-      {%- for theme in page_data.themes %}
-      <dd>{{ theme.name }}</dd>
-      {%- endfor %}
-
-      <dt>
-        <i class="fa-solid fa-hourglass" aria-hidden="true"></i>
-        Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
-      </dt>
-      {%- for time_period in page_data.time_periods %}
-      <dd>{{ time_period.name }}</dd>
-      {%- endfor %}
-      -->
     </dl>
   {% endcall %}
 </div>

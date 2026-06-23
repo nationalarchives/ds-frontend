@@ -11,7 +11,7 @@ from flask import (
 from pydash import objects
 
 from app.error_pages.routes import (
-    api_error,
+    bad_gateway_error,
     bad_request_error,
     forbidden_error,
     page_not_found_error,
@@ -46,14 +46,14 @@ def preview_page():
         return forbidden_error()
     except Exception:
         current_app.logger.exception("Failed to get page preview data")
-        return api_error()
+        return bad_gateway_error()
     try:
         return render_content_page(
             page_data | {"page_preview": True, "id": objects.get(page_data, "id", 0)}
         )
     except Exception:
         current_app.logger.exception("Failed to render page preview")
-        return api_error()
+        return bad_gateway_error()
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
@@ -76,7 +76,7 @@ def preview_protected_page(page_id):
         return forbidden_error()
     except Exception:
         current_app.logger.exception("Failed to render page preview")
-        return api_error()
+        return bad_gateway_error()
 
     # Check if the page is password protected
     if objects.get(page_data, "meta.privacy") == "password":
@@ -102,7 +102,7 @@ def preview_protected_page(page_id):
     if url := objects.get(page_data, "meta.url"):
         return redirect(url, code=302)
 
-    return api_error()
+    return bad_gateway_error()
 
 
 @bp.route("/page/<int:page_id>/")
@@ -120,7 +120,7 @@ def page_permalink(page_id):
         return forbidden_error()
     except Exception:
         current_app.logger.exception("Failed to get page details")
-        return api_error()
+        return bad_gateway_error()
 
     # If the page has a URL, redirect to it
     if url := objects.get(page_data, "meta.url"):
@@ -128,7 +128,7 @@ def page_permalink(page_id):
 
     # If the page does not have a URL, log an error and return a 502 error page
     current_app.logger.error(f"Cannot generate permalink for page: {page_id}")
-    return api_error()
+    return bad_gateway_error()
 
 
 @bp.route("/", defaults={"path": "/"})
@@ -159,13 +159,13 @@ def page(path):
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
         current_app.logger.exception("Failed to render page")
-        return api_error()
+        return bad_gateway_error()
 
     # If the page data does not contain meta information, return a 502 error
     # as it is not possible to render the page without it
     if "meta" not in page_data:
         current_app.logger.error("Page meta not available")
-        return api_error()
+        return bad_gateway_error()
 
     # If the page is password protected, redirect to the preview page
     if objects.get(page_data, "meta.privacy") == "password":
@@ -222,7 +222,7 @@ def try_external_redirect(path):
         return page_not_found_error()
     except Exception:
         current_app.logger.exception("Failed to get redirect")
-        return api_error()
+        return bad_gateway_error()
 
     # Get the redirect destination and whether it is permanent
     rediect_destination = redirect_data.get("location", "/")
@@ -249,7 +249,7 @@ def media_page(media_uuid):
         return forbidden_error()
     except Exception:
         current_app.logger.exception("Failed to get video")
-        return api_error()
+        return bad_gateway_error()
     return render_template(
         "media/video.html", media_data=media_data, global_alert=global_alerts()
     )
@@ -269,7 +269,7 @@ def image_page(image_uuid):
         return forbidden_error()
     except Exception:
         current_app.logger.exception("Failed to get image")
-        return api_error()
+        return bad_gateway_error()
     return render_template(
         "media/image.html", image_data=image_data, global_alert=global_alerts()
     )
