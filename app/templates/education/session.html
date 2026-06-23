@@ -32,7 +32,7 @@
     </div>
     <dl class="tna-dl">
       <dt>
-        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+        <i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>
         Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
       </dt>
       {%- for key_stage in page_data.key_stages %}
@@ -86,10 +86,12 @@
 <h2 class="tna-visually-hidden">About this session</h2>
 <div class="tna-container tna-!--padding-top-m tna-!--padding-bottom-s">
   <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
-    <div class="tna-education-top-details">
-      <i class="fa-solid fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+    <div class="tna-education-top-details tna-background-tint">
       <div class="tna-education-top-details__content">
-        <h3 class="tna-heading-s">Time period{{ 's' if page_data.time_periods | length > 1 else '' }}</h3>
+        <h3 class="tna-heading-s">
+          <i class="fa-solid fa-fw fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+          Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
+        </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for time_period in page_data.time_periods %}
           <li>{{ time_period.name }}</li>
@@ -99,10 +101,12 @@
     </div>
   </div>
   <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
-    <div class="tna-education-top-details">
-      <i class="fa-solid fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+    <div class="tna-education-top-details tna-background-tint">
       <div class="tna-education-top-details__content">
-        <h3 class="tna-heading-s">Theme{{ 's' if page_data.themes | length > 1 else '' }}</h3>
+        <h3 class="tna-heading-s">
+          <i class="fa-solid fa-fw fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+          Theme{{ 's' if page_data.themes | length > 1 else '' }}
+        </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for theme in page_data.themes %}
           <li>{{ theme.name }}</li>
@@ -114,106 +118,108 @@
 </div>
 
 <div class="tna-container tna-!--padding-bottom-l">
-  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-l">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-l">
     {{ wagtail_streamfield(page_data.description, 2) }}
     {%- if page_data.curriculum_connection_description %}
     <h2 class="tna-heading-l">Connections to the curriculum</h2>
     {{ page_data.curriculum_connection_description | tna_html | safe }}
     {%- endif %}
   </div>
-  <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-l">
-    <h2 class="tna-heading-l">Key details</h2>
-    <dl class="tna-dl tna-dl--stacked">
-      <dt>
-        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-        Location{{ 's' if page_data.session_locations | length > 1 else '' }}
-      </dt>
-      <dd>
-        {% macro address_display(location) %}
-          {%- if location.location_type == 'custom' %}
-            {{ [
-              location.venue_name,
-              location.address_line_1,
-              location.address_line_2,
-              location.postcode
-            ] | select | join('<br>') | safe }}
+  <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--padding-top-l">
+    <div class="tna-aside tna-background-accent-light">
+      <h2 class="tna-heading-l">Key details</h2>
+      <dl class="tna-dl tna-dl--stacked">
+        <dt>
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          Location{{ 's' if page_data.session_locations | length > 1 else '' }}
+        </dt>
+        <dd>
+          {% macro address_display(location) %}
+            {%- if location.location_type == 'custom' %}
+              {{ [
+                location.venue_name,
+                location.address_line_1,
+                location.address_line_2,
+                location.postcode
+              ] | select | join('<br>') | safe }}
+            {%- else %}
+              {{ location.location_type_display }}
+            {%- endif %}
+          {% endmacro %}
+
+          {%- if page_data.session_locations | length > 1 %}
+          <ul class="tna-ul">
+          {%- for location in page_data.session_locations %}
+            <li>
+              {{ address_display(location) }}
+            </li>
+          {%- endfor %}
+          </ul>
           {%- else %}
-            {{ location.location_type_display }}
+            {{ address_display(page_data.session_locations | first) }}
           {%- endif %}
-        {% endmacro %}
+        </dd>
 
-        {%- if page_data.session_locations | length > 1 %}
-        <ul class="tna-ul">
-        {%- for location in page_data.session_locations %}
-          <li>
-            {{ address_display(location) }}
-          </li>
-        {%- endfor %}
-        </ul>
-        {%- else %}
-          {{ address_display(page_data.session_locations | first) }}
-        {%- endif %}
-      </dd>
-
-      <dt>
-        <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-        Date
-      </dt>
-      <dd>
-        {%- if page_data.start_date or page_data.end_date %}
-        {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
-        {%- else %}
-        All year
-        {%- endif %}
-      </dd>
-
-      <dt>
-        <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-        Price
-      </dt>
-      <dd>{{ page_data.price | pretty_price }}{% if page_data.price %} {{ page_data.price_detail }}{% endif %}</dd>
-
-      {%- set locations_with_durations = page_data.session_locations | rejectattr('duration', 'none') | list %}
-      {%- if locations_with_durations %}
-      <dt>
-        <i class="fa-solid fa-clock" aria-hidden="true"></i>
-        Duration
-      </dt>
-      <dd>
-        {%- if locations_with_durations | length == 1 %}
-          {{ (locations_with_durations | first).duration }}
-        {%- else %}
-        <ul class="tna-ul">
-        {%- for location in locations_with_durations %}
-          {%- if location.duration %}
-          <li>{{ location.venue_name if location.location_type == 'custom' else location.location_type_display }}: {{ location.duration }}</li>
+        <dt>
+          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+          Date
+        </dt>
+        <dd>
+          {%- if page_data.start_date or page_data.end_date %}
+          {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
+          {%- else %}
+          All year
           {%- endif %}
-        {%- endfor %}
-        </ul>
+        </dd>
+
+        <dt>
+          <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+          Price
+        </dt>
+        <dd>{{ page_data.price | pretty_price }}{% if page_data.price %} {{ page_data.price_detail }}{% endif %}</dd>
+
+        {%- set locations_with_durations = page_data.session_locations | rejectattr('duration', 'none') | list %}
+        {%- if locations_with_durations %}
+        <dt>
+          <i class="fa-solid fa-clock" aria-hidden="true"></i>
+          Duration
+        </dt>
+        <dd>
+          {%- if locations_with_durations | length == 1 %}
+            {{ (locations_with_durations | first).duration }}
+          {%- else %}
+          <ul class="tna-ul">
+          {%- for location in locations_with_durations %}
+            {%- if location.duration %}
+            <li>{{ location.venue_name if location.location_type == 'custom' else location.location_type_display }}: {{ location.duration }}</li>
+            {%- endif %}
+          {%- endfor %}
+          </ul>
+          {%- endif %}
+        </dd>
         {%- endif %}
-      </dd>
+
+        <dt>
+          <i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>
+          Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
+        </dt>
+        {%- for key_stage in page_data.key_stages %}
+        <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+        {%- endfor %}
+      </dl>
+      
+      {%- if page_data.booking_link %}
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Book now',
+          'href': page_data.booking_link,
+          'attributes': {
+            'rel': 'noreferrer nofollow noopener'
+          }
+        }) }}
+      </div>
       {%- endif %}
-
-      <dt>
-        <i class="fa-solid fa-user-group" aria-hidden="true"></i>
-        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
-      </dt>
-      {%- for key_stage in page_data.key_stages %}
-      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
-      {%- endfor %}
-    </dl>
-    
-    {%- if page_data.booking_link %}
-    <div class="tna-button-group">
-      {{ tnaButton({
-        'text': 'Book now',
-        'href': page_data.booking_link,
-        'attributes': {
-          'rel': 'noreferrer nofollow noopener'
-        }
-      }) }}
     </div>
-    {%- endif %}
   </div>
 </div>
 
@@ -256,7 +262,7 @@
           {
             'title': 'Key stage',
             'text': session.key_stages | map(attribute='short_key_stage') | join(', '),
-            'icon': 'user-group'
+            'icon': 'person-chalkboard'
           }
         ],
         'text': session.teaser_text,

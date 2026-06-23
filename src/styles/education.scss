@@ -50,53 +50,18 @@ $forced-colours-border: 1px;
 .tna-education-top-details {
   height: 100%;
 
-  display: flex;
-  flex-direction: row;
+  @include colour.thick-keyline-dark(left);
+  border-top-right-radius: borderVars.$rounded-border-radius;
+  border-bottom-right-radius: borderVars.$rounded-border-radius;
 
   &__icon {
-    padding: spacing.space(1) spacing.space(0.75);
+    margin-right: spacing.space(0.5);
 
-    font-size: 1.5em;
-
-    @include colour.accent;
-    border: 1px solid transparent;
-
-    border-top-left-radius: borderVars.$rounded-border-radius;
-    border-bottom-left-radius: borderVars.$rounded-border-radius;
+    @include colour.colour-font("icon-light");
   }
 
   &__content {
-    padding: spacing.space(0.75) spacing.space(1) spacing.space(1);
-
-    flex: 1;
-
-    border-left-width: 0 !important;
-    @include colour.colour-border("keyline", $forced-colours-border);
-    border-top-right-radius: borderVars.$rounded-border-radius;
-    border-bottom-right-radius: borderVars.$rounded-border-radius;
-  }
-
-  @include media.on-tiny {
-    flex-direction: column;
-    align-items: stretch;
-
-    &__icon {
-      width: auto;
-      padding: spacing.space(0.75);
-
-      font-size: 1em;
-      text-align: left;
-
-      border-top-right-radius: borderVars.$rounded-border-radius;
-      border-bottom-left-radius: 0;
-    }
-
-    &__content {
-      border-top-width: 0 !important;
-      border-left-width: 1px !important;
-      border-top-right-radius: 0;
-      border-bottom-left-radius: borderVars.$rounded-border-radius;
-    }
+    padding: spacing.space(1);
   }
 }
 

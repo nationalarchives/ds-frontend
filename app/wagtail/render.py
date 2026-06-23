@@ -39,6 +39,7 @@ from .pages.people.people_index_page import people_index_page
 from .pages.people.person_page import person_page
 from .pages.whatson.display_page import display_page
 from .pages.whatson.event_page import event_page
+from .pages.whatson.event_supplementary_page import event_supplementary_page
 from .pages.whatson.events_listing_page import events_listing_page
 from .pages.whatson.exhibition_page import exhibition_page
 from .pages.whatson.exhibitions_listing_page import exhibitions_listing_page
@@ -87,6 +88,7 @@ page_type_templates = {
     "whatson.WhatsOnSeriesPage": whats_on_series_page,
     "whatson.WhatsOnDateListingPage": whats_on_date_listing_page,
     "whatson.WhatsOnLocationListingPage": whats_on_location_listing_page,
+    "whatson.EventSupplementaryPage": event_supplementary_page,
     # FOI
     "foi.FoiIndexPage": foi_index_page,
     "foi.FoiRequestPage": foi_request_page,
