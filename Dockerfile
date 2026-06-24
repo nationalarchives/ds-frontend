@@ -1,5 +1,5 @@
 ARG IMAGE=ghcr.io/nationalarchives/tna-python
-ARG IMAGE_TAG=:1.16@sha256:80e944d81ef2dad20c0ff803a1513f2434fca8a9a59d841fcbc0fbf1a5d3be04
+ARG IMAGE_TAG=1.16@sha256:80e944d81ef2dad20c0ff803a1513f2434fca8a9a59d841fcbc0fbf1a5d3be04
 
 FROM "$IMAGE":"$IMAGE_TAG"
 
