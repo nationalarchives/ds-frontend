@@ -72,6 +72,7 @@ jobs:
           wiz-client-id: ${{ secrets.WIZ_CLIENT_ID }}
           wiz-client-secret: ${{ secrets.WIZ_CLIENT_SECRET }}
           wiz-project-id: ${{ secrets.WIZ_PROJECT_DIGITALSERVICES }}
+          platform: linux/arm64
       - name: Create tag
         if: github.ref == 'refs/heads/main'
         uses: actions/github-script@211cb3fefb35a799baa5156f9321bb774fe56294 # v5.2.0
