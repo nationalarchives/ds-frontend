@@ -61,10 +61,10 @@
   {%- elif content_item.type == 'description_list' %}
   {%- set extra_dl_classes = [] %}
   {%- if content_item.value.settings %}
-    {%- if content_item.value.settings.style %}
+    {%- if content_item.value.settings.style and content_item.value.settings.style != 'none' %}
       {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--' ~ content_item.value.settings.style] %}
     {%- endif %}
-    {%- if content_item.value.settings.column_balancing %}
+    {%- if content_item.value.settings.column_balancing and content_item.value.settings.column_balancing != 'none' %}
       {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--' ~ content_item.value.settings.column_balancing] %}
     {%- endif %}
     {%- if content_item.value.settings.stacked %}
