@@ -244,6 +244,10 @@
       <h2 class="tna-heading-l" id="further-information">{{ page_data.further_information_title or 'Further information' }}</h2>
       {{ wagtail_streamfield(page_data.further_information, 3) }}
       {%- endif %}
+
+      {%- if page_data.partner_logos %}
+      {{ wagtail_streamfield(page_data.partner_logos, 2) }}
+      {%- endif %}
     </div>
   </div>
 </div>
