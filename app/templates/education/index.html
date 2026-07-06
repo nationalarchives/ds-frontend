@@ -42,7 +42,7 @@
         'meta': [
           {
             'title': 'Age range',
-            'text': page_data.featured_teaching_resource.key_stages | map(attribute='short_key_stage') | join(', '),
+            'text': page_data.featured_teaching_resource.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
           }
         ],
@@ -84,7 +84,7 @@
         'meta': [
           {
             'title': 'Age range',
-            'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
+            'text': page.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
           }
         ],
@@ -137,7 +137,7 @@
         'meta': [
           {
             'title': 'Age range',
-            'text': page_data.featured_education_session.key_stages | map(attribute='short_key_stage') | join(', '),
+            'text': page_data.featured_education_session.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
           },
           {
@@ -149,7 +149,7 @@
             'title': 'Locations',
             'text': 'Various locations' if (page_data.featured_education_session.session_locations | length) > 1 else page_data.featured_education_session.session_locations | map(attribute='location_type_display') | first,
             'icon': 'location-dot'
-          }
+          } if (page_data.featured_education_session.session_locations | length) > 0 else None
         ],
         'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text,
         'style': 'plain',
@@ -189,7 +189,7 @@
         'meta': [
           {
             'title': 'Age range',
-            'text': page.key_stages | map(attribute='short_key_stage') | join(', '),
+            'text': page.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
           },
           {
@@ -201,7 +201,7 @@
             'title': 'Locations',
             'text': 'Various locations' if (page.session_locations | length) > 1 else page.session_locations | map(attribute='location_type_display') | first,
             'icon': 'location-dot'
-          }
+          } if (page.session_locations | length) > 0 else None
         ],
         'text': page.teaser_text,
         'style': 'plain',

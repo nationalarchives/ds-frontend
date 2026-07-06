@@ -63,7 +63,7 @@
           'meta': [
             {
               'title': 'Age range',
-              'text': featured.key_stages | map(attribute='short_key_stage') | join(', '),
+              'text': featured.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
               'icon': 'person-chalkboard'
             },
             {
@@ -75,7 +75,7 @@
               'title': 'Locations',
               'text': 'Various locations' if (featured.session_locations | length) > 1 else featured.session_locations | map(attribute='location_type_display') | first,
               'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (featured.session_locations | length) > 0 else None
           ],
           'text': featured.teaser_override or featured.teaser_text,
           'fullAreaClick': True,
@@ -113,7 +113,7 @@
           'meta': [
             {
               'title': 'Key stage',
-              'text': child.key_stages | map(attribute='short_key_stage') | join(', '),
+              'text': child.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
               'icon': 'person-chalkboard'
             },
             {
@@ -125,7 +125,7 @@
               'title': 'Locations',
               'text': 'Various locations' if (child.session_locations | length) > 1 else child.session_locations | map(attribute='location_type_display') | first,
               'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (child.session_locations | length) > 0 else None
           ],
           'text': child.teaser_text,
           'style': 'plain',

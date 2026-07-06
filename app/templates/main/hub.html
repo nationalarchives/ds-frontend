@@ -105,7 +105,7 @@
           {%- if child.type_label == 'External' %}
             {% set card_content = dict(card_content, **{
               'hrefAttributes': {
-                'aria-label': child.title ~ ' (opens ' ~ (child.url | get_url_domain) ~ ')',
+                'aria-label': child.title ~ ' (opens ' ~ (child.url | domain_from_url) ~ ')',
                 'rel': 'noreferrer nofollow noopener'
               }
             }) %}

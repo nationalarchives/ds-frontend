@@ -2,7 +2,7 @@
 
 {% macro wagtailFeaturedExternalLink(block_value, itemHeadingLevel) %}
   {% set card_content = {
-    'supertitle': block_value.supertitle or ((block_value.url | get_url_domain) if 'nationalarchives.gov.uk' not in block_value.url else ''),
+    'supertitle': block_value.supertitle or ((block_value.url | domain_from_url) if 'nationalarchives.gov.uk' not in block_value.url else ''),
     'title': block_value.title,
     'headingLevel': itemHeadingLevel,
     'headingSize': 's',
