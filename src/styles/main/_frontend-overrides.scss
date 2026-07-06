@@ -146,6 +146,23 @@ dd {
   }
 }
 
+.tna-picture {
+  .tna-ol {
+    &,
+    ol ol ol {
+      list-style-type: decimal;
+
+      ol {
+        list-style-type: lower-alpha;
+
+        ol {
+          list-style-type: lower-roman;
+        }
+      }
+    }
+  }
+}
+
 .tna-hero {
   &.tna-background-tint,
   &.tna-background-contrast,
