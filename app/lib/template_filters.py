@@ -455,11 +455,11 @@ def key_stage_ranges(key_stages):
             if start == end:
                 ranges.append(f"KS{start}")
             else:
-                ranges.append(f"KS{start}-KS{end}")
+                ranges.append(f"KS{start}–⁠KS{end}")
             start = key_stages[i]
             end = key_stages[i]
     if start == end:
         ranges.append(f"KS{start}")
     else:
-        ranges.append(f"KS{start}-KS{end}")
+        ranges.append(f"KS{start}–⁠KS{end}")
     return ranges

@@ -204,20 +204,20 @@ class ContentParserTestCase(unittest.TestCase):
         )
 
     def test_key_stage_ranges(self):
-        self.assertEqual(key_stage_ranges([1, 2, 3]), ["KS1-KS3"])
-        self.assertEqual(key_stage_ranges([1, 2, 4]), ["KS1-KS2", "KS4"])
+        self.assertEqual(key_stage_ranges([1, 2, 3]), ["KS1–⁠KS3"])
+        self.assertEqual(key_stage_ranges([1, 2, 4]), ["KS1–⁠KS2", "KS4"])
         self.assertEqual(key_stage_ranges([1, 3, 5]), ["KS1", "KS3", "KS5"])
-        self.assertEqual(key_stage_ranges([1, 2, 3, 5]), ["KS1-KS3", "KS5"])
-        self.assertEqual(key_stage_ranges([1, 3, 4]), ["KS1", "KS3-KS4"])
-        self.assertEqual(key_stage_ranges([4, 1, 3]), ["KS1", "KS3-KS4"])
-        self.assertEqual(key_stage_ranges([0, 1, 2]), ["KS1-KS2"])
+        self.assertEqual(key_stage_ranges([1, 2, 3, 5]), ["KS1–⁠KS3", "KS5"])
+        self.assertEqual(key_stage_ranges([1, 3, 4]), ["KS1", "KS3–⁠KS4"])
+        self.assertEqual(key_stage_ranges([4, 1, 3]), ["KS1", "KS3–⁠KS4"])
+        self.assertEqual(key_stage_ranges([0, 1, 2]), ["KS1–⁠KS2"])
         self.assertEqual(
-            key_stage_ranges([1, 2, 4, 5, 7, 8]), ["KS1-KS2", "KS4-KS5", "KS7-KS8"]
+            key_stage_ranges([1, 2, 4, 5, 7, 8]), ["KS1–⁠KS2", "KS4–⁠KS5", "KS7–⁠KS8"]
         )
 
     def test_key_stage_ranges_with_bad_values(self):
         self.assertEqual(key_stage_ranges([]), [])
         self.assertEqual(
-            key_stage_ranges([1, 0, None, "a", False, [], {}, 2]), ["KS1-KS2"]
+            key_stage_ranges([1, 0, None, "a", False, [], {}, 2]), ["KS1–⁠KS2"]
         )
-        self.assertEqual(key_stage_ranges([None, 1, 2]), ["KS1-KS2"])
+        self.assertEqual(key_stage_ranges([None, 1, 2]), ["KS1–⁠KS2"])
