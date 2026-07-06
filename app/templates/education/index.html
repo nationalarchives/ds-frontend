@@ -45,7 +45,7 @@
             'text': page_data.featured_teaching_resource.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
           }
-        ],
+        ] if page_data.featured_teaching_resource.key_stages else None,
         'text': page_data.featured_teaching_resource_teaser_override or page_data.featured_teaching_resource.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
@@ -87,7 +87,7 @@
             'text': page.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
           }
-        ],
+        ] if page.key_stages else None,
         'text': page.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
@@ -139,7 +139,7 @@
             'title': 'Age range',
             'text': page_data.featured_education_session.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
-          },
+          } if page_data.featured_education_session.key_stages else None,
           {
             'title': 'Date',
             'text': pretty_date_range(page_data.featured_education_session.start_date, page_data.featured_education_session.end_date) if page_data.featured_education_session.start_date or page_data.featured_education_session.end_date else 'All year',
@@ -150,7 +150,7 @@
             'text': 'Various locations' if (page_data.featured_education_session.session_locations | length) > 1 else page_data.featured_education_session.session_locations | map(attribute='location_type_display') | first,
             'icon': 'location-dot'
           } if (page_data.featured_education_session.session_locations | length) > 0 else None
-        ],
+        ] if page_data.featured_education_session.key_stages or (page_data.featured_education_session.start_date or page_data.featured_education_session.end_date or page_data.featured_education_session.session_locations) else None,
         'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
@@ -191,7 +191,7 @@
             'title': 'Age range',
             'text': page.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
             'icon': 'person-chalkboard'
-          },
+          } if page.key_stages else None,
           {
             'title': 'Date',
             'text': pretty_date_range(page.start_date, page.end_date) if page.start_date or page.end_date else 'All year',
@@ -202,7 +202,7 @@
             'text': 'Various locations' if (page.session_locations | length) > 1 else page.session_locations | map(attribute='location_type_display') | first,
             'icon': 'location-dot'
           } if (page.session_locations | length) > 0 else None
-        ],
+        ] if page.key_stages or (page.start_date or page.end_date or (page.session_locations | length) > 0) else None,
         'text': page.teaser_text,
         'style': 'plain',
         'fullAreaClick': True,
