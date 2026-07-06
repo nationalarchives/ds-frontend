@@ -63,9 +63,9 @@
           'meta': [
             {
               'title': 'Age range',
-              'text': featured.key_stages | map(attribute='short_key_stage') | join(', '),
+              'text': featured.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
               'icon': 'person-chalkboard'
-            },
+            } if featured.key_stages else None,
             {
               'title': 'Date',
               'text': pretty_date_range(featured.start_date, featured.end_date) if featured.start_date or featured.end_date else 'All year',
@@ -75,8 +75,8 @@
               'title': 'Locations',
               'text': 'Various locations' if (featured.session_locations | length) > 1 else featured.session_locations | map(attribute='location_type_display') | first,
               'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None
-          ],
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (featured.session_locations | length) > 0 else None
+          ] if featured.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (featured.start_date or featured.end_date or featured.session_locations)) else None,
           'text': featured.teaser_override or featured.teaser_text,
           'fullAreaClick': True,
           'horizontal': True,
@@ -113,9 +113,9 @@
           'meta': [
             {
               'title': 'Key stage',
-              'text': child.key_stages | map(attribute='short_key_stage') | join(', '),
+              'text': child.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
               'icon': 'person-chalkboard'
-            },
+            } if child.key_stages else None,
             {
               'title': 'Date',
               'text': pretty_date_range(child.start_date, child.end_date) if child.start_date or child.end_date else 'All year',
@@ -125,8 +125,8 @@
               'title': 'Locations',
               'text': 'Various locations' if (child.session_locations | length) > 1 else child.session_locations | map(attribute='location_type_display') | first,
               'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None
-          ],
+            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (child.session_locations | length) > 0 else None
+          ] if child.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (child.start_date or child.end_date or child.session_locations)) else None,
           'text': child.teaser_text,
           'style': 'plain',
           'fullAreaClick': True,

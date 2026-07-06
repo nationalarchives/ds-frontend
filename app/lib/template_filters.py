@@ -67,7 +67,7 @@ def seconds_to_iso_8601_duration(s):
     return f"PT{seconds}S"
 
 
-def get_url_domain(s):
+def domain_from_url(s):
     try:
         domain = urlparse(s).netloc
         return re.sub(r"^www\.", "", domain)
@@ -76,7 +76,7 @@ def get_url_domain(s):
 
 
 def supertitle_from_domain(url):
-    domain = get_url_domain(url)
+    domain = domain_from_url(url)
     if "nationalarchives.gov.uk" not in domain:
         return domain
     web_archive_url = "webarchive.nationalarchives.gov.uk/ukgwa/"
@@ -433,3 +433,33 @@ def wagtail_table_parser(table_data):
         else:
             data["body"].append(row_data)
     return data
+
+
+def key_stage_ranges(key_stages):
+    if not key_stages:
+        return []
+    key_stages = sorted(
+        [
+            key_stage
+            for key_stage in key_stages
+            if key_stage and isinstance(key_stage, int) and key_stage > 0
+        ]
+    )
+    ranges = []
+    start = key_stages[0]
+    end = key_stages[0]
+    for i in range(1, len(key_stages)):
+        if key_stages[i] == end + 1:
+            end = key_stages[i]
+        else:
+            if start == end:
+                ranges.append(f"KS{start}")
+            else:
+                ranges.append(f"KS{start}–⁠KS{end}")
+            start = key_stages[i]
+            end = key_stages[i]
+    if start == end:
+        ranges.append(f"KS{start}")
+    else:
+        ranges.append(f"KS{start}–⁠KS{end}")
+    return ranges

@@ -1,45 +1,14 @@
-User-agent: Googlebot
-Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales
-Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates
-Disallow: /help-with-your-research/research-guides/adoptions
-Disallow: /help-with-your-research/research-guides/electoral-registration
-Disallow: /help-with-your-research/research-guides/living-people
-Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
-
-User-agent: Bingbot
-Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales
-Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates
-Disallow: /help-with-your-research/research-guides/adoptions
-Disallow: /help-with-your-research/research-guides/electoral-registration
-Disallow: /help-with-your-research/research-guides/living-people
-Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
-
-User-agent: Slurp
-Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales
-Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates
-Disallow: /help-with-your-research/research-guides/adoptions
-Disallow: /help-with-your-research/research-guides/electoral-registration
-Disallow: /help-with-your-research/research-guides/living-people
-Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
-
-User-agent: DuckDuckBot
-Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales
-Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates
-Disallow: /help-with-your-research/research-guides/adoptions
-Disallow: /help-with-your-research/research-guides/electoral-registration
-Disallow: /help-with-your-research/research-guides/living-people
-Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
-
 User-agent: *
 Content-Signal: ai-train=no, search=yes, ai-input=no
+Crawl-delay: 10 seconds
 Disallow: /beta/
 Disallow: /book-a-reading-room-visit/
-Disallow: /cabinetpaperssearch
-Disallow: /catalogue
-Disallow: /census
+Disallow: /cabinetpaperssearch/
+Disallow: /catalogue/
+Disallow: /census/
 Disallow: /contact-us/*/form
 Disallow: /design-guide/
-Disallow: /discovery
+Disallow: /discovery/
 Disallow: /documents/archives/ArchivesObsolete
 Disallow: /documents/information-management/imr-guidance-and-appendices.pdf
 Disallow: /documents/mog.pdf
@@ -48,18 +17,21 @@ Disallow: /droid/
 Disallow: /e179/includes/
 Disallow: /e179/scripts/
 Disallow: /editorial/
+Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales
+Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates
+Disallow: /help-with-your-research/research-guides/adoptions
+Disallow: /help-with-your-research/research-guides/electoral-registration
+Disallow: /help-with-your-research/research-guides/living-people
+Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
 Disallow: /hospitalrecords/includes/
 Disallow: /information-management/manage-information/places-of-deposit/
 Disallow: /includes/
 Disallow: /irlist/includes/
-Disallow: /media
-Disallow: /museum
-Disallow: /museum/includes/
-Disallow: /pronom
-Disallow: /pronom/vendor/
+Disallow: /media/
+Disallow: /museum/
+Disallow: /pronom/
+Disallow: /readers/
 Disallow: /search/
-Disallow: /search/name_search.aspx
 Disallow: /tag/
-
 Sitemap: https://www.nationalarchives.gov.uk/sitemap.xml
 Sitemap: https://www.nationalarchives.gov.uk/sitemap_index.xml

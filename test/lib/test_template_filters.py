@@ -7,8 +7,9 @@ from app.lib.query import (
 )
 from app.lib.template_filters import (
     currency,
-    get_url_domain,
+    domain_from_url,
     is_today_or_future,
+    key_stage_ranges,
     multiline_address_to_single_line,
     pretty_date,
     pretty_price,
@@ -140,15 +141,15 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(pretty_price("123456789"), "£123,456,789")
         self.assertEqual(pretty_price("123456789.01"), "£123,456,789.01")
 
-    def test_get_url_domain(self):
+    def test_domain_from_url(self):
         self.assertEqual(
-            get_url_domain(
+            domain_from_url(
                 "https://www.nationalarchives.gov.uk/explore-the-collection/stories/john-blanke/"
             ),
             "nationalarchives.gov.uk",
         )
         self.assertEqual(
-            get_url_domain(
+            domain_from_url(
                 "https://discovery.nationalarchives.gov.uk/results/r?_q=ufo&_sd=&_ed=&_hb="
             ),
             "discovery.nationalarchives.gov.uk",
@@ -201,3 +202,22 @@ class ContentParserTestCase(unittest.TestCase):
             ),
             "Somewhere, 123 Road Street, Devon, UK, PL4 7EX",
         )
+
+    def test_key_stage_ranges(self):
+        self.assertEqual(key_stage_ranges([1, 2, 3]), ["KS1–⁠KS3"])
+        self.assertEqual(key_stage_ranges([1, 2, 4]), ["KS1–⁠KS2", "KS4"])
+        self.assertEqual(key_stage_ranges([1, 3, 5]), ["KS1", "KS3", "KS5"])
+        self.assertEqual(key_stage_ranges([1, 2, 3, 5]), ["KS1–⁠KS3", "KS5"])
+        self.assertEqual(key_stage_ranges([1, 3, 4]), ["KS1", "KS3–⁠KS4"])
+        self.assertEqual(key_stage_ranges([4, 1, 3]), ["KS1", "KS3–⁠KS4"])
+        self.assertEqual(key_stage_ranges([0, 1, 2]), ["KS1–⁠KS2"])
+        self.assertEqual(
+            key_stage_ranges([1, 2, 4, 5, 7, 8]), ["KS1–⁠KS2", "KS4–⁠KS5", "KS7–⁠KS8"]
+        )
+
+    def test_key_stage_ranges_with_bad_values(self):
+        self.assertEqual(key_stage_ranges([]), [])
+        self.assertEqual(
+            key_stage_ranges([1, 0, None, "a", False, [], {}, 2]), ["KS1–⁠KS2"]
+        )
+        self.assertEqual(key_stage_ranges([None, 1, 2]), ["KS1–⁠KS2"])
