@@ -68,7 +68,7 @@ def sitemap_dynamic(sitemap_page):
     if sitemap_page > pages:
         return page_not_found_error()
     for page in wagtail_pages["items"]:
-        if page["page_path"] in exclude_urls:
+        if page["page_path"].startswith(tuple(exclude_urls)):
             continue
         try:
             lastmodified_date = datetime.strptime(
