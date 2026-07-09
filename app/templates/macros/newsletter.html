@@ -1,6 +1,6 @@
 {% macro newsletter(title, url, heading_level) %}
 {%- set heading_level = heading_level or 2 %}
-<div class="tna-newsletter" data-tna-analytics-section>
+<div class="tna-newsletter tna-!--hide-on-print" data-tna-analytics-section>
   <h{{ heading_level }} class="tna-visually-hidden">Newsletter</h{{ heading_level }}>
   <div class="tna-newsletter_inner">
     <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
