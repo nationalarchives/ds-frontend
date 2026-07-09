@@ -54,6 +54,7 @@ def sitemaps():
 def sitemap_dynamic(sitemap_page):
     exclude_urls = [
         "/maintenance/",
+        "/education/",  # TODO: Remove this when the education section is live
     ]
     dynamic_urls = list()
     items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
