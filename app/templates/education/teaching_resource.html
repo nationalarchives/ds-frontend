@@ -63,7 +63,12 @@
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for time_period in page_data.time_periods %}
-          <li>{{ time_period.name }}</li>
+          <li>
+            {{ time_period.name }}
+            {% if time_period.year_from and time_period.year_to %}
+              ({{ time_period.year_from }}–{{ time_period.year_to }})
+            {%- endif %}
+          </li>
           {%- endfor %}
         </ul>
       </div>

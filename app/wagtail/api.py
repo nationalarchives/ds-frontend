@@ -152,18 +152,13 @@ def page_descendants(page_id, params=None, limit=None):
         return {}
 
 
-def pages_paginated(
-    page,
-    limit=None,
-    initial_offset=0,
-    params=None,
-):
+def pages_paginated(page, limit=None, initial_offset=0, params=None, endpoint="pages"):
     if params is None:
         params = {}
     if not limit:
         limit = current_app.config["WAGTAILAPI_LIMIT_MAX"]
     offset = ((page - 1) * limit) + initial_offset
-    uri = "pages/"
+    uri = f"{endpoint}/"
     params = params | {
         "offset": offset,
         "limit": limit,
@@ -209,6 +204,35 @@ def authored_pages_paginated(
             "author": author_id,
         },
     )
+
+
+def education_item_paginated(
+    api_endpoint,
+    page,
+    query="",
+    key_stages=None,
+    locations=None,
+    regions=None,
+    time_periods=None,
+    themes=None,
+    limit=None,
+    params=None,
+):
+    if params is None:
+        params = {}
+    if query:
+        params = params | {"search": query}
+    if key_stages:
+        params = params | {"key_stage": key_stages}
+    if locations:
+        params = params | {"location": locations}
+    if regions:
+        params = params | {"region": regions}
+    if time_periods:
+        params = params | {"time_period": time_periods}
+    if themes:
+        params = params | {"theme": themes}
+    return pages_paginated(page=page, limit=limit, params=params, endpoint=api_endpoint)
 
 
 def media(media_uuid, params=None):

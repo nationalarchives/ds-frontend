@@ -17,18 +17,16 @@ from .pages.collections.explorer_index_page import explorer_index_page
 from .pages.collections.highlight_gallery_page import highlight_gallery_page
 from .pages.cookies.cookie_details_page import cookie_details_page
 from .pages.cookies.cookies_page import cookies_page
+from .pages.education.education_listing_pages import (
+    education_sessions_listing_page,
+    education_teaching_resources_listing_page,
+)
 from .pages.education.education_page import education_page
 from .pages.education.education_session_page import (
     education_session_page,
 )
-from .pages.education.education_sessions_listing_page import (
-    education_sessions_listing_page,
-)
 from .pages.education.education_teaching_resource_page import (
     education_teaching_resource_page,
-)
-from .pages.education.education_teaching_resources_listing_page import (
-    education_teaching_resources_listing_page,
 )
 from .pages.foi.foi_index_page import foi_index_page
 from .pages.foi.foi_request_page import foi_request_page
