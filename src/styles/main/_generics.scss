@@ -99,6 +99,24 @@ abbr {
   }
 }
 
+.etna-background-accent-light-half {
+  position: relative;
+
+  &::before {
+    content: "";
+
+    height: 50%;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+
+    @include colour.accent-light;
+  }
+}
+
 :first-child[hidden] {
   + .tna-hgroup-xl,
   + .tna-hgroup-l,
