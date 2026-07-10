@@ -13,12 +13,10 @@
 {%- set breadcrumbs_style = 'accent-light' -%}
 
 {% block skipLink %}
-{%- if total_results %}
 {{ tnaSkipLink({
   'href': 'results',
   'text': 'Skip to list of results'
 }) }}
-{%- endif %}
 {{ super() }}
 {% endblock skipLink %}
 
@@ -46,7 +44,7 @@
           'supertitle': 'Featured',
           'title': featured_item.title,
           'headingLevel': 2,
-          'headingSize': 'm',
+          'headingSize': 'l',
           'href': featured_item.url,
           'meta': [
             {
@@ -206,9 +204,9 @@
     </div>
 
     <h2 class="tna-visually-hidden">Results</h2>
-    <section id="results" class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+    <section id="results" class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
       {% if total_results %}
-        <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+        <p class="tna-!--margin-top-s">Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
          
         <ul class="tna-ul tna-ul--plain">
           {%- for child in children %}
@@ -264,8 +262,10 @@
         {%- endfor %}
         </ul>
       {% else %}
-        <h3 class="tna-heading-l">No results found{% if q %} for &quot;{{ q }}&quot;{% endif %}</h3>
-        <p>Try searching with different keywords, or <a href="{{ page_data.meta.url }}">clear your search</a>.</p>
+        <div class="tna-aside tna-background-tint tna-!--margin-top-s">
+          <h3 class="tna-heading-l">No results found{% if q %} for &quot;{{ q }}&quot;{% endif %}</h3>
+          <p>Try searching with different keywords, or <a href="{{ page_data.meta.url }}">clear your search</a>.</p>
+        </div>
       {% endif %}
     </section>
 
