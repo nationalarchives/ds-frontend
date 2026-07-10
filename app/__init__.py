@@ -142,7 +142,7 @@ def create_app(config_class):
 
     @app.context_processor
     def context_processor():
-        qs = QueryStringTransformer(list(request.args.lists()))
+        qs = QueryStringTransformer(list(request.args.lists()) if request else [])
         return dict(
             cookie_preference=cookie_preference,
             display_phase_banner=display_phase_banner,
