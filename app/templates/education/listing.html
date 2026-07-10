@@ -10,6 +10,8 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
+{%- set breadcrumbs_style = 'accent-light' -%}
+
 {% block skipLink %}
 {%- if total_results %}
 {{ tnaSkipLink({
@@ -22,249 +24,253 @@
 
 {% block content %}
   {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-  <div class="tna-container tna-section">
-    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-      <hgroup class="tna-hgroup-xl">
-        <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
-        <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
-      </hgroup>
-      <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+  <div class="tna-section tna-background-accent-light">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+        <hgroup class="tna-hgroup-xl">
+          <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+          <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+        </hgroup>
+        <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+      </div>
     </div>
-    <h2 class="tna-visually-hidden">Filters</h2>
-    <form class="tna-column tna-column--full tna-!--margin-top-m" method="get" action="{{ page_data.meta.url }}" role="search">
-      {#
-      {{ tnaSearchField({
-        'label': 'Search ' ~ (page_data.title | lower),
+  </div>
+
+  <div class="tna-container">
+    {%- set featured_item = page_data.featured_teaching_resource or page_data.featured_education_session %}
+    {%- set show_featured_item = featured_item and not filtered_results %}
+    {%- if show_featured_item %}
+    <div class="tna-column tna-column--full tna-!--margin-top-l">
+      {% set card_content = {
+        'supertitle': 'Featured',
+        'title': featured_item.title,
         'headingLevel': 2,
         'headingSize': 'm',
-        'id': 'search',
-        'name': 'q',
-        'value': q
-      }) }}
-      #}
-
-      {%- if page_data.search_filters.key_stage %}
-        {%- set checkboxes = [] %}
-        {%- for key_stage in page_data.search_filters.key_stage %}
-          {%- do checkboxes.append({
-            'text': key_stage.name,
-            'value': key_stage.stage,
-            'checked': qs_is_value_in_parameter('key_stage', key_stage.stage)
-          }) %}
-        {%- endfor %}
-        {{ tnaCheckboxes({
-          'label': 'Key stage',
-          'id': 'filter-key-stage',
-          'name': 'key_stage',
-          'items': checkboxes,
-          'inline': True
-        }) }}
+        'href': featured_item.url,
+        'meta': [
+          {
+            'title': 'Age range',
+            'text': featured_item.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
+            'icon': 'person-chalkboard'
+          } if featured_item.key_stages else None,
+          {
+            'title': 'Date',
+            'text': pretty_date_range(featured_item.start_date, featured_item.end_date) if featured_item.start_date or featured_item.end_date else 'All year',
+            'icon': 'calendar'
+          } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
+          {
+            'title': 'Locations',
+            'text': 'Various locations' if (featured_item.session_locations | length) > 1 else featured_item.session_locations | map(attribute='location_type_display') | first,
+            'icon': 'location-dot'
+          } if page_data.meta.type == 'education.EducationSessionsListingPage' and (featured_item.session_locations | length) > 0 else None
+        ] if featured_item.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (featured_item.start_date or featured_item.end_date or featured_item.session_locations)) else None,
+        'text': featured_item.teaser_override or featured_item.teaser_text,
+        'fullAreaClick': True,
+        'horizontal': True,
+        'style': 'accent'
+      } %}
+      {%- if featured_item.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': featured_item.teaser_image.jpeg.full_url,
+          'imageAlt': featured_item.teaser_image.description,
+          'imageWidth': featured_item.teaser_image.jpeg.width,
+          'imageHeight': featured_item.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': featured_item.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': featured_item.teaser_image.webp.width,
+              'height': featured_item.teaser_image.webp.height
+            }
+          ]
+        }) %}
       {%- endif %}
-
-      {%- if page_data.search_filters.location or page_data.search_filters.region %}
-        {%- set checkboxes = [] %}
-        {%- for location in page_data.search_filters.location %}
-          {%- do checkboxes.append({
-            'text': location.name,
-            'value': location.slug,
-            'checked': qs_is_value_in_parameter('location', location.slug)
-          }) %}
-        {%- endfor %}
-        {%- for region in page_data.search_filters.region %}
-          {%- do checkboxes.append({
-            'text': region.name,
-            'value': region.slug,
-            'checked': qs_is_value_in_parameter('region', region.slug)
-          }) %}
-        {%- endfor %}
-        {{ tnaCheckboxes({
-          'label': 'Location',
-          'id': 'filter-location',
-          'name': 'location',
-          'items': checkboxes,
-          'inline': True
-        }) }}
-      {%- endif %}
-
-      {%- if page_data.search_filters.time_period %}
-        {%- set checkboxes = [] %}
-        {%- for time_period in page_data.search_filters.time_period %}
-          {%- do checkboxes.append({
-            'text': time_period.name,
-            'value': time_period.slug,
-            'checked': qs_is_value_in_parameter('time_period', time_period.slug)
-          }) %}
-        {%- endfor %}
-        {{ tnaCheckboxes({
-          'label': 'Time period',
-          'id': 'filter-time-period',
-          'name': 'time_period',
-          'items': checkboxes,
-          'inline': True
-        }) }}
-      {%- endif %}
-
-      {%- if page_data.search_filters.theme %}
-        {%- set checkboxes = [] %}
-        {%- for theme in page_data.search_filters.theme %}
-          {%- do checkboxes.append({
-            'text': theme.name,
-            'value': theme.slug,
-            'checked': qs_is_value_in_parameter('theme', theme.slug)
-          }) %}
-        {%- endfor %}
-        {{ tnaCheckboxes({
-          'label': 'Theme',
-          'id': 'filter-theme',
-          'name': 'theme',
-          'items': checkboxes,
-          'inline': True
-        }) }}
-      {%- endif %}
-
-      <div class="tna-button-group">
-        {{ tnaButton({
-          'text': 'Filter ' ~ (page_data.title | lower),
-          'buttonElement': True,
-          'buttonType': 'submit'
-        }) }}
-        {%- if filtered_results %}
-        {{ tnaButton({
-          'text': 'Clear all filters',
-          'href': page_data.meta.url,
-          'plain': True
-        }) }}
-        {%- endif %}
-      </div>
-    </form>
-  </div>
-
-  <h2 class="tna-visually-hidden">Results</h2>
-  {% if total_results %}
-  <section id="results">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
-      </div>
+      {{ tnaCard(card_content) }}
     </div>
-    <ul class="tna-container tna-!--margin-top-m">
-    {% set featured = page_data.featured_teaching_resource or page_data.featured_education_session %}
-    {%- if featured and not filtered_results %}
-      <li class="tna-column tna-column--full tna-!--margin-bottom-m">
-        {% set card_content = {
-          'supertitle': featured.type_label,
-          'title': featured.title,
-          'headingLevel': 3,
-          'headingSize': 'l',
-          'href': featured.url,
-          'meta': [
-            {
-              'title': 'Age range',
-              'text': featured.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
-              'icon': 'person-chalkboard'
-            } if featured.key_stages else None,
-            {
-              'title': 'Date',
-              'text': pretty_date_range(featured.start_date, featured.end_date) if featured.start_date or featured.end_date else 'All year',
-              'icon': 'calendar'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
-            {
-              'title': 'Locations',
-              'text': 'Various locations' if (featured.session_locations | length) > 1 else featured.session_locations | map(attribute='location_type_display') | first,
-              'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (featured.session_locations | length) > 0 else None
-          ] if featured.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (featured.start_date or featured.end_date or featured.session_locations)) else None,
-          'text': featured.teaser_override or featured.teaser_text,
-          'fullAreaClick': True,
-          'horizontal': True,
-          'style': 'accent',
-          'classes': 'tna-card--full-height'
-        } %}
-        {%- if featured.teaser_image %}
-          {% set card_content = dict(card_content, **{
-            'imageSrc': featured.teaser_image.jpeg.full_url,
-            'imageAlt': featured.teaser_image.description,
-            'imageWidth': featured.teaser_image.jpeg.width,
-            'imageHeight': featured.teaser_image.jpeg.height,
-            'imageSources': [
-              {
-                'src': featured.teaser_image.webp.full_url,
-                'type': 'image/webp',
-                'width': featured.teaser_image.webp.width,
-                'height': featured.teaser_image.webp.height
-              }
-            ]
-          }) %}
-        {%- endif %}
-        {{ tnaCard(card_content) }}
-      </li>
     {%- endif %}
-    {%- for child in children %}
-      <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-m">
-        {% set card_content = {
-          'supertitle': child.type_label,
-          'title': child.title,
-          'headingLevel': 3,
+
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      <h2 class="tna-visually-hidden">Filters</h2>
+      <form method="get" action="{{ page_data.meta.url }}" role="search">
+        {#
+        {{ tnaSearchField({
+          'label': 'Search ' ~ (page_data.title | lower),
+          'headingLevel': 2,
           'headingSize': 'm',
-          'href': child.url,
-          'meta': [
-            {
-              'title': 'Key stage',
-              'text': child.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
-              'icon': 'person-chalkboard'
-            } if child.key_stages else None,
-            {
-              'title': 'Date',
-              'text': pretty_date_range(child.start_date, child.end_date) if child.start_date or child.end_date else 'All year',
-              'icon': 'calendar'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
-            {
-              'title': 'Locations',
-              'text': 'Various locations' if (child.session_locations | length) > 1 else child.session_locations | map(attribute='location_type_display') | first,
-              'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (child.session_locations | length) > 0 else None
-          ] if child.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (child.start_date or child.end_date or child.session_locations)) else None,
-          'text': child.teaser_text,
-          'style': 'plain',
-          'fullAreaClick': True,
-          'classes': 'tna-card--full-height'
-        } %}
-        {%- if child.teaser_image %}
-          {% set card_content = dict(card_content, **{
-            'imageSrc': child.teaser_image.jpeg.full_url,
-            'imageAlt': child.teaser_image.description,
-            'imageWidth': child.teaser_image.jpeg.width,
-            'imageHeight': child.teaser_image.jpeg.height,
-            'imageSources': [
-              {
-                'src': child.teaser_image.webp.full_url,
-                'type': 'image/webp',
-                'width': child.teaser_image.webp.width,
-                'height': child.teaser_image.webp.height
-              }
-            ]
-          }) %}
+          'id': 'search',
+          'name': 'q',
+          'value': q
+        }) }}
+        #}
+
+        {%- if page_data.search_filters.key_stage %}
+          {%- set checkboxes = [] %}
+          {%- for key_stage in page_data.search_filters.key_stage %}
+            {%- do checkboxes.append({
+              'text': key_stage.name,
+              'value': key_stage.stage,
+              'hint': key_stage.public_age_range,
+              'checked': qs_is_value_in_parameter('key_stage', key_stage.stage)
+            }) %}
+          {%- endfor %}
+          {{ tnaCheckboxes({
+            'label': 'Key stage',
+            'id': 'filter-key-stage',
+            'name': 'key_stage',
+            'items': checkboxes,
+            'small': True
+          }) }}
         {%- endif %}
-        {{ tnaCard(card_content) }}
-      </li>
-    {%- endfor %}
-    </ul>
+
+        {%- if page_data.search_filters.location or page_data.search_filters.region %}
+          {%- set checkboxes = [] %}
+          {%- for location in page_data.search_filters.location %}
+            {%- do checkboxes.append({
+              'text': location.name,
+              'value': location.slug,
+              'checked': qs_is_value_in_parameter('location', location.slug)
+            }) %}
+          {%- endfor %}
+          {%- for region in page_data.search_filters.region %}
+            {%- do checkboxes.append({
+              'text': region.name,
+              'value': region.slug,
+              'checked': qs_is_value_in_parameter('region', region.slug)
+            }) %}
+          {%- endfor %}
+          {{ tnaCheckboxes({
+            'label': 'Location',
+            'id': 'filter-location',
+            'name': 'location',
+            'items': checkboxes,
+            'small': True
+          }) }}
+        {%- endif %}
+
+        {%- if page_data.search_filters.time_period %}
+          {%- set checkboxes = [] %}
+          {%- for time_period in page_data.search_filters.time_period %}
+            {%- do checkboxes.append({
+              'text': time_period.name,
+              'value': time_period.slug,
+              'hint': time_period.year_from ~ '–' ~ time_period.year_to if time_period.year_from and time_period.year_to else None,
+              'checked': qs_is_value_in_parameter('time_period', time_period.slug)
+            }) %}
+          {%- endfor %}
+          {{ tnaCheckboxes({
+            'label': 'Time period',
+            'id': 'filter-time-period',
+            'name': 'time_period',
+            'items': checkboxes,
+            'small': True
+          }) }}
+        {%- endif %}
+
+        {%- if page_data.search_filters.theme %}
+          {%- set checkboxes = [] %}
+          {%- for theme in page_data.search_filters.theme %}
+            {%- do checkboxes.append({
+              'text': theme.name,
+              'value': theme.slug,
+              'checked': qs_is_value_in_parameter('theme', theme.slug)
+            }) %}
+          {%- endfor %}
+          {{ tnaCheckboxes({
+            'label': 'Theme',
+            'id': 'filter-theme',
+            'name': 'theme',
+            'items': checkboxes,
+            'small': True
+          }) }}
+        {%- endif %}
+
+        <div class="tna-button-group">
+          {{ tnaButton({
+            'text': 'Filter',
+            'buttonElement': True,
+            'buttonType': 'submit'
+          }) }}
+          {%- if filtered_results %}
+          {{ tnaButton({
+            'text': 'Clear all filters',
+            'href': page_data.meta.url,
+            'plain': True
+          }) }}
+          {%- endif %}
+        </div>
+      </form>
+    </div>
+
+    <h2 class="tna-visually-hidden">Results</h2>
+    <section id="results" class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      {% if total_results %}
+        <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+         
+        <ul class="tna-ul tna-ul--plain">
+          {%- for child in children %}
+          <li class="tna-!--margin-bottom-s">
+            {% set card_content = {
+              'title': child.title,
+              'headingLevel': 3,
+              'headingSize': 'm',
+              'href': child.url,
+              'meta': [
+                {
+                  'title': 'Key stage',
+                  'text': child.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
+                  'icon': 'person-chalkboard'
+                } if child.key_stages else None,
+                {
+                  'title': 'Date',
+                  'text': pretty_date_range(child.start_date, child.end_date) if child.start_date or child.end_date else 'All year',
+                  'icon': 'calendar'
+                } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
+                {
+                  'title': 'Locations',
+                  'text': 'Various locations' if (child.session_locations | length) > 1 else child.session_locations | map(attribute='location_type_display') | first,
+                  'icon': 'location-dot'
+                } if page_data.meta.type == 'education.EducationSessionsListingPage' and (child.session_locations | length) > 0 else None
+              ] if child.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (child.start_date or child.end_date or child.session_locations)) else None,
+              'text': child.teaser_text,
+              'style': 'plain',
+              'horizontal': True,
+              'horizontalSmallImage': True,
+              'horizontalFlipped': True,
+              'fullAreaClick': True,
+              'classes': 'tna-card--full-height'
+            } %}
+            {%- if child.teaser_image %}
+              {% set card_content = dict(card_content, **{
+                'imageSrc': child.teaser_image.jpeg.full_url,
+                'imageAlt': child.teaser_image.description,
+                'imageWidth': child.teaser_image.jpeg.width,
+                'imageHeight': child.teaser_image.jpeg.height,
+                'imageSources': [
+                  {
+                    'src': child.teaser_image.webp.full_url,
+                    'type': 'image/webp',
+                    'width': child.teaser_image.webp.width,
+                    'height': child.teaser_image.webp.height
+                  }
+                ]
+              }) %}
+            {%- endif %}
+            {{ tnaCard(card_content) }}
+          </li>
+        {%- endfor %}
+        </ul>
+      {% else %}
+        <h3 class="tna-heading-l">No results found{% if q %} for &quot;{{ q }}&quot;{% endif %}</h3>
+        <p>Try searching with different keywords, or <a href="{{ page_data.meta.url }}">clear your search</a>.</p>
+      {% endif %}
+    </section>
+
     {% if pages > 1 %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--full tna-!--margin-top-m">
+      <div class="tna-column tna-column--full tna-!--margin-top-xl">
         {{ tnaPagination(pagination) }}
       </div>
-    </div>
     {% endif %}
-  </section>
-  {% else %}
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h3 class="tna-heading-l">No results found{% if q %} for &quot;{{ q }}&quot;{% endif %}</h3>
-      <p>Try searching with different keywords, or <a href="{{ page_data.meta.url }}">clear your search</a>.</p>
-    </div>
   </div>
-  {% endif %}
 
   {{ feedback('l') }}
   {{ back_to_top() }}
