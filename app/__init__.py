@@ -6,6 +6,7 @@ from flask import Flask, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
 from tna_utilities.string import slugify, unslugify
+from tna_utilities.url import QueryStringTransformer
 
 from app.lib.context_processor import (
     cookie_preference,
@@ -19,7 +20,6 @@ from app.lib.context_processor import (
     pretty_price_range,
 )
 from app.lib.query import (
-    qs_active,
     qs_remove,
     qs_toggler,
     qs_update,
@@ -142,6 +142,7 @@ def create_app(config_class):
 
     @app.context_processor
     def context_processor():
+        qs = QueryStringTransformer(list(request.args.lists()))
         return dict(
             cookie_preference=cookie_preference,
             display_phase_banner=display_phase_banner,
@@ -152,8 +153,10 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            qs_active=lambda filter_name, by: qs_active(
-                request.args.to_dict(), filter_name, by
+            qs_is_value_in_parameter=lambda name, value: (
+                qs.is_value_in_parameter(name, value)
+                if qs.parameter_exists(name)
+                else False
             ),
             qs_toggler=lambda filter_name, by: qs_toggler(
                 request.args.to_dict(), filter_name, by

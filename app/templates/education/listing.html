@@ -1,6 +1,8 @@
 {% extends "wagtail_base.html" %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/checkboxes/macro.html' import tnaCheckboxes -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 {%- from 'components/skip-link/macro.html' import tnaSkipLink -%}
@@ -19,31 +21,126 @@
 {% endblock skipLink %}
 
 {% block content %}
-{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-<div class="tna-container tna-section">
-  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-    <hgroup class="tna-hgroup-xl">
-      <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
-      <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
-    </hgroup>
-    <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
-  </div>
-  {#
-  <form class="tna-column tna-column--full tna-!--margin-top-m" method="get" action="{{ page_data.meta.url }}" role="search">
-    {{ tnaSearchField({
-      'label': 'Search ' ~ (page_data.title | lower),
-      'headingLevel': 2,
-      'headingSize': 'm',
-      'id': 'search',
-      'name': 'q',
-      'value': q
-    }) }}
-  </form>
-  #}
-</div>
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+  <div class="tna-container tna-section">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+        <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+      </hgroup>
+      <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+    </div>
+    <h2 class="tna-visually-hidden">Filters</h2>
+    <form class="tna-column tna-column--full tna-!--margin-top-m" method="get" action="{{ page_data.meta.url }}" role="search">
+      {#
+      {{ tnaSearchField({
+        'label': 'Search ' ~ (page_data.title | lower),
+        'headingLevel': 2,
+        'headingSize': 'm',
+        'id': 'search',
+        'name': 'q',
+        'value': q
+      }) }}
+      #}
 
-<h2 class="tna-visually-hidden">Results</h2>
-{% if total_results %}
+      {%- if page_data.search_filters.key_stage %}
+        {%- set checkboxes = [] %}
+        {%- for key_stage in page_data.search_filters.key_stage %}
+          {%- do checkboxes.append({
+            'text': key_stage.name,
+            'value': key_stage.stage,
+            'checked': qs_is_value_in_parameter('key_stage', key_stage.stage)
+          }) %}
+        {%- endfor %}
+        {{ tnaCheckboxes({
+          'label': 'Key stage',
+          'id': 'filter-key-stage',
+          'name': 'key_stage',
+          'items': checkboxes,
+          'inline': True
+        }) }}
+      {%- endif %}
+
+      {%- if page_data.search_filters.location or page_data.search_filters.region %}
+        {%- set checkboxes = [] %}
+        {%- for location in page_data.search_filters.location %}
+          {%- do checkboxes.append({
+            'text': location.name,
+            'value': location.slug,
+            'checked': qs_is_value_in_parameter('location', location.slug)
+          }) %}
+        {%- endfor %}
+        {%- for region in page_data.search_filters.region %}
+          {%- do checkboxes.append({
+            'text': region.name,
+            'value': region.slug,
+            'checked': qs_is_value_in_parameter('region', region.slug)
+          }) %}
+        {%- endfor %}
+        {{ tnaCheckboxes({
+          'label': 'Location',
+          'id': 'filter-location',
+          'name': 'location',
+          'items': checkboxes,
+          'inline': True
+        }) }}
+      {%- endif %}
+
+      {%- if page_data.search_filters.time_period %}
+        {%- set checkboxes = [] %}
+        {%- for time_period in page_data.search_filters.time_period %}
+          {%- do checkboxes.append({
+            'text': time_period.name,
+            'value': time_period.slug,
+            'checked': qs_is_value_in_parameter('time_period', time_period.slug)
+          }) %}
+        {%- endfor %}
+        {{ tnaCheckboxes({
+          'label': 'Time period',
+          'id': 'filter-time-period',
+          'name': 'time_period',
+          'items': checkboxes,
+          'inline': True
+        }) }}
+      {%- endif %}
+
+      {%- if page_data.search_filters.theme %}
+        {%- set checkboxes = [] %}
+        {%- for theme in page_data.search_filters.theme %}
+          {%- do checkboxes.append({
+            'text': theme.name,
+            'value': theme.slug,
+            'checked': qs_is_value_in_parameter('theme', theme.slug)
+          }) %}
+        {%- endfor %}
+        {{ tnaCheckboxes({
+          'label': 'Theme',
+          'id': 'filter-theme',
+          'name': 'theme',
+          'items': checkboxes,
+          'inline': True
+        }) }}
+      {%- endif %}
+
+      <div class="tna-button-group">
+        {{ tnaButton({
+          'text': 'Filter ' ~ (page_data.title | lower),
+          'buttonElement': True,
+          'buttonType': 'submit'
+        }) }}
+        {%- if filtered_results %}
+        {{ tnaButton({
+          'text': 'Clear all filters',
+          'href': page_data.meta.url,
+          'plain': True
+        }) }}
+        {%- endif %}
+      </div>
+    </form>
+  </div>
+
+  <h2 class="tna-visually-hidden">Results</h2>
+  {% if total_results %}
   <section id="results">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
@@ -52,7 +149,7 @@
     </div>
     <ul class="tna-container tna-!--margin-top-m">
     {% set featured = page_data.featured_teaching_resource or page_data.featured_education_session %}
-    {%- if featured %}
+    {%- if featured and not filtered_results %}
       <li class="tna-column tna-column--full tna-!--margin-bottom-m">
         {% set card_content = {
           'supertitle': featured.type_label,
@@ -160,16 +257,16 @@
     </div>
     {% endif %}
   </section>
-{% else %}
+  {% else %}
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h3 class="tna-heading-l">No results found{% if q %} for &quot;{{ q }}&quot;{% endif %}</h3>
       <p>Try searching with different keywords, or <a href="{{ page_data.meta.url }}">clear your search</a>.</p>
     </div>
   </div>
-{% endif %}
+  {% endif %}
 
-{{ feedback('l') }}
-{{ back_to_top() }}
+  {{ feedback('l') }}
+  {{ back_to_top() }}
 
 {% endblock content %}

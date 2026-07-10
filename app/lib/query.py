@@ -10,6 +10,9 @@ def qs_active(existing_qs, filter_name, by):
         return False
     # See if the intersection of sets is the same.
     existing_qs_set = set(existing_qs.items())
+    print(existing_qs)
+    print(qs_set)
+    print(existing_qs_set)
     return existing_qs_set.intersection(qs_set) == qs_set
 
 
