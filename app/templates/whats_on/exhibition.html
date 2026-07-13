@@ -266,8 +266,8 @@
         <small>{{ page_data.partnership_lead_text or 'In partnership with' }} <span class="tna-visually-hidden" itemprop="name">{{ page_data.partnership.name }}.</span></small>
       </p>
       <picture class="tna-exhibition-partner-logo" aria-hidden="true">
-        <source type="image/webp" srcset="{{ page_data.partnership.logo.webp.url }}" width="{{ (page_data.partnership.logo.webp.width / 2) | int }}" height="{{ (page_data.partnership.logo.webp.height / 2) | int }}">
-        <img src="{{ page_data.partnership.logo.jpeg.url }}" width="{{ (page_data.partnership.logo.jpeg.width / 2) | int }}" height="{{ (page_data.partnership.logo.jpeg.height / 2) | int }}" alt="">
+        <source type="image/webp" srcset="{{ page_data.partnership.logo.webp.full_url }}" width="{{ (page_data.partnership.logo.webp.width / 2) | int }}" height="{{ (page_data.partnership.logo.webp.height / 2) | int }}">
+        <img src="{{ page_data.partnership.logo.jpeg.full_url }}" width="{{ (page_data.partnership.logo.jpeg.width / 2) | int }}" height="{{ (page_data.partnership.logo.jpeg.height / 2) | int }}" alt="">
       </picture>
       {%- endif %}
     </div>

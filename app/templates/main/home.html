@@ -118,13 +118,13 @@
       } %}
       {%- if page.value.page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': page.value.page.teaser_image.jpeg.url,
+          'imageSrc': page.value.page.teaser_image.jpeg.full_url,
           'imageAlt': page.value.page.teaser_image.description,
           'imageWidth': page.value.page.teaser_image.jpeg.width,
           'imageHeight': page.value.page.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': page.value.page.teaser_image.webp.url,
+              'src': page.value.page.teaser_image.webp.full_url,
               'width': page.value.page.teaser_image.webp.width,
               'height': page.value.page.teaser_image.webp.height,
               'type': 'image/webp'
