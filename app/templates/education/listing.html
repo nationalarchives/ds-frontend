@@ -21,7 +21,11 @@
 {% endblock skipLink %}
 
 {% block content %}
-  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+  {%- if page_data.global_alert or page_data.mourning_notice %}
+  <div class="tna-background-accent-light">
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+  </div>
+  {%- endif %}
   <div class="tna-section tna-background-accent-light">
     <div class="tna-container">
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">

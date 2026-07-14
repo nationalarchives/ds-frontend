@@ -1,15 +1,12 @@
 User-agent: *
 Content-Signal: ai-train=no, search=yes, ai-input=no
 Crawl-delay: 10 seconds
-Disallow: /beta/
 Disallow: /book-a-reading-room-visit/
 Disallow: /cabinetpaperssearch/
 Disallow: /catalogue/
-Disallow: /census/
 Disallow: /contact-us/*/form
-Disallow: /design-guide/
 Disallow: /discovery/
-Disallow: /documents/archives/ArchivesObsolete
+Disallow: /documents/archives/ArchivesObsolete/
 Disallow: /documents/information-management/imr-guidance-and-appendices.pdf
 Disallow: /documents/mog.pdf
 Disallow: /documents/old/
@@ -17,13 +14,12 @@ Disallow: /droid/
 Disallow: /e179/includes/
 Disallow: /e179/scripts/
 Disallow: /editorial/
-Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales
-Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates
-Disallow: /help-with-your-research/research-guides/adoptions
-Disallow: /help-with-your-research/research-guides/electoral-registration
-Disallow: /help-with-your-research/research-guides/living-people
+Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales/
+Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates/
+Disallow: /help-with-your-research/research-guides/adoptions/
+Disallow: /help-with-your-research/research-guides/electoral-registration/
+Disallow: /help-with-your-research/research-guides/living-people/
 Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
-Disallow: /hospitalrecords/includes/
 Disallow: /information-management/manage-information/places-of-deposit/
 Disallow: /includes/
 Disallow: /irlist/includes/
