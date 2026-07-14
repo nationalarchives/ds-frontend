@@ -83,7 +83,9 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         )
         blog_posts_data = {}
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
-    pages = math.ceil(total_blog_posts / children_per_page)
+    pages = math.ceil(
+        total_blog_posts / (children_per_page + 1 if page == 1 else children_per_page)
+    )
     if total_blog_posts and page > pages:
         return page_not_found_error()
     existing_qs_as_dict = request.args.to_dict()
