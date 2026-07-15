@@ -108,6 +108,43 @@
           'value': q
         }) }}
         #}
+        
+        {#
+        <div class="tna-filters">
+          <div class="tna-filters__item">
+            <button class="tna-filters__button" type="button" hidden>
+              <span class="tna-heading-m">
+                Key stage lorem ipsum dolor sit amet, consectetur adipiscing elit
+              </span>
+              <small>
+                <span class="tna-visually-hidden">(</span><span class="tna-filters__button-text"></span><span class="tna-visually-hidden"> filter)</span>
+              </small>
+            </button>
+            <div class="tna-filters__content">
+              {{ tnaCheckboxes({
+                'label': 'Key stage lorem ipsum dolor sit amet, consectetur adipiscing elit',
+                'id': 'filter-key-stage-TEMP',
+                'name': 'key_stage',
+                'items': [
+                  {
+                    'text': 'Alpha',
+                    'value': 'alpha'
+                  },
+                  {
+                    'text': 'Beta',
+                    'value': 'beta'
+                  },
+                  {
+                    'text': 'Gamma',
+                    'value': 'gamma'
+                  }
+                ],
+                'small': True
+              }) }}
+            </div>
+          </div>
+        </div>
+        #}
 
         {%- if page_data.search_filters.key_stage %}
           {%- set checkboxes = [] %}
@@ -141,6 +178,7 @@
             {%- do checkboxes.append({
               'text': region.name,
               'value': region.slug,
+              'name': 'region',
               'checked': qs_is_value_in_parameter('region', region.slug)
             }) %}
           {%- endfor %}
@@ -282,5 +320,11 @@
 
   {{ feedback('l') }}
   {{ back_to_top() }}
-
 {% endblock content %}
+
+{% block bodyEnd %}
+{{ super() }}
+    {#
+    <script src="{{ url_for('static', filename='education.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    #}
+{% endblock bodyEnd %}
