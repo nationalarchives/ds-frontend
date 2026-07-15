@@ -9,6 +9,7 @@ module.exports = {
     code: "./src/scripts/code.js",
     cookies: "./src/scripts/cookies.js",
     events: "./src/scripts/events.js",
+    education: "./src/scripts/education.js",
     exhibition: "./src/scripts/exhibition.js",
     footnotes: "./src/scripts/footnotes.js",
     media: "./src/scripts/media.js",

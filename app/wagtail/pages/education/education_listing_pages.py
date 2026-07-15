@@ -89,7 +89,9 @@ def education_listing_page(page_data, api_endpoint):
         return page_not_found_error()
 
     return render_template(
-        "education/listing.html",
+        "education/listing-og.html"
+        if "og" in request.args
+        else "education/listing.html",
         q=query,
         page_data=page_data,
         children=results_data["items"],
