@@ -130,3 +130,64 @@ abbr {
     padding-top: 0;
   }
 }
+
+// .tna-filters {
+//   margin-block: 10rem;
+
+//   &__item {
+//     position: relative;
+//   }
+
+//   &__button {
+//     width: 100%;
+//     margin: 0;
+//     padding: 0;
+
+//     display: flex;
+//     justify-content: space-between;
+
+//     font-size: inherit;
+//     line-height: inherit;
+//     text-align: left;
+
+//     background: none;
+
+//     border: none;
+
+//     cursor: pointer;
+
+//     @include borders.rounded-border;
+
+//     > span {
+//       flex: 1;
+//     }
+
+//     small {
+//       width: 4rem;
+
+//       text-align: right;
+//       text-decoration: underline;
+//       @include typography.interactable-text-decoration;
+//       @include colour.colour-font("link");
+//     }
+
+//     &-text {
+//     }
+
+//     &:hover &-text {
+//       @include typography.interacted-text-decoration;
+//     }
+
+//     &[aria-expanded="true"] {
+//       position: absolute;
+
+//       > span {
+//         color: transparent;
+//       }
+//     }
+//   }
+
+//   &__content {
+//     padding-right: 4rem;
+//   }
+// }
