@@ -8,7 +8,7 @@
     "dev": "npm run dev:css & npm run dev:js &"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "1.0.0",
+    "@nationalarchives/frontend": "1.1.0",
     "@sentry/browser": "^10.17.0",
     "prismjs": "^1.30.0",
     "video.js": "8.23.7",
