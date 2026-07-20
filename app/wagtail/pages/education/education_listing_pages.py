@@ -39,6 +39,7 @@ def education_listing_page(page_data, api_endpoint):
         "time_period": None,
         "theme": None,
     }
+    selected_filters_count = 0
     for filter_name in filters:
         if qs.parameter_exists(filter_name):
             requested_values = qs.parameter_values(filter_name)
@@ -55,6 +56,7 @@ def education_listing_page(page_data, api_endpoint):
             if not all_values_allowed:
                 return bad_request_error()
             filters[filter_name] = requested_values
+            selected_filters_count += len(requested_values)
 
     try:
         results_data = education_item_paginated(
@@ -100,12 +102,8 @@ def education_listing_page(page_data, api_endpoint):
         pages=pages,
         children_per_page=children_per_page,
         total_results=total_results,
-        filtered_results=qs.parameter_exists("q")
-        or qs.parameter_exists("key_stage")
-        or qs.parameter_exists("time_period")
-        or qs.parameter_exists("theme")
-        or qs.parameter_exists("location")
-        or qs.parameter_exists("region"),
+        filtered_results=selected_filters_count > 0,
+        selected_filters_count=selected_filters_count,
     )
 
 
