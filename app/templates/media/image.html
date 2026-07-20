@@ -1,57 +1,89 @@
 {% extends "base.html" %}
 
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set pageTitle = image_data.title -%}
 
 {% block content %}
 {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
-<div class="tna-container tna-container--centred tna-section tna-!--no-padding-top" itemscope itemtype="https://schema.org/ImageObject">
-  {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
-  <meta itemprop="url" content="{{ image_page_url }}">
-  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-    <hgroup class="tna-hgroup-xl">
-      <p class="tna-hgroup__supertitle">Image</p>
-      <h1 class="tna-hgroup__title" itemprop="name">{{ image_data.title }}</h1>
-    </hgroup>
+<div class="" itemscope itemtype="https://schema.org/ImageObject">
+  <div class="tna-container">
+    {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
+    <meta itemprop="url" content="{{ image_page_url }}">
 
-    {% if image_data.description %}
-    <div itemprop="description" class="tna-!--margin-top-s">
-      {{ image_data.description | tna_html | safe }}
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">Image</p>
+        <h1 class="tna-hgroup__title" itemprop="name">{{ image_data.title }}</h1>
+      </hgroup>
+
+      {% if image_data.description %}
+      <div itemprop="description" class="tna-large-paragraph">
+        {{ image_data.description | tna_html | safe }}
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
-
-    <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" alt="{{ image_data.description }}" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}" class="tna-!--margin-top-m">
-
-    {% if image_data.transcription %}
-    <h2 class="tna-heading-l">{{ image_data.transcription_heading | unslugify }}</h2>
-    {{ image_data.transcription | tna_html | safe }}
-    {% endif %}
-
-    {% if image_data.translation %}
-    <h2 class="tna-heading-l">{{ image_data.translation_heading | unslugify }}</h2>
-    {{ image_data.translation | tna_html | safe }}
-    {% endif %}
   </div>
-  
-  <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-    <div class="tna-aside tna-aside--tight tna-background-tint">
-      <h2 class="tna-heading-m">Image details</h2>
-      <dl class="tna-dl tna-dl--stacked tna-!--margin-top-s">
-        <dt>Width</dt>
-        <dd itemprop="width">{{ image_data.jpeg.width | string }}px</dd>
-        <dt>Height</dt>
-        <dd itemprop="height">{{ image_data.jpeg.height | string }}px</dd>
-        <dt>Copyright</dt>
-        <dd>
-          <div itemprop="copyrightNotice">
-            {{ image_data.copyright | tna_html | safe }}
-          </div>
-          <p class="tna-!--margin-top-xs"><a href="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">Using this image</a></p>
-          <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
-        </dd>
-      </dl>
+
+  <div class="tna-background-tint tna-!--margin-top-l tna-!--padding-vertical-l">
+    <div class="tna-container tna-container--centred">
+      <div class="tna-column tna-column">
+        <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" alt="{{ image_data.description }}" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}">
+      </div>
     </div>
+  </div>
+
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      <div class="tna-aside tna-aside--tight tna-background-accent-light">
+        <h2 class="tna-heading-m">Technical details</h2>
+        <dl class="tna-dl tna-!--margin-top-s">
+          <dt>Format</dt>
+          <dd>
+            <code itemprop="encodingFormat">image/jpeg</code>
+          </dd>
+          <dt>Width</dt>
+          <dd itemprop="width">{{ image_data.jpeg.width | string }}px</dd>
+          <dt>Height</dt>
+          <dd itemprop="height">{{ image_data.jpeg.height | string }}px</dd>
+        </dl>
+      </div>
+      {%- if image_data.copyright %}
+      <h2 class="tna-heading-m">Copyright</h2>
+      <div itemprop="copyrightNotice" class="tna-!--margin-bottom-xs tna-picture__copyright">
+        {{ image_data.copyright | tna_html | safe }}
+      </div>
+      {%- endif %}
+
+      <div class="tna-button-group">
+        <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
+        {%- if not image_data.copyright %}
+        {{ tnaButton({
+          'text': 'Download this image',
+          'href': image_data.jpeg.full_url,
+          'icon': 'download',
+          'attributes': {
+            'download': image_data.title | slugify
+          }
+        }) }}
+        {%- endif %}
+        {{ tnaButton({
+          'text': 'Using this image',
+          'href': 'https://www.nationalarchives.gov.uk/terms-and-conditions/copyright/#heading-image-reproduction-e6ae3856-756b-4c35-8b13-fe452e6afc6c',
+          'plain': not image_data.copyright
+        }) }}
+      </div>
+
+      {%- if image_data.transcription %}
+      <h2 class="tna-heading-l">{{ image_data.transcription_heading | unslugify }}</h2>
+      {{ image_data.transcription | tna_html | safe }}
+      {%- endif %}
+
+      {%- if image_data.translation %}
+      <h2 class="tna-heading-l">{{ image_data.translation_heading | unslugify }}</h2>
+      {{ image_data.translation | tna_html | safe }}
+      {%- endif %}
   </div>
 </div>
 {% endblock content %}
