@@ -200,7 +200,8 @@
             {{ source.description | tna_html | safe }}
             <ol class="tna-education-ol__sublist">
             {%- for media in source.media %}
-              <li id="teaching-resource-source-{{ source_index }}-{{ loop.index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, true) }}</li>
+              {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ ('.' ~ loop.index if (source.media | length) > 1 else '') ~ ': ' ~ source.title -%}
+              <li id="teaching-resource-source-{{ source_index }}-{{ loop.index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
             {%- endfor %}
             {%- for link in source.featured_link %}
               <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
