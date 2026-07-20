@@ -10,6 +10,7 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/newsletter.html' import newsletter -%}
 
 {%- set breadcrumbs_style = 'accent-light' -%}
 
@@ -98,7 +99,7 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full tna-!--margin-top-l">
       {% call tnaDetails({
-        'title': 'Filters'
+        'title': ('Filters (' ~ selected_filters_count ~ ')') if selected_filters_count > 0 else 'Filters',
       }) %}
         <form method="get" action="{{ page_data.meta.url }}" role="search">
           {%- if page_data.search_filters.key_stage %}
@@ -113,6 +114,7 @@
             {%- endfor %}
             {{ tnaCheckboxes({
               'label': 'Key stage',
+              'headingSize': 's',
               'id': 'filter-key-stage',
               'name': 'key_stage',
               'items': checkboxes,
@@ -139,6 +141,7 @@
             {%- endfor %}
             {{ tnaCheckboxes({
               'label': 'Location',
+              'headingSize': 's',
               'id': 'filter-location',
               'name': 'location',
               'items': checkboxes,
@@ -158,6 +161,7 @@
             {%- endfor %}
             {{ tnaCheckboxes({
               'label': 'Time period',
+              'headingSize': 's',
               'id': 'filter-time-period',
               'name': 'time_period',
               'items': checkboxes,
@@ -176,6 +180,7 @@
             {%- endfor %}
             {{ tnaCheckboxes({
               'label': 'Theme',
+              'headingSize': 's',
               'id': 'filter-theme',
               'name': 'theme',
               'items': checkboxes,
@@ -281,7 +286,21 @@
     {% endif %}
   </section>
 
-  {{ feedback('l') }}
+  <div class="tna-container tna-container--align-centre tna-!--margin-top-xl">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {%- if page_data.meta.type == 'education.TeachingResourcesListingPage' %}
+      <div class="tna-aside tna-background-accent-light tna-!--margin-bottom-s">
+        <h2 class="tna-heading-m">Looking for one of our older {{ pageTitle | lower }}?</h2>
+        <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources can still be found in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
+      </div>
+      {%- endif %}
+      {% call newsletter('Be the first to hear about new ' ~ (pageTitle | lower)) %}
+        <p>Subscribe to our regular newsletter for education updates and early booking for online sessions.</p>
+      {% endcall %}
+    </div>
+  </div>
+
+  {{ feedback('xl') }}
   {{ back_to_top() }}
 {% endblock content %}
 

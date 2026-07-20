@@ -9,6 +9,7 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/newsletter.html' import newsletter -%}
 
 {%- set breadcrumbs_style = 'accent-light' -%}
 
@@ -102,7 +103,7 @@
         {{ tnaSearchField({
           'label': 'Search ' ~ (page_data.title | lower),
           'headingLevel': 2,
-          'headingSize': 'm',
+          'headingSize': 's',
           'id': 'search',
           'name': 'q',
           'value': q
@@ -158,6 +159,7 @@
           {%- endfor %}
           {{ tnaCheckboxes({
             'label': 'Key stage',
+            'headingSize': 's',
             'id': 'filter-key-stage',
             'name': 'key_stage',
             'items': checkboxes,
@@ -184,6 +186,7 @@
           {%- endfor %}
           {{ tnaCheckboxes({
             'label': 'Location',
+            'headingSize': 's',
             'id': 'filter-location',
             'name': 'location',
             'items': checkboxes,
@@ -203,6 +206,7 @@
           {%- endfor %}
           {{ tnaCheckboxes({
             'label': 'Time period',
+            'headingSize': 's',
             'id': 'filter-time-period',
             'name': 'time_period',
             'items': checkboxes,
@@ -221,6 +225,7 @@
           {%- endfor %}
           {{ tnaCheckboxes({
             'label': 'Theme',
+            'headingSize': 's',
             'id': 'filter-theme',
             'name': 'theme',
             'items': checkboxes,
@@ -250,9 +255,9 @@
       {% if total_results %}
         <p class="tna-!--margin-top-s">Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
          
-        <ul class="tna-ul tna-ul--plain">
+        <ul class="tna-container tna-container--nested">
           {%- for child in children %}
-          <li class="tna-!--margin-bottom-s">
+          <li class="tna-column tna-column--width-1-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-s tna-!--margin-bottom-m">
             {% set card_content = {
               'title': child.title,
               'headingLevel': 3,
@@ -277,9 +282,6 @@
               ] if child.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (child.start_date or child.end_date or child.session_locations)) else None,
               'text': child.teaser_text,
               'style': 'plain',
-              'horizontal': True,
-              'horizontalSmallImage': True,
-              'horizontalFlipped': True,
               'fullAreaClick': True,
               'classes': 'tna-card--full-height'
             } %}
@@ -312,13 +314,27 @@
     </section>
 
     {% if pages > 1 %}
-      <div class="tna-column tna-column--full tna-!--margin-top-xl">
-        {{ tnaPagination(pagination) }}
-      </div>
+    <div class="tna-column tna-column--full tna-!--margin-top-l">
+      {{ tnaPagination(pagination) }}
+    </div>
     {% endif %}
   </div>
 
-  {{ feedback('l') }}
+  <div class="tna-container tna-container--align-centre tna-!--margin-top-xl">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      {%- if page_data.meta.type == 'education.TeachingResourcesListingPage' %}
+      <div class="tna-aside tna-background-accent-light tna-!--margin-bottom-s">
+        <h2 class="tna-heading-m">Looking for one of our older {{ pageTitle | lower }}?</h2>
+        <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources can still be found in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
+      </div>
+      {%- endif %}
+      {% call newsletter('Be the first to hear about new ' ~ (pageTitle | lower)) %}
+        <p>Subscribe to our regular newsletter for education updates and early booking for online sessions.</p>
+      {% endcall %}
+    </div>
+  </div>
+
+  {{ feedback('xl') }}
   {{ back_to_top() }}
 {% endblock content %}
 
