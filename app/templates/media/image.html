@@ -7,7 +7,7 @@
 
 {% block content %}
 {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
-<div class="" itemscope itemtype="https://schema.org/ImageObject">
+<div itemscope itemtype="https://schema.org/ImageObject">
   <div class="tna-container">
     {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
     <meta itemprop="url" content="{{ image_page_url }}">
@@ -84,6 +84,7 @@
       <h2 class="tna-heading-l">{{ image_data.translation_heading | unslugify }}</h2>
       {{ image_data.translation | tna_html | safe }}
       {%- endif %}
+    </div>
   </div>
 </div>
 {% endblock content %}
