@@ -1,11 +1,19 @@
 @use "@nationalarchives/frontend/nationalarchives/variables/borders" as
   bordersVars;
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .tna-newsletter {
+  &:hover {
+    outline: 2px colour.colour-var("keyline") solid;
+    outline-offset: 2px;
+  }
+
+  @include a11y.faux-full-outline(".tna-newsletter__body a");
+
   &_inner {
     display: flex;
     flex-direction: row;
