@@ -313,8 +313,6 @@ $videojs-track-height: 0.5em;
     aspect-ratio: 16/9;
 
     .vjs-control-bar {
-      text-shadow: 0 0 0.75em #000;
-
       @include colour.colour-background("contrast-background");
     }
   }
