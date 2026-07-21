@@ -147,7 +147,7 @@
           },
           {
             'title': 'Locations',
-            'text': 'Various locations' if (page_data.featured_education_session.session_locations | length) > 1 else page_data.featured_education_session.session_locations | map(attribute='location_type_display') | first,
+            'text': 'Various locations' if (page_data.featured_education_session.session_locations | length) > 1 else ((page_data.featured_education_session.session_locations | map(attribute='venue_name') | first) or (page_data.featured_education_session.session_locations | map(attribute='location_type_display') | first)),
             'icon': 'location-dot'
           } if (page_data.featured_education_session.session_locations | length) > 0 else None
         ] if page_data.featured_education_session.key_stages or (page_data.featured_education_session.start_date or page_data.featured_education_session.end_date or page_data.featured_education_session.session_locations) else None,
@@ -199,7 +199,7 @@
           },
           {
             'title': 'Locations',
-            'text': 'Various locations' if (page.session_locations | length) > 1 else page.session_locations | map(attribute='location_type_display') | first,
+            'text': 'Various locations' if (page.session_locations | length) > 1 else ((page.session_locations | map(attribute='venue_name') | first) or (page.session_locations | map(attribute='location_type_display') | first)),
             'icon': 'location-dot'
           } if (page.session_locations | length) > 0 else None
         ] if page.key_stages or (page.start_date or page.end_date or (page.session_locations | length) > 0) else None,
