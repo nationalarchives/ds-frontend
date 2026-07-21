@@ -235,8 +235,8 @@ def try_external_redirect(path):
     )
 
 
-@bp.route("/video/<uuid:media_uuid>/")
-def media_page(media_uuid):
+@bp.route("/<any(video,audio):media_type>/<uuid:media_uuid>/")
+def audio_video_page(media_type, media_uuid):
     """
     Renders a video details page.
     """
@@ -250,8 +250,17 @@ def media_page(media_uuid):
     except Exception:
         current_app.logger.exception("Failed to get video")
         return bad_gateway_error()
+    if media_data["media_type"] != media_type:
+        return redirect(
+            url_for(
+                "wagtail.audio_video_page",
+                media_type=media_data["media_type"],
+                media_uuid=media_uuid,
+            ),
+            code=302,
+        )
     return render_template(
-        "media/video.html", media_data=media_data, global_alert=global_alerts()
+        "media/audio_video.html", media_data=media_data, global_alert=global_alerts()
     )
 
 

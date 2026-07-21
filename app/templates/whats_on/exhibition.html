@@ -356,8 +356,8 @@
 
           <meta itemprop="name" content="{{ video.value.title }}">
           <meta itemprop="contentUrl" content="{{ video.value.media.file }}">
-          {%- set media_page_url = url_for('wagtail.media_page', media_uuid=video.value.media.uuid, _external=True, _scheme='https') %}
-          <meta itemprop="url" content="{{ media_page_url }}">
+          {%- set video_page_url = url_for('wagtail.audio_video_page', media_type=video.value.media.type, media_uuid=video.value.media.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ video_page_url }}">
         </div>
         {% endif %}
       </div>
