@@ -1,10 +1,10 @@
 from flask import current_app, make_response, render_template, request, url_for
 from pydash import objects
+from tna_utilities.api import ResourceNotFoundError
 from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import bad_gateway_error, page_not_found_error
 from app.feeds import bp
-from app.lib.api import ResourceNotFoundError
 from app.wagtail.api import (
     blog_posts_paginated,
     page_details,

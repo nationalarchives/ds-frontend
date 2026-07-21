@@ -9,6 +9,7 @@ from flask import (
     url_for,
 )
 from pydash import objects
+from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
 
 from app.error_pages.routes import (
     bad_gateway_error,
@@ -16,7 +17,6 @@ from app.error_pages.routes import (
     forbidden_error,
     page_not_found_error,
 )
-from app.lib.api import ResourceForbiddenError, ResourceNotFoundError
 from app.lib.pagination import pagination_object
 from app.wagtail import bp
 from app.wagtail.api import global_alerts, search

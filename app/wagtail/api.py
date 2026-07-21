@@ -2,8 +2,7 @@ from urllib.parse import unquote
 
 from flask import current_app
 from pydash import objects
-
-from app.lib.api import JSONAPIClient
+from tna_utilities.api import SimpleJsonApiClient
 
 
 class WagtailUrlNotSetError(Exception):
@@ -18,16 +17,14 @@ def wagtail_request_handler(uri, params=None):
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise WagtailUrlNotSetError
-    default_headers = {}
+    client = SimpleJsonApiClient(api_url)
     if api_key := current_app.config["WAGTAIL_API_KEY"]:
-        default_headers["Authorization"] = f"Token {api_key}"
-    default_params = {"format": "json"}
-    client = JSONAPIClient(
-        api_url, default_headers=default_headers, default_params=default_params
-    )
+        client.add_default_header("Authorization", f"Token {api_key}")
+    client.add_default_parameter("format", "json")
     if site_hostname := current_app.config["WAGTAIL_SITE_HOSTNAME"]:
-        client.add_parameter("site", site_hostname)
-    client.add_parameters(params)
+        client.add_default_parameter("site", site_hostname)
+    for key, value in params.items():
+        client.add_default_parameter(key, value)
     return client.get(uri)
 
 
