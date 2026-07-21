@@ -12,14 +12,14 @@
           'value': {
             'heading': body_item.value.heading
           }
-        }, ns.next_heading_level, True, 'tna-!--padding-top-s', picture_itemprop) }}
+        }, ns.next_heading_level, {'plain_images': True, 'extra_header_classes': 'tna-!--padding-top-s', 'picture_itemprop': picture_itemprop}) }}
         {% for block in body_item.value.content %}
           {%- if block.type == 'sub_heading' %}
             {% set ns.next_heading_level = initial_next_heading_level + 2 %}
           {%- elif block.type == 'sub_sub_heading' %}
             {% set ns.next_heading_level = initial_next_heading_level + 3 %}
           {%- endif %}
-          {{ wagtail_block(block, ns.next_heading_level, True, None, picture_itemprop) }}
+          {{ wagtail_block(block, ns.next_heading_level, {'plain_images': True, 'picture_itemprop': picture_itemprop}) }}
         {% endfor %}
       </section>
     {%- else %}
@@ -29,7 +29,7 @@
       {%- elif body_item.type == 'sub_sub_heading' %}
         {% set ns.next_heading_level = initial_next_heading_level + 2 %}
       {%- endif %}
-      {{ wagtail_block(body_item, ns.next_heading_level, True, None, picture_itemprop) }}
+      {{ wagtail_block(body_item, ns.next_heading_level, {'plain_images': True, 'picture_itemprop': picture_itemprop}) }}
     {%- endif %}
   {% endfor %}
   {% if footnotes %}

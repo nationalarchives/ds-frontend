@@ -1,9 +1,17 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, plain_image, hide_transcript, itemprop) %}
-  {% set information_label_open = 'Open details' %}
-  {% set information_label_close = 'Close details' %}
-  {% set picture_information = [] %}
+{% macro wagtailImage(block_value, id, config) %}
+  {%- set plain = config.plain if config is defined else False -%}
+  {%- set hide_transcript = config.hide_transcript if config is defined else False -%}
+  {%- set itemprop = config.itemprop if config is defined else '' -%}
+  {%- set name = config.name if config is defined else '' -%}
+  {%- set link_to_standalone = config.link_to_standalone if config is defined else False -%}
+  {%- set add_download = config.add_download if config is defined else False -%}
+  
+  {%- set information_label_open = 'Open details' %}
+  {%- set information_label_close = 'Close details' %}
+
+  {%- set picture_information = [] %}
   {%- if not hide_transcript %}
     {%- if block_value.image.transcript %}
       {%- if not block_value.image.translation %}
@@ -28,10 +36,24 @@
       }] %}
     {%- endif %}
   {%- endif %}
+
   {% set image_caption = (block_value.caption | tna_html) or '' %}
   {%- if block_value.image.copyright %}
     {% set image_caption = image_caption ~ '<div class="tna-picture__copyright" itemprop="copyrightNotice">' ~ (block_value.image.copyright | tna_html) ~ '</div>' %}
   {%- endif %}
+
+  {% set image_caption_extra_links = [] %}
+  {%- if link_to_standalone and name %}
+    {%- set image_page_url = url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Full details<span class="tna-visually-hidden"> about ' ~ name ~ '</span></a>') %}
+  {%- endif %}
+  {%- if add_download and name %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
+  {%- endif %}
+  {%- if image_caption_extra_links %}
+    {% set image_caption = image_caption ~ '<p>' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
+  {%- endif %}
+
   {%- if block_value.image.jpeg and block_value.image.webp %}
     {% set picture_content = {
       'src': block_value.image.jpeg.full_url,
@@ -51,7 +73,7 @@
       'informationLabelOpen': information_label_open,
       'informationLabelClose': information_label_close,
       'information': picture_information,
-      'classes': 'tna-picture--plain' if plain_image else '',
+      'classes': 'tna-picture--plain' if plain else '',
       'attributes': {
         'itemprop': itemprop or 'image'
       }

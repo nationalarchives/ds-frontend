@@ -17,19 +17,20 @@
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
-{% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes, picture_itemprop) %}
+{% macro wagtail_block(content_item, next_heading_level, config) %}
   {%- if content_item.type == 'paragraph' %}
   {{ content_item.value.text | tna_html | safe }}
 
   {%- elif content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
+  {%- set extra_header_classes = config.extra_header_classes if config is defined else '' -%}
   {%- if next_heading_level == 3 %}
-  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
+  <h2 class="tna-heading-l{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
   {%- elif next_heading_level == 4 %}
-  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
+  <h3 class="tna-heading-m{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
   {%- elif next_heading_level == 5 %}
-  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
+  <h4 class="tna-heading-s{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
   {%- elif next_heading_level == 6 %}
-  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
+  <h5 class="tna-heading-s{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
   {%- endif %}
 
   {%- elif content_item.type == 'button' %}
@@ -79,7 +80,19 @@
   </dl>
 
   {%- elif content_item.type == 'image' %}
-  {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
+  {%- set plain_images = config.plain_images if config is defined else False -%}
+  {%- set picture_itemprop = config.picture_itemprop if config is defined else '' -%}
+  {%- set picture_name = config.picture_name if config is defined else '' -%}
+  {%- set picture_link_to_standalone = config.picture_link_to_standalone if config is defined else False -%}
+  {%- set picture_add_download = config.picture_add_download if config is defined else False -%}
+  {{ wagtailImage(content_item.value, content_item.id, {
+    'plain': plain_images,
+    'hide_transcript': False,
+    'itemprop': picture_itemprop,
+    'name': picture_name,
+    'link_to_standalone': picture_link_to_standalone,
+    'add_download': picture_add_download
+  }) }}
 
   {%- elif content_item.type == 'quote' %}
   <div class="tna-blockquote">
