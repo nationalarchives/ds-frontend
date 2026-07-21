@@ -45,7 +45,7 @@
   {% set image_caption_extra_links = [] %}
   {%- if link_to_standalone and name %}
     {%- set image_page_url = url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') %}
-    {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Full details<span class="tna-visually-hidden"> about ' ~ name ~ '</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for ' ~ name ~ '</span></a>') %}
   {%- endif %}
   {%- if add_download and name %}
     {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
