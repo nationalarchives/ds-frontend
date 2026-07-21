@@ -8,6 +8,7 @@ services:
     environment:
       - ENVIRONMENT_NAME=localhost
       - CONFIG=config.Develop
+      - PROXY_DEPTH=1
       - BUILD_VERSION=local
       - DEBUG=true
       # - EXPLAIN_TEMPLATE_LOADING=true

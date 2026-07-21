@@ -7,6 +7,7 @@ from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
 from tna_utilities.string import slugify, unslugify
 from tna_utilities.url import QueryStringTransformer
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from app.lib.context_processor import (
     cookie_preference,
@@ -59,6 +60,14 @@ from app.lib.template_filters import (
 def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+    proxy_depth = app.config["PROXY_DEPTH"]
+    if proxy_depth:
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app,
+            x_for=proxy_depth,
+            x_proto=proxy_depth,
+            x_host=proxy_depth,
+        )
 
     if app.config["SENTRY_DSN"]:
 

@@ -32,6 +32,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `ENVIRONMENT_NAME`                    | The name of the environment (for reporting purposes)                                        | `production`                                         |
 | `CONFIG`                              | The configuration to use                                                                    | `config.Production`                                  |
 | `DEBUG`                               | If true, allow debugging[^1]                                                                | `False`                                              |
+| `PROXY_DEPTH`                         | The number of proxies to trust for `X-Forwarded-` headers[^2]                               | `False`                                              |
 | `SENTRY_DSN`                          | The Sentry DSN (project code)                                                               | _none_                                               |
 | `SENTRY_JS_ID`                        | The ID of the Sentry client project to catch issues                                         | _none_                                               |
 | `SENTRY_SAMPLE_RATE`                  | How often to sample traces and profiles (0-1.0)                                             | production: `0.1`, staging: `1`, develop: `0`        |
@@ -68,6 +69,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SIDEBAR_SCROLL_TOP_THRESHOLD`        | The distance from the top of the window before the sidebar section highlight is highlighted | `16`                                                 |
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)
+[^2] [Tell Flask it is Behind a Proxy](https://flask.palletsprojects.com/en/stable/deploying/proxy_fix/)
 
 ## Running tests
 
