@@ -88,11 +88,14 @@ class Production(Features):
     SHOW_PHASE_BANNER_ON_HOMEPAGE: bool = True
     SHOW_PHASE_BANNER_ON_URIS: ClassVar[list[str]] = [
         "/about-us/",
+        "/accessibility-statement/",
+        "/audio/",
         "/annual-report-and-accounts-2024-25/",
         "/blogs/",
         "/cookies/",
         "/education/",
         "/explore-the-collection/",
+        "/freedom-of-information/",
         "/help/",
         "/image/",
         "/information-management/",
@@ -102,6 +105,7 @@ class Production(Features):
         "/people/",
         "/professional-guidance-and-services/",
         "/strategy-2025-2030/",
+        "/terms-and-conditions/",
         "/whats-on/",
         "/video/",
         "/visit/",

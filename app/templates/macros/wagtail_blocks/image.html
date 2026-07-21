@@ -48,7 +48,7 @@
     {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Full details<span class="tna-visually-hidden"> about ' ~ name ~ '</span></a>') %}
   {%- endif %}
   {%- if add_download and name %}
-    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
   {%- endif %}
   {%- if image_caption_extra_links %}
     {% set image_caption = image_caption ~ '<p>' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}

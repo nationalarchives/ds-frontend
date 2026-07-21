@@ -4,12 +4,17 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set pageTitle = image_data.title -%}
+{%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ image_page_url }}">
+{% endblock head %}
 
 {% block content %}
 {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
 <div itemscope itemtype="https://schema.org/ImageObject">
   <div class="tna-container">
-    {%- set image_page_url = url_for('wagtail.image_page', image_uuid=image_data.uuid, _external=True, _scheme='https') %}
     <meta itemprop="url" content="{{ image_page_url }}">
 
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
