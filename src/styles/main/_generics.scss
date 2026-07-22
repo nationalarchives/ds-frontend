@@ -71,18 +71,6 @@ abbr {
   overflow-wrap: anywhere;
 }
 
-#page-body {
-  > :first-child {
-    margin-top: spacing.space(3);
-  }
-
-  > [class^="tna-heading-"]:first-child,
-  > [class*=" tna-heading-"]:first-child,
-  > .tna-section:first-child {
-    margin-top: 0;
-  }
-}
-
 .tna-background-accent,
 .tna-background-accent-light {
   + .tna-background-accent,
