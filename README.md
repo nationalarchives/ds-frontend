@@ -33,6 +33,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CONFIG`                              | The configuration to use                                                                    | `config.Production`                                  |
 | `DEBUG`                               | If true, allow debugging[^1]                                                                | `False`                                              |
 | `PROXY_DEPTH`                         | The number of proxies to trust for `X-Forwarded-` headers[^2]                               | `False`                                              |
+| `TRUSTED_HOSTS`                       | A comma separated list of trusted hosts                                                     | _none_                                               |
 | `SENTRY_DSN`                          | The Sentry DSN (project code)                                                               | _none_                                               |
 | `SENTRY_JS_ID`                        | The ID of the Sentry client project to catch issues                                         | _none_                                               |
 | `SENTRY_SAMPLE_RATE`                  | How often to sample traces and profiles (0-1.0)                                             | production: `0.1`, staging: `1`, develop: `0`        |
