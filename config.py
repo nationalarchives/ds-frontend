@@ -18,6 +18,11 @@ class Production(Features):
     CONTAINER_IMAGE: str = os.environ.get("CONTAINER_IMAGE", "")
 
     PROXY_DEPTH: int = int(os.environ.get("PROXY_DEPTH", "0"))
+    TRUSTED_HOSTS: list[str] | None = [
+        host.strip()
+        for host in os.environ.get("TRUSTED_HOSTS", "").split(",")
+        if host.strip()
+    ] or None
 
     TNA_FRONTEND_VERSION: str = ""
     try:
