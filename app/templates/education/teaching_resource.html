@@ -30,8 +30,9 @@
 {% block content %}
 <div class="tna-background-accent-light">
   {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-  {% call hero(page_data, page_data.hero_image_small, page_data.hero_image_small, {
-    'layout': 'over'
+  {% call hero(page_data, page_data.hero_image, {
+    'layout': 'over',
+    'use_small_image': True
   }) %}
     {%- if page_data.enquiry_question %}
     <div class="tna-hero__enquiry-question">
