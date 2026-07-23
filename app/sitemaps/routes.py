@@ -16,7 +16,7 @@ from app.wagtail.api import all_pages
 
 
 @bp.route("/sitemap.xml")
-@cacheable_duration(14400)
+@cacheable_duration(259200)
 def sitemap_index():
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
@@ -50,7 +50,7 @@ def sitemaps():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def sitemap_dynamic(sitemap_page):
     exclude_urls = [
         "/maintenance/",
