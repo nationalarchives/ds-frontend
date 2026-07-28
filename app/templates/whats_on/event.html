@@ -83,16 +83,16 @@
     'supertitle': page_data.type_label,
     'title': page_data.title,
     'body': hero_body,
-    'imageSrc': page_data.hero_image_small.jpeg.full_url,
-    'imageAlt': page_data.hero_image_small.description,
-    'imageWidth': page_data.hero_image_small.jpeg.width,
-    'imageHeight': page_data.hero_image_small.jpeg.height,
+    'imageSrc': page_data.hero_image.small_jpeg.full_url,
+    'imageAlt': page_data.hero_image.description,
+    'imageWidth': page_data.hero_image.small_jpeg.width,
+    'imageHeight': page_data.hero_image.small_jpeg.height,
     'imageCaption': hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image_small.webp.full_url,
-        'width': page_data.hero_image_small.webp.width,
-        'height': page_data.hero_image_small.webp.height,
+        'src': page_data.hero_image.small_webp.full_url,
+        'width': page_data.hero_image.small_webp.width,
+        'height': page_data.hero_image.small_webp.height,
         'type': 'image/webp'
       }
     ],
@@ -355,7 +355,7 @@
           {%- for speaker in page_data.speakers %}
           <li class="etna-author-list__item" itemprop="performer" itemscope itemtype="https://schema.org/Person">
             {%- if speaker.image %}
-            <img src="{{ speaker.image.jpeg.full_url }}" width="{{ speaker.image.jpeg.width }}" height="{{ speaker.image.jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.jpeg.description }}">
+            <img src="{{ speaker.image.small_jpeg.full_url }}" width="{{ speaker.image.small_jpeg.width }}" height="{{ speaker.image.small_jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.description }}">
             {%- else %}
             <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
             {%- endif %}

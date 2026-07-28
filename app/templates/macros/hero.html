@@ -1,6 +1,6 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 
-{% macro hero(page_data, hero_image, hero_image_small, options) %}
+{% macro hero(page_data, hero_image, options) %}
   {%- set options = options or {} %}
   {%- set hero_image_caption %}
     {{- page_data.hero_image_caption | safe -}}
@@ -8,27 +8,35 @@
       <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
     {%- endif -%}
   {%- endset %}
+  {%- set use_small_image = options.use_small_image is defined and options.use_small_image is true -%}
   {{ tnaHero({
     'supertitle': options.supertitle or page_data.type_label,
     'title': options.title or page_data.title,
     'body': caller() if caller else ((page_data.intro | tna_html | safe) or ''),
-    'imageSrc': hero_image.jpeg.full_url,
+    'imageSrc': hero_image.jpeg.full_url if not use_small_image else hero_image.small_jpeg.full_url,
     'imageAlt': hero_image.description,
-    'imageWidth': hero_image.jpeg.width,
-    'imageHeight': hero_image.jpeg.height,
+    'imageWidth': hero_image.jpeg.width if not use_small_image else hero_image.small_jpeg.width,
+    'imageHeight': hero_image.jpeg.height if not use_small_image else hero_image.small_jpeg.height,
     'imageCaption': hero_image_caption,
     'imageSources': [
       {
-        'src': hero_image_small.webp.full_url,
-        'width': hero_image_small.webp.width,
-        'height': hero_image_small.webp.height,
+        'src': hero_image.small_webp.full_url,
+        'width': hero_image.small_webp.width,
+        'height': hero_image.small_webp.height,
+        'type': 'image/webp'
+      }
+    ] if use_small_image else [
+      {
+        'src': hero_image.small_webp.full_url,
+        'width': hero_image.small_webp.width,
+        'height': hero_image.small_webp.height,
         'type': 'image/webp',
         'media': '(max-width: 48em)'
       },
       {
-        'src': hero_image_small.jpeg.full_url,
-        'width': hero_image_small.jpeg.width,
-        'height': hero_image_small.jpeg.height,
+        'src': hero_image.small_jpeg.full_url,
+        'width': hero_image.small_jpeg.width,
+        'height': hero_image.small_jpeg.height,
         'type': 'image/jpeg',
         'media': '(max-width: 48em)'
       },

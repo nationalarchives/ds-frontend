@@ -10,7 +10,7 @@
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{% call hero(page_data, page_data.hero_image, page_data.hero_image_small,{
+{% call hero(page_data, page_data.hero_image, {
   'narrow': True,
   'layout': '',
   'style': ''
