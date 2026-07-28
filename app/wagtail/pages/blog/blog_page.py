@@ -8,13 +8,7 @@ from tna_utilities.flask import cacheable_duration
 from app.error_pages.routes import bad_request_error, page_not_found_error
 from app.lib.pagination import pagination_object
 from app.lib.query import qs_active, qs_toggler
-from app.wagtail.api import (
-    blog_authors,
-    blog_post_counts,
-    blog_posts_paginated,
-    page_descendants,
-    top_blogs,
-)
+from app.wagtail.api import blog_posts_paginated
 
 
 @cacheable_duration(3600)
@@ -67,14 +61,10 @@ def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
         )
     except ValueError:
         return bad_request_error()
-    blogs_data = top_blogs()
-    categories = page_descendants(
-        page_id=page_data["id"], params={"type": "blog.BlogPage"}
-    )
-    blog_post_counts_data = blog_post_counts(
-        blog_id=page_data["id"],
-    )
-    authors = blog_authors(blog_id=page_data["id"])
+    blogs_data = page_data.get("top_blogs", [])
+    child_blogs = page_data.get("child_blogs", [])
+    blog_post_counts_data = page_data.get("blog_posts_count", [])
+    authors = page_data.get("blog_posts_authors", [])
     try:
         blog_posts_data = blog_posts_paginated(
             page=page,
@@ -149,7 +139,7 @@ def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
         page_data=page_data,
         blog_posts=objects.get(blog_posts_data, "items", []),
         date_filters=date_filters,
-        categories=objects.get(categories, "items", []),
+        child_blogs=child_blogs,
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
         authors=authors,

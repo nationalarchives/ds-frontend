@@ -270,17 +270,6 @@ def blog_index(params=None):
     return wagtail_request_handler(uri, params)
 
 
-def top_blogs(params=None):
-    if params is None:
-        params = {}
-    uri = "blogs/top/"
-    try:
-        return wagtail_request_handler(uri, params)
-    except Exception:
-        current_app.logger.exception("Failed to get all blogs")
-        return []
-
-
 def blog_posts_paginated(
     page,
     blog_id=None,
@@ -308,46 +297,6 @@ def blog_posts_paginated(
         "descendant_of": blog_id,
     }
     return wagtail_request_handler(uri, params)
-
-
-def blog_post_counts(
-    blog_id=None,
-    year=None,
-    month=None,
-    author=None,
-    params=None,
-):
-    if params is None:
-        params = {}
-    uri = "blog_posts/count/"
-    params = params | {
-        "year": year,
-        "month": month,
-        "author": author,
-        "descendant_of": blog_id,
-    }
-    try:
-        return wagtail_request_handler(uri, params)
-    except Exception:
-        current_app.logger.exception("Failed to get blog post counts")
-        return []
-
-
-def blog_authors(
-    blog_id=None,
-    params=None,
-):
-    if params is None:
-        params = {}
-    uri = "blog_posts/authors/"
-    params = params | {
-        "descendant_of": blog_id,
-    }
-    try:
-        return wagtail_request_handler(uri, params)
-    except Exception:
-        current_app.logger.exception("Failed to get blog authors")
-        return []
 
 
 def authors_paginated(

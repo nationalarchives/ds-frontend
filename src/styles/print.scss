@@ -11,15 +11,22 @@
   max-height: none;
 }
 
-a:not(
-  [href^="#"],
-  [href^="?"],
-  [href^="/"],
-  .tna-card__heading-link,
-  .tna-files-list__link,
-  .tna-skip-link,
-  #top
-) {
+:not(
+    .tna-hgroup__title,
+    .tna-heading-xl,
+    .tna-heading-l,
+    .tna-heading-m,
+    .tna-heading-s
+  )
+  > a:not(
+    [href^="#"],
+    [href^="?"],
+    [href^="/"],
+    .tna-card__heading-link,
+    .tna-files-list__link,
+    .tna-skip-link,
+    #top
+  ) {
   &::after {
     content: " (" attr(href) ")";
 
