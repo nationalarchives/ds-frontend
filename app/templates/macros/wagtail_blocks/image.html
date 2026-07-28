@@ -51,7 +51,7 @@
     {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
   {%- endif %}
   {%- if image_caption_extra_links %}
-    {% set image_caption = image_caption ~ '<p>' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
+    {% set image_caption = image_caption ~ '<p class="tna-!--hide-on-print">' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
   {%- endif %}
 
   {%- if block_value.image.jpeg and block_value.image.webp %}

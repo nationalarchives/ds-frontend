@@ -72,18 +72,18 @@
   }) }}
   {%- endif %}
   
-  {%- if categories %}
+  {%- if child_blogs %}
   <h2 class="tna-heading-m">Filter posts by category</h2>
-  {% set ns = namespace(categories_list=[]) %}
-  {% for category in categories %}
-    {% do ns.categories_list.append({
-      'label': category.title,
-      'href': category.url,
-      'selected': request.path == category.url
+  {% set ns = namespace(child_blogs_list=[]) %}
+  {% for child_blog in child_blogs %}
+    {% do ns.child_blogs_list.append({
+      'label': child_blog.title,
+      'href': child_blog.url,
+      'selected': request.path == child_blog.url
     }) %}
   {% endfor %}
   {{ tnaQuickFilters({
-    'items': ns.categories_list,
+    'items': ns.child_blogs_list,
     'stack': True,
     'classes': 'tna-!--margin-top-s'
   }) }}
@@ -332,8 +332,8 @@
     </div>
     {%- endif %}
 
+    {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
     <div class="tna-container">
-      {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
         <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
         {%- for blog in blogs %}
@@ -342,8 +342,8 @@
         {%- endif %}
         {%- endfor %}
       </div>
-      {%- endif %}
     </div>
+    {%- endif %}
 
     {{ feedback() }}
     
