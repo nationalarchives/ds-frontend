@@ -8,12 +8,7 @@ from tna_utilities.flask import cacheable_duration
 from app.error_pages.routes import bad_request_error, page_not_found_error
 from app.lib.pagination import pagination_object
 from app.lib.query import qs_active, qs_toggler
-from app.wagtail.api import (
-    blog_authors,
-    blog_post_counts,
-    blog_posts_paginated,
-    top_blogs,
-)
+from app.wagtail.api import blog_posts_paginated
 
 
 @cacheable_duration(3600)
@@ -66,9 +61,9 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         )
     except ValueError:
         return bad_request_error()
-    blogs_data = top_blogs()
-    blog_post_counts_data = blog_post_counts()
-    authors = blog_authors()
+    blogs_data = page_data.get("top_blogs", [])
+    blog_post_counts_data = page_data.get("blog_posts_count", [])
+    authors = page_data.get("blog_posts_authors", [])
     try:
         blog_posts_data = blog_posts_paginated(
             page=page,

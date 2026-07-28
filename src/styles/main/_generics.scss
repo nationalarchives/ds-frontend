@@ -8,6 +8,10 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
+.tna-main {
+  break-after: page;
+}
+
 .etna-space-above {
   @include spacing.space-above;
 }

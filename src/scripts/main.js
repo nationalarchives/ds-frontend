@@ -89,3 +89,15 @@ if (cookies.isPolicyAccepted("settings")) {
 //       $emailButton.innerHTML = originalEmailButtonHTML;
 //     });
 //   });
+
+window.matchMedia("print").addEventListener("change", (evt) => {
+  if (evt.matches) {
+    document
+      .querySelectorAll(
+        "img[loading=lazy], iframe[loading=lazy], video[loading=lazy]",
+      )
+      .forEach(($element) => {
+        $element.removeAttribute("loading");
+      });
+  }
+});
