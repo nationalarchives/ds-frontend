@@ -92,20 +92,25 @@ if (cookies.isPolicyAccepted("settings")) {
 
 const apiHost = "http://localhost:8000";
 fetch(`${apiHost}/userbar/`)
-  .then((res) => res.text())
-  .then((userbar) => {
+  .then((res) => {
     const $userbar = document.createElement("div");
     $userbar.id = "wagtail-userbar";
-    $userbar.innerHTML = userbar;
+    $userbar.innerHTML = res.text();
     document.body.appendChild($userbar);
+    return null;
+  })
+  .then(() => {
+    const vendorScript = document.createElement("script");
+    vendorScript.src = `${apiHost}/wagtail-static/wagtailadmin/js/vendor.js`;
+    document.body.appendChild(vendorScript);
+    const userbarScript = document.createElement("script");
+    userbarScript.src = `${apiHost}/wagtail-static/wagtailadmin/js/userbar.js`;
+    document.body.appendChild(userbarScript);
+    return null;
+  })
+  .catch((err) => {
+    throw new Error(`Failed to fetch userbar: ${err}`);
   });
-
-const vendorScript = document.createElement("script");
-vendorScript.src = `${apiHost}/wagtail-static/wagtailadmin/js/vendor.js`;
-document.body.appendChild(vendorScript);
-const userbarScript = document.createElement("script");
-userbarScript.src = `${apiHost}/wagtail-static/wagtailadmin/js/userbar.js`;
-document.body.appendChild(userbarScript);
 
 window.matchMedia("print").addEventListener("change", (evt) => {
   if (evt.matches) {
