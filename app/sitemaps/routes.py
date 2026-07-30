@@ -1,29 +1,27 @@
 import math
 from datetime import datetime
-from urllib.parse import urlparse
 
-from app.lib.cache import cache
-from app.sitemaps import bp
-from app.wagtail.api import all_pages
 from flask import (
     current_app,
     make_response,
     redirect,
     render_template,
-    request,
     url_for,
 )
+from tna_utilities.flask import cacheable_duration
+
+from app.error_pages.routes import page_not_found_error
+from app.sitemaps import bp
+from app.wagtail.api import all_pages
 
 
 @bp.route("/sitemap.xml")
-@cache.cached(timeout=14400)  # 4 hours
+@cacheable_duration(259200)
 def sitemap_index():
-    sitemap_urls = [
-        # url_for("sitemaps.sitemap_static", _external=True, _scheme="https")
-    ]
+    sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
-    items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
+    items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     for page in range(1, pages + 1):
         sitemap_urls.append(
@@ -47,50 +45,19 @@ def sitemap_index():
 def sitemaps():
     return redirect(
         url_for("sitemaps.sitemap_index"),
-        code=302,
+        code=301,
     )
-
-
-def static_uris():
-    static_uris = list()
-    for rule in current_app.url_map.iter_rules():
-        if (
-            not str(rule).startswith("/preview")
-            and not str(rule).startswith("/healthcheck")
-            and not str(rule).startswith("/blogs/feeds")
-            and not str(rule).startswith("/sitemap.xml")
-            and not str(rule).startswith("/robots.txt")
-            and not str(rule).startswith("/sitemaps")
-            and not str(rule).startswith("/service-worker.min.js")
-        ):
-            if "GET" in rule.methods and len(rule.arguments) == 0:
-                static_uris.append(str(rule))
-    return static_uris
-
-
-@bp.route("/sitemaps/sitemap_static.xml")
-@cache.cached(timeout=14400)  # 4 hours
-def sitemap_static():
-    host_components = urlparse(request.host_url)
-    host_base = "https://" + host_components.netloc
-    static_urls = list()
-    for uri in static_uris():
-        url = {"loc": f"{host_base}{uri}"}
-        static_urls.append(url)
-    xml_sitemap = render_template(
-        "sitemaps/sitemap.xml",
-        urls=static_urls,
-    )
-    response = make_response(xml_sitemap)
-    response.headers["Content-Type"] = "application/xml; charset=utf-8"
-    return response
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cache.cached(timeout=14400)  # 4 hours
+@cacheable_duration(86400)
 def sitemap_dynamic(sitemap_page):
+    exclude_urls = [
+        "/maintenance/",
+        "/education/",  # TODO: Remove this when the education section is live
+    ]
     dynamic_urls = list()
-    items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
+    items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     wagtail_pages = all_pages(
         batch=sitemap_page,
         limit=items_per_sitemap,
@@ -99,16 +66,19 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     for page in wagtail_pages["items"]:
+        if page["page_path"].startswith(tuple(exclude_urls)):
+            continue
         try:
             lastmodified_date = datetime.strptime(
                 page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
             )
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
-        except KeyError:
-            lastmodified_date = None
-        except ValueError:
+        except Exception:
+            current_app.logger.exception(
+                f"Error parsing last_published_at for page {page['id']}"
+            )
             lastmodified_date = None
         url = {
             "loc": page["full_url"],

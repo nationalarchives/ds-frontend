@@ -7,7 +7,7 @@
       <div class="tna-container tna-container--nested">
         {%- if block_value.background_image %}
         <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--width-1-4-small tna-!--hide-on-tiny">
-          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="" itemprop="image">
+          <img src="{{ block_value.background_image.jpeg.full_url }}" alt="" itemprop="image" width="{{ block_value.background_image.jpeg.width }}" height="{{ block_value.background_image.jpeg.height }}">
         </div>
         {%- endif %}
         <div class="tna-column tna-column--flex-1">
@@ -17,16 +17,17 @@
               {{ block_value.title }}
             </h{{ itemHeadingLevel }}>
           </hgroup>
+          {%- if block_value.media.description %}
           <div itemprop="description" class="tna-!--margin-top-s">
             {{ block_value.media.description | tna_html | safe }}
           </div>
+          {%- endif %}
         </div>
       </div>
       <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
-        <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
+        <source src="{{ block_value.media.file }}" type="{{ block_value.media.mime }}">
+        <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.url }}">Download the audio file</a>.</p>
       </audio>
-      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
     </div>
     {%- elif block_value.media.type == 'video' %}
     <div class="tna-aside tna-background-contrast">
@@ -39,25 +40,28 @@
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
       </div>
-      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js vjs-16-9" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}" itemprop="contentUrl">
-        {% if block_value.media.subtitles_file_full_url %}
-        <track kind="captions" src="{{ block_value.media.subtitles_file_full_url }}" srclang="en" label="English" default>
+      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+        <source src="{{ block_value.media.file }}" type="{{ block_value.media.mime }}">
+        {% if block_value.media.subtitles_file %}
+        <track kind="captions" src="{{ block_value.media.subtitles_file }}" srclang="en" label="English" default>
         {% endif %}
-        {% if block_value.media.chapters_file_full_url %}
-        <track kind="chapters" src="{{ block_value.media.chapters_file_full_url }}" srclang="en">
+        {% if block_value.media.chapters_file %}
+        <track kind="chapters" src="{{ block_value.media.chapters_file }}" srclang="en">
         {% endif %}
-        <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.full_url }}">Download the video file</a>.</p>
+        <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.url }}">Download the video file</a>.</p>
       </video>
-      <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
+      {% if block_value.thumbnail %}
+      <meta itemprop="thumbnailUrl" content="{{ block_value.thumbnail.jpeg.full_url }}">
+      {% endif %}
     </div>
     {%- endif %}
+
     {%- if block_value.media.chapters %}
     <div class="tna-background-tint etna-media-block__transcript">
       <div class="tna-details">
         <details class="tna-details__details">
-          <summary class="tna-details__summary">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
-          <div class="tna-details__content">
+          <summary class="tna-details__summary" id="media-title-{{ id }}">{{ block_value.media.type | capitalize }} chapters and transcript for &quot;{{ block_value.title }}&quot;</summary>
+          <div class="tna-details__content" tabindex="0" role="region" aria-labelledby="media-title-{{ id }}">
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
               <li>
@@ -65,7 +69,7 @@
                   <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
                 </button>
-                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading" itemprop="name">
+                <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading">
                   {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
                 </h{{ itemHeadingLevel + 1 }}>
                 {{ chapter.transcript | tna_html | safe }}
@@ -79,10 +83,27 @@
     {%- elif block_value.media.transcript %}
     <div class="tna-background-tint etna-media-block__transcript">
       {{ tnaDetails({
-        'title': (block_value.media.type | capitalize) + ' transcript for "' + block_value.title + '"',
-        'body': '<div itemprop="transcript">' + (block_value.media.transcript | tna_html) + '</div>'
+        'title': (block_value.media.type | capitalize) ~ ' transcript for "' ~ block_value.title ~ '"',
+        'body': '<div itemprop="transcript">' ~ (block_value.media.transcript | tna_html) ~ '</div>'
       }) }}
     </div>
     {%- endif %}
+
+    {%- if block_value.media.alternate_version_link %}
+    {%- set alt_version_text = 'alternative version of "' ~ block_value.title ~ '"' %}
+    {%- if block_value.media.alternate_version_type == 'Audio Described' %}
+      {%- set alt_version_text = 'audio described version of "' ~ block_value.title ~ '"' %}
+    {%- elif block_value.media.alternate_version_type == 'Subtitled' %}
+      {%- set alt_version_text = 'subtitled version of "' ~ block_value.title ~ '"' %}
+    {%- endif %}
+    <p class="tna-!--margin-top-xs">
+      <small>See the <a href="{{ block_value.media.alternate_version_link }}">{{ alt_version_text }}</a>.</small>
+    </p>
+    {%- endif %}
+
+    <meta itemprop="contentUrl" content="{{ block_value.media.file }}">
+    {%- set media_page_url = url_for('wagtail.audio_video_page', media_type=block_value.media.type, media_uuid=block_value.media.uuid, _external=True, _scheme='https') %}
+    <meta itemprop="url" content="{{ media_page_url }}">
+    <meta itemprop="encodingFormat" content="{{ block_value.media.mime }}">
   </div>
 {% endmacro %}

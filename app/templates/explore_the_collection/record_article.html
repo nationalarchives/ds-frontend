@@ -1,4 +1,4 @@
-{% extends 'explore_the_collection/base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -10,18 +10,17 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set og_type = 'article' -%}
 
 {% block head %}
 {{ super() }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
@@ -46,7 +45,7 @@
       </div>
       {%- if page_data.intro_image %}
       <div class="tna-column tna-column--width-1-3 tna-!--hide-on-small tna-!--hide-on-tiny etna-tilted-image-wrapper">
-        <img src="{{ page_data.intro_image.webp.full_url }}" width="{{ page_data.intro_image.webp.width }}" height="{{ page_data.intro_image.webp.height }}" alt="{{ page_data.intro_image.alt_text }}" class="etna-tilted-image">
+        <img src="{{ page_data.intro_image.webp.full_url }}" width="{{ page_data.intro_image.webp.width }}" height="{{ page_data.intro_image.webp.height }}" alt="{{ page_data.intro_image.description }}" class="etna-tilted-image">
       </div>
       {%- endif %}
     </div>
@@ -64,14 +63,14 @@
       {% set picture_information = [] %}
       {%- if item.image.transcript %}
         {% set picture_information = picture_information + [{
-          'id': 'transcript-' + item.image.id | string,
+          'id': 'transcript-' ~ item.image.id | string,
           'title': item.image.transcript.heading or 'Transcript',
           'body': item.image.transcript.text | tna_html
         }] %}
       {%- endif %}
       {%- if item.image.translation %}
         {% set picture_information = picture_information + [{
-          'id': 'translation-' + item.image.id | string,
+          'id': 'translation-' ~ item.image.id | string,
           'title': item.image.translation.heading or 'Translation',
           'body': item.image.translation.text | tna_html
         }] %}
@@ -81,7 +80,7 @@
           <h3 class="etna-record-gallery__item-index tna-heading-s">Image {{ loop.index }} of {{ page_data.gallery_items | length }}</h3>
         </div>
         <figure class="etna-record-gallery__item-figure tna-column {{ 'tna-column--width-2-3' if picture_information | length else 'tna-column--full' }} tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-          <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.alt_text }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
+          <img src="{{ item.image.webp.full_url }}" class="etna-record-gallery__item-image" alt="{{ item.image.description }}" width="{{ item.image.webp.width }}" height="{{ item.image.webp.height }}">
           {%- if item.caption %}
           <figcaption class="etna-record-gallery__item-description">
             {{ item.caption | tna_html | safe }}
@@ -108,13 +107,12 @@
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-2-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny">
         <h2 class="tna-heading-l">Why this record matters</h2>
-        <dl class="tna-dl tna-dl--plain">
+        <dl class="tna-dl">
           <dt>Date</dt>
           <dd>{{ page_data.date_text }}</dd>
           {%- if page_data.record %}
           <dt>Catalogue reference</dt>
           <dd>
-            <!-- <a href="{{ url_for('catalogue.catalogue_item', id=page_data.record.iaid) }}">{{ page_data.record.reference_number }}</a> -->
             <a href="https://discovery.nationalarchives.gov.uk/details/r/{{ page_data.record.iaid }}">{{ page_data.record.reference_number }}</a>
           </dd>
           {%- endif %}
@@ -124,8 +122,7 @@
         <div class="tna-button-group tna-button-group--full">
           {{ tnaButton({
             'text': 'View record details',
-            '_href': url_for('catalogue.catalogue_item', id=page_data.record.iaid),
-            'href': 'https://discovery.nationalarchives.gov.uk/details/r/' + page_data.record.iaid,
+            'href': 'https://discovery.nationalarchives.gov.uk/details/r/' ~ page_data.record.iaid,
             'accent': True
           }) }}
           {%- if page_data.image_library_link %}
@@ -134,7 +131,7 @@
             'href': page_data.image_library_link,
             'accent': True,
             'attributes': {
-              'rel': 'noopener noreferrer'
+              'rel': 'noreferrer nofollow noopener'
             }
           }) }}
           {%- endif %}
@@ -144,7 +141,7 @@
             'href': page_data.print_on_demand_link,
             'accent': True,
             'attributes': {
-              'rel': 'noopener noreferrer'
+              'rel': 'noreferrer nofollow noopener'
             }
           }) }}
           {%- endif %}
@@ -156,16 +153,15 @@
 
   {%- if page_data.featured_highlight_gallery %}
   <section class="tna-section tna-background-accent-light">
-    <h2 class="tna-visually-hidden">Related galleries</h2>
-    {% set galleries = [] %}
+    {% set ns = namespace(galleries=[]) %}
     {%- for gallery in page_data.featured_highlight_gallery.highlight_cards %}
     {%- if loop.index <= 4 %}
-    {% set galleries = galleries.append({
+    {% do ns.galleries.append({
       'id': gallery.image.id,
       'title': gallery.image.title,
-      'href': page_data.featured_highlight_gallery.url + '#gallery-image-' + (loop.index | string),
+      'href': page_data.featured_highlight_gallery.url ~ '#gallery-image-' ~ (loop.index | string),
       'src': gallery.image.jpeg.full_url,
-      'alt': gallery.alt_text or '',
+      'alt': gallery.image.description,
       'width': gallery.image.jpeg.width,
       'height': gallery.image.jpeg.height
     }) %}
@@ -173,29 +169,18 @@
     {%- endfor %}
     {{ tnaIndexGrid({
       'supertitle': page_data.featured_highlight_gallery.type_label,
-      'title': 'Explore records about ' + page_data.featured_highlight_gallery.title,
+      'title': 'Related gallery: ' ~ page_data.featured_highlight_gallery.title,
+      'href': page_data.featured_highlight_gallery.url,
       'text': page_data.featured_highlight_gallery.teaser_text,
-      'headingLevel': 3,
+      'headingLevel': 2,
       'headingSize': 'l',
-      'items': galleries,
+      'items': ns.galleries,
       'columns': 4,
       'columnsMedium': 2,
       'columnsSmall': 2,
       'columnsTiny': 1,
       'classes': 'tna-!--no-margin-top'
     }) }}
-    {%- if page_data.featured_highlight_gallery.highlight_image_count > 4 %}
-    <div class="tna-container tna-!--margin-top-m">
-      <div class="tna-column tna-column--full">
-        <div class="tna-button-group">
-          {{ tnaButton({
-            'text': 'View all ' + (page_data.featured_highlight_gallery.highlight_image_count | string) + ' images',
-            'href': page_data.featured_highlight_gallery.url
-          }) }}
-        </div>
-      </div>
-    </div>
-    {%- endif %}
   </section>
   {%- endif %}
 
@@ -221,7 +206,7 @@
         {%- if page_data.featured_article.teaser_image %}
         {% set card_content = dict(card_content, **{
           'imageSrc': page_data.featured_article.teaser_image.jpeg.full_url,
-          'imageAlt': page_data.featured_article.teaser_image.alt_text or '',
+          'imageAlt': page_data.featured_article.teaser_image.description,
           'imageWidth': page_data.featured_article.teaser_image.jpeg.width,
           'imageHeight': page_data.featured_article.teaser_image.jpeg.height,
           'imageSources': [
@@ -241,92 +226,14 @@
   </section>
   {%- endif %}
 
-  {%- for promoted_links in page_data.promoted_links %}
-  <section class="tna-section tna-!--padding-bottom-s">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        <h2 class="tna-heading-l">{{ promoted_links.value.heading }}</h2>
-      </div>
-    </div>
-    <ul class="tna-container">
-      {%- for item in promoted_links.value.promoted_items %}
-      <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-top-s tna-!--margin-bottom-m">
-        {% set supertitle = '' %}
-        {% set title = item.title %}
-        {%- if 'blog.nationalarchives.gov.uk' in item.url %}
-          {% set supertitle = 'Blog' %}
-          {% set title = title.removeprefix('Blog: ') %}
-        {%- elif 'www.nationalarchives.gov.uk/help-with-your-research/research-guides' in item.url %}
-          {% set supertitle = 'Research guide' %}
-          {% set title = title.removeprefix('Research guide: ').removeprefix('Research Guide: ') %}
-        {%- elif 'www.nationalarchives.gov.uk/education/resources' in item.url %}
-          {%- if title.startswith('Teaching resource') %}
-            {% set supertitle = 'Teaching resource' %}
-            {% set title = title.removeprefix('Teaching resource: ').removeprefix('Teaching Resource: ') %}
-          {%- elif title.startswith('Classroom resource') %}
-            {% set supertitle = 'Classroom resource' %}
-            {% set title = title.removeprefix('Classroom resource: ').removeprefix('Classroom Resource: ') %}
-          {%- endif %}
-        {%- elif 'media.nationalarchives.gov.uk' in item.url %}
-          {% set supertitle = 'Podcast' %}
-          {% set title = title.removeprefix('Podcast: ') %}
-        {%- elif 'youtube.com' in item.url %}
-          {% set supertitle = 'Film' %}
-          {% set title = title.removeprefix('Film: ') %}
-        {%- endif %}
-        {% set meta = [] %}
-        {%- if item.author %}
-        {% set meta = meta + [{ 'title': 'Author', 'text': item.author }] %}
-        {%- endif %}
-        {%- if item.publication_date %}
-        {% set meta = meta + [{ 'title': 'Published', 'text': item.publication_date }] %}
-        {%- endif %}
-        {% set card_content = {
-          'supertitle': supertitle,
-          'title': title,
-          'headingLevel': 3,
-          'headingSize': 's',
-          'href': item.url,
-          'meta': meta,
-          'text': item.description,
-          'label': 'New' if item.is_newly_published,
-          'labelColour': 'green',
-          'fullAreaClick': True,
-          'style': 'plain',
-          'classes': 'tna-card--full-height'
-        } %}
-        {%- if item.teaser_image %}
-        {% set card_content = dict(card_content, **{
-          'imageSrc': item.teaser_image.jpeg.full_url,
-          'imageAlt': item.teaser_image.alt_text or '',
-          'imageWidth': item.teaser_image.jpeg.width,
-          'imageHeight': item.teaser_image.jpeg.height,
-          'imageSources': [
-            {
-              'src': item.teaser_image.webp.full_url,
-              'type': 'image/webp',
-              'width': item.teaser_image.webp.width,
-              'height': item.teaser_image.webp.height
-            }
-          ],
-          'lazyImage': True
-        }) %}
-        {%- endif %}
-        {{ tnaCard(card_content) }}
-      </li>
-      {%- endfor %}
-    </ul>
-  </section>
-  {%- endfor %}
-
   {{ articleFooter([], categories, []) }}
 </article>
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='record-article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+{% endblock bodyEnd %}

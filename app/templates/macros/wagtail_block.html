@@ -2,34 +2,35 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/wagtail_blocks/accordion.html' import wagtailAccordion -%}
+{%- from 'macros/wagtail_blocks/code_block.html' import wagtailCodeBlock -%}
 {%- from 'macros/wagtail_blocks/contact.html' import wagtailContact -%}
 {%- from 'macros/wagtail_blocks/do_dont_list.html' import wagtailDoDontList -%}
 {%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/featured_external_link.html' import wagtailFeaturedExternalLink -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
-{%- from 'macros/wagtail_blocks/featured_record_article.html' import wagtailFeaturedRecordArticle -%}
 {%- from 'macros/wagtail_blocks/gallery.html' import wagtailGallery -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
-{%- from 'macros/wagtail_blocks/promoted_item.html' import wagtailPromotedItem -%}
-{%- from 'macros/wagtail_blocks/promoted_list.html' import wagtailPromotedList -%}
+{%- from 'macros/wagtail_blocks/partner_logos.html' import wagtailPartnerLogos -%}
+{%- from 'macros/wagtail_blocks/people_listing.html' import wagtailPeopleListing -%}
 {%- from 'macros/wagtail_blocks/record_links.html' import wagtailRecordLinks -%}
 {%- from 'macros/wagtail_blocks/table.html' import wagtailTable -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
-{% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes, picture_itemprop) %}
+{% macro wagtail_block(content_item, next_heading_level, config) %}
   {%- if content_item.type == 'paragraph' %}
   {{ content_item.value.text | tna_html | safe }}
 
   {%- elif content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
+  {%- set extra_header_classes = config.extra_header_classes if config is defined else '' -%}
   {%- if next_heading_level == 3 %}
-  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
+  <h2 class="tna-heading-l{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
   {%- elif next_heading_level == 4 %}
-  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
+  <h3 class="tna-heading-m{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
   {%- elif next_heading_level == 5 %}
-  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
+  <h4 class="tna-heading-s{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
   {%- elif next_heading_level == 6 %}
-  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
+  <h5 class="tna-heading-s{%- if extra_header_classes %} {{ extra_header_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
   {%- endif %}
 
   {%- elif content_item.type == 'button' %}
@@ -59,7 +60,19 @@
   </div>
 
   {%- elif content_item.type == 'description_list' %}
-  <dl class="tna-dl tna-dl--plain tna-dl--spaced">
+  {%- set extra_dl_classes = [] %}
+  {%- if content_item.value.settings %}
+    {%- if content_item.value.settings.style and content_item.value.settings.style != 'none' %}
+      {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--' ~ content_item.value.settings.style] %}
+    {%- endif %}
+    {%- if content_item.value.settings.column_balancing and content_item.value.settings.column_balancing != 'none' %}
+      {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--' ~ content_item.value.settings.column_balancing] %}
+    {%- endif %}
+    {%- if content_item.value.settings.stacked %}
+      {%- set extra_dl_classes = extra_dl_classes + ['tna-dl--stacked'] %}
+    {%- endif %}
+  {%- endif %}
+  <dl class="tna-dl{%- if extra_dl_classes %} {{ extra_dl_classes | join(' ') }}{%- endif %}">
     {%- for item in content_item.value['items'] %}
     <dt>{{ item.term }}</dt>
     <dd>{{ item.detail | safe }}</dd>
@@ -67,41 +80,63 @@
   </dl>
 
   {%- elif content_item.type == 'image' %}
-  {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
+  {%- set plain_images = config.plain_images if config is defined else False -%}
+  {%- set picture_itemprop = config.picture_itemprop if config is defined else '' -%}
+  {%- set picture_name = config.picture_name if config is defined else '' -%}
+  {%- set picture_link_to_standalone = config.picture_link_to_standalone if config is defined else False -%}
+  {%- set picture_add_download = config.picture_add_download if config is defined else False -%}
+  {{ wagtailImage(content_item.value, content_item.id, {
+    'plain': plain_images,
+    'hide_transcript': False,
+    'itemprop': picture_itemprop,
+    'name': picture_name,
+    'link_to_standalone': picture_link_to_standalone,
+    'add_download': picture_add_download
+  }) }}
 
   {%- elif content_item.type == 'quote' %}
-  <blockquote class="tna-blockquote">
-    <div class="tna-blockquote__quote">
+  <div class="tna-blockquote">
+    {%- set citation_url = content_item.value.citation_url %}
+    <blockquote class="tna-blockquote__quote"{%- if citation_url %} cite="{{ citation_url }}"{%- endif %}>
       {{ content_item.value.quote | tna_html | safe }}
-    </div>
-    {%- if content_item.value.attribution %}
-    <p class="tna-blockquote__citation">{{ content_item.value.attribution }}</p>
-    {%- endif %}
-  </blockquote>
+    </blockquote>
+    {%- set attribution = content_item.value.attribution %}
+    {%- set citation = content_item.value.citation %}
+    {%- if attribution or citation %}
+    <p class="tna-blockquote__attribution">
+      {%- if citation_url %}<a href="{{ citation_url }}">{% endif -%}
+      {% if attribution %}{{ attribution }}{%- endif -%}
+      {%- if citation -%}
+      {{- ', ' if attribution else '' }}
+      <cite class="tna-blockquote__citation">{{ citation }}</cite>
+      {%- endif %}
+      {%- if citation_url %}</a>{% endif %}
+    </p>    {%- endif %}
+  </div>
 
   {%- elif content_item.type == 'featured_external_link' %}
   {{ wagtailFeaturedExternalLink(content_item.value, next_heading_level) }}
-
-  {%- elif content_item.type == 'promoted_item' %}
-  {{ wagtailPromotedItem(content_item.value, next_heading_level) }}
-
-  {%- elif content_item.type == 'promoted_list' %}
-  {{ wagtailPromotedList(content_item.value, next_heading_level) }}
 
   {%- elif content_item.type == 'record_links' %}
   {{ wagtailRecordLinks(content_item.value) }}
 
   {%- elif content_item.type == 'featured_page' %}
   {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
-
-  {%- elif content_item.type == 'featured_record_article' %}
-  {{ wagtailFeaturedRecordArticle(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'media' %}
   {{ wagtailMedia(content_item.value, content_item.id, next_heading_level) }}
   
+  {%- elif content_item.type == 'partner_logos' %}
+  {{ wagtailPartnerLogos(content_item.value, next_heading_level) }}
+  
   {%- elif content_item.type == 'do_dont_list' %}
   {{ wagtailDoDontList(content_item.value, next_heading_level) }}
+  
+  {%- elif content_item.type == 'people_listing' %}
+  {{ wagtailPeopleListing(content_item.value, next_heading_level) }}
+  
+  {%- elif content_item.type == 'code' %}
+  {{ wagtailCodeBlock(content_item.value) }}
   
   {%- elif content_item.type == 'warning_text' %}
   {{ tnaWarning({

@@ -1,3 +1,3 @@
-from flask_talisman import Talisman
+from tna_utilities.flask.talisman import Talisman
 
 talisman = Talisman()

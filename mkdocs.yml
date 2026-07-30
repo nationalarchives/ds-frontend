@@ -1,2 +1,5 @@
 site_name: DS Frontend Docs
 repo_url: https://github.com/nationalarchives/ds-frontend
+theme:
+  name: material
+  font: false

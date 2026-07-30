@@ -1,0 +1,46 @@
+{%- from 'components/card/macro.html' import tnaCard -%}
+
+{% macro wagtailPeopleListing(block_value, itemHeadingLevel) %}
+  <div class="etna-space-above">
+    {%- for person in block_value.people %}
+    {%- set card_content = {
+      'title': person.title,
+      'headingLevel': itemHeadingLevel,
+      'headingSize': 'm',
+      'href': person.page_path,
+      'body': ('<div><p><strong>' ~ person.role ~ '</strong></p><p class="tna-!--margin-top-xs">' ~ (person.teaser_text | tna_html) ~ '</p></div>') | safe,
+      'fullAreaClick': True,
+      'horizontal': True,
+      'horizontalOnSmall': False,
+      'style': 'plain',
+      'classes': 'tna-card--person' ~ (' tna-!--margin-top-s' if not loop.first else '')
+    } %}
+    {%- if person.image %}
+      {% set card_content = dict(card_content, **{
+        'lazyImage': True,
+        'imageSrc': person.image.jpeg.full_url,
+        'imageAlt': person.image.description,
+        'imageWidth': person.image.jpeg.width,
+        'imageHeight': person.image.jpeg.height,
+        'imageSources': [
+          {
+            'src': person.image.webp.full_url,
+            'type': 'image/webp',
+            'width': person.image.webp.width,
+            'height': person.image.webp.height
+          }
+        ]
+      }) %}
+    {%- else %}
+      {% set card_content = dict(card_content, **{
+        'imageSrc': url_for('static', filename='images/blank-profile.svg'),
+        'imageAlt': '',
+        'imageWidth': 128,
+        'imageHeight': 128
+      }) %}
+    {%- endif %}
+    {{ tnaCard(card_content) }}
+    {%- endfor %}
+  </div>
+{% endmacro %}
+

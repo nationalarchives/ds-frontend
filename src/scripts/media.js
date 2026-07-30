@@ -1,31 +1,23 @@
 import videojs from "video.js";
+
 // import "videojs-youtube";
 import { initYoutubeEmbedApi } from "./lib/videojs-youtube-modified";
 
 const cookies = window.TNAFrontendCookies;
-
-let videoJsInstances = {};
-
+const videoJsInstances = {};
 const $youTubeVideoInstances = document.querySelectorAll(
   "a.etna-video--youtube[id]",
 );
-
-const updateYoutubeVideoMessages = ($youTubeVideoInstances) => {
-  $youTubeVideoInstances.forEach(($video) => {
+const updateYoutubeVideoMessages = ($youTubeVideoInstancesToUpdate) => {
+  $youTubeVideoInstancesToUpdate.forEach(($video) => {
     $video.querySelector(".etna-video__label-cookies-message-js")?.remove();
   });
 };
-
-const initYouTubeVideos = ($youTubeVideoInstances) => {
-  $youTubeVideoInstances.forEach(($video) => {
+const initYouTubeVideos = ($youTubeVideoInstancesToInit) => {
+  $youTubeVideoInstancesToInit.forEach(($video) => {
     const id = $video.getAttribute("id");
     const $newVideo = document.createElement("video");
-    $newVideo.classList.add(
-      "etna-video",
-      "etna-video--youtube",
-      "video-js",
-      "vjs-16-9",
-    );
+    $newVideo.classList.add("etna-video", "etna-video--youtube", "video-js");
     $newVideo.setAttribute("controls", true);
     $newVideo.setAttribute("id", id);
     const poster =
@@ -55,12 +47,14 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
           ytControls: 0,
           color: "white",
           enablePrivacyEnhancedMode: true,
+          /* eslint-disable-next-line camelcase */
           iv_load_policy: 3,
           rel: 0,
         },
       },
       () => {
         video.el().querySelector("iframe")?.setAttribute("tabindex", "-1");
+        video.el().removeAttribute("tabindex");
       },
     );
     video.one("play", (player) =>
@@ -74,7 +68,7 @@ if (cookies.isPolicyAccepted("marketing")) {
   initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
 } else {
   cookies.once("changePolicy", (policies) => {
-    if (policies["marketing"]) {
+    if (policies.marketing) {
       initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
     }
   });
@@ -83,40 +77,57 @@ if (cookies.isPolicyAccepted("marketing")) {
 
 document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
   const id = $video.getAttribute("id");
-  const video = videojs($video, {
-    experimentalSvgIcons: true,
-    enableSmoothSeeking: true,
-    textTrackSettings: false,
-    controlBar: {
-      volumePanel: false,
+  const poster = $video.dataset.poster || null;
+  const video = videojs(
+    $video,
+    {
+      experimentalSvgIcons: true,
+      enableSmoothSeeking: true,
+      textTrackSettings: false,
+      controlBar: {
+        volumePanel: false,
+      },
+      poster,
     },
-  });
+    () => {
+      video.el().removeAttribute("tabindex");
+    },
+  );
   videoJsInstances[id] = video;
 });
 
 document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
   const id = $audio.getAttribute("id");
-  const audio = videojs($audio, {
-    audioOnlyMode: true,
-    enableSmoothSeeking: true,
-    experimentalSvgIcons: true,
-    controlBar: {
-      skipButtons: {
-        forward: 10,
-        backward: 10,
+  const audio = videojs(
+    $audio,
+    {
+      audioOnlyMode: true,
+      enableSmoothSeeking: true,
+      experimentalSvgIcons: true,
+      controlBar: {
+        skipButtons: {
+          forward: 10,
+          backward: 10,
+        },
+        volumePanel: false,
       },
-      volumePanel: false,
     },
-  });
+    () => {
+      audio.el().removeAttribute("tabindex");
+    },
+  );
   videoJsInstances[id] = audio;
 });
 
 Object.entries(videoJsInstances).forEach(([key, instance]) => {
-  instance.on("play", () =>
-    Object.entries(videoJsInstances).forEach(([key2, instance2]) =>
-      key2 !== key ? instance2.pause() : null,
-    ),
-  );
+  instance.on("play", () => {
+    Object.entries(videoJsInstances).forEach(
+      ([key2, instance2]) => key2 !== key && instance2.pause(),
+    );
+  });
+  // instance.on("pause", () => {
+  //   instance.el().querySelector(".vjs-play-control")?.focus();
+  // });
 });
 
 document
@@ -129,8 +140,6 @@ document
       if (videoJsInstances[id]) {
         videoJsInstances[id].currentTime(time);
         videoJsInstances[id].play();
-      } else {
-        console.error(`Can't find ID ${id}`);
       }
     });
   });

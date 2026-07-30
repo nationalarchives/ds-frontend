@@ -46,6 +46,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+/* eslint-disable max-lines-per-function */
 self.addEventListener("fetch", (event) => {
   // We only want to call event.respondWith() if this is a navigation request
   // for an HTML page.
@@ -61,7 +62,7 @@ self.addEventListener("fetch", (event) => {
 
           const networkResponse = await fetch(event.request);
           return networkResponse;
-        } catch (error) {
+        } catch {
           // catch is only triggered if an exception is thrown, which is likely
           // due to a network error.
           // If fetch() returns a valid HTTP response with a response code in
@@ -79,6 +80,7 @@ self.addEventListener("fetch", (event) => {
     )
   ) {
     event.respondWith(
+      /* eslint-disable-next-line max-statements */
       (async () => {
         try {
           const preloadResponse = await event.preloadResponse;
@@ -88,13 +90,17 @@ self.addEventListener("fetch", (event) => {
 
           const networkResponse = await fetch(event.request);
           return networkResponse;
-        } catch (error) {
+        } catch {
           const cache = await caches.open(CACHE_NAME);
 
           const cachedResource = await cache.match(event.request.url);
           if (cachedResource) {
             return cachedResource;
           }
+          return new Response("Resource not found in cache.", {
+            status: 404,
+            headers: { "Content-Type": "text/plain" },
+          });
         }
       })(),
     );

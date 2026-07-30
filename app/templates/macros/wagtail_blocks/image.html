@@ -1,72 +1,83 @@
-{%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, plain_image, hide_transcript, itemprop) %}
-  {% set information_label_open = 'Open details' %}
-  {% set information_label_close = 'Close details' %}
-  {% set picture_information = [] %}
+{% macro wagtailImage(block_value, id, config) %}
+  {%- set plain = config.plain if config is defined else False -%}
+  {%- set hide_transcript = config.hide_transcript if config is defined else False -%}
+  {%- set itemprop = config.itemprop if config is defined else '' -%}
+  {%- set name = config.name if config is defined else '' -%}
+  {%- set link_to_standalone = config.link_to_standalone if config is defined else False -%}
+  {%- set add_download = config.add_download if config is defined else False -%}
+  
+  {%- set information_label_open = 'Open details' %}
+  {%- set information_label_close = 'Close details' %}
+
+  {%- set picture_information = [] %}
   {%- if not hide_transcript %}
     {%- if block_value.image.transcript %}
       {%- if not block_value.image.translation %}
-        {% set information_label_open = 'Open ' + (block_value.image.transcript.heading | lower) %}
-        {% set information_label_close = 'Close ' + (block_value.image.transcript.heading | lower) %}
+        {% set information_label_open = 'Open ' ~ (block_value.image.transcript.heading | lower) %}
+        {% set information_label_close = 'Close ' ~ (block_value.image.transcript.heading | lower) %}
       {%- endif %}
       {% set picture_information = picture_information + [{
-        'id': 'transcript-' + id,
+        'id': 'transcript-' ~ id,
         'title': block_value.image.transcript.heading or 'Transcript',
         'body': block_value.image.transcript.text | tna_html | safe
       }] %}
     {%- endif %}
     {%- if block_value.image.translation %}
       {%- if not block_value.image.transcript %}
-        {% set information_label_open = 'Open ' + (block_value.image.translation.heading + ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
-        {% set information_label_close = 'Close ' + (block_value.image.translation.heading + ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+        {% set information_label_open = 'Open ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+        {% set information_label_close = 'Close ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
       {%- endif %}
       {% set picture_information = picture_information + [{
-        'id': 'translation-' + id,
+        'id': 'translation-' ~ id,
         'title': block_value.image.translation.heading or 'Translation',
         'body': block_value.image.translation.text | tna_html | safe
       }] %}
     {%- endif %}
   {%- endif %}
+
   {% set image_caption = (block_value.caption | tna_html) or '' %}
   {%- if block_value.image.copyright %}
-    {% set image_caption = image_caption + '<div class="tna-picture__copyright" itemprop="copyrightNotice">' + (block_value.image.copyright | tna_html) + '</div>' %}
+    {% set image_caption = image_caption ~ '<div class="tna-picture__copyright" itemprop="copyrightNotice">' ~ (block_value.image.copyright | tna_html) ~ '</div>' %}
   {%- endif %}
-  {% set picture_content = {
-    'src': block_value.image.jpeg.full_url,
-    'alt': block_value.alt_text or '',
-    'width': block_value.image.jpeg.width,
-    'height': block_value.image.jpeg.height,
-    'sources': [
-      {
-        'src': block_value.image.webp.full_url,
-        'type': 'image/webp',
-        'width': block_value.image.webp.width,
-        'height': block_value.image.webp.height
-      }
-    ],
-    'caption': image_caption,
-    'microdataCaption': (block_value.caption | striptags) or '',
-    'informationLabelOpen': information_label_open,
-    'informationLabelClose': information_label_close,
-    'information': picture_information,
-    'classes': 'tna-picture--plain' if plain_image else ''
-  } %}
-  {% if itemprop %}
-    {% set picture_content = dict(picture_content, **{
+
+  {% set image_caption_extra_links = [] %}
+  {%- if link_to_standalone and name %}
+    {%- set image_page_url = url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for ' ~ name ~ '</span></a>') %}
+  {%- endif %}
+  {%- if add_download and name %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
+  {%- endif %}
+  {%- if image_caption_extra_links %}
+    {% set image_caption = image_caption ~ '<p class="tna-!--hide-on-print">' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
+  {%- endif %}
+
+  {%- if block_value.image.jpeg and block_value.image.webp %}
+    {% set picture_content = {
+      'src': block_value.image.jpeg.full_url,
+      'alt': block_value.image.description,
+      'width': block_value.image.jpeg.width,
+      'height': block_value.image.jpeg.height,
+      'sources': [
+        {
+          'src': block_value.image.webp.full_url,
+          'type': 'image/webp',
+          'width': block_value.image.webp.width,
+          'height': block_value.image.webp.height
+        }
+      ],
+      'caption': image_caption,
+      'microdataCaption': (block_value.caption | striptags) or '',
+      'informationLabelOpen': information_label_open,
+      'informationLabelClose': information_label_close,
+      'information': picture_information,
+      'classes': 'tna-picture--plain' if plain else '',
       'attributes': {
-        'itemprop': itemprop
+        'itemprop': itemprop or 'image'
       }
-    }) %}
-  {% endif %}
-  {% set picture = tnaPicture(picture_content) %}
-  {%- if block_value.image.is_sensitive %}
-    {{ tnaDetails({
-      'title': block_value.image.custom_sensitive_image_warning or 'This image has been marked as potentially sensitive',
-      'body': picture | safe
-    }) }}
-  {%- else %}
-    {{ picture }}
+    } %}
+    {{ tnaPicture(picture_content, block_value.image.uuid, block_value.image.title) }}
   {%- endif %}
 {% endmacro %}

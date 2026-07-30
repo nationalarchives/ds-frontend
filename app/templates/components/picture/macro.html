@@ -1,11 +1,17 @@
 {# Adds schema.org markup #}
 
-{% macro tnaPicture(params) %}
+{% macro tnaPicture(params, uuid, image_name) %}
 {% from "components/tabs/macro.html" import tnaTabs %}
 
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
-<figure class="tna-picture {{ ' '.join(containerClasses) }}" data-module="tna-picture"{% if params.informationLabelOpen %} data-information-label-open="{{ params.informationLabelOpen }}"{% endif %}{% if params.informationLabelClose %} data-information-label-close="{{ params.informationLabelClose }}"{% endif %} {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} itemprop="image" itemscope itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-  <meta itemprop="url" content="{{ params.src }}">
+<figure class="tna-picture {{ ' '.join(containerClasses) }}" data-module="tna-picture"{% if params.informationLabelOpen %} data-information-label-open="{{ params.informationLabelOpen }}"{% endif %}{% if params.informationLabelClose %} data-information-label-close="{{ params.informationLabelClose }}"{% endif %} {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} itemscope itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
+  {%- if uuid %}
+  {%- set image_page_url = url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') %}
+  <meta itemprop="url" content="{{ image_page_url }}">
+  {%- endif %}
+  {%- if image_name %}
+  <meta itemprop="name" content="{{ image_name }}">
+  {%- endif %}
   <meta itemprop="contentUrl" content="{{ params.src }}">
   <meta itemprop="width" content="{{ params.width }}">
   <meta itemprop="height" content="{{ params.height }}">

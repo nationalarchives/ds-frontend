@@ -1,4 +1,4 @@
-{% extends 'main/general.html' %}
+{% extends "main/general.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/radios/macro.html' import tnaRadios -%}
@@ -6,7 +6,10 @@
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='forms.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
+
+{% block cookies %}
+{% endblock cookies %}
 
 {% block content %}
 <form method="post" action="{{ url_for('main.set_cookies') }}" id="cookie-settings">
@@ -39,8 +42,7 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('usage') else 'false',
-    'classes': 'tna-form__group--full-sized-hint'
+    'selected': 'true' if cookie_preference('usage') else 'false'
   }) }}
   {{ tnaRadios({
     'label': 'Cookies that remember your settings',
@@ -59,8 +61,7 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('settings') else 'false',
-    'classes': 'tna-form__group--full-sized-hint'
+    'selected': 'true' if cookie_preference('settings') else 'false'
   }) }}
   {{ tnaRadios({
     'label': 'Cookies that are used for marketing',
@@ -71,7 +72,7 @@
     'name': 'marketing',
     'items': [
       {
-        'text': 'Use cookies are for marketing purposes',
+        'text': 'Use cookies that are for marketing purposes',
         'value': 'true'
       },
       {
@@ -79,10 +80,9 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('marketing') else 'false',
-    'classes': 'tna-form__group--full-sized-hint'
+    'selected': 'true' if cookie_preference('marketing') else 'false'
   }) }}
-  <input type="hidden" name="referrer" value="{{ page_data.meta.html_url }}">
+  <input type="hidden" name="referrer" value="{{ page_data.meta.url }}">
   <div class="tna-button-group">
     {{ tnaButton({
       'text': 'Save changes',
@@ -91,9 +91,9 @@
     }) }}
   </div>
 </form>
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
-<script src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+    <script src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{% endblock bodyEnd %}

@@ -1,0 +1,63 @@
+import math
+
+from flask import current_app, render_template, request
+from tna_utilities.flask import cacheable_duration
+
+from app.error_pages.routes import (
+    bad_gateway_error,
+    bad_request_error,
+    page_not_found_error,
+    server_error,
+)
+from app.lib.date_time import group_items_by_year_and_month
+from app.lib.pagination import pagination_object
+from app.wagtail.api import foi_requests
+
+
+@cacheable_duration(3600)
+def foi_index_page(page_data):
+    children_per_page = 50
+    page = 1
+    if request.args.get("page"):
+        try:
+            page = int(request.args.get("page", 1))
+        except ValueError:
+            return bad_request_error()
+    if page < 1:
+        return bad_request_error()
+    try:
+        requests_raw = foi_requests(
+            page,
+            children_per_page,
+        )
+    except ConnectionError:
+        current_app.logger.exception(
+            f"API error getting children for page {page_data['id']}"
+        )
+        return bad_gateway_error()
+    except Exception:
+        current_app.logger.exception(
+            f"Exception getting children for page {page_data['id']}"
+        )
+        return server_error()
+
+    requests = group_items_by_year_and_month(requests_raw, "date")
+
+    total_requests = requests_raw["meta"]["total_count"]
+    pages = math.ceil(total_requests / children_per_page)
+    try:
+        pagination = pagination_object(page, pages, request.args)
+    except AssertionError:
+        # The requested page is out of range, 404
+        return page_not_found_error()
+
+    return render_template(
+        "foi/index.html",
+        page_data=page_data,
+        requests=requests,
+        pagination=pagination,
+        page=page,
+        pages=pages,
+        children_per_page=children_per_page,
+        total_requests=total_requests,
+    )

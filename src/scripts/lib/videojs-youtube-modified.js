@@ -669,7 +669,7 @@ class Youtube extends Tech {
     return videojs.time.createTimeRange(0, bufferedEnd);
   }
 
-  // TODO: Can we really do something with this on YouTUbe?
+  // TODO: Can we really do something with this on YouTube?
   preload() {}
   load() {}
   reset() {}

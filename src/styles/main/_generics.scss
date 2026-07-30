@@ -1,15 +1,25 @@
+@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
+  borderVars;
+
+@use "@nationalarchives/frontend/nationalarchives/tools/a11y";
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
+.tna-main {
+  break-after: page;
+}
+
 .etna-space-above {
   @include spacing.space-above;
 }
 
-.etna-thick-keyline-accent-top {
-  @include colour.thick-keyline-accent(top);
+.etna-thick-keyline-accent-left {
+  @include colour.thick-keyline-accent(left);
+  border-top-right-radius: borderVars.$rounded-border-radius;
+  border-bottom-right-radius: borderVars.$rounded-border-radius;
 }
 
 abbr {
@@ -44,39 +54,7 @@ abbr {
   display: block;
 }
 
-.etna-background-list {
-  margin: spacing.space(1) 0 0 spacing.space(2);
-
-  display: flex;
-  flex-direction: column;
-  gap: spacing.space(1);
-
-  list-style: none;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  li {
-    padding: spacing.space(1);
-
-    @include colour.colour-background("background-tint");
-
-    @include colour.thick-keyline-accent(left);
-
-    .tna-heading-s {
-      ~ p {
-        margin-top: spacing.space(0.5);
-      }
-    }
-  }
-
-  @include media.on-mobile {
-    margin-left: 0;
-  }
-}
-
-.etna-etc-search .tna-form__hint {
+.etna-etc-search .tna-form-item__hint {
   margin-top: spacing.space(0.25);
   margin-bottom: spacing.space(0.5);
 
@@ -88,214 +66,48 @@ abbr {
   }
 }
 
-.tna-text-align-centre {
-  text-align: center;
-}
-
-.etna-do-dont-list {
-  @include spacing.space-above;
-
-  display: flex;
-  gap: spacing.space(1);
-
-  @include media.on-mobile {
-    flex-direction: column;
-  }
-
-  &__block {
-    padding: spacing.space(0.5) spacing.space(1);
-
-    flex: 1;
-
-    @include colour.tint;
-
-    @include borders.rounded-border;
-  }
-
-  &__heading {
-    @include colour.thick-keyline-dark(bottom);
-  }
-
-  .etna-ul-ticks,
-  .etna-ul-crosses {
-    margin-top: spacing.space(0.5);
-
-    list-style: none;
-
-    li {
-      position: relative;
-    }
-
-    .fa-solid {
-      width: spacing.space(1.75);
-
-      position: absolute;
-      top: 0;
-      right: 100%;
-
-      line-height: inherit;
-      text-align: left;
-
-      + p {
-        margin-top: 0;
-      }
-    }
-
-    .fa-check {
-      color: colour.brand-colour("green");
-    }
-
-    .fa-xmark {
-      color: colour.brand-colour("pink");
-    }
-  }
-}
-
-p.etna-small-paragraph {
-  margin-top: 0;
-  margin-bottom: spacing.space(0.5);
-
-  @include typography.font-size(16);
-}
-
 .etna-email {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: spacing.space(0.75);
 
-  a[href^="mailto:"] {
-    word-break: break-word;
-  }
+  overflow-wrap: anywhere;
 }
 
-#page-body {
-  > :first-child {
-    margin-top: spacing.space(3);
-  }
-}
-
-.tna-background-accent-light + .tna-background-accent,
-.tna-background-accent + .tna-background-accent-light {
-  .tna-template--dark-theme & {
-    @include colour.colour-border("keyline", 1px, dotted, top);
-  }
-
-  .tna-template--system-theme & {
-    @media (prefers-color-scheme: dark) {
+.tna-background-accent,
+.tna-background-accent-light {
+  + .tna-background-accent,
+  + .tna-background-accent-light {
+    .tna-template--dark-theme & {
       @include colour.colour-border("keyline", 1px, dotted, top);
     }
-  }
-}
 
-.tna-records-list {
-  @include spacing.space-above;
-  margin-bottom: 0;
-  padding: 0;
-
-  list-style: none;
-
-  @include colour.thick-keyline-accent(top);
-
-  &__item {
-    padding: spacing.space(1) spacing.space(1.5);
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: spacing.space(2);
-
-    @include colour.colour-border("keyline", 1px);
-    border-top-width: 0;
-  }
-
-  &__image {
-    width: 6rem;
-    height: auto;
-  }
-
-  &__details {
-    margin: 0;
-
-    flex: 1;
-  }
-
-  &__title-label,
-  &__date-label {
-    display: none;
-  }
-
-  &__collection-description,
-  &__title-description,
-  &__date-description {
-    width: 100%;
-    margin: 0;
-  }
-
-  &__collection-label,
-  &__collection-description {
-    display: inline-block;
-  }
-
-  &__collection-label {
-    &::after {
-      content: ":";
-      content: ":" / "";
-    }
-  }
-
-  &__collection-description {
-  }
-
-  &__title-label {
-  }
-
-  &__title-description {
-    padding-bottom: spacing.space(0.25);
-
-    @include typography.detail-font(true);
-  }
-
-  &__date-label {
-  }
-
-  &__date-description {
-    @include colour.colour-font("font-light");
-    @include typography.font-size(16);
-  }
-
-  @include media.on-tiny {
-    &__item {
-      padding: spacing.space(1);
-
-      flex-direction: column;
-      align-items: flex-start;
-
-      gap: spacing.space(1);
+    .tna-template--system-theme & {
+      @media (prefers-color-scheme: dark) {
+        @include colour.colour-border("keyline", 1px, dotted, top);
+      }
     }
   }
 }
 
-// TEMP FIX
-// .tna-heading-s,
-// .tna-heading-m,
-// .tna-heading-l,
-// .tna-heading-xl,
-// .tna-form__heading,
-// .tna-form__heading--s,
-// .tna-form__heading--m,
-// .tna-form__heading--l,
-// .tna-form__heading--xl,
-// .tna-hgroup-s .tna-hgroup__title,
-// .tna-hgroup-m .tna-hgroup__title,
-// .tna-hgroup-l .tna-hgroup__title,
-// .tna-hgroup-xl .tna-hgroup__title {
-//   &:not(.tna-heading--no-link-arrow) {
-//     a {
-//       vertical-align: top;
-//     }
-//   }
-// }
+.etna-background-accent-light-half {
+  position: relative;
+
+  &::before {
+    content: "";
+
+    height: 50%;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+
+    @include colour.accent-light;
+  }
+}
 
 :first-child[hidden] {
   + .tna-hgroup-xl,
@@ -310,3 +122,64 @@ p.etna-small-paragraph {
     padding-top: 0;
   }
 }
+
+// .tna-filters {
+//   margin-block: 10rem;
+
+//   &__item {
+//     position: relative;
+//   }
+
+//   &__button {
+//     width: 100%;
+//     margin: 0;
+//     padding: 0;
+
+//     display: flex;
+//     justify-content: space-between;
+
+//     font-size: inherit;
+//     line-height: inherit;
+//     text-align: left;
+
+//     background: none;
+
+//     border: none;
+
+//     cursor: pointer;
+
+//     @include borders.rounded-border;
+
+//     > span {
+//       flex: 1;
+//     }
+
+//     small {
+//       width: 4rem;
+
+//       text-align: right;
+//       text-decoration: underline;
+//       @include typography.interactable-text-decoration;
+//       @include colour.colour-font("link");
+//     }
+
+//     &-text {
+//     }
+
+//     &:hover &-text {
+//       @include typography.interacted-text-decoration;
+//     }
+
+//     &[aria-expanded="true"] {
+//       position: absolute;
+
+//       > span {
+//         color: transparent;
+//       }
+//     }
+//   }
+
+//   &__content {
+//     padding-right: 4rem;
+//   }
+// }

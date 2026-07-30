@@ -1,0 +1,231 @@
+{% extends "wagtail_base.html" %}
+
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
+
+{% block content %}
+{{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <hgroup class="tna-hgroup-xl">
+      <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+      <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+    </hgroup>
+    <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
+  </div>
+</div>
+
+{%- if page_data.featured_page %}
+<div class="tna-section" data-tna-analytics-section="Featured">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      {% set featured_card_content = {
+        'supertitle': 'Featured ' ~ page_data.featured_page.type_label,
+        'title': page_data.featured_page.title,
+        'headingLevel': 2,
+        'headingSize': 'l',
+        'href': page_data.featured_page.url,
+        'meta': [
+          {
+            'title': 'Date',
+            'text': pretty_date_range(page_data.featured_page.start_date, page_data.featured_page.end_date),
+            'icon': 'calendar'
+          },
+          {
+            'title': 'Location',
+            'text': page_data.featured_page.short_location,
+            'icon': 'location-dot'
+          },
+          {
+            'title': 'Cost',
+            'text': pretty_price_range(page_data.featured_page.min_price, page_data.featured_page.max_price),
+            'icon': 'ticket'
+          }
+        ],
+        'text': page_data.featured_page.teaser_text,
+        'horizontal': True,
+        'fullAreaClick': True,
+        'style': 'accent',
+        'hrefAttributes': {
+          'data-tna-analytics-event': 'select_feature',
+          'data-tna-analytics-label': 'Featured ' ~ page_data.featured_page.type_label
+        },
+        'classes': 'tna-card--full-height'
+      } %}
+      {%- if page_data.featured_page.teaser_image %}
+        {% set featured_card_content = dict(featured_card_content, **{
+          'lazyImage': True,
+          'imageSrc': page_data.featured_page.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_page.teaser_image.description,
+          'imageWidth': page_data.featured_page.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_page.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': page_data.featured_page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_page.teaser_image.webp.width,
+              'height': page_data.featured_page.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(featured_card_content) }}
+    </div>
+  </div>
+</div>
+{%- endif %}
+
+{%- if events | length %}
+<div class="tna-container tna-!--padding-top-s">
+  <div class="tna-column tna-column--full">
+    {%- if exhibitions | length %}
+    <h2 class="tna-heading-l">Events</h2>
+    {%- else %}
+    <p>Showing <strong>{{ events | length }}</strong> current event{{ '' if (events | length == 1) else 's' }}.</p>
+    {%- endif %}
+  </div>
+</div>
+<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl" data-tna-analytics-section="Events">
+  {% for event in events %}
+  <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+    {% set event_card_content = {
+      'supertitle': event.type_label,
+      'title': event.title,
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': event.url,
+      'meta': [
+        {
+          'title': 'Date',
+          'text': pretty_date_range(event.start_date, event.end_date),
+          'icon': 'calendar'
+        },
+        {
+          'title': 'Location',
+          'text': event.short_location,
+          'icon': 'location-dot'
+        },
+        {
+          'title': 'Cost',
+          'text': pretty_price_range(event.min_price, event.max_price),
+          'icon': 'ticket'
+        }
+      ],
+      'text': event.teaser_text,
+      'fullAreaClick': True,
+      'style': 'plain',
+      'hrefAttributes': {
+        'data-tna-analytics-event': 'select_feature',
+        'data-tna-analytics-label': event.type_label
+      },
+      'classes': 'tna-card--full-height'
+    } %}
+    {%- if event.teaser_image %}
+      {% set event_card_content = dict(event_card_content, **{
+        'lazyImage': True,
+        'imageSrc': event.teaser_image.jpeg.full_url,
+        'imageAlt': event.teaser_image.description,
+        'imageWidth': event.teaser_image.jpeg.width,
+        'imageHeight': event.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': event.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': event.teaser_image.webp.width,
+            'height': event.teaser_image.webp.height
+          }
+        ]
+      }) %}
+    {%- endif %}
+    {{ tnaCard(event_card_content) }}
+    </li>
+  {% endfor %}
+</ul>
+{%- endif %}
+
+{%- if exhibitions | length %}
+<div class="tna-container tna-!--padding-top-s">
+  <div class="tna-column tna-column--full">
+    {%- if events | length %}
+    <h2 class="tna-heading-l">Exhibitions and displays</h2>
+    {%- else %}
+    <p>Showing <strong>{{ exhibitions | length }}</strong> current exhibition{{ '' if (exhibitions | length == 1) else 's' }}.</p>
+    {%- endif %}
+  </div>
+</div>
+<ul class="tna-container tna-container--nested tna-!--margin-bottom-xl" data-tna-analytics-section="Exhibitions and displays">
+  {% for exhibition in exhibitions %}
+  <li class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
+    {% set exhibition_card_content = {
+      'supertitle': exhibition.type_label,
+      'title': exhibition.title,
+      'headingLevel': 2,
+      'headingSize': 'm',
+      'href': exhibition.url,
+      'meta': [
+        {
+          'title': 'Date',
+          'text': pretty_date_range(exhibition.start_date, exhibition.end_date),
+          'icon': 'calendar'
+        },
+        {
+          'title': 'Location',
+          'text': exhibition.short_location,
+          'icon': 'location-dot'
+        },
+        {
+          'title': 'Cost',
+          'text': pretty_price_range(exhibition.min_price, exhibition.max_price),
+          'icon': 'ticket'
+        }
+      ],
+      'text': exhibition.teaser_text,
+      'fullAreaClick': True,
+      'style': 'plain',
+      'hrefAttributes': {
+        'data-tna-analytics-event': 'select_feature',
+        'data-tna-analytics-label': exhibition.type_label
+      },
+      'classes': 'tna-card--full-height'
+    } %}
+    {%- if exhibition.teaser_image %}
+      {% set exhibition_card_content = dict(exhibition_card_content, **{
+        'lazyImage': True,
+        'imageSrc': exhibition.teaser_image.jpeg.full_url,
+        'imageAlt': exhibition.teaser_image.description,
+        'imageWidth': exhibition.teaser_image.jpeg.width,
+        'imageHeight': exhibition.teaser_image.jpeg.height,
+        'imageSources': [
+          {
+            'src': exhibition.teaser_image.webp.full_url,
+            'type': 'image/webp',
+            'width': exhibition.teaser_image.webp.width,
+            'height': exhibition.teaser_image.webp.height
+          }
+        ]
+      }) %}
+    {%- endif %}
+    {{ tnaCard(exhibition_card_content) }}
+    </li>
+  {% endfor %}
+</ul>
+{%- endif %}
+
+{%- if (events | length) == 0 and (exhibitions | length) == 0 %}
+<div class="tna-container tna-!--margin-bottom-xl">
+  <div class="tna-column tna-column--full tna-!--padding-top-m">
+    <p class="tna-heading-m">No events found.</p>
+  </div>
+</div>
+{%- endif %}
+
+{{ feedback() }}
+{{ back_to_top() }}
+{% endblock content %}

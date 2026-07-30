@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/compound-filters/macro.html' import tnaCompoundFilters -%}
+{%- from 'components/pagination/macro.html' import tnaPagination -%}
+{%- from 'components/search-field/macro.html' import tnaSearchField -%}
+{%- from 'components/skip-link/macro.html' import tnaSkipLink -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'explore_the_collection/partials/discovery-search.html' import discoverySearch -%}
+
+{%- set themeAccent = 'black' if global_alert.mourning_notice else (themeAccent or 'green') -%}
+{%- set pageTitle = 'Search the website' -%}
+{%- set breadcrumbs = [
+  {
+    'text': 'Home',
+    'href': '/'
+  }
+] -%}
+{%- set breadcrumbs_style = 'accent-light' -%}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock stylesheets %}
+
+{% block skipLink %}
+{{ tnaSkipLink({
+  'href': 'results',
+  'text': 'Skip to list of results'
+}) }}
+{{ super() }}
+{% endblock skipLink %}
+
+{% block content %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
+  <div class="tna-!--padding-top-m tna-!--padding-bottom-l">
+    <div class="tna-container">
+      <form id="search-site" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny" method="get" action="{{ url_for('search.index') }}" role="search">
+        {{ tnaSearchField({
+          'label': 'Search this website',
+          'headingLevel': 1,
+          'headingSize': 'l',
+          'id': 'search',
+          'name': 'q',
+          'value': q
+        }) }}
+        {#
+        {% if q %}
+        <h2 class="tna-heading-s tna-!--no-padding-top">Selected filters</h2>
+        {{ tnaCompoundFilters({
+          'items': [
+            {
+              'label': '"' ~ q ~ '"',
+              'href': '?' ~ qs_remove('q'),
+              'title': 'Start a new search'
+            }
+          ],
+          'classes': 'tna-!--margin-top-xs'
+        }) }}
+        {% endif %}
+        #}
+        <input type="hidden" name="view" value="{{ request.args.view or 'list' }}">
+      </form>
+      <div class="tna-column tna-column--full">
+        <h2 class="tna-visually-hidden">Change results view</h2>
+        <div class="tna-button-group tna-button-group--small tna-button-group--horizontal-on-tiny">
+          {{ tnaButton({
+            'text': 'List view' ~ (' (current)' if not request.args.view or request.args.view == 'list' else ''),
+            'href': '?' ~ qs_toggler('view', 'list'),
+            'icon': 'list',
+            'accent': not request.args.view or request.args.view == 'list'
+          }) }}
+          {{ tnaButton({
+            'text': 'Grid view' ~ (' (current)' if request.args.view == 'grid' else ''),
+            'href': '?' ~ qs_toggler('view', 'grid'),
+            'icon': 'grip',
+            'accent': request.args.view == 'grid'
+          }) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if total_results %}
+<section id="results">
+  {% if total_results %}
+  <div class="tna-container">
+    <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
+      <p>Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+    </div>
+  </div>
+  {% endif %}
+  <h2 class="tna-visually-hidden">Results</h2>
+  <ul class="tna-container">
+    {% for item in results['items'] %}
+    <li class="tna-column {{ 'tna-column--width-3-4 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-bottom-s' if not request.args.view or request.args.view == 'list' else 'tna-column--width-1-4 tna-column--width-1-3-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-l' }}">
+      {% set card_content = {
+        'supertitle': item.type_label,
+        'headingLevel': 3,
+        'headingSize': 's',
+        'title': item.title,
+        'href': item.url,
+        'text': item.teaser_text,
+        'fullAreaClick': True,
+        'horizontal': not request.args.view or request.args.view == 'list',
+        'horizontalSmallImage': True,
+        'horizontalFlipped': True,
+        'horizontalOnSmall': not request.args.view or request.args.view == 'list',
+        'style': 'tint' if not request.args.view or request.args.view == 'list' else 'plain',
+        'classes': 'tna-card--full-height' if request.args.view == 'grid' else ''
+      } %}
+      {%- if item.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': item.teaser_image.jpeg.full_url,
+          'imageAlt': item.teaser_image.description,
+          'imageWidth': item.teaser_image.jpeg.width,
+          'imageHeight': item.teaser_image.jpeg.height,
+          'imageSources': [
+            {
+              'src': item.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': item.teaser_image.webp.width,
+              'height': item.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
+    </li>
+    {% endfor %}
+  </ul>
+  {% if pages > 1 %}
+  <div class="tna-container">
+    <div class="tna-column tna-column--full tna-!--margin-top-l">
+      {{ tnaPagination(pagination) }}
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% else %}
+<div class="tna-container tna-!--padding-top-l" id="results">
+  <div class="tna-column tna-column--full">
+    <h2 class="tna-heading-xl">No results found</h2>
+    <p>Try the following:</p>
+    <ul class="tna-ul">
+      <li>Check your spelling</li>
+      <li>Try different keywords</li>
+      <li>Broaden your search keywords</li>
+    </ul>
+  </div>
+</div>
+{% endif %}
+<section class="tna-!--margin-top-xl tna-!--margin-bottom-l">
+  <div class="tna-container">
+    <div class="tna-column tna-column--full">
+      <div class="tna-aside tna-background-tint tna-!--padding-top-s tna-!--padding-bottom-m">
+        {{ discoverySearch() }}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
