@@ -44,7 +44,7 @@ def replace_footnotes(html):
 def add_abbreviations(html):
     for item in abbreviations:
         html = re.sub(
-            rf"([ '\(\"]){item[0]}([ ,;<'\"\.\)])",
+            rf"([\s>'‘“\"\(]){item[0]}([\s,;:<'’”\"\.\\/)])",
             r"\g<1>" + f'<abbr title="{item[1]}">{item[0]}</abbr>' r"\g<2>",
             html,
         )

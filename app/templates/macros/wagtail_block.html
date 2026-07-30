@@ -105,10 +105,10 @@
     {%- if attribution or citation %}
     <p class="tna-blockquote__attribution">
       {%- if citation_url %}<a href="{{ citation_url }}">{% endif -%}
-      {% if attribution %}{{ attribution }}{%- endif -%}
+      {% if attribution %}{{ attribution | tna_html | safe }}{%- endif -%}
       {%- if citation -%}
       {{- ', ' if attribution else '' }}
-      <cite class="tna-blockquote__citation">{{ citation }}</cite>
+      <cite class="tna-blockquote__citation">{{ citation | tna_html | safe }}</cite>
       {%- endif %}
       {%- if citation_url %}</a>{% endif %}
     </p>    {%- endif %}

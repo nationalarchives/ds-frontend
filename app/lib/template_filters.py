@@ -10,6 +10,7 @@ from tna_utilities.string import slugify
 from app.lib.date_time import get_date_from_string
 
 from .content_parser import (
+    add_abbreviations,
     add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
@@ -23,8 +24,9 @@ def tna_html(s):
         return s
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
-    s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
+    s = strip_wagtail_attributes(s)
+    s = add_abbreviations(s)
     return add_rel_to_external_links(s)
 
 
