@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -7,28 +7,24 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
-{%- set pageTitle = page_data.title -%}
-{%- set breadcrumbsStyle = 'accent-light' -%}
+{%- set breadcrumbs_style = 'accent-light' -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='person-profile.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block main %}
   {% block beforeContent %}
     {{ super() }}
-  {% endblock %}
+  {% endblock beforeContent %}
   <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/ProfilePage">
     <meta itemprop="dateCreated" content="{{ page_data.meta.first_published_at }}">
     {%- if page_data.global_alert or page_data.mourning_notice %}
@@ -36,15 +32,15 @@
       {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
     </div>
     {%- endif %}
-    <article itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+    <article>
       <div class="tna-background-accent-light tna-!--padding-top-l tna-!--padding-bottom-xl">
-        <div class="tna-container">
-          {%- if page_data.image or page_data.meta.teaser_image_square %}
+        <div class="tna-container" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+          {%- if page_data.image or page_data.meta.teaser_image %}
           <div class="tna-column tna-column--width-1-6 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny tna-column--margin-right-1-12 tna-column--no-margin-right-medium tna-column--no-margin-right-small tna-column--no-margin-right-tiny tna-column--margin-left-1-12 tna-column--no-margin-left-medium tna-column--no-margin-left-small tna-column--no-margin-left-tiny tna-column--align-centre">
             {%- if page_data.image %}
             <img src="{{ page_data.image.jpeg.full_url }}" alt="{{ page_data.title }}." width="{{ page_data.image.jpeg.width }}" height="{{ page_data.image.jpeg.height }}" class="etna-person-image" itemprop="image">
-            {%- elif page_data.meta.teaser_image_square %}
-            <img src="{{ page_data.meta.teaser_image_square.jpeg.full_url }}" alt="{{ page_data.title }}." width="{{ page_data.meta.teaser_image_square.jpeg.width }}" height="{{ page_data.meta.teaser_image_square.jpeg.height }}" class="etna-person-image" itemprop="image">
+            {%- elif page_data.meta.teaser_image %}
+            <img src="{{ page_data.meta.teaser_image.square_jpeg.full_url }}" alt="{{ page_data.title }}." width="{{ page_data.meta.teaser_image.square_jpeg.width }}" height="{{ page_data.meta.teaser_image.square_jpeg.height }}" class="etna-person-image" itemprop="image">
             {%- endif %}
           </div>
           {%- endif %}
@@ -151,32 +147,35 @@
           }] %}
         {%- endif %}
         {%- if sidebar_items | length > 1 %}
-        <div id="page-sidebar" class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
+        <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m tna-!--hide-on-print">
           {{ tnaSidebar({
             'title': 'On this page',
             'headingLevel': 2,
             'items': sidebar_items,
             'type': 'sections',
             'sticky': True,
-            'classes': 'tna-sidebar--static-on-mobile tna-!--padding-top-s'
+            'classes': 'tna-!--padding-top-s',
+            'attributes': {
+              'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
+            }
           }) }}
         </div>
         {%- endif %}
-        <div id="page-body" class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print etna-article__sections">
-          <section class="tna-section tna-!--padding-top-m etna-article__section">
+        <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print">
+          <section class="tna-section tna-!--padding-top-m">
             <h2 id="about" class="tna-heading-l tna-!--padding-top-s">About</h2>
             {{ page_data.summary | tna_html | safe }}
           </section>
           {%- if page_data.research_summary %}
           <hr class="tna-!--margin-top-s">
-          <section class="tna-section tna-!--padding-top-m etna-article__section">
+          <section class="tna-section tna-!--padding-top-m">
             <h2 id="research-activity" class="tna-heading-l tna-!--padding-top-s">Research activity</h2>
             {{ wagtail_streamfield(page_data.research_summary, 3, page_data.footnotes) }}
           </section>
           {%- endif %}
           {%- if articles or page_data.archived_blog_url %}
           <hr class="tna-!--margin-top-s">
-          <section class="tna-!--padding-top-m etna-article__section">
+          <section class="tna-!--padding-top-m">
             <h2 id="articles" class="tna-heading-l tna-!--padding-top-s">Articles</h2>
             {% if articles %}
             <ul class="tna-container tna-container--nested tna-!--padding-top-m">
@@ -233,7 +232,7 @@
           {%- endif %}
           {%- if page_data.shop_items %}
           <hr class="tna-!--margin-top-s">
-          <section class="tna-section tna-!--padding-top-m etna-article__section">
+          <section class="tna-section tna-!--padding-top-m">
             <h2 id="shop-items" class="tna-heading-l tna-!--padding-top-s">Shop items</h2>
             <ul class="tna-container tna-container--nested">
               {% for item in page_data.shop_items %}
@@ -246,7 +245,7 @@
                   'meta': [
                     {
                       'title': 'Price',
-                      'text': ('&pound;' | safe) ~ item.price
+                      'text': ('£' | safe) ~ item.price
                     }
                   ],
                   'imageSrc': item.image.jpeg.full_url,
@@ -269,11 +268,7 @@
       </div>
       {% endif %}
     </article>
+    {{ feedback() }}
     {{ back_to_top() }}
   </main>
-{% endblock %}
-
-{% block bodyEnd %}
-{{ super() }}
-    <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+{% endblock main %}

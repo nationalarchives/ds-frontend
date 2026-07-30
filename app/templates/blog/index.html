@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -6,30 +6,30 @@
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'orange' -%}
-{%- set pageTitle = page_data.title -%}
-{%- set breadcrumbsStyle = 'accent-light' -%}
+{%- set pageTitleLong = page_data.title -%}
+{%- set breadcrumbs_style = 'accent-light' -%}
 {%- if year %}
   {%- if month_name %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ month_name ~ ' ' ~ (year | string) -%}
-    {%- else %}
+    {%- set pageTitleLong = pageTitleLong ~ ' - posts from ' ~ month_name ~ ' ' ~ (year | string) -%}
+  {%- else %}
     {%- set pageTitle = pageTitle ~ ' - ' ~ (year | string) -%}
+    {%- set pageTitleLong = pageTitleLong ~ ' - posts from ' ~ (year | string) -%}
   {%- endif %}
 {%- endif %}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
     {% if 'day' in request.args and 'month' in request.args and 'year' in request.args %}
-    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&day={{ request.args.get('day') }}&page={{ request.args.get('page') }}">
+    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&day={{ request.args.get('day') }}&page={{ page }}">
     {% elif 'month' in request.args and 'year' in request.args %}
-    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&page={{ request.args.get('page') }}">
+    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&month={{ request.args.get('month') }}&page={{ page }}">
     {% elif 'year' in request.args %}
-    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&page={{ request.args.get('page') }}">
+    <link rel="canonical" href="{{ request.base_url }}?year={{ request.args.get('year') }}&page={{ page }}">
     {% else %}
     <link rel="canonical" href="{{ request.base_url }}?page={{ page }}">
     {% endif %}
@@ -46,45 +46,127 @@
     <link rel="alternate" type="application/rss+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id) }}" title="{{ page_data.title }}">
     <link rel="alternate" type="application/atom+xml" href="{{ url_for('feeds.rss_feed', blog_id=page_data.id, format='atom') }}" title="{{ page_data.title }}">
     {%- endif %}
-{% endblock %}
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='blog.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
+
+{% set sidebar_contents %}
+<div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-column--order-3">
+  {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+  {% set ns = namespace(blogs_list=[]) %}
+  {% for blog in blogs %}
+    {% do ns.blogs_list.append({
+      'text': blog.title,
+      'href': blog.url,
+      'current': request.path == blog.url
+    }) %}
+  {% endfor %}
+  {{ tnaSidebar({
+    'title': 'All blogs',
+    'headingLevel': 2,
+    'items': ns.blogs_list,
+    'type': 'pages'
+  }) }}
+  {%- endif %}
+  
+  {%- if child_blogs %}
+  <h2 class="tna-heading-m">Filter posts by category</h2>
+  {% set ns = namespace(child_blogs_list=[]) %}
+  {% for child_blog in child_blogs %}
+    {% do ns.child_blogs_list.append({
+      'label': child_blog.title,
+      'href': child_blog.url,
+      'selected': request.path == child_blog.url
+    }) %}
+  {% endfor %}
+  {{ tnaQuickFilters({
+    'items': ns.child_blogs_list,
+    'stack': True,
+    'classes': 'tna-!--margin-top-s'
+  }) }}
+  {%- endif %}
+
+  {%- if date_filters %}
+  <h2 class="tna-heading-m">Filter posts by date</h2>
+  {{ tnaQuickFilters({
+    'items': date_filters,
+    'stack': True,
+    'classes': 'tna-!--margin-top-s'
+  }) }}
+  {%- endif %}
+
+  {%- if page_data.meta.type == 'blog.BlogIndexPage' or (page_data.meta.type == 'blog.BlogPage' and page_data.id) %}
+  <h2 class="tna-heading-m">Feeds</h2>
+  <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
+    {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
+      {{ tnaButton({
+        'text': 'RSS feed',
+        'href': url_for('feeds.rss_all_feed'),
+        'title': 'Subscribe to the RSS feed for this blog',
+        'icon': 'rss'
+      }) }}
+      {{ tnaButton({
+        'text': 'Atom feed',
+        'href': url_for('feeds.rss_all_feed', format='atom'),
+        'title': 'Subscribe to the Atom feed for this blog',
+        'icon': 'atom'
+      }) }}
+    {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
+      {{ tnaButton({
+        'text': 'RSS feed',
+        'href': url_for('feeds.rss_feed', blog_id=page_data.id),
+        'title': 'Subscribe to the RSS feed for this blog',
+        'icon': 'rss'
+      }) }}
+      {{ tnaButton({
+        'text': 'Atom feed',
+        'href': url_for('feeds.rss_feed', blog_id=page_data.id, format='atom'),
+        'title': 'Subscribe to the Atom feed for this blog',
+        'icon': 'atom'
+      }) }}
+    {%- endif %}
+  </div>
+  <p class="tna-!--margin-top-xs">
+    <small><a href="{{ page_data.blogs_feeds_page.url }}">All blog feeds</a></small>
+  </p>
+  {%- endif %}
+</div>
+{% endset %}
 
 {% block main %}
   {% block beforeContent %}
     {{ super() }}
-  {% endblock %}
+  {% endblock beforeContent %}
   <main class="tna-main {{ mainClasses }}" id="main-content" itemscope itemtype="https://schema.org/Blog">
-    {%- if page_data.global_alert or page_data.mourning_notice %}
     <div class="tna-background-accent-light">
-      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-    </div>
-    {%- endif %}
-    <div class="tna-background-accent-light tna-section">
-      <div class="tna-container">
-        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
-          <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
-          {%- else %}
-          <hgroup class="tna-hgroup-xl">
-            <p class="tna-hgroup__supertitle">Blog</p>
-            <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitle }}</h1>
-          </hgroup>
-          {%- endif %}
-          {%- if page_data.intro %}
-          <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="description">
-            {{ page_data.intro | tna_html | safe }}
+      {%- if page_data.global_alert or page_data.mourning_notice %}
+        {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+      {%- endif %}
+      <div class="tna-section tna-!--padding-top-m">
+        <div class="tna-container">
+          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+            {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
+            <h1 class="tna-heading-xl">{{ pageTitleLong }}</h1>
+            {%- else %}
+            <hgroup class="tna-hgroup-xl">
+              <p class="tna-hgroup__supertitle">Blog</p>
+              <h1 class="tna-hgroup__title" itemprop="name">{{ pageTitleLong }}</h1>
+            </hgroup>
+            {%- endif %}
+            {%- if page_data.intro %}
+            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="description">
+              {{ page_data.intro | tna_html | safe }}
+            </div>
+            {%- endif %}
           </div>
-          {%- endif %}
         </div>
       </div>
     </div>
 
     {%- if total_blog_posts %}
-
       {%- if page == 1 and blog_posts %}
       <div class="etna-background-accent-light-half">
         <div class="tna-container">
@@ -200,86 +282,7 @@
           {{ tnaPagination(pagination) }}
         </div>
         {% endif %}
-        <div class="tna-column tna-column--width-1-4 tna-column--margin-left-1-12 tna-column--width-1-3-medium tna-column--no-margin-left-medium tna-column--full-small tna-column--no-margin-left-small tna-column--full-tiny tna-column--no-margin-left-tiny tna-!--padding-top-m tna-column--order-3">
-          {%- if blogs and page_data.meta.type == 'blog.BlogIndexPage' %}
-          {% set blogs_list = [] %}
-          {% for blog in blogs %}
-            {% set blogs_list = blogs_list.append({
-              'text': blog.title,
-              'href': blog.url,
-              'current': request.path == blog.url
-            }) %}
-          {% endfor %}
-          {{ tnaSidebar({
-            'title': 'All blogs',
-            'headingLevel': 2,
-            'items': blogs_list,
-            'type': 'pages'
-          }) }}
-          {%- endif %}
-          
-          {%- if categories %}
-          <h2 class="tna-heading-m">Filter posts by category</h2>
-          {% set categories_list = [] %}
-          {% for category in categories %}
-            {% set categories_list = categories_list.append({
-              'label': category.title,
-              'href': category.url,
-              'selected': request.path == category.url
-            }) %}
-          {% endfor %}
-          {{ tnaQuickFilters({
-            'items': categories_list,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
-
-          {%- if date_filters %}
-          <h2 class="tna-heading-m">Filter posts by date</h2>
-          {{ tnaQuickFilters({
-            'items': date_filters,
-            'stack': True,
-            'classes': 'tna-!--margin-top-s'
-          }) }}
-          {%- endif %}
-
-          {%- if page_data.meta.type == 'blog.BlogIndexPage' or (page_data.meta.type == 'blog.BlogPage' and page_data.id) %}
-          <h2 class="tna-heading-m">Feeds</h2>
-          <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
-            {%- if page_data.meta.type == 'blog.BlogIndexPage' %}
-              {{ tnaButton({
-                'text': 'RSS feed',
-                'href': url_for('feeds.rss_all_feed'),
-                'title': 'Subscribe to the RSS feed for this blog',
-                'icon': 'rss'
-              }) }}
-              {{ tnaButton({
-                'text': 'Atom feed',
-                'href': url_for('feeds.rss_all_feed', format='atom'),
-                'title': 'Subscribe to the Atom feed for this blog',
-                'icon': 'atom'
-              }) }}
-            {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
-              {{ tnaButton({
-                'text': 'RSS feed',
-                'href': url_for('feeds.rss_feed', blog_id=page_data.id),
-                'title': 'Subscribe to the RSS feed for this blog',
-                'icon': 'rss'
-              }) }}
-              {{ tnaButton({
-                'text': 'Atom feed',
-                'href': url_for('feeds.rss_feed', blog_id=page_data.id, format='atom'),
-                'title': 'Subscribe to the Atom feed for this blog',
-                'icon': 'atom'
-              }) }}
-            {%- endif %}
-          </div>
-          <p class="tna-!--margin-top-xs">
-            <small><a href="{{ page_data.blogs_feeds_page.url }}">All blog feeds</a></small>
-          </p>
-          {%- endif %}
-        </div>
+        {{ sidebar_contents }}
       </div>
       {%- if authors %}
       <div class="tna-background-tint tna-!--margin-top-l tna-section">
@@ -289,8 +292,8 @@
             <ul class="etna-author-list__items tna-!--margin-top-s">
               {%- for author in authors[:12] %}
               <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
-                {%- if author.author.image_small %}
-                <img src="{{ author.author.image_small.jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}." width="{{ author.author.image_small.jpeg.width }}" height="{{ author.author.image_small.jpeg.height }}" class="etna-author-list__image" itemprop="image">
+                {%- if author.author.image %}
+                <img src="{{ author.author.image.small_jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}." width="{{ author.author.image.small_jpeg.width }}" height="{{ author.author.image.small_jpeg.height }}" class="etna-author-list__image" itemprop="image">
                 {%- else %}
                 <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
                 {%- endif %}
@@ -316,20 +319,21 @@
       {%- endif %}
 
     {%- else %}
-    <div class="tna-container tna-section">
-      <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+    <div class="tna-container tna-!--padding-bottom-l">
+      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
         <h2 class="tna-heading-l">No posts found</h2>
-        {%- if year and month %}
-        <p>Try widening your date filtering to <a href="?year={{ year }}">blog posts from {{ year }}</a>.</p>
+        {%- if month and year %}
+        <p>Try widening your date filtering to <a href="?year={{ year }}">all blog posts from {{ year }}</a>.</p>
         {%- elif blogs %}
         <p>See <a href="{{ blogs[0].url }}">all our blogs</a>.</p>
         {%- endif %}
       </div>
+      {{ sidebar_contents }}
     </div>
     {%- endif %}
 
+    {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
     <div class="tna-container">
-      {%- if blogs and page_data.meta.type == 'blog.BlogPage' %}
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print tna-!--margin-top-l">
         <h2 class="tna-heading-l">Other blogs at The National Archives</h2>
         {%- for blog in blogs %}
@@ -338,9 +342,11 @@
         {%- endif %}
         {%- endfor %}
       </div>
-      {%- endif %}
     </div>
+    {%- endif %}
+
+    {{ feedback() }}
     
     {{ back_to_top('l', True) }}
   </main>
-{% endblock %}
+{% endblock main %}

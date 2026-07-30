@@ -9,7 +9,7 @@
     {% if blog_data.full_url %}
     <link>{{ blog_data.full_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=rss</link>
     {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-    <link>{{ blog_data.meta.html_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=rss</link>
+    <link>{{ blog_data.meta.url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=rss</link>
     {% endif %}
     {% if blog_data.teaser_text %}
     <description>
@@ -28,7 +28,7 @@
       {% if blog_data.full_url %}
       <link>{{ blog_data.full_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=rss</link>
       {% elif 'meta' in blog_data and 'html_url' in blog_data.meta %}
-      <link>{{ blog_data.meta.html_url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=rss</link>
+      <link>{{ blog_data.meta.url }}?utm_source=feed-{{ blog_data.meta.slug }}&amp;utm_medium=rss</link>
       {% endif %}
     </image>
     <generator>ds-frontend</generator>

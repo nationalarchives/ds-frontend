@@ -1,8 +1,8 @@
-{% macro meta(page_data) %}
+{% macro meta(page_data, og_title_prefix) %}
 {%- set siteName = 'The National Archives' -%}
 {%- set title = page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' -%}
 {%- set description = page_data.meta.search_description if page_data.meta else '' -%}
-{%- set url = page_data.meta.html_url if page_data.meta else request.url -%}
+{%- set url = page_data.meta.url or None -%}
 
 {% if page_data.id %}
     <meta name="tna.page.wagtail.id" content="{{ page_data.id }}">
@@ -49,7 +49,11 @@
     <meta property="og:locale" content="en_GB">
     <meta name="twitter:card" content="summary">
 {% if title %}
+{% if og_title_prefix %}
+    <meta property="og:title" content="{{ og_title_prefix }}: {{ title }}">
+{%- else %}
     <meta property="og:title" content="{{ title }}">
+{%- endif %}
 {%- endif %}
 
 {% if page_data.meta and page_data.meta.twitter_og_title %}
@@ -67,13 +71,13 @@
 {%- endif %}
 
 {%- set og_image = None %}
-{% if page_data.meta and page_data.meta.facebook_og_image %}
-    {% set og_image = {
-        'src': page_data.meta.facebook_og_image.jpeg.full_url,
-        'width': page_data.meta.facebook_og_image.jpeg.width,
-        'height': page_data.meta.facebook_og_image.jpeg.height,
-        'type': 'image/jpeg'
-      } %}
+{% if page_data.meta and page_data.meta.search_image %}
+{%- set og_image = {
+    'src': page_data.meta.search_image.jpeg.full_url,
+    'width': page_data.meta.search_image.jpeg.width,
+    'height': page_data.meta.search_image.jpeg.height,
+    'type': 'image/jpeg'
+  } %}
 {%- elif page_data.meta and page_data.meta.teaser_image %}
 {%- set og_image = {
     'src': page_data.meta.teaser_image.jpeg.full_url,
@@ -97,10 +101,6 @@
       } %}
 {%- elif og_image %}
     {% set og_image_twitter = og_image %}
-{%- elif page_data.meta and page_data.meta.teaser_image %}
-    {% set og_image_twitter = {
-        'src': page_data.meta.teaser_image.jpeg.full_url
-    } %}
 {%- endif %}
 
 {% if og_image_twitter %}

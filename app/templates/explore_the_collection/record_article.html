@@ -1,4 +1,4 @@
-{% extends 'explore_the_collection/base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -10,18 +10,17 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
 {%- set og_type = 'article' -%}
 
 {% block head %}
 {{ super() }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='record-article.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
@@ -108,7 +107,7 @@
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column--width-2-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny">
         <h2 class="tna-heading-l">Why this record matters</h2>
-        <dl class="tna-dl tna-dl--plain">
+        <dl class="tna-dl">
           <dt>Date</dt>
           <dd>{{ page_data.date_text }}</dd>
           {%- if page_data.record %}
@@ -132,7 +131,7 @@
             'href': page_data.image_library_link,
             'accent': True,
             'attributes': {
-              'rel': 'noopener noreferrer'
+              'rel': 'noreferrer nofollow noopener'
             }
           }) }}
           {%- endif %}
@@ -142,7 +141,7 @@
             'href': page_data.print_on_demand_link,
             'accent': True,
             'attributes': {
-              'rel': 'noopener noreferrer'
+              'rel': 'noreferrer nofollow noopener'
             }
           }) }}
           {%- endif %}
@@ -154,10 +153,10 @@
 
   {%- if page_data.featured_highlight_gallery %}
   <section class="tna-section tna-background-accent-light">
-    {% set galleries = [] %}
+    {% set ns = namespace(galleries=[]) %}
     {%- for gallery in page_data.featured_highlight_gallery.highlight_cards %}
     {%- if loop.index <= 4 %}
-    {% set galleries = galleries.append({
+    {% do ns.galleries.append({
       'id': gallery.image.id,
       'title': gallery.image.title,
       'href': page_data.featured_highlight_gallery.url ~ '#gallery-image-' ~ (loop.index | string),
@@ -175,7 +174,7 @@
       'text': page_data.featured_highlight_gallery.teaser_text,
       'headingLevel': 2,
       'headingSize': 'l',
-      'items': galleries,
+      'items': ns.galleries,
       'columns': 4,
       'columnsMedium': 2,
       'columnsSmall': 2,
@@ -232,9 +231,9 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='record-article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{% endblock %}
+{% endblock bodyEnd %}

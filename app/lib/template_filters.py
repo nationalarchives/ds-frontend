@@ -2,12 +2,14 @@ import json
 import math
 import re
 from datetime import datetime
-from urllib.parse import unquote, urlparse
+from urllib.parse import quote_plus, unquote, urlparse
 
-from app.lib.datetime import get_date_from_string
 from markupsafe import Markup
+from tna_utilities.string import slugify
 
-from .content_parser import (  # add_abbreviations,; replace_footnotes,
+from app.lib.date_time import get_date_from_string
+
+from .content_parser import (
     add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
@@ -23,29 +25,11 @@ def tna_html(s):
     s = b_to_strong(s)
     s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
-    # s = replace_footnotes(s)
-    # s = add_abbreviations(s)
-    s = add_rel_to_external_links(s)
-    return s
+    return add_rel_to_external_links(s)
 
 
-def slugify(s):
-    if not s:
-        return s
-    s = s.lower().strip()
-    s = re.sub(r"[^\w\s-]", "", s)
-    s = re.sub(r"[\s_-]+", "-", s)
-    s = re.sub(r"^-+|-+$", "", s)
-    return s
-
-
-def unslugify(s, capitalize_first=True):
-    if not s:
-        return s
-    s = s.split("-")
-    if capitalize_first:
-        s[0] = s[0].capitalize()
-    return " ".join(s)
+def url_encode(s):
+    return quote_plus(s)
 
 
 def multiline_address_to_single_line(s):
@@ -54,8 +38,7 @@ def multiline_address_to_single_line(s):
     s = re.sub(r"</p>\s*<p>", ", ", s)
     s = re.sub(r"^\s*<p>", "", s)
     s = re.sub(r"</p>\s*$", "", s)
-    s = re.sub(r"(,\s*){2,}", ", ", s)
-    return s
+    return re.sub(r"(,\s*){2,}", ", ", s)
 
 
 def seconds_to_time(s):
@@ -82,13 +65,25 @@ def seconds_to_iso_8601_duration(s):
     return f"PT{seconds}S"
 
 
-def get_url_domain(s):
+def domain_from_url(s):
     try:
         domain = urlparse(s).netloc
-        domain = re.sub(r"^www\.", "", domain)
-        return domain
+        return re.sub(r"^www\.", "", domain)
     except Exception:
         return s
+
+
+def supertitle_from_domain(url):
+    domain = domain_from_url(url)
+    if "nationalarchives.gov.uk" not in domain:
+        return domain
+    web_archive_url = "webarchive.nationalarchives.gov.uk/ukgwa/"
+    string_after_web_archive_url = (
+        url.split(web_archive_url)[1] if web_archive_url in url else ""
+    )
+    if web_archive_url in url and string_after_web_archive_url:
+        return "Archived page"
+    return ""
 
 
 def pretty_date(s, show_day=False, show_time=False):
@@ -132,9 +127,44 @@ def pretty_date_with_day_and_time(s):
     return pretty_date(s, show_day=True, show_time=True)
 
 
+def strip_time_from_date(s):
+    if date := get_date_from_string(s):
+        return date.strftime("%Y-%m-%d")
+    return s
+
+
+def strip_day_from_date(s):
+    if date := get_date_from_string(s):
+        return date.strftime("%Y-%m")
+    return s
+
+
+def month_year(s):
+    if not s:
+        return s
+    try:
+        date = datetime.strptime(s, "%Y-%m-%d")
+        return date.strftime("%B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y-%m")
+        return date.strftime("%B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y")
+        return date.strftime("%Y")
+    except ValueError:
+        pass
+    if date := get_date_from_string(s):
+        return date.strftime("%B %Y")
+    return s
+
+
 def pretty_price(s):
     price = s if s else 0
-    if price == 0 or price == "0":
+    if price in {0, "0"}:
         return "Free"
     return f"£{currency(price)}"
 
@@ -154,8 +184,8 @@ def currency(s):
     float_number = float(s)
     int_number = int(float_number)
     if int_number == float_number:
-        return str("{:,}".format(int_number))
-    return str("{:,.2f}".format(float_number))
+        return str(f"{int_number:,}")
+    return str(f"{float_number:,.2f}")
 
 
 def rfc_822_format(s):
@@ -242,42 +272,44 @@ def headings_list(s):
                     if next_heading["level"] > prev_heading["level"]:
                         prev_heading["children"] = prev_heading["children"] or []
                         return group_headings(index, prev_heading["children"])
-                    elif next_heading["level"] == prev_heading["level"]:
+                    if next_heading["level"] == prev_heading["level"]:
                         grouping.append(next_heading)
                         index = index + 1
                         return group_headings(index, grouping)
-                    else:
-                        raise Exception({"index": index, "heading": next_heading})
+                    raise Exception({"index": index, "heading": next_heading})
                 except Exception as e:
                     (higher_heading,) = e.args
                     if higher_heading["heading"]["level"] == prev_heading["level"]:
                         grouping.append(higher_heading["heading"])
                         higher_heading["index"] = higher_heading["index"] + 1
                         return group_headings(higher_heading["index"], grouping)
-                    else:
-                        raise Exception(higher_heading)
+                    raise Exception(higher_heading) from e
             else:
                 grouping.append(next_heading)
                 index = index + 1
                 group_headings(index, grouping)
         return grouping
 
-    headings = group_headings(0, [])
-    return headings
+    return group_headings(0, [])
 
 
-def wagtail_streamfield_contains_media(streamfield):
+def wagtail_streamfield_contains_block(streamfield, block_types):
     for streamfield_item in streamfield:
         if streamfield_item["type"] == "content_section":
             for block in streamfield_item["value"]["content"]:
-                if block["type"] == "youtube_video" or block["type"] == "media":
+                if block["type"] in block_types:
                     return True
-        elif (
-            streamfield_item["type"] == "youtube_video"
-            or streamfield_item["type"] == "media"
-        ):
+        elif streamfield_item["type"] in block_types:
             return True
     return False
+
+
+def wagtail_streamfield_contains_code_block(streamfield):
+    return wagtail_streamfield_contains_block(streamfield, ["code"])
+
+
+def wagtail_streamfield_contains_media(streamfield):
+    return wagtail_streamfield_contains_block(streamfield, ["youtube_video", "media"])
 
 
 def sidebar_items_from_wagtail_streamfield(content):
@@ -399,3 +431,33 @@ def wagtail_table_parser(table_data):
         else:
             data["body"].append(row_data)
     return data
+
+
+def key_stage_ranges(key_stages):
+    if not key_stages:
+        return []
+    key_stages = sorted(
+        [
+            key_stage
+            for key_stage in key_stages
+            if key_stage and isinstance(key_stage, int) and key_stage > 0
+        ]
+    )
+    ranges = []
+    start = key_stages[0]
+    end = key_stages[0]
+    for i in range(1, len(key_stages)):
+        if key_stages[i] == end + 1:
+            end = key_stages[i]
+        else:
+            if start == end:
+                ranges.append(f"KS{start}")
+            else:
+                ranges.append(f"KS{start}–⁠KS{end}")
+            start = key_stages[i]
+            end = key_stages[i]
+    if start == end:
+        ranges.append(f"KS{start}")
+    else:
+        ranges.append(f"KS{start}–⁠KS{end}")
+    return ranges

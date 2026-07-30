@@ -1,0 +1,89 @@
+{% extends "wagtail_base.html" %}
+
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
+
+{%- set breadcrumbs_style = 'accent-light' -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
+
+{% block content %}
+{%- if page_data.global_alert or page_data.mourning_notice %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 's') }}
+</div>
+{%- endif %}
+<div class="tna-section tna-!--padding-top-m tna-background-accent-light">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
+        <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+      </hgroup>
+      <dl class="tna-dl tna-dl--stacked tna-!--margin-top-m">
+        <dt>Freedom of information request reference</dt>
+        <dd>{{ page_data.reference }}</dd>
+        <dt>Request resolved</dt>
+        <dd>
+          <time datetime="{{ page_data.date | strip_day_from_date }}">{{ page_data.date | month_year }}</time>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>
+<div class="tna-section tna-!--no-padding-top">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-1-4 tna-column--margin-right-1-12 tna-column--width-1-3-medium tna-column--no-margin-right-medium tna-column--full-small tna-column--no-margin-right-small tna-column--full-tiny tna-column--no-margin-right-tiny tna-!--padding-top-m">
+      {% set items = [
+        {
+          'text': 'Request',
+          'href': '#request'
+        },
+        {
+          'text': 'Outcome',
+          'href': '#outcome'
+        },
+        {
+          'text': 'Response',
+          'href': '#response'
+        }
+      ] %}
+      {%- if page_data.annexe %}
+        {% set items = items + [{
+          'text': 'Annexe',
+          'href': '#annexe'
+        }] %}
+      {%- endif %}
+      {{ tnaSidebar({
+        'title': 'On this page',
+        'headingLevel': 2,
+        'items': items,
+        'type': 'sections',
+        'sticky': True,
+        'classes': 'tna-!--padding-top-s',
+        'attributes': {
+          'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
+        }
+      }) }}
+    </div>
+    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--padding-top-m">
+      <h2 class="tna-heading-l tna-!--padding-top-s" id="request">Request</h2>
+      {{ wagtail_streamfield(page_data.request, 3) }}
+      <h2 class="tna-heading-l" id="outcome">Outcome</h2>
+      <p>{{ page_data.outcome_description }}.</p>
+      <h2 class="tna-heading-l" id="response">Response</h2>
+      {{ wagtail_streamfield(page_data.response, 3) }}
+      {%- if page_data.annexe %}
+      <h2 class="tna-heading-l" id="annexe">Annexe</h2>
+      {{ wagtail_streamfield(page_data.annexe, 3) }}
+      {%- endif %}
+    </div>
+  </div>
+</div>
+  {{ back_to_top('l') }}
+{% endblock content %}

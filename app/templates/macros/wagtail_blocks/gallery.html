@@ -1,13 +1,13 @@
 {%- from 'components/gallery/macro.html' import tnaGallery -%}
 
 {% macro wagtailGallery(block_value, id, headingLevel) %}
-  {% set items = [] %}
+  {% set ns = namespace(items=[]) %}
   {% for item in block_value.images %}
     {% set image_caption = (item.caption | tna_html) or '' %}
     {%- if item.image.copyright %}
       {% set image_caption = image_caption ~ '<div class="tna-gallery__copyright" itemprop="copyrightNotice">' ~ (item.image.copyright | tna_html) ~ '</div>' %}
     {%- endif %}
-    {% set items = items.append({
+    {% do ns.items.append({
       'src': item.image.jpeg.full_url,
       'alt': item.description,
       'width': item.image.jpeg.width,
@@ -19,7 +19,7 @@
     'title': block_value.title,
     'body': block_value.description | tna_html,
     'headingLevel': headingLevel,
-    'items': items,
+    'items': ns.items,
     'id': id,
     'bounded': True
   }) }}

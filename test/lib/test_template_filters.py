@@ -7,40 +7,40 @@ from app.lib.query import (
 )
 from app.lib.template_filters import (
     currency,
-    get_url_domain,
+    domain_from_url,
     is_today_or_future,
+    key_stage_ranges,
     multiline_address_to_single_line,
     pretty_date,
     pretty_price,
     seconds_to_iso_8601_duration,
     seconds_to_time,
-    slugify,
-    unslugify,
+    supertitle_from_domain,
 )
 
 
 class ContentParserTestCase(unittest.TestCase):
     def test_jinja_filters_qs_toggler(self):
-        TEST_QS = {"a": "1", "b": "2"}
+        test_qs = {"a": "1", "b": "2"}
         # Adds a new qs
-        self.assertEqual("a=1&b=2&c=3", qs_toggler(TEST_QS.copy(), "c", "3"))
+        self.assertEqual("a=1&b=2&c=3", qs_toggler(test_qs.copy(), "c", "3"))
         # Changes an existing qs
-        self.assertEqual("a=1&b=1", qs_toggler(TEST_QS.copy(), "b", "1"))
+        self.assertEqual("a=1&b=1", qs_toggler(test_qs.copy(), "b", "1"))
         # Removes a qs of the same value.
-        self.assertEqual("b=2", qs_toggler(TEST_QS.copy(), "a", "1"))
+        self.assertEqual("b=2", qs_toggler(test_qs.copy(), "a", "1"))
         # Handle empty existing qs
         self.assertEqual("a=1", qs_toggler({}, "a", "1"))
 
     def test_jinja_filters_qs_active(self):
-        TEST_QS = {"a": "1", "b": "2"}
-        self.assertTrue(qs_active(TEST_QS, "a", "1"))
-        self.assertTrue(qs_active(TEST_QS, "b", "2"))
-        self.assertFalse(qs_active(TEST_QS, "a", "2"))
-        self.assertFalse(qs_active(TEST_QS, "b", "1"))
-        self.assertFalse(qs_active(TEST_QS, "c", "3"))
-        self.assertFalse(qs_active(TEST_QS, "c", ""))
-        self.assertFalse(qs_active(TEST_QS, "a", ""))
-        self.assertFalse(qs_active(TEST_QS, "", ""))
+        test_qs = {"a": "1", "b": "2"}
+        self.assertTrue(qs_active(test_qs, "a", "1"))
+        self.assertTrue(qs_active(test_qs, "b", "2"))
+        self.assertFalse(qs_active(test_qs, "a", "2"))
+        self.assertFalse(qs_active(test_qs, "b", "1"))
+        self.assertFalse(qs_active(test_qs, "c", "3"))
+        self.assertFalse(qs_active(test_qs, "c", ""))
+        self.assertFalse(qs_active(test_qs, "a", ""))
+        self.assertFalse(qs_active(test_qs, "", ""))
         # Handles empty query strings
         self.assertFalse(qs_active({}, "a", "1"))
         self.assertFalse(qs_active({}, "", ""))
@@ -124,22 +124,6 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(seconds_to_iso_8601_duration(3600), "PT1H0M0S")
         self.assertEqual(seconds_to_iso_8601_duration(3601), "PT1H0M1S")
 
-    def test_slugify(self):
-        self.assertEqual(slugify(""), "")
-        self.assertEqual(slugify("test"), "test")
-        self.assertEqual(slugify("  test TEST"), "test-test")
-        self.assertEqual(slugify("test 12 3 -4 "), "test-12-3-4")
-        self.assertEqual(slugify("test---test"), "test-test")
-        self.assertEqual(slugify("test---"), "test")
-        self.assertEqual(slugify("test---$"), "test")
-        self.assertEqual(slugify("test---$---"), "test")
-
-    def test_unslugify(self):
-        self.assertEqual(unslugify("test-test"), "Test test")
-        self.assertEqual(unslugify("test-test", False), "test test")
-        self.assertEqual(unslugify("test-123"), "Test 123")
-        self.assertEqual(unslugify("test-1-2-3"), "Test 1 2 3")
-
     def test_pretty_price(self):
         self.assertEqual(pretty_price(0), "Free")
         self.assertEqual(pretty_price("0"), "Free")
@@ -157,18 +141,58 @@ class ContentParserTestCase(unittest.TestCase):
         self.assertEqual(pretty_price("123456789"), "£123,456,789")
         self.assertEqual(pretty_price("123456789.01"), "£123,456,789.01")
 
-    def test_get_url_domain(self):
+    def test_domain_from_url(self):
         self.assertEqual(
-            get_url_domain(
+            domain_from_url(
                 "https://www.nationalarchives.gov.uk/explore-the-collection/stories/john-blanke/"
             ),
             "nationalarchives.gov.uk",
         )
         self.assertEqual(
-            get_url_domain(
+            domain_from_url(
                 "https://discovery.nationalarchives.gov.uk/results/r?_q=ufo&_sd=&_ed=&_hb="
             ),
             "discovery.nationalarchives.gov.uk",
+        )
+
+    def test_supertitle_from_domain(self):
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://www.nationalarchives.gov.uk/explore-the-collection/stories/john-blanke/"
+            ),
+            "",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://discovery.nationalarchives.gov.uk/results/r?_q=ufo&_sd=&_ed=&_hb="
+            ),
+            "",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://webarchive.nationalarchives.gov.uk/ukgwa/20210201171307/https://alpha.nationalarchives.gov.uk/"
+            ),
+            "Archived page",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://webarchive.nationalarchives.gov.uk/ukgwa/https://alpha.nationalarchives.gov.uk/"
+            ),
+            "Archived page",
+        )
+        self.assertEqual(
+            supertitle_from_domain(
+                "https://webarchive.nationalarchives.gov.uk/ukgwa/+/https://alpha.nationalarchives.gov.uk/"
+            ),
+            "Archived page",
+        )
+        self.assertEqual(
+            supertitle_from_domain("https://webarchive.nationalarchives.gov.uk/ukgwa/"),
+            "",
+        )
+        self.assertEqual(
+            supertitle_from_domain("https://github.com/nationalarchives/"),
+            "github.com",
         )
 
     def test_multiline_address_to_single_line(self):
@@ -178,3 +202,22 @@ class ContentParserTestCase(unittest.TestCase):
             ),
             "Somewhere, 123 Road Street, Devon, UK, PL4 7EX",
         )
+
+    def test_key_stage_ranges(self):
+        self.assertEqual(key_stage_ranges([1, 2, 3]), ["KS1–⁠KS3"])
+        self.assertEqual(key_stage_ranges([1, 2, 4]), ["KS1–⁠KS2", "KS4"])
+        self.assertEqual(key_stage_ranges([1, 3, 5]), ["KS1", "KS3", "KS5"])
+        self.assertEqual(key_stage_ranges([1, 2, 3, 5]), ["KS1–⁠KS3", "KS5"])
+        self.assertEqual(key_stage_ranges([1, 3, 4]), ["KS1", "KS3–⁠KS4"])
+        self.assertEqual(key_stage_ranges([4, 1, 3]), ["KS1", "KS3–⁠KS4"])
+        self.assertEqual(key_stage_ranges([0, 1, 2]), ["KS1–⁠KS2"])
+        self.assertEqual(
+            key_stage_ranges([1, 2, 4, 5, 7, 8]), ["KS1–⁠KS2", "KS4–⁠KS5", "KS7–⁠KS8"]
+        )
+
+    def test_key_stage_ranges_with_bad_values(self):
+        self.assertEqual(key_stage_ranges([]), [])
+        self.assertEqual(
+            key_stage_ranges([1, 0, None, "a", False, [], {}, 2]), ["KS1–⁠KS2"]
+        )
+        self.assertEqual(key_stage_ranges([None, 1, 2]), ["KS1–⁠KS2"])

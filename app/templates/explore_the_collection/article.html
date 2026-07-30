@@ -1,4 +1,4 @@
-{% extends 'explore_the_collection/base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'explore_the_collection/partials/article-blocks.html' import articleBlocks -%}
 {%- from 'explore_the_collection/partials/article-footer.html' import articleFooter -%}
@@ -10,23 +10,25 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'blue' -%}
 {%- set og_type = 'article' -%}
 
 {%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
+{%- set bodyContainsCodeBlock = page_data.body | wagtail_streamfield_contains_code_block -%}
 
 {% block head %}
 {{ super() }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='article.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- if bodyContainsMedia %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-{% endblock %}
+    {%- if bodyContainsCodeBlock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    {%- endif %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
@@ -48,10 +50,12 @@
   </header>
 
   {%- if 'hero_image' in page_data %}
-  {% set hero_image_caption = page_data.hero_image_caption or '' %}
-  {%- if page_data.hero_image.copyright %}
-    {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
-  {%- endif %}
+  {%- set hero_image_caption %}
+      {{- page_data.hero_image_caption | safe -}}
+      {%- if page_data.hero_image.copyright -%}
+        <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+      {%- endif -%}
+    {%- endset %}
   {{ tnaHero({
     'imageSrc': page_data.hero_image.jpeg.full_url,
     'imageAlt': page_data.hero_image.description,
@@ -60,16 +64,16 @@
     'imageCaption': hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image_small.webp.full_url,
-        'width': page_data.hero_image_small.webp.width,
-        'height': page_data.hero_image_small.webp.height,
+        'src': page_data.hero_image.small_webp.full_url,
+        'width': page_data.hero_image.small_webp.width,
+        'height': page_data.hero_image.small_webp.height,
         'type': 'image/webp',
         'media': '(max-width: 48em)'
       },
       {
-        'src': page_data.hero_image_small.jpeg.full_url,
-        'width': page_data.hero_image_small.jpeg.width,
-        'height': page_data.hero_image_small.jpeg.height,
+        'src': page_data.hero_image.small_jpeg.full_url,
+        'width': page_data.hero_image.small_jpeg.width,
+        'height': page_data.hero_image.small_jpeg.height,
         'type': 'image/jpeg',
         'media': '(max-width: 48em)'
       },
@@ -79,16 +83,20 @@
         'height': page_data.hero_image.webp.height,
         'type': 'image/webp'
       }
-    ]
+    ],
+    'large': True,
+    'attributes': {
+      'itemprop': 'image'
+    }
   }, page_data.hero_image.uuid, page_data.hero_image.title) }}
   {%- endif %}
   
   <div class="tna-section tna-!--padding-top-m">
     <div class="tna-container">
       <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny tna-!--hide-on-print">
-        {{ articleSidebar(page_data.body) }}
+        {{ articleSidebar(page_data.body, app_config.SIDEBAR_SCROLL_TOP_THRESHOLD) }}
       </div>
-      <div id="page-body" class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-article__sections etna-!--full-width-on-print" itemprop="articleBody">
+      <div id="page-body" class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
         {%- if page_data.custom_warning_text %}
         {{ tnaWarning({
           'headingLevel': 2,
@@ -105,13 +113,15 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-    <script src="{{ url_for('static', filename='sidebar.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- if bodyContainsMedia %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-{% endblock %}
+    {%- if bodyContainsCodeBlock %}
+    <script src="{{ url_for('static', filename='code.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    {%- endif %}
+{% endblock bodyEnd %}

@@ -1,7 +1,10 @@
-from app.wagtail.api import page_children
 from flask import render_template
+from tna_utilities.flask import cacheable_duration
+
+from app.wagtail.api import page_children
 
 
+@cacheable_duration(3600)
 def whats_on_index_page(page_data):
     all_children = page_children(page_data["id"]).get("items", [])
     groups = {
@@ -30,7 +33,6 @@ def whats_on_index_page(page_data):
         },
     }
     for page in all_children:
-        print(f"Processing page: {page['title']} ({page['type']})")
         if page["type"] in [
             "whatson.EventsListingPage",
             "whatson.ExhibitionsListingPage",

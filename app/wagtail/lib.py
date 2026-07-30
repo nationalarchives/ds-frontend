@@ -1,9 +1,9 @@
 def pick_top_two(a, b):
     if len(a) and len(b):
         return [a[0], b[0]]
-    elif len(a):
+    if len(a):
         return [a[0], a[1]] if len(a) > 1 else [a[0]]
-    elif len(b):
+    if len(b):
         return [b[0], b[1]] if len(b) > 1 else [b[0]]
     return []
 

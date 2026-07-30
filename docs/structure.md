@@ -29,7 +29,7 @@ The main routs for the site, including the healthcheck endpoint and static paths
 
 ### `app/sitemaps`
 
-Routes for creating the [XML sitemap](http://localhost:65535/sitemap.xml) and all the sub-sitemaps, e.g. [/sitemaps/sitemap_1.xml](http://localhost:65535/sitemaps/sitemap_1.xml), [/sitemaps/sitemap_2.xml](http://localhost:65535/sitemaps/sitemap_2.xml).
+Routes for creating the [XML sitemap](http://localhost:65497/sitemap.xml) and all the sub-sitemaps, e.g. [/sitemaps/sitemap_1.xml](http://localhost:65497/sitemaps/sitemap_1.xml), [/sitemaps/sitemap_2.xml](http://localhost:65497/sitemaps/sitemap_2.xml).
 
 `/sitemap.xml` is the entrypoint sitemap that links to the other sitemaps.
 

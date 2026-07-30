@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -10,20 +10,17 @@
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
-{%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
+{%- from 'macros/newsletter.html' import newsletter -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'pink') -%}
-{%- set pageTitle = page_data.title -%}
+{%- set themeAccent = 'black' if page_data.mourning_notice else (page_data.accent_colour or 'green') -%}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
@@ -31,7 +28,7 @@
     {%- if page_data.video %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -59,124 +56,127 @@
     <meta itemprop="url" content="https://www.nationalarchives.gov.uk/">
   </div>
 
-  <section class="tna-background-tint">
-    {%- set hero_intro %}
-      {% if page_data.subtitle %}
-        <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.subtitle | tna_html | safe }}</div>
-      {% endif %}
-      {%- if page_data.start_date or page_data.end_date or page_data.price %}
-        <dl class="tna-dl-chips tna-dl-chips--plain">
-          {%- if page_data.start_date or page_data.end_date %}
-          <dt>Date</dt>
-          <dd>
-            <span class="tna-dl-chips__item">
-              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              {{ 'All-year round' if page_data.all_year else pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) }}
-            </span>
-          </dd>
-          {%- endif %}
-          {%- if 'price' in page_data %}
-          <dt>Price</dt>
-          <dd>
-            <span class="tna-dl-chips__item">
-              <i class="fa-solid fa-ticket" aria-hidden="true"></i>
-              {{ page_data.price | pretty_price }}
-            </span>
-          </dd>
-          {%- endif %}
-        </dl>
-      {%- endif %}
-    {%- endset %}
+  {%- set hero_intro %}
+    {% if page_data.subtitle %}
+      <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.subtitle | tna_html | safe }}</div>
+    {% endif %}
+    {%- if page_data.start_date or page_data.end_date or page_data.price %}
+      <dl class="tna-dl-chips tna-dl-chips--plain">
+        {%- if page_data.start_date or page_data.end_date %}
+        <dt>Date</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+            {{ 'All-year round' if page_data.all_year else pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) }}
+          </span>
+        </dd>
+        {%- endif %}
+        {%- if 'price' in page_data %}
+        <dt>Price</dt>
+        <dd>
+          <span class="tna-dl-chips__item">
+            <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+            {{ page_data.price | pretty_price }}
+          </span>
+        </dd>
+        {%- endif %}
+      </dl>
+    {%- endif %}
+  {%- endset %}
 
-    {%- set hero_image_caption %}
-      {{- page_data.hero_image_caption | safe -}}
-      {%- if page_data.hero_image.copyright -%}
-        <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
-      {%- endif -%}
-    {%- endset %}
+  {%- set hero_image_caption %}
+    {{- page_data.hero_image_caption | safe -}}
+    {%- if page_data.hero_image.copyright -%}
+      <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+    {%- endif -%}
+  {%- endset %}
 
-    {{ tnaHero({
-      'supertitle': page_data.type_label,
-      'title': page_data.title,
-      'body': hero_intro,
-      'imageSrc': page_data.hero_image.jpeg.full_url,
-      'imageAlt': page_data.hero_image.description,
-      'imageWidth': page_data.hero_image.jpeg.width,
-      'imageHeight': page_data.hero_image.jpeg.height,
-      'imageCaption': hero_image_caption,
-      'imageSources': [
-        {
-          'src': page_data.hero_image_small.webp.full_url,
-          'width': page_data.hero_image_small.webp.width,
-          'height': page_data.hero_image_small.webp.height,
-          'type': 'image/webp',
-          'media': '(max-width: 48em)'
-        },
-        {
-          'src': page_data.hero_image_small.jpeg.full_url,
-          'width': page_data.hero_image_small.jpeg.width,
-          'height': page_data.hero_image_small.jpeg.height,
-          'type': 'image/jpeg',
-          'media': '(max-width: 48em)'
-        },
-        {
-          'src': page_data.hero_image.webp.full_url,
-          'width': page_data.hero_image.webp.width,
-          'height': page_data.hero_image.webp.height,
-          'type': 'image/webp'
-        }
-      ],
-      'narrow': True,
-      'layout': page_data.hero_layout,
-      'style': page_data.hero_style
-    }, page_data.hero_image.uuid, page_data.hero_image.title) }}
-    <div class="tna-container tna-!--padding-vertical-m">
-      <div class="tna-column tna-column--full">
-        {% set ns = namespace(sidebar_items=[]) %}
-        {% set ns.sidebar_items = [{
-          'text': page_data.intro_title or ('About ' ~ page_data.title),
-          'href': '#' ~ ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
+  {{ tnaHero({
+    'supertitle': page_data.type_label,
+    'title': page_data.title,
+    'body': hero_intro,
+    'imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageAlt': page_data.hero_image.description,
+    'imageWidth': page_data.hero_image.jpeg.width,
+    'imageHeight': page_data.hero_image.jpeg.height,
+    'imageCaption': hero_image_caption,
+    'imageSources': [
+      {
+        'src': page_data.hero_image.small_webp.full_url,
+        'width': page_data.hero_image.small_webp.width,
+        'height': page_data.hero_image.small_webp.height,
+        'type': 'image/webp',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.small_jpeg.full_url,
+        'width': page_data.hero_image.small_jpeg.width,
+        'height': page_data.hero_image.small_jpeg.height,
+        'type': 'image/jpeg',
+        'media': '(max-width: 48em)'
+      },
+      {
+        'src': page_data.hero_image.webp.full_url,
+        'width': page_data.hero_image.webp.width,
+        'height': page_data.hero_image.webp.height,
+        'type': 'image/webp'
+      }
+    ],
+    'layout': page_data.hero_layout,
+    'style': 'accent-light' if page_data.hero_style == 'accent' else page_data.hero_style,
+    'attributes': {
+      'itemprop': 'image'
+    }
+  }, page_data.hero_image.uuid, page_data.hero_image.title) }}
+  <div class="tna-container tna-!--padding-vertical-m">
+    <div class="tna-column tna-column--full">
+      {% set ns = namespace(sidebar_items=[]) %}
+      {% set ns.sidebar_items = [{
+        'text': page_data.intro_title or ('About ' ~ page_data.title),
+        'href': '#' ~ ((page_data.intro_title | slugify) if page_data.intro_title else 'about')
+      }] %}
+      {% if page_data.exhibition_highlights or page_data.video %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.exhibition_highlights_title or 'Exhibition highlights',
+          'href': '#' ~ ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
         }] %}
-        {% if page_data.exhibition_highlights or page_data.video %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.exhibition_highlights_title or 'Exhibition highlights',
-            'href': '#' ~ ((page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights')
-          }] %}
-        {% endif %}
-        {% if page_data.location and (page_data.end_date | is_today_or_future) %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': 'Plan your visit',
-            'href': '#plan-your-visit'
-          }] %}
-        {% endif %}
-        {% if page_data.event_links %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.event_title or 'Events',
-            'href': '#' ~ ((page_data.event_title | slugify) if page_data.event_title else 'events')
-          }] %}
-        {% endif %}
-        {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.related_pages_title,
-            'href': '#' ~ (page_data.related_pages_title | slugify)
-          }] %}
-        {% endif %}
-        {% if page_data.shop %}
-          {% set ns.sidebar_items = ns.sidebar_items + [{
-            'text': page_data.shop[0].value.title,
-            'href': '#' ~ (page_data.shop[0].value.title | slugify)
-          }] %}
-        {% endif %}
-        {{ tnaSidebar({
-          'title': 'On this page',
-          'headingLevel': 2,
-          'headingSize': 's',
-          'items': ns.sidebar_items,
-          'type': 'contents'
-        }) }}
-      </div>
+      {% endif %}
+      {% if page_data.location and (page_data.end_date | is_today_or_future) %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': 'Plan your visit',
+          'href': '#plan-your-visit'
+        }] %}
+      {% endif %}
+      {% if page_data.event_links %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.event_title or 'Events',
+          'href': '#' ~ ((page_data.event_title | slugify) if page_data.event_title else 'events')
+        }] %}
+      {% endif %}
+      {% if page_data.related_pages_title and (page_data.featured_page or page_data.related_pages) %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.related_pages_title,
+          'href': '#' ~ (page_data.related_pages_title | slugify)
+        }] %}
+      {% endif %}
+      {% if page_data.shop %}
+        {% set ns.sidebar_items = ns.sidebar_items + [{
+          'text': page_data.shop[0].value.title,
+          'href': '#' ~ (page_data.shop[0].value.title | slugify)
+        }] %}
+      {% endif %}
+      {{ tnaSidebar({
+        'title': 'On this page',
+        'headingLevel': 2,
+        'headingSize': 's',
+        'items': ns.sidebar_items,
+        'type': 'contents'
+      }) }}
     </div>
-  </section>
+  </div>
+  
+  <hr>
+  
   <div class="tna-container tna-!--margin-bottom-l">
     <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
       <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' ~ page_data.title) }}</h2>
@@ -184,12 +184,12 @@
         {{ page_data.intro | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
-        {{ wagtail_streamfield(page_data.body, 2, page_data.footnotes) }}
+        {{ wagtail_streamfield(page_data.body, 3, page_data.footnotes) }}
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
       <div class="tna-aside tna-aside--top-bottom-borders">
-        <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
+        <dl class="tna-dl tna-dl--stacked">
           {% if page_data.open_days %}
           <dt>
             <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
@@ -266,8 +266,8 @@
         <small>{{ page_data.partnership_lead_text or 'In partnership with' }} <span class="tna-visually-hidden" itemprop="name">{{ page_data.partnership.name }}.</span></small>
       </p>
       <picture class="tna-exhibition-partner-logo" aria-hidden="true">
-        <source type="image/webp" srcset="{{ page_data.partnership.logo.webp.url }}" width="{{ (page_data.partnership.logo.webp.width / 2) | int }}" height="{{ (page_data.partnership.logo.webp.height / 2) | int }}">
-        <img src="{{ page_data.partnership.logo.jpeg.url }}" width="{{ (page_data.partnership.logo.jpeg.width / 2) | int }}" height="{{ (page_data.partnership.logo.jpeg.height / 2) | int }}" alt="">
+        <source type="image/webp" srcset="{{ page_data.partnership.logo.webp.full_url }}" width="{{ (page_data.partnership.logo.webp.width / 2) | int }}" height="{{ (page_data.partnership.logo.webp.height / 2) | int }}">
+        <img src="{{ page_data.partnership.logo.jpeg.full_url }}" width="{{ (page_data.partnership.logo.jpeg.width / 2) | int }}" height="{{ (page_data.partnership.logo.jpeg.height / 2) | int }}" alt="">
       </picture>
       {%- endif %}
     </div>
@@ -300,9 +300,9 @@
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 id="{{ (page_data.exhibition_highlights_title | slugify) if page_data.exhibition_highlights_title else 'exhibition-highlights' }}" class="tna-heading-l tna-!--padding-top-s">{{ page_data.exhibition_highlights_title or 'Exhibition highlights' }}</h2>
-        {% set gallery_images = [] %}
+        {% set ns = namespace(gallery_images=[]) %}
         {% for image in exhibition_highlights.value.images %}
-          {% set gallery_images = gallery_images.append({
+          {% do ns.gallery_images.append({
             'alt': image.image.description,
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
@@ -314,7 +314,7 @@
           'title': exhibition_highlights.value.title,
           'headingLevel': 3,
           'body': exhibition_highlights.value.description | tna_html | safe,
-          'items': gallery_images,
+          'items': ns.gallery_images,
           'id': 'gallery-' ~ exhibition_highlights.id
         }) }}
       </div>
@@ -356,7 +356,8 @@
 
           <meta itemprop="name" content="{{ video.value.title }}">
           <meta itemprop="contentUrl" content="{{ video.value.media.file }}">
-          <meta itemprop="url" content="{{ url_for('wagtail.media_page', media_uuid=video.value.media.uuid, _external=True, _scheme='https') }}">
+          {%- set video_page_url = url_for('wagtail.audio_video_page', media_type=video.value.media.type, media_uuid=video.value.media.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ video_page_url }}">
         </div>
         {% endif %}
       </div>
@@ -371,18 +372,18 @@
         <h2 class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
       </div>
       {% for detail in page_data.location.details %}
-      {% set accordion_items = [] %}
+      {% set ns = namespace(accordion_items=[]) %}
       {% for item in detail.value %}
-        {% set accordion_items = accordion_items.append({
+        {% do ns.accordion_items.append({
           'title': item.title,
           'body': item.body | tna_html
         }) %}
       {% endfor %}
-      {% if accordion_items %}
+      {% if ns.accordion_items %}
       <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         {{ tnaAccordion({
           'itemHeadingLevel': 3,
-          'items': accordion_items,
+          'items': ns.accordion_items,
           'id': 'plan-your-visit-details',
           'openMultipleItems': True
         }) }}
@@ -403,7 +404,8 @@
       {%- if page_data.location.image %}
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+          {%- set image_page_url = url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ image_page_url }}">
           <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
           <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
           <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
@@ -586,15 +588,9 @@
     </div>
     {% endfor %}
     <div class="tna-column tna-column--full tna-!--margin-top-l">
-      <div class="tna-newsletter">
-        <div class="tna-newsletter_inner">
-          <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
-          <div class="tna-newsletter__body">
-            <h3 class="tna-heading-m"><a href="https://pages.enews.nationalarchives.gov.uk/pages/{{ 'spy' if page_data.meta.slug == 'mi5-official-secrets' else 'subscribe' }}">Get the latest updates</a></h3>
-            <p>Subscribe to our weekly newsletter for exhibition updates and early booking for events, including talks and tours.</p>
-          </div>
-        </div>
-      </div>
+      {% call newsletter() %}
+        <p>Subscribe to our weekly newsletter for exhibition updates and early booking for events, including talks and tours.</p>
+      {% endcall %}
     </div>
   </div>
 </section>
@@ -606,7 +602,7 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
@@ -614,4 +610,4 @@
     {%- if page_data.video %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

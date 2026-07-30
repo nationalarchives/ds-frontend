@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   GA4,
   helpers,
@@ -6,18 +7,6 @@ import {
 const ga4Id = document.documentElement.getAttribute("data-ga4id");
 if (ga4Id) {
   const analytics = new GA4({ id: ga4Id });
-
-  // analytics.addListeners(".etna-article", "article", [
-  //   {
-  //     eventName: "section.toggle",
-  //     targetElement: ".etna-article__section-button",
-  //     on: "click",
-  //     data: {
-  //       state: helpers.valueGetters.expanded,
-  //       value: helpers.valueGetters.text,
-  //     },
-  //   },
-  // ]);
 
   analytics.addListeners("body", "page", [
     {
@@ -120,10 +109,10 @@ if (ga4Id) {
       rootData: {
         data_component_name: componentFromElement,
         data_section: ($el, $scope) =>
-          $scope.dataset["tnaAnalyticsSection"] || null,
+          $scope.dataset.tnaAnalyticsSection || null,
         data_link_type: linkTypeFromElement,
         data_link: helpers.valueGetters.text,
-        data_label: ($el) => $el.dataset["tnaAnalyticsLabel"] || null,
+        data_label: ($el) => $el.dataset.tnaAnalyticsLabel || null,
         data_position: helpers.valueGetters.index,
       },
     },
@@ -136,10 +125,10 @@ if (ga4Id) {
       rootData: {
         data_component_name: componentFromElement,
         data_section: ($el, $scope) =>
-          $scope.dataset["tnaAnalyticsSection"] || null,
+          $scope.dataset.tnaAnalyticsSection || null,
         data_link_type: linkTypeFromElement,
         data_link: helpers.valueGetters.text,
-        data_label: ($el) => $el.dataset["tnaAnalyticsLabel"] || null,
+        data_label: ($el) => $el.dataset.tnaAnalyticsLabel || null,
         data_position: helpers.valueGetters.instance,
       },
     },
@@ -150,7 +139,7 @@ if (ga4Id) {
       data: {},
       rootEventName: "select_promotion",
       rootData: {
-        creative_name: ($el) => $el.dataset["tnaAnalyticsCreativeName"] || null,
+        creative_name: ($el) => $el.dataset.tnaAnalyticsCreativeName || null,
         promotion_id: () =>
           document
             .querySelector("meta[name='tna.page.title']")

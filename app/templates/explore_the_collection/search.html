@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
@@ -9,8 +9,7 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'explore_the_collection/partials/discovery-search.html' import discoverySearch -%}
 
-{%- set themeAccent = 'black' if global_alert.mourning_notice else 'green' -%}
-
+{%- set themeAccent = 'black' if global_alert.mourning_notice else (themeAccent or 'green') -%}
 {%- set pageTitle = 'Search the website' -%}
 {%- set breadcrumbs = [
   {
@@ -22,12 +21,12 @@
     'href': '/explore-the-collection/'
   }
 ] -%}
-{%- set breadcrumbsStyle = 'accent' -%}
+{%- set breadcrumbs_style = 'accent-light' -%}
 
 {% block stylesheets %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='search.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block skipLink %}
 {{ tnaSkipLink({
@@ -35,62 +34,65 @@
   'text': 'Skip to list of results'
 }) }}
 {{ super() }}
-{% endblock %}
+{% endblock skipLink %}
 
 {% block content %}
-<div class="tna-background-accent tna-!--padding-top-m tna-!--padding-bottom-l">
-  <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
-    <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
-      {{ tnaSearchField({
-        'label': 'Search Explore the collection',
-        'headingLevel': 1,
-        'headingSize': 'l',
-        'hint': 'Find articles and stories from our collection',
-        'id': 'search',
-        'name': 'q',
-        'value': q
-      }) }}
-      {% if q %}
-      {{ tnaRadios({
-        'label': 'Order results by',
-        'headingLevel': 2,
-        'headingSize': 'm',
-        'id': 'order',
-        'name': 'order',
-        'items': [
-          {
-            'text': 'Relevance',
-            'value': 'relevance'
-          },
-          {
-            'text': 'Date published',
-            'value': 'date'
-          },
-          {
-            'text': 'Title (A-Z)',
-            'value': 'title'
-          }
-        ],
-        'selected': request.args.order or 'relevance',
-        'inline': True
-      }) }}
-      <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
-        {{ tnaButton({
-          'text': 'Update results',
-          'buttonElement': True,
-          'buttonType': 'submit'
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
+  <div class="tna-!--padding-top-m tna-!--padding-bottom-l">
+    <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
+      <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+        {{ tnaSearchField({
+          'label': 'Search Explore the collection',
+          'headingLevel': 1,
+          'headingSize': 'l',
+          'hint': 'Find articles and stories from our collection',
+          'id': 'search',
+          'name': 'q',
+          'value': q
         }) }}
+        {% if q %}
+        {{ tnaRadios({
+          'label': 'Order results by',
+          'headingLevel': 2,
+          'headingSize': 'm',
+          'id': 'order',
+          'name': 'order',
+          'items': [
+            {
+              'text': 'Relevance',
+              'value': 'relevance'
+            },
+            {
+              'text': 'Date published',
+              'value': 'date'
+            },
+            {
+              'text': 'Title (A-Z)',
+              'value': 'title'
+            }
+          ],
+          'selected': request.args.order or 'relevance',
+          'inline': True
+        }) }}
+        <div class="tna-button-group tna-button-group--small tna-!--margin-top-s">
+          {{ tnaButton({
+            'text': 'Update results',
+            'buttonElement': True,
+            'buttonType': 'submit'
+          }) }}
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 {% if total_results %}
 <section id="results">
   {% if total_results %}
   <div class="tna-container">
     <div class="tna-column tna-column--full-tiny tna-!--margin-vertical-m">
-      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}&ndash;{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+      <p>Showing {{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }} of {{ total_results }} results{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
     </div>
   </div>
   {% endif %}
@@ -169,10 +171,10 @@
 <section class="tna-!--margin-top-xl tna-!--margin-bottom-l">
   <div class="tna-container">
     <div class="tna-column tna-column--full">
-      <div class="tna-aside tna-background-accent-light tna-!--padding-top-s tna-!--padding-bottom-m">
+      <div class="tna-aside tna-background-accent-light">
         {{ discoverySearch() }}
       </div>
     </div>
   </div>
 </section>
-{% endblock %}
+{% endblock content %}

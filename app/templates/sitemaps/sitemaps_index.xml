@@ -7,9 +7,4 @@
     <loc>{{ url }}</loc>
   </sitemap>
   {% endfor %}
-  {%- if request.host == 'www.nationalarchives.gov.uk' %}
-  <sitemap>
-    <loc>https://www.nationalarchives.gov.uk/sitemap_index.xml</loc>
-  </sitemap>
-  {%- endif %}
 </sitemapindex>

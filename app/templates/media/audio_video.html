@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+
+{%- set pageTitle = media_data.title -%}
+{%- set video_page_url = url_for('wagtail.audio_video_page', media_type=media_data.media_type, media_uuid=media_data.uuid, _external=True, _scheme='https') %}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ video_page_url }}">
+{% endblock head %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock stylesheets %}
+
+{% block content %}
+{{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}
+<div itemscope itemtype="{{ 'https://schema.org/AudioObject' if media_data.media_type == 'audio' else 'https://schema.org/VideoObject' }}">
+  <div class="tna-container">
+    <meta itemprop="uploadDate" content="{{ media_data.created_at }}">
+    <meta itemprop="contentUrl" content="{{ media_data.full_url }}">
+    <meta itemprop="url" content="{{ video_page_url }}">
+    {% if media_data.thumbnail %}
+    {# <meta itemprop="thumbnailUrl" content="{{ media_data.thumbnail.jpeg.full_url }}"> #}
+    {% endif %}
+    <div class="tna-column tna-column--width-2-3 tna-colum--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      <hgroup class="tna-hgroup-xl">
+        <p class="tna-hgroup__supertitle">{{ media_data.media_type | capitalize }}</p>
+        <h1 class="tna-hgroup__title" itemprop="name">{{ media_data.title }}</h1>
+      </hgroup>
+      {% if media_data.description %}
+      <div class="tna-large-paragraph" itemprop="description">
+        {{ media_data.description | tna_html | safe }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      <div class="etna-media-sticky-wrapper">
+        {% if media_data.media_type == 'audio' %}
+        <audio id="audiovideo" class="etna-audio video-js" controls{%- if media_data.transcript %} aria-label="Transcript provided below"{%- endif %}>
+          <source src="{{ media_data.url }}" type="{{ media_data.mime }}">
+          <p>Your browser doesn't support HTML5 audio. <a href="{{ media_data.url }}">Download the audio file</a>.</p>
+        </audio>
+        {% elif media_data.media_type == 'video' %}
+        <video id="audiovideo" class="etna-video etna-video--selfhosted video-js" controls{%- if media_data.transcript %} aria-label="Transcript provided below"{%- endif %}>
+          <source src="{{ media_data.url }}" type="{{ media_data.mime }}" itemprop="contentUrl">
+          {% if media_data.subtitles_file %}
+          <track kind="captions" src="{{ media_data.subtitles_file }}" srclang="en" label="English" default>
+          {% endif %}
+          {% if media_data.chapters_file %}
+          <track kind="chapters" src="{{ media_data.chapters_file }}" srclang="en">
+          {% endif %}
+          <p>Your browser doesn't support HTML5 video. <a href="{{ media_data.url }}">Download the video file</a>.</p>
+        </video>
+        {% else %}
+        <p>Unknown format: {{ media_data.media_type }}</p>
+        {% endif %}
+        
+        <div class="tna-aside tna-aside--tight tna-background-accent-light">
+          <h2 class="tna-heading-m">Technical details</h2>
+          <dl class="tna-dl tna-!--margin-top-s">
+            <dt>File type</dt>
+            <dd>
+              <code itemprop="encodingFormat">{{ media_data.mime }}</code>
+            </dd>
+            {% if media_data.duration %}
+            <dt>Duration</dt>
+            <dd>{{ media_data.duration | seconds_to_time }}<meta itemprop="duration" content="{{ media_data.duration | seconds_to_iso_8601_duration }}"></dd>
+            {% endif %}
+            {% if media_data.created_at %}
+            <dt>Date published</dt>
+            <dd>
+              <time datetime="{{ media_data.created_at }}">{{ media_data.created_at | pretty_date }}</time>
+              <meta itemprop="uploadDate" content="{{ media_data.created_at }}">
+            </dd>
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+    </div>
+    {% if media_data.transcript or media_data.chapters %}
+    <div class="tna-column tna-column--width-1-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
+      {% if media_data.transcript %}
+      <div class="tna-aside tna-aside--tight tna-background-tint">
+        <h2 class="tna-heading-l">Transcript</h2>
+        <div class="tna-!--margin-top-s" itemprop="transcript">
+          {{ media_data.transcript | tna_html | safe }}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if media_data.chapters %}
+      <div class="tna-aside tna-aside--tight tna-background-tint">
+        <h2 class="tna-heading-l">Chapters</h2>
+        <ol class="tna-ol tna-ol--plain">
+          {%- for chapter in media_data.chapters %}
+          <li class="tna-!--margin-bottom-m">
+            <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="audiovideo" hidden>
+              <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
+              <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
+            </button>
+            <h3 class="tna-heading-m media-chapter-heading">
+              {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
+            </h3>
+            {% if chapter.transcript %}
+            {{ chapter.transcript | safe }}
+            {% else %}
+            <p>[No transcript provided for chapter]</p>
+            {% endif %}
+          </li>
+          {%- endfor %}
+        </ol>
+        <div itemprop="transcript" hidden>
+          {%- for chapter in media_data.chapters %}
+            {% if chapter.transcript %}
+              {{ chapter.transcript | safe }}
+            {% endif %}
+          {%- endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}
+
+{% block bodyEnd %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{% endblock bodyEnd %}

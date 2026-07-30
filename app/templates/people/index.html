@@ -1,12 +1,9 @@
-{% extends 'layouts/page_with_contents_sidebar.html' %}
+{% extends "layouts/page_with_contents_sidebar.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'macros/feedback.html' import feedback -%}
-{%- from 'macros/meta.html' import meta -%}
 
-{%- set pageTitle = page_data.title -%}
-{%- set themeAccent = 'green' -%}
 {%- set noPadding = True -%}
 {%- set aToZSidebar = True -%}
 
@@ -16,18 +13,17 @@
   'text': 'Skip to list of people'
 }) }}
 {{ super() }}
-{% endblock %}
+{% endblock skipLink %}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block contentHeader %}
 <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
 {{ page_data.intro | safe }}
-{% endblock %}
+{% endblock contentHeader %}
 
 {% block afterContentHeader %}
 {#
@@ -35,27 +31,28 @@
   <div class="tna-container">
     <div class="tna-column tna-column--full">
       <h2 class="tna-heading-s">Filter people by role</h2>
-      {% set roles_list = [{
+      {% set ns = namespace(roles_list=[]) %}
+      {% set ns.roles_list = [{
         'label': 'All people',
         'href': page_data.meta.url,
         'selected': not request.args.get('role')
       }] %}
       {% for role in roles %}
-        {% set roles_list = roles_list.append({
+        {% do ns.roles_list.append({
           'label': role ~ 's',
           'href': '?role=' ~ (role | lower),
           'selected': request.args.get('role') == (role | lower)
         }) %}
       {% endfor %}
       {{ tnaQuickFilters({
-        'items': roles_list,
+        'items': ns.roles_list,
         'classes': 'tna-!--margin-top-s'
       }) }}
     </div>
   </div>
 </div>
 #}
-{% endblock %}
+{% endblock afterContentHeader %}
 
 {% set sidebarTitle = 'People by last name' %}
 {% set sidebarHeadingSize = 's' %}
@@ -76,7 +73,9 @@
   {%- if ns.first_letter != person.last_name.0 | upper %}
     
     {%- if ns.first_letter != '' %}
+    {# djlint:off #}
     </ul>
+    {# djlint:on #}
     {%- endif %}
 
     {%- set ns.first_letter = person.last_name.0 | upper %}
@@ -89,28 +88,27 @@
   {%- endif %}
 
       <li class="tna-column tna-column--width-1-3 tna-column--width-1-2-medium tna-column--width-1-2-small tna-column--full-tiny tna-!--margin-bottom-m">
-        {% set role_tags = [] %}
-        {% set role_tag_slugs = [] %}
+        {% set ns = namespace(role_tags=[], role_tag_slugs=[]) %}
         {% for role_tag in person.role_tags %}
-          {% set role_tags = role_tags.append({
+          {% do ns.role_tags.append({
             'title': 'Role',
             'text': role_tag.name
           }) %}
-          {% set role_tag_slugs = role_tag_slugs.append(role_tag.slug) %}
+          {% do ns.role_tag_slugs.append(role_tag.slug) %}
         {% endfor %}
         {% set card_content = {
           'title': person.title,
           'headingLevel': 3,
           'headingSize': 's',
-          'href': person.url,
+          'href': person.page_path,
           'text': person.role,
-          'meta': role_tags,
+          'meta': ns.role_tags,
           'accentMeta': True,
           'fullAreaClick': True,
           'style': 'plain',
           'classes': 'tna-card--full-height tna-card--person',
           'attributes': {
-            'data-role-tags': role_tag_slugs | join(',')
+            'data-role-tags': ns.role_tag_slugs | join(',')
           }
         } %}
         {%- if person.image %}
@@ -141,4 +139,4 @@
     {%- endfor %}
     </ul>
   </nav>
-{% endblock %}
+{% endblock content %}

@@ -4,7 +4,7 @@
 @use "@nationalarchives/frontend/nationalarchives/components/breadcrumbs";
 @use "@nationalarchives/frontend/nationalarchives/components/button";
 @use "@nationalarchives/frontend/nationalarchives/components/card";
-// @use "@nationalarchives/frontend/nationalarchives/components/checkboxes";
+@use "@nationalarchives/frontend/nationalarchives/components/checkboxes";
 @use "@nationalarchives/frontend/nationalarchives/components/compound-filters";
 @use "@nationalarchives/frontend/nationalarchives/components/cookie-banner";
 // @use "@nationalarchives/frontend/nationalarchives/components/date-input";
@@ -17,7 +17,10 @@
 @use "@nationalarchives/frontend/nationalarchives/components/gallery";
 @use "@nationalarchives/frontend/nationalarchives/components/global-header";
 // @use "@nationalarchives/frontend/nationalarchives/components/header";
-@use "@nationalarchives/frontend/nationalarchives/components/hero";
+// @use "@nationalarchives/frontend/nationalarchives/components/hero";
+@use "@nationalarchives/frontend/nationalarchives/components/hero/hero" with (
+  $vertical-padding-large: 3
+);
 @use "@nationalarchives/frontend/nationalarchives/components/index-grid";
 @use "@nationalarchives/frontend/nationalarchives/components/pagination";
 @use "@nationalarchives/frontend/nationalarchives/components/phase-banner";
@@ -41,4 +44,6 @@
 @use "main/global-alerts";
 @use "main/newsletter";
 @use "main/feedback";
-@use "main/sidebar" as etnaSidebar;
+@use "main/partner-logos";
+@use "main/records-list";
+@use "main/do-dont-list";

@@ -1,5 +1,7 @@
-from flask import current_app, render_template
+from flask import current_app, make_response
 from pydash import objects
+
+from app.error_pages.routes import bad_gateway_error, page_not_found_error
 
 from .pages.articles.article_index_page import article_index_page
 from .pages.articles.article_page import article_page
@@ -15,6 +17,19 @@ from .pages.collections.explorer_index_page import explorer_index_page
 from .pages.collections.highlight_gallery_page import highlight_gallery_page
 from .pages.cookies.cookie_details_page import cookie_details_page
 from .pages.cookies.cookies_page import cookies_page
+from .pages.education.education_listing_pages import (
+    education_sessions_listing_page,
+    education_teaching_resources_listing_page,
+)
+from .pages.education.education_page import education_page
+from .pages.education.education_session_page import (
+    education_session_page,
+)
+from .pages.education.education_teaching_resource_page import (
+    education_teaching_resource_page,
+)
+from .pages.foi.foi_index_page import foi_index_page
+from .pages.foi.foi_request_page import foi_request_page
 from .pages.generic_pages.general_page import general_page
 from .pages.generic_pages.hub_page import hub_page
 from .pages.home.home_page import home_page
@@ -22,6 +37,7 @@ from .pages.people.people_index_page import people_index_page
 from .pages.people.person_page import person_page
 from .pages.whatson.display_page import display_page
 from .pages.whatson.event_page import event_page
+from .pages.whatson.event_supplementary_page import event_supplementary_page
 from .pages.whatson.events_listing_page import events_listing_page
 from .pages.whatson.exhibition_page import exhibition_page
 from .pages.whatson.exhibitions_listing_page import exhibitions_listing_page
@@ -70,15 +86,32 @@ page_type_templates = {
     "whatson.WhatsOnSeriesPage": whats_on_series_page,
     "whatson.WhatsOnDateListingPage": whats_on_date_listing_page,
     "whatson.WhatsOnLocationListingPage": whats_on_location_listing_page,
+    "whatson.EventSupplementaryPage": event_supplementary_page,
+    # FOI
+    "foi.FoiIndexPage": foi_index_page,
+    "foi.FoiRequestPage": foi_request_page,
+    # Education
+    "education.EducationPage": education_page,
+    "education.TeachingResourcesListingPage": education_teaching_resources_listing_page,
+    "education.EducationSessionsListingPage": education_sessions_listing_page,
+    "education.TeachingResourcePage": education_teaching_resource_page,
+    "education.EducationSessionPage": education_session_page,
 }
+
+
+# TODO: Change this to use a decorator on the cookies_page function when the next version of TNA Python Utilities is released
+page_types_to_vary_by_cookies = {"cookies.CookiesPage"}
 
 
 def render_content_page(page_data):
     page_type = objects.get(page_data, "meta.type")
     if page_type:
         if page_type in page_type_templates:
-            return page_type_templates[page_type](page_data)
+            response = make_response(page_type_templates[page_type](page_data))
+            if page_type in page_types_to_vary_by_cookies:
+                response.headers["Vary"] = "Cookie"
+            return response
         current_app.logger.error(f"Template for {page_type} not handled")
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     current_app.logger.error("Page meta information not included")
-    return render_template("errors/api.html"), 502
+    return bad_gateway_error()

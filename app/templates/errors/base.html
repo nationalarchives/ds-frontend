@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tna-container tna-section">
+  <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+    <h1 class="tna-heading-xl">{{ pageTitle }}</h1>
+    {% block error_content %}{% endblock error_content %}
+    <p>
+      <small>Error code: {{ status_code }}</small>
+    </p>
+  </div>
+</div>
+{% endblock content %}

@@ -1,4 +1,4 @@
-{% extends 'explore_the_collection/base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
@@ -7,24 +7,24 @@
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
-
 {% block head %}
 {{ super() }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
+    <link rel="canonical" href="{{ page_data.meta.url }}">
     {% if page_data.meta.type == 'collections.TimePeriodExplorerPage' %}
     <meta name="tna_root:time_period" content="{{ page_data.title }}">
     {%- elif page_data.meta.type == 'collections.TopicExplorerPage' %}
     <meta name="tna_root:taxonomy_topic" content="{{ page_data.title }}">
     {%- endif %}
-{% endblock %}
+{% endblock head %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-{% set hero_image_caption = page_data.hero_image_caption or '' %}
-{%- if page_data.hero_image.copyright %}
-  {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
-{%- endif %}
+{%- set hero_image_caption %}
+  {{- page_data.hero_image_caption | safe -}}
+  {%- if page_data.hero_image.copyright -%}
+    <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+  {%- endif -%}
+{%- endset %}
 {{ tnaHero({
   'title': page_data.title,
   'body': page_data.intro | safe,
@@ -35,16 +35,16 @@
   'imageCaption': hero_image_caption,
   'imageSources': [
     {
-      'src': page_data.hero_image_small.webp.full_url,
-      'width': page_data.hero_image_small.webp.width,
-      'height': page_data.hero_image_small.webp.height,
+      'src': page_data.hero_image.small_webp.full_url,
+      'width': page_data.hero_image.small_webp.width,
+      'height': page_data.hero_image.small_webp.height,
       'type': 'image/webp',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image_small.jpeg.full_url,
-      'width': page_data.hero_image_small.jpeg.width,
-      'height': page_data.hero_image_small.jpeg.height,
+      'src': page_data.hero_image.small_jpeg.full_url,
+      'width': page_data.hero_image.small_jpeg.width,
+      'height': page_data.hero_image.small_jpeg.height,
       'type': 'image/jpeg',
       'media': '(max-width: 48em)'
     },
@@ -54,13 +54,12 @@
       'height': page_data.hero_image.webp.height,
       'type': 'image/webp'
     }
-  ],
-  'narrow': True
+  ]
 }, page_data.hero_image.uuid, page_data.hero_image.title) }}
 <section class="tna-section">
-  {% set children = [] %}
+  {% set ns = namespace(children=[]) %}
   {%- for child in page_data.related_highlight_gallery_pages %}
-    {% set children = children.append({
+    {% do ns.children.append({
       'id': child.id,
       'title': child.title,
       'subtitle': (child.highlight_image_count | string) ~ ' images',
@@ -75,7 +74,7 @@
     'title': page_data.title ~ ' highlights in pictures',
     'headingLevel': 2,
     'headingSize': 'l',
-    'items': children,
+    'items': ns.children,
     'columns': 3,
     'columnsSmall': 2,
     'columnsTiny': 1
@@ -152,4 +151,4 @@
 {%- endif %}
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}

@@ -1,48 +1,48 @@
+import contextlib
 from urllib.parse import urlencode
 
 
-def qs_active(existing_qs, filter, by):
+def qs_active(existing_qs, filter_name, by):
     """Active when identical key/value in existing query string."""
-    qs_set = {(filter, str(by))}
+    qs_set = {(filter_name, str(by))}
     # Not active if either are empty.
     if not existing_qs or not qs_set:
         return False
     # See if the intersection of sets is the same.
     existing_qs_set = set(existing_qs.items())
+    print(existing_qs)
+    print(qs_set)
+    print(existing_qs_set)
     return existing_qs_set.intersection(qs_set) == qs_set
 
 
-def qs_toggler(existing_qs, filter, by):
+def qs_toggler(existing_qs, filter_name, by):
     """Resolve filter against an existing query string."""
-    qs = {filter: by}
+    qs = {filter_name: by}
     # Don't change the currently rendering existing query string!
     rtn_qs = existing_qs.copy()
     # Test for identical key and value in existing query string.
-    if qs_active(existing_qs, filter, by):
+    if qs_active(existing_qs, filter_name, by):
         # Remove so that buttons toggle their own value on and off.
-        rtn_qs.pop(filter)
+        rtn_qs.pop(filter_name)
     else:
         # Update or add the query string.
         rtn_qs.update(qs)
     return urlencode(rtn_qs)
 
 
-def qs_update(existing_qs, filter, value):
+def qs_update(existing_qs, filter_name, value):
     rtn_qs = existing_qs.copy()
-    try:
-        rtn_qs.pop(filter)
-    except KeyError:
-        pass
-    rtn_qs.update({filter: value})
+    with contextlib.suppress(KeyError):
+        rtn_qs.pop(filter_name)
+    rtn_qs.update({filter_name: value})
     return urlencode(rtn_qs)
 
 
-def qs_remove(existing_qs, filter):
+def qs_remove(existing_qs, filter_name):
     rtn_qs = existing_qs.copy()
-    try:
-        rtn_qs.pop(filter)
-    except KeyError:
-        pass
+    with contextlib.suppress(KeyError):
+        rtn_qs.pop(filter_name)
     return urlencode(rtn_qs)
 
 

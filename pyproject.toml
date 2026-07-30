@@ -7,20 +7,20 @@ readme = "README.md"
 packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 flask = "^3.1.0"
-requests = "^2.31.0"
-tna-frontend-jinja = "0.26.0"
-flask-talisman = "^1.1.0"
-sentry-sdk = {extras = ["flask"], version = "^2.8.0"}
+requests = "^2.34.0"
+tna-frontend-jinja = "1.1.0"
+sentry-sdk = {extras = ["flask"], version = "^2.60.0"}
 pydash = "^8.0.3"
 redis = "^6.0.0"
+tna-utilities = {extras = ["flask"], version = "^1.5.0"}
 
 [tool.poetry.group.dev]
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.1.1"
+pytest = ">=8.1.1,<10.0.0"
 requests-mock = "^1.12.1"
 
 [build-system]
@@ -34,3 +34,6 @@ include = '\.pyi?$'
 testpaths = [
     "test",
 ]
+
+[solver]
+min-release-age = 7

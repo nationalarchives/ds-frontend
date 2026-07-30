@@ -5,16 +5,26 @@
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
-{%- from 'components/header/macro.html' import tnaHeader -%}
 
-{%- set theme = request.cookies.get('theme') or 'system' -%}
+{%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
 {# Explicitly set light mode until more pages support dark mode #}
 {%- set theme = 'light' -%}
-{%- set themeAccent = themeAccent or 'yellow' -%}
+{%- set themeAccent = themeAccent or 'green' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
   'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
+
+{#-
+  Truncate any pageTitle that would cause the length to exceed 70 characters
+  See https://html-validate.org/rules/long-title.html
+-#}
+{%- set maxTitleLength = 70 -%}
+{%- set siteTitle = siteTitle or defaultSiteTitle or 'The National Archives' -%}
+{%- set titleCharsRemaining = maxTitleLength - ((siteTitle | length) + 3) -%}
+{%- if (pageTitle | length) > titleCharsRemaining -%}
+  {%- set pageTitle = pageTitle | truncate(titleCharsRemaining, False, '...', 0) -%}
+{%- endif -%}
 
 {% block headIcons %}
     <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
@@ -31,10 +41,9 @@
     <link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
     <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
     <link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
-{% endblock %}
+{% endblock headIcons %}
 
 {% block head %}
-    <!--<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">-->
     <meta name="tna.request.host" content="{{ request.host }}">
     <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
@@ -47,10 +56,11 @@
     <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
-{% endblock %}
+    <meta name="robots" content="noai, noimageai">
+{% endblock head %}
 
 {% block stylesheets %}
-    <link rel="preconnect" href="https://use.typekit.net">
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
@@ -59,51 +69,50 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    {% if feature.LOGO_ADORNMENTS_CSS %}
+    {%- if feature.LOGO_ADORNMENTS_CSS %}
     <link rel="stylesheet" href="{{ feature.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_date() }}" media="screen">
-    {% endif %}
-{% endblock %}
+    {%- endif %}
+{% endblock stylesheets %}
 
 {% block cookies %}
 {%- if not page_data or not page_data.page_preview %}
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
-  'cookiesUrl': '/cookies/',
-  'preferencesSetKey': 'dontShowCookieNotice'
+  'cookiesUrl': app_config.COOKIE_PREFERENCES_URL,
+  'preferencesSetKey': app_config.COOKIE_PREFERENCES_SET_KEY
 }) | indent(6) }}
 {%- endif %}
-{% endblock %}
+{% endblock cookies %}
 
 {% block header %}
 {{ tnaGlobalHeader({
   'defaultContent': True,
   'phaseBanner': {
     'phase': 'Beta',
-    'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ request.url ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
+    'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ (request.url | url_encode) ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
     'classes': 'tna-background-contrast'
   } if feature.PHASE_BANNER and display_phase_banner() else None
 }) | indent(6) }}
-{% endblock %}
+{% endblock header %}
 
 {% block beforeContent %}
 {%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
-      {%- if breadcrumbsStyle %}
-      <div class="tna-background-{{ breadcrumbsStyle }}">
-      {%- endif %}
-        <div class="tna-container">
-          <div class="tna-column tna-column--full">
-            {{ tnaBreadcrumbs({
-              'items': breadcrumbs or page_data.meta.breadcrumbs,
-              'structuredData': True,
-              'classes': 'tna-!--padding-vertical-s'
-            }) }}
-          </div>
-        </div>
-      {%- if breadcrumbsStyle %}
+  {%- if breadcrumbs_style %}
+  <div class="tna-background-{{ breadcrumbs_style }}">
+  {%- endif %}
+    <div class="tna-container tna-!--hide-on-print">
+      <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+        {{ tnaBreadcrumbs({
+          'items': breadcrumbs or page_data.meta.breadcrumbs,
+          'structuredData': True
+        }) }}
       </div>
-      {%- endif %}
+    </div>
+  {%- if breadcrumbs_style %}
+  </div>
+  {%- endif %}
 {%- endif %}
-{% endblock %}
+{% endblock beforeContent %}
 
 {% block footer %}
 {{ tnaFooter({
@@ -112,7 +121,7 @@
   'defaultContent': True,
   'classes': 'tna-!--margin-top-l'
 }) | indent(4) }}
-{% endblock %}
+{% endblock footer %}
 
 {% block bodyEnd %}
 {%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
@@ -123,4 +132,4 @@
 {%- if feature.LOGO_ADORNMENTS_JS %}
     <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_date() }}"></script>
 {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

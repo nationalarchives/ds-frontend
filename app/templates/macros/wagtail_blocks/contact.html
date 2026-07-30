@@ -6,7 +6,7 @@
     {% if block_value.body %}
     {{ block_value.body | tna_html | safe }}
     {% endif %}
-    <dl class="tna-dl tna-dl--plain tna-dl--icon-padding">
+    <dl class="tna-dl">
       {%- if block_value.address %}
       <dt>
         <i class="fa-solid fa-fw fa-building" aria-hidden="true"></i>
@@ -47,7 +47,7 @@
           'buttonElement': True,
           'classes': 'etna-email__button',
           'attributes': {
-            'hidden': True,
+            'hidden': 'hidden',
             'aria-live': 'assertive'
           }
         }) }}</span>

@@ -1,13 +1,15 @@
 const path = require("path");
+
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: {
     main: "./src/scripts/main.js",
     analytics: "./src/scripts/analytics.js",
-    article: "./src/scripts/article.js",
+    code: "./src/scripts/code.js",
     cookies: "./src/scripts/cookies.js",
     events: "./src/scripts/events.js",
+    education: "./src/scripts/education.js",
     exhibition: "./src/scripts/exhibition.js",
     footnotes: "./src/scripts/footnotes.js",
     media: "./src/scripts/media.js",
@@ -16,7 +18,6 @@ module.exports = {
     "secondary-navigation": "./src/scripts/secondary-navigation.js",
     sentry: "./src/scripts/sentry.js",
     "service-worker": "./src/scripts/service-worker.js",
-    sidebar: "./src/scripts/sidebar.js",
   },
   mode: "production",
   module: {

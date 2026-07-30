@@ -1,0 +1,269 @@
+{% extends "wagtail_base.html" %}
+
+{%- from 'components/accordion/macro.html' import tnaAccordion -%}
+{%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
+{%- from 'macros/hero.html' import hero -%}
+{%- from 'macros/wagtail_block.html' import wagtail_block -%}
+{%- from 'macros/wagtail_blocks/featured_page.html' import wagtailFeaturedPage -%}
+{%- from 'macros/wagtail_blocks/featured_external_link.html' import wagtailFeaturedExternalLink -%}
+{%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
+
+{%- set breadcrumbs_style = 'accent-light' -%}
+{%- set og_title_prefix = 'Teaching resource' -%}
+
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
+
+{% block stylesheets %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+    <link rel="stylesheet" href="{{ url_for('static', filename='education.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="tna-background-accent-light">
+  {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
+  {% call hero(page_data, page_data.hero_image, {
+    'layout': 'over',
+    'use_small_image': True
+  }) %}
+    {%- if page_data.enquiry_question %}
+    <div class="tna-hero__enquiry-question">
+      <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+      <p>{{ page_data.enquiry_question }}</p>
+    </div>
+    {%- endif %}
+    {{ page_data.intro | tna_html | safe }}
+    <dl class="tna-dl">
+      <dt>
+        <i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>
+        Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
+      </dt>
+      {%- for key_stage in page_data.key_stages %}
+      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      {%- endfor %}
+    </dl>
+  {% endcall %}
+</div>
+
+<h2 class="tna-visually-hidden">About this resource</h2>
+<div class="tna-container tna-!--padding-top-m tna-!--padding-bottom-s">
+  <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+    <div class="tna-education-top-details tna-background-tint">
+      <div class="tna-education-top-details__content">
+        <h3 class="tna-heading-s">
+          <i class="fa-solid fa-fw fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+          Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
+        </h3>
+        <ul class="tna-ul tna-!--margin-top-xs">
+          {%- for time_period in page_data.time_periods %}
+          <li>
+            {{ time_period.name }}
+            {% if time_period.year_from and time_period.year_to %}
+              ({{ time_period.year_from }}–{{ time_period.year_to }})
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="tna-column tna-column--flex-1 tna-column--full-small tna-column--full-tiny tna-!--margin-top-s">
+    <div class="tna-education-top-details tna-background-tint">
+      <div class="tna-education-top-details__content">
+        <h3 class="tna-heading-s">
+          <i class="fa-solid fa-fw fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+          Theme{{ 's' if page_data.themes | length > 1 else '' }}
+        </h3>
+        <ul class="tna-ul tna-!--margin-top-xs">
+          {%- for theme in page_data.themes %}
+          <li>{{ theme.name }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tna-!--padding-bottom-l">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-1-4 tna-column--width-1-3-medium tna-column--full-small tna-column--full-tiny tna-!--hide-on-print">
+      {% set ns = namespace(source_list=[]) %}
+      {%- if page_data.sources | length > 1 %}
+      {% do ns.source_list.append({
+        'text': 'Sources overview',
+        'href': '#sources-overview'
+      }) %}
+      {% endif %}
+      {% for source in page_data.sources %}
+        {% do ns.source_list.append({
+          'text': 'Source ' ~ loop.index,
+          'href': '#teaching-resource-source-' ~ loop.index
+        }) %}
+      {% endfor %}
+      {% do ns.source_list.append({
+        'text': 'Teachers notes',
+        'href': '#teachers-notes'
+      }) %}
+      {%- if page_data.extension_activities %}
+        {% do ns.source_list.append({
+          'text': 'Extension activities',
+          'href': '#extension-activities'
+        }) %}
+      {%- endif %}
+      {%- if page_data.background_information %}
+        {% do ns.source_list.append({
+          'text': 'Background information',
+          'href': '#background-information'
+        }) %}
+      {%- endif %}
+      {%- if page_data.further_information %}
+        {% do ns.source_list.append({
+          'text': page_data.further_information_title or 'Further information',
+          'href': '#further-information'
+        }) %}
+      {%- endif %}
+      {{ tnaSidebar({
+        'title': 'On this page',
+        'headingLevel': 2,
+        'items': ns.source_list,
+        'type': 'sections',
+        'sticky': True,
+        'classes': 'tna-!--padding-top-s tna-!--margin-top-m',
+        'attributes': {
+          'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
+        }
+      }) }}
+    </div>
+    <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m etna-!--full-width-on-print">
+      {%- if page_data.custom_warning_text %}
+        {{ tnaWarning({
+          'headingLevel': 2,
+          'body': page_data.custom_warning_text | tna_html | safe,
+          'classes': 'tna-!--margin-bottom-m'
+        }) }}
+      {%- endif %}
+
+      {%- if page_data.sources | length > 1 %}
+      <div id="sources-overview" class="tna-aside tna-background-accent-light tna-education-sources-overview tna-!--hide-on-print">
+        <h2 class="tna-heading-l">Sources overview</h2>
+        <p>Select a source to view it in more detail and find enquiry questions to examine it with your class.</p>
+        <ol class="tna-education-sources-overview__list">
+        {%- for source in page_data.sources %}
+          {%- set first_source = source.media | first %}
+          <li class="tna-education-sources-overview__list-item">
+            <a href="#teaching-resource-source-{{ loop.index }}" class="tna-education-sources-overview__list-item-link">
+              {%- if first_source %}
+                {%- if first_source.type == 'image' %}
+                  <img src="{{ first_source.value.image.jpeg.full_url }}" alt="{{ first_source.value.image.description }}" width="{{ first_source.value.image.jpeg.width }}" height="{{ first_source.value.image.jpeg.height }}">
+                {%- elif first_source.type == 'media' %}
+                  {%- if first_source.value.thumbnail %}
+                    <img src="{{ first_source.value.thumbnail.jpeg.full_url }}" alt="{{ first_source.value.thumbnail.description }}" width="{{ first_source.value.thumbnail.jpeg.width }}" height="{{ first_source.value.thumbnail.jpeg.height }}">
+                  {%- else %}
+                    <img src="" alt="" width="1" height="1" aria-hidden="true">
+                  {%- endif %}
+                {%- elif first_source.type == 'youtube_video' %}
+                  <img src="{{ first_source.value.preview_image.jpeg.full_url }}" alt="{{ first_source.value.preview_image.description }}" width="{{ first_source.value.preview_image.jpeg.width }}" height="{{ first_source.value.preview_image.jpeg.height }}">
+                {%- else %}
+                  <img src="" alt="" width="1" height="1" aria-hidden="true">
+                {%- endif %}
+              {%- else %}
+                <img src="" alt="" width="1" height="1" aria-hidden="true">
+              {%- endif %}
+              <span class="tna-visually-hidden">Jump to source {{ loop.index }}:</span> {{ source.title | truncate(50) }}
+            </a>
+          </li>
+        {%- endfor %}
+        </ol>
+      </div>
+      {%- endif %}
+
+      <h2 class="tna-heading-l">{{ page_data.sources_title or 'Investigate the sources' }}</h2>
+      {%- if page_data.sources_introduction %}
+        {{ page_data.sources_introduction | tna_html | safe }}
+      {%- endif %}
+      <ol class="tna-education-ol">
+        {%- for source in page_data.sources %}
+        {%- set source_index = loop.index %}
+        <li id="teaching-resource-source-{{ source_index }}" class="tna-education-ol__item">
+          <h3 class="tna-education-ol__item-header">
+            <span class="tna-education-ol__item-header-super tna-heading-m">Source {{ loop.index }}<span class="tna-visually-hidden">:</span></span>
+            <span class="tna-large-paragraph">{{ source.title }}</span>
+          </h3>
+          <div class="tna-education-ol__item-body">
+            {{ source.description | tna_html | safe }}
+            <ol class="tna-education-ol__sublist">
+            {%- for media in source.media %}
+              {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ ('.' ~ loop.index if (source.media | length) > 1 else '') ~ ': ' ~ source.title -%}
+              <li id="teaching-resource-source-{{ source_index }}-{{ loop.index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
+            {%- endfor %}
+            {%- for link in source.featured_link %}
+              <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
+            {%- endfor %}
+            </ol>
+
+            {%- for question in source.question %}
+            <h4 class="tna-heading-s">{{ question.value.question_heading }}</h4>
+            {{ question.value.question_description | tna_html | safe }}
+            {%- endfor -%}
+          </div>
+        </li>
+        {%- endfor %}
+      </ol>
+
+      <div id="teachers-notes" class="tna-aside tna-background-accent-light tna-!--margin-top-xl">
+        <h2 class="tna-heading-l">Teachers notes</h2>
+        {{ wagtail_streamfield(page_data.teachers_notes, 3) }}
+        <h3 class="tna-heading-m">Connections to the curriculum</h3>
+        {% set ns = namespace(accordion_items=[]) %}
+        {%- for item in page_data.curriculum_connections %}
+          {% do ns.accordion_items.append({
+            'title': item.key_stage.name ~ ' (' ~ item.key_stage.public_age_range ~ ')',
+            'body': item.description | tna_html | safe
+          }) %}
+        {%- endfor %}
+        {{ tnaAccordion({
+          'itemHeadingLevel': 4,
+          'items': ns.accordion_items,
+          'id': 'curriculum-connections',
+          'classes': 'tna-!--margin-top-s'
+        }) }}
+      </div>
+
+      {%- if page_data.extension_activities %}
+      <h2 class="tna-heading-l" id="extension-activities">Extension activities</h2>
+      {{ wagtail_streamfield(page_data.extension_activities, 3) }}
+      {%- endif %}
+      
+      {%- if page_data.background_information %}
+      <h2 class="tna-heading-l" id="background-information">Background information</h2>
+      {{ wagtail_streamfield(page_data.background_information, 3) }}
+      {%- endif %}
+      
+      {%- if page_data.further_information %}
+      <h2 class="tna-heading-l" id="further-information">{{ page_data.further_information_title or 'Further information' }}</h2>
+      {{ wagtail_streamfield(page_data.further_information, 3) }}
+      {%- endif %}
+
+      {%- if page_data.partner_logos %}
+      {{ wagtail_streamfield(page_data.partner_logos, 2) }}
+      {%- endif %}
+    </div>
+  </div>
+</div>
+
+{{ feedback() }}
+{{ back_to_top() }}
+{% endblock content %}
+
+{% block bodyEnd %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+{% endblock bodyEnd %}

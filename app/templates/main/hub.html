@@ -1,32 +1,33 @@
-{% extends 'base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
+{%- from 'macros/back_to_top.html' import back_to_top -%}
+{%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
-{%- set pageTitle = page_data.title -%}
-{%- set breadcrumbsStyle = 'accent-light' if not page_data.hero_image else '' -%}
+{%- set breadcrumbs_style = '' if page_data.hero_image else 'accent-light' -%}
+{%- set alert_banner_top_margin = None if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) else 'm' %}
 
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block main %}
   {% block beforeContent %}
     {{ super() }}
-  {% endblock %}
+  {% endblock beforeContent %}
   <main class="tna-main {{ mainClasses }}" id="main-content">
     {%- if page_data.hero_image %}
-    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
-    {% set hero_image_caption = page_data.hero_image_caption or '' %}
-    {%- if page_data.hero_image.copyright %}
-      {% set hero_image_caption = hero_image_caption ~ '<div class="tna-hero__copyright" itemprop="copyrightNotice">' ~ (page_data.hero_image.copyright | tna_html) ~ '</div>' %}
-    {%- endif %}
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, alert_banner_top_margin, 'm') }}
+    {%- set hero_image_caption %}
+      {{- page_data.hero_image_caption | safe -}}
+      {%- if page_data.hero_image.copyright -%}
+        <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
+      {%- endif -%}
+    {%- endset %}
     {{ tnaHero({
       'title': page_data.title,
       'body': (('<div class="tna-large-paragraph tna-!--margin-top-s">' ~ page_data.intro ~ '</div>') | tna_html | safe) if page_data.intro else '',
@@ -37,16 +38,16 @@
       'imageCaption': hero_image_caption,
       'imageSources': [
         {
-          'src': page_data.hero_image_small.webp.full_url,
-          'width': page_data.hero_image_small.webp.width,
-          'height': page_data.hero_image_small.webp.height,
+          'src': page_data.hero_image.small_webp.full_url,
+          'width': page_data.hero_image.small_webp.width,
+          'height': page_data.hero_image.small_webp.height,
           'type': 'image/webp',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image_small.jpeg.full_url,
-          'width': page_data.hero_image_small.jpeg.width,
-          'height': page_data.hero_image_small.jpeg.height,
+          'src': page_data.hero_image.small_jpeg.full_url,
+          'width': page_data.hero_image.small_jpeg.width,
+          'height': page_data.hero_image.small_jpeg.height,
           'type': 'image/jpeg',
           'media': '(max-width: 48em)'
         },
@@ -57,14 +58,13 @@
           'type': 'image/webp'
         }
       ],
-      'narrow': True,
-      'style': 'accent',
+      'style': 'accent-light',
       'layout': 'shift'
     }, page_data.hero_image.uuid, page_data.hero_image.title) }}
     {%- else %}
     <div class="tna-background-accent-light">
-      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
-      <div class="tna-section">
+      {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, alert_banner_top_margin) }}
+      <div class="tna-section tna-!--padding-top-m">
         <div class="tna-container">
           <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
             <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
@@ -92,7 +92,7 @@
         {% for child in page_data.links or children %}
         <li class="tna-column{{ ' tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-!--margin-bottom-m' if page_data.plain_cards_list else ' tna-column--width-1-3 tna-column--width-1-2-small tna-!--margin-bottom-l' }} tna-column--full-tiny">
           {% set card_content = {
-            'supertitle': (child.url | get_url_domain) if 'nationalarchives.gov.uk' not in child.url else '',
+            'supertitle': child.supertitle or (child.url | supertitle_from_domain),
             'title': child.title,
             'headingLevel': 2,
             'headingSize': 's',
@@ -105,7 +105,7 @@
           {%- if child.type_label == 'External' %}
             {% set card_content = dict(card_content, **{
               'hrefAttributes': {
-                'aria-label': child.title ~ ' (opens ' ~ (child.url | get_url_domain) ~ ')',
+                'aria-label': child.title ~ ' (opens ' ~ (child.url | domain_from_url) ~ ')',
                 'rel': 'noreferrer nofollow noopener'
               }
             }) %}
@@ -131,5 +131,7 @@
         {% endfor %}
       </ul>
     </nav>
+    {{ feedback() }}
+    {{ back_to_top('l') }}
   </main>
-{% endblock %}
+{% endblock main %}

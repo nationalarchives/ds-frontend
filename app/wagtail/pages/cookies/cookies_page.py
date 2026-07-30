@@ -1,7 +1,10 @@
-from app.wagtail.api import page_children
 from flask import current_app, render_template
+from tna_utilities.flask import do_not_cache
+
+from app.wagtail.api import page_children
 
 
+@do_not_cache()
 def cookies_page(page_data):
     details_page = None
     try:
@@ -10,11 +13,11 @@ def cookies_page(page_data):
         )
         details_page = children_data["items"][0]
     except ConnectionError:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"API error getting children for page {page_data['id']}"
         )
     except Exception:
-        current_app.logger.error(
+        current_app.logger.exception(
             f"Exception getting children for page {page_data['id']}"
         )
     return render_template(

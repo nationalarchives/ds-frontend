@@ -1,29 +1,23 @@
-{% extends 'base.html' %}
+{% extends "wagtail_base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/gallery/macro.html' import tnaGallery -%}
 {%- from 'components/hero/macro.html' import tnaHero -%}
-{%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'whats_on/partials/shop_block.html' import shopBlock -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
-{%- from 'macros/meta.html' import meta -%}
 {%- from 'macros/wagtail_blocks/media.html' import wagtailMedia -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
-{%- set themeAccent = 'black' if page_data.mourning_notice else 'yellow' -%}
-{%- set pageTitle = page_data.title -%}
-
 {% block head %}
 {{ super() }}
-{{- meta(page_data) }}
-    <link rel="canonical" href="{{ page_data.meta.html_url }}">
-{% endblock %}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
 
 {% block stylesheets %}
 {{ super() }}
@@ -31,7 +25,7 @@
     {%- if page_data.video %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-{% endblock %}
+{% endblock stylesheets %}
 
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
@@ -107,16 +101,16 @@
       'imageCaption': hero_image_caption,
       'imageSources': [
         {
-          'src': page_data.hero_image_small.webp.full_url,
-          'width': page_data.hero_image_small.webp.width,
-          'height': page_data.hero_image_small.webp.height,
+          'src': page_data.hero_image.small_webp.full_url,
+          'width': page_data.hero_image.small_webp.width,
+          'height': page_data.hero_image.small_webp.height,
           'type': 'image/webp',
           'media': '(max-width: 48em)'
         },
         {
-          'src': page_data.hero_image_small.jpeg.full_url,
-          'width': page_data.hero_image_small.jpeg.width,
-          'height': page_data.hero_image_small.jpeg.height,
+          'src': page_data.hero_image.small_jpeg.full_url,
+          'width': page_data.hero_image.small_jpeg.width,
+          'height': page_data.hero_image.small_jpeg.height,
           'type': 'image/jpeg',
           'media': '(max-width: 48em)'
         },
@@ -127,9 +121,11 @@
           'type': 'image/webp'
         }
       ],
-      'narrow': True,
       'layout': 'shift',
-      'style': 'contrast'
+      'style': 'accent-light',
+      'attributes': {
+        'itemprop': 'image'
+      }
     }, page_data.hero_image.uuid, page_data.hero_image.title) }}
   </section>
   <div class="tna-container tna-!--margin-bottom-l">
@@ -146,12 +142,12 @@
         {{ page_data.intro | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
-        {{ wagtail_streamfield(page_data.body, 2, page_data.footnotes) }}
+        {{ wagtail_streamfield(page_data.body, 3, page_data.footnotes) }}
       </div>
     </div>
     <div class="tna-column tna-column--width-1-3 tna-column--width-2-3-medium tna-column--width-3-4-small tna-column--full-tiny tna-!--margin-top-l"{{ '' if (page_data.end_date | is_today_or_future) else ' hidden' }}>
       <div class="tna-aside tna-aside--top-bottom-borders">
-        <dl class="tna-dl tna-dl--icon-padding tna-dl--plain tna-dl--stacked">
+        <dl class="tna-dl tna-dl--stacked">
           {% if page_data.open_days %}
           <dt>
             <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
@@ -248,9 +244,9 @@
     <div class="tna-container">
       <div class="tna-column tna-column--full">
         <h2 class="tna-heading-l tna-!--padding-top-s">{{ page_data.display_highlights_title or 'Exhibition highlights' }}</h2>
-        {% set gallery_images = [] %}
+        {% set ns = namespace(gallery_images=[]) %}
         {% for image in display_highlights.value.images %}
-          {% set gallery_images = gallery_images.append({
+          {% do ns.gallery_images.append({
             'alt': image.image.description,
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
@@ -262,7 +258,7 @@
           'title': display_highlights.value.title,
           'headingLevel': 3,
           'body': display_highlights.value.description | tna_html | safe,
-          'items': gallery_images,
+          'items': ns.gallery_images,
           'id': 'gallery-' ~ display_highlights.id
         }) }}
       </div>
@@ -277,18 +273,18 @@
         <h2 class="tna-heading-l tna-!--padding-top-s">Plan your visit</h2>
       </div>
       {% for detail in page_data.location.details %}
-      {% set accordion_items = [] %}
+      {% set ns = namespace(accordion_items=[]) %}
       {% for item in detail.value %}
-        {% set accordion_items = accordion_items.append({
+        {% do ns.accordion_items.append({
           'title': item.title,
           'body': item.body | tna_html
         }) %}
       {% endfor %}
-      {% if accordion_items %}
+      {% if ns.accordion_items %}
       <div class="tna-column {{ 'tna-column--width-1-2' if page_data.location.image else 'tna-column--width-2-3 tna-column--width-5-6-medium' }} tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         {{ tnaAccordion({
           'itemHeadingLevel': 3,
-          'items': accordion_items,
+          'items': ns.accordion_items,
           'id': 'plan-your-visit-details',
           'openMultipleItems': True
         }) }}
@@ -309,7 +305,8 @@
       {%- if page_data.location.image %}
       <div class="tna-column tna-column--width-1-2 tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-          <meta itemprop="url" content="{{ url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') }}">
+          {%- set image_page_url = url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') %}
+          <meta itemprop="url" content="{{ image_page_url }}">
           <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
           <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
           <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
@@ -459,11 +456,11 @@
 
 {{ feedback() }}
 {{ back_to_top() }}
-{% endblock %}
+{% endblock content %}
 
 {% block bodyEnd %}
 {{ super() }}
     {%- if page_data.video %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-{% endblock %}
+{% endblock bodyEnd %}

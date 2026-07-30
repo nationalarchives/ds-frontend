@@ -1,11 +1,6 @@
 import math
 from urllib.parse import quote, unquote, urlparse
 
-from app.lib.api import ResourceForbidden, ResourceNotFound
-from app.lib.pagination import pagination_object
-from app.wagtail import bp
-from app.wagtail.api import global_alerts, search
-from app.wagtail.render import render_content_page
 from flask import (
     current_app,
     redirect,
@@ -14,6 +9,18 @@ from flask import (
     url_for,
 )
 from pydash import objects
+from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
+
+from app.error_pages.routes import (
+    bad_gateway_error,
+    bad_request_error,
+    forbidden_error,
+    page_not_found_error,
+)
+from app.lib.pagination import pagination_object
+from app.wagtail import bp
+from app.wagtail.api import global_alerts, search
+from app.wagtail.render import render_content_page
 
 from .api import (
     image,
@@ -30,23 +37,23 @@ def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     if not content_type or not token:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     try:
         page_data = page_preview(content_type, token)
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get page preview data: {e}")
-        return render_template("errors/api.html"), 502
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except ResourceForbiddenError:
+        return forbidden_error()
+    except Exception:
+        current_app.logger.exception("Failed to get page preview data")
+        return bad_gateway_error()
     try:
         return render_content_page(
             page_data | {"page_preview": True, "id": objects.get(page_data, "id", 0)}
         )
-    except Exception as e:
-        current_app.logger.error(f"Failed to render page preview: {e}")
-        return render_template("errors/api.html"), 502
+    except Exception:
+        current_app.logger.exception("Failed to render page preview")
+        return bad_gateway_error()
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
@@ -63,13 +70,13 @@ def preview_protected_page(page_id):
             page_id=page_id,
             params=params,
         )
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to render page preview: {e}")
-        return render_template("errors/api.html"), 502
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except ResourceForbiddenError:
+        return forbidden_error()
+    except Exception:
+        current_app.logger.exception("Failed to render page preview")
+        return bad_gateway_error()
 
     # Check if the page is password protected
     if objects.get(page_data, "meta.privacy") == "password":
@@ -95,7 +102,7 @@ def preview_protected_page(page_id):
     if url := objects.get(page_data, "meta.url"):
         return redirect(url, code=302)
 
-    return render_template("errors/api.html"), 502
+    return bad_gateway_error()
 
 
 @bp.route("/page/<int:page_id>/")
@@ -107,13 +114,13 @@ def page_permalink(page_id):
     try:
         # Get the page details from Wagtail by its ID
         page_data = page_details(page_id)
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get page details: {e}")
-        return render_template("errors/api.html"), 502
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except ResourceForbiddenError:
+        return forbidden_error()
+    except Exception:
+        current_app.logger.exception("Failed to get page details")
+        return bad_gateway_error()
 
     # If the page has a URL, redirect to it
     if url := objects.get(page_data, "meta.url"):
@@ -121,7 +128,7 @@ def page_permalink(page_id):
 
     # If the page does not have a URL, log an error and return a 502 error page
     current_app.logger.error(f"Cannot generate permalink for page: {page_id}")
-    return render_template("errors/api.html"), 502
+    return bad_gateway_error()
 
 
 @bp.route("/", defaults={"path": "/"})
@@ -142,26 +149,23 @@ def page(path):
     try:
         # Get the page details from Wagtail by the requested URI
         page_data = page_details_by_uri(unquote(f"/{path}/"))
-    except ResourceNotFound:
+    except ResourceNotFoundError:
         # If no page is found, try to match the requested path with any of the external
         # redirects added in Wagtail
-        if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
+        if current_app.config["SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"]:
             return try_external_redirect(path)
-        return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
-        # In the unlikely case that the API returns a 403, show a forbidden error page
-        return render_template("errors/forbidden.html"), 403
-    except Exception as e:
+        return page_not_found_error()
+    except Exception:
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
-        current_app.logger.error(f"Failed to render page: {e}")
-        return render_template("errors/api.html"), 502
+        current_app.logger.exception("Failed to render page")
+        return bad_gateway_error()
 
     # If the page data does not contain meta information, return a 502 error
     # as it is not possible to render the page without it
     if "meta" not in page_data:
         current_app.logger.error("Page meta not available")
-        return render_template("errors/api.html"), 502
+        return bad_gateway_error()
 
     # If the page is password protected, redirect to the preview page
     if objects.get(page_data, "meta.privacy") == "password":
@@ -175,13 +179,13 @@ def page(path):
 
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
-    if rediect_url := objects.get(page_data, "meta.alias_of.url"):
-        if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
-            return redirect(rediect_url, code=302)
+    rediect_url = objects.get(page_data, "meta.alias_of.url")
+    if rediect_url and current_app.config["REDIRECT_WAGTAIL_ALIAS_PAGES"]:
+        return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it
     # which covers internal redirects added in Wagtail
-    if current_app.config.get("SERVE_WAGTAIL_PAGE_REDIRECTIONS") and (
+    if current_app.config["SERVE_WAGTAIL_PAGE_REDIRECTIONS"] and (
         urlparse(objects.get(page_data, "meta.url")).path
         != urlparse(f"/{quote(path)}/").path
     ):
@@ -214,11 +218,11 @@ def try_external_redirect(path):
     try:
         # Attempt to get the redirect data by the requested path
         redirect_data = redirect_by_uri(path)
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except Exception as e:
-        current_app.logger.error(f"Failed to get redirect: {e}")
-        return render_template("errors/api.html"), 502
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except Exception:
+        current_app.logger.exception("Failed to get redirect")
+        return bad_gateway_error()
 
     # Get the redirect destination and whether it is permanent
     rediect_destination = redirect_data.get("location", "/")
@@ -231,22 +235,33 @@ def try_external_redirect(path):
     )
 
 
-@bp.route("/video/<uuid:media_uuid>/")
-def media_page(media_uuid):
+@bp.route("/<any(video,audio):media_type>/<uuid:media_uuid>/")
+def audio_video_page(media_type, media_uuid):
     """
     Renders a video details page.
     """
 
     try:
         media_data = media(media_uuid=media_uuid)
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get video: {e}")
-        return render_template("errors/api.html"), 502
-    return render_template("media/video.html", media_data=media_data)
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except ResourceForbiddenError:
+        return forbidden_error()
+    except Exception:
+        current_app.logger.exception("Failed to get video")
+        return bad_gateway_error()
+    if media_data["media_type"] != media_type:
+        return redirect(
+            url_for(
+                "wagtail.audio_video_page",
+                media_type=media_data["media_type"],
+                media_uuid=media_uuid,
+            ),
+            code=302,
+        )
+    return render_template(
+        "media/audio_video.html", media_data=media_data, global_alert=global_alerts()
+    )
 
 
 @bp.route("/image/<uuid:image_uuid>/")
@@ -257,14 +272,16 @@ def image_page(image_uuid):
 
     try:
         image_data = image(image_uuid=image_uuid)
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
-    except Exception as e:
-        current_app.logger.error(f"Failed to get video: {e}")
-        return render_template("errors/api.html"), 502
-    return render_template("media/image.html", image_data=image_data)
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except ResourceForbiddenError:
+        return forbidden_error()
+    except Exception:
+        current_app.logger.exception("Failed to get image")
+        return bad_gateway_error()
+    return render_template(
+        "media/image.html", image_data=image_data, global_alert=global_alerts()
+    )
 
 
 @bp.route("/explore-the-collection/search/")
@@ -276,11 +293,20 @@ def search_explore_the_collection():
     """
 
     children_per_page = 12
-    page = (
-        int(request.args.get("page"))
-        if request.args.get("page") and request.args.get("page").isnumeric()
-        else 1
-    )
+    page = 1
+    if request.args.get("page"):
+        try:
+            page = int(request.args.get("page", 1))
+        except ValueError:
+            current_app.logger.warning(
+                f"Invalid page number '{request.args.get('page')}' for Explore the collection search"
+            )
+            return bad_request_error()
+    if page < 1:
+        current_app.logger.warning(
+            f"Page number {page} is less than 1 for Explore the collection search"
+        )
+        return bad_request_error()
     query = unquote(request.args.get("q", "")).strip(" ")
     existing_qs_as_dict = request.args.to_dict()
     params = {"descendant_of_path": "/explore-the-collection/"}
@@ -298,7 +324,7 @@ def search_explore_the_collection():
     total_results = objects.get(results, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page)
     if pages > 0 and page > pages:
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     return render_template(
         "explore_the_collection/search.html",
         q=query,

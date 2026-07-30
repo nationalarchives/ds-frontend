@@ -1,7 +1,11 @@
-from app.wagtail.api import page_children
 from flask import current_app, render_template
+from tna_utilities.flask import cacheable_duration
+
+from app.error_pages.routes import bad_gateway_error, server_error
+from app.wagtail.api import page_children
 
 
+@cacheable_duration(3600)
 def hub_page(page_data):
     children = []
     if not page_data["links"]:
@@ -9,15 +13,15 @@ def hub_page(page_data):
             all_children = page_children(page_data["id"])
             children = all_children["items"]
         except ConnectionError:
-            current_app.logger.error(
+            current_app.logger.exception(
                 f"API error getting children for page {page_data['id']}"
             )
-            return render_template("errors/api.html"), 502
+            return bad_gateway_error()
         except Exception:
-            current_app.logger.error(
+            current_app.logger.exception(
                 f"Exception getting children for page {page_data['id']}"
             )
-            return render_template("errors/server.html"), 500
+            return server_error()
     return render_template(
         "main/hub.html",
         page_data=page_data,

@@ -1,23 +1,27 @@
+from flask import current_app, make_response, render_template, request, url_for
+from pydash import objects
+from tna_utilities.api import ResourceNotFoundError
+from tna_utilities.flask import cacheable_duration
+
+from app.error_pages.routes import bad_gateway_error, page_not_found_error
 from app.feeds import bp
-from app.lib.api import ResourceNotFound
 from app.wagtail.api import (
     blog_posts_paginated,
     page_details,
     page_details_by_type,
 )
-from flask import current_app, make_response, render_template, request, url_for
-from pydash import objects
 
 
 @bp.route("/blogs.xml")
+@cacheable_duration(14400)
 def rss_all_feed():
-    items = current_app.config.get("ITEMS_PER_BLOG_FEED")
+    items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
         blog_data = page_details_by_type("blog.BlogIndexPage")
         blog_posts = blog_posts_paginated(page=1, limit=items)
-    except Exception as e:
-        current_app.logger.error(f"Failed to render blog feeds list: {e}")
-        return render_template("errors/api.html"), 502
+    except Exception:
+        current_app.logger.exception("Failed to render blog feeds list")
+        return bad_gateway_error()
     xml = render_template(
         (
             "feeds/blog_atom_feed.xml"
@@ -34,18 +38,19 @@ def rss_all_feed():
 
 
 @bp.route("/blogs/<int:blog_id>.xml")
+@cacheable_duration(14400)
 def rss_feed(blog_id):
-    items = current_app.config.get("ITEMS_PER_BLOG_FEED")
+    items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)
-    except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
-    except Exception as e:
-        current_app.logger.error(f"Failed to get blog data for page {blog_id}: {e}")
-        return render_template("errors/api.html"), 502
+    except ResourceNotFoundError:
+        return page_not_found_error()
+    except Exception:
+        current_app.logger.exception(f"Failed to get blog data for page {blog_id}")
+        return bad_gateway_error()
     if objects.get(blog_data, "meta.type") != "blog.BlogPage":
-        return render_template("errors/page_not_found.html"), 404
+        return page_not_found_error()
     xml = render_template(
         (
             "feeds/blog_atom_feed.xml"
