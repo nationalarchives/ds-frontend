@@ -2,6 +2,7 @@
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
+{%- from 'components/files-list/macro.html' import tnaFilesList -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
@@ -130,6 +131,10 @@
           'href': '#further-information'
         }) %}
       {%- endif %}
+      {% do ns.source_list.append({
+        'text': 'Downloads',
+        'href': '#downloads'
+      }) %}
       {{ tnaSidebar({
         'title': 'On this page',
         'headingLevel': 2,
@@ -255,6 +260,26 @@
       {%- if page_data.partner_logos %}
       {{ wagtail_streamfield(page_data.partner_logos, 2) }}
       {%- endif %}
+
+      <h2 class="tna-heading-l tna-!--margin-top-xl" id="downloads">Downloads</h2>
+      {{ tnaFilesList({
+        'itemHeadingLevel': 3,
+        'items': [
+          {
+            'id': 'markdown-download',
+            'text': 'Source descriptions and transcripts',
+            'href': '?markdown',
+            'fileType': 'Markdown',
+            'fileSize': 'Less than 1MB',
+            'description': 'Markdown file containing the source descriptions and transcripts for this teaching resource.',
+            'icon': 'lines'
+          }
+        ],
+        'fullAreaClick': True,
+        'attributes': {
+          'id': 'downloads-list'
+        }
+      }) }}
     </div>
   </div>
 </div>
@@ -265,5 +290,28 @@
 
 {% block bodyEnd %}
 {{ super() }}
+    <template id="download-media" data-file-name="{{ page_data.meta.slug }}-media.zip">
+      <li class="tna-files-list__item">
+        <h3 class="tna-files-list__item-title tna-heading-s">
+          <button class="tna-files-list__link"></button>
+        </h3>
+        <i class="tna-files-list__item-icon fa-solid fa-fw fa-file-archive" aria-hidden="true"></i>
+        <div class="tna-files-list__item-body">
+          <dl class="tna-dl-chips tna-dl-chips--plain tna-files-list__item-meta">
+            <dt>File type</dt>
+            <dd>
+              <span class="tna-dl-chips__item"></span>
+            </dd>
+            <dt>File size</dt>
+            <dd>
+              <span class="tna-dl-chips__item"></span>
+            </dd>
+          </dl>
+          <p class="tna-files-list__item-description"></p>
+        </div>
+      </li>
+    </template>
+    <script src="{{ url_for('static', filename='education.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock bodyEnd %}
+

@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 from urllib.parse import quote_plus, unquote, urlparse
 
+from markdownify import markdownify
 from markupsafe import Markup
 from tna_utilities.string import slugify
 
@@ -39,6 +40,11 @@ def multiline_address_to_single_line(s):
     s = re.sub(r"^\s*<p>", "", s)
     s = re.sub(r"</p>\s*$", "", s)
     return re.sub(r"(,\s*){2,}", ", ", s)
+
+
+def html_to_text(html):
+    """Convert HTML to plain text."""
+    return markdownify(html).strip()
 
 
 def seconds_to_time(s):

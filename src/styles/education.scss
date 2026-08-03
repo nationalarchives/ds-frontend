@@ -293,6 +293,47 @@ $forced-colours-border: 1px;
   }
 }
 
+button.tna-files-list__link {
+  padding: 0;
+
+  display: inline-block;
+
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  vertical-align: top;
+  text-decoration: underline;
+
+  background: none;
+
+  border: none;
+
+  cursor: pointer;
+  @include colour.colour-font("link");
+  @include typography.interactable-text-decoration;
+
+  &:hover {
+    @include typography.interacted-text-decoration;
+  }
+
+  &::after {
+    content: "";
+
+    width: 0.3125em;
+    height: 0.3125em;
+    margin-bottom: 0.1em;
+    margin-left: 0.375em;
+
+    display: inline-block;
+
+    vertical-align: middle;
+
+    transform: rotate(45deg);
+    @include colour.colour-border("link", 0.125em, solid, top);
+    @include colour.colour-border("link", 0.125em, solid, right);
+  }
+}
+
 @include media.on-print {
   .tna-\!--hide-on-print:first-child + * {
     margin-top: 0 !important;
