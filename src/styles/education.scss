@@ -308,10 +308,13 @@ $forced-colours-border: 1px;
 #download-error {
   padding: spacing.space(1);
 
-  @include colour.colour-background("base-background");
-  @include colour.colour-font("form-error-text");
-  @include colour.colour-border("form-error-border", 4px, solid);
   @include typography.main-font-weight-bold;
+  @include colour.colour-font("form-error-text");
+  line-height: 1.35;
+
+  @include colour.colour-background("base-background");
+  
+  @include colour.colour-border("form-error-border", 4px, solid);
 }
 
 @include media.on-print {
