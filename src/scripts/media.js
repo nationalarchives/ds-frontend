@@ -64,10 +64,10 @@ const initYouTubeVideos = ($youTubeVideoInstancesToInit) => {
   });
 };
 
-if (cookies.isPolicyAccepted("marketing")) {
+if (cookies.preference("marketing")) {
   initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
 } else {
-  cookies.once("changePolicy", (policies) => {
+  cookies.once("changePreference", (policies) => {
     if (policies.marketing) {
       initYoutubeEmbedApi(() => initYouTubeVideos($youTubeVideoInstances));
     }

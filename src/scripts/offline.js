@@ -1,4 +1,4 @@
-import Cookies from "@nationalarchives/frontend/nationalarchives/lib/cookies.mjs";
+import Cookies from "@nationalarchives/cookies";
 
 const cookies = new Cookies();
 

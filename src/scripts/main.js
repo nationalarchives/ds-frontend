@@ -1,7 +1,5 @@
-import {
-  Cookies,
-  initAll,
-} from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import Cookies from "@nationalarchives/cookies";
+import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
@@ -13,6 +11,7 @@ window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 initAll();
 
 const cookies = new Cookies();
+window.TNAFrontendCookies = cookies;
 
 const initNotifications = () => {
   const initialDismissedNotifications = JSON.parse(
@@ -58,10 +57,10 @@ const initNotifications = () => {
     });
 };
 
-if (cookies.isPolicyAccepted("settings")) {
+if (cookies.preference("settings")) {
   initNotifications();
 } else {
-  cookies.once("changePolicy", (policies) => {
+  cookies.once("changePreference", (policies) => {
     if (policies.settings) {
       initNotifications();
     }

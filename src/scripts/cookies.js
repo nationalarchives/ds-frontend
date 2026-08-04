@@ -10,9 +10,9 @@
 //     $form.addEventListener("submit", (event) => {
 //       event.preventDefault();
 //       const formData = new FormData($form);
-//       cookies.setPolicy("usage", formData.get("usage") === "true");
-//       cookies.setPolicy("settings", formData.get("settings") === "true");
-//       cookies.setPolicy("marketing", formData.get("marketing") === "true");
+//       cookies.setPreference("usage", formData.get("usage") === "true");
+//       cookies.setPreference("settings", formData.get("settings") === "true");
+//       cookies.setPreference("marketing", formData.get("marketing") === "true");
 //       cookies.set("dontShowCookieNotice", true);
 //       $successMessage.removeAttribute("hidden");
 //       $successMessage.setAttribute("tabindex", "0");

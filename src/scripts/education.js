@@ -207,17 +207,25 @@ if (
   const $downloadError = document.getElementById("download-error");
 
   if ($downloadBlock && $downloadButton && $downloadError) {
+    const $sidebarItem = document.querySelector(
+      ".tna-sidebar__item[hidden]:has(a[href='#download'])",
+    );
+    if ($sidebarItem) {
+      $sidebarItem.removeAttribute("hidden");
+    }
+
     $downloadBlock.removeAttribute("hidden");
 
     const originalButtonText = $downloadButton.textContent;
+    const originalButtonIcon = $downloadButton
+      .querySelector("i")
+      .cloneNode(true);
 
     const reEnableButton = (options) => {
-      const { text, focus = false } = options;
+      const { text } = options;
       $downloadButton.removeAttribute("disabled");
       $downloadButton.textContent = text;
-      if (focus) {
-        $downloadButton.focus();
-      }
+      $downloadButton.prepend(originalButtonIcon.cloneNode(true));
     };
 
     $downloadButton.addEventListener("click", async () => {
@@ -271,7 +279,13 @@ if (
         $downloadError.focus();
       }
 
-      reEnableButton({ text: "Downloaded", focus: true });
+      $downloadButton.removeAttribute("disabled");
+      $downloadButton.textContent = "Download complete";
+      const downloadedButtonIcon = document.createElement("i");
+      downloadedButtonIcon.classList.add("fa-solid", "fa-check");
+      downloadedButtonIcon.setAttribute("aria-hidden", "true");
+      $downloadButton.prepend(downloadedButtonIcon);
+      $downloadButton.focus();
     });
 
     $downloadButton.addEventListener("blur", async () => {
