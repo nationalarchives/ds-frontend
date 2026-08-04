@@ -243,7 +243,12 @@ if (
 
       const fileBlobs = await Promise.all(
         files.map(async (file) => {
-          const response = await fetch(file.source);
+          const response = await fetch(
+            file.source.replace(
+              "www.nationalarchives.gov.uk",
+              "beta.nationalarchives.gov.uk",
+            ),
+          );
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
