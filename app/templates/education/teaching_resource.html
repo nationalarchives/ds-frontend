@@ -1,8 +1,8 @@
 {% extends "wagtail_base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
-{%- from 'components/files-list/macro.html' import tnaFilesList -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
@@ -110,7 +110,7 @@
         }) %}
       {% endfor %}
       {% do ns.source_list.append({
-        'text': 'Teachers notes',
+        'text': 'Teachers’ notes',
         'href': '#teachers-notes'
       }) %}
       {%- if page_data.extension_activities %}
@@ -132,8 +132,11 @@
         }) %}
       {%- endif %}
       {% do ns.source_list.append({
-        'text': 'Downloads',
-        'href': '#downloads'
+        'text': 'Download',
+        'href': '#download',
+        'attributes': {
+          'hidden': True
+        }
       }) %}
       {{ tnaSidebar({
         'title': 'On this page',
@@ -143,6 +146,7 @@
         'sticky': True,
         'classes': 'tna-!--padding-top-s tna-!--margin-top-m',
         'attributes': {
+          'id': 'sidebar',
           'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
         }
       }) }}
@@ -261,25 +265,31 @@
       {{ wagtail_streamfield(page_data.partner_logos, 2) }}
       {%- endif %}
 
-      <h2 class="tna-heading-l tna-!--margin-top-xl" id="downloads">Downloads</h2>
-      {{ tnaFilesList({
-        'itemHeadingLevel': 3,
-        'items': [
-          {
-            'id': 'markdown-download',
-            'text': 'Source descriptions and transcripts',
-            'href': '?markdown',
-            'fileType': 'Markdown',
-            'fileSize': 'Less than 1MB',
-            'description': 'Markdown file containing the source descriptions and transcripts for this teaching resource.',
-            'icon': 'lines'
-          }
-        ],
-        'fullAreaClick': True,
-        'attributes': {
-          'id': 'downloads-list'
-        }
-      }) }}
+      <div id="download" class="tna-!--margin-top-l tna-!--padding-top-s" hidden>
+        <div class="tna-aside tna-background-accent">
+          <hgroup class="tna-hgroup-l">
+            <p class="tna-hgroup__supertitle">Beta</p>
+            <h2 class="tna-hgroup__title">Download</h2>
+          </hgroup>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>
+            <small>This feature is new and might have issues.</small>
+          </p>
+          <div class="tna-button-group">
+            {{ tnaButton({
+              'text': 'Download all images and transcripts (ZIP)',
+              'icon': 'file-archive',
+              'buttonElement': True,
+              'attributes': {
+                'id': 'download-sources',
+                'data-file-name': page_data.meta.slug ~ '.zip',
+                'aria-live': 'polite'
+              }
+            }) }}
+          </div>
+          <p id="download-error" class="tna-!--margin-top-s" aria-live="polite" hidden></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -290,27 +300,6 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <template id="download-media" data-file-name="{{ page_data.meta.slug }}-media.zip">
-      <li class="tna-files-list__item">
-        <h3 class="tna-files-list__item-title tna-heading-s">
-          <button class="tna-files-list__link"></button>
-        </h3>
-        <i class="tna-files-list__item-icon fa-solid fa-fw fa-file-archive" aria-hidden="true"></i>
-        <div class="tna-files-list__item-body">
-          <dl class="tna-dl-chips tna-dl-chips--plain tna-files-list__item-meta">
-            <dt>File type</dt>
-            <dd>
-              <span class="tna-dl-chips__item"></span>
-            </dd>
-            <dt>File size</dt>
-            <dd>
-              <span class="tna-dl-chips__item"></span>
-            </dd>
-          </dl>
-          <p class="tna-files-list__item-description"></p>
-        </div>
-      </li>
-    </template>
     <script src="{{ url_for('static', filename='education.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock bodyEnd %}

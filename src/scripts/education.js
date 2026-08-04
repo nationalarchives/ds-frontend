@@ -31,14 +31,21 @@ document.querySelectorAll(".tna-filters").forEach(($filters) => {
   });
 });
 
-/**
- * Main function to generate a ZIP Blob from an array of Blob files.
- * @param {Array<{name: string, blob: Blob}>} fileList
- * @returns {Promise<Blob>}
- */
-async function createZipFromBlobs(fileList) {
-  // Inline Web Worker Code
-  const workerCode = `
+if (
+  window.Worker &&
+  window.Blob &&
+  window.URL &&
+  window.TextEncoder &&
+  window.CompressionStream
+) {
+  /**
+   * Main function to generate a ZIP Blob from an array of Blob files.
+   * @param {Array<{name: string, blob: Blob}>} fileList
+   * @returns {Promise<Blob>}
+   */
+  const createZipFromBlobs = async function (fileList) {
+    // Inline Web Worker Code
+    const workerCode = `
     // CRC-32 Lookup Table for fast streaming calculations
     const crcTable = new Uint32Array(256);
     for (let i = 0; i < 256; i++) {
@@ -170,93 +177,105 @@ async function createZipFromBlobs(fileList) {
     };
   `;
 
-  // Spawn Web Worker using a Blob URL
-  const workerBlob = new Blob([workerCode], { type: "application/javascript" });
-  const workerUrl = URL.createObjectURL(workerBlob);
-  const worker = new Worker(workerUrl);
+    // Spawn Web Worker using a Blob URL
+    const workerBlob = new Blob([workerCode], {
+      type: "application/javascript",
+    });
+    const workerUrl = URL.createObjectURL(workerBlob);
+    const worker = new Worker(workerUrl);
 
-  return new Promise((resolve, reject) => {
-    worker.onmessage = (e) => {
-      URL.revokeObjectURL(workerUrl);
-      worker.terminate();
-      resolve(e.data); // Returns the ZIP Blob
+    return new Promise((resolve, reject) => {
+      worker.onmessage = (e) => {
+        URL.revokeObjectURL(workerUrl);
+        worker.terminate();
+        resolve(e.data); // Returns the ZIP Blob
+      };
+
+      worker.onerror = (err) => {
+        URL.revokeObjectURL(workerUrl);
+        worker.terminate();
+        reject(err);
+      };
+
+      // Blobs can be passed directly via postMessage without needing transferables
+      worker.postMessage(fileList);
+    });
+  };
+
+  const $downloadBlock = document.getElementById("download");
+  const $downloadButton = document.getElementById("download-sources");
+  const $downloadError = document.getElementById("download-error");
+
+  if ($downloadBlock && $downloadButton && $downloadError) {
+    $downloadBlock.removeAttribute("hidden");
+
+    const originalButtonText = $downloadButton.textContent;
+
+    const reEnableButton = (options) => {
+      const { text, focus = false } = options;
+      $downloadButton.removeAttribute("disabled");
+      $downloadButton.textContent = text;
+      if (focus) {
+        $downloadButton.focus();
+      }
     };
 
-    worker.onerror = (err) => {
-      URL.revokeObjectURL(workerUrl);
-      worker.terminate();
-      reject(err);
-    };
+    $downloadButton.addEventListener("click", async () => {
+      $downloadButton.blur();
+      $downloadButton.setAttribute("disabled", "true");
+      $downloadError.setAttribute("hidden", "hidden");
+      $downloadButton.textContent = "Downloading...";
 
-    // Blobs can be passed directly via postMessage without needing transferables
-    worker.postMessage(fileList);
-  });
-}
-
-const $downloads = document.getElementById("downloads-list");
-if ($downloads) {
-  const $downloadItems = $downloads.querySelector(".tna-files-list__items");
-  if ($downloadItems) {
-    if ("content" in document.createElement("template")) {
-      const template = document.getElementById("download-media");
-      const clone = document.importNode(template.content, true);
-
-      let $titleButton = clone.querySelector(".tna-files-list__link");
-      $titleButton.textContent = "Source media";
-      $titleButton.addEventListener("click", async () => {
-        $titleButton.setAttribute("disabled", "true");
-        $titleButton.textContent = "Downloading...";
-        const files = await fetch("?source_media")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
-          })
-          .catch((error) => {
-            console.error(
-              "There was a problem with the fetch operation:",
-              error,
-            );
-            $titleButton.removeAttribute("disabled");
-            $titleButton.textContent = "Source media";
-          });
-        const fileBlobs = await Promise.all(
-          files.map(async (file) => {
-            const response = await fetch(file);
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return { name: file.split("/").pop(), blob: await response.blob() };
-          }),
-        ).catch((error) => {
-          $titleButton.removeAttribute("disabled");
-          $titleButton.textContent = "Source media";
+      const files = await fetch("?sources")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .catch((error) => {
+          reEnableButton({ text: originalButtonText });
+          $downloadError.textContent =
+            "Error: There was a problem downloading the list of files. Try again later.";
+          $downloadError.removeAttribute("hidden");
+          $downloadError.focus();
         });
+
+      const fileBlobs = await Promise.all(
+        files.map(async (file) => {
+          const response = await fetch(file.source);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return { name: file.target, blob: await response.blob() };
+        }),
+      ).catch((error) => {
+        reEnableButton({ text: originalButtonText });
+        $downloadError.textContent =
+          "Error: There was a problem downloading the files. Try again later.";
+        $downloadError.removeAttribute("hidden");
+        $downloadError.focus();
+      });
+
+      try {
         const zipBlob = await createZipFromBlobs(fileBlobs);
         const downloadLink = document.createElement("a");
         downloadLink.href = URL.createObjectURL(zipBlob);
-        downloadLink.download = `${template.dataset.fileName}`;
+        downloadLink.download = `${$downloadButton.dataset.fileName}`;
         downloadLink.click();
-        $titleButton.removeAttribute("disabled");
-        $titleButton.textContent = "Source media";
-      });
-      let $titleExtra = document.createElement("span");
-      $titleExtra.classList.add("tna-visually-hidden");
-      $titleExtra.textContent = " for this teaching resource";
-      $titleButton.appendChild($titleExtra);
+      } catch (error) {
+        reEnableButton({ text: originalButtonText });
+        $downloadError.removeAttribute("hidden");
+        $downloadError.textContent =
+          "Error: There was a problem creating the ZIP file. Try again later.";
+        $downloadError.focus();
+      }
 
-      let $details = clone.querySelectorAll("dd .tna-dl-chips__item");
-      $details[0].textContent = "ZIP";
-      $details[1].textContent = "Don't know";
+      reEnableButton({ text: "Downloaded", focus: true });
+    });
 
-      let $description = clone.querySelector(
-        ".tna-files-list__item-description",
-      );
-      $description.textContent =
-        "ZIP file containing the source media for this teaching resource.";
-
-      $downloadItems.appendChild(clone);
-    }
+    $downloadButton.addEventListener("blur", async () => {
+      reEnableButton({ text: originalButtonText });
+    });
   }
 }

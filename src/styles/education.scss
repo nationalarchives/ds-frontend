@@ -293,45 +293,25 @@ $forced-colours-border: 1px;
   }
 }
 
-button.tna-files-list__link {
-  padding: 0;
+.tna-button[disabled] {
+  opacity: 0.5;
 
-  display: inline-block;
-
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  vertical-align: top;
-  text-decoration: underline;
-
-  background: none;
-
-  border: none;
-
-  cursor: pointer;
-  @include colour.colour-font("link");
-  @include typography.interactable-text-decoration;
+  cursor: not-allowed;
 
   &:hover {
-    @include typography.interacted-text-decoration;
+    @include colour.colour-background("button-background");
+
+    @include colour.colour-font("button-text");
   }
+}
 
-  &::after {
-    content: "";
+#download-error {
+  padding: spacing.space(1);
 
-    width: 0.3125em;
-    height: 0.3125em;
-    margin-bottom: 0.1em;
-    margin-left: 0.375em;
-
-    display: inline-block;
-
-    vertical-align: middle;
-
-    transform: rotate(45deg);
-    @include colour.colour-border("link", 0.125em, solid, top);
-    @include colour.colour-border("link", 0.125em, solid, right);
-  }
+  @include colour.colour-background("base-background");
+  @include colour.colour-font("form-error-text");
+  @include colour.colour-border("form-error-border", 4px, solid);
+  @include typography.main-font-weight-bold;
 }
 
 @include media.on-print {

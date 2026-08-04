@@ -6,6 +6,37 @@ from pydash import objects
 
 # @cacheable_duration(3600)
 def education_teaching_resource_page(page_data):
+    if "sources" in request.args:
+        sources = [
+            {
+                "source": f"{objects.get(page_data, 'meta.html_url')}?markdown",
+                "target": "content.md",
+            },
+            {
+                "source": objects.get(page_data, "hero_image.jpeg.full_url"),
+                "target": "hero.jpg",
+            },
+        ]
+        for source_index, source in enumerate(page_data.get("sources", [])):
+            source_images = source.get("media", [])
+            for media_index, media in enumerate(source_images):
+                if (
+                    media.get("type") != "image"
+                    or objects.get(media, "value.image.copyright", None)
+                    or not objects.get(media, "value.image.jpeg.full_url", None)
+                ):
+                    continue
+                source_name = f"source-{source_index}"
+                if len(source_images) > 1:
+                    source_name += f"{['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'][media_index]}"
+                sources.append(
+                    {
+                        "source": objects.get(media, "value.image.jpeg.full_url"),
+                        "target": f"{source_name}.jpg",
+                    }
+                )
+        return sources
+
     if "markdown" in request.args:
         markdown = render_template(
             "education/teaching_resource_markdown.html",
@@ -18,17 +49,7 @@ def education_teaching_resource_page(page_data):
             f"attachment; filename={objects.get(page_data, 'meta.slug')}.md"
         )
         return response
-    if "source_media" in request.args:
-        source_media = []
-        source_media.append(objects.get(page_data, "hero_image.jpeg.full_url"))
-        for source in page_data.get("sources", []):
-            for media in [
-                media
-                for media in source.get("media", [])
-                if media.get("type") == "image"
-            ]:
-                source_media.append(objects.get(media, "value.image.jpeg.full_url"))
-        return source_media
+
     return render_template(
         "education/teaching_resource.html",
         page_data=page_data,
