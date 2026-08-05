@@ -18,10 +18,10 @@
 //     }
 //   });
 
-// if (cookies.isPolicyAccepted("usage")) {
+// if (cookies.preference("usage")) {
 //   enhanceMaps();
 // } else {
-//   cookies.once("changePolicy", (policies) => {
+//   cookies.once("changePreference", (policies) => {
 //     if (policies["usage"]) {
 //       enhanceMaps();
 //     }

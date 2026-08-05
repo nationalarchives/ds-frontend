@@ -1,0 +1,76 @@
+# {{ page_data.title }}
+
+{% if page_data.enquiry_question %}
+**{{ page_data.enquiry_question }}**
+{% endif %}
+
+{{ page_data.intro | striptags }}
+
+## Details
+
+* **Age range{{ 's' if page_data.key_stages | length > 1 else '' }}**
+{% for key_stage in page_data.key_stages %}
+  + {{ key_stage.name }} ({{ key_stage.public_age_range }})
+{% endfor %}
+* **Time period{{ 's' if page_data.time_periods | length > 1 else '' }}**
+{% for time_period in page_data.time_periods %}
+  + {{ time_period.name }} ({{ time_period.year_from }}–{{ time_period.year_to }})
+{% endfor %}
+* **Theme{{ 's' if page_data.themes | length > 1 else '' }}**
+{% for theme in page_data.themes %}
+  + {{ theme.name }}
+{% endfor %}
+
+## Investigate the sources
+
+{% if page_data.sources_introduction %}
+  {{- page_data.sources_introduction | html_to_text }}
+{% endif %}
+
+{% for source in page_data.sources %}
+  {% set source_index = loop.index %}
+### Source {{ source_index }}: {{ source.title }}
+
+  {% if source.description %}
+    {{- source.description | html_to_text }}
+  {% endif %}
+
+  {% for media in source.media %}
+#### Source {{ source_index }}{{ alphabet[loop.index0] if (source.media | length) > 1 else '' }}
+
+    {% if media.type == 'media' %}
+      {% set transcript = media.value.media.transcript %}
+      {% if transcript %}
+##### Transcript
+
+{{ transcript | html_to_text }}
+
+      {% endif %}
+    {% elif media.type == 'image' %}
+      {{- media.value.image.title | html_to_text }}
+
+      {% set transcript = media.value.image.transcript %}
+      {% if transcript %}
+##### {{ transcript.heading }}
+
+{{ transcript.text | html_to_text }}
+
+      {% endif %}
+
+      {% set translation = media.value.image.translation %}
+      {% if translation %}
+##### {{ translation.heading }}
+
+{{ translation.text | html_to_text }}
+
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {%- for question in source.question %}
+### {{ question.value.question_heading }}
+
+{{ question.value.question_description | html_to_text }}
+
+  {%- endfor -%}
+{% endfor %}
