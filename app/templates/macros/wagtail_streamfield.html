@@ -37,7 +37,7 @@
     <ol id="footnotes-list" class="tna-ol tna-ol--footnotes">
       {% for footnote in footnotes %}
       <li id="footnote-{{ footnote.uuid }}" data-footnoteid="{{ footnote.uuid }}" data-footnoteidshort="{{ footnote.uuid[0:6] }}">
-        {{ footnote.text | safe }}
+        {{ footnote.text | tna_html | safe }}
       </li>
       {% endfor %}
     </ol>

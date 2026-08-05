@@ -181,7 +181,7 @@
     <div id="{{ (page_data.intro_title | slugify) if page_data.intro_title else 'about' }}" class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-m tna-!--padding-top-s">
       <h2 class="tna-visually-hidden">{{ page_data.intro_title or ('About ' ~ page_data.title) }}</h2>
       <div class="tna-large-paragraph tna-large-paragraph--bold tna-!--no-margin-top" itemprop="about">
-        {{ page_data.intro | safe }}
+        {{ page_data.intro | tna_html | safe }}
       </div>
       <div class="tna-!--margin-top-s" itemprop="description">
         {{ wagtail_streamfield(page_data.body, 3, page_data.footnotes) }}
@@ -211,7 +211,7 @@
               <link itemprop="availability" href="https://schema.org/InStock">
             </div>
           </dd>
-          <dd>{{ page_data.booking_details | safe }}</dd>
+          <dd>{{ page_data.booking_details | tna_html | safe }}</dd>
 
           {% if page_data.age_detail %}
           <dt>
@@ -286,7 +286,7 @@
           <i class="fa-solid fa-star" aria-hidden="true"></i>
           {% endfor %}
         </p>
-        <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body" itemprop="reviewBody">{{ review.value.quote | safe }}</div>
+        <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body" itemprop="reviewBody">{{ review.value.quote | tna_html | safe }}</div>
         <p class="tna-exhibition-quote__attribution" itemprop="author" itemscope itemtype="https://schema.org/Organization">
           <cite itemprop="name">{{ review.value.attribution }}</cite>
         </p>
@@ -307,7 +307,7 @@
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
             'src': image.image.jpeg.full_url,
-            'description': image.caption | safe
+            'description': image.caption | tna_html | safe
           }) %}
         {% endfor %}
         {{ tnaGallery({
