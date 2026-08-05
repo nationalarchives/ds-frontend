@@ -41,21 +41,19 @@
 
   <div class="tna-container">
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
-      <div class="tna-aside tna-aside--tight tna-background-accent-light">
-        <h2 class="tna-heading-m">Technical details</h2>
-        <dl class="tna-dl tna-!--margin-top-s">
-          <dt>Format</dt>
-          <dd>
-            <code itemprop="encodingFormat">image/jpeg</code>
-          </dd>
-          <dt>Width</dt>
-          <dd itemprop="width">{{ image_data.jpeg.width | string }}px</dd>
-          <dt>Height</dt>
-          <dd itemprop="height">{{ image_data.jpeg.height | string }}px</dd>
-        </dl>
-      </div>
+
+      {%- if image_data.transcription %}
+      <h2 class="tna-heading-l">{{ image_data.transcription_heading | unslugify }}</h2>
+      {{ image_data.transcription | tna_html | safe }}
+      {%- endif %}
+
+      {%- if image_data.translation %}
+      <h2 class="tna-heading-l">{{ image_data.translation_heading | unslugify }}</h2>
+      {{ image_data.translation | tna_html | safe }}
+      {%- endif %}
+
       {%- if image_data.copyright %}
-      <h2 class="tna-heading-m">Copyright</h2>
+      <h2 class="tna-heading-l">Copyright</h2>
       <div itemprop="copyrightNotice" class="tna-!--margin-bottom-xs tna-picture__copyright">
         {{ image_data.copyright | tna_html | safe }}
       </div>
@@ -80,15 +78,19 @@
         }) }}
       </div>
 
-      {%- if image_data.transcription %}
-      <h2 class="tna-heading-l">{{ image_data.transcription_heading | unslugify }}</h2>
-      {{ image_data.transcription | tna_html | safe }}
-      {%- endif %}
-
-      {%- if image_data.translation %}
-      <h2 class="tna-heading-l">{{ image_data.translation_heading | unslugify }}</h2>
-      {{ image_data.translation | tna_html | safe }}
-      {%- endif %}
+      <div class="tna-aside tna-aside--tight tna-background-accent-light">
+        <h2 class="tna-heading-m">Technical details</h2>
+        <dl class="tna-dl tna-!--margin-top-s">
+          <dt>Format</dt>
+          <dd>
+            <code itemprop="encodingFormat">image/jpeg</code>
+          </dd>
+          <dt>Width</dt>
+          <dd itemprop="width">{{ image_data.jpeg.width | string }}px</dd>
+          <dt>Height</dt>
+          <dd itemprop="height">{{ image_data.jpeg.height | string }}px</dd>
+        </dl>
+      </div>
     </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 {% extends "wagtail_base.html" %}
 
 {%- from 'components/accordion/macro.html' import tnaAccordion -%}
+{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
@@ -109,7 +110,7 @@
         }) %}
       {% endfor %}
       {% do ns.source_list.append({
-        'text': 'Teachers notes',
+        'text': 'Teachers’ notes',
         'href': '#teachers-notes'
       }) %}
       {%- if page_data.extension_activities %}
@@ -130,6 +131,13 @@
           'href': '#further-information'
         }) %}
       {%- endif %}
+      {% do ns.source_list.append({
+        'text': 'Download',
+        'href': '#download',
+        'attributes': {
+          'hidden': ''
+        }
+      }) %}
       {{ tnaSidebar({
         'title': 'On this page',
         'headingLevel': 2,
@@ -138,6 +146,7 @@
         'sticky': True,
         'classes': 'tna-!--padding-top-s tna-!--margin-top-m',
         'attributes': {
+          'id': 'sidebar',
           'data-scroll-top-threshold': app_config.SIDEBAR_SCROLL_TOP_THRESHOLD
         }
       }) }}
@@ -201,8 +210,9 @@
             {{ source.description | tna_html | safe }}
             <ol class="tna-education-ol__sublist">
             {%- for media in source.media %}
-              {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ ('.' ~ loop.index if (source.media | length) > 1 else '') ~ ': ' ~ source.title -%}
-              <li id="teaching-resource-source-{{ source_index }}-{{ loop.index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
+              {%- set media_index = alphabet[loop.index0] if (source.media | length) > 1 else '' -%}
+              {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ media_index ~ ': ' ~ source.title -%}
+              <li id="teaching-resource-source-{{ source_index }}{{ media_index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
             {%- endfor %}
             {%- for link in source.featured_link %}
               <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
@@ -255,6 +265,30 @@
       {%- if page_data.partner_logos %}
       {{ wagtail_streamfield(page_data.partner_logos, 2) }}
       {%- endif %}
+
+      <div id="download" class="tna-!--margin-top-l tna-!--padding-top-s" hidden>
+        <div class="tna-aside tna-background-accent">
+          <hgroup class="tna-hgroup-l">
+            <p class="tna-hgroup__supertitle">Beta</p>
+            <h2 class="tna-hgroup__title">Download all sources</h2>
+          </hgroup>
+          <p>You can save a single ZIP file of all sources from The National Archives on this page that are not in copyright. Images will be provided as <code>.jpg</code> files. Transcripts are provided as markdown (<code>.md</code>) files, which can be opened in most text and word-processing applications.</p>
+          <p>This is an experimental feature still in development. Please let us know what you think of it by using the feedback link at the bottom of this page.</p>
+          <div class="tna-button-group">
+            {{ tnaButton({
+              'text': 'Download all images and transcripts (ZIP)',
+              'icon': 'file-archive',
+              'buttonElement': True,
+              'attributes': {
+                'id': 'download-sources',
+                'data-file-name': page_data.meta.slug ~ '.zip',
+                'aria-live': 'polite'
+              }
+            }) }}
+          </div>
+          <p id="download-error" class="tna-!--margin-top-s" aria-live="polite" hidden></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -265,5 +299,7 @@
 
 {% block bodyEnd %}
 {{ super() }}
+    <script src="{{ url_for('static', filename='education.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
 {% endblock bodyEnd %}
+

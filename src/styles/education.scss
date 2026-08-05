@@ -293,6 +293,30 @@ $forced-colours-border: 1px;
   }
 }
 
+.tna-button[disabled] {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  &:hover {
+    @include colour.colour-background("button-background");
+
+    @include colour.colour-font("button-text");
+  }
+}
+
+#download-error {
+  padding: spacing.space(1);
+
+  @include typography.main-font-weight-bold;
+  @include colour.colour-font("form-error-text");
+  line-height: 1.35;
+
+  @include colour.colour-background("base-background");
+
+  @include colour.colour-border("form-error-border", 4px, solid);
+}
+
 @include media.on-print {
   .tna-\!--hide-on-print:first-child + * {
     margin-top: 0 !important;
