@@ -13,9 +13,12 @@ const updateYoutubeVideoMessages = ($youTubeVideoInstancesToUpdate) => {
     $video.querySelector(".etna-video__label-cookies-message-js")?.remove();
   });
 };
+/* eslint-disable-next-line max-lines-per-function */
 const initYouTubeVideos = ($youTubeVideoInstancesToInit) => {
+  /* eslint-disable-next-line max-lines-per-function, max-statements */
   $youTubeVideoInstancesToInit.forEach(($video) => {
     const id = $video.getAttribute("id");
+    const videoTitle = $video.dataset.title || null;
     const $newVideo = document.createElement("video");
     $newVideo.classList.add("etna-video", "etna-video--youtube", "video-js");
     $newVideo.setAttribute("controls", true);
@@ -55,6 +58,9 @@ const initYouTubeVideos = ($youTubeVideoInstancesToInit) => {
       () => {
         video.el().querySelector("iframe")?.setAttribute("tabindex", "-1");
         video.el().removeAttribute("tabindex");
+        if (videoTitle) {
+          video.el().setAttribute("aria-label", `YouTube video: ${videoTitle}`);
+        }
       },
     );
     video.one("play", (player) =>
@@ -91,6 +97,10 @@ document.querySelectorAll(".etna-video--selfhosted[id]").forEach(($video) => {
     },
     () => {
       video.el().removeAttribute("tabindex");
+      const videoTitle = video.el().dataset.title;
+      if (videoTitle) {
+        video.el().setAttribute("aria-label", `Video: ${videoTitle}`);
+      }
     },
   );
   videoJsInstances[id] = video;
@@ -114,6 +124,10 @@ document.querySelectorAll(".etna-audio[id]").forEach(($audio) => {
     },
     () => {
       audio.el().removeAttribute("tabindex");
+      const audioTitle = audio.el().dataset.title;
+      if (audioTitle) {
+        audio.el().setAttribute("aria-label", `Audio: ${audioTitle}`);
+      }
     },
   );
   videoJsInstances[id] = audio;
