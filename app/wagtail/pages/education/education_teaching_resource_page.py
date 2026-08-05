@@ -6,7 +6,7 @@ from pydash import objects
 
 # @cacheable_duration(3600)
 def education_teaching_resource_page(page_data):
-    alphabet = "abcdefghijklmnopqrstuvwxyz".split("")
+    alphabet = list("abcdefghijklmnopqrstuvwxyz")
     if "sources" in request.args:
         sources = [
             {
