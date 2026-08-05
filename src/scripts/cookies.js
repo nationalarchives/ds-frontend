@@ -13,7 +13,7 @@
 //       cookies.setPreference("usage", formData.get("usage") === "true");
 //       cookies.setPreference("settings", formData.get("settings") === "true");
 //       cookies.setPreference("marketing", formData.get("marketing") === "true");
-//       cookies.set("dontShowCookieNotice", true);
+//       cookies.set("cookie_preferences_set", true);
 //       $successMessage.removeAttribute("hidden");
 //       $successMessage.setAttribute("tabindex", "0");
 //       $successMessage.focus();

@@ -24,7 +24,7 @@
           {%- endif %}
         </div>
       </div>
-      <audio id="{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+      <audio id="{{ id }}" class="etna-audio video-js" data-title="{{ block_value.title }}" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
         <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
         <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
       </audio>
@@ -40,7 +40,7 @@
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
       </div>
-      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js" data-title="{{ block_value.title }}"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
         <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
         {% if block_value.media.subtitles_file %}
         <track kind="captions" src="{{ block_value.media.subtitles_file }}" srclang="en" label="English" default>

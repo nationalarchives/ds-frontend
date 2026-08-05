@@ -40,14 +40,14 @@ def merlin():
 
 @bp.route("/cookies/set/", methods=["POST"])
 def set_cookies():
-    current_cookies_policy = {
+    current_cookie_preferences = {
         "usage": False,
         "settings": False,
         "marketing": False,
         "essential": True,
     }
     if current_app.config["COOKIE_PREFERENCES_KEY"] in request.cookies:
-        current_cookies_policy.update(
+        current_cookie_preferences.update(
             json.loads(
                 unquote(request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]])
             )
@@ -56,7 +56,7 @@ def set_cookies():
         usage = (
             strtobool(html.escape(request.form["usage"].replace("\\", "")))
             if "usage" in request.form
-            else bool(current_cookies_policy["usage"])
+            else bool(current_cookie_preferences["usage"])
         )
     except ValueError:
         usage = False
@@ -64,7 +64,7 @@ def set_cookies():
         settings = (
             strtobool(html.escape(request.form["settings"].replace("\\", "")))
             if "settings" in request.form
-            else bool(current_cookies_policy["settings"])
+            else bool(current_cookie_preferences["settings"])
         )
     except ValueError:
         settings = False
@@ -72,11 +72,11 @@ def set_cookies():
         marketing = (
             strtobool(html.escape(request.form["marketing"].replace("\\", "")))
             if "marketing" in request.form
-            else bool(current_cookies_policy["marketing"])
+            else bool(current_cookie_preferences["marketing"])
         )
     except ValueError:
         marketing = False
-    new_cookies_policy = {
+    new_cookie_preferences = {
         "usage": usage,
         "settings": settings,
         "marketing": marketing,
@@ -90,7 +90,7 @@ def set_cookies():
     response = make_response(redirect(referrer))
     response.set_cookie(
         current_app.config["COOKIE_PREFERENCES_KEY"],
-        quote(json.dumps(new_cookies_policy, separators=(",", ":"))),
+        quote(json.dumps(new_cookie_preferences, separators=(",", ":"))),
         domain=current_app.config["COOKIE_DOMAIN"],
         max_age=31536000,  # 365 days
         secure=True,
