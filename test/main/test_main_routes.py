@@ -114,7 +114,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 302)
             self.assertIn("Set-Cookie", rv.headers)
             self.assertIn(
-                "cookies_policy=%7B%22usage%22%3Atrue%2C%22settings%22%3Atrue%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+                "cookie_preferences=%7B%22usage%22%3Atrue%2C%22settings%22%3Atrue%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
                 rv.headers["Set-Cookie"],
             )
 
@@ -132,7 +132,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 302)
             self.assertIn("Set-Cookie", rv.headers)
             self.assertIn(
-                "cookies_policy=%7B%22usage%22%3Atrue%2C%22settings%22%3Atrue%2C%22marketing%22%3Atrue%2C%22essential%22%3Atrue%7D",
+                "cookie_preferences=%7B%22usage%22%3Atrue%2C%22settings%22%3Atrue%2C%22marketing%22%3Atrue%2C%22essential%22%3Atrue%7D",
                 rv.headers["Set-Cookie"],
             )
 
@@ -145,7 +145,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 302)
             self.assertIn("Set-Cookie", rv.headers)
             self.assertIn(
-                "cookies_policy=%7B%22usage%22%3Atrue%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+                "cookie_preferences=%7B%22usage%22%3Atrue%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
                 rv.headers["Set-Cookie"],
             )
 
@@ -158,7 +158,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 302)
             self.assertIn("Set-Cookie", rv.headers)
             self.assertIn(
-                "cookies_policy=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+                "cookie_preferences=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
                 rv.headers["Set-Cookie"],
             )
 
@@ -171,7 +171,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 302)
             self.assertIn("Set-Cookie", rv.headers)
             self.assertIn(
-                "cookies_policy=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+                "cookie_preferences=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
                 rv.headers["Set-Cookie"],
             )
 
@@ -184,6 +184,6 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 302)
             self.assertIn("Set-Cookie", rv.headers)
             self.assertIn(
-                "cookies_policy=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
+                "cookie_preferences=%7B%22usage%22%3Afalse%2C%22settings%22%3Afalse%2C%22marketing%22%3Afalse%2C%22essential%22%3Atrue%7D",
                 rv.headers["Set-Cookie"],
             )

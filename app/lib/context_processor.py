@@ -25,8 +25,8 @@ def now_rfc_822():
 
 def cookie_preference(policy):
     if current_app.config["COOKIE_PREFERENCES_KEY"] in request.cookies:
-        cookies_policy = request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]]
-        preferences = json.loads(unquote(cookies_policy))
+        cookie_preferences = request.cookies[current_app.config["COOKIE_PREFERENCES_KEY"]]
+        preferences = json.loads(unquote(cookie_preferences))
         return preferences.get(policy, None)
     return None
 
