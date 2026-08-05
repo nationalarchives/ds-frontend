@@ -9,11 +9,11 @@ def education_teaching_resource_page(page_data):
     if "sources" in request.args:
         sources = [
             {
-                "source": f"{objects.get(page_data, 'meta.html_url')}?markdown",
+                "source": f"{objects.get(page_data, 'meta.page_path')}?markdown",
                 "target": "content.md",
             },
             {
-                "source": objects.get(page_data, "hero_image.jpeg.full_url"),
+                "source": objects.get(page_data, "hero_image.jpeg.url"),
                 "target": "hero.jpg",
             },
         ]
@@ -23,7 +23,7 @@ def education_teaching_resource_page(page_data):
                 if (
                     media.get("type") != "image"
                     or objects.get(media, "value.image.copyright", None)
-                    or not objects.get(media, "value.image.jpeg.full_url", None)
+                    or not objects.get(media, "value.image.jpeg.url", None)
                 ):
                     continue
                 source_name = f"source-{source_index}"
@@ -31,7 +31,7 @@ def education_teaching_resource_page(page_data):
                     source_name += f"{['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'][media_index]}"
                 sources.append(
                     {
-                        "source": objects.get(media, "value.image.jpeg.full_url"),
+                        "source": objects.get(media, "value.image.jpeg.url"),
                         "target": f"{source_name}.jpg",
                     }
                 )
