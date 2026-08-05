@@ -27,7 +27,7 @@ def education_teaching_resource_page(page_data):
                     or not objects.get(media, "value.image.jpeg.url", None)
                 ):
                     continue
-                source_name = f"source-{source_index}"
+                source_name = f"source-{source_index + 1}"
                 if len(source_images) > 1:
                     source_name += f"{alphabet[media_index]}"
                 sources.append(
