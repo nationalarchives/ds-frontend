@@ -210,8 +210,9 @@
             {{ source.description | tna_html | safe }}
             <ol class="tna-education-ol__sublist">
             {%- for media in source.media %}
-              {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ ('.' ~ loop.index if (source.media | length) > 1 else '') ~ ': ' ~ source.title -%}
-              <li id="teaching-resource-source-{{ source_index }}-{{ loop.index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
+              {%- set media_index = alphabet[loop.index0] if (source.media | length) > 1 else '' -%}
+              {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ media_index ~ ': ' ~ source.title -%}
+              <li id="teaching-resource-source-{{ source_index }}{{ media_index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
             {%- endfor %}
             {%- for link in source.featured_link %}
               <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
@@ -269,12 +270,10 @@
         <div class="tna-aside tna-background-accent">
           <hgroup class="tna-hgroup-l">
             <p class="tna-hgroup__supertitle">Beta</p>
-            <h2 class="tna-hgroup__title">Download</h2>
+            <h2 class="tna-hgroup__title">Download all sources</h2>
           </hgroup>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p>
-            <small>This feature is new and might have issues.</small>
-          </p>
+          <p>You can download in bulk all of the National Archives sources not in copyright on this page. Images will be provided in JPG format. Transcripts are provided in markdown (<code>.md</code>) format, which can be opened in most text and word-processing software.</p>
+          <p>This is an experimental feature still in development. Please let us know what you think of it using the feedback link at the bottom of this page.</p>
           <div class="tna-button-group">
             {{ tnaButton({
               'text': 'Download all images and transcripts (ZIP)',

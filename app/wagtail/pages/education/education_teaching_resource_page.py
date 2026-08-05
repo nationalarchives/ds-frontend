@@ -6,6 +6,7 @@ from pydash import objects
 
 # @cacheable_duration(3600)
 def education_teaching_resource_page(page_data):
+    alphabet = "abcdefghijklmnopqrstuvwxyz".split("")
     if "sources" in request.args:
         sources = [
             {
@@ -28,7 +29,7 @@ def education_teaching_resource_page(page_data):
                     continue
                 source_name = f"source-{source_index}"
                 if len(source_images) > 1:
-                    source_name += f"{['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'][media_index]}"
+                    source_name += f"{alphabet[media_index]}"
                 sources.append(
                     {
                         "source": objects.get(media, "value.image.jpeg.url"),
@@ -41,16 +42,16 @@ def education_teaching_resource_page(page_data):
         markdown = render_template(
             "education/teaching_resource_markdown.html",
             page_data=page_data,
+            alphabet=alphabet,
         )
         markdown = re.sub(r"\n{3,}", "\n\n", markdown)
         response = make_response(markdown)
         response.headers["Content-Type"] = "text/plain; charset=utf-8"
-        response.headers["Content-Disposition"] = (
-            f"attachment; filename={objects.get(page_data, 'meta.slug')}.md"
-        )
+        # response.headers["Content-Disposition"] = (
+        #     f"attachment; filename={objects.get(page_data, 'meta.slug')}.md"
+        # )
         return response
 
     return render_template(
-        "education/teaching_resource.html",
-        page_data=page_data,
+        "education/teaching_resource.html", page_data=page_data, alphabet=alphabet
     )

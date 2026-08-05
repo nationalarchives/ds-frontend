@@ -36,12 +36,7 @@
   {% endif %}
 
   {% for media in source.media %}
-    {% set media_index = loop.index0 %}
-    {% if source.media | length > 1 %}
-#### Source {{ source_index }}{{ ['a','b','c','d','e','f','g','h','i','j'][media_index] }}
-    {% else %}
-#### Source {{ source_index }}
-    {% endif %}
+#### Source {{ source_index }}{{ alphabet[loop.index0] if (source.media | length) > 1 else '' }}
 
     {% if media.type == 'media' %}
       {% set transcript = media.value.media.transcript %}
