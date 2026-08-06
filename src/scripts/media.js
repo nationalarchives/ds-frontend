@@ -1,9 +1,10 @@
+import Cookies from "@nationalarchives/cookies";
 import videojs from "video.js";
 
 // import "videojs-youtube";
 import { initYoutubeEmbedApi } from "./lib/videojs-youtube-modified";
 
-const cookies = window.TNAFrontendCookies;
+const cookies = new Cookies();
 const videoJsInstances = {};
 const $youTubeVideoInstances = document.querySelectorAll(
   "a.etna-video--youtube[id]",
