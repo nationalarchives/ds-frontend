@@ -106,6 +106,28 @@ def set_cookies():
         samesite="Lax",
         httponly=False,
     )
+
+    # These set cookies for backwards compatibility with the old cookie banner
+    # TODO: Remove once the old cookie banner is no longer in use
+    response.set_cookie(
+        "cookies_policy",
+        quote(json.dumps(new_cookie_preferences, separators=(",", ":"))),
+        domain=current_app.config["COOKIE_DOMAIN"],
+        max_age=31536000,  # 365 days
+        secure=True,
+        samesite="Lax",
+        httponly=False,
+    )
+    response.set_cookie(
+        "dontShowCookieNotice",
+        "true",
+        domain=current_app.config["COOKIE_DOMAIN"],
+        max_age=31536000,  # 365 days
+        secure=True,
+        samesite="Lax",
+        httponly=False,
+    )
+
     if not usage:
         for cookie in request.cookies:
             if cookie.startswith("_ga"):
