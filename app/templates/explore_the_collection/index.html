@@ -20,7 +20,7 @@
   <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.intro | safe }}</div>
 {%- endset %}
 {%- set hero_image_caption %}
-  {{- page_data.hero_image_caption | safe -}}
+  {{- (page_data.hero_image_caption | safe) if (page_data.hero_image_caption | striptags) else '' -}}
   {%- if page_data.hero_image.copyright -%}
     <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
   {%- endif -%}
