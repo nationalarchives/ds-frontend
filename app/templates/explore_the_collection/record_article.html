@@ -35,7 +35,7 @@
         <div class="tna-large-paragraph tna-!--margin-top-s">
           {{ page_data.intro | tna_html | safe }}
         </div>
-        {%- if page_data.custom_warning_text %}
+        {%- if page_data.custom_warning_text | striptags %}
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | tna_html | safe,

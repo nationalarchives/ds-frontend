@@ -48,7 +48,7 @@
   {%- endif %}
   <div class="tna-background-accent-light">
     {%- set hero_image_caption %}
-      {{- page_data.hero_image_caption | safe -}}
+      {{- (page_data.hero_image_caption | safe) if (page_data.hero_image_caption | striptags) else '' -}}
       {%- if page_data.hero_image.copyright -%}
         <div class="tna-hero__copyright" itemprop="copyrightNotice">{{ page_data.hero_image.copyright | tna_html | safe }}</div>
       {%- endif -%}
@@ -129,7 +129,7 @@
         {{ articleSidebar(page_data.body, app_config.SIDEBAR_SCROLL_TOP_THRESHOLD) }}
       </div>
       <div id="page-body" class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
-        {%- if page_data.custom_warning_text %}
+        {%- if page_data.custom_warning_text | striptags %}
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | tna_html | safe,

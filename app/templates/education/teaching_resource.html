@@ -152,7 +152,7 @@
       }) }}
     </div>
     <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny tna-!--padding-top-s tna-!--margin-top-m etna-!--full-width-on-print">
-      {%- if page_data.custom_warning_text %}
+      {%- if page_data.custom_warning_text | striptags %}
         {{ tnaWarning({
           'headingLevel': 2,
           'body': page_data.custom_warning_text | tna_html | safe,
@@ -180,6 +180,15 @@
                   {%- endif %}
                 {%- elif first_source.type == 'youtube_video' %}
                   <img src="{{ first_source.value.preview_image.jpeg.full_url }}" alt="{{ first_source.value.preview_image.description }}" width="{{ first_source.value.preview_image.jpeg.width }}" height="{{ first_source.value.preview_image.jpeg.height }}">
+                {%- else %}
+                  <img src="" alt="" width="1" height="1" aria-hidden="true">
+                {%- endif %}
+              {%- elif source.featured_link %}
+                {%- set first_featured_link = source.featured_link | first %}
+                {%- if first_featured_link.type == 'featured_external_link' and first_featured_link.value.image %}
+                  <img src="{{ first_featured_link.value.image.jpeg.full_url }}" alt="{{ first_featured_link.value.image.description }}" width="{{ first_featured_link.value.image.jpeg.width }}" height="{{ first_featured_link.value.image.jpeg.height }}">
+                {%- elif first_featured_link.type == 'internal_link' and first_featured_link.value.page.teaser_image %}
+                  <img src="{{ first_featured_link.value.page.teaser_image.jpeg.full_url }}" alt="{{ first_featured_link.value.page.teaser_image.description }}" width="{{ first_featured_link.value.page.teaser_image.jpeg.width }}" height="{{ first_featured_link.value.page.teaser_image.jpeg.height }}">
                 {%- else %}
                   <img src="" alt="" width="1" height="1" aria-hidden="true">
                 {%- endif %}
