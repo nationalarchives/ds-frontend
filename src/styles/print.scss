@@ -11,6 +11,13 @@
   max-height: none;
 }
 
+.tna-accordion__content,
+.tna-picture__transcript {
+  &[hidden] {
+    display: block !important;
+  }
+}
+
 :not(
     .tna-hgroup__title,
     .tna-heading-xl,
