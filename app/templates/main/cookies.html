@@ -17,19 +17,25 @@
     <h2 class="tna-heading-l">Success</h2>
     <p>Your cookie settings were saved.</p>
   </div>
-  <h2 class="tna-heading-l">Cookie settings</h2>
   <p>This page has a brief explanation of each of the four types of cookie The National Archives uses. You can choose which cookies you’re happy for us to use.</p>
   {%- if details_page %}
   <p>For a full breakdown, see <a href="{{ details_page.url }}">our detailed cookie information</a>.</p>
   {%- endif %}
-  <h3 class="tna-heading-m tna-!--no-padding-top">Strictly necessary cookies</h3>
-  <p>These essential cookies do things like allow you to remain logged in to some of our services.</p>
-  <p>They always need to be on.</p>
+  <h2 class="tna-heading-l">Cookie preferences</h2>
+  <p>We use 4 types of cookie. You can choose which cookies you’re happy for us to use.</p>
+
+  <h2 class="tna-heading-l tna-!--margin-top-l">Cookies that measure website use</h2>
+  <p>We use Google Analytics cookies to measure how you use National Archives websites.</p>
+  <p class="tna-!--margin-top-xs">These cookies collect information about:</p>
+  <ul class="tna-ul tna-!--margin-top-xs">
+    <li>how you got to these sites</li>
+    <li>the pages you visit and how long you spend on each page</li>
+    <li>what you click on while you’re visiting these sites</li>
+  </ul>
+  <p class="tna-!--margin-top-xs">We do not allow Google to use or share this data for their own purposes.</p>
   {{ tnaRadios({
-    'label': 'Cookies that measure website use',
-    'headingLevel': 3,
-    'headingSize': 'm',
-    'hintHtml': '<p>We use Google Analytics cookies to measure how you use National Archives websites.</p><p>These cookies collect information about:</p><ul class="tna-ul"><li>how you got to these sites</li><li>the pages you visit and how long you spend on each page</li><li>what you click on while you’re visiting these sites</li></ul><p>We do not allow Google to use or share this data for their own purposes.</p>',
+    'label': 'Do you allow cookies that measure website use?',
+    'headingSize': 's',
     'id': 'usage',
     'name': 'usage',
     'items': [
@@ -42,13 +48,36 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('usage') else 'false'
+    'selected': 'true' if cookie_preference('usage') else 'false',
+    'formItemClasses': 'tna-!--margin-top-s'
   }) }}
+
+  <h2 class="tna-heading-l tna-!--margin-top-l">Cookies that help with our communications and marketing</h2>
+  <p>These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on our websites.</p>
   {{ tnaRadios({
-    'label': 'Cookies that remember your settings',
-    'headingLevel': 3,
-    'headingSize': 'm',
-    'hint': 'These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.',
+    'label': 'Do you allow cookies that help with communications and marketing?',
+    'headingSize': 's',
+    'id': 'marketing',
+    'name': 'marketing',
+    'items': [
+      {
+        'text': 'Use cookies that help with communications and marketing',
+        'value': 'true'
+      },
+      {
+        'text': 'Do not use cookies that help with communications and marketing',
+        'value': 'false'
+      }
+    ],
+    'selected': 'true' if cookie_preference('marketing') else 'false',
+    'formItemClasses': 'tna-!--margin-top-s'
+  }) }}
+
+  <h2 class="tna-heading-l tna-!--margin-top-l">Cookies that remember your settings</h2>
+  <p>These cookies do things like remember your preferences and the choices you make, to personalise your experience of using the site.</p>
+  {{ tnaRadios({
+    'label': 'Do you allow cookies that remember your settings?',
+    'headingSize': 's',
     'id': 'settings',
     'name': 'settings',
     'items': [
@@ -61,27 +90,14 @@
         'value': 'false'
       }
     ],
-    'selected': 'true' if cookie_preference('settings') else 'false'
+    'selected': 'true' if cookie_preference('settings') else 'false',
+    'formItemClasses': 'tna-!--margin-top-s'
   }) }}
-  {{ tnaRadios({
-    'label': 'Cookies that are used for marketing',
-    'headingLevel': 3,
-    'headingSize': 'm',
-    'hint': 'These cookies track your preferences for marketing purposes. They are often used by third party services such as YouTube to allow better video suggestions.',
-    'id': 'marketing',
-    'name': 'marketing',
-    'items': [
-      {
-        'text': 'Use cookies that are for marketing purposes',
-        'value': 'true'
-      },
-      {
-        'text': 'Do not use cookies that are for marketing purposes',
-        'value': 'false'
-      }
-    ],
-    'selected': 'true' if cookie_preference('marketing') else 'false'
-  }) }}
+
+  <h2 class="tna-heading-l tna-!--margin-top-l">Strictly necessary cookies</h2>
+  <p>These essential cookies do things like allow you to progress through a form or to remain logged in to some of our services.</p>
+  <p>They always need to be on.</p>
+
   <input type="hidden" name="referrer" value="{{ page_data.meta.url }}">
   <div class="tna-button-group">
     {{ tnaButton({
