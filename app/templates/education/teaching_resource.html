@@ -132,7 +132,7 @@
         }) %}
       {%- endif %}
       {% do ns.source_list.append({
-        'text': 'Download',
+        'text': 'Download all sources',
         'href': '#download',
         'attributes': {
           'hidden': ''
@@ -163,7 +163,7 @@
       {%- if page_data.sources | length > 1 %}
       <div id="sources-overview" class="tna-aside tna-background-accent-light tna-education-sources-overview tna-!--hide-on-print">
         <h2 class="tna-heading-l">Sources overview</h2>
-        <p>Select a source to view it in more detail and find enquiry questions to examine it with your class.</p>
+        <p>Select a source to view it in more detail.</p>
         <ol class="tna-education-sources-overview__list">
         {%- for source in page_data.sources %}
           {%- set first_source = source.media | first %}
@@ -221,7 +221,7 @@
             {%- for media in source.media %}
               {%- set media_index = alphabet[loop.index0] if (source.media | length) > 1 else '' -%}
               {%- set image_name = pageTitle ~ ', source ' ~ source_index ~ media_index ~ ': ' ~ source.title -%}
-              <li id="teaching-resource-source-{{ source_index }}{{ media_index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True}) }}</li>
+              <li id="teaching-resource-source-{{ source_index }}{{ media_index }}" class="tna-education-ol__sublist-item">{{ wagtail_block(media, 4, {'plain_images': True, 'picture_name': image_name, 'picture_link_to_standalone': True, 'picture_add_download': True, 'picture_add_download_alternative': True}) }}</li>
             {%- endfor %}
             {%- for link in source.featured_link %}
               <li id="teaching-resource-source-{{ source_index }}-link-{{ loop.index + (source.media | length) }}" class="tna-education-ol__sublist-item">{{ wagtail_block(link, 4) }}</li>
@@ -238,7 +238,7 @@
       </ol>
 
       <div id="teachers-notes" class="tna-aside tna-background-accent-light tna-!--margin-top-xl">
-        <h2 class="tna-heading-l">Teachers notes</h2>
+        <h2 class="tna-heading-l">Teachers’ notes</h2>
         {{ wagtail_streamfield(page_data.teachers_notes, 3) }}
         <h3 class="tna-heading-m">Connections to the curriculum</h3>
         {% set ns = namespace(accordion_items=[]) %}

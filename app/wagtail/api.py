@@ -207,6 +207,7 @@ def education_item_paginated(
     api_endpoint,
     page,
     query="",
+    order="title",
     key_stages=None,
     locations=None,
     regions=None,
@@ -219,6 +220,8 @@ def education_item_paginated(
         params = {}
     if query:
         params = params | {"search": query}
+    if order:
+        params = params | {"order": order}
     if key_stages:
         params = params | {"key_stage": key_stages}
     if locations:
