@@ -85,13 +85,15 @@
   {%- set picture_name = config.picture_name if config is defined else '' -%}
   {%- set picture_link_to_standalone = config.picture_link_to_standalone if config is defined else False -%}
   {%- set picture_add_download = config.picture_add_download if config is defined else False -%}
+  {%- set picture_add_download_alternative = config.picture_add_download_alternative if config is defined else False -%}
   {{ wagtailImage(content_item.value, content_item.id, {
     'plain': plain_images,
     'hide_transcript': False,
     'itemprop': picture_itemprop,
     'name': picture_name,
     'link_to_standalone': picture_link_to_standalone,
-    'add_download': picture_add_download
+    'add_download': picture_add_download,
+    'add_download_alternative': picture_add_download_alternative
   }) }}
 
   {%- elif content_item.type == 'quote' %}

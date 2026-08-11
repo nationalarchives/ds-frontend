@@ -1,4 +1,5 @@
 import math
+from urllib.parse import unquote
 
 from flask import current_app, render_template, request
 from pydash import objects
@@ -27,8 +28,7 @@ def education_listing_page(page_data, api_endpoint):
     if page < 1:
         return bad_request_error()
 
-    # query = unquote(request.args.get("q", "")).strip(" ")
-    query = ""
+    query = unquote(request.args.get("q", "")).strip(" ")
 
     qs = QueryStringTransformer(list(request.args.lists()))
 
@@ -63,6 +63,7 @@ def education_listing_page(page_data, api_endpoint):
             api_endpoint=api_endpoint,
             page=page,
             query=query,
+            order="title",
             key_stages=filters["key_stage"],
             locations=filters["location"],
             regions=filters["region"],

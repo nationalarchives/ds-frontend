@@ -7,6 +7,7 @@
   {%- set name = config.name if config is defined else '' -%}
   {%- set link_to_standalone = config.link_to_standalone if config is defined else False -%}
   {%- set add_download = config.add_download if config is defined else False -%}
+  {%- set add_download_alternative = config.add_download_alternative if config is defined else False -%}
   
   {%- set information_label_open = 'Open details' %}
   {%- set information_label_close = 'Close details' %}
@@ -45,14 +46,19 @@
   {% set image_caption_extra_links = [] %}
   {%- if link_to_standalone and name %}
     {%- set image_page_url = url_for('wagtail.image_page', image_uuid=block_value.image.uuid, _external=True, _scheme='https') %}
-    {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for ' ~ name ~ '</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download and name and not block_value.image.copyright %}
-    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download<span class="tna-visually-hidden"> ' ~ name ~ '</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
+  {%- endif %}
+  {%- if add_download_alternative and name and block_value.image.alternative_format %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.alternative_format.full_url ~ '" class="tna-picture__download-link" download>Download ' ~ (block_value.image.alternative_format.heading | lower) ~ '<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if image_caption_extra_links %}
     {% set image_caption = image_caption ~ '<p class="tna-!--hide-on-print">' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
   {%- endif %}
+
+      {{ block_value }}
 
   {%- if block_value.image.jpeg and block_value.image.webp %}
     {% set picture_content = {

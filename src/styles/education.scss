@@ -25,6 +25,8 @@ $forced-colours-border: 1px;
     @include spacing.space-above;
 
     .fa-solid {
+      flex: 0;
+
       font-size: 2em;
       // @include colour.colour-font("icon-light");
     }

@@ -36,6 +36,15 @@ def education_teaching_resource_page(page_data):
                         "target": f"{source_name}.jpg",
                     }
                 )
+                if objects.get(media, "value.image.alternative_format.url", None):
+                    sources.append(
+                        {
+                            "source": objects.get(
+                                media, "value.image.alternative_format.url"
+                            ),
+                            "target": f"{source_name}-alt.{objects.get(media, 'value.image.alternative_format.file_type')}",
+                        }
+                    )
         return sources
 
     if "markdown" in request.args:
