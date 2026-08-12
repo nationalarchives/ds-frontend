@@ -58,8 +58,6 @@
     {% set image_caption = image_caption ~ '<p class="tna-!--hide-on-print">' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
   {%- endif %}
 
-      {{ block_value }}
-
   {%- if block_value.image.jpeg and block_value.image.webp %}
     {% set picture_content = {
       'src': block_value.image.jpeg.full_url,
