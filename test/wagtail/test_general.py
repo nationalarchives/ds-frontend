@@ -228,6 +228,6 @@ class GeneralWagtailTestCase(unittest.TestCase):
             rv = c.get("/20s-people/", base_url="https://www.nationalarchives.gov.uk")
             self.assertEqual(rv.status_code, 410)
             self.assertIn("Page no longer exists", rv.text)
-            self.assertIn("Error code: 410", rv.text)
+            self.assertIn("Error code: <code>410</code>", rv.text)
             self.assertIn("Cache-Control", rv.headers)
             self.assertEqual(rv.headers["Cache-Control"], "no-store")
