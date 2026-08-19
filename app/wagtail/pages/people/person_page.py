@@ -50,7 +50,7 @@ def person_page(page_data):
     articles = objects.get(articles, "items", [])
     pages = math.ceil(total_article_count / articles_per_page)
 
-    if page > pages > 0:
+    if page > pages:
         return page_not_found_error()
 
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
@@ -58,7 +58,7 @@ def person_page(page_data):
     return render_template(
         "people/person.html",
         page_data=page_data,
-        pagination=pagination(qs, pages, page),
+        pagination=pagination(qs, pages, page) if page > 0 else None,
         page=page,
         pages=pages,
         articles=articles,
