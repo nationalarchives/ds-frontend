@@ -20,11 +20,6 @@ from app.lib.context_processor import (
     pretty_datetime_range,
     pretty_price_range,
 )
-from app.lib.query import (
-    qs_remove,
-    qs_toggler,
-    qs_update,
-)
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
     currency,
@@ -153,7 +148,9 @@ def create_app(config_class):
 
     @app.context_processor
     def context_processor():
-        qs = QueryStringTransformer(list(request.args.lists()) if request else [])
+        qs = QueryStringTransformer(
+            list(request.args.lists()) if request else [], tolerant=True
+        )
         return dict(
             cookie_preference=cookie_preference,
             display_phase_banner=display_phase_banner,
@@ -164,19 +161,11 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
-            qs_is_value_in_parameter=lambda name, value: (
-                qs.is_value_in_parameter(name, value)
-                if qs.parameter_exists(name)
-                else False
+            qs_is_value_in_parameter=lambda parameter, value: qs.is_value_in_parameter(
+                parameter, value
             ),
-            qs_toggler=lambda filter_name, by: qs_toggler(
-                request.args.to_dict(), filter_name, by
-            ),
-            qs_update=lambda filter_name, value: qs_update(
-                request.args.to_dict(), filter_name, value
-            ),
-            qs_remove=lambda filter_name: qs_remove(
-                request.args.to_dict(), filter_name
+            qs_update_parameter=lambda parameter, value: (
+                qs.new().update_parameter(parameter, value).get_query_string()
             ),
             app_config={
                 "ENVIRONMENT_NAME": app.config["ENVIRONMENT_NAME"],

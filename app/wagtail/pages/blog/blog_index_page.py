@@ -4,10 +4,10 @@ import math
 from flask import current_app, render_template, request
 from pydash import objects
 from tna_utilities.flask import cacheable_duration
+from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import bad_request_error, page_not_found_error
-from app.lib.pagination import pagination_object
-from app.lib.query import qs_active, qs_toggler
+from app.lib.pagination import pagination
 from app.wagtail.api import blog_posts_paginated
 
 
@@ -83,7 +83,6 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
     )
     if total_blog_posts and page > pages:
         return page_not_found_error()
-    existing_qs_as_dict = request.args.to_dict()
     date_filters = [
         {
             "label": "Any date",
@@ -92,46 +91,37 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
             "selected": not year,
         }
     ]
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
     for year_count in reversed(blog_post_counts_data):
+        year_qs = qs.new()
         date_filters.append(
             {
                 "label": f"All {year_count['year']} ({year_count['posts']})",
-                "href": "?"
-                + (
-                    qs_toggler(existing_qs_as_dict, "month", month)
-                    if year == year_count["year"] and month
-                    else f"year={year_count['year']}"
-                ),
+                "href": year_qs.add_parameter("year", year_count["year"])
+                .remove_parameter("month")
+                .remove_parameter("page")
+                .get_query_string(),
                 "title": f"Blog posts from {year_count['year']}",
-                "selected": qs_active(existing_qs_as_dict, "year", year_count["year"])
+                "selected": qs.is_value_in_parameter("year", year_count["year"])
                 and not month,
             }
         )
         if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
+                month_qs = qs.new()
                 each_month_name = datetime.date(year, month_count["month"], 1).strftime(
                     "%B"
                 )
                 date_filters.append(
                     {
                         "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
-                        "href": "?"
-                        + (
-                            f"year={year_count['year']}&month={month_count['month']}"
-                            if month == month_count["month"]
-                            else qs_toggler(
-                                existing_qs_as_dict,
-                                "month",
-                                month_count["month"],
-                            )
-                        ),
+                        "href": month_qs.update_parameter("year", year_count["year"])
+                        .update_parameter("month", month_count["month"])
+                        .remove_parameter("page")
+                        .get_query_string(),
                         "title": f"Blog posts from {each_month_name} {year_count['year']}",
-                        "selected": qs_active(
-                            existing_qs_as_dict, "year", year_count["year"]
-                        )
-                        and qs_active(
-                            existing_qs_as_dict, "month", month_count["month"]
-                        ),
+                        "selected": qs.is_value_in_parameter("year", year_count["year"])
+                        and qs.is_value_in_parameter("month", month_count["month"]),
                     }
                 )
     return render_template(
@@ -142,7 +132,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
         authors=authors,
-        pagination=pagination_object(page, pages, request.args),
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
         year=year,

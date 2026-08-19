@@ -3,6 +3,7 @@ import math
 from flask import current_app, render_template, request
 from pydash import objects
 from tna_utilities.flask import cacheable_duration
+from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
     bad_gateway_error,
@@ -10,7 +11,7 @@ from app.error_pages.routes import (
     page_not_found_error,
     server_error,
 )
-from app.lib.pagination import pagination_object
+from app.lib.pagination import pagination
 from app.wagtail.api import page_children_paginated
 
 
@@ -44,16 +45,17 @@ def article_index_page(page_data):
         return server_error()
     total_results = objects.get(children_data, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page)
-    try:
-        pagination = pagination_object(page, pages, request.args)
-    except AssertionError:
-        # The requested page is out of range, 404
+
+    if page > pages > 0:
         return page_not_found_error()
+
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
+
     return render_template(
         "explore_the_collection/stories.html",
         page_data=page_data,
         children=children_data["items"],
-        pagination=pagination,
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
     )

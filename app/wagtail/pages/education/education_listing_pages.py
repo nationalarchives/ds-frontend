@@ -12,7 +12,7 @@ from app.error_pages.routes import (
     page_not_found_error,
     server_error,
 )
-from app.lib.pagination import pagination_object
+from app.lib.pagination import pagination
 from app.wagtail.api import education_item_paginated
 
 
@@ -30,7 +30,7 @@ def education_listing_page(page_data, api_endpoint):
 
     query = unquote(request.args.get("q", "")).strip(" ")
 
-    qs = QueryStringTransformer(list(request.args.lists()))
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
 
     filters = {
         "key_stage": None,
@@ -85,20 +85,16 @@ def education_listing_page(page_data, api_endpoint):
 
     total_results = objects.get(results_data, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page) if total_results > 0 else 1
-    try:
-        pagination = pagination_object(page, pages, request.args)
-    except AssertionError:
-        # The requested page is out of range, 404
+
+    if page > pages > 0:
         return page_not_found_error()
 
     return render_template(
-        "education/listing-og.html"
-        if "og" in request.args
-        else "education/listing.html",
+        "education/listing.html",
         q=query,
         page_data=page_data,
         children=results_data["items"],
-        pagination=pagination,
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
         children_per_page=children_per_page,

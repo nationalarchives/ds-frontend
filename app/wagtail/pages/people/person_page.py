@@ -3,6 +3,7 @@ import math
 from flask import current_app, render_template, request
 from pydash import objects
 from tna_utilities.flask import cacheable_duration
+from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
     bad_gateway_error,
@@ -10,7 +11,7 @@ from app.error_pages.routes import (
     page_not_found_error,
     server_error,
 )
-from app.lib.pagination import pagination_object
+from app.lib.pagination import pagination
 from app.wagtail.api import authored_pages_paginated
 
 
@@ -48,12 +49,16 @@ def person_page(page_data):
     total_article_count = objects.get(articles, "meta.total_count", 0)
     articles = objects.get(articles, "items", [])
     pages = math.ceil(total_article_count / articles_per_page)
-    if page > pages:
+
+    if page > pages > 0:
         return page_not_found_error()
+
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
+
     return render_template(
         "people/person.html",
         page_data=page_data,
-        pagination=pagination_object(page, pages, request.args),
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
         articles=articles,

@@ -1,10 +1,6 @@
 import unittest
 from datetime import datetime, timedelta
 
-from app.lib.query import (
-    qs_active,
-    qs_toggler,
-)
 from app.lib.template_filters import (
     currency,
     domain_from_url,
@@ -20,32 +16,6 @@ from app.lib.template_filters import (
 
 
 class ContentParserTestCase(unittest.TestCase):
-    def test_jinja_filters_qs_toggler(self):
-        test_qs = {"a": "1", "b": "2"}
-        # Adds a new qs
-        self.assertEqual("a=1&b=2&c=3", qs_toggler(test_qs.copy(), "c", "3"))
-        # Changes an existing qs
-        self.assertEqual("a=1&b=1", qs_toggler(test_qs.copy(), "b", "1"))
-        # Removes a qs of the same value.
-        self.assertEqual("b=2", qs_toggler(test_qs.copy(), "a", "1"))
-        # Handle empty existing qs
-        self.assertEqual("a=1", qs_toggler({}, "a", "1"))
-
-    def test_jinja_filters_qs_active(self):
-        test_qs = {"a": "1", "b": "2"}
-        self.assertTrue(qs_active(test_qs, "a", "1"))
-        self.assertTrue(qs_active(test_qs, "b", "2"))
-        self.assertFalse(qs_active(test_qs, "a", "2"))
-        self.assertFalse(qs_active(test_qs, "b", "1"))
-        self.assertFalse(qs_active(test_qs, "c", "3"))
-        self.assertFalse(qs_active(test_qs, "c", ""))
-        self.assertFalse(qs_active(test_qs, "a", ""))
-        self.assertFalse(qs_active(test_qs, "", ""))
-        # Handles empty query strings
-        self.assertFalse(qs_active({}, "a", "1"))
-        self.assertFalse(qs_active({}, "", ""))
-        self.assertFalse(qs_active({"a": "1"}, "", ""))
-
     def test_pretty_date(self):
         self.assertEqual(pretty_date("2000-01-01T12:00:00Z"), "1 January 2000")
         self.assertEqual(pretty_date("2000-01-01"), "1 January 2000")
