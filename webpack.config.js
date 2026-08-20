@@ -15,7 +15,6 @@ module.exports = {
     media: "./src/scripts/media.js",
     offline: "./src/scripts/offline.js",
     "record-article": "./src/scripts/record-article.js",
-    "secondary-navigation": "./src/scripts/secondary-navigation.js",
     sentry: "./src/scripts/sentry.js",
     "service-worker": "./src/scripts/service-worker.js",
   },

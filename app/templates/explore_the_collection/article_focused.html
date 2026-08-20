@@ -14,8 +14,8 @@
 {%- set breadcrumbs_style = 'accent-light' -%}
 {%- set og_type = 'article' -%}
 
-{%- set bodyContainsMedia = page_data.body | wagtail_streamfield_contains_media -%}
-{%- set bodyContainsCodeBlock = page_data.body | wagtail_streamfield_contains_code_block -%}
+{%- set body_contains_media = page_data.body | streamfield_contains_media -%}
+{%- set body_contains_code_block = page_data.body | streamfield_contains_code_block -%}
 
 {% block head %}
 {{ super() }}
@@ -27,10 +27,10 @@
 
 {% block stylesheets %}
 {{ super() }}
-    {%- if bodyContainsMedia %}
+    {%- if body_contains_media %}
     <link rel="stylesheet" href="{{ url_for('static', filename='media.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
-    {%- if bodyContainsCodeBlock %}
+    {%- if body_contains_code_block %}
     <link rel="stylesheet" href="{{ url_for('static', filename='code.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     {%- endif %}
 {% endblock stylesheets %}
@@ -150,10 +150,10 @@
 {% block bodyEnd %}
 {{ super() }}
     <script src="{{ url_for('static', filename='article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-    {%- if bodyContainsMedia %}
+    {%- if body_contains_media %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
-    {%- if bodyContainsCodeBlock %}
+    {%- if body_contains_code_block %}
     <script src="{{ url_for('static', filename='code.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
 {% endblock bodyEnd %}

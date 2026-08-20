@@ -42,13 +42,13 @@ from app.lib.template_filters import (
     seconds_to_iso_8601_duration,
     seconds_to_time,
     sidebar_items_from_wagtail_streamfield,
+    streamfield_contains_code_block,
+    streamfield_contains_media,
     strip_day_from_date,
     strip_time_from_date,
     supertitle_from_domain,
     tna_html,
     url_encode,
-    wagtail_streamfield_contains_code_block,
-    wagtail_streamfield_contains_media,
     wagtail_table_parser,
 )
 
@@ -138,8 +138,8 @@ def create_app(config_class):
         tna_html,
         unslugify,
         url_encode,
-        wagtail_streamfield_contains_code_block,
-        wagtail_streamfield_contains_media,
+        streamfield_contains_code_block,
+        streamfield_contains_media,
         wagtail_table_parser,
     ]
 

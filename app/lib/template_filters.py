@@ -312,15 +312,17 @@ def wagtail_streamfield_contains_block(streamfield, block_types):
     return False
 
 
-def wagtail_streamfield_contains_code_block(streamfield):
+def streamfield_contains_code_block(streamfield):
     return wagtail_streamfield_contains_block(streamfield, ["code"])
 
 
-def wagtail_streamfield_contains_media(streamfield):
+def streamfield_contains_media(streamfield):
     return wagtail_streamfield_contains_block(streamfield, ["youtube_video", "media"])
 
 
-def sidebar_items_from_wagtail_streamfield(content):
+def sidebar_items_from_wagtail_streamfield(content, max_levels=None):
+    if type(max_levels) is not int or max_levels < 1:
+        max_levels = None
     body = content["body"]
     footnotes = content["footnotes"]
     page_sections = []
@@ -331,7 +333,9 @@ def sidebar_items_from_wagtail_streamfield(content):
             section_children = []
             section_grandchildren = []
             for block in reversed(item["value"]["content"]):
-                if block["type"] == "sub_heading":
+                if block["type"] == "sub_heading" and (
+                    max_levels is None or max_levels > 1
+                ):
                     section_children.append(
                         {
                             "text": block["value"]["heading"],
@@ -347,7 +351,9 @@ def sidebar_items_from_wagtail_streamfield(content):
                         }
                     )
                     section_grandchildren = []
-                elif block["type"] == "sub_sub_heading":
+                elif block["type"] == "sub_sub_heading" and (
+                    max_levels is None or max_levels > 2
+                ):
                     section_grandchildren.append(
                         {
                             "text": block["value"]["heading"],
