@@ -10,6 +10,7 @@ from flask import (
 )
 from pydash import objects
 from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
+from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
     bad_gateway_error,
@@ -17,7 +18,7 @@ from app.error_pages.routes import (
     forbidden_error,
     page_not_found_error,
 )
-from app.lib.pagination import pagination_object
+from app.lib.pagination import pagination
 from app.wagtail import bp
 from app.wagtail.api import global_alerts, search
 from app.wagtail.render import render_content_page
@@ -308,7 +309,6 @@ def search_explore_the_collection():
         )
         return bad_request_error()
     query = unquote(request.args.get("q", "")).strip(" ")
-    existing_qs_as_dict = request.args.to_dict()
     params = {"descendant_of_path": "/explore-the-collection/"}
     order = request.args.get("order", "relevance")
     if order == "date":
@@ -321,19 +321,23 @@ def search_explore_the_collection():
         limit=children_per_page,
         params=params,
     )
+
     total_results = objects.get(results, "meta.total_count", 0)
     pages = math.ceil(total_results / children_per_page)
+
     if pages > 0 and page > pages:
         return page_not_found_error()
+
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
+
     return render_template(
         "explore_the_collection/search.html",
         q=query,
-        existing_qs=existing_qs_as_dict,
         global_alert=global_alerts(),
         results=results,
         page=page,
         pages=pages,
         children_per_page=children_per_page,
         total_results=total_results,
-        pagination=pagination_object(page, pages, request.args),
+        pagination=pagination(qs, pages, page),
     )

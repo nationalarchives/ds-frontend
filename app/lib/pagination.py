@@ -1,97 +1,33 @@
-from app.lib.query import qs_update
+from tna_utilities.component import tna_frontend_pagination
 
 
-def pagination_list(current_page, total_pages, boundaries=1, around=1):
-    assert current_page >= 0, "current_page is less than zero"
-    assert total_pages >= 0, "total_pages is less than zero"
-    assert boundaries >= 0, " boundaries is less than zero"
-    assert around >= 0, "around is less than zero"
-    assert current_page <= total_pages, "current_page is bigger than total_pages"
+def pagination(
+    qs, pages, page, previous_page_properties=None, next_page_properties=None
+):
+    pagination = None
 
-    start_initial_chunk = 1
-    end_initial_chunk = min(boundaries, total_pages) + 1
-
-    start_middle_chunk = max(end_initial_chunk, current_page - around, 1)
-    end_middle_chunk = min(current_page + around, total_pages) + 1
-    start_final_chunk = max(
-        end_middle_chunk, total_pages - boundaries + 1, boundaries + 1
-    )
-    end_final_chunk = total_pages + 1
-
-    initial_chunk_numbers = list(range(start_initial_chunk, end_initial_chunk))
-    middle_chunk_numbers = list(range(start_middle_chunk, end_middle_chunk))
-    final_chunk_numbers = list(range(start_final_chunk, end_final_chunk))
-
-    prev_linker = (
-        end_initial_chunk
-        if end_initial_chunk == 2 and current_page - (around + 1) == 2
-        else (
-            "..."
-            if end_initial_chunk < start_middle_chunk and len(middle_chunk_numbers) > 0
-            else ""
-        )
-    )
-    next_linker = (
-        end_middle_chunk
-        if end_middle_chunk == (total_pages - 1)
-        and current_page + (around + 1) == (total_pages - 1)
-        else (
-            "..."
-            if end_middle_chunk < start_final_chunk
-            # else ""
-            # if boundaries + 1 <= end_middle_chunk
-            else ""
-        )
-    )
-
-    pagination_items = [
-        *initial_chunk_numbers,
-        prev_linker,
-        *middle_chunk_numbers,
-        next_linker,
-        *final_chunk_numbers,
-    ]
-
-    return [item for item in pagination_items if item]
-
-
-def pagination_object(current_page, total_pages, current_args, boundaries=1, around=1):
-    if total_pages == 0:
-        return None
-    current_page = int(current_page)
-    pagination_object = {}
-    pagination_object["items"] = [
-        (
-            {"ellipsis": True}
-            if item == "..."
-            else {
-                "number": item,
-                "href": f"?{qs_update(current_args, 'page', item)}",
-                "current": item == current_page,
-            }
-        )
-        for item in pagination_list(current_page, total_pages, boundaries, around)
-    ]
-    if current_page > 1:
-        pagination_object["previous"] = {
-            "href": f"?{
-                qs_update(
-                    current_args,
-                    'page',
-                    current_page - 1,
-                )
-            }",
-            "title": "Previous page of results",
+    if previous_page_properties is None:
+        previous_page_properties = {
+            "title": "Previous page",
         }
-    if current_page < total_pages:
-        pagination_object["next"] = {
-            "href": f"?{
-                qs_update(
-                    current_args,
-                    'page',
-                    current_page + 1,
-                )
-            }",
-            "title": "Next page of results",
+
+    if next_page_properties is None:
+        next_page_properties = {
+            "title": "Next page",
         }
-    return pagination_object
+
+    if pages:
+        pagination_queries = qs.new().remove_parameter("page")
+        if pagination_queries.get_query_string():
+            base_pagination_url = pagination_queries.get_query_string() + "&"
+        else:
+            base_pagination_url = "?"
+        pagination = tna_frontend_pagination(
+            pages,
+            page,
+            base_pagination_url + "page=",
+            previous_page_properties=previous_page_properties,
+            next_page_properties=next_page_properties,
+        )
+
+    return pagination

@@ -2,6 +2,7 @@ import math
 
 from flask import current_app, render_template, request
 from tna_utilities.flask import cacheable_duration
+from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
     bad_gateway_error,
@@ -10,7 +11,7 @@ from app.error_pages.routes import (
     server_error,
 )
 from app.lib.date_time import group_items_by_year_and_month
-from app.lib.pagination import pagination_object
+from app.lib.pagination import pagination
 from app.wagtail.api import foi_requests
 
 
@@ -45,17 +46,17 @@ def foi_index_page(page_data):
 
     total_requests = requests_raw["meta"]["total_count"]
     pages = math.ceil(total_requests / children_per_page)
-    try:
-        pagination = pagination_object(page, pages, request.args)
-    except AssertionError:
-        # The requested page is out of range, 404
+
+    if page > pages > 0:
         return page_not_found_error()
+
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
 
     return render_template(
         "foi/index.html",
         page_data=page_data,
         requests=requests,
-        pagination=pagination,
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
         children_per_page=children_per_page,
