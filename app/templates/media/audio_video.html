@@ -20,10 +20,10 @@
 <div itemscope itemtype="{{ 'https://schema.org/AudioObject' if media_data.media_type == 'audio' else 'https://schema.org/VideoObject' }}">
   <div class="tna-container">
     <meta itemprop="uploadDate" content="{{ media_data.created_at }}">
-    <meta itemprop="contentUrl" content="{{ media_data.full_url }}">
+    <meta itemprop="contentUrl" content="{{ media_data.url }}">
     <meta itemprop="url" content="{{ video_page_url }}">
     {% if media_data.thumbnail %}
-    {# <meta itemprop="thumbnailUrl" content="{{ media_data.thumbnail.jpeg.full_url }}"> #}
+    {# <meta itemprop="thumbnailUrl" content="{{ media_data.thumbnail.jpeg.url }}"> #}
     {% endif %}
     <div class="tna-column tna-column--width-2-3 tna-colum--width-5-6-medium tna-column--full-small tna-column--full-tiny tna-!--margin-top-l">
       <hgroup class="tna-hgroup-xl">
@@ -68,17 +68,21 @@
             <dd>
               <code itemprop="encodingFormat">{{ media_data.mime }}</code>
             </dd>
-            {% if media_data.duration %}
+            {%- if media_data.file_size %}
+            <dt>File size</dt>
+            <dd>{{ media_data.file_size | pretty_file_size }}</dd>
+            {%- endif %}
+            {%- if media_data.duration %}
             <dt>Duration</dt>
             <dd>{{ media_data.duration | seconds_to_time }}<meta itemprop="duration" content="{{ media_data.duration | seconds_to_iso_8601_duration }}"></dd>
-            {% endif %}
-            {% if media_data.created_at %}
+            {%- endif %}
+            {%- if media_data.created_at %}
             <dt>Date published</dt>
             <dd>
               <time datetime="{{ media_data.created_at }}">{{ media_data.created_at | pretty_date }}</time>
               <meta itemprop="uploadDate" content="{{ media_data.created_at }}">
             </dd>
-            {% endif %}
+            {%- endif %}
           </dl>
         </div>
       </div>

@@ -57,28 +57,28 @@
       {%- endif -%}
     {%- endset %}
   {{ tnaHero({
-    'imageSrc': page_data.hero_image.jpeg.full_url,
+    'imageSrc': page_data.hero_image.jpeg.url,
     'imageAlt': page_data.hero_image.description,
     'imageWidth': page_data.hero_image.jpeg.width,
     'imageHeight': page_data.hero_image.jpeg.height,
     'imageCaption': hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image.small_webp.full_url,
+        'src': page_data.hero_image.small_webp.url,
         'width': page_data.hero_image.small_webp.width,
         'height': page_data.hero_image.small_webp.height,
         'type': 'image/webp',
         'media': '(max-width: 48em)'
       },
       {
-        'src': page_data.hero_image.small_jpeg.full_url,
+        'src': page_data.hero_image.small_jpeg.url,
         'width': page_data.hero_image.small_jpeg.width,
         'height': page_data.hero_image.small_jpeg.height,
         'type': 'image/jpeg',
         'media': '(max-width: 48em)'
       },
       {
-        'src': page_data.hero_image.webp.full_url,
+        'src': page_data.hero_image.webp.url,
         'width': page_data.hero_image.webp.width,
         'height': page_data.hero_image.webp.height,
         'type': 'image/webp'

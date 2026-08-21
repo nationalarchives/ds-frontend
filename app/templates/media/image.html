@@ -34,7 +34,7 @@
   <div class="tna-background-tint tna-!--margin-top-l tna-!--padding-vertical-l">
     <div class="tna-container tna-container--centred">
       <div class="tna-column tna-column">
-        <img src="{{ image_data.jpeg.full_url }}" itemprop="contentUrl" alt="{{ image_data.description }}" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}">
+        <img src="{{ image_data.jpeg.url }}" itemprop="contentUrl" alt="{{ image_data.description }}" width="{{ image_data.jpeg.width }}" height="{{ image_data.jpeg.height }}">
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@
         {%- if not image_data.copyright %}
         {{ tnaButton({
           'text': 'Download this image',
-          'href': image_data.jpeg.full_url,
+          'href': image_data.jpeg.url,
           'icon': 'download',
           'attributes': {
             'download': image_data.title | slugify
@@ -80,15 +80,28 @@
 
       <div class="tna-aside tna-aside--tight tna-background-accent-light">
         <h2 class="tna-heading-m">Technical details</h2>
+        <p>This image is a smaller, compressed version of the original.</p>
         <dl class="tna-dl tna-!--margin-top-s">
           <dt>Format</dt>
           <dd>
             <code itemprop="encodingFormat">image/jpeg</code>
           </dd>
-          <dt>Width</dt>
-          <dd itemprop="width">{{ image_data.jpeg.width | string }}px</dd>
-          <dt>Height</dt>
-          <dd itemprop="height">{{ image_data.jpeg.height | string }}px</dd>
+          <dt>Dimensions (px)</dt>
+          <dd>
+            <span itemprop="width">{{ image_data.jpeg.width | string }}</span> x <span itemprop="height">{{ image_data.jpeg.height | string }}</span>
+          </dd>
+          {%- if image_data.jpeg.file_size %}
+          <dt>File size</dt>
+          <dd>{{ image_data.jpeg.file_size | pretty_file_size }}</dd>
+          {%- endif %}
+          <!-- {%- if image_data.source_image %}
+          <dt>Original dimensions (px)</dt>
+          <dd>
+            {{ image_data.source_image.width | string }} x {{ image_data.source_image.height | string }}
+          </dd>
+          <dt>Original file size</dt>
+          <dd>{{ image_data.source_image.file_size | pretty_file_size }}</dd>
+          {%- endif %} -->
         </dl>
       </div>
     </div>

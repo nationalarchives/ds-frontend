@@ -83,14 +83,14 @@
     'supertitle': page_data.type_label,
     'title': page_data.title,
     'body': hero_body,
-    'imageSrc': page_data.hero_image.small_jpeg.full_url,
+    'imageSrc': page_data.hero_image.small_jpeg.url,
     'imageAlt': page_data.hero_image.description,
     'imageWidth': page_data.hero_image.small_jpeg.width,
     'imageHeight': page_data.hero_image.small_jpeg.height,
     'imageCaption': hero_image_caption,
     'imageSources': [
       {
-        'src': page_data.hero_image.small_webp.full_url,
+        'src': page_data.hero_image.small_webp.url,
         'width': page_data.hero_image.small_webp.width,
         'height': page_data.hero_image.small_webp.height,
         'type': 'image/webp'
@@ -302,14 +302,14 @@
         <figure class="tna-picture tna-picture--plain" data-module="tna-picture" data-information-label-open="Open details" data-information-label-close="Close details" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
           {%- set image_page_url = url_for('wagtail.image_page', image_uuid=page_data.location.image.uuid, _external=True, _scheme='https') %}
           <meta itemprop="url" content="{{ image_page_url }}">
-          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.full_url }}">
+          <meta itemprop="contentUrl" content="{{ page_data.location.image.jpeg.url }}">
           <meta itemprop="width" content="{{ page_data.location.image.jpeg.width }}">
           <meta itemprop="height" content="{{ page_data.location.image.jpeg.height }}">
           <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
           <div class="tna-picture__image-wrapper tna-background-tint">
             <picture>
-              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.full_url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
-              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.full_url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
+              <source class="tna-picture__image" srcset="{{ page_data.location.image.webp.url }}" type="image/webp" width="{{ page_data.location.image.webp.width }}" height="{{ page_data.location.image.webp.height }}">
+              <img class="tna-picture__image" width="{{ page_data.location.image.jpeg.width }}" height="{{ page_data.location.image.jpeg.height }}" src="{{ page_data.location.image.jpeg.url }}" alt="{{ page_data.location.image.description }}" loading="lazy">
             </picture>
           </div>
         </figure>
@@ -330,7 +330,7 @@
             'alt': image.image.description,
             'width': image.image.jpeg.width,
             'height': image.image.jpeg.height,
-            'src': image.image.jpeg.full_url,
+            'src': image.image.jpeg.url,
             'description': image.caption | safe
           }) %}
         {% endfor %}
@@ -355,7 +355,7 @@
           {%- for speaker in page_data.speakers %}
           <li class="etna-author-list__item" itemprop="performer" itemscope itemtype="https://schema.org/Person">
             {%- if speaker.image %}
-            <img src="{{ speaker.image.small_jpeg.full_url }}" width="{{ speaker.image.small_jpeg.width }}" height="{{ speaker.image.small_jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.description }}">
+            <img src="{{ speaker.image.small_jpeg.url }}" width="{{ speaker.image.small_jpeg.width }}" height="{{ speaker.image.small_jpeg.height }}" class="etna-author-list__image" alt="{{ speaker.image.description }}">
             {%- else %}
             <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
             {%- endif %}
@@ -406,13 +406,13 @@
         } %}
         {%- if series.teaser_image %}
           {% set card_content = dict(card_content, **{
-            'imageSrc': series.teaser_image.jpeg.full_url,
+            'imageSrc': series.teaser_image.jpeg.url,
             'imageAlt': series.teaser_image.description,
             'imageWidth': series.teaser_image.jpeg.width,
             'imageHeight': series.teaser_image.jpeg.height,
             'imageSources': [
               {
-                'src': series.teaser_image.webp.full_url,
+                'src': series.teaser_image.webp.url,
                 'type': 'image/webp',
                 'width': series.teaser_image.webp.width,
                 'height': series.teaser_image.webp.height
