@@ -5,8 +5,8 @@ import sentry_sdk
 from flask import Flask, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
-from tna_utilities.string import slugify, unslugify
 from tna_utilities.number import pretty_file_size
+from tna_utilities.string import slugify, unslugify
 from tna_utilities.url import QueryStringTransformer
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -206,10 +206,3 @@ def create_app(config_class):
     app.register_blueprint(wagtail_bp)
 
     return app
-
-
-
-
-
-
-
