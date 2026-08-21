@@ -265,13 +265,13 @@
       } %}
       {%- if session.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'imageSrc': session.teaser_image.jpeg.full_url,
+          'imageSrc': session.teaser_image.jpeg.url,
           'imageAlt': session.teaser_image.description,
           'imageWidth': session.teaser_image.jpeg.width,
           'imageHeight': session.teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': session.teaser_image.webp.full_url,
+              'src': session.teaser_image.webp.url,
               'type': 'image/webp',
               'width': session.teaser_image.webp.width,
               'height': session.teaser_image.webp.height

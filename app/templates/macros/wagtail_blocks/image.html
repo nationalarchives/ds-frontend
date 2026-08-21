@@ -49,10 +49,10 @@
     {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download and name and not block_value.image.copyright %}
-    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download_alternative and name and block_value.image.alternative_format %}
-    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.alternative_format.full_url ~ '" class="tna-picture__download-link" download>Download ' ~ (block_value.image.alternative_format.heading | lower) ~ '<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.alternative_format.url ~ '" class="tna-picture__download-link" download>Download ' ~ (block_value.image.alternative_format.heading | lower) ~ '<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if image_caption_extra_links %}
     {% set image_caption = image_caption ~ '<p class="tna-!--hide-on-print">' ~ (image_caption_extra_links | join(' | ')) ~ '</p>' %}
@@ -60,13 +60,13 @@
 
   {%- if block_value.image.jpeg and block_value.image.webp %}
     {% set picture_content = {
-      'src': block_value.image.jpeg.full_url,
+      'src': block_value.image.jpeg.url,
       'alt': block_value.image.description,
       'width': block_value.image.jpeg.width,
       'height': block_value.image.jpeg.height,
       'sources': [
         {
-          'src': block_value.image.webp.full_url,
+          'src': block_value.image.webp.url,
           'type': 'image/webp',
           'width': block_value.image.webp.width,
           'height': block_value.image.webp.height

@@ -75,13 +75,13 @@
         } %}
         {%- if featured_item.teaser_image %}
           {% set card_content = dict(card_content, **{
-            'imageSrc': featured_item.teaser_image.jpeg.full_url,
+            'imageSrc': featured_item.teaser_image.jpeg.url,
             'imageAlt': featured_item.teaser_image.description,
             'imageWidth': featured_item.teaser_image.jpeg.width,
             'imageHeight': featured_item.teaser_image.jpeg.height,
             'imageSources': [
               {
-                'src': featured_item.teaser_image.webp.full_url,
+                'src': featured_item.teaser_image.webp.url,
                 'type': 'image/webp',
                 'width': featured_item.teaser_image.webp.width,
                 'height': featured_item.teaser_image.webp.height
@@ -287,13 +287,13 @@
             } %}
             {%- if child.teaser_image %}
               {% set card_content = dict(card_content, **{
-                'imageSrc': child.teaser_image.jpeg.full_url,
+                'imageSrc': child.teaser_image.jpeg.url,
                 'imageAlt': child.teaser_image.description,
                 'imageWidth': child.teaser_image.jpeg.width,
                 'imageHeight': child.teaser_image.jpeg.height,
                 'imageSources': [
                   {
-                    'src': child.teaser_image.webp.full_url,
+                    'src': child.teaser_image.webp.url,
                     'type': 'image/webp',
                     'width': child.teaser_image.webp.width,
                     'height': child.teaser_image.webp.height
