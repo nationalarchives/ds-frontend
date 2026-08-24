@@ -13,7 +13,7 @@
         <dd class="tna-records-list__date-description">{{ item.record_dates }}</dd>
       </dl>
       {%- if item.thumbnail_image %}
-      <img src="{{ item.thumbnail_image.jpeg.full_url }}" width="{{ item.thumbnail_image.jpeg.width }}" height="{{ item.thumbnail_image.jpeg.height }}" class="tna-records-list__image" alt="">
+      <img src="{{ item.thumbnail_image.jpeg.url }}" width="{{ item.thumbnail_image.jpeg.width }}" height="{{ item.thumbnail_image.jpeg.height }}" class="tna-records-list__image" alt="">
       {%- endif %}
     </li>
     {%- endfor %}

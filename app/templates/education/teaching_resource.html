@@ -171,24 +171,24 @@
             <a href="#teaching-resource-source-{{ loop.index }}" class="tna-education-sources-overview__list-item-link">
               {%- if first_source %}
                 {%- if first_source.type == 'image' %}
-                  <img src="{{ first_source.value.image.jpeg.full_url }}" alt="{{ first_source.value.image.description }}" width="{{ first_source.value.image.jpeg.width }}" height="{{ first_source.value.image.jpeg.height }}">
+                  <img src="{{ first_source.value.image.jpeg.url }}" alt="{{ first_source.value.image.description }}" width="{{ first_source.value.image.jpeg.width }}" height="{{ first_source.value.image.jpeg.height }}">
                 {%- elif first_source.type == 'media' %}
                   {%- if first_source.value.thumbnail %}
-                    <img src="{{ first_source.value.thumbnail.jpeg.full_url }}" alt="{{ first_source.value.thumbnail.description }}" width="{{ first_source.value.thumbnail.jpeg.width }}" height="{{ first_source.value.thumbnail.jpeg.height }}">
+                    <img src="{{ first_source.value.thumbnail.jpeg.url }}" alt="{{ first_source.value.thumbnail.description }}" width="{{ first_source.value.thumbnail.jpeg.width }}" height="{{ first_source.value.thumbnail.jpeg.height }}">
                   {%- else %}
                     <img src="" alt="" width="1" height="1" aria-hidden="true">
                   {%- endif %}
                 {%- elif first_source.type == 'youtube_video' %}
-                  <img src="{{ first_source.value.preview_image.jpeg.full_url }}" alt="{{ first_source.value.preview_image.description }}" width="{{ first_source.value.preview_image.jpeg.width }}" height="{{ first_source.value.preview_image.jpeg.height }}">
+                  <img src="{{ first_source.value.preview_image.jpeg.url }}" alt="{{ first_source.value.preview_image.description }}" width="{{ first_source.value.preview_image.jpeg.width }}" height="{{ first_source.value.preview_image.jpeg.height }}">
                 {%- else %}
                   <img src="" alt="" width="1" height="1" aria-hidden="true">
                 {%- endif %}
               {%- elif source.featured_link %}
                 {%- set first_featured_link = source.featured_link | first %}
                 {%- if first_featured_link.type == 'featured_external_link' and first_featured_link.value.image %}
-                  <img src="{{ first_featured_link.value.image.jpeg.full_url }}" alt="{{ first_featured_link.value.image.description }}" width="{{ first_featured_link.value.image.jpeg.width }}" height="{{ first_featured_link.value.image.jpeg.height }}">
+                  <img src="{{ first_featured_link.value.image.jpeg.url }}" alt="{{ first_featured_link.value.image.description }}" width="{{ first_featured_link.value.image.jpeg.width }}" height="{{ first_featured_link.value.image.jpeg.height }}">
                 {%- elif first_featured_link.type == 'internal_link' and first_featured_link.value.page.teaser_image %}
-                  <img src="{{ first_featured_link.value.page.teaser_image.jpeg.full_url }}" alt="{{ first_featured_link.value.page.teaser_image.description }}" width="{{ first_featured_link.value.page.teaser_image.jpeg.width }}" height="{{ first_featured_link.value.page.teaser_image.jpeg.height }}">
+                  <img src="{{ first_featured_link.value.page.teaser_image.jpeg.url }}" alt="{{ first_featured_link.value.page.teaser_image.description }}" width="{{ first_featured_link.value.page.teaser_image.jpeg.width }}" height="{{ first_featured_link.value.page.teaser_image.jpeg.height }}">
                 {%- else %}
                   <img src="" alt="" width="1" height="1" aria-hidden="true">
                 {%- endif %}

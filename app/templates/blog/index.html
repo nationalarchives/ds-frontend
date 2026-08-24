@@ -198,13 +198,13 @@
             {%- if blog_posts[0].teaser_image %}
               {% set featured_card_content = dict(featured_card_content, **{
                 'lazyImage': True,
-                'imageSrc': blog_posts[0].teaser_image.jpeg.full_url,
+                'imageSrc': blog_posts[0].teaser_image.jpeg.url,
                 'imageAlt': blog_posts[0].teaser_image.description,
                 'imageWidth': blog_posts[0].teaser_image.jpeg.width,
                 'imageHeight': blog_posts[0].teaser_image.jpeg.height,
                 'imageSources': [
                   {
-                    'src': blog_posts[0].teaser_image.webp.full_url,
+                    'src': blog_posts[0].teaser_image.webp.url,
                     'type': 'image/webp',
                     'width': blog_posts[0].teaser_image.webp.width,
                     'height': blog_posts[0].teaser_image.webp.height
@@ -255,13 +255,13 @@
                   } %}
                   {%- if blog_post.teaser_image %}
                     {% set card_content = dict(card_content, **{
-                      'imageSrc': blog_post.teaser_image.jpeg.full_url,
+                      'imageSrc': blog_post.teaser_image.jpeg.url,
                       'imageAlt': blog_post.teaser_image.description,
                       'imageWidth': blog_post.teaser_image.jpeg.width,
                       'imageHeight': blog_post.teaser_image.jpeg.height,
                       'imageSources': [
                         {
-                          'src': blog_post.teaser_image.webp.full_url,
+                          'src': blog_post.teaser_image.webp.url,
                           'type': 'image/webp',
                           'width': blog_post.teaser_image.webp.width,
                           'height': blog_post.teaser_image.webp.height
@@ -293,7 +293,7 @@
               {%- for author in authors[:12] %}
               <li class="etna-author-list__item" itemscope itemtype="https://schema.org/Person">
                 {%- if author.author.image %}
-                <img src="{{ author.author.image.small_jpeg.full_url }}" alt="Profile photo for {{ author.author.title }}." width="{{ author.author.image.small_jpeg.width }}" height="{{ author.author.image.small_jpeg.height }}" class="etna-author-list__image" itemprop="image">
+                <img src="{{ author.author.image.small_jpeg.url }}" alt="Profile photo for {{ author.author.title }}." width="{{ author.author.image.small_jpeg.width }}" height="{{ author.author.image.small_jpeg.height }}" class="etna-author-list__image" itemprop="image">
                 {%- else %}
                 <img src="{{ url_for('static', filename='images/blank-profile.svg') }}" width="128" height="128" class="etna-author-list__image" alt="">
                 {%- endif %}

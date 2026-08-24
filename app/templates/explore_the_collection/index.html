@@ -29,28 +29,28 @@
   'supertitle': page_data.type_label,
   'title': page_data.title,
   'body': hero_intro,
-  'imageSrc': page_data.hero_image.jpeg.full_url,
+  'imageSrc': page_data.hero_image.jpeg.url,
   'imageAlt': page_data.hero_image.description,
   'imageWidth': page_data.hero_image.jpeg.width,
   'imageHeight': page_data.hero_image.jpeg.height,
   'imageCaption': hero_image_caption,
   'imageSources': [
     {
-      'src': page_data.hero_image.small_webp.full_url,
+      'src': page_data.hero_image.small_webp.url,
       'width': page_data.hero_image.small_webp.width,
       'height': page_data.hero_image.small_webp.height,
       'type': 'image/webp',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image.small_jpeg.full_url,
+      'src': page_data.hero_image.small_jpeg.url,
       'width': page_data.hero_image.small_jpeg.width,
       'height': page_data.hero_image.small_jpeg.height,
       'type': 'image/jpeg',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.hero_image.webp.full_url,
+      'src': page_data.hero_image.webp.url,
       'width': page_data.hero_image.webp.width,
       'height': page_data.hero_image.webp.height,
       'type': 'image/webp'
@@ -71,13 +71,13 @@
           'headingSize': 'm',
           'href': item.value[page].url,
           'text': item.value[page].teaser_text,
-          'imageSrc': item.value[page].teaser_image.jpeg.full_url,
+          'imageSrc': item.value[page].teaser_image.jpeg.url,
           'imageAlt': item.value[page].teaser_image.description,
           'imageWidth': item.value[page].teaser_image.jpeg.width,
           'imageHeight': item.value[page].teaser_image.jpeg.height,
           'imageSources': [
             {
-              'src': item.value[page].teaser_image.webp.full_url,
+              'src': item.value[page].teaser_image.webp.url,
               'type': 'image/webp',
               'width': item.value[page].teaser_image.webp.width,
               'height': item.value[page].teaser_image.webp.height
@@ -114,28 +114,28 @@
   'headingLevel': 2,
   'headingSize': 'l',
   'text': page_data.stories_introduction or page_data.stories_page.teaser_text,
-  'imageSrc': page_data.stories_hero_image.jpeg.full_url,
+  'imageSrc': page_data.stories_hero_image.jpeg.url,
   'imageWidth': page_data.stories_hero_image.jpeg.width,
   'imageHeight': page_data.stories_hero_image.jpeg.height,
   'imageAlt': page_data.stories_hero_image.description,
   'imageCaption': stories_hero_image_caption | safe,
   'imageSources': [
     {
-      'src': page_data.stories_hero_image.small_webp.full_url,
+      'src': page_data.stories_hero_image.small_webp.url,
       'width': page_data.stories_hero_image.small_webp.width,
       'height': page_data.stories_hero_image.small_webp.height,
       'type': 'image/webp',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.stories_hero_image.small_jpeg.full_url,
+      'src': page_data.stories_hero_image.small_jpeg.url,
       'width': page_data.stories_hero_image.small_jpeg.width,
       'height': page_data.stories_hero_image.small_jpeg.height,
       'type': 'image/jpeg',
       'media': '(max-width: 48em)'
     },
     {
-      'src': page_data.stories_hero_image.webp.full_url,
+      'src': page_data.stories_hero_image.webp.url,
       'width': page_data.stories_hero_image.webp.width,
       'height': page_data.stories_hero_image.webp.height,
       'type': 'image/webp'
@@ -164,7 +164,7 @@
         'headingLevel': 3,
         'headingSize': 'm',
         'text': section.selected_page.teaser_text,
-        'imageSrc': section.selected_page.teaser_image.jpeg.full_url,
+        'imageSrc': section.selected_page.teaser_image.jpeg.url,
         'imageWidth': section.selected_page.teaser_image.jpeg.width,
         'imageHeight': section.selected_page.teaser_image.jpeg.height,
         'imageAlt': section.selected_page.teaser_image.description,
