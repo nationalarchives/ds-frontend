@@ -117,7 +117,6 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='article.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- if body_contains_media %}
     <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     {%- endif %}
