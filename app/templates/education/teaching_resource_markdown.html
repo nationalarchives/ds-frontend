@@ -1,9 +1,5 @@
 # {{ page_data.title }}
 
-{% if page_data.enquiry_question %}
-**{{ page_data.enquiry_question }}**
-{% endif %}
-
 {{ page_data.intro | striptags }}
 
 ## Details
@@ -20,6 +16,12 @@
 {% for theme in page_data.themes %}
   + {{ theme.name }}
 {% endfor %}
+
+{% if page_data.enquiry_question %}
+## Enquiry question
+
+> **{{ page_data.enquiry_question }}**
+{% endif %}
 
 ## Investigate the sources
 

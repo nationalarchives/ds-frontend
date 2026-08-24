@@ -28,7 +28,7 @@ $forced-colours-border: 1px;
       flex: 0;
 
       font-size: 2em;
-      // @include colour.colour-font("icon-light");
+      @include colour.colour-font("accent-background");
     }
 
     p {
@@ -37,7 +37,7 @@ $forced-colours-border: 1px;
       line-height: 1.5;
     }
 
-    @include media.on-tiny {
+    @include media.on-mobile {
       padding-left: spacing.space(0.75);
       padding-block: spacing.space(0.5);
 
