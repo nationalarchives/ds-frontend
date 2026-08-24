@@ -1,10 +1,10 @@
 {
   "scripts": {
     "compile:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles:app/static",
-    "compile:js": "webpack",
+    "compile:js": "node build.mjs",
     "compile": "npm run compile:css && npm run compile:js",
     "dev:css": "sass --load-path=node_modules --watch src/styles:app/static",
-    "dev:js": "webpack --config webpack.config.js --mode=development --watch",
+    "dev:js": "node build.mjs --watch",
     "dev": "npm run dev:css & npm run dev:js &"
   },
   "dependencies": {
@@ -15,12 +15,9 @@
     "videojs-youtube": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.0",
-    "@babel/preset-env": "^8.0.0",
-    "babel-loader": "^10.0.0",
+    "chokidar": "^5.0.0",
     "sass": "^1.69.4",
-    "terser-webpack-plugin": "^5.3.10",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^7.0.0"
+    "terser": "^5.50.0",
+    "vite": "^8.2.2"
   }
 }
