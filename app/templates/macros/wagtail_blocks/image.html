@@ -49,7 +49,7 @@
     {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download and name and not block_value.image.copyright %}
-    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download_alternative and name and block_value.image.alternative_format %}
     {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.alternative_format.full_url ~ '" class="tna-picture__download-link" download>Download ' ~ (block_value.image.alternative_format.heading | lower) ~ '<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
