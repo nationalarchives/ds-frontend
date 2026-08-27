@@ -1,6 +1,6 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, config) %}
+{% macro wagtailImage(block_value, id, config, itemHeadingLevel) %}
   {%- set plain = config.plain if config is defined else False -%}
   {%- set hide_transcript = config.hide_transcript if config is defined else False -%}
   {%- set itemprop = config.itemprop if config is defined else '' -%}
@@ -74,6 +74,7 @@
       ],
       'caption': image_caption,
       'microdataCaption': (block_value.caption | striptags) or '',
+      'informationItemHeadingLevel': itemHeadingLevel,
       'informationLabelOpen': information_label_open,
       'informationLabelClose': information_label_close,
       'information': picture_information,
