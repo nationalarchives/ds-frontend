@@ -85,45 +85,45 @@ def blog_page(page_data, year=None, month=None, day=None):  # noqa: C901
         return page_not_found_error()
     date_filters = [
         {
-            "label": "Any date",
+            "text": "Any date",
             "href": objects.get(page_data, "meta.url"),
-            "title": "Blog posts from any date",
-            "selected": not year,
+            "current": not year,
         }
     ]
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
     for year_count in reversed(blog_post_counts_data):
         year_qs = qs.new()
-        date_filters.append(
-            {
-                "label": f"All {year_count['year']} ({year_count['posts']})",
-                "href": year_qs.add_parameter("year", year_count["year"])
-                .remove_parameter("month")
-                .remove_parameter("page")
-                .get_query_string(),
-                "title": f"Blog posts from {year_count['year']}",
-                "selected": qs.is_value_in_parameter("year", year_count["year"])
-                and not month,
-            }
-        )
-        if year == year_count["year"]:
+        children = []
+        if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
                 month_qs = qs.new()
                 each_month_name = datetime.date(year, month_count["month"], 1).strftime(
                     "%B"
                 )
-                date_filters.append(
+                children.append(
                     {
-                        "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
+                        "text": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
                         "href": month_qs.update_parameter("year", year_count["year"])
                         .update_parameter("month", month_count["month"])
                         .remove_parameter("page")
                         .get_query_string(),
-                        "title": f"Blog posts from {each_month_name} {year_count['year']}",
-                        "selected": qs.is_value_in_parameter("year", year_count["year"])
-                        and qs.is_value_in_parameter("month", month_count["month"]),
+                        "classes": "tna-sidebar__item-child--current"
+                        if qs.is_value_in_parameter("year", year_count["year"])
+                        and qs.is_value_in_parameter("month", month_count["month"])
+                        else "",
                     }
                 )
+        date_filters.append(
+            {
+                "text": f"All {year_count['year']} ({year_count['posts']})",
+                "href": year_qs.add_parameter("year", year_count["year"])
+                .remove_parameter("month")
+                .remove_parameter("page")
+                .get_query_string(),
+                "current": qs.is_value_in_parameter("year", year_count["year"]),
+                "children": children,
+            }
+        )
     return render_template(
         "blog/index.html",
         page_data=page_data,
