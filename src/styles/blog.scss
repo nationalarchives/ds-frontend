@@ -4,12 +4,6 @@
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
-.tna-quick-filters {
-  &__link[href*="&month="] {
-    margin-left: spacing.space(1);
-  }
-}
-
 .tna-blockquote {
   margin-right: spacing.space(2);
   margin-left: spacing.space(2);
@@ -60,5 +54,15 @@
     &__quote {
       @include typography.font-size(19);
     }
+  }
+}
+
+.tna-sidebar {
+  &__item--current:has(&__item-child--current) &__link {
+    @include typography.main-font-weight;
+  }
+
+  &__item--current:has(&__item-child--current) &__item-child--current &__link {
+    @include typography.main-font-weight-bold;
   }
 }
