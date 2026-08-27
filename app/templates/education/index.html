@@ -8,6 +8,11 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/hero.html' import hero -%}
 
+{% block head %}
+{{ super() }}
+    <link rel="canonical" href="{{ page_data.meta.url }}">
+{% endblock head %}
+
 {% block content %}
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 {% call hero(page_data, page_data.hero_image, {
