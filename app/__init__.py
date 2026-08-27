@@ -161,6 +161,7 @@ def create_app(config_class):
             pretty_datetime_range=pretty_datetime_range,
             pretty_price_range=pretty_price_range,
             is_today_in_date_range=is_today_in_date_range,
+            qs_parameter_values=lambda parameter: qs.parameter_values(parameter),
             qs_is_value_in_parameter=lambda parameter, value: qs.is_value_in_parameter(
                 parameter, value
             ),
