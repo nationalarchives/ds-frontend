@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from urllib.parse import quote_plus, unquote, urlparse
 
 from markdownify import markdownify
-from markupsafe import Markup
+from markupsafe import escape
 from tna_utilities.string import slugify
 
 from app.lib.date_time import get_date_from_string
@@ -275,7 +275,7 @@ def headings_list(s):
             continue
 
         heading = {
-            "text": Markup(text),
+            "text": escape(text),
             "href": f"#{heading_id}",
             "level": level,
             "children": [],
