@@ -1,11 +1,11 @@
 import json
 import math
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import quote_plus, unquote, urlparse
 
 from markdownify import markdownify
-from markupsafe import Markup
+from markupsafe import escape
 from tna_utilities.string import slugify
 
 from app.lib.date_time import get_date_from_string
@@ -77,7 +77,7 @@ def domain_from_url(s):
     try:
         domain = urlparse(s).netloc
         return re.sub(r"^www\.", "", domain)
-    except Exception:
+    except (AttributeError, TypeError, ValueError):
         return s
 
 
@@ -98,17 +98,17 @@ def pretty_date(s, show_day=False, show_time=False):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%d")
+        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m")
+        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y")
+        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
         return date.strftime("%Y")
     except ValueError:
         pass
@@ -151,17 +151,17 @@ def month_year(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%d")
+        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m")
+        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y")
+        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
         return date.strftime("%Y")
     except ValueError:
         pass
@@ -182,7 +182,7 @@ def is_today_or_future(s):
         date = get_date_from_string(s).date()
     except AttributeError:
         return False
-    today = datetime.now().date()
+    today = datetime.now(tz=timezone.utc).date()
     return today <= date
 
 
@@ -200,12 +200,14 @@ def rfc_822_format(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").replace(
+            tzinfo=timezone.utc
+        )
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
@@ -251,54 +253,66 @@ def parse_json(s):
     try:
         unquoted_string = unquote(s)
         return json.loads(unquoted_string)
-    except Exception:
+    except (json.JSONDecodeError, TypeError):
         return {}
 
 
 def headings_list(s):
     if not s:
         return s
-    headings_regex = re.findall(
-        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
-    )
-    headings_raw = [
-        {
-            "text": Markup(heading[2]),
-            "href": "#" + heading[1],
-            "level": int(heading[0]),
+
+    matches = re.findall(r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+?)\s*</h[1-6]>', s)
+    if not matches:
+        return []
+
+    root_level = min(int(level) for level, _, _ in matches)
+    headings = []
+    stack = []
+
+    for level, heading_id, text in matches:
+        level = int(level)
+        if level < root_level:
+            continue
+
+        heading = {
+            "text": escape(text),
+            "href": f"#{heading_id}",
+            "level": level,
             "children": [],
         }
-        for heading in headings_regex
-    ]
 
-    def group_headings(index, grouping):
-        if index < len(headings_raw):
-            next_heading = headings_raw[index]
-            if len(grouping):
-                prev_heading = grouping[-1]
-                try:
-                    if next_heading["level"] > prev_heading["level"]:
-                        prev_heading["children"] = prev_heading["children"] or []
-                        return group_headings(index, prev_heading["children"])
-                    if next_heading["level"] == prev_heading["level"]:
-                        grouping.append(next_heading)
-                        index = index + 1
-                        return group_headings(index, grouping)
-                    raise Exception({"index": index, "heading": next_heading})
-                except Exception as e:
-                    (higher_heading,) = e.args
-                    if higher_heading["heading"]["level"] == prev_heading["level"]:
-                        grouping.append(higher_heading["heading"])
-                        higher_heading["index"] = higher_heading["index"] + 1
-                        return group_headings(higher_heading["index"], grouping)
-                    raise Exception(higher_heading) from e
-            else:
-                grouping.append(next_heading)
-                index = index + 1
-                group_headings(index, grouping)
-        return grouping
+        if level == root_level:
+            headings.append(heading)
+            stack = [heading]
+            continue
 
-    return group_headings(0, [])
+        if not stack:
+            continue
+
+        if level > stack[-1]["level"]:
+            if level - stack[-1]["level"] != 1:
+                continue
+            stack[-1]["children"].append(heading)
+            stack.append(heading)
+            continue
+
+        while stack and stack[-1]["level"] >= level:
+            stack.pop()
+
+        if not stack:
+            if level != root_level:
+                continue
+            headings.append(heading)
+            stack = [heading]
+            continue
+
+        if level - stack[-1]["level"] != 1:
+            continue
+
+        stack[-1]["children"].append(heading)
+        stack.append(heading)
+
+    return headings
 
 
 def wagtail_streamfield_contains_block(streamfield, block_types):

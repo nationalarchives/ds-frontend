@@ -1,5 +1,5 @@
 import math
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import (
     current_app,
@@ -56,7 +56,7 @@ def sitemap_dynamic(sitemap_page):
         "/maintenance/",
         "/education/",  # TODO: Remove this when the education section is live
     ]
-    dynamic_urls = list()
+    dynamic_urls = []
     items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
     wagtail_pages = all_pages(
         batch=sitemap_page,
@@ -73,7 +73,7 @@ def sitemap_dynamic(sitemap_page):
         try:
             lastmodified_date = datetime.strptime(
                 page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
-            )
+            ).replace(tzinfo=timezone.utc)
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
         except Exception:
             current_app.logger.exception(

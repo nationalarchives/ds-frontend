@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 const footnotePrefix = "footnote-";
 const footnoteIdDataAttribute = "footnoteid";
 const footnoteCitePrefix = "footnote-cite-";
@@ -66,10 +67,12 @@ footnoteCites.forEach((footnoteCite) => {
 $footnotes.innerHTML = footnotes.reduce(
   (html, footnote) =>
     `${html}<li id="${footnotePrefix}${footnote.id}">${footnoteCites.reduce(
-      (footnoteCitesHtml, footnoteCite) =>
-        footnoteCite.id === footnote.id
-          ? `${footnoteCitesHtml}<a href="#${footnoteCitePrefix}${footnoteCite.group}${letters[footnoteCite.instance]}" title="Footnote ${footnoteCite.group}, cite ${letters[footnoteCite.instance]}">${letters[footnoteCite.instance]}</a> `
-          : footnoteCitesHtml,
+      (footnoteCitesHtml, footnoteCite) => {
+        if (footnoteCite.id === footnote.id) {
+          return `${footnoteCitesHtml}<a href="#${footnoteCitePrefix}${footnoteCite.group}${letters[footnoteCite.instance]}" title="Footnote ${footnoteCite.group}, cite ${letters[footnoteCite.instance]}">${letters[footnoteCite.instance]}</a> `;
+        }
+        return footnoteCitesHtml;
+      },
       "",
     )} <cite>${footnote.html}</cite></li>`,
   "",

@@ -1,9 +1,10 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from app.lib.template_filters import (
     currency,
     domain_from_url,
+    headings_list,
     is_today_or_future,
     key_stage_ranges,
     multiline_address_to_single_line,
@@ -42,7 +43,7 @@ class ContentParserTestCase(unittest.TestCase):
     def test_is_today_or_future(self):
         self.assertTrue(is_today_or_future("2999-01-01"))
         self.assertFalse(is_today_or_future("2000-01-01"))
-        today = datetime.now().date()
+        today = datetime.now(tz=timezone.utc).date()
         self.assertTrue(is_today_or_future(today.isoformat()))
         tomorrow = today + timedelta(days=1)
         self.assertTrue(
@@ -171,6 +172,128 @@ class ContentParserTestCase(unittest.TestCase):
                 '<p data-block-key="ovqe3">Somewhere</p><p data-block-key="52qj4">123 Road Street</p><p data-block-key="6ro70">Devon,<br/>UK</p><p data-block-key="5n2cs">PL4 7EX</p>'
             ),
             "Somewhere, 123 Road Street, Devon, UK, PL4 7EX",
+        )
+
+    def test_headings_list(self):
+        self.maxDiff = None
+        self.assertEqual(
+            headings_list(
+                '<h1 id="intro">Introduction</h1>'
+                '<h2 id="section-a">Section A</h2>'
+                '<h3 id="sub-a">Sub section A</h3>'
+                '<h4 id="sub-a-a">Sub sub section A</h4>'
+                '<h4 id="sub-a-b">Sub sub section B</h4>'
+                '<h2 id="section-b">Section B</h2>'
+                '<h4 id="sub-b-a">Sub sub section A</h4>'
+                '<h5 id="sub-b-b">Sub sub sub section B</h5>'
+                '<h6 id="sub-b-c">Sub sub sub sub section C</h6>'
+            ),
+            [
+                {
+                    "text": "Introduction",
+                    "href": "#intro",
+                    "level": 1,
+                    "children": [
+                        {
+                            "text": "Section A",
+                            "href": "#section-a",
+                            "level": 2,
+                            "children": [
+                                {
+                                    "text": "Sub section A",
+                                    "href": "#sub-a",
+                                    "level": 3,
+                                    "children": [
+                                        {
+                                            "text": "Sub sub section A",
+                                            "href": "#sub-a-a",
+                                            "level": 4,
+                                            "children": [],
+                                        },
+                                        {
+                                            "text": "Sub sub section B",
+                                            "href": "#sub-a-b",
+                                            "level": 4,
+                                            "children": [],
+                                        },
+                                    ],
+                                }
+                            ],
+                        },
+                        {
+                            "text": "Section B",
+                            "href": "#section-b",
+                            "level": 2,
+                            "children": [],
+                        },
+                    ],
+                }
+            ],
+        )
+
+        self.assertEqual(
+            headings_list(
+                '<h4 id="pre">Pre h1</h4>'
+                '<h5 id="non-valid">Sub sub sub section A</h5>'
+                '<h2 id="section-a">Section A</h2>'
+                '<h3 id="sub-a">Sub section A</h3>'
+                '<h4 id="sub-a-a">Sub sub section A</h4>'
+                '<h4 id="sub-a-b">Sub sub section B</h4>'
+                '<h2 id="section-b">Section B</h2>'
+                '<h4 id="sub-b-a">Sub sub section A</h4>'
+            ),
+            [
+                {
+                    "text": "Section A",
+                    "href": "#section-a",
+                    "level": 2,
+                    "children": [
+                        {
+                            "text": "Sub section A",
+                            "href": "#sub-a",
+                            "level": 3,
+                            "children": [
+                                {
+                                    "text": "Sub sub section A",
+                                    "href": "#sub-a-a",
+                                    "level": 4,
+                                    "children": [],
+                                },
+                                {
+                                    "text": "Sub sub section B",
+                                    "href": "#sub-a-b",
+                                    "level": 4,
+                                    "children": [],
+                                },
+                            ],
+                        }
+                    ],
+                },
+                {
+                    "text": "Section B",
+                    "href": "#section-b",
+                    "level": 2,
+                    "children": [],
+                },
+            ],
+        )
+
+        self.assertEqual(
+            headings_list('<h2 id="first">First</h2><h2 id="second">Second</h2>'),
+            [
+                {
+                    "text": "First",
+                    "href": "#first",
+                    "level": 2,
+                    "children": [],
+                },
+                {
+                    "text": "Second",
+                    "href": "#second",
+                    "level": 2,
+                    "children": [],
+                },
+            ],
         )
 
     def test_key_stage_ranges(self):
