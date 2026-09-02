@@ -70,11 +70,7 @@ def page_not_found_error():
             },
         )
     except ApiError:
-        return render_template(
-            "errors/page_not_found.html",
-            status_code=404,
-            pageTitle=ERROR_PAGE_TITLES["page_not_found"],
-        ), 404
+        result = None
 
     if not result or "timestamp" not in result:
         return render_template(
