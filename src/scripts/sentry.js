@@ -13,7 +13,9 @@ if (document.currentScript?.dataset?.id) {
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
     ],
+    /* eslint-disable-next-line no-magic-numbers */
     sampleRate: document.currentScript?.dataset?.samplerate || 1.0,
+    /* eslint-disable-next-line no-magic-numbers */
     tracesSampleRate: document.currentScript?.dataset?.samplerate || 1.0,
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
