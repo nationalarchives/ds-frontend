@@ -76,20 +76,20 @@ def page_not_found_error():
             pageTitle=ERROR_PAGE_TITLES["page_not_found"],
         ), 404
 
-    if result and "timestamp" in result:
-        timestamp = result["timestamp"]
-        dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
-        last_archived_date = dt.strftime("%Y-%m-%d")
-        last_archived_date_pretty = pretty_date(dt)
-        last_archived_age = pretty_age(dt)
-    else:
+    if not result or "timestamp" not in result:
         return render_template(
             "errors/page_not_found.html",
             status_code=404,
             pageTitle=ERROR_PAGE_TITLES["page_not_found"],
         ), 404
 
+    timestamp = result["timestamp"]
+    dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+    last_archived_date = dt.strftime("%Y-%m-%d")
+    last_archived_date_pretty = pretty_date(dt)
+    last_archived_age = pretty_age(dt)
     archived_page_url = f"{current_app.config['WEBARCHIVE_BASE_URL']}/{escape(url)}"
+
     return render_template(
         "errors/page_archived.html",
         pageTitle=ERROR_PAGE_TITLES["page_archived"],
