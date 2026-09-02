@@ -1,7 +1,7 @@
 import json
 import math
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import quote_plus, unquote, urlparse
 
 from markdownify import markdownify
@@ -77,7 +77,7 @@ def domain_from_url(s):
     try:
         domain = urlparse(s).netloc
         return re.sub(r"^www\.", "", domain)
-    except Exception:
+    except (AttributeError, TypeError, ValueError):
         return s
 
 
@@ -98,17 +98,17 @@ def pretty_date(s, show_day=False, show_time=False):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%d")
+        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
         return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m")
+        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y")
+        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
         return date.strftime("%Y")
     except ValueError:
         pass
@@ -151,17 +151,17 @@ def month_year(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%d")
+        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m")
+        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y")
+        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
         return date.strftime("%Y")
     except ValueError:
         pass
@@ -182,7 +182,7 @@ def is_today_or_future(s):
         date = get_date_from_string(s).date()
     except AttributeError:
         return False
-    today = datetime.now().date()
+    today = datetime.now(tz=timezone.utc).date()
     return today <= date
 
 
@@ -200,12 +200,12 @@ def rfc_822_format(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
@@ -251,7 +251,7 @@ def parse_json(s):
     try:
         unquoted_string = unquote(s)
         return json.loads(unquoted_string)
-    except Exception:
+    except (json.JSONDecodeError, TypeError):
         return {}
 
 

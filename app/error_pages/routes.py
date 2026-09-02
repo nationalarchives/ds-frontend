@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import current_app, render_template, request
 from markupsafe import escape
-from tna_utilities.api import SimpleJsonApiClient
+from tna_utilities.api import ApiError, SimpleJsonApiClient
 from tna_utilities.datetime import pretty_age, pretty_date
 from tna_utilities.flask import do_not_cache
 
@@ -54,6 +54,10 @@ def forbidden_error():
 def page_not_found_error():
     client = SimpleJsonApiClient(current_app.config["WEBARCHIVE_CDXJ_API_URL"])
     url = request.url
+    last_archived_date = None
+    last_archived_date_pretty = None
+    last_archived_age = None
+
     try:
         result = client.get(
             current_app.config["WEBARCHIVE_CDXJ_API_PATH"],
@@ -65,31 +69,36 @@ def page_not_found_error():
                 "sort": "reverse",
             },
         )
-        last_archived_date = None
-        last_archived_date_pretty = None
-        last_archived_age = None
-        if result and "timestamp" in result:
-            timestamp = result["timestamp"]
-            dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S")
-            last_archived_date = dt.strftime("%Y-%m-%d")
-            last_archived_date_pretty = pretty_date(dt)
-            last_archived_age = pretty_age(dt)
-        archived_page_url = f"{current_app.config['WEBARCHIVE_BASE_URL']}/{escape(url)}"
-        return render_template(
-            "errors/page_archived.html",
-            pageTitle=ERROR_PAGE_TITLES["page_archived"],
-            status_code=410,
-            archived_page_url=archived_page_url,
-            last_archived_date=last_archived_date,
-            last_archived_date_pretty=last_archived_date_pretty,
-            last_archived_age=last_archived_age,
-        ), 410
-    except Exception:
+    except ApiError:
         return render_template(
             "errors/page_not_found.html",
             status_code=404,
             pageTitle=ERROR_PAGE_TITLES["page_not_found"],
         ), 404
+
+    if result and "timestamp" in result:
+        timestamp = result["timestamp"]
+        dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+        last_archived_date = dt.strftime("%Y-%m-%d")
+        last_archived_date_pretty = pretty_date(dt)
+        last_archived_age = pretty_age(dt)
+    else:
+        return render_template(
+            "errors/page_not_found.html",
+            status_code=404,
+            pageTitle=ERROR_PAGE_TITLES["page_not_found"],
+        ), 404
+
+    archived_page_url = f"{current_app.config['WEBARCHIVE_BASE_URL']}/{escape(url)}"
+    return render_template(
+        "errors/page_archived.html",
+        pageTitle=ERROR_PAGE_TITLES["page_archived"],
+        status_code=410,
+        archived_page_url=archived_page_url,
+        last_archived_date=last_archived_date,
+        last_archived_date_pretty=last_archived_date_pretty,
+        last_archived_age=last_archived_age,
+    ), 410
 
 
 @bp.route("/405/")

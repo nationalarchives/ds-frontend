@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from app.lib.template_filters import (
     currency,
@@ -42,7 +42,7 @@ class ContentParserTestCase(unittest.TestCase):
     def test_is_today_or_future(self):
         self.assertTrue(is_today_or_future("2999-01-01"))
         self.assertFalse(is_today_or_future("2000-01-01"))
-        today = datetime.now().date()
+        today = datetime.now(tz=timezone.utc).date()
         self.assertTrue(is_today_or_future(today.isoformat()))
         tomorrow = today + timedelta(days=1)
         self.assertTrue(

@@ -1,5 +1,6 @@
-import datetime
+
 import math
+from datetime import date, datetime, timezone
 
 from flask import current_app, render_template, request
 from pydash import objects
@@ -12,7 +13,7 @@ from app.wagtail.api import blog_posts_paginated
 
 
 @cacheable_duration(3600)
-def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
+def blog_index_page(page_data, year=None, month=None, day=None):
     children_per_page = 12
     page = 1
     if request.args.get("page"):
@@ -42,7 +43,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
                 f"Year {year} is not a positive integer for page {page_data['id']}"
             )
             return bad_request_error()
-        if year > datetime.datetime.now().year:
+        if year > datetime.now(tz=timezone.utc).year:
             current_app.logger.warning(
                 f"Year {year} is in the future for page {page_data['id']}"
             )
@@ -57,7 +58,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         month = int(month) if month else None
     try:
         month_name = (
-            datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
+            date(year or 2000, month, 1).strftime("%B") if month else ""
         )
     except ValueError:
         return bad_request_error()
@@ -97,7 +98,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
                 month_qs = qs.new()
-                each_month_name = datetime.date(year, month_count["month"], 1).strftime(
+                each_month_name = date(year, month_count["month"], 1).strftime(
                     "%B"
                 )
                 children.append(

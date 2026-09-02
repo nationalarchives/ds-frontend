@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def get_date_from_string(s):
@@ -9,27 +9,31 @@ def get_date_from_string(s):
     except ValueError:
         pass
     try:
-        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
+        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").astimezone()
     except ValueError:
         pass
     try:
-        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
+        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").astimezone()
     except ValueError:
         pass
     try:
-        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S%z")
+        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S%Z").astimezone()
     except ValueError:
         pass
     try:
-        return datetime.strptime(s, "%Y-%m-%d")
+        return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S%z").astimezone()
     except ValueError:
         pass
     try:
-        return datetime.strptime(s, "%Y-%m")
+        return datetime.strptime(s, "%Y-%m-%d").astimezone()
     except ValueError:
         pass
     try:
-        return datetime.strptime(s, "%Y")
+        return datetime.strptime(s, "%Y-%m").astimezone()
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(s, "%Y").astimezone()
     except ValueError:
         pass
     return None
@@ -40,7 +44,7 @@ def group_items_by_year_and_month(items, date_key):
     for item in items.get("items", []):
         if request_date := item.get(date_key):
             try:
-                request_datetime = datetime.fromisoformat(request_date)
+                request_datetime = datetime.fromisoformat(request_date).replace(tzinfo=timezone.utc)
             except ValueError:
                 request_datetime = None
             if request_datetime:

@@ -151,24 +151,24 @@ def create_app(config_class):
         qs = QueryStringTransformer(
             list(request.args.lists()) if request else [], tolerant=True
         )
-        return dict(
-            cookie_preference=cookie_preference,
-            display_phase_banner=display_phase_banner,
-            now_iso_8601=now_iso_8601,
-            now_iso_8601_date=now_iso_8601_date,
-            now_rfc_822=now_rfc_822,
-            pretty_date_range=pretty_date_range,
-            pretty_datetime_range=pretty_datetime_range,
-            pretty_price_range=pretty_price_range,
-            is_today_in_date_range=is_today_in_date_range,
-            qs_parameter_values=lambda parameter: qs.parameter_values(parameter),
-            qs_is_value_in_parameter=lambda parameter, value: qs.is_value_in_parameter(
+        return {
+            "cookie_preference": cookie_preference,
+            "display_phase_banner": display_phase_banner,
+            "now_iso_8601": now_iso_8601,
+            "now_iso_8601_date": now_iso_8601_date,
+            "now_rfc_822": now_rfc_822,
+            "pretty_date_range": pretty_date_range,
+            "pretty_datetime_range": pretty_datetime_range,
+            "pretty_price_range": pretty_price_range,
+            "is_today_in_date_range": is_today_in_date_range,
+            "qs_parameter_values": lambda parameter: qs.parameter_values(parameter),
+            "qs_is_value_in_parameter": lambda parameter, value: qs.is_value_in_parameter(
                 parameter, value
             ),
-            qs_update_parameter=lambda parameter, value: (
+            "qs_update_parameter": lambda parameter, value: (
                 qs.new().update_parameter(parameter, value).get_query_string()
             ),
-            app_config={
+            "app_config": {
                 "ENVIRONMENT_NAME": app.config["ENVIRONMENT_NAME"],
                 "CONTAINER_IMAGE": app.config["CONTAINER_IMAGE"],
                 "BUILD_VERSION": app.config["BUILD_VERSION"],
@@ -183,12 +183,12 @@ def create_app(config_class):
                     "SIDEBAR_SCROLL_TOP_THRESHOLD"
                 ],
             },
-            feature={
+            "feature": {
                 "PHASE_BANNER": app.config["FEATURE_PHASE_BANNER"],
                 "LOGO_ADORNMENTS_CSS": app.config["FEATURE_LOGO_ADORNMENTS_CSS"],
                 "LOGO_ADORNMENTS_JS": app.config["FEATURE_LOGO_ADORNMENTS_JS"],
             },
-        )
+        }
 
     from .error_pages import bp as error_pages_bp
     from .feeds import bp as feeds_bp

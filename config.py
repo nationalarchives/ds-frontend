@@ -2,6 +2,7 @@ import json
 import os
 from typing import ClassVar
 
+from flask import current_app
 from pydash import objects
 from tna_utilities import strtobool
 
@@ -36,8 +37,9 @@ class Production(Features):
                 data, "packages.node_modules/@nationalarchives/frontend.version", ""
             )
     except Exception:
-        # Error reading the version of TNA Frontend
-        pass
+        current_app.logger.exception(
+            "Error reading the version of TNA Frontend"
+        )
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
 
