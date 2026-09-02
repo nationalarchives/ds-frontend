@@ -1,4 +1,3 @@
-
 import math
 from datetime import date, datetime, timezone
 
@@ -57,9 +56,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
             return bad_request_error()
         month = int(month) if month else None
     try:
-        month_name = (
-            date(year or 2000, month, 1).strftime("%B") if month else ""
-        )
+        month_name = date(year or 2000, month, 1).strftime("%B") if month else ""
     except ValueError:
         return bad_request_error()
     blogs_data = page_data.get("top_blogs", [])
@@ -98,9 +95,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
                 month_qs = qs.new()
-                each_month_name = date(year, month_count["month"], 1).strftime(
-                    "%B"
-                )
+                each_month_name = date(year, month_count["month"], 1).strftime("%B")
                 children.append(
                     {
                         "text": f"{each_month_name} {year_count['year']} ({month_count['posts']})",

@@ -44,7 +44,9 @@ def group_items_by_year_and_month(items, date_key):
     for item in items.get("items", []):
         if request_date := item.get(date_key):
             try:
-                request_datetime = datetime.fromisoformat(request_date).replace(tzinfo=timezone.utc)
+                request_datetime = datetime.fromisoformat(request_date).replace(
+                    tzinfo=timezone.utc
+                )
             except ValueError:
                 request_datetime = None
             if request_datetime:

@@ -200,7 +200,9 @@ def rfc_822_format(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").replace(
+            tzinfo=timezone.utc
+        )
         return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
     except ValueError:
         pass
@@ -258,47 +260,59 @@ def parse_json(s):
 def headings_list(s):
     if not s:
         return s
-    headings_regex = re.findall(
-        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
-    )
-    headings_raw = [
-        {
-            "text": Markup(heading[2]),
-            "href": "#" + heading[1],
-            "level": int(heading[0]),
+
+    matches = re.findall(r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+?)\s*</h[1-6]>', s)
+    if not matches:
+        return []
+
+    root_level = min(int(level) for level, _, _ in matches)
+    headings = []
+    stack = []
+
+    for level, heading_id, text in matches:
+        level = int(level)
+        if level < root_level:
+            continue
+
+        heading = {
+            "text": Markup(text),
+            "href": f"#{heading_id}",
+            "level": level,
             "children": [],
         }
-        for heading in headings_regex
-    ]
 
-    def group_headings(index, grouping):
-        if index < len(headings_raw):
-            next_heading = headings_raw[index]
-            if len(grouping):
-                prev_heading = grouping[-1]
-                try:
-                    if next_heading["level"] > prev_heading["level"]:
-                        prev_heading["children"] = prev_heading["children"] or []
-                        return group_headings(index, prev_heading["children"])
-                    if next_heading["level"] == prev_heading["level"]:
-                        grouping.append(next_heading)
-                        index = index + 1
-                        return group_headings(index, grouping)
-                    raise Exception({"index": index, "heading": next_heading})
-                except Exception as e:
-                    (higher_heading,) = e.args
-                    if higher_heading["heading"]["level"] == prev_heading["level"]:
-                        grouping.append(higher_heading["heading"])
-                        higher_heading["index"] = higher_heading["index"] + 1
-                        return group_headings(higher_heading["index"], grouping)
-                    raise Exception(higher_heading) from e
-            else:
-                grouping.append(next_heading)
-                index = index + 1
-                group_headings(index, grouping)
-        return grouping
+        if level == root_level:
+            headings.append(heading)
+            stack = [heading]
+            continue
 
-    return group_headings(0, [])
+        if not stack:
+            continue
+
+        if level > stack[-1]["level"]:
+            if level - stack[-1]["level"] != 1:
+                continue
+            stack[-1]["children"].append(heading)
+            stack.append(heading)
+            continue
+
+        while stack and stack[-1]["level"] >= level:
+            stack.pop()
+
+        if not stack:
+            if level != root_level:
+                continue
+            headings.append(heading)
+            stack = [heading]
+            continue
+
+        if level - stack[-1]["level"] != 1:
+            continue
+
+        stack[-1]["children"].append(heading)
+        stack.append(heading)
+
+    return headings
 
 
 def wagtail_streamfield_contains_block(streamfield, block_types):

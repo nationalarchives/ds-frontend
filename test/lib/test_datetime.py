@@ -6,13 +6,16 @@ from app.lib.date_time import get_date_from_string, group_items_by_year_and_mont
 class DateTimeTestCase(unittest.TestCase):
     def test_get_date_from_string(self):
         self.assertEqual(
-            get_date_from_string("2006-05-04").astimezone().isoformat(), "2006-05-04T00:00:00+00:00"
+            get_date_from_string("2006-05-04").astimezone().isoformat(),
+            "2006-05-04T00:00:00+00:00",
         )
         self.assertEqual(
-            get_date_from_string("2006-05").astimezone().isoformat(), "2006-05-01T00:00:00+00:00"
+            get_date_from_string("2006-05").astimezone().isoformat(),
+            "2006-05-01T00:00:00+00:00",
         )
         self.assertEqual(
-            get_date_from_string("2006").astimezone().isoformat(), "2006-01-01T00:00:00+00:00"
+            get_date_from_string("2006").astimezone().isoformat(),
+            "2006-01-01T00:00:00+00:00",
         )
         self.assertEqual(
             get_date_from_string("2006-05-04T01:02:03.999Z").isoformat(),
@@ -31,7 +34,8 @@ class DateTimeTestCase(unittest.TestCase):
             "2006-05-04T01:02:05+01:00",
         )
         self.assertEqual(
-            get_date_from_string("1000").astimezone().isoformat(), "1000-01-01T00:00:00+00:00"
+            get_date_from_string("1000").astimezone().isoformat(),
+            "1000-01-01T00:00:00+00:00",
         )
         self.assertEqual(get_date_from_string("2006-12-32"), None)
         self.assertEqual(get_date_from_string("2006-13"), None)

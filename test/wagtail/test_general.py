@@ -109,9 +109,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
         mock_redirect_endpoint = (
             f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
         )
-        mock_webarchive_endpoint = (
-            f"{self.mock_webarchive_cdjx}?url=http%3A%2F%2Flocalhost%2Ffoobar%2F&output=json&filter=status%3A200&limit=1&sort=reverse"
-        )
+        mock_webarchive_endpoint = f"{self.mock_webarchive_cdjx}?url=http%3A%2F%2Flocalhost%2Ffoobar%2F&output=json&filter=status%3A200&limit=1&sort=reverse"
         mock_respsone = {"message": "not found"}
         mock_webarchive_response = {}
         m.get(mock_content_endpoint, json=mock_respsone, status_code=404)
@@ -133,11 +131,24 @@ class GeneralWagtailTestCase(unittest.TestCase):
         mock_redirect_endpoint = (
             f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
         )
-        mock_webarchive_endpoint = (
-            f"{self.mock_webarchive_cdjx}?url=http%3A%2F%2Flocalhost%2Ffoobar%2F&output=json&filter=status%3A200&limit=1&sort=reverse"
-        )
+        mock_webarchive_endpoint = f"{self.mock_webarchive_cdjx}?url=http%3A%2F%2Flocalhost%2Ffoobar%2F&output=json&filter=status%3A200&limit=1&sort=reverse"
         mock_respsone = {"message": "not found"}
-        mock_webarchive_response = {"urlkey": "uk,gov,nationalarchives,www)/foobar/", "timestamp": "20120311142123", "url": "http://www.nationalarchives.gov.uk/foobar/", "mime": "text/html", "status": "200", "digest": "ZOHSMVLTBX5S4H567K4XPEGS4SADFC6F", "redirect": "-", "robotflags": "-", "length": "11581", "offset": "1569460", "filename": "IM_TNA_monthly_032012.www.nationalarchives.gov.uk-20120311142106-00000.warc.gz", "source": "full_zipnum", "source-coll": "full_zipnum", "access": "allow"}
+        mock_webarchive_response = {
+            "urlkey": "uk,gov,nationalarchives,www)/foobar/",
+            "timestamp": "20120311142123",
+            "url": "http://www.nationalarchives.gov.uk/foobar/",
+            "mime": "text/html",
+            "status": "200",
+            "digest": "ZOHSMVLTBX5S4H567K4XPEGS4SADFC6F",
+            "redirect": "-",
+            "robotflags": "-",
+            "length": "11581",
+            "offset": "1569460",
+            "filename": "IM_TNA_monthly_032012.www.nationalarchives.gov.uk-20120311142106-00000.warc.gz",
+            "source": "full_zipnum",
+            "source-coll": "full_zipnum",
+            "access": "allow",
+        }
         m.get(mock_content_endpoint, json=mock_respsone, status_code=404)
         m.get(mock_redirect_endpoint, json=mock_respsone, status_code=404)
         m.get(mock_webarchive_endpoint, json=mock_webarchive_response, status_code=200)

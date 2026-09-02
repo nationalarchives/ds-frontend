@@ -37,9 +37,7 @@ class Production(Features):
                 data, "packages.node_modules/@nationalarchives/frontend.version", ""
             )
     except Exception:
-        current_app.logger.exception(
-            "Error reading the version of TNA Frontend"
-        )
+        current_app.logger.exception("Error reading the version of TNA Frontend")
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
 
