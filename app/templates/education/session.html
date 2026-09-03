@@ -38,7 +38,11 @@
         Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
       </dt>
       {%- for key_stage in page_data.key_stages %}
-      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      <dd>
+        <a href="{{ page_data.meta.parent.meta.html_url }}?key_stage={{ key_stage.stage }}" aria-label="More education sessions for {{ key_stage.name }}">
+          {{ key_stage.name }} ({{ key_stage.public_age_range }})
+        </a>
+      </dd>
       {%- endfor %}
       
       <dt>
@@ -61,7 +65,17 @@
       <dd>
         {%- set locations_list = [] %}
         {%- for location in page_data.session_locations %}
-          {%- do locations_list.append(location.venue_name or location.location_type_display) %}
+          {% set location_name = location.venue_name or location.location_type_display -%}
+          {% set location_link -%}
+            {%- if location.location_type != 'custom' -%}
+              <a href="{{ page_data.meta.parent.meta.html_url }}?location={{ location.location_type }}" aria-label="More education sessions at {{ location_name }}">
+                {{- location_name -}}
+              </a>
+            {%- else -%}
+              {{- location_name -}}
+            {%- endif -%}
+          {%- endset %}
+          {%- do locations_list.append(location_link) %}
         {%- endfor %}
         {{ locations_list | join(', ') }}
       </dd>
@@ -82,10 +96,12 @@
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for time_period in page_data.time_periods %}
           <li>
-            {{ time_period.name }}
-            {% if time_period.year_from and time_period.year_to %}
-              ({{ time_period.year_from }}–{{ time_period.year_to }})
-            {%- endif %}
+            <a href="{{ page_data.meta.parent.meta.html_url }}?time_period={{ time_period.slug }}" aria-label="More education sessions for {{ time_period.name }}">
+              {{ time_period.name }}
+              {% if time_period.year_from and time_period.year_to %}
+                ({{ time_period.year_from }}–{{ time_period.year_to }})
+              {%- endif %}
+            </a>
           </li>
           {%- endfor %}
         </ul>
@@ -101,7 +117,11 @@
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for theme in page_data.themes %}
-          <li>{{ theme.name }}</li>
+          <li>
+            <a href="{{ page_data.meta.parent.meta.html_url }}?theme={{ theme.slug }}" aria-label="More education sessions for {{ theme.name }}">
+              {{ theme.name }}
+            </a>
+          </li>
           {%- endfor %}
         </ul>
       </div>

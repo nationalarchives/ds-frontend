@@ -42,7 +42,11 @@
         Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
       </dt>
       {%- for key_stage in page_data.key_stages %}
-      <dd>{{ key_stage.name }} ({{ key_stage.public_age_range }})</dd>
+      <dd>
+        <a href="{{ page_data.meta.parent.meta.html_url }}?key_stage={{ key_stage.stage }}" aria-label="More teaching resources for {{ key_stage.name }}">
+          {{ key_stage.name }} ({{ key_stage.public_age_range }})
+        </a>
+      </dd>
       {%- endfor %}
     </dl>
   {% endcall %}
@@ -60,10 +64,12 @@
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for time_period in page_data.time_periods %}
           <li>
-            {{ time_period.name }}
-            {% if time_period.year_from and time_period.year_to %}
-              ({{ time_period.year_from }}–{{ time_period.year_to }})
-            {%- endif %}
+            <a href="{{ page_data.meta.parent.meta.html_url }}?time_period={{ time_period.slug }}" aria-label="More teaching resources for {{ time_period.name }}">
+              {{ time_period.name }}
+              {% if time_period.year_from and time_period.year_to %}
+                ({{ time_period.year_from }}–{{ time_period.year_to }})
+              {%- endif %}
+            </a>
           </li>
           {%- endfor %}
         </ul>
@@ -79,7 +85,11 @@
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
           {%- for theme in page_data.themes %}
-          <li>{{ theme.name }}</li>
+          <li>
+            <a href="{{ page_data.meta.parent.meta.html_url }}?theme={{ theme.slug }}" aria-label="More teaching resources for {{ theme.name }}">
+              {{ theme.name }}
+            </a>
+          </li>
           {%- endfor %}
         </ul>
       </div>
