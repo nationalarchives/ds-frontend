@@ -170,10 +170,18 @@
         {%- if page_data.search_filters.time_period %}
           {%- set checkboxes = [] %}
           {%- for time_period in page_data.search_filters.time_period %}
+            {%- set hint = None %}
+            {%- if time_period.year_from and time_period.year_to %}
+              {%- set hint = time_period.year_from ~ '–' ~ time_period.year_to %}
+            {%- elif time_period.year_from %}
+              {%- set hint = time_period.year_from ~ '–present' %}
+            {%- elif time_period.year_to %}
+              {%- set hint = 'up to ' ~ time_period.year_to %}
+            {%- endif %}
             {%- do checkboxes.append({
               'text': time_period.name,
               'value': time_period.slug,
-              'hint': time_period.year_from ~ '–' ~ time_period.year_to if time_period.year_from and time_period.year_to else None,
+              'hint': hint,
               'checked': qs_is_value_in_parameter('time_period', time_period.slug)
             }) %}
           {%- endfor %}
@@ -300,7 +308,7 @@
       {%- if page_data.meta.type == 'education.TeachingResourcesListingPage' %}
       <div class="tna-aside tna-background-accent-light tna-!--margin-bottom-s">
         <h2 class="tna-heading-m">Looking for one of our older {{ pageTitle | lower }}?</h2>
-        <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources can still be found in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
+        <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources can still be found in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/20260803040627/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
       </div>
       {%- endif %}
       {% call newsletter('Be the first to hear about new ' ~ (pageTitle | lower)) %}
