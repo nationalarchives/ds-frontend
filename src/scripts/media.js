@@ -1,3 +1,5 @@
+/* eslint-disable no-secrets/no-secrets */
+
 // import Cookies from "@nationalarchives/cookies";
 import videojs from "video.js";
 
@@ -14,7 +16,7 @@ const videoJsInstances = {};
 //     $video.querySelector(".etna-video__label-cookies-message-js")?.remove();
 //   });
 // };
- 
+
 // const initYouTubeVideos = ($youTubeVideoInstancesToInit) => {
 //   /* eslint-disable-next-line max-lines-per-function, max-statements */
 //   $youTubeVideoInstancesToInit.forEach(($video) => {
