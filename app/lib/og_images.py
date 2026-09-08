@@ -76,13 +76,13 @@ def generate_external_og_image(page_path):
         title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
         if title_match:
             title = title_match.group(1).strip()
-            title_suffix = " - The National Archives"
-            if title.endswith(title_suffix):
-                title = title[: -len(title_suffix)].strip()
+            title_suffixes = [" - The National Archives", " | The National Archives"]
+            for title_suffix in title_suffixes:
+                if title.endswith(title_suffix):
+                    title = title[: -len(title_suffix)].strip()
         else:
             title = "Untitled"
 
-        # Extract the description meta tag content
         description_match = re.search(
             r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
             content,
@@ -102,12 +102,14 @@ def generate_external_og_image(page_path):
         )
         return generate_blank_og_image()
 
-    return generate_og_image(
-        "",
-        title,
-        teaser_text,
-        "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-_NkT30gt.976d85da.fill-1800x720.format-webp.webpquality-70.bgcolor-fff.webp",
-    )
+    if title and teaser_text:
+        return generate_og_image(
+            "",
+            title,
+            teaser_text,
+            "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-_NkT30gt.976d85da.fill-1800x720.format-webp.webpquality-70.bgcolor-fff.webp",
+        )
+    return generate_blank_og_image()
 
 
 def generate_og_image_from_page_data(page_data):
@@ -125,7 +127,7 @@ def generate_og_image_from_page_data(page_data):
 
 def generate_og_image(supertitle, title, teaser_text, teaser_image):
     PADDING_X = 45
-    PADDING_Y = 60
+    PADDING_Y = 70
     LOGO_SIZE = 90
 
     logo_path, heading_font_path, body_font_path, monospace_font_path = (
