@@ -274,8 +274,11 @@ def headings_list(s):
         if level < root_level:
             continue
 
+        text = re.sub(r"<[^>]*>.*?</[^>]*>", "", text)
+        text = re.sub(r"<[^>]*>", "", text).strip()
+
         heading = {
-            "text": escape(text),
+            "text": str(escape(text)),
             "href": f"#{heading_id}",
             "level": level,
             "children": [],

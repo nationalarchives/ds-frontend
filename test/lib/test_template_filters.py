@@ -178,8 +178,8 @@ class ContentParserTestCase(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(
             headings_list(
-                '<h1 id="intro">Introduction</h1>'
-                '<h2 id="section-a">Section A</h2>'
+                '<h1 id="intro">Introduction <span>HIDDEN</span></h1>'
+                '<h2 id="section-a">Section A <span>HIDDEN <span>HIDDEN</span></span></h2>'
                 '<h3 id="sub-a">Sub section A</h3>'
                 '<h4 id="sub-a-a">Sub sub section A</h4>'
                 '<h4 id="sub-a-b">Sub sub section B</h4>'
@@ -235,10 +235,10 @@ class ContentParserTestCase(unittest.TestCase):
             headings_list(
                 '<h4 id="pre">Pre h1</h4>'
                 '<h5 id="non-valid">Sub sub sub section A</h5>'
-                '<h2 id="section-a">Section A</h2>'
+                '<h2 id="section-a">Section A <span>HIDDEN <span>HIDDEN</span></span></h2>'
                 '<h3 id="sub-a">Sub section A</h3>'
                 '<h4 id="sub-a-a">Sub sub section A</h4>'
-                '<h4 id="sub-a-b">Sub sub section B</h4>'
+                '<h4 id="sub-a-b">Sub sub section B <span>HIDDEN <span>HIDDEN</span></span></h4>'
                 '<h2 id="section-b">Section B</h2>'
                 '<h4 id="sub-b-a">Sub sub section A</h4>'
             ),
