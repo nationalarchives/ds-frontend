@@ -36,7 +36,7 @@
   {%- for letter in last_name_letters %}
     <div class="tna-container tna-container--no-padding">
       <div class="tna-column tna-column--full">
-        <h2 id="{{ letter | lower }}" class="tna-heading-l tna-!--padding-top-s tna-!--padding-bottom-s"><span class="tna-visually-hidden">Last names starting with </span>{{ letter }}</h2>
+        <h3 id="{{ letter | lower }}" class="tna-heading-l tna-!--padding-top-s tna-!--padding-bottom-s">{{ letter }}</h3>
       </div>
     </div>
     <ul class="tna-container tna-container--no-padding">
@@ -51,7 +51,7 @@
         {% endfor %}
         {% set card_content = {
           'title': person.title,
-          'headingLevel': 3,
+          'headingLevel': 4,
           'headingSize': 's',
           'href': person.page_path,
           'text': person.role,
