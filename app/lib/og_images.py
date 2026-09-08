@@ -117,7 +117,7 @@ def generate_og_image_from_page_data(page_data):
         objects.get(page_data, "meta.search_image.jpeg.full_url")
         or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
         or objects.get(page_data, "hero_image.small_jpeg.full_url", "")
-    ).replace("localhost", "host.docker.internal")
+    )
 
     return generate_og_image(supertitle, title, teaser_text, teaser_image)
 
