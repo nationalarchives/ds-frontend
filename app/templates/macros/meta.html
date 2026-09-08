@@ -47,7 +47,7 @@
     <meta property="og:site_name" content="{{ siteName }}">
     <meta property="og:type" content="{{ og_type | default('website') }}">
     <meta property="og:locale" content="en_GB">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
 {% if title %}
 {% if og_title_prefix %}
     <meta property="og:title" content="{{ og_title_prefix }}: {{ title }}">
@@ -70,40 +70,8 @@
     <meta property="og:url" content="{{ url }}">
 {%- endif %}
 
-{%- set og_image = None %}
-{% if page_data.meta and page_data.meta.search_image %}
-{%- set og_image = {
-    'src': page_data.meta.search_image.jpeg.full_url,
-    'width': page_data.meta.search_image.jpeg.width,
-    'height': page_data.meta.search_image.jpeg.height,
-    'type': 'image/jpeg'
-  } %}
-{%- elif page_data.meta and page_data.meta.teaser_image %}
-{%- set og_image = {
-    'src': page_data.meta.teaser_image.jpeg.full_url,
-    'width': page_data.meta.teaser_image.jpeg.width,
-    'height': page_data.meta.teaser_image.jpeg.height,
-    'type': 'image/jpeg'
-  } %}
-{%- endif %}
-
-{% if og_image %}
-    <meta property="og:image" content="{{ og_image.src }}">
-    <meta property="og:image:width" content="{{ og_image.width }}">
-    <meta property="og:image:height" content="{{ og_image.height }}">
-    <meta property="og:image:type" content="{{ og_image.type }}">
-{%- endif %}
-
-{%- set og_image_twitter = None %}
-{% if page_data.meta and page_data.meta.twitter_og_image %}
-    {% set og_image_twitter = {
-        'src': page_data.meta.twitter_og_image.jpeg.full_url
-      } %}
-{%- elif og_image %}
-    {% set og_image_twitter = og_image %}
-{%- endif %}
-
-{% if og_image_twitter %}
-    <meta name="twitter:image" content="{{ og_image_twitter.src }}">
-{%- endif %}
+    <meta property="og:image" content="{{ url_for('wagtail.og_image', page_path=(page_data.meta.page_path | trim('/')), _external=True, _scheme='https') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/webp">
 {% endmacro %}
