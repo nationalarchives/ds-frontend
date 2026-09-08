@@ -73,15 +73,22 @@ def generate_external_og_image(page_path):
         response.raise_for_status()
         content = response.content.decode("utf-8")
 
-        title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
+        title_match = re.search(r"<h1.*?>(.*?)</h1>", content, re.IGNORECASE)
         if title_match:
             title = title_match.group(1).strip()
-            title_suffixes = [" - The National Archives", " | The National Archives"]
-            for title_suffix in title_suffixes:
-                if title.endswith(title_suffix):
-                    title = title[: -len(title_suffix)].strip()
         else:
-            title = "Untitled"
+            title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
+            if title_match:
+                title = title_match.group(1).strip()
+                title_suffixes = [
+                    " - The National Archives",
+                    " | The National Archives",
+                ]
+                for title_suffix in title_suffixes:
+                    if title.endswith(title_suffix):
+                        title = title[: -len(title_suffix)].strip()
+            else:
+                title = "Untitled"
 
         description_match = re.search(
             r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
