@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from io import BytesIO
 
 import requests
-import urllib3
 from flask import current_app, send_file
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pydash import objects
@@ -60,15 +59,10 @@ def generate_blank_og_image():
 
 
 def generate_external_og_image(page_path):
-    urllib3.disable_warnings()
     try:
-        print(
-            f"Fetching external OG image for page path: https://www.nationalarchives.gov.uk/{page_path.strip('/')}/"
-        )
         response = requests.get(
             f"https://www.nationalarchives.gov.uk/{page_path.strip('/')}/",
             timeout=3,
-            verify=False,
         )
         response.raise_for_status()
         content = response.content.decode("utf-8")
@@ -99,10 +93,6 @@ def generate_external_og_image(page_path):
             teaser_text = description_match.group(1).strip()
         else:
             teaser_text = ""
-
-        print(
-            f"Fetched page data for external OG image: title={title}, teaser_text={teaser_text}"
-        )
     except Exception:  # noqa: BLE001
         current_app.logger.warning(
             "Failed to fetch page data for external OG image: %s", page_path
@@ -172,7 +162,7 @@ def generate_og_image(supertitle, title, teaser_text, teaser_image):
 
     if teaser_image:
         try:
-            response = requests.get(teaser_image, timeout=3, verify=False)
+            response = requests.get(teaser_image, timeout=3)
             response.raise_for_status()
             visitor_image = Image.open(BytesIO(response.content)).convert("RGB")
             resized_visitor_image = ImageOps.fit(
