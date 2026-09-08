@@ -76,5 +76,5 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 ## Running tests
 
 ```sh
-poetry run python -m pytest
+docker compose exec app poetry run python -m pytest
 ```

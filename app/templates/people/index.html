@@ -26,47 +26,11 @@
 {% endblock contentHeader %}
 
 {% block afterContentHeader %}
-{#
-<div class="tna-background-tint tna-!--padding-vertical-s">
-  <div class="tna-container">
-    <div class="tna-column tna-column--full">
-      <h2 class="tna-heading-s">Filter people by role</h2>
-      {% set ns = namespace(roles_list=[]) %}
-      {% set ns.roles_list = [{
-        'label': 'All people',
-        'href': page_data.meta.url,
-        'selected': not request.args.get('role')
-      }] %}
-      {% for role in roles %}
-        {% do ns.roles_list.append({
-          'label': role ~ 's',
-          'href': '?role=' ~ (role | lower),
-          'selected': request.args.get('role') == (role | lower)
-        }) %}
-      {% endfor %}
-      {{ tnaTags({
-        'items': ns.roles_list,
-        'classes': 'tna-!--margin-top-s'
-      }) }}
-    </div>
-  </div>
-</div>
-#}
 {% endblock afterContentHeader %}
 
 {% set sidebarTitle = 'People by last name' %}
 {% set sidebarHeadingSize = 's' %}
 {% block content %}
-  {#
-  {%- if request.args.get('role') %}
-  <div class="tna-container tna-container--no-padding">
-    <div class="tna-column tna-column--full">
-      <p class="tna-!--margin-bottom-m">Showing {{ page_data.people_pages | length }} of ??? people.</p>
-    </div>
-  </div>
-  {%- endif %}
-  #}
-
   <nav aria-label="People" id="people">
   {%- set ns = namespace(first_letter='') %}
   {%- for person in page_data.people_pages %}
