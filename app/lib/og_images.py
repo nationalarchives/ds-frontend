@@ -93,9 +93,9 @@ def generate_external_og_image(page_path):
         )
         if description_match:
             body = description_match.group(1).strip()
-    except Exception:  # noqa: BLE001
-        current_app.logger.warning(
-            "Failed to fetch page data for external OG image: %s", page_path
+    except Exception:
+        current_app.logger.exception(
+            f"Failed to fetch page data for external OG image: {page_path}"
         )
         return generate_blank_og_image()
 
@@ -178,9 +178,9 @@ def generate_og_image(supertitle, title, body, image):
                 resized_visitor_image,
                 (OG_IMAGE_WIDTH // 2 + IMAGE_PADDING, IMAGE_PADDING),
             )
-        except Exception:  # noqa: BLE001
-            current_app.logger.warning(
-                "Failed to fetch or process teaser image: %s", image
+        except Exception:
+            current_app.logger.exception(
+                f"Failed to fetch or process teaser image: {image}"
             )
 
     text_segments = []
