@@ -284,6 +284,7 @@ def image_page(image_uuid):
     )
 
 
+@bp.route("/og/", defaults={"page_path": ""})
 @bp.route("/og/<path:page_path>/")
 def og_image(page_path):
     try:

@@ -22,6 +22,7 @@ class SegmentFont:
 OG_IMAGE_WIDTH = 1200
 OG_IMAGE_HEIGHT = 630
 OG_IMAGE_BACKGROUND_COLOR = "#dde5d5"
+DEFAULT_IMAGE = "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-_NkT30gt.976d85da.fill-1800x720.format-webp.webpquality-70.bgcolor-fff.webp"
 
 
 def generate_static_paths():
@@ -103,7 +104,7 @@ def generate_external_og_image(page_path):
             "",
             title,
             body,
-            "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-_NkT30gt.976d85da.fill-1800x720.format-webp.webpquality-70.bgcolor-fff.webp",
+            DEFAULT_IMAGE,
         )
     return generate_blank_og_image()
 
@@ -116,7 +117,7 @@ def generate_og_image_from_page_data(page_data):
         objects.get(page_data, "meta.search_image.jpeg.full_url")
         or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
         or objects.get(page_data, "hero_image.small_jpeg.full_url", "")
-    )
+    ).replace("localhost", "host.docker.internal") or DEFAULT_IMAGE
 
     return generate_og_image(supertitle, title, body, image)
 
