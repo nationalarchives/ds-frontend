@@ -102,15 +102,23 @@ def generate_external_og_image(page_path):
         if title and len(title) > TITLE_MAX_LENGTH:
             title = f"{title[:TITLE_MAX_LENGTH].strip()}..."
 
-        description_match = re.search(
-            r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
+        og_description_match = re.search(
+            r'<meta\s+property="og:description"\s+content="(.*?)"\s*/?>',
             content,
             re.IGNORECASE,
         )
-        if description_match:
-            body = description_match.group(1).strip()
-        if body and len(body) > BODY_MAX_LENGTH:
-            body = f"{body[:BODY_MAX_LENGTH].strip()}..."
+        if og_description_match:
+            body = og_description_match.group(1).strip()
+        else:
+            description_match = re.search(
+                r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
+                content,
+                re.IGNORECASE,
+            )
+            if description_match:
+                body = description_match.group(1).strip()
+            if body and len(body) > BODY_MAX_LENGTH:
+                body = f"{body[:BODY_MAX_LENGTH].strip()}..."
 
     except Exception:
         current_app.logger.exception(
