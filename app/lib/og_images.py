@@ -117,7 +117,7 @@ def generate_og_image_from_page_data(page_data):
         objects.get(page_data, "meta.search_image.jpeg.full_url")
         or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
         or objects.get(page_data, "hero_image.small_jpeg.full_url", "")
-    ).replace("localhost", "host.docker.internal") or DEFAULT_IMAGE
+    ) or DEFAULT_IMAGE
 
     return generate_og_image(supertitle, title, body, image)
 
@@ -163,7 +163,7 @@ def generate_og_image(supertitle, title, body, image):
 
     if image:
         try:
-            response = requests.get(image, timeout=3, verify=False)
+            response = requests.get(image, timeout=3)
             response.raise_for_status()
             visitor_image = Image.open(BytesIO(response.content)).convert("RGB")
             resized_visitor_image = ImageOps.fit(
