@@ -127,6 +127,10 @@ class Production(Features):
         "WEBARCHIVE_CDXJ_API_PATH", "cdx"
     ).strip("/")
 
+    OG_CONTENT_BASE_URL: str = os.environ.get(
+        "OG_CONTENT_BASE_URL", "https://www.nationalarchives.gov.uk"
+    ).rstrip("/")
+
     SIDEBAR_SCROLL_TOP_THRESHOLD: int = int(
         os.getenv("SIDEBAR_SCROLL_TOP_THRESHOLD", "16")
     )

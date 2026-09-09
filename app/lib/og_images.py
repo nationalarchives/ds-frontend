@@ -61,11 +61,14 @@ def generate_blank_og_image():
 def generate_external_og_image(page_path):
     try:
         response = requests.get(
-            f"https://www.nationalarchives.gov.uk/{page_path.strip('/')}/",
+            f"{current_app.config['OG_CONTENT_BASE_URL']}/{page_path.strip('/')}/",
             timeout=3,
         )
         response.raise_for_status()
         content = response.content.decode("utf-8")
+
+        title = None
+        body = None
 
         title_match = re.search(r"<h1.*?>(.*?)</h1>", content, re.IGNORECASE)
         if title_match:
@@ -81,8 +84,6 @@ def generate_external_og_image(page_path):
                 for title_suffix in title_suffixes:
                     if title.endswith(title_suffix):
                         title = title[: -len(title_suffix)].strip()
-            else:
-                title = "Untitled"
 
         description_match = re.search(
             r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
@@ -90,20 +91,18 @@ def generate_external_og_image(page_path):
             re.IGNORECASE,
         )
         if description_match:
-            teaser_text = description_match.group(1).strip()
-        else:
-            teaser_text = ""
+            body = description_match.group(1).strip()
     except Exception:  # noqa: BLE001
         current_app.logger.warning(
             "Failed to fetch page data for external OG image: %s", page_path
         )
         return generate_blank_og_image()
 
-    if title and teaser_text:
+    if title and body:
         return generate_og_image(
             "",
             title,
-            teaser_text,
+            body,
             "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-_NkT30gt.976d85da.fill-1800x720.format-webp.webpquality-70.bgcolor-fff.webp",
         )
     return generate_blank_og_image()
@@ -112,20 +111,21 @@ def generate_external_og_image(page_path):
 def generate_og_image_from_page_data(page_data):
     supertitle = (page_data.get("type_label") or "").upper()
     title = page_data.get("short_title", "") or page_data.get("title", "")
-    teaser_text = page_data.get("meta", {}).get("teaser_text", "")
-    teaser_image = (
+    body = page_data.get("meta", {}).get("teaser_text", "")
+    image = (
         objects.get(page_data, "meta.search_image.jpeg.full_url")
         or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
         or objects.get(page_data, "hero_image.small_jpeg.full_url", "")
     )
 
-    return generate_og_image(supertitle, title, teaser_text, teaser_image)
+    return generate_og_image(supertitle, title, body, image)
 
 
-def generate_og_image(supertitle, title, teaser_text, teaser_image):
+def generate_og_image(supertitle, title, body, image):
     PADDING_X = 45
     PADDING_Y = 70
     LOGO_SIZE = 90
+    IMAGE_PADDING = 20
 
     logo_path, heading_font_path, body_font_path, monospace_font_path = (
         generate_static_paths()
@@ -160,33 +160,35 @@ def generate_og_image(supertitle, title, teaser_text, teaser_image):
         fill=footer_font.color,
     )
 
-    if teaser_image:
+    if image:
         try:
-            response = requests.get(teaser_image, timeout=3)
+            response = requests.get(image, timeout=3, verify=False)
             response.raise_for_status()
             visitor_image = Image.open(BytesIO(response.content)).convert("RGB")
             resized_visitor_image = ImageOps.fit(
                 visitor_image,
-                (OG_IMAGE_WIDTH // 2, OG_IMAGE_HEIGHT),
+                (
+                    (OG_IMAGE_WIDTH // 2) - (IMAGE_PADDING * 2),
+                    OG_IMAGE_HEIGHT - (IMAGE_PADDING * 2),
+                ),
                 Image.Resampling.LANCZOS,
             )
             canvas.paste(
                 resized_visitor_image,
-                (OG_IMAGE_WIDTH // 2, 0),
+                (OG_IMAGE_WIDTH // 2 + IMAGE_PADDING, IMAGE_PADDING),
             )
         except Exception:  # noqa: BLE001
             current_app.logger.warning(
-                "Failed to fetch or process teaser image: %s", teaser_image
+                "Failed to fetch or process teaser image: %s", image
             )
 
     text_segments = []
     if supertitle:
         text_segments.append((supertitle, supertitle_font))
     text_segments.append((title, heading_font))
-    if teaser_text:
-        text_segments.append((teaser_text, body_font))
+    text_segments.append((body, body_font))
 
-    max_text_width = (OG_IMAGE_WIDTH // 2) - (PADDING_X * 2)
+    max_text_width = (OG_IMAGE_WIDTH // 2) - (PADDING_X * 2) + IMAGE_PADDING
     start_x, start_y = PADDING_X, PADDING_Y
     x, y = start_x, start_y
     words = []
