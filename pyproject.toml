@@ -16,6 +16,7 @@ pydash = "^8.0.3"
 redis = "^6.0.0"
 tna-utilities = {extras = ["flask"], version = "1.9.0"}
 markdownify = "^1.2.3"
+pillow = "^12.3.0"
 
 [tool.poetry.group.dev]
 optional = true

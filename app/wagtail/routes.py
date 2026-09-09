@@ -1,13 +1,7 @@
 import math
 from urllib.parse import quote, unquote, urlparse
 
-from flask import (
-    current_app,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import current_app, redirect, render_template, request, url_for
 from pydash import objects
 from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
 from tna_utilities.url import QueryStringTransformer
@@ -17,6 +11,11 @@ from app.error_pages.routes import (
     bad_request_error,
     forbidden_error,
     page_not_found_error,
+)
+from app.lib.og_images import (
+    generate_blank_og_image,
+    generate_external_og_image,
+    generate_og_image_from_page_data,
 )
 from app.lib.pagination import pagination
 from app.wagtail import bp
@@ -283,6 +282,17 @@ def image_page(image_uuid):
     return render_template(
         "media/image.html", image_data=image_data, global_alert=global_alerts()
     )
+
+
+@bp.route("/og/", defaults={"page_path": ""})
+@bp.route("/og/<path:page_path>/")
+def og_image(page_path):
+    try:
+        page_data = page_details_by_uri(unquote(f"/{page_path}/"))
+        return generate_og_image_from_page_data(page_data)
+    except ResourceNotFoundError:
+        return generate_external_og_image(page_path)
+    return generate_blank_og_image()
 
 
 @bp.route("/explore-the-collection/search/")
