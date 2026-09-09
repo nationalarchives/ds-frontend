@@ -5,6 +5,7 @@ from io import BytesIO
 
 import requests
 from flask import current_app, send_file
+from markupsafe import Markup
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pydash import objects
 
@@ -21,6 +22,7 @@ class SegmentFont:
 
 OG_IMAGE_WIDTH = 1200
 OG_IMAGE_HEIGHT = 630
+OG_IMAGE_JPEG_QUALITY = 80
 OG_IMAGE_BACKGROUND_COLOR = "#dde5d5"
 
 
@@ -53,12 +55,15 @@ def generate_blank_og_image():
     )
 
     buffer = BytesIO()
-    canvas.save(buffer, format="WEBP", quality=80)
+    canvas.save(buffer, format="JPEG", quality=OG_IMAGE_JPEG_QUALITY)
     buffer.seek(0)
-    return send_file(buffer, mimetype="image/webp")
+    return send_file(buffer, mimetype="image/jpeg")
 
 
 def generate_external_og_image(page_path):
+    TITLE_MAX_LENGTH = 60
+    BODY_MAX_LENGTH = 160
+
     try:
         response = requests.get(
             f"{current_app.config['OG_CONTENT_BASE_URL']}/{page_path.strip('/')}/",
@@ -67,12 +72,22 @@ def generate_external_og_image(page_path):
         response.raise_for_status()
         content = response.content.decode("utf-8")
 
+        supertitle = None
         title = None
         body = None
+
+        supertitle_match = re.search(
+            r'<hgroup class="tna-hgroup-xl">.*?<p class="tna-hgroup__supertitle">(.*?)</p>.*?<h1',
+            content,
+            re.IGNORECASE | re.DOTALL,
+        )
+        if supertitle_match:
+            supertitle = supertitle_match.group(1).strip().upper()
 
         title_match = re.search(r"<h1.*?>(.*?)</h1>", content, re.IGNORECASE)
         if title_match:
             title = title_match.group(1).strip()
+            title = Markup(title).striptags().escape()
         else:
             title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
             if title_match:
@@ -84,14 +99,27 @@ def generate_external_og_image(page_path):
                 for title_suffix in title_suffixes:
                     if title.endswith(title_suffix):
                         title = title[: -len(title_suffix)].strip()
+        if title and len(title) > TITLE_MAX_LENGTH:
+            title = f"{title[:TITLE_MAX_LENGTH].strip()}..."
 
-        description_match = re.search(
-            r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
+        og_description_match = re.search(
+            r'<meta\s+property="og:description"\s+content="(.*?)"\s*/?>',
             content,
             re.IGNORECASE,
         )
-        if description_match:
-            body = description_match.group(1).strip()
+        if og_description_match:
+            body = og_description_match.group(1).strip()
+        else:
+            description_match = re.search(
+                r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
+                content,
+                re.IGNORECASE,
+            )
+            if description_match:
+                body = description_match.group(1).strip()
+            if body and len(body) > BODY_MAX_LENGTH:
+                body = f"{body[:BODY_MAX_LENGTH].strip()}..."
+
     except Exception:
         current_app.logger.exception(
             f"Failed to fetch page data for external OG image: {page_path}"
@@ -100,7 +128,7 @@ def generate_external_og_image(page_path):
 
     if title and body:
         return generate_og_image(
-            "",
+            supertitle,
             title,
             body,
             current_app.config["OG_DEFAULT_IMAGE"],
@@ -110,8 +138,14 @@ def generate_external_og_image(page_path):
 
 def generate_og_image_from_page_data(page_data):
     supertitle = (page_data.get("type_label") or "").upper()
-    title = page_data.get("short_title", "") or page_data.get("title", "")
-    body = page_data.get("meta", {}).get("teaser_text", "")
+    title = (
+        objects.get(page_data, "meta.seo_title", "")
+        or page_data.get("short_title", "")
+        or page_data.get("title", "")
+    )
+    body = objects.get(page_data, "meta.search_description", "") or objects.get(
+        page_data, "meta.teaser_text", ""
+    )
     image = (
         objects.get(page_data, "meta.search_image.jpeg.full_url")
         or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
@@ -234,6 +268,6 @@ def generate_og_image(supertitle, title, body, image):
             x += word_width
 
     buffer = BytesIO()
-    canvas.save(buffer, format="WEBP", quality=80)
+    canvas.save(buffer, format="JPEG", quality=OG_IMAGE_JPEG_QUALITY)
     buffer.seek(0)
-    return send_file(buffer, mimetype="image/webp")
+    return send_file(buffer, mimetype="image/jpeg")
