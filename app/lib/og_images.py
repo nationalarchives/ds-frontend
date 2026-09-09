@@ -87,7 +87,7 @@ def generate_external_og_image(page_path):
         title_match = re.search(r"<h1.*?>(.*?)</h1>", content, re.IGNORECASE)
         if title_match:
             title = title_match.group(1).strip()
-            title = Markup(title).striptags()
+            title = Markup(title).striptags().escape()
         else:
             title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
             if title_match:
