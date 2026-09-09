@@ -28,6 +28,7 @@
 
 {% block headIcons %}
     <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='assets/images/tna-square-logo.svg') }}">
     <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
     <link rel="apple-touch-icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
@@ -44,6 +45,8 @@
 {% endblock headIcons %}
 
 {% block head %}
+    <meta name="robots" content="noai, noimageai">
+
     <meta name="tna.request.host" content="{{ request.host }}">
     <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
@@ -56,7 +59,6 @@
     <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
-    <meta name="robots" content="noai, noimageai">
 {% endblock head %}
 
 {% block stylesheets %}
