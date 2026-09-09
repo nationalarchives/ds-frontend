@@ -7,11 +7,6 @@
 
 {%- set pageTitle = 'Atomic Weapons Establishment: Merlin records' -%}
 
-{% block head %}
-{{ super() }}
-    <meta name="robots" content="noindex">
-{% endblock head %}
-
 {% block content %}
 <div class="tna-background-accent-light">
   {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice, 'm') }}

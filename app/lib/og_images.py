@@ -159,7 +159,7 @@ def generate_og_image(supertitle, title, body, image):
     PADDING_X = 45
     PADDING_Y = 70
     LOGO_SIZE = 90
-    IMAGE_PADDING = 20
+    IMAGE_PADDING = PADDING_X
 
     logo_path, heading_font_path, body_font_path, monospace_font_path = (
         generate_static_paths()
