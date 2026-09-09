@@ -130,6 +130,10 @@ class Production(Features):
     OG_CONTENT_BASE_URL: str = os.environ.get(
         "OG_CONTENT_BASE_URL", "https://www.nationalarchives.gov.uk"
     ).rstrip("/")
+    OG_DEFAULT_IMAGE: str = os.environ.get(
+        "OG_DEFAULT_IMAGE",
+        "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-n_JJQjRgA.976d85da.fill-900x600.format-webp.webpquality-70.bgcolor-fff.webp",
+    )
 
     SIDEBAR_SCROLL_TOP_THRESHOLD: int = int(
         os.getenv("SIDEBAR_SCROLL_TOP_THRESHOLD", "16")
