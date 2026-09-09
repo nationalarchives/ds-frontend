@@ -1,6 +1,6 @@
 {%- from 'components/picture/macro.html' import tnaPicture -%}
 
-{% macro wagtailImage(block_value, id, config) %}
+{% macro wagtailImage(block_value, id, config, itemHeadingLevel) %}
   {%- set plain = config.plain if config is defined else False -%}
   {%- set hide_transcript = config.hide_transcript if config is defined else False -%}
   {%- set itemprop = config.itemprop if config is defined else '' -%}
@@ -9,16 +9,20 @@
   {%- set add_download = config.add_download if config is defined else False -%}
   {%- set add_download_alternative = config.add_download_alternative if config is defined else False -%}
   
-  {%- set information_label_open = 'Open details' %}
-  {%- set information_label_close = 'Close details' %}
+  {%- if block_value.image.transcript %}
+    {% set information_label_open = 'Open ' ~ (block_value.image.transcript.heading | lower) %}
+    {% set information_label_close = 'Close ' ~ (block_value.image.transcript.heading | lower) %}
+  {%- elif block_value.image.translation %}
+    {% set information_label_open = 'Open ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+    {% set information_label_close = 'Close ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
+  {%- else %}
+    {%- set information_label_open = 'Open details' %}
+    {%- set information_label_close = 'Close details' %}
+  {%- endif %}
 
   {%- set picture_information = [] %}
   {%- if not hide_transcript %}
     {%- if block_value.image.transcript %}
-      {%- if not block_value.image.translation %}
-        {% set information_label_open = 'Open ' ~ (block_value.image.transcript.heading | lower) %}
-        {% set information_label_close = 'Close ' ~ (block_value.image.transcript.heading | lower) %}
-      {%- endif %}
       {% set picture_information = picture_information + [{
         'id': 'transcript-' ~ id,
         'title': block_value.image.transcript.heading or 'Transcript',
@@ -26,10 +30,6 @@
       }] %}
     {%- endif %}
     {%- if block_value.image.translation %}
-      {%- if not block_value.image.transcript %}
-        {% set information_label_open = 'Open ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
-        {% set information_label_close = 'Close ' ~ (block_value.image.translation.heading ~ ' translation' if block_value.image.translation.heading != 'Translation' else block_value.image.translation.heading | lower) %}
-      {%- endif %}
       {% set picture_information = picture_information + [{
         'id': 'translation-' ~ id,
         'title': block_value.image.translation.heading or 'Translation',
@@ -49,7 +49,7 @@
     {%- do image_caption_extra_links.append('<a href="' ~ image_page_url ~ '" class="tna-picture__standalone-link">Image details<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download and name and not block_value.image.copyright %}
-    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.full_url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
+    {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.jpeg.url ~ '" class="tna-picture__download-link" download="' ~ (name | replace('.', '-') | slugify) ~ '.jpeg">Download image<span class="tna-visually-hidden">: "' ~ name ~ '"</span></a>') %}
   {%- endif %}
   {%- if add_download_alternative and name and block_value.image.alternative_format %}
     {%- do image_caption_extra_links.append('<a href="' ~ block_value.image.alternative_format.full_url ~ '" class="tna-picture__download-link" download>Download ' ~ (block_value.image.alternative_format.heading | lower) ~ '<span class="tna-visually-hidden"> for "' ~ name ~ '"</span></a>') %}
@@ -74,6 +74,7 @@
       ],
       'caption': image_caption,
       'microdataCaption': (block_value.caption | striptags) or '',
+      'informationItemHeadingLevel': itemHeadingLevel,
       'informationLabelOpen': information_label_open,
       'informationLabelClose': information_label_close,
       'information': picture_information,

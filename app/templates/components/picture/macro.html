@@ -1,4 +1,4 @@
-{# Adds schema.org markup #}
+{# Adds schema.org markup and extra attributes for transcript button #}
 
 {% macro tnaPicture(params, uuid, image_name) %}
 {% from "components/tabs/macro.html" import tnaTabs %}
@@ -27,7 +27,8 @@
       <img class="tna-picture__image" width="{{ params.width }}" height="{{ params.height }}" src="{{ params.src }}" alt="{{ params.alt }}" loading="lazy">
     </picture>
     {%- if params.information %}
-    <button type="button" class="tna-picture__toggle-transcript tna-button tna-button--small tna-button--solid-hover" aria-expanded="false" hidden>Open transcript</button>
+    {% set summary = params.caption | striptags | truncate(50) if params.caption else '' %}
+    <button type="button" class="tna-picture__toggle-transcript tna-button tna-button--small tna-button--solid-hover" aria-expanded="false"{% if summary %} aria-label="Toggle transcript for '{{ summary }}'"{% endif %} hidden>Open transcript</button>
     {%- endif %}
   </div>
 {%- if params.information -%}

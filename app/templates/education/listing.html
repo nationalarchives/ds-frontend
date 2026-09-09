@@ -11,6 +11,14 @@
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 {%- from 'macros/newsletter.html' import newsletter -%}
 
+{%- set pageTitle = page_data.short_title or page_data.title -%}
+{% if filtered_results %}
+  {%- set pageTitle = pageTitle ~ ', filtered' -%}
+{% endif %}
+{% if page > 1 %}
+  {%- set pageTitle = pageTitle ~ ', page ' ~ page -%}
+{% endif %}
+
 {%- set breadcrumbs_style = 'accent-light' -%}
 
 {% block skipLink %}
@@ -32,7 +40,7 @@
       <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
         <hgroup class="tna-hgroup-xl">
           <p class="tna-hgroup__supertitle">{{ page_data.type_label }}</p>
-          <h1 class="tna-hgroup__title">{{ page_data.title }}</h1>
+          <h1 class="tna-hgroup__title">{{ page_data.title }}{{ ', filtered' if filtered_results else '' }}{{ (', page ' ~ page ~ ' of ' ~ pages) if page > 1 else '' }}</h1>
         </hgroup>
         <div class="tna-large-paragraph">{{ page_data.intro | tna_html | safe }}</div>
       </div>
@@ -102,49 +110,12 @@
         {#
         {{ tnaSearchField({
           'label': 'Search ' ~ (page_data.title | lower),
-          'headingLevel': 2,
+          'headingLevel': 3,
           'headingSize': 's',
           'id': 'search',
           'name': 'q',
           'value': q
         }) }}
-        #}
-        
-        {#
-        <div class="tna-filters">
-          <div class="tna-filters__item">
-            <button class="tna-filters__button" type="button" hidden>
-              <span class="tna-heading-m">
-                Key stage lorem ipsum dolor sit amet, consectetur adipiscing elit
-              </span>
-              <small>
-                <span class="tna-visually-hidden">(</span><span class="tna-filters__button-text"></span><span class="tna-visually-hidden"> filter)</span>
-              </small>
-            </button>
-            <div class="tna-filters__content">
-              {{ tnaCheckboxes({
-                'label': 'Key stage lorem ipsum dolor sit amet, consectetur adipiscing elit',
-                'id': 'filter-key-stage-TEMP',
-                'name': 'key_stage',
-                'items': [
-                  {
-                    'text': 'Alpha',
-                    'value': 'alpha'
-                  },
-                  {
-                    'text': 'Beta',
-                    'value': 'beta'
-                  },
-                  {
-                    'text': 'Gamma',
-                    'value': 'gamma'
-                  }
-                ],
-                'small': True
-              }) }}
-            </div>
-          </div>
-        </div>
         #}
 
         {%- if page_data.search_filters.key_stage %}
@@ -158,8 +129,9 @@
             }) %}
           {%- endfor %}
           {{ tnaCheckboxes({
-            'label': 'Key stage',
+            'label': 'Filter by key stage',
             'headingSize': 's',
+            'headingLevel': 3,
             'id': 'filter-key-stage',
             'name': 'key_stage',
             'items': checkboxes,
@@ -185,8 +157,9 @@
             }) %}
           {%- endfor %}
           {{ tnaCheckboxes({
-            'label': 'Location',
+            'label': 'Filter by location',
             'headingSize': 's',
+            'headingLevel': 3,
             'id': 'filter-location',
             'name': 'location',
             'items': checkboxes,
@@ -197,16 +170,25 @@
         {%- if page_data.search_filters.time_period %}
           {%- set checkboxes = [] %}
           {%- for time_period in page_data.search_filters.time_period %}
+            {%- set hint = None %}
+            {%- if time_period.year_from and time_period.year_to %}
+              {%- set hint = time_period.year_from ~ '–' ~ time_period.year_to %}
+            {%- elif time_period.year_from %}
+              {%- set hint = time_period.year_from ~ '–present' %}
+            {%- elif time_period.year_to %}
+              {%- set hint = 'up to ' ~ time_period.year_to %}
+            {%- endif %}
             {%- do checkboxes.append({
               'text': time_period.name,
               'value': time_period.slug,
-              'hint': time_period.year_from ~ '–' ~ time_period.year_to if time_period.year_from and time_period.year_to else None,
+              'hint': hint,
               'checked': qs_is_value_in_parameter('time_period', time_period.slug)
             }) %}
           {%- endfor %}
           {{ tnaCheckboxes({
-            'label': 'Time period',
+            'label': 'Filter by time period',
             'headingSize': 's',
+            'headingLevel': 3,
             'id': 'filter-time-period',
             'name': 'time_period',
             'items': checkboxes,
@@ -224,8 +206,9 @@
             }) %}
           {%- endfor %}
           {{ tnaCheckboxes({
-            'label': 'Theme',
+            'label': 'Filter by theme',
             'headingSize': 's',
+            'headingLevel': 3,
             'id': 'filter-theme',
             'name': 'theme',
             'items': checkboxes,
@@ -253,7 +236,7 @@
     <h2 class="tna-visually-hidden">Results</h2>
     <section id="results" class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-!--margin-top-m">
       {% if total_results %}
-        <p class="tna-!--margin-top-s">Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ pageTitle | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}</p>
+        <p class="tna-!--margin-top-s">Showing <strong>{{ (children_per_page * (page - 1)) + 1 }}–{{ children_per_page * page if children_per_page * page < total_results else total_results }}</strong> of <strong>{{ total_results }}</strong> {{ (page_data.short_title or page_data.title) | lower }}{% if q %} for &quot;{{ q }}&quot;{% endif %}{% if selected_filters_count %} using <strong>{{ selected_filters_count }}</strong> filter{{ '' if selected_filters_count == 1 else 's' }}{% endif %}</p>
          
         <ul class="tna-container tna-container--nested">
           {%- for child in children %}
@@ -325,7 +308,7 @@
       {%- if page_data.meta.type == 'education.TeachingResourcesListingPage' %}
       <div class="tna-aside tna-background-accent-light tna-!--margin-bottom-s">
         <h2 class="tna-heading-m">Looking for one of our older {{ pageTitle | lower }}?</h2>
-        <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources can still be found in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
+        <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources are permanently available in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/20260803040627/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
       </div>
       {%- endif %}
       {% call newsletter('Be the first to hear about new ' ~ (pageTitle | lower)) %}

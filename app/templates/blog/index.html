@@ -3,7 +3,6 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/card/macro.html' import tnaCard -%}
 {%- from 'components/pagination/macro.html' import tnaPagination -%}
-{%- from 'components/quick-filters/macro.html' import tnaQuickFilters -%}
 {%- from 'components/sidebar/macro.html' import tnaSidebar -%}
 {%- from 'macros/back_to_top.html' import back_to_top -%}
 {%- from 'macros/feedback.html' import feedback -%}
@@ -73,28 +72,31 @@
   {%- endif %}
   
   {%- if child_blogs %}
-  <h2 class="tna-heading-m">Filter posts by category</h2>
   {% set ns = namespace(child_blogs_list=[]) %}
   {% for child_blog in child_blogs %}
     {% do ns.child_blogs_list.append({
-      'label': child_blog.title,
+      'text': child_blog.title,
       'href': child_blog.url,
-      'selected': request.path == child_blog.url
+      'current': request.path == child_blog.url
     }) %}
   {% endfor %}
-  {{ tnaQuickFilters({
+  {{ tnaSidebar({
+    'title': 'Filter posts by category',
+    'headingLevel': 2,
+    'ariaLabel': 'Filter posts by category',
     'items': ns.child_blogs_list,
-    'stack': True,
-    'classes': 'tna-!--margin-top-s'
+    'type': 'pages'
   }) }}
   {%- endif %}
 
   {%- if date_filters %}
-  <h2 class="tna-heading-m">Filter posts by date</h2>
-  {{ tnaQuickFilters({
+  {{ tnaSidebar({
+    'title': 'Filter posts by date',
+    'headingLevel': 2,
+    'ariaLabel': 'Filter posts by date',
     'items': date_filters,
-    'stack': True,
-    'classes': 'tna-!--margin-top-s'
+    'type': 'pages',
+    'classes': 'tna-!--margin-top-m'
   }) }}
   {%- endif %}
 

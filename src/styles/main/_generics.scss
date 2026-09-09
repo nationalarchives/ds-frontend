@@ -23,7 +23,13 @@
 }
 
 abbr {
-  cursor: help;
+  text-decoration: none;
+
+  @media (any-hover: hover) {
+    text-decoration: underline dotted;
+
+    cursor: help;
+  }
 }
 
 .etna-cta {

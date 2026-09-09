@@ -68,6 +68,8 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `WEBARCHIVE_BASE_URL`                 | The base URL of the web archive viewer                                                      | `https://webarchive.nationalarchives.gov.uk/ukgwa/+` |
 | `WEBARCHIVE_CDXJ_API_URL`             | The base URL of the web archive CDXJ API                                                    | `https://webarchive.nationalarchives.gov.uk/ukgwa`   |
 | `WEBARCHIVE_CDXJ_API_PATH`            | The path of the web archive CDXJ API                                                        | `cdx`                                                |
+| `OG_CONTENT_BASE_URL`                 | The Base URL to use when scraping content for non-Wagtail pages to generate the OG image    | `https://www.nationalarchives.gov.uk`                |
+| `OG_DEFAULT_IMAGE`                    | The default image to use in an OG image if the page doesn't have a teaser image             | _subject to change_                                  |
 | `SIDEBAR_SCROLL_TOP_THRESHOLD`        | The distance from the top of the window before the sidebar section highlight is highlighted | `16`                                                 |
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)
@@ -76,5 +78,5 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 ## Running tests
 
 ```sh
-poetry run python -m pytest
+docker compose exec app poetry run python -m pytest
 ```

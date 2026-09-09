@@ -12,6 +12,7 @@ class GeneralWagtailTestCase(unittest.TestCase):
         self.client = self.app.test_client()
         self.domain = "http://localhost"
         self.mock_api_url = self.app.config["WAGTAIL_API_URL"]
+        self.mock_webarchive_cdjx = f"{self.app.config['WEBARCHIVE_CDXJ_API_URL']}/{self.app.config['WEBARCHIVE_CDXJ_API_PATH']}"
 
     def test_no_api_response(self):
         with self.client as c:
@@ -108,14 +109,62 @@ class GeneralWagtailTestCase(unittest.TestCase):
         mock_redirect_endpoint = (
             f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
         )
+        mock_webarchive_endpoint = f"{self.mock_webarchive_cdjx}?url=http%3A%2F%2Flocalhost%2Ffoobar%2F&output=json&filter=status%3A200&limit=1&sort=reverse"
         mock_respsone = {"message": "not found"}
+        mock_webarchive_response = {}
         m.get(mock_content_endpoint, json=mock_respsone, status_code=404)
         m.get(mock_redirect_endpoint, json=mock_respsone, status_code=404)
+        m.get(mock_webarchive_endpoint, json=mock_webarchive_response, status_code=200)
         with self.client as c:
             rv = c.get("/foobar/")
             self.assertEqual(rv.status_code, 404)
             self.assertIn(
                 '<h1 class="tna-heading-xl">Page not found</h1>',
+                rv.text,
+            )
+
+    @requests_mock.Mocker()
+    def test_page_not_found_error_with_webarchive_response(self, m):
+        mock_content_endpoint = (
+            f"{self.mock_api_url}/pages/find/?format=json&html_path=/foobar/"
+        )
+        mock_redirect_endpoint = (
+            f"{self.mock_api_url}/redirects/find/?format=json&html_path=/foobar"
+        )
+        mock_webarchive_endpoint = f"{self.mock_webarchive_cdjx}?url=http%3A%2F%2Flocalhost%2Ffoobar%2F&output=json&filter=status%3A200&limit=1&sort=reverse"
+        mock_respsone = {"message": "not found"}
+        mock_webarchive_response = {
+            "urlkey": "uk,gov,nationalarchives,www)/foobar/",
+            "timestamp": "20120311142123",
+            "url": "http://www.nationalarchives.gov.uk/foobar/",
+            "mime": "text/html",
+            "status": "200",
+            "digest": "ZOHSMVLTBX5S4H567K4XPEGS4SADFC6F",
+            "redirect": "-",
+            "robotflags": "-",
+            "length": "11581",
+            "offset": "1569460",
+            "filename": "IM_TNA_monthly_032012.www.nationalarchives.gov.uk-20120311142106-00000.warc.gz",
+            "source": "full_zipnum",
+            "source-coll": "full_zipnum",
+            "access": "allow",
+        }
+        m.get(mock_content_endpoint, json=mock_respsone, status_code=404)
+        m.get(mock_redirect_endpoint, json=mock_respsone, status_code=404)
+        m.get(mock_webarchive_endpoint, json=mock_webarchive_response, status_code=200)
+        with self.client as c:
+            rv = c.get("/foobar/")
+            self.assertEqual(rv.status_code, 410)
+            self.assertIn(
+                '<h1 class="tna-heading-xl">Page no longer exists</h1>',
+                rv.text,
+            )
+            self.assertIn(
+                '<time datetime="2012-03-11">11 March 2012</time>',
+                rv.text,
+            )
+            self.assertIn(
+                '<a href="https://webarchive.nationalarchives.gov.uk/ukgwa/+/http://localhost/foobar/"',
                 rv.text,
             )
 

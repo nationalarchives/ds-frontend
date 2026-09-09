@@ -14,38 +14,36 @@ $source-list-marker-size-small: 2;
 $source-list-line-width: 4px;
 $forced-colours-border: 1px;
 
-.tna-hero {
-  &__enquiry-question {
-    @include spacing.space-above;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: spacing.space(0.75);
+.tna-education-enquiry-question {
+  @include spacing.space-above;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: spacing.space(0.75);
 
-    @include spacing.space-above;
+  @include spacing.space-above;
 
-    .fa-solid {
-      flex: 0;
+  .fa-solid {
+    flex: 0;
 
-      font-size: 2em;
-      // @include colour.colour-font("icon-light");
-    }
+    font-size: 2em;
+    @include colour.colour-font("accent-background");
+  }
 
-    p {
-      margin-top: 0;
-      @include typography.main-font-weight-bold;
-      line-height: 1.5;
-    }
+  p {
+    margin-top: 0;
+    @include typography.main-font-weight-bold;
+    line-height: 1.5;
+  }
 
-    @include media.on-tiny {
-      padding-left: spacing.space(0.75);
-      padding-block: spacing.space(0.5);
+  @include media.on-mobile {
+    padding-left: spacing.space(0.75);
+    padding-block: spacing.space(0.5);
 
-      flex-direction: column;
-      align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
 
-      @include colour.thick-keyline-accent(left);
-    }
+    @include colour.thick-keyline-accent(left);
   }
 }
 
@@ -208,7 +206,7 @@ $forced-colours-border: 1px;
           $forced-colours-border
       );
 
-      font-size: 1.25em;
+      @include typography.font-size(20);
 
       line-height: spacing.space($source-list-marker-size);
       text-align: center;
@@ -260,13 +258,6 @@ $forced-colours-border: 1px;
 
       position: absolute;
       top: 0;
-      // right: calc(
-      //   100% + spacing.space($source-list-marker-spacing) +
-      //     #{spacing.space(
-      //       ($source-list-marker-size - $source-list-marker-size-small) / 2
-      //     )} -
-      //     #{$source-list-marker-small-border-width / 2}
-      // );
       right: calc(
         100% + spacing.space($source-list-marker-spacing) +
           #{spacing.space(
@@ -281,16 +272,50 @@ $forced-colours-border: 1px;
       text-align: center;
       @include typography.main-font-weight-bold;
 
-      // @include colour.base;
       @include colour.contrast;
 
       border: $forced-colours-border solid transparent;
       @include borders.rounded-border;
+    }
+  }
 
-      // @include colour.colour-border(
-      //   "keyline-dark",
-      //   $source-list-marker-small-border-width
-      // );
+  @include media.on-tiny {
+    &__item {
+      &::before {
+        left: calc(1rem - 1px);
+      }
+    }
+
+    &__item-header {
+      margin-left: 2.75rem;
+
+      &::before {
+        min-width: spacing.space(1.5);
+
+        padding: 0 spacing.space(0.25);
+
+        right: calc(100% + 0.625rem);
+
+        line-height: spacing.space(2);
+
+        @include typography.font-size(16);
+      }
+    }
+
+    &__item-body {
+      padding-left: 2.75rem;
+
+      .tna-picture {
+        width: 100%;
+
+        position: static;
+      }
+    }
+
+    &__sublist:has(&__sublist-item:nth-child(2)) &__sublist-item {
+      &::before {
+        right: calc(100% + 0.625rem);
+      }
     }
   }
 }

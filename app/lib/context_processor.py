@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import unquote
 
 from flask import current_app, request
@@ -9,17 +9,17 @@ from app.lib.template_filters import pretty_price
 
 
 def now_iso_8601():
-    now = datetime.now()
+    now = datetime.now(tz=timezone.utc)
     return now.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def now_iso_8601_date():
-    now = datetime.now()
+    now = datetime.now(tz=timezone.utc)
     return now.strftime("%Y-%m-%d")
 
 
 def now_rfc_822():
-    now = datetime.now()
+    now = datetime.now(tz=timezone.utc)
     return now.strftime("%a, %-d %b %Y %H:%M:%S GMT")
 
 
@@ -117,7 +117,7 @@ def is_today_in_date_range(s_from, date_to):
         date_to = get_date_from_string(date_to).date()
     except AttributeError:
         return False
-    today = datetime.now().date()
+    today = datetime.now(tz=timezone.utc).date()
     return date_from <= today <= date_to
 
 
