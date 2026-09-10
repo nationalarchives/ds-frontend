@@ -127,12 +127,18 @@ class Production(Features):
         "WEBARCHIVE_CDXJ_API_PATH", "cdx"
     ).strip("/")
 
-    OG_CONTENT_BASE_URL: str = os.environ.get(
-        "OG_CONTENT_BASE_URL", "https://www.nationalarchives.gov.uk"
-    ).rstrip("/")
     OG_DEFAULT_IMAGE: str = os.environ.get(
         "OG_DEFAULT_IMAGE",
         "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-n_JJQjRgA.976d85da.fill-900x600.format-webp.webpquality-70.bgcolor-fff.webp",
+    )
+    OG_CONTENT_BASE_URL: str = os.environ.get(
+        "OG_CONTENT_BASE_URL", "https://www.nationalarchives.gov.uk"
+    ).rstrip("/")
+    OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH: int = int(
+        os.environ.get("OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH", "60")
+    )
+    OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH: int = int(
+        os.environ.get("OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH", "160")
     )
 
     SIDEBAR_SCROLL_TOP_THRESHOLD: int = int(

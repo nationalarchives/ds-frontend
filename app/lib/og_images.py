@@ -1,11 +1,11 @@
 import os
-import re
 from dataclasses import dataclass
+from html.parser import HTMLParser
 from io import BytesIO
 
 import requests
 from flask import current_app, send_file
-from markupsafe import Markup
+from markupsafe import Markup, escape
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pydash import objects
 
@@ -60,77 +60,163 @@ def generate_blank_og_image():
     return send_file(buffer, mimetype="image/jpeg")
 
 
-def generate_external_og_image(page_path):
-    TITLE_MAX_LENGTH = 60
-    BODY_MAX_LENGTH = 160
+class ContentExtractor(HTMLParser):
+    def __init__(self, max_length=None):
+        super().__init__()
+        self.max_length = max_length
 
+    def escape_and_truncate(self, content):
+        content = content.strip()
+        content = escape(Markup(content).striptags())
+        if self.max_length is not None and len(content) > self.max_length:
+            content = f"{content[: self.max_length].strip()}..."
+        return content
+
+
+class StrictSupertitleExtractor(ContentExtractor):
+    def __init__(self):
+        super().__init__()
+        self.supertitle_text = []
+        self._in_hgroup = False
+        self._has_h1 = False
+        self._in_supertitle = False
+
+    def handle_starttag(self, tag, attrs):
+        attr_dict = dict(attrs)
+        classes = attr_dict.get("class", "").split()
+
+        if tag == "hgroup":
+            self._in_hgroup = True
+
+        if self._in_hgroup:
+            if tag == "h1":
+                self._has_h1 = True
+            if "tna-hgroup__supertitle" in classes:
+                self._in_supertitle = True
+
+    def handle_endtag(self, tag):
+        if tag == "hgroup":
+            self._in_hgroup = False
+        elif tag == "p" or tag == "span":
+            self._in_supertitle = False
+
+    def handle_data(self, data):
+        if self._in_hgroup and self._in_supertitle:
+            self.supertitle_text.append(data)
+
+    def get_supertitle(self):
+        # Only return the text if an <h1> was confirmed inside the <hgroup>
+        if self._has_h1:
+            combined = "".join(self.supertitle_text).strip()
+            return combined if combined else None
+        return None
+
+
+class TitleExtractor(ContentExtractor):
+    def __init__(self):
+        super().__init__(current_app.config["OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH"])
+        self.og_title = None
+        self.h1_text = []
+        self.title_text = []
+        self._current_tag = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "meta":
+            attr_dict = dict(attrs)
+            if attr_dict.get("property") == "og:title":
+                self.og_title = attr_dict.get("content")
+        elif tag in ("h1", "title"):
+            self._current_tag = tag
+
+    def handle_endtag(self, tag):
+        if tag in ("h1", "title"):
+            self._current_tag = None
+
+    def handle_data(self, data):
+        if self._current_tag == "h1":
+            self.h1_text.append(data)
+        elif self._current_tag == "title":
+            self.title_text.append(data)
+
+    def get_title(self):
+        # 1. First priority: og:title
+        if self.og_title:
+            return self.escape_and_truncate(self.og_title)
+
+        # 2. Second priority: <h1>
+        h1_combined = "".join(self.h1_text).strip()
+        if h1_combined:
+            return self.escape_and_truncate(h1_combined)
+
+        # 3. Third priority: <title>
+        title = "".join(self.title_text).strip()
+        if title:
+            return self.escape_and_truncate(title)
+
+        return None
+
+
+class DescriptionExtractor(ContentExtractor):
+    def __init__(self):
+        super().__init__(current_app.config["OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH"])
+        self.og_description = None
+        self.meta_description = None
+        self._current_tag = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "meta":
+            attr_dict = dict(attrs)
+            if attr_dict.get("property") == "og:description":
+                self.og_description = attr_dict.get("content")
+            elif attr_dict.get("name") == "description":
+                self.meta_description = attr_dict.get("content")
+
+    def get_description(self):
+        if self.og_description:
+            return self.escape_and_truncate(self.og_description)
+        if self.meta_description:
+            return self.escape_and_truncate(self.meta_description)
+        return None
+
+
+def generate_external_og_image(page_path):
     try:
         response = requests.get(
             f"{current_app.config['OG_CONTENT_BASE_URL']}/{page_path.strip('/')}/",
             timeout=3,
         )
         response.raise_for_status()
-        content = response.content.decode("utf-8")
-
-        supertitle = None
-        title = None
-        body = None
-
-        supertitle_match = re.search(
-            r'<hgroup class="tna-hgroup-xl">.*?<p class="tna-hgroup__supertitle">(.*?)</p>.*?<h1',
-            content,
-            re.IGNORECASE | re.DOTALL,
-        )
-        if supertitle_match:
-            supertitle = supertitle_match.group(1).strip().upper()
-
-        title_match = re.search(r"<h1.*?>(.*?)</h1>", content, re.IGNORECASE)
-        if title_match:
-            title = title_match.group(1).strip()
-            title = Markup(title).striptags().escape()
-        else:
-            title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
-            if title_match:
-                title = title_match.group(1).strip()
-                title_suffixes = [
-                    " - The National Archives",
-                    " | The National Archives",
-                ]
-                for title_suffix in title_suffixes:
-                    if title.endswith(title_suffix):
-                        title = title[: -len(title_suffix)].strip()
-        if title and len(title) > TITLE_MAX_LENGTH:
-            title = f"{title[:TITLE_MAX_LENGTH].strip()}..."
-
-        og_description_match = re.search(
-            r'<meta\s+property="og:description"\s+content="(.*?)"\s*/?>',
-            content,
-            re.IGNORECASE,
-        )
-        if og_description_match:
-            body = og_description_match.group(1).strip()
-        else:
-            description_match = re.search(
-                r'<meta\s+name="description"\s+content="(.*?)"\s*/?>',
-                content,
-                re.IGNORECASE,
-            )
-            if description_match:
-                body = description_match.group(1).strip()
-            if body and len(body) > BODY_MAX_LENGTH:
-                body = f"{body[:BODY_MAX_LENGTH].strip()}..."
-
     except Exception:
         current_app.logger.exception(
             f"Failed to fetch page data for external OG image: {page_path}"
         )
         return generate_blank_og_image()
 
-    if title and body:
+    try:
+        content = response.content.decode("utf-8")
+    except UnicodeDecodeError:
+        current_app.logger.exception(
+            f"Failed to decode page content for external OG image: {page_path}"
+        )
+        return generate_blank_og_image()
+
+    supertitle_parser = StrictSupertitleExtractor()
+    supertitle_parser.feed(content)
+    supertitle = supertitle_parser.get_supertitle()
+
+    title_parser = TitleExtractor()
+    title_parser.feed(content)
+    title = title_parser.get_title()
+
+    description_parser = DescriptionExtractor()
+    description_parser.feed(content)
+    description = description_parser.get_description()
+
+    if title and description:
         return generate_og_image(
             supertitle,
             title,
-            body,
+            description,
             current_app.config["OG_DEFAULT_IMAGE"],
         )
     return generate_blank_og_image()

@@ -59,6 +59,17 @@ def all_pages(params=None, batch=1, limit=None):
     return wagtail_request_handler(uri, params)
 
 
+def all_pages_sitemap(page=1, limit=None, params=None):
+    if params is None:
+        params = {}
+    if limit is None:
+        raise ValueError("Limit must be specified for all_pages_sitemap")
+    offset = (page - 1) * limit
+    params = params | {"offset": offset, "limit": limit}
+    uri = "pages/sitemap/"
+    return wagtail_request_handler(uri, params)
+
+
 def page_details(page_id, params=None):
     if params is None:
         params = {}

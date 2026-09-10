@@ -1,5 +1,5 @@
 import math
-from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 from flask import (
     current_app,
@@ -8,20 +8,23 @@ from flask import (
     render_template,
     url_for,
 )
+from tna_utilities.datetime import get_date_from_string
 from tna_utilities.flask import cacheable_duration
 
 from app.error_pages.routes import page_not_found_error
 from app.sitemaps import bp
-from app.wagtail.api import all_pages
+from app.wagtail.api import all_pages_sitemap
 
 
 @bp.route("/sitemap.xml")
 @cacheable_duration(259200)
 def sitemap_index():
     sitemap_urls = []
-    wagtail_pages = all_pages(limit=1)
+    wagtail_pages = all_pages_sitemap(page=1, limit=1)
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
-    items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
+    items_per_sitemap = current_app.config.get(
+        "ITEMS_PER_SITEMAP", current_app.config["WAGTAILAPI_LIMIT_MAX"]
+    )
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     for page in range(1, pages + 1):
         sitemap_urls.append(
@@ -57,27 +60,27 @@ def sitemap_dynamic(sitemap_page):
         "/education/",  # TODO: Remove this when the education section is live
     ]
     dynamic_urls = []
-    items_per_sitemap = current_app.config["ITEMS_PER_SITEMAP"]
-    wagtail_pages = all_pages(
-        batch=sitemap_page,
+    items_per_sitemap = current_app.config.get(
+        "ITEMS_PER_SITEMAP", current_app.config["WAGTAILAPI_LIMIT_MAX"]
+    )
+    wagtail_pages = all_pages_sitemap(
+        page=sitemap_page,
         limit=items_per_sitemap,
-        params={"order": "id"},
     )
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
         return page_not_found_error()
     for page in wagtail_pages["items"]:
-        if page["page_path"].startswith(tuple(exclude_urls)):
+        page_path = urlparse(page.get("full_url", "")).path
+        if page_path.startswith(tuple(exclude_urls)):
             continue
         try:
-            lastmodified_date = datetime.strptime(
-                page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
-            ).replace(tzinfo=timezone.utc)
+            lastmodified_date = get_date_from_string(page["last_published_at"])
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
-        except Exception:
+        except ValueError:
             current_app.logger.exception(
-                f"Error parsing last_published_at for page {page['id']}"
+                f"Error parsing last_published_at for {page_path}"
             )
             lastmodified_date = None
         url = {
