@@ -185,9 +185,14 @@ def generate_external_og_image(page_path):
             f"{current_app.config['OG_CONTENT_BASE_URL']}/{page_path.strip('/')}/",
             timeout=3,
         )
-        response.raise_for_status()
     except Exception:
         current_app.logger.exception(
+            f"Failed to fetch page data for external OG image: {page_path}"
+        )
+        return generate_blank_og_image()
+
+    if not response.ok:
+        current_app.logger.error(
             f"Failed to fetch page data for external OG image: {page_path}"
         )
         return generate_blank_og_image()
@@ -283,20 +288,22 @@ def generate_og_image(supertitle, title, body, image):
     if image:
         try:
             response = requests.get(image, timeout=3)
-            response.raise_for_status()
-            image_data = Image.open(BytesIO(response.content)).convert("RGB")
-            resized_image = ImageOps.fit(
-                image_data,
-                (
-                    (OG_IMAGE_WIDTH // 2) - (IMAGE_PADDING * 2),
-                    OG_IMAGE_HEIGHT - (IMAGE_PADDING * 2),
-                ),
-                Image.Resampling.LANCZOS,
-            )
-            canvas.paste(
-                resized_image,
-                (OG_IMAGE_WIDTH // 2 + IMAGE_PADDING, IMAGE_PADDING),
-            )
+            if not response.ok:
+                current_app.logger.error(f"Failed to fetch teaser image: {image}")
+            else:
+                image_data = Image.open(BytesIO(response.content)).convert("RGB")
+                resized_image = ImageOps.fit(
+                    image_data,
+                    (
+                        (OG_IMAGE_WIDTH // 2) - (IMAGE_PADDING * 2),
+                        OG_IMAGE_HEIGHT - (IMAGE_PADDING * 2),
+                    ),
+                    Image.Resampling.LANCZOS,
+                )
+                canvas.paste(
+                    resized_image,
+                    (OG_IMAGE_WIDTH // 2 + IMAGE_PADDING, IMAGE_PADDING),
+                )
         except Exception:
             current_app.logger.exception(
                 f"Failed to fetch or process teaser image: {image}"
