@@ -55,6 +55,7 @@
   {%- set hero_body %}
     <div class="tna-large-paragraph" itemprop="about">{{ page_data.intro | tna_html | safe }}</div>
     <dl class="tna-dl-chips tna-dl-chips--plain">
+      {%- if page_data.start_date and page_data.end_date %}
       <dt>Date</dt>
       <dd>
         <span class="tna-dl-chips__item">
@@ -62,6 +63,7 @@
           {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
         </span>
       </dd>
+      {%- endif %}
       <dt>Location</dt>
       <dd>
         <span class="tna-dl-chips__item">
@@ -124,6 +126,7 @@
             <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
             {{ 'Dates' if sessions_by_date | length > 1 else 'Date' }}
           </dt>
+          {%- if page_data.start_date and page_data.end_date %}
           <dd class="{{ 'tna-!--no-padding-bottom' if page_data.various_dates else '' }}">
             {%- if sessions_by_date | length > 1 %}
             {{ pretty_date_range(page_data.start_date, page_data.end_date) }}
@@ -133,6 +136,10 @@
           </dd>
           {%- if page_data.various_dates %}
           <dd>Various dates and times</dd>
+          {%- endif %}
+          {%- else %}
+          {# TODO: Remove this once the Wagtail page preview provides dates #}
+          <dd>[POPULATED ON PUBLISH]</dd>
           {%- endif %}
 
           <dt>
