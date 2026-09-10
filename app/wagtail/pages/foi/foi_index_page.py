@@ -1,6 +1,7 @@
 import math
 
 from flask import current_app, render_template, request
+from tna_utilities.datetime import group_by_year_and_month
 from tna_utilities.flask import cacheable_duration
 from tna_utilities.url import QueryStringTransformer
 
@@ -10,7 +11,6 @@ from app.error_pages.routes import (
     page_not_found_error,
     server_error,
 )
-from app.lib.date_time import group_items_by_year_and_month
 from app.lib.pagination import pagination
 from app.wagtail.api import foi_requests
 
@@ -42,7 +42,7 @@ def foi_index_page(page_data):
         )
         return server_error()
 
-    requests = group_items_by_year_and_month(requests_raw, "date")
+    requests = group_by_year_and_month(requests_raw["items"], "date", reverse=True)
 
     total_requests = requests_raw["meta"]["total_count"]
     pages = math.ceil(total_requests / children_per_page)

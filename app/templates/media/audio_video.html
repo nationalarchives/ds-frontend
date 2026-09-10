@@ -70,7 +70,7 @@
             </dd>
             {% if media_data.duration %}
             <dt>Duration</dt>
-            <dd>{{ media_data.duration | seconds_to_time }}<meta itemprop="duration" content="{{ media_data.duration | seconds_to_iso_8601_duration }}"></dd>
+            <dd>{{ media_data.duration | seconds_to_duration }}<meta itemprop="duration" content="{{ media_data.duration | seconds_to_iso_8601_duration }}"></dd>
             {% endif %}
             {% if media_data.created_at %}
             <dt>Date published</dt>
@@ -102,10 +102,10 @@
           <li class="tna-!--margin-bottom-m">
             <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="audiovideo" hidden>
               <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
-              <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_time }} - {{ chapter.heading }}</span>
+              <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_duration }} - {{ chapter.heading }}</span>
             </button>
             <h3 class="tna-heading-m media-chapter-heading">
-              {{ chapter.time | seconds_to_time }} - {{ chapter.heading }}
+              {{ chapter.time | seconds_to_duration }} - {{ chapter.heading }}
             </h3>
             {% if chapter.transcript %}
             {{ chapter.transcript | safe }}

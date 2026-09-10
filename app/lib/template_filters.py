@@ -1,14 +1,18 @@
 import json
-import math
 import re
 from datetime import datetime, timezone
 from urllib.parse import quote_plus, unquote, urlparse
 
 from markdownify import markdownify
 from markupsafe import escape
+from tna_utilities.datetime import (
+    get_date_from_string,
+    pretty_date,
+    pretty_datetime,
+    rfc_822_date_format,
+)
+from tna_utilities.datetime import is_today_or_future as tna_is_today_or_future
 from tna_utilities.string import slugify
-
-from app.lib.date_time import get_date_from_string
 
 from .content_parser import (
     add_abbreviations,
@@ -45,32 +49,7 @@ def multiline_address_to_single_line(s):
 
 
 def html_to_text(html):
-    """Convert HTML to plain text."""
     return markdownify(html).strip()
-
-
-def seconds_to_time(s):
-    if not s:
-        return "00h 00m 00s"
-    total_seconds = int(s)
-    hours = math.floor(total_seconds / 3600)
-    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
-    seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    return f"{str(hours).rjust(2, '0')}h {str(minutes).rjust(2, '0')}m {str(seconds).rjust(2, '0')}s"
-
-
-def seconds_to_iso_8601_duration(s):
-    if not s:
-        return "PT0S"
-    total_seconds = int(s)
-    hours = math.floor(total_seconds / 3600)
-    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
-    seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    if hours:
-        return f"PT{hours}H{minutes}M{seconds}S"
-    if minutes:
-        return f"PT{minutes}M{seconds}S"
-    return f"PT{seconds}S"
 
 
 def domain_from_url(s):
@@ -94,57 +73,41 @@ def supertitle_from_domain(url):
     return ""
 
 
-def pretty_date(s, show_day=False, show_time=False):
-    if not s:
-        return s
-    try:
-        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
-        return date.strftime("%B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
-        return date.strftime("%Y")
-    except ValueError:
-        pass
-    if date := get_date_from_string(s):
-        if show_time:
-            return (
-                date.strftime("%A %-d %B %Y, %H:%M")
-                if show_day
-                else date.strftime("%-d %B %Y, %H:%M")
-            )
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    return s
-
-
 def pretty_date_with_day(s):
     return pretty_date(s, show_day=True)
 
 
-def pretty_date_with_time(s):
-    return pretty_date(s, show_time=True)
-
-
-def pretty_date_with_day_and_time(s):
-    return pretty_date(s, show_day=True, show_time=True)
+def pretty_datetime_with_day(s):
+    return pretty_datetime(s, show_day=True)
 
 
 def strip_time_from_date(s):
-    if date := get_date_from_string(s):
-        return date.strftime("%Y-%m-%d")
-    return s
+    try:
+        date = get_date_from_string(s)
+    except ValueError:
+        return s
+    return date.strftime("%Y-%m-%d")
 
 
 def strip_day_from_date(s):
-    if date := get_date_from_string(s):
-        return date.strftime("%Y-%m")
-    return s
+    try:
+        date = get_date_from_string(s)
+    except ValueError:
+        return s
+    return date.strftime("%Y-%m")
+
+
+def format_date_string_as_rfc_822(s):
+    date = get_date_from_string(s)
+    return rfc_822_date_format(date)
+
+
+def is_today_or_future(s):
+    try:
+        date = get_date_from_string(s)
+    except ValueError:
+        return False
+    return tna_is_today_or_future(date)
 
 
 def month_year(s):
@@ -170,50 +133,6 @@ def month_year(s):
     return s
 
 
-def pretty_price(s):
-    price = s if s else 0
-    if price in {0, "0"}:
-        return "Free"
-    return f"£{currency(price)}"
-
-
-def is_today_or_future(s):
-    try:
-        date = get_date_from_string(s).date()
-    except AttributeError:
-        return False
-    today = datetime.now(tz=timezone.utc).date()
-    return today <= date
-
-
-def currency(s):
-    if not s:
-        return "0"
-    float_number = float(s)
-    int_number = int(float_number)
-    if int_number == float_number:
-        return str(f"{int_number:,}")
-    return str(f"{float_number:,.2f}")
-
-
-def rfc_822_format(s):
-    if not s:
-        return s
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").replace(
-            tzinfo=timezone.utc
-        )
-        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    except ValueError:
-        pass
-    return s
-
-
 def file_type_icon(s):
     s = s.lower()
     if s in ["pdf", "csv"]:
@@ -227,26 +146,6 @@ def file_type_icon(s):
     if s in ["txt"]:
         return "lines"
     return ""
-
-
-def number_to_text(s):
-    try:
-        return (
-            [
-                "No",
-                "One",
-                "Two",
-                "Three",
-                "Four",
-                "Five",
-                "Six",
-                "Seven",
-                "Eight",
-                "Nine",
-            ]
-        )[int(s)]
-    except (ValueError, TypeError, IndexError):
-        return s
 
 
 def parse_json(s):
@@ -318,7 +217,7 @@ def headings_list(s):
     return headings
 
 
-def wagtail_streamfield_contains_block(streamfield, block_types):
+def wagtail_streamfield_contains(streamfield, block_types):
     for streamfield_item in streamfield:
         if streamfield_item["type"] == "content_section":
             for block in streamfield_item["value"]["content"]:
@@ -330,18 +229,18 @@ def wagtail_streamfield_contains_block(streamfield, block_types):
 
 
 def streamfield_contains_code_block(streamfield):
-    return wagtail_streamfield_contains_block(streamfield, ["code"])
+    return wagtail_streamfield_contains(streamfield, ["code"])
 
 
 def streamfield_contains_media(streamfield):
-    return wagtail_streamfield_contains_block(streamfield, ["youtube_video", "media"])
+    return wagtail_streamfield_contains(streamfield, ["youtube_video", "media"])
 
 
 def sidebar_items_from_wagtail_streamfield(content, max_levels=None):
     if type(max_levels) is not int or max_levels < 1:
         max_levels = None
-    body = content["body"]
-    footnotes = content["footnotes"]
+    body = content.get("body", [])
+    footnotes = content.get("footnotes", [])
     page_sections = []
     page_children = []
     page_grandchildren = []

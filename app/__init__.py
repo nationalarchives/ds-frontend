@@ -5,6 +5,16 @@ import sentry_sdk
 from flask import Flask, request
 from jinja2 import ChoiceLoader, PackageLoader
 from sentry_sdk.types import Event, Hint
+from tna_utilities.currency import pretty_price, pretty_price_range
+from tna_utilities.datetime import (
+    is_today_in_date_range,
+    pretty_date,
+    pretty_date_range,
+    pretty_datetime,
+    pretty_datetime_range,
+    seconds_to_duration,
+    seconds_to_iso_8601_duration,
+)
 from tna_utilities.string import slugify, unslugify
 from tna_utilities.url import QueryStringTransformer
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -12,35 +22,24 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
-    is_today_in_date_range,
     now_iso_8601,
     now_iso_8601_date,
     now_rfc_822,
-    pretty_date_range,
-    pretty_datetime_range,
-    pretty_price_range,
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
-    currency,
     domain_from_url,
     file_type_icon,
+    format_date_string_as_rfc_822,
     headings_list,
     html_to_text,
     is_today_or_future,
     key_stage_ranges,
     month_year,
     multiline_address_to_single_line,
-    number_to_text,
     parse_json,
-    pretty_date,
     pretty_date_with_day,
-    pretty_date_with_day_and_time,
-    pretty_date_with_time,
-    pretty_price,
-    rfc_822_format,
-    seconds_to_iso_8601_duration,
-    seconds_to_time,
+    pretty_datetime_with_day,
     sidebar_items_from_wagtail_streamfield,
     streamfield_contains_code_block,
     streamfield_contains_media,
@@ -111,27 +110,25 @@ def create_app(config_class):
     app.jinja_env.add_extension("jinja2.ext.do")
 
     filter_functions = [
-        currency,
         domain_from_url,
         file_type_icon,
+        format_date_string_as_rfc_822,
         headings_list,
         html_to_text,
         is_today_or_future,
         key_stage_ranges,
-        number_to_text,
         parse_json,
         pretty_date,
         pretty_date_with_day,
-        pretty_date_with_day_and_time,
-        pretty_date_with_time,
+        pretty_datetime_with_day,
+        pretty_datetime,
         strip_day_from_date,
         strip_time_from_date,
         month_year,
         multiline_address_to_single_line,
         pretty_price,
-        rfc_822_format,
         seconds_to_iso_8601_duration,
-        seconds_to_time,
+        seconds_to_duration,
         sidebar_items_from_wagtail_streamfield,
         slugify,
         supertitle_from_domain,

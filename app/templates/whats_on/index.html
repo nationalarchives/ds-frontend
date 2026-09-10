@@ -62,7 +62,7 @@
         'meta': [
           {
             'title': 'Cost',
-            'text': (section.selected_page.featured_page.price | pretty_price | safe) if section.selected_page.featured_page.price else (pretty_price_range(section.selected_page.featured_page.min_price, section.selected_page.featured_page.max_price) | safe),
+            'text': (section.selected_page.featured_page.price | pretty_price | safe) if section.selected_page.featured_page.price else (pretty_price_range(section.selected_page.featured_page.min_price or 0, section.selected_page.featured_page.max_price or 0) | safe),
             'icon': 'ticket'
           },
           {
