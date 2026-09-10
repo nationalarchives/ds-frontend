@@ -192,7 +192,7 @@ def generate_external_og_image(page_path):
         return generate_blank_og_image()
 
     if not response.ok:
-        current_app.logger.error(
+        current_app.logger.info(
             f"Failed to fetch page data for external OG image: {page_path}"
         )
         return generate_blank_og_image()
