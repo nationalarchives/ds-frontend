@@ -5,7 +5,7 @@ from io import BytesIO
 
 import requests
 from flask import current_app, send_file
-from markupsafe import Markup
+from markupsafe import Markup, escape
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pydash import objects
 
@@ -61,9 +61,6 @@ def generate_blank_og_image():
 
 
 def generate_external_og_image(page_path):
-    TITLE_MAX_LENGTH = 60
-    BODY_MAX_LENGTH = 160
-
     try:
         response = requests.get(
             f"{current_app.config['OG_CONTENT_BASE_URL']}/{page_path.strip('/')}/",
@@ -77,30 +74,49 @@ def generate_external_og_image(page_path):
         body = None
 
         supertitle_match = re.search(
-            r'<hgroup class="tna-hgroup-xl">.*?<p class="tna-hgroup__supertitle">(.*?)</p>.*?<h1',
+            r'<hgroup class="tna-hgroup-xl">\s*<p class="tna-hgroup__supertitle">(.*)</p>\s*<h1[ >]',
             content,
             re.IGNORECASE | re.DOTALL,
         )
         if supertitle_match:
             supertitle = supertitle_match.group(1).strip().upper()
-
-        title_match = re.search(r"<h1.*?>(.*?)</h1>", content, re.IGNORECASE)
-        if title_match:
-            title = title_match.group(1).strip()
-            title = Markup(title).striptags().escape()
         else:
-            title_match = re.search(r"<title>(.*?)</title>", content, re.IGNORECASE)
+            supertitle_match_alt = re.search(
+                r'<hgroup class="tna-hgroup-xl">\s*<h1>\s*<span class="tna-hgroup__supertitle">(.*)</span>',
+                content,
+                re.IGNORECASE | re.DOTALL,
+            )
+            if supertitle_match_alt:
+                supertitle = supertitle_match_alt.group(1).strip().upper()
+        if supertitle:
+            supertitle = escape(Markup(supertitle).striptags())
+
+        og_title_match = re.search(
+            r'<meta\s+property="og:title"\s+content="(.*)"\s*/?>',
+            content,
+            re.IGNORECASE,
+        )
+        if og_title_match:
+            title = og_title_match.group(1).strip()
+        else:
+            title_match = re.search(r"<h1.*>(.*)</h1>", content, re.IGNORECASE)
             if title_match:
                 title = title_match.group(1).strip()
-                title_suffixes = [
-                    " - The National Archives",
-                    " | The National Archives",
-                ]
-                for title_suffix in title_suffixes:
-                    if title.endswith(title_suffix):
-                        title = title[: -len(title_suffix)].strip()
-        if title and len(title) > TITLE_MAX_LENGTH:
-            title = f"{title[:TITLE_MAX_LENGTH].strip()}..."
+            else:
+                title_match = re.search(r"<title>(.*)</title>", content, re.IGNORECASE)
+                if title_match:
+                    title = title_match.group(1).strip()
+                    title_suffixes = [
+                        " - The National Archives",
+                        " | The National Archives",
+                    ]
+                    for title_suffix in title_suffixes:
+                        if title.endswith(title_suffix):
+                            title = title[: -len(title_suffix)].strip()
+        if title:
+            title = escape(Markup(title).striptags())
+            if len(title) > current_app.config["OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH"]:
+                title = f"{title[: current_app.config['OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH']].strip()}..."
 
         og_description_match = re.search(
             r'<meta\s+property="og:description"\s+content="(.*?)"\s*/?>',
@@ -117,8 +133,10 @@ def generate_external_og_image(page_path):
             )
             if description_match:
                 body = description_match.group(1).strip()
-            if body and len(body) > BODY_MAX_LENGTH:
-                body = f"{body[:BODY_MAX_LENGTH].strip()}..."
+        if body:
+            body = escape(Markup(body).striptags())
+            if len(body) > current_app.config["OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH"]:
+                body = f"{body[: current_app.config['OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH']].strip()}..."
 
     except Exception:
         current_app.logger.exception(
