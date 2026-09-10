@@ -112,7 +112,7 @@
         'meta': [
           {
             'title': 'Cost',
-            'text': (page.price | pretty_price | safe) if page.price else (pretty_price_range(page.min_price, page.max_price) | safe),
+            'text': (page.price | pretty_price | safe) if page.price else (pretty_price_range(page.min_price or 0, page.max_price or 0) | safe),
             'icon': 'ticket'
           },
           {
