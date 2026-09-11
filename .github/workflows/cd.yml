@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
-      - feature/*
-      - fix/*
-      - chore/*
 
 concurrency:
   group: cd-${{ github.ref }}
