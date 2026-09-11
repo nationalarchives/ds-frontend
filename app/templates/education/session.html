@@ -168,7 +168,7 @@
           <i class="fa-solid fa-ticket" aria-hidden="true"></i>
           Price
         </dt>
-        <dd>{{ page_data.price | pretty_price }}{% if page_data.price %} {{ page_data.price_detail }}{% endif %}</dd>
+        <dd>{{ (page_data.price or 0) | pretty_price }}{% if page_data.price_detail %} {{ page_data.price_detail }}{% endif %}</dd>
 
         {%- set locations_with_durations = page_data.session_locations | rejectattr('duration', 'none') | list %}
         {%- if locations_with_durations %}
