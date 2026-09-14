@@ -73,7 +73,7 @@ class ContentExtractor(HTMLParser):
         return content
 
 
-class StrictSupertitleExtractor(ContentExtractor):
+class SupertitleExtractor(ContentExtractor):
     def __init__(self):
         super().__init__()
         self.supertitle_text = []
@@ -108,7 +108,7 @@ class StrictSupertitleExtractor(ContentExtractor):
         # Only return the text if an <h1> was confirmed inside the <hgroup>
         if self._has_h1:
             combined = "".join(self.supertitle_text).strip()
-            return combined if combined else None
+            return combined.upper() if combined else None
         return None
 
 
@@ -172,8 +172,11 @@ class DescriptionExtractor(ContentExtractor):
                 self.meta_description = attr_dict.get("content")
 
     def get_description(self):
+        # 1. First priority: og:description
         if self.og_description:
             return self.escape_and_truncate(self.og_description)
+
+        # 2. Second priority: meta description
         if self.meta_description:
             return self.escape_and_truncate(self.meta_description)
         return None
@@ -205,7 +208,7 @@ def generate_external_og_image(page_path):
         )
         return generate_blank_og_image()
 
-    supertitle_parser = StrictSupertitleExtractor()
+    supertitle_parser = SupertitleExtractor()
     supertitle_parser.feed(content)
     supertitle = supertitle_parser.get_supertitle()
 
@@ -238,7 +241,8 @@ def generate_og_image_from_page_data(page_data):
         page_data, "meta.teaser_text", ""
     )
     image = (
-        objects.get(page_data, "meta.search_image.jpeg.full_url")
+        objects.get(page_data, "meta.search_image.dynamic_opengraph_jpeg.full_url")
+        or objects.get(page_data, "meta.search_image.jpeg.full_url")
         or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
         or objects.get(page_data, "hero_image.small_jpeg.full_url", "")
     ) or current_app.config["OG_DEFAULT_IMAGE"]
