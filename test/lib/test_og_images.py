@@ -119,7 +119,7 @@ class ExternalOgImageTestCase(unittest.TestCase):
         generate_og_image = self.generate_image()
 
         generate_og_image.assert_called_once_with(
-            "Collection",
+            "COLLECTION",
             "Page title",
             "Page description",
             self.app.config["OG_DEFAULT_IMAGE"],
@@ -143,7 +143,7 @@ class ExternalOgImageTestCase(unittest.TestCase):
         generate_og_image = self.generate_image()
 
         generate_og_image.assert_called_once_with(
-            "Event",
+            "EVENT",
             "Event Page title",
             "Page description",
             self.app.config["OG_DEFAULT_IMAGE"],
