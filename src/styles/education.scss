@@ -128,14 +128,17 @@ $forced-colours-border: 1px;
         button.$button-border-width
       );
     }
+  }
 
-    img {
-      width: auto;
-      aspect-ratio: 1;
+  &__image,
+  &__image-placeholder {
+    width: auto;
+    aspect-ratio: 1;
 
-      object-fit: cover;
-      @include colour.contrast;
-    }
+    display: block;
+
+    object-fit: cover;
+    @include colour.contrast;
   }
 }
 
