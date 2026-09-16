@@ -1,4 +1,5 @@
 class Gallery {
+  /* eslint-disable-next-line max-lines-per-function, max-statements */
   constructor($module) {
     this.$module = $module;
     this.$items =
@@ -13,6 +14,7 @@ class Gallery {
       ".etna-record-gallery__item",
     ).length;
 
+    /* eslint-disable-next-line no-magic-numbers */
     if (this.itemsCount > 1) {
       const id = `tna-record-article-gallery`;
 
@@ -56,6 +58,7 @@ class Gallery {
     }
   }
 
+  /* eslint-disable-next-line max-statements */
   handleToggleGallery() {
     this.opened = !this.opened;
     if (this.opened) {
@@ -75,5 +78,6 @@ class Gallery {
 
 const $gallery = document.querySelector(".etna-record-gallery");
 if ($gallery) {
+  /* eslint-disable-next-line no-new */
   new Gallery($gallery);
 }

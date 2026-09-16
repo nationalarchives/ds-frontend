@@ -19,9 +19,9 @@
   top: spacing.space(1);
   left: spacing.space(2);
 
-  transform-origin: 0 0;
-
   transform: rotate(-#{$rotate});
+
+  transform-origin: 0 0;
 
   // outline: 0.75rem #fff solid;
 

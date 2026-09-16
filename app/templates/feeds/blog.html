@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{%- set themeAccent = 'black' if page_data.mourning_notice else 'green' -%}
+{%- set pageTitle = page_data.short_title or page_data.title -%}
+
+{% block content %}
+<div class="tna-section">
+  <div class="tna-container">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <h1 class="tna-heading-xl">Blog feeds</h1>
+      {{ page_data.body | tna_html | safe }}
+      <h2 class="tna-heading-l">Feed links</h2>
+      <dl class="tna-dl tna-dl--zebra">
+        <dt>{{ page_data.blogs_index.title }} (all posts)</dt>
+        <dd>
+          <a href="{{ page_data.blogs_index.url }}" aria-label="{{ page_data.blogs_index.title }}" title="{{ page_data.blogs_index.title }}">HTML</a> |
+          <a href="{{ url_for('feeds.rss_all_feed') }}" aria-label="RSS feed for all blogs" title="RSS feed for all blogs">RSS</a> |
+          <a href="{{ url_for('feeds.rss_all_feed', format='atom') }}" aria-label="Atom feed for all blogs" title="Atom feed for all blogs">Atom</a>
+        </dd>
+        {%- for blog in page_data.blogs %}
+        <dt>{{ blog.title }}</dt>
+        <dd>
+          <a href="{{ blog.url }}" aria-label="{{ blog.title }}" title="{{ blog.title }}">HTML</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" aria-label="{{ blog.title }} RSS feed" title="{{ blog.title }} RSS feed">RSS</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" aria-label="{{ blog.title }} Atom feed" title="{{ blog.title }} Atom feed">Atom</a>
+        </dd>
+        {%- endfor %}
+      </dl>
+    </div>
+  </div>
+</div>
+{% endblock content %}

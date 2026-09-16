@@ -1,11 +1,17 @@
-{# Adds schema.org markup #}
+{# Adds schema.org markup and extra attributes for transcript button #}
 
-{% macro tnaPicture(params) %}
+{% macro tnaPicture(params, uuid, image_name) %}
 {% from "components/tabs/macro.html" import tnaTabs %}
 
 {%- set containerClasses = [params.classes] if params.classes else [] -%}
-<figure class="tna-picture {{ ' '.join(containerClasses) }}" data-module="tna-picture"{% if params.informationLabelOpen %} data-information-label-open="{{ params.informationLabelOpen }}"{% endif %}{% if params.informationLabelClose %} data-information-label-close="{{ params.informationLabelClose }}"{% endif %} {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} itemprop="image" itemscope itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
-  <meta itemprop="url" content="{{ params.src }}">
+<figure class="tna-picture {{ ' '.join(containerClasses) }}" data-module="tna-picture"{% if params.informationLabelOpen %} data-information-label-open="{{ params.informationLabelOpen }}"{% endif %}{% if params.informationLabelClose %} data-information-label-close="{{ params.informationLabelClose }}"{% endif %} {%- if params.attributes %}{% for attribute, value in params.attributes.items() %} {{ attribute }}="{{ value }}"{% endfor %}{% endif %} itemscope itemtype="https://schema.org/ImageObject" data-overwritten-component-template="true">
+  {%- if uuid %}
+  {%- set image_page_url = url_for('wagtail.image_page', image_uuid=uuid, _external=True, _scheme='https') %}
+  <meta itemprop="url" content="{{ image_page_url }}">
+  {%- endif %}
+  {%- if image_name %}
+  <meta itemprop="name" content="{{ image_name }}">
+  {%- endif %}
   <meta itemprop="contentUrl" content="{{ params.src }}">
   <meta itemprop="width" content="{{ params.width }}">
   <meta itemprop="height" content="{{ params.height }}">
@@ -21,7 +27,8 @@
       <img class="tna-picture__image" width="{{ params.width }}" height="{{ params.height }}" src="{{ params.src }}" alt="{{ params.alt }}" loading="lazy">
     </picture>
     {%- if params.information %}
-    <button type="button" class="tna-picture__toggle-transcript tna-button tna-button--small tna-button--solid-hover" aria-expanded="false" hidden>Open transcript</button>
+    {% set summary = params.caption | striptags | truncate(50) if params.caption else '' %}
+    <button type="button" class="tna-picture__toggle-transcript tna-button tna-button--small tna-button--solid-hover" aria-expanded="false"{% if summary %} aria-label="Toggle transcript for '{{ summary }}'"{% endif %} hidden>Open transcript</button>
     {%- endif %}
   </div>
 {%- if params.information -%}
@@ -33,13 +40,13 @@
       'classes': 'tna-tabs--small'
     }) }}
   {%- else -%}
-    {{ params.information[0].body | safe }}
+    {{ params.information[0].body | tna_html | safe }}
   {%- endif -%}
   </div>
 {%- endif -%}
 {%- if params.caption -%}
   <figcaption class="tna-picture__caption">
-    {{ params.caption | safe }}
+    {{ params.caption | tna_html | safe }}
   </figcaption>
 {%- endif -%}
 </figure>

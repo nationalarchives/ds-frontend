@@ -4,7 +4,7 @@
 
 The base template `app/templates/base.html` extends `layouts/base.html` which is included in the [TNA Frontend Jinja package](https://github.com/nationalarchives/tna-frontend-jinja/blob/main/tna_frontend_jinja/templates/layouts/base.html).
 
-The base page template adheres to the one described in the [page template description](https://nationalarchives.github.io/design-system/styles/page-template/) from the TNA Design System.
+The base page template adheres to the one described in the [page template description](https://design-system.nationalarchives.gov.uk/styles/templates/) from the TNA Design System.
 
 Set the `pageTitle` variable to change the content of the `<title>` element.
 
@@ -14,11 +14,9 @@ Ensure the page has a description and all the relevant elements to help with SEO
 
 By default, we inject `page_data` into the Wagtail page templates. It includes everything that comes out of the `/pages/` API endpoint from Wagtail.
 
-See an [example of the Wagtail API output](https://beta.nationalarchives.gov.uk/api/v2/pages/5/).
-
 ### Theme accent
 
-Set `themeAccent` to one of the [available accent colours](https://nationalarchives.github.io/design-system/styles/colours/#accent-colours).
+Set `themeAccent` to one of the [available accent colours](https://design-system.nationalarchives.gov.uk/styles/colours/#accent-colours).
 
 If there is a mourning notice, ensure the theme accent is set to `black`:
 
@@ -33,7 +31,7 @@ Pass the whole `page_data` from Wagtail (a repsonse from the `/pages/<int:page_i
 ```
 {% block head %}
     {{ super() }}
-    {{ meta(page_data) }}
+    {{- meta(page_data) }}
 {% endblock %}
 ```
 

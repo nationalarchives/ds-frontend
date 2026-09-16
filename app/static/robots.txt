@@ -1,4 +1,33 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://nationalarchives.gov.uk/sitemap.xml
+Content-Signal: ai-train=no, search=yes, ai-input=no
+Crawl-delay: 10 seconds
+Disallow: /book-a-reading-room-visit/
+Disallow: /cabinetpaperssearch/
+Disallow: /catalogue/
+Disallow: /contact-us/*/form
+Disallow: /discovery/
+Disallow: /documents/archives/ArchivesObsolete/
+Disallow: /documents/information-management/imr-guidance-and-appendices.pdf
+Disallow: /documents/mog.pdf
+Disallow: /documents/old/
+Disallow: /droid/
+Disallow: /e179/includes/
+Disallow: /e179/scripts/
+Disallow: /editorial/
+Disallow: /help-with-your-research/research-guides/birth-marriage-death-england-and-wales/
+Disallow: /help-with-your-research/research-guides/birth-marriage-and-death-certificates/
+Disallow: /help-with-your-research/research-guides/adoptions/
+Disallow: /help-with-your-research/research-guides/electoral-registration/
+Disallow: /help-with-your-research/research-guides/living-people/
+Disallow: /help-with-your-research/research-guides/historical-nhs-patient-records/
+Disallow: /information-management/manage-information/places-of-deposit/
+Disallow: /includes/
+Disallow: /irlist/includes/
+Disallow: /media/
+Disallow: /museum/
+Disallow: /pronom/
+Disallow: /readers/
+Disallow: /search/
+Disallow: /tag/
+Sitemap: https://www.nationalarchives.gov.uk/sitemap.xml
+Sitemap: https://www.nationalarchives.gov.uk/sitemap_index.xml

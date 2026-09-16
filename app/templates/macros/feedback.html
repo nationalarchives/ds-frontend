@@ -1,10 +1,11 @@
 {%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/textarea/macro.html' import tnaTextarea -%}
 
-{% macro feedback(feedback_data) %}
-  {% if feedback_data %}
-    <form id="feedback-{{ feedback_data.feedback_form.id }}" method="get" action="{{ request.path }}#feedback-{{ feedback_data.feedback_form.id }}" class="tna-container tna-container--centred tna-section">
-      <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
+{% macro feedback(margin_top, feedback_data) %}
+  <div class="tna-container tna-container--centred tna-section{{ ' tna-!--margin-top-' ~ margin_top if margin_top else '' }} tna-!--hide-on-print">
+    <div class="tna-column tna-column--width-3-4 tna-column--width-2-3-medium tna-column--full-small tna-column--full-tiny">
+    {% if feedback_data %}
+      <form id="feedback-{{ feedback_data.feedback_form.id }}" method="get" action="{{ request.path }}#feedback-{{ feedback_data.feedback_form.id }}">
         <div class="etna-feedback">
           <input type="hidden" name="feedback_form_id" value="{{ feedback_data.feedback_form.id }}">
           {% if feedback_data.response_id %}
@@ -91,7 +92,22 @@
             </div>
           </div>
         </div>
+      </form>
+    {% else %}
+      <div class="etna-feedback tna-background-tint">
+        <h2 class="tna-heading-m">Help us improve this website</h2>
+        <div class="tna-button-group">
+          {{ tnaButton({
+            'text': 'Complete our short survey (opens in new tab)',
+            'href': 'https://www.smartsurvey.co.uk/s/DN07V0/?area=footer&source=' ~ (request.url | url_encode),
+            'attributes': {
+              'target': '_blank',
+              'rel': 'noreferrer nofollow noopener'
+            }
+          }) }}
+        </div>
       </div>
-    </form>
-  {% endif %}
+    {% endif %}
+    </div>
+  </div>
 {% endmacro %}

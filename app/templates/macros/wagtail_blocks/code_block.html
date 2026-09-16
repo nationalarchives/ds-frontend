@@ -1,0 +1,9 @@
+{%- from 'components/code-block/macro.html' import tnaCodeBlock -%}
+
+{% macro wagtailCodeBlock(block_value) %}
+  {% call tnaCodeBlock({
+    'language': block_value.language or 'plain',
+    'filename': block_value.filename or '',
+    'copy': block_value.allow_copying
+  }) %}{{ block_value.code | forceescape }}{% endcall %}
+{% endmacro %}

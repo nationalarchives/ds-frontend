@@ -1,8 +1,16 @@
 {%- from 'components/card/macro.html' import tnaCard -%}
 
 {% macro wagtailFeaturedExternalLink(block_value, itemHeadingLevel) %}
+  {%- set supertitle = block_value.supertitle %}
+  {%- if not supertitle %}
+    {%- if 'webarchive.nationalarchives.gov.uk' in block_value.url %}
+      {%- set supertitle = 'Archived page' %}
+    {%- elif 'nationalarchives.gov.uk' not in block_value.url %}
+      {%- set supertitle = block_value.url | domain_from_url %}
+    {%- endif %}
+  {%- endif %}
   {% set card_content = {
-    'supertitle': (block_value.url | get_url_domain) if 'nationalarchives.gov.uk' not in block_value.url else '',
+    'supertitle': supertitle,
     'title': block_value.title,
     'headingLevel': itemHeadingLevel,
     'headingSize': 's',
@@ -23,7 +31,7 @@
     {% set card_content = dict(card_content, **{
       'lazyImage': True,
       'imageSrc': block_value.image.jpeg.full_url,
-      'imageAlt': block_value.image.alt_text or '',
+      'imageAlt': block_value.image.description,
       'imageWidth': block_value.image.jpeg.width,
       'imageHeight': block_value.image.jpeg.height,
       'imageSources': [

@@ -1,8 +1,1 @@
-// @use "@nationalarchives/frontend/nationalarchives/font-awesome";
-
-@use "@nationalarchives/frontend/nationalarchives/variables/assets";
-
-$fa-font-path: assets.$fa-font-path;
-@import "@nationalarchives/frontend/nationalarchives/lib/font-awesome/fontawesome";
-@import "@nationalarchives/frontend/nationalarchives/lib/font-awesome/solid";
-@import "@nationalarchives/frontend/nationalarchives/lib/font-awesome/brands";
+@use "@nationalarchives/frontend/nationalarchives/font-awesome";

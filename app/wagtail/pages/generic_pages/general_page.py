@@ -1,8 +1,11 @@
-from app.wagtail.api import page_children
 from flask import current_app, render_template
 from pydash import objects
+from tna_utilities.flask import cacheable_duration
+
+from app.wagtail.api import page_children
 
 
+@cacheable_duration(3600)
 def general_page(page_data):
     page_siblings = []
     if (
@@ -13,15 +16,13 @@ def general_page(page_data):
             page_sibling_items = page_children(
                 page_data["meta"]["parent"]["id"], limit=50
             )
-            page_siblings = (
-                page_sibling_items["items"] if "items" in page_sibling_items else []
-            )
+            page_siblings = page_sibling_items.get("items", [])
         except ConnectionError:
-            current_app.logger.error(
+            current_app.logger.exception(
                 f"API error getting children for page {page_data['id']}"
             )
         except Exception:
-            current_app.logger.error(
+            current_app.logger.exception(
                 f"Exception getting children for page {page_data['id']}"
             )
     return render_template(

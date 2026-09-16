@@ -1,48 +1,67 @@
-import datetime
 import math
+from datetime import date, datetime, timezone
 
-from app.lib.pagination import pagination_object
-from app.lib.template_filters import qs_active, qs_toggler
-from app.wagtail.api import (
-    blog_authors,
-    blog_post_counts,
-    blog_posts_paginated,
-    top_blogs,
-)
 from flask import current_app, render_template, request
 from pydash import objects
+from tna_utilities.flask import cacheable_duration
+from tna_utilities.url import QueryStringTransformer
+
+from app.error_pages.routes import bad_request_error, page_not_found_error
+from app.lib.pagination import pagination
+from app.wagtail.api import blog_posts_paginated
 
 
+@cacheable_duration(3600)
 def blog_index_page(page_data, year=None, month=None, day=None):
     children_per_page = 12
-    page = (
-        int(request.args.get("page"))
-        if request.args.get("page") and request.args.get("page").isnumeric()
-        else 1
-    )
-    year = year or (
-        int(request.args.get("year"))
-        if request.args.get("year") and request.args.get("year").isnumeric()
-        else (
-            datetime.datetime.now().year
-            if request.args.get("month") or request.args.get("day")
-            else None
+    page = 1
+    if request.args.get("page"):
+        try:
+            page = int(request.args.get("page", 1))
+        except ValueError:
+            current_app.logger.warning(
+                f"Invalid page number '{request.args.get('page')}' for page {page_data['id']}"
+            )
+            return bad_request_error()
+    if page < 1:
+        current_app.logger.warning(
+            f"Page number {page} is less than 1 for page {page_data['id']}"
         )
-    )
-    month = month or (
-        int(request.args.get("month"))
-        if request.args.get("month") and request.args.get("month").isnumeric()
-        else datetime.datetime.now().month if request.args.get("day") else None
-    )
-    month_name = datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
-    day = day or (
-        int(request.args.get("day"))
-        if request.args.get("day") and request.args.get("day").isnumeric()
-        else None
-    )
-    blogs_data = top_blogs()
-    blog_post_counts_data = blog_post_counts()
-    authors = blog_authors()
+        return bad_request_error()
+    if not year:
+        year = request.args.get("year", "")
+        if year and not year.isnumeric():
+            current_app.logger.warning(
+                f"Invalid year '{year}' for page {page_data['id']}"
+            )
+            return bad_request_error()
+        year = int(year) if year else None
+    if year is not None:
+        if year <= 0:
+            current_app.logger.warning(
+                f"Year {year} is not a positive integer for page {page_data['id']}"
+            )
+            return bad_request_error()
+        if year > datetime.now(tz=timezone.utc).year:
+            current_app.logger.warning(
+                f"Year {year} is in the future for page {page_data['id']}"
+            )
+            return page_not_found_error()
+    if not month:
+        month = request.args.get("month", "")
+        if month and (not month.isnumeric() or int(month) not in range(1, 13)):
+            current_app.logger.warning(
+                f"Invalid month '{month}' for page {page_data['id']}"
+            )
+            return bad_request_error()
+        month = int(month) if month else None
+    try:
+        month_name = date(year or 2000, month, 1).strftime("%B") if month else ""
+    except ValueError:
+        return bad_request_error()
+    blogs_data = page_data.get("top_blogs", [])
+    blog_post_counts_data = page_data.get("blog_posts_count", [])
+    authors = page_data.get("blog_posts_authors", [])
     try:
         blog_posts_data = blog_posts_paginated(
             page=page,
@@ -51,66 +70,56 @@ def blog_index_page(page_data, year=None, month=None, day=None):
             limit=children_per_page + 1 if page == 1 else children_per_page,
             initial_offset=0 if page == 1 else 1,
         )
-    except Exception as e:
-        current_app.logger.error(
-            f"Failed to get blog posts for page {page_data["id"]}: {e}"
+    except Exception:
+        current_app.logger.exception(
+            f"Failed to get blog posts for page {page_data['id']}"
         )
         blog_posts_data = {}
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
-    pages = math.ceil(total_blog_posts / children_per_page)
+    pages = math.ceil(
+        total_blog_posts / (children_per_page + 1 if page == 1 else children_per_page)
+    )
     if total_blog_posts and page > pages:
-        return render_template("errors/page_not_found.html"), 404
-    existing_qs_as_dict = request.args.to_dict()
+        return page_not_found_error()
     date_filters = [
         {
-            "label": "Any date",
+            "text": "Any date",
             "href": objects.get(page_data, "meta.url"),
-            "title": "Blog posts from any date",
-            "selected": not year,
+            "current": not year,
         }
     ]
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
     for year_count in reversed(blog_post_counts_data):
-        date_filters.append(
-            {
-                "label": f"All {year_count['year']} ({year_count['posts']})",
-                "href": "?"
-                + (
-                    qs_toggler(existing_qs_as_dict, "month", month)
-                    if year == year_count["year"] and month
-                    else f"year={year_count['year']}"
-                ),
-                "title": f"Blog posts from {year_count['year']}",
-                "selected": qs_active(existing_qs_as_dict, "year", year_count["year"])
-                and not month,
-            }
-        )
-        if year == year_count["year"]:
+        year_qs = qs.new()
+        children = []
+        if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
-                each_month_name = datetime.date(year, month_count["month"], 1).strftime(
-                    "%B"
-                )
-                date_filters.append(
+                month_qs = qs.new()
+                each_month_name = date(year, month_count["month"], 1).strftime("%B")
+                children.append(
                     {
-                        "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
-                        "href": "?"
-                        + (
-                            f"year={year_count['year']}&month={month_count['month']}"
-                            if month == month_count["month"]
-                            else qs_toggler(
-                                existing_qs_as_dict,
-                                "month",
-                                month_count["month"],
-                            )
-                        ),
-                        "title": f"Blog posts from {each_month_name} {year_count['year']}",
-                        "selected": qs_active(
-                            existing_qs_as_dict, "year", year_count["year"]
-                        )
-                        and qs_active(
-                            existing_qs_as_dict, "month", month_count["month"]
-                        ),
+                        "text": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
+                        "href": month_qs.update_parameter("year", year_count["year"])
+                        .update_parameter("month", month_count["month"])
+                        .remove_parameter("page")
+                        .get_query_string(),
+                        "classes": "tna-sidebar__item-child--current"
+                        if qs.is_value_in_parameter("year", year_count["year"])
+                        and qs.is_value_in_parameter("month", month_count["month"])
+                        else "",
                     }
                 )
+        date_filters.append(
+            {
+                "text": f"All {year_count['year']} ({year_count['posts']})",
+                "href": year_qs.add_parameter("year", year_count["year"])
+                .remove_parameter("month")
+                .remove_parameter("page")
+                .get_query_string(),
+                "current": qs.is_value_in_parameter("year", year_count["year"]),
+                "children": children,
+            }
+        )
     return render_template(
         "blog/index.html",
         page_data=page_data,
@@ -119,7 +128,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
         total_blog_posts=total_blog_posts,
         blogs=blogs_data,
         authors=authors,
-        pagination=pagination_object(page, pages, request.args),
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
         year=year,

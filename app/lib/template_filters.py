@@ -1,17 +1,24 @@
 import json
-import math
 import re
-from datetime import datetime
-from urllib.parse import unquote, urlencode, urlparse
+from datetime import datetime, timezone
+from urllib.parse import quote_plus, unquote, urlparse
 
-from markupsafe import Markup
+from markdownify import markdownify
+from markupsafe import escape
+from tna_utilities.datetime import (
+    get_date_from_string,
+    pretty_date,
+    pretty_datetime,
+    rfc_822_date_format,
+)
+from tna_utilities.datetime import is_today_or_future as tna_is_today_or_future
+from tna_utilities.string import slugify
 
 from .content_parser import (
     add_abbreviations,
     add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
-    replace_footnotes,
     replace_line_breaks,
     strip_wagtail_attributes,
 )
@@ -22,22 +29,14 @@ def tna_html(s):
         return s
     s = lists_to_tna_lists(s)
     s = b_to_strong(s)
-    s = strip_wagtail_attributes(s)
     s = replace_line_breaks(s)
-    s = replace_footnotes(s)
+    s = strip_wagtail_attributes(s)
     s = add_abbreviations(s)
-    s = add_rel_to_external_links(s)
-    return s
+    return add_rel_to_external_links(s)
 
 
-def slugify(s):
-    if not s:
-        return s
-    s = s.lower().strip()
-    s = re.sub(r"[^\w\s-]", "", s)
-    s = re.sub(r"[\s_-]+", "-", s)
-    s = re.sub(r"^-+|-+$", "", s)
-    return s
+def url_encode(s):
+    return quote_plus(s)
 
 
 def multiline_address_to_single_line(s):
@@ -46,101 +45,91 @@ def multiline_address_to_single_line(s):
     s = re.sub(r"</p>\s*<p>", ", ", s)
     s = re.sub(r"^\s*<p>", "", s)
     s = re.sub(r"</p>\s*$", "", s)
-    s = re.sub(r"(,\s*){2,}", ", ", s)
-    return s
+    return re.sub(r"(,\s*){2,}", ", ", s)
 
 
-def seconds_to_time(s):
-    if not s:
-        return "00h 00m 00s"
-    total_seconds = int(s)
-    hours = math.floor(total_seconds / 3600)
-    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
-    seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    return f"{str(hours).rjust(2, '0')}h {str(minutes).rjust(2, '0')}m {str(seconds).rjust(2, '0')}s"
+def html_to_text(html):
+    return markdownify(html).strip()
 
 
-def seconds_to_iso_8601_duration(s):
-    if not s:
-        return "PT0S"
-    total_seconds = int(s)
-    hours = math.floor(total_seconds / 3600)
-    minutes = math.floor((total_seconds - (hours * 3600)) / 60)
-    seconds = total_seconds - (hours * 3600) - (minutes * 60)
-    if hours:
-        return f"PT{hours}H{minutes}M{seconds}S"
-    if minutes:
-        return f"PT{minutes}M{seconds}S"
-    return f"PT{seconds}S"
-
-
-def get_url_domain(s):
+def domain_from_url(s):
     try:
         domain = urlparse(s).netloc
-        domain = re.sub(r"^www\.", "", domain)
-        return domain
-    except Exception:
+        return re.sub(r"^www\.", "", domain)
+    except (AttributeError, TypeError, ValueError):
         return s
 
 
-def pretty_date(s, show_day=False):
+def supertitle_from_domain(url):
+    domain = domain_from_url(url)
+    if "nationalarchives.gov.uk" not in domain:
+        return domain
+    web_archive_url = "webarchive.nationalarchives.gov.uk/ukgwa/"
+    string_after_web_archive_url = (
+        url.split(web_archive_url)[1] if web_archive_url in url else ""
+    )
+    if web_archive_url in url and string_after_web_archive_url:
+        return "Archived page"
+    return ""
+
+
+def pretty_date_with_day(s):
+    return pretty_date(s, show_day=True)
+
+
+def pretty_datetime_with_day(s):
+    return pretty_datetime(s, show_day=True)
+
+
+def strip_time_from_date(s):
+    try:
+        date = get_date_from_string(s)
+    except ValueError:
+        return s
+    return date.strftime("%Y-%m-%d")
+
+
+def strip_day_from_date(s):
+    try:
+        date = get_date_from_string(s)
+    except ValueError:
+        return s
+    return date.strftime("%Y-%m")
+
+
+def format_date_string_as_rfc_822(s):
+    date = get_date_from_string(s)
+    return rfc_822_date_format(date)
+
+
+def is_today_or_future(s):
+    try:
+        date = get_date_from_string(s)
+    except ValueError:
+        return False
+    return tna_is_today_or_future(date)
+
+
+def month_year(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m-%d")
-        return date.strftime("%A %-d %B %Y") if show_day else date.strftime("%-d %B %Y")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m")
+        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y")
+        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
+        return date.strftime("%B %Y")
+    except ValueError:
+        pass
+    try:
+        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
         return date.strftime("%Y")
     except ValueError:
         pass
-    return s
-
-
-def pretty_date_with_day(s):
-    return pretty_date(s, True)
-
-
-def currency(s):
-    if not s:
-        return "0"
-    float_number = float(s)
-    int_number = int(float_number)
-    if int_number == float_number:
-        return str(int_number)
-    return str("%.2f" % float_number)
-
-
-def rfc_822_format(s):
-    if not s:
-        return s
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    except ValueError:
-        pass
-    try:
-        date = datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ")
-        return date.strftime("%a, %-d %b %Y %H:%M:%S GMT")
-    except ValueError:
-        pass
+    if date := get_date_from_string(s):
+        return date.strftime("%B %Y")
     return s
 
 
@@ -159,77 +148,99 @@ def file_type_icon(s):
     return ""
 
 
-def headings_list(s):
-    if not s:
-        return s
-    headings_regex = re.findall(
-        r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+)\s*</h[1-6]>', s
-    )
-    headings_raw = [
-        {
-            "text": Markup(heading[2]),
-            "href": "#" + heading[1],
-            "level": int(heading[0]),
-            "children": [],
-        }
-        for heading in headings_regex
-    ]
-
-    def group_headings(index, grouping):
-        if index < len(headings_raw):
-            next_heading = headings_raw[index]
-            if len(grouping):
-                prev_heading = grouping[-1]
-                try:
-                    if next_heading["level"] > prev_heading["level"]:
-                        prev_heading["children"] = prev_heading["children"] or []
-                        return group_headings(index, prev_heading["children"])
-                    elif next_heading["level"] == prev_heading["level"]:
-                        grouping.append(next_heading)
-                        index = index + 1
-                        return group_headings(index, grouping)
-                    else:
-                        raise Exception({"index": index, "heading": next_heading})
-                except Exception as e:
-                    (higher_heading,) = e.args
-                    if higher_heading["heading"]["level"] == prev_heading["level"]:
-                        grouping.append(higher_heading["heading"])
-                        higher_heading["index"] = higher_heading["index"] + 1
-                        return group_headings(higher_heading["index"], grouping)
-                    else:
-                        raise Exception(higher_heading)
-            else:
-                grouping.append(next_heading)
-                index = index + 1
-                group_headings(index, grouping)
-        return grouping
-
-    headings = group_headings(0, [])
-    return headings
-
-
 def parse_json(s):
     try:
         unquoted_string = unquote(s)
         return json.loads(unquoted_string)
-    except Exception:
+    except (json.JSONDecodeError, TypeError):
         return {}
 
 
-def wagtail_streamfield_contains_media(body):
-    for body_item in body:
-        if body_item["type"] == "content_section":
-            for block in body_item["value"]["content"]:
-                if block["type"] == "youtube_video" or block["type"] == "media":
+def headings_list(s):
+    if not s:
+        return s
+
+    matches = re.findall(r'<h([1-6])[^>]*id="([\w\d\-]+)"[^>]*>\s*(.+?)\s*</h[1-6]>', s)
+    if not matches:
+        return []
+
+    root_level = min(int(level) for level, _, _ in matches)
+    headings = []
+    stack = []
+
+    for level, heading_id, text in matches:
+        level = int(level)
+        if level < root_level:
+            continue
+
+        text = re.sub(r"<[^>]*>.*?</[^>]*>", "", text)
+        text = re.sub(r"<[^>]*>", "", text).strip()
+
+        heading = {
+            "text": str(escape(text)),
+            "href": f"#{heading_id}",
+            "level": level,
+            "children": [],
+        }
+
+        if level == root_level:
+            headings.append(heading)
+            stack = [heading]
+            continue
+
+        if not stack:
+            continue
+
+        if level > stack[-1]["level"]:
+            if level - stack[-1]["level"] != 1:
+                continue
+            stack[-1]["children"].append(heading)
+            stack.append(heading)
+            continue
+
+        while stack and stack[-1]["level"] >= level:
+            stack.pop()
+
+        if not stack:
+            if level != root_level:
+                continue
+            headings.append(heading)
+            stack = [heading]
+            continue
+
+        if level - stack[-1]["level"] != 1:
+            continue
+
+        stack[-1]["children"].append(heading)
+        stack.append(heading)
+
+    return headings
+
+
+def wagtail_streamfield_contains(streamfield, block_types):
+    for streamfield_item in streamfield:
+        if streamfield_item["type"] == "content_section":
+            for block in streamfield_item["value"]["content"]:
+                if block["type"] in block_types:
                     return True
-        elif body_item["type"] == "youtube_video" or body_item["type"] == "media":
+        elif streamfield_item["type"] in block_types:
             return True
     return False
 
 
-def sidebar_items_from_wagtail_body(content):
-    body = content["body"]
-    footnotes = content["footnotes"]
+def streamfield_contains_code_block(streamfield):
+    return wagtail_streamfield_contains(streamfield, ["code"])
+
+
+def streamfield_contains_media(streamfield):
+    return wagtail_streamfield_contains(streamfield, ["youtube_video", "media"])
+
+
+def sidebar_items_from_wagtail_streamfield(content, max_levels=None):
+    if type(max_levels) is not int or max_levels < 1:
+        max_levels = None
+    body = content.get("body", [])
+    footnotes = content.get("footnotes", [])
     page_sections = []
     page_children = []
     page_grandchildren = []
@@ -238,7 +249,9 @@ def sidebar_items_from_wagtail_body(content):
             section_children = []
             section_grandchildren = []
             for block in reversed(item["value"]["content"]):
-                if block["type"] == "sub_heading":
+                if block["type"] == "sub_heading" and (
+                    max_levels is None or max_levels > 1
+                ):
                     section_children.append(
                         {
                             "text": block["value"]["heading"],
@@ -254,7 +267,9 @@ def sidebar_items_from_wagtail_body(content):
                         }
                     )
                     section_grandchildren = []
-                elif block["type"] == "sub_sub_heading":
+                elif block["type"] == "sub_sub_heading" and (
+                    max_levels is None or max_levels > 2
+                ):
                     section_grandchildren.append(
                         {
                             "text": block["value"]["heading"],
@@ -348,37 +363,31 @@ def wagtail_table_parser(table_data):
     return data
 
 
-def qs_active(existing_qs, filter, by):
-    """Active when identical key/value in existing query string."""
-    qs_set = {(filter, str(by))}
-    # Not active if either are empty.
-    if not existing_qs or not qs_set:
-        return False
-    # See if the intersection of sets is the same.
-    existing_qs_set = set(existing_qs.items())
-    return existing_qs_set.intersection(qs_set) == qs_set
-
-
-def qs_toggler(existing_qs, filter, by):
-    """Resolve filter against an existing query string."""
-    qs = {filter: by}
-    # Don't change the currently rendering existing query string!
-    rtn_qs = existing_qs.copy()
-    # Test for identical key and value in existing query string.
-    if qs_active(existing_qs, filter, by):
-        # Remove so that buttons toggle their own value on and off.
-        rtn_qs.pop(filter)
+def key_stage_ranges(key_stages):
+    if not key_stages:
+        return []
+    key_stages = sorted(
+        [
+            key_stage
+            for key_stage in key_stages
+            if key_stage and isinstance(key_stage, int) and key_stage > 0
+        ]
+    )
+    ranges = []
+    start = key_stages[0]
+    end = key_stages[0]
+    for i in range(1, len(key_stages)):
+        if key_stages[i] == end + 1:
+            end = key_stages[i]
+        else:
+            if start == end:
+                ranges.append(f"KS{start}")
+            else:
+                ranges.append(f"KS{start}–⁠KS{end}")
+            start = key_stages[i]
+            end = key_stages[i]
+    if start == end:
+        ranges.append(f"KS{start}")
     else:
-        # Update or add the query string.
-        rtn_qs.update(qs)
-    return urlencode(rtn_qs)
-
-
-def qs_update(existing_qs, filter, value):
-    rtn_qs = existing_qs.copy()
-    try:
-        rtn_qs.pop(filter)
-    except KeyError:
-        pass
-    rtn_qs.update({filter: value})
-    return urlencode(rtn_qs)
+        ranges.append(f"KS{start}–⁠KS{end}")
+    return ranges

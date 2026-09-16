@@ -1,18 +1,11 @@
-@use "@nationalarchives/frontend/nationalarchives/variables/borders" as
-  bordersVars;
 @use "@nationalarchives/frontend/nationalarchives/tools/a11y";
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
 @use "@nationalarchives/frontend/nationalarchives/tools/typography";
 
 .tna-hero {
-  &:not(.tna-background-accent, .tna-hero--split) &__content-inner {
-    @include media.on-larger-than-mobile {
-      @include colour.colour-border("accent-border", 1rem, solid, left);
-    }
-  }
-
   p .fa-solid {
     margin-right: spacing.space(0.75);
 
@@ -36,8 +29,9 @@
     &__items {
       padding-left: 0 !important;
 
-      flex-direction: row;
       flex: 1;
+
+      flex-direction: row;
 
       gap: spacing.space(0.5) spacing.space(2);
     }
@@ -48,9 +42,20 @@
   }
 }
 
-.tna-picture--plain {
-  margin-right: 0;
-  margin-left: 0;
+.tna-exhibition-partner-logo {
+  max-width: 20rem;
+  margin-top: spacing.space(0.5);
+}
+
+.tna-picture {
+  &--plain {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  &--plain &__image {
+    @include borders.rounded-border;
+  }
 }
 
 .tna-enhanced-map {
@@ -107,66 +112,6 @@
   }
 }
 
-.tna-exhibition-newsletter {
-  &_inner {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-
-    @include media.on-tiny {
-      flex-direction: column;
-    }
-  }
-
-  &__icon {
-    @include colour.accent;
-
-    padding: spacing.space(2);
-
-    display: flex;
-    align-items: center;
-
-    @include typography.font-size(48);
-
-    border-radius: bordersVars.$rounded-border-radius 0 0
-      bordersVars.$rounded-border-radius;
-
-    @include media.on-tiny {
-      padding: spacing.space(1);
-
-      @include typography.font-size(32);
-
-      border-radius: bordersVars.$rounded-border-radius
-        bordersVars.$rounded-border-radius 0 0;
-    }
-  }
-
-  &__body {
-    padding: spacing.space(1.5) spacing.space(2);
-
-    border-left-width: 0 !important;
-    border-radius: 0 bordersVars.$rounded-border-radius
-      bordersVars.$rounded-border-radius 0;
-
-    flex: 1;
-
-    @include colour.colour-border("keyline", 1px);
-
-    @include media.on-small {
-      padding: spacing.space(1) spacing.space(1.5);
-    }
-
-    @include media.on-tiny {
-      padding: spacing.space(1);
-
-      border-top-width: 0;
-      border-left-width: 1px !important;
-      border-radius: 0 0 bordersVars.$rounded-border-radius
-        bordersVars.$rounded-border-radius;
-    }
-  }
-}
-
 .tna-gallery {
   &__item-figure-inner {
     background-color: #010101;
@@ -175,10 +120,6 @@
   &__navigation {
     margin-right: spacing.space(-1);
     margin-left: spacing.space(-1);
-  }
-
-  &:fullscreen {
-    @include colour.contrast;
   }
 }
 

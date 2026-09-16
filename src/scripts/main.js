@@ -1,18 +1,17 @@
-import {
-  initAll,
-  Cookies,
-} from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import Cookies from "@nationalarchives/cookies";
+import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker.register("/service-worker.min.js");
+// If ("serviceWorker" in navigator) {
+//   Navigator.serviceWorker.register("/service-worker.min.js");
 // }
 
 initAll();
 
 const cookies = new Cookies();
+window.TNAFrontendCookies = cookies;
 
 const initNotifications = () => {
   const initialDismissedNotifications = JSON.parse(
@@ -26,7 +25,7 @@ const initNotifications = () => {
       const $alertDismissButton = $globalAlert.querySelector(
         ".etna-global-alert__dismiss",
       );
-      const alertUid = parseInt($alertDismissButton.value);
+      const alertUid = parseInt($alertDismissButton.value, 10);
       if (initialDismissedNotifications.includes(alertUid)) {
         $globalAlert.hidden = true;
       } else {
@@ -36,7 +35,7 @@ const initNotifications = () => {
             cookies.get("dismissed_notifications") || "[]",
           );
           const dismissedNotificationsSet = new Set(dismissedNotifications);
-          dismissedNotificationsSet.add(parseInt(alertUid));
+          dismissedNotificationsSet.add(parseInt(alertUid, 10));
           cookies.set(
             "dismissed_notifications",
             JSON.stringify(Array.from(dismissedNotificationsSet)),
@@ -58,11 +57,11 @@ const initNotifications = () => {
     });
 };
 
-if (cookies.isPolicyAccepted("settings")) {
+if (cookies.preference("settings")) {
   initNotifications();
 } else {
-  cookies.once("changePolicy", (policies) => {
-    if (policies["settings"]) {
+  cookies.once("changePreference", (policies) => {
+    if (policies.settings) {
       initNotifications();
     }
   });
@@ -89,3 +88,15 @@ if (cookies.isPolicyAccepted("settings")) {
 //       $emailButton.innerHTML = originalEmailButtonHTML;
 //     });
 //   });
+
+window.matchMedia("print").addEventListener("change", (evt) => {
+  if (evt.matches) {
+    document
+      .querySelectorAll(
+        "img[loading=lazy], iframe[loading=lazy], video[loading=lazy]",
+      )
+      .forEach(($element) => {
+        $element.removeAttribute("loading");
+      });
+  }
+});
