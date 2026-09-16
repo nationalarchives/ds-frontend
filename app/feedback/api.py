@@ -1,15 +1,22 @@
-from app.lib.api import JSONAPIClient
+from tna_utilities.api import SimpleJsonApiClient
 from flask import current_app
 
 
 def feedback_api_client():
     api_url = current_app.config.get("FEEDBACK_API_URL")
+    if not api_url:
+        current_app.logger.error("FEEDBACK_API_URL not set")
+        raise Exception("FEEDBACK_API_URL not set")
     api_key = current_app.config.get("FEEDBACK_API_KEY")
-    if not api_url or not api_key:
-        current_app.logger.error("FEEDBACK_API_URL or FEEDBACK_API_KEY not set")
-        raise Exception("FEEDBACK_API_URL or FEEDBACK_API_KEY not set")
-    client = JSONAPIClient(api_url)
-    client.add_header("Authorization", f"Token {api_key}")
+    if not api_key:
+        current_app.logger.error("FEEDBACK_API_KEY not set")
+        raise Exception("FEEDBACK_API_KEY not set")
+    if not current_app.config.get("FEEDBACK_PROJECT_ID"):
+        current_app.logger.error("FEEDBACK_PROJECT_ID not set")
+        raise Exception("FEEDBACK_PROJECT_ID not set")
+    client = SimpleJsonApiClient(api_url, default_headers={
+        "Authorization": f"Token {api_key}"
+    })
     return client
 
 

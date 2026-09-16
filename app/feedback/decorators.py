@@ -6,7 +6,8 @@ from app.feedback.api import (
     submit_additional_feedback,
     submit_first_feedback,
 )
-from app.lib.template_filters import qs_toggler
+from tna_utilities.url import QueryStringTransformer
+
 from flask import redirect, request
 
 
@@ -47,11 +48,10 @@ def process_feedback(func):
                             "user_agent": request.headers.get("User-Agent"),
                         },
                     )
+                    qs = QueryStringTransformer(list(request.args.lists()))
                     response_id = respone["id"]
-                    new_params = qs_toggler(
-                        request.args.to_dict(), "response_id", response_id
-                    )
-                    return redirect(f"{request.path}?{new_params}", 307)
+                    qs.update_parameter("response_id", response_id)
+                    return redirect(f"{request.path}{qs.get_query_string()}", 307)
                 except Exception:
                     pass
         feedback_data = {
