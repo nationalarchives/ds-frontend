@@ -1,14 +1,14 @@
 import functools
 
+from flask import current_app, redirect, request
+from tna_utilities.url import QueryStringTransformer
+
 from app.feedback.api import (
     page_feedback_form,
     page_feedback_form_by_id,
     submit_additional_feedback,
     submit_first_feedback,
 )
-from tna_utilities.url import QueryStringTransformer
-
-from flask import redirect, request
 
 
 def process_feedback(func):
@@ -36,7 +36,7 @@ def process_feedback(func):
                         feedback_value,
                     )
                 except Exception:
-                    pass
+                    current_app.logger.exception("Failed to submit additional feedback")
             else:
                 try:
                     respone = submit_first_feedback(
@@ -53,7 +53,7 @@ def process_feedback(func):
                     qs.update_parameter("response_id", response_id)
                     return redirect(f"{request.path}{qs.get_query_string()}", 307)
                 except Exception:
-                    pass
+                    current_app.logger.exception("Failed to submit first feedback")
         feedback_data = {
             "feedback_form": feedback_form,
             "response_id": response_id,
