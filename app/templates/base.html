@@ -55,8 +55,6 @@
     <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
-
-    <link rel="manifest" href="/manifest.json">
 {% endblock head %}
 
 {% block stylesheets %}
