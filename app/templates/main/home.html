@@ -5,6 +5,8 @@
 {%- from 'components/hero/macro.html' import tnaHero -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
+{% block pageTitle %}Welcome to The National Archives{% endblock pageTitle %}
+
 {% block head %}
 {{ super() }}
     <link rel="canonical" href="{{ page_data.meta.url }}">
