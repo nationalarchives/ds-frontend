@@ -90,19 +90,24 @@
     <meta name="twitter:image:height" content="630">
     <meta name="twitter:image:type" content="image/jpeg">
     
-    {%- set primary_image_of_page = page_data.meta.search_image['16x9_jpeg'] or page_data.meta.search_image.jpeg or page_data.meta.teaser_image.jpeg or (page_data.hero_image.small_jpeg if page_data.hero_image else None) %}
+    {%- set primary_image_of_page = (page_data.meta.search_image['16x9_jpeg'] or page_data.meta.search_image.jpeg if page_data.meta.search_image else None) or (page_data.meta.teaser_image.jpeg if page_data.meta.teaser_image else None) or (page_data.hero_image.small_jpeg if page_data.hero_image else None) %}
     {%- set other_page_images = [] %}
-    {%- if page_data.meta.search_image['16x9_jpeg'] %}
-      {%- do other_page_images.append(page_data.meta.search_image['16x9_jpeg'].full_url) %}
+    {%- if page_data.meta.search_image %}
+        {%- if page_data.meta.search_image['16x9_jpeg'] %}
+            {%- do other_page_images.append(page_data.meta.search_image['16x9_jpeg'].full_url) %}
+        {%- endif %}
+        {%- if page_data.meta.search_image['4x3_jpeg'] %}
+            {%- do other_page_images.append(page_data.meta.search_image['4x3_jpeg'].full_url) %}
+        {%- endif %}
+        {%- if page_data.meta.search_image.square_jpeg %}
+            {%- do other_page_images.append(page_data.meta.search_image.square_jpeg.full_url) %}
+        {%- endif %}
     {%- endif %}
-    {%- if page_data.meta.search_image['4x3_jpeg'] %}
-      {%- do other_page_images.append(page_data.meta.search_image['4x3_jpeg'].full_url) %}
-    {%- endif %}
-    {%- if page_data.meta.search_image.square_jpeg %}
-      {%- do other_page_images.append(page_data.meta.search_image.square_jpeg.full_url) %}
-    {%- endif %}
-    {%- if page_data.meta.teaser_image.jpeg %}
+    {%- if page_data.meta.teaser_image and page_data.meta.teaser_image.jpeg %}
       {%- do other_page_images.append(page_data.meta.teaser_image.jpeg.full_url) %}
+    {%- endif %}
+    {%- if page_data.hero_image and page_data.hero_image.small_jpeg %}
+      {%- do other_page_images.append(page_data.hero_image.small_jpeg.full_url) %}
     {%- endif %}
 
     <script type="application/ld+json">{
