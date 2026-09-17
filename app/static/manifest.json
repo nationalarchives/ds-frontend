@@ -1,7 +1,7 @@
 {
   "short_name": "National Archives",
   "name": "The National Archives",
-  "description": "We are a non-ministerial department, and the official archive and publisher for the UK Government, and for England and Wales.",
+  "description": "Explore 1,000 years of history with the official national archive of the UK Government.",
   "theme_color": "#010101",
   "icons": [
     {
@@ -91,12 +91,20 @@
   "lang": "en",
   "shortcuts": [
     {
+      "name": "Catalogue",
+      "url": "/catalogue/"
+    },
+    {
       "name": "Search",
       "url": "/search/"
     },
     {
       "name": "What’s on",
-      "url": "/about/visit-us/whats-on/"
+      "url": "/whats-on/"
+    },
+    {
+      "name": "Education",
+      "url": "/education/"
     },
     {
       "name": "Explore the collection",
