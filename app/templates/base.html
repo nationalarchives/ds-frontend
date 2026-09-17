@@ -30,19 +30,8 @@
     <link rel="icon" sizes="48x48" href="{{ url_for('static', filename='images/favicon.ico') }}">
     <link rel="icon" sizes="any" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
     <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
-    <link rel="apple-touch-icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
-    <link rel="apple-touch-icon" sizes="96x96" href="{{ url_for('static', filename='assets/images/icon-96x96.png') }}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='assets/images/icon-120x120.png') }}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='assets/images/icon-144x144.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='assets/images/icon-152x152.png') }}">
-    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='assets/images/icon-167x167.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
-    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='assets/images/icon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
-    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
-
+    
     <script type="application/ld+json">{
       "@context" : "https://schema.org",
       "@type" : "WebSite",
@@ -66,6 +55,8 @@
     <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
+
+    <link rel="manifest" href="/manifest.json">
 {% endblock head %}
 
 {% block stylesheets %}
