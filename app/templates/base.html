@@ -42,6 +42,13 @@
     <link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
     <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
     <link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
+
+    <script type="application/ld+json">{
+      "@context" : "https://schema.org",
+      "@type" : "WebSite",
+      "name" : "The National Archives",
+      "url" : "https://www.nationalarchives.gov.uk/"
+    }</script>
 {% endblock headIcons %}
 
 {% block head %}
