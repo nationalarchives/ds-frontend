@@ -55,7 +55,7 @@
         <![CDATA[ The National Archives ]]>
       </dc:creator>
       {% endif %}
-      <pubDate>{{ blog_post.published_date.value | rfc_822_format }}</pubDate>
+      <pubDate>{{ blog_post.published_date.value | format_date_string_as_rfc_822 }}</pubDate>
       {% if blog_post.teaser_image %}
       <media:content xmlns:media="http://search.yahoo.com/mrss/" url="{{ blog_post.teaser_image.jpeg.full_url }}" medium="image"/>
       {% endif %}

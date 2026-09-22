@@ -1,7 +1,6 @@
 from flask import render_template
+from tna_utilities.datetime import get_date_from_string
 from tna_utilities.flask import cacheable_duration
-
-from app.lib.date_time import get_date_from_string
 
 
 @cacheable_duration(3600)
