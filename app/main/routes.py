@@ -160,4 +160,4 @@ def well_known(filename):
             os.path.join(current_app.root_path, "static", ".well-known"), filename
         )
     except NotFound:
-        return page_not_found_error()
+        return page_not_found_error(True)

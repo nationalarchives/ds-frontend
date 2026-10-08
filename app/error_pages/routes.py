@@ -51,7 +51,14 @@ def forbidden_error():
 
 @bp.route("/404/")
 @do_not_cache()
-def page_not_found_error():
+def page_not_found_error(internal_error=False):
+    if not internal_error:
+        return render_template(
+            "errors/page_not_found.html",
+            status_code=404,
+            pageTitle=ERROR_PAGE_TITLES["page_not_found"],
+        ), 404
+
     client = SimpleJsonApiClient(current_app.config["WEBARCHIVE_CDXJ_API_URL"])
     url = request.url
     last_archived_date = None
@@ -130,7 +137,7 @@ def proxy_authentication_required_error():
 @bp.route("/410/")
 @do_not_cache()
 def gone_error():
-    return page_not_found_error()
+    return page_not_found_error(True)
 
 
 @bp.route("/414/")

@@ -46,7 +46,7 @@ def blog_page(page_data, year=None, month=None, day=None):
             current_app.logger.warning(
                 f"Year {year} is in the future for page {page_data['id']}"
             )
-            return page_not_found_error()
+            return page_not_found_error(True)
     if not month:
         month = request.args.get("month", "")
         if month and (not month.isnumeric() or int(month) not in range(1, 13)):
@@ -80,7 +80,7 @@ def blog_page(page_data, year=None, month=None, day=None):
     total_blog_posts = objects.get(blog_posts_data, "meta.total_count", 0)
     pages = math.ceil(total_blog_posts / children_per_page)
     if total_blog_posts and page > pages:
-        return page_not_found_error()
+        return page_not_found_error(True)
     date_filters = [
         {
             "text": "Any date",

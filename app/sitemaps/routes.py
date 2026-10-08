@@ -69,7 +69,7 @@ def sitemap_dynamic(sitemap_page):
     wagtail_pages_count = wagtail_pages["meta"]["total_count"]
     pages = math.ceil(wagtail_pages_count / items_per_sitemap)
     if sitemap_page > pages:
-        return page_not_found_error()
+        return page_not_found_error(True)
     for page in wagtail_pages["items"]:
         page_path = urlparse(page.get("full_url", "")).path
         if page_path.startswith(tuple(exclude_urls)):

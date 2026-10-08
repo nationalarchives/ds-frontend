@@ -38,11 +38,11 @@ def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     if not content_type or not token:
-        return page_not_found_error()
+        return page_not_found_error(True)
     try:
         page_data = page_preview(content_type, token)
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except ResourceForbiddenError:
         return forbidden_error()
     except Exception:
@@ -72,7 +72,7 @@ def preview_protected_page(page_id):
             params=params,
         )
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except ResourceForbiddenError:
         return forbidden_error()
     except Exception:
@@ -116,7 +116,7 @@ def page_permalink(page_id):
         # Get the page details from Wagtail by its ID
         page_data = page_details(page_id)
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except ResourceForbiddenError:
         return forbidden_error()
     except Exception:
@@ -155,7 +155,7 @@ def page(path):
         # redirects added in Wagtail
         if current_app.config["SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"]:
             return try_external_redirect(path)
-        return page_not_found_error()
+        return page_not_found_error(True)
     except Exception:
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
@@ -220,7 +220,7 @@ def try_external_redirect(path):
         # Attempt to get the redirect data by the requested path
         redirect_data = redirect_by_uri(path)
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except Exception:
         current_app.logger.exception("Failed to get redirect")
         return bad_gateway_error()
@@ -245,7 +245,7 @@ def audio_video_page(media_type, media_uuid):
     try:
         media_data = media(media_uuid=media_uuid)
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except ResourceForbiddenError:
         return forbidden_error()
     except Exception:
@@ -274,7 +274,7 @@ def image_page(image_uuid):
     try:
         image_data = image(image_uuid=image_uuid)
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except ResourceForbiddenError:
         return forbidden_error()
     except Exception:
@@ -338,7 +338,7 @@ def search_explore_the_collection():
     pages = math.ceil(total_results / children_per_page)
 
     if pages > 0 and page > pages:
-        return page_not_found_error()
+        return page_not_found_error(True)
 
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
 
