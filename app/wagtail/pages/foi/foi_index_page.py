@@ -48,7 +48,7 @@ def foi_index_page(page_data):
     pages = math.ceil(total_requests / children_per_page)
 
     if page > pages > 0:
-        return page_not_found_error()
+        return page_not_found_error(True)
 
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
 

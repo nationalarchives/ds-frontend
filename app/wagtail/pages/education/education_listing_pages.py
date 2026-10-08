@@ -87,7 +87,7 @@ def education_listing_page(page_data, api_endpoint):
     pages = math.ceil(total_results / children_per_page) if total_results > 0 else 1
 
     if page > pages > 0:
-        return page_not_found_error()
+        return page_not_found_error(True)
 
     return render_template(
         "education/listing.html",

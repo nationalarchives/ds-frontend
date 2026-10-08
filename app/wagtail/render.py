@@ -106,6 +106,6 @@ def render_content_page(page_data):
             response = make_response(page_type_templates[page_type](page_data))
             return response
         current_app.logger.error(f"Template for {page_type} not handled")
-        return page_not_found_error()
+        return page_not_found_error(True)
     current_app.logger.error("Page meta information not included")
     return bad_gateway_error()
