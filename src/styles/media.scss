@@ -10,439 +10,439 @@
 @use "@nationalarchives/frontend/nationalarchives/components/button/button" as
   button;
 
-@import "video.js/src/css/vjs";
+// @import "video.js/src/css/vjs";
 
-.etna-video {
-  width: 100%;
+// .etna-video {
+//   width: 100%;
 
-  aspect-ratio: 16 / 9;
+//   aspect-ratio: 16 / 9;
 
-  display: block;
+//   display: block;
 
-  position: relative;
-  @include spacing.space-above;
+//   position: relative;
+//   @include spacing.space-above;
 
-  + .tna-details {
-    margin-top: 0;
-  }
+//   + .tna-details {
+//     margin-top: 0;
+//   }
 
-  &__preview-image {
-    width: 100%;
-    height: 100%;
+//   &__preview-image {
+//     width: 100%;
+//     height: 100%;
 
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+//     position: absolute;
+//     inset: 0;
+//     z-index: 1;
 
-    object-fit: cover;
-  }
+//     object-fit: cover;
+//   }
 
-  &__label {
-    padding: 1rem;
+//   &__label {
+//     padding: 1rem;
 
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+//     position: absolute;
+//     inset: 0;
+//     z-index: 1;
 
-    color: #fff;
-    @include typography.font-size(16);
-    line-height: 1.5;
-    text-decoration: underline;
+//     color: #fff;
+//     @include typography.font-size(16);
+//     line-height: 1.5;
+//     text-decoration: underline;
 
-    background-color: rgb(0 0 0 / 75%);
-  }
+//     background-color: rgb(0 0 0 / 75%);
+//   }
 
-  &__label-cookies-message {
-    display: block;
+//   &__label-cookies-message {
+//     display: block;
 
-    @include typography.main-font-weight;
-    @include typography.font-size(16);
-  }
+//     @include typography.main-font-weight;
+//     @include typography.font-size(16);
+//   }
 
-  &__icon {
-    width: 30%;
-    height: 30%;
+//   &__icon {
+//     width: 30%;
+//     height: 30%;
 
-    display: block;
+//     display: block;
 
-    position: absolute;
-    top: 35%;
-    left: 35%;
-    z-index: 2;
+//     position: absolute;
+//     top: 35%;
+//     left: 35%;
+//     z-index: 2;
 
-    transform: scale(1);
+//     transform: scale(1);
 
-    transition: transform 400ms;
-  }
+//     transition: transform 400ms;
+//   }
 
-  &:hover &__label,
-  &:focus &__label {
-    @include typography.interacted-text-decoration;
-  }
+//   &:hover &__label,
+//   &:focus &__label {
+//     @include typography.interacted-text-decoration;
+//   }
 
-  &:hover &__icon {
-    // width: 40%;
-    // height: 40%;
+//   &:hover &__icon {
+//     // width: 40%;
+//     // height: 40%;
 
-    // top: 30%;
-    // left: 30%;
+//     // top: 30%;
+//     // left: 30%;
 
-    transform: scale(1.1);
+//     transform: scale(1.1);
 
-    transition: transform 100ms;
-  }
-}
+//     transition: transform 100ms;
+//   }
+// }
 
-.etna-media-sticky-wrapper {
-  @include spacing.space-above;
+// .etna-media-sticky-wrapper {
+//   @include spacing.space-above;
 
-  position: sticky;
-  top: spacing.space(2);
+//   position: sticky;
+//   top: spacing.space(2);
 
-  .etna-video {
-    max-height: calc(100vh - spacing.space(4));
-  }
-}
+//   .etna-video {
+//     max-height: calc(100vh - spacing.space(4));
+//   }
+// }
 
-$videojs-control-bar-height: 3rem;
-$videojs-icon-size: 2em;
-$videojs-track-height: 0.5em;
+// $videojs-control-bar-height: 3rem;
+// $videojs-icon-size: 2em;
+// $videojs-track-height: 0.5em;
 
-.etna-video,
-.etna-audio {
-  &.video-js {
-    font-family: inherit;
-
-    .vjs-volume-panel.vjs-hover .vjs-volume-control.vjs-volume-horizontal,
-    .vjs-volume-panel:active .vjs-volume-control.vjs-volume-horizontal,
-    .vjs-volume-panel:focus .vjs-volume-control.vjs-volume-horizontal,
-    .vjs-volume-panel .vjs-volume-control:active.vjs-volume-horizontal,
-    .vjs-volume-panel.vjs-hover
-      .vjs-mute-control
-      ~ .vjs-volume-control.vjs-volume-horizontal,
-    .vjs-volume-panel
-      .vjs-volume-control.vjs-slider-active.vjs-volume-horizontal {
-      height: 100%;
-    }
-
-    .vjs-control {
-      width: $videojs-control-bar-height;
-    }
-
-    .vjs-button {
-      border-radius: 0.1px;
-
-      &:hover {
-        &::after {
-          content: "";
-
-          position: absolute;
-          inset: 0;
-
-          @include colour.thick-keyline-accent(bottom);
-        }
-      }
-    }
-
-    .vjs-volume-bar {
-      margin: calc(50% - 0.15em) 0 0;
-    }
-
-    .vjs-time-control {
-      width: auto;
-
-      line-height: $videojs-control-bar-height;
-
-      @include typography.font-size(14);
-    }
-
-    .vjs-svg-icon {
-      width: $videojs-icon-size;
-      height: $videojs-icon-size;
-    }
-
-    .vjs-play-progress .vjs-svg-icon {
-      top: -#{math.div($videojs-icon-size, 2) - math.div(
-          $videojs-track-height,
-          2
-        )};
-      right: -#{math.div($videojs-icon-size, 2)};
-    }
-
-    .vjs-svg-icon:hover,
-    .vjs-control:focus .vjs-svg-icon {
-      -webkit-filter: none;
-      filter: none;
-    }
-
-    .vjs-progress-control .vjs-progress-holder {
-      height: $videojs-track-height;
-
-      border-radius: 0.1px;
-    }
-
-    .vjs-progress-control:hover .vjs-time-tooltip,
-    .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
-      @include typography.font-size(14);
-    }
-
-    .vjs-text-track-display {
-      bottom: $videojs-control-bar-height;
-
-      div {
-        font-family: inherit !important;
-      }
-    }
-
-    .vjs-menu {
-      .vjs-menu-content {
-        padding: 2px;
-
-        overflow: visible;
-        @include borders.rounded-border;
-      }
-
-      .vjs-menu-item {
-        text-transform: none;
-        @include borders.rounded-border;
-      }
-
-      *:not(.vjs-selected):focus {
-        &:not(:focus-visible),
-        &:not(.focus-visible) {
-          position: relative;
-          z-index: 1;
-        }
-      }
-    }
-
-    .vjs-menu-button-popup .vjs-menu {
-      z-index: 1;
-    }
-
-    @include colour.on-forced-colours {
-      @include colour.colour-border("keyline", 3px);
-      border-top-width: 2px;
-
-      .vjs-progress-holder {
-        margin-right: 20px;
-        margin-left: 20px;
-      }
-
-      .vjs-control-bar {
-        @include colour.colour-border("keyline", 1px, solid, top);
-
-        background: #000 !important;
-      }
-
-      .vjs-button + .vjs-button,
-      .vjs-control {
-        @include colour.colour-border("keyline", 1px, solid, left);
-      }
-    }
-  }
-}
-
-.etna-audio.video-js {
-  height: $videojs-control-bar-height;
-
-  background: transparent;
-
-  .vjs-control-bar {
-    height: 100%;
-
-    @include colour.colour-font("background");
-    @include colour.colour-background("font-base");
-  }
-
-  .vjs-slider {
-    background-color: colour.brand-colour("light-grey");
-  }
-
-  .vjs-play-progress {
-    @include colour.colour-background("accent-background");
-
-    div {
-      @include colour.colour-background("accent-background-light");
-    }
-  }
-}
-
-.etna-video.video-js {
-  cursor: pointer;
-
-  .vjs-tech {
-    z-index: 0;
-
-    border-radius: 0.1px;
-
-    &:focus:not(:focus-visible) {
-      outline: none !important;
-
-      box-shadow: none !important;
-    }
-  }
+// .etna-video,
+// .etna-audio {
+//   &.video-js {
+//     font-family: inherit;
+
+//     .vjs-volume-panel.vjs-hover .vjs-volume-control.vjs-volume-horizontal,
+//     .vjs-volume-panel:active .vjs-volume-control.vjs-volume-horizontal,
+//     .vjs-volume-panel:focus .vjs-volume-control.vjs-volume-horizontal,
+//     .vjs-volume-panel .vjs-volume-control:active.vjs-volume-horizontal,
+//     .vjs-volume-panel.vjs-hover
+//       .vjs-mute-control
+//       ~ .vjs-volume-control.vjs-volume-horizontal,
+//     .vjs-volume-panel
+//       .vjs-volume-control.vjs-slider-active.vjs-volume-horizontal {
+//       height: 100%;
+//     }
+
+//     .vjs-control {
+//       width: $videojs-control-bar-height;
+//     }
+
+//     .vjs-button {
+//       border-radius: 0.1px;
+
+//       &:hover {
+//         &::after {
+//           content: "";
+
+//           position: absolute;
+//           inset: 0;
+
+//           @include colour.thick-keyline-accent(bottom);
+//         }
+//       }
+//     }
+
+//     .vjs-volume-bar {
+//       margin: calc(50% - 0.15em) 0 0;
+//     }
+
+//     .vjs-time-control {
+//       width: auto;
+
+//       line-height: $videojs-control-bar-height;
+
+//       @include typography.font-size(14);
+//     }
+
+//     .vjs-svg-icon {
+//       width: $videojs-icon-size;
+//       height: $videojs-icon-size;
+//     }
+
+//     .vjs-play-progress .vjs-svg-icon {
+//       top: -#{math.div($videojs-icon-size, 2) - math.div(
+//           $videojs-track-height,
+//           2
+//         )};
+//       right: -#{math.div($videojs-icon-size, 2)};
+//     }
+
+//     .vjs-svg-icon:hover,
+//     .vjs-control:focus .vjs-svg-icon {
+//       -webkit-filter: none;
+//       filter: none;
+//     }
+
+//     .vjs-progress-control .vjs-progress-holder {
+//       height: $videojs-track-height;
+
+//       border-radius: 0.1px;
+//     }
+
+//     .vjs-progress-control:hover .vjs-time-tooltip,
+//     .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+//       @include typography.font-size(14);
+//     }
+
+//     .vjs-text-track-display {
+//       bottom: $videojs-control-bar-height;
+
+//       div {
+//         font-family: inherit !important;
+//       }
+//     }
+
+//     .vjs-menu {
+//       .vjs-menu-content {
+//         padding: 2px;
+
+//         overflow: visible;
+//         @include borders.rounded-border;
+//       }
+
+//       .vjs-menu-item {
+//         text-transform: none;
+//         @include borders.rounded-border;
+//       }
+
+//       *:not(.vjs-selected):focus {
+//         &:not(:focus-visible),
+//         &:not(.focus-visible) {
+//           position: relative;
+//           z-index: 1;
+//         }
+//       }
+//     }
+
+//     .vjs-menu-button-popup .vjs-menu {
+//       z-index: 1;
+//     }
+
+//     @include colour.on-forced-colours {
+//       @include colour.colour-border("keyline", 3px);
+//       border-top-width: 2px;
+
+//       .vjs-progress-holder {
+//         margin-right: 20px;
+//         margin-left: 20px;
+//       }
+
+//       .vjs-control-bar {
+//         @include colour.colour-border("keyline", 1px, solid, top);
+
+//         background: #000 !important;
+//       }
+
+//       .vjs-button + .vjs-button,
+//       .vjs-control {
+//         @include colour.colour-border("keyline", 1px, solid, left);
+//       }
+//     }
+//   }
+// }
+
+// .etna-audio.video-js {
+//   height: $videojs-control-bar-height;
+
+//   background: transparent;
+
+//   .vjs-control-bar {
+//     height: 100%;
+
+//     @include colour.colour-font("background");
+//     @include colour.colour-background("font-base");
+//   }
+
+//   .vjs-slider {
+//     background-color: colour.brand-colour("light-grey");
+//   }
+
+//   .vjs-play-progress {
+//     @include colour.colour-background("accent-background");
+
+//     div {
+//       @include colour.colour-background("accent-background-light");
+//     }
+//   }
+// }
+
+// .etna-video.video-js {
+//   cursor: pointer;
+
+//   .vjs-tech {
+//     z-index: 0;
+
+//     border-radius: 0.1px;
+
+//     &:focus:not(:focus-visible) {
+//       outline: none !important;
+
+//       box-shadow: none !important;
+//     }
+//   }
 
-  .vjs-big-play-button {
-    height: 2em;
-    margin-top: -1em;
+//   .vjs-big-play-button {
+//     height: 2em;
+//     margin-top: -1em;
 
-    @include colour.colour-background("button-accented-background");
-
-    @include borders.rounded-border;
-    @include colour.colour-border(
-      "button-accented-background",
-      button.$button-border-width
-    );
-
-    transition: none;
-
-    .vjs-svg-icon {
-      width: 1.5em;
-      height: 1.5em;
-      @include colour.colour-font("button-accented-text");
-    }
-  }
-
-  &:hover .vjs-big-play-button {
-    @include colour.colour-background("contrast-button-background");
-
-    .vjs-svg-icon {
-      @include colour.colour-font("base-font-dark");
-    }
-  }
-
-  .vjs-control-bar {
-    height: $videojs-control-bar-height;
-
-    z-index: 2;
-
-    background-color: rgb(0 0 0 / 65%);
-  }
-
-  &.etna-video--youtube {
-    aspect-ratio: 16/9;
-
-    .vjs-control-bar {
-      @include colour.colour-background("contrast-background");
-    }
-  }
-}
-
-.vjs-texttrack-settings {
-  display: none;
-}
-
-.etna-media-block {
-  @include spacing.space-above;
-
-  .tna-aside:has(+ &__transcript) {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  &__transcript {
-    padding-top: spacing.space(1);
-    padding-left: spacing.space(1);
-
-    overflow-wrap: break-word;
-
-    border-radius: 0 0 bordersVars.$rounded-border-radius
-      bordersVars.$rounded-border-radius;
-  }
-
-  .tna-details {
-    &__summary {
-      margin-bottom: spacing.space(1);
-      padding-top: 0;
-      padding-bottom: 0;
-
-      &::before {
-        content: "\2b";
-        content: "\2b" / "";
-
-        width: 1.5rem;
-        height: 1.5rem;
-
-        top: calc(50% - 0.75rem);
-
-        font-family: "Font Awesome 7 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-        line-height: 1.5rem;
-
-        border: none;
-      }
-    }
-
-    &__details[open] .tna-details__summary {
-      &::before {
-        content: "\f068";
-        content: "\f068" / "";
-
-        top: calc(50% - 0.75rem);
-
-        line-height: 1.5rem;
-
-        border: none;
-      }
-    }
-
-    &__content {
-      max-height: 30rem;
-      margin-left: calc(
-        #{spacing.space(1)} + #{bordersVars.$thick-border-width}
-      );
-      padding-right: spacing.space(2);
-      padding-bottom: spacing.space(2);
-      padding-left: spacing.space(1);
-
-      overflow: auto;
-
-      background:
-        radial-gradient(
-          ellipse 50% #{tables.$table-overflow-shadow-width} at center top,
-          var(--left-fade),
-          rgb(0 0 0 / 0%)
-        ),
-        radial-gradient(
-            ellipse 50% #{tables.$table-overflow-shadow-width} at center bottom,
-            var(--right-fade),
-            rgb(0 0 0 / 0%)
-          )
-          transparent;
-
-      border-radius: 0.1px;
-      @include colour.thick-keyline(left);
-
-      animation: scrollfade linear;
-      animation-timeline: --scrollfade;
-
-      scroll-timeline: --scrollfade y;
-
-      &::before {
-        visibility: hidden;
-      }
-    }
-
-    .tna-dl dt {
-      .tna-button {
-        width: 100%;
-
-        position: sticky;
-        top: spacing.space(1);
-      }
-    }
-
-    .tna-ol {
-      > li + li {
-        margin-top: spacing.space(1);
-      }
-    }
-  }
-
-  .media-chapter {
-    margin-top: spacing.space(0.5);
-  }
-}
+//     @include colour.colour-background("button-accented-background");
+
+//     @include borders.rounded-border;
+//     @include colour.colour-border(
+//       "button-accented-background",
+//       button.$button-border-width
+//     );
+
+//     transition: none;
+
+//     .vjs-svg-icon {
+//       width: 1.5em;
+//       height: 1.5em;
+//       @include colour.colour-font("button-accented-text");
+//     }
+//   }
+
+//   &:hover .vjs-big-play-button {
+//     @include colour.colour-background("contrast-button-background");
+
+//     .vjs-svg-icon {
+//       @include colour.colour-font("base-font-dark");
+//     }
+//   }
+
+//   .vjs-control-bar {
+//     height: $videojs-control-bar-height;
+
+//     z-index: 2;
+
+//     background-color: rgb(0 0 0 / 65%);
+//   }
+
+//   &.etna-video--youtube {
+//     aspect-ratio: 16/9;
+
+//     .vjs-control-bar {
+//       @include colour.colour-background("contrast-background");
+//     }
+//   }
+// }
+
+// .vjs-texttrack-settings {
+//   display: none;
+// }
+
+// .etna-media-block {
+//   @include spacing.space-above;
+
+//   .tna-aside:has(+ &__transcript) {
+//     border-bottom-left-radius: 0;
+//     border-bottom-right-radius: 0;
+//   }
+
+//   &__transcript {
+//     padding-top: spacing.space(1);
+//     padding-left: spacing.space(1);
+
+//     overflow-wrap: break-word;
+
+//     border-radius: 0 0 bordersVars.$rounded-border-radius
+//       bordersVars.$rounded-border-radius;
+//   }
+
+//   .tna-details {
+//     &__summary {
+//       margin-bottom: spacing.space(1);
+//       padding-top: 0;
+//       padding-bottom: 0;
+
+//       &::before {
+//         content: "\2b";
+//         content: "\2b" / "";
+
+//         width: 1.5rem;
+//         height: 1.5rem;
+
+//         top: calc(50% - 0.75rem);
+
+//         font-family: "Font Awesome 7 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+//         line-height: 1.5rem;
+
+//         border: none;
+//       }
+//     }
+
+//     &__details[open] .tna-details__summary {
+//       &::before {
+//         content: "\f068";
+//         content: "\f068" / "";
+
+//         top: calc(50% - 0.75rem);
+
+//         line-height: 1.5rem;
+
+//         border: none;
+//       }
+//     }
+
+//     &__content {
+//       max-height: 30rem;
+//       margin-left: calc(
+//         #{spacing.space(1)} + #{bordersVars.$thick-border-width}
+//       );
+//       padding-right: spacing.space(2);
+//       padding-bottom: spacing.space(2);
+//       padding-left: spacing.space(1);
+
+//       overflow: auto;
+
+//       background:
+//         radial-gradient(
+//           ellipse 50% #{tables.$table-overflow-shadow-width} at center top,
+//           var(--left-fade),
+//           rgb(0 0 0 / 0%)
+//         ),
+//         radial-gradient(
+//             ellipse 50% #{tables.$table-overflow-shadow-width} at center bottom,
+//             var(--right-fade),
+//             rgb(0 0 0 / 0%)
+//           )
+//           transparent;
+
+//       border-radius: 0.1px;
+//       @include colour.thick-keyline(left);
+
+//       animation: scrollfade linear;
+//       animation-timeline: --scrollfade;
+
+//       scroll-timeline: --scrollfade y;
+
+//       &::before {
+//         visibility: hidden;
+//       }
+//     }
+
+//     .tna-dl dt {
+//       .tna-button {
+//         width: 100%;
+
+//         position: sticky;
+//         top: spacing.space(1);
+//       }
+//     }
+
+//     .tna-ol {
+//       > li + li {
+//         margin-top: spacing.space(1);
+//       }
+//     }
+//   }
+
+//   .media-chapter {
+//     margin-top: spacing.space(0.5);
+//   }
+// }
 
 .youtube-embed {
   width: 100%;

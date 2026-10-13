@@ -24,10 +24,14 @@
           {%- endif %}
         </div>
       </div>
-      <audio id="{{ id }}" class="etna-audio video-js" data-title="{{ block_value.title }}" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
-        <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
-      </audio>
+      <audio-player class="tna-!--margin-top-s" role="region" aria-label="Audio: {{ block_value.title }}">
+        <audio-neutral-skin style="--media-scale-unit: 1rem">
+          <audio id="media-{{ id }}" class="etna-audio video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+            <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
+            <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
+          </audio>
+        </audio-neutral-skin>
+      </audio-player>
     </div>
     {%- elif block_value.media.type == 'video' %}
     <div class="tna-aside tna-background-contrast">
@@ -37,19 +41,26 @@
           {{ block_value.title }}
         </h{{ itemHeadingLevel }}>
       </hgroup>
+      {%- if block_value.media.description %}
       <div itemprop="description" class="tna-!--margin-top-s">
         {{ block_value.media.description | tna_html | safe }}
       </div>
-      <video id="{{ id }}" class="etna-video etna-video--selfhosted video-js" data-title="{{ block_value.title }}"{% if block_value.thumbnail %} data-poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %} controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
-        <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
-        {% if block_value.media.subtitles_file %}
-        <track kind="captions" src="{{ block_value.media.subtitles_file }}" srclang="en" label="English" default>
-        {% endif %}
-        {% if block_value.media.chapters_file %}
-        <track kind="chapters" src="{{ block_value.media.chapters_file }}" srclang="en">
-        {% endif %}
-        <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.url }}">Download the video file</a>.</p>
-      </video>
+      {%- endif %}
+      <video-player class="tna-!--margin-top-s" role="region" aria-label="Video: {{ block_value.title }}"{% if block_value.thumbnail %} poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %}>
+        <video-neutral-skin style="--media-scale-unit: 1rem; --media-border-radius: 2px">
+          <video id="media-{{ id }}" class="etna-video etna-video--selfhosted video-js" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+            <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
+            {% if block_value.media.subtitles_file %}
+            <track kind="captions" src="{{ block_value.media.subtitles_file }}" srclang="en" label="English" default>
+            {% endif %}
+            {% if block_value.media.chapters_file %}
+            <track kind="chapters" src="{{ block_value.media.chapters_file }}" srclang="en">
+            {% endif %}
+            <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.url }}">Download the video file</a>.</p>
+          </video>
+        </video-neutral-skin>
+      </video-player>
+      
       {% if block_value.thumbnail %}
       <meta itemprop="thumbnailUrl" content="{{ block_value.thumbnail.jpeg.full_url }}">
       {% endif %}
@@ -65,7 +76,7 @@
             <ol class="tna-ol tna-ol--spaced tna-ol--plain">
               {%- for chapter in block_value.media.chapters %}
               <li>
-                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}" hidden>
+                <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="media-{{ id }}" hidden>
                   <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_duration }} - {{ chapter.heading }}</span>
                 </button>

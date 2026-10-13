@@ -10,9 +10,9 @@
   "dependencies": {
     "@nationalarchives/frontend": "1.4.1",
     "@sentry/browser": "^10.17.0",
-    "prismjs": "^1.30.0",
-    "video.js": "8.23.7",
-    "videojs-youtube": "^3.0.1"
+    "@videojs/html": "^10.0.1",
+    "@videojs/youtube-video": "^10.0.1",
+    "prismjs": "^1.30.0"
   },
   "devDependencies": {
     "@babel/core": "^8.0.0",
