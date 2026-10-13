@@ -86,87 +86,64 @@
       {{ tnaCard(card_content) }}
     </div>
 
-    {%- if page_data.featured_teaching_resource or page_data.featured_education_session %}
+    {%- if page_data.featured_page %}
     <div class="tna-column tna-column--full tna-!--margin-top-m">
-      <h2 class="tna-heading-l">Featured {{ 'teaching resource' if page_data.featured_teaching_resource else 'education session' }}</h2>
+      <h2 class="tna-heading-l">Featured {{ page_data.featured_page.type_label | lower}}</h2>
       {% set card_content = {
+        'supertitle': page_data.featured_page.type_label,
+          'title': page_data.featured_page.title,
+          'href': page_data.featured_page.url,
         'headingLevel': 3,
         'headingSize': 'l',
+        'text': page_data.featured_page.teaser_text,
         'fullAreaClick': True,
         'horizontal': True,
         'style': 'accent'
       } %}
-      {%- if page_data.featured_teaching_resource %}
+      {%- if page_data.featured_page.teaser_image %}
         {% set card_content = dict(card_content, **{
-          'supertitle': page_data.featured_teaching_resource.type_label,
-          'title': page_data.featured_teaching_resource.title,
-          'href': page_data.featured_teaching_resource.url,
-          'meta': [
+          'imageSrc': page_data.featured_page.teaser_image.jpeg.full_url,
+          'imageAlt': page_data.featured_page.teaser_image.description,
+          'imageWidth': page_data.featured_page.teaser_image.jpeg.width,
+          'imageHeight': page_data.featured_page.teaser_image.jpeg.height,
+          'imageSources': [
             {
-              'title': 'Age range',
-              'text': page_data.featured_teaching_resource.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
-              'icon': 'person-chalkboard'
+              'src': page_data.featured_page.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': page_data.featured_page.teaser_image.webp.width,
+              'height': page_data.featured_page.teaser_image.webp.height
             }
-          ] if page_data.featured_teaching_resource.key_stages else None,
-          'text': page_data.featured_teaching_resource_teaser_override or page_data.featured_teaching_resource.teaser_text
+          ]
         }) %}
-        {%- if page_data.featured_teaching_resource.teaser_image %}
-          {% set card_content = dict(card_content, **{
-            'imageSrc': page_data.featured_teaching_resource.teaser_image.jpeg.full_url,
-            'imageAlt': page_data.featured_teaching_resource.teaser_image.description,
-            'imageWidth': page_data.featured_teaching_resource.teaser_image.jpeg.width,
-            'imageHeight': page_data.featured_teaching_resource.teaser_image.jpeg.height,
-            'imageSources': [
-              {
-                'src': page_data.featured_teaching_resource.teaser_image.webp.full_url,
-                'type': 'image/webp',
-                'width': page_data.featured_teaching_resource.teaser_image.webp.width,
-                'height': page_data.featured_teaching_resource.teaser_image.webp.height
-              }
-            ]
-          }) %}
-        {%- endif %}
-      {%- elif page_data.featured_education_session %}
-        {% set card_content = dict(card_content, **{
-          'supertitle': page_data.featured_education_session.type_label,
-          'title': page_data.featured_education_session.title,
-          'href': page_data.featured_education_session.url,
-          'meta': [
-            {
-              'title': 'Age range',
-              'text': page_data.featured_education_session.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
-              'icon': 'person-chalkboard'
-            } if page_data.featured_education_session.key_stages else None,
-            {
-              'title': 'Date',
-              'text': pretty_date_range(page_data.featured_education_session.start_date, page_data.featured_education_session.end_date) if page_data.featured_education_session.start_date or page_data.featured_education_session.end_date else 'All year',
-              'icon': 'calendar'
-            },
-            {
-              'title': 'Locations',
-              'text': 'Various locations' if (page_data.featured_education_session.session_locations | length) > 1 else ((page_data.featured_education_session.session_locations | map(attribute='venue_name') | first) or (page_data.featured_education_session.session_locations | map(attribute='location_type_display') | first)),
-              'icon': 'location-dot'
-            } if (page_data.featured_education_session.session_locations | length) > 0 else None
-          ] if page_data.featured_education_session.key_stages or (page_data.featured_education_session.start_date or page_data.featured_education_session.end_date or page_data.featured_education_session.session_locations) else None,
-          'text': page_data.featured_education_session_teaser_override or page_data.featured_education_session.teaser_text
-        }) %}
-        {%- if page_data.featured_education_session.teaser_image %}
-          {% set card_content = dict(card_content, **{
-            'imageSrc': page_data.featured_education_session.teaser_image.jpeg.full_url,
-            'imageAlt': page_data.featured_education_session.teaser_image.description,
-            'imageWidth': page_data.featured_education_session.teaser_image.jpeg.width,
-            'imageHeight': page_data.featured_education_session.teaser_image.jpeg.height,
-            'imageSources': [
-              {
-                'src': page_data.featured_education_session.teaser_image.webp.full_url,
-                'type': 'image/webp',
-                'width': page_data.featured_education_session.teaser_image.webp.width,
-                'height': page_data.featured_education_session.teaser_image.webp.height
-              }
-            ]
-          }) %}
-        {%- endif %}
       {%- endif %}
+
+      {%- set card_meta = [] %}
+      {%- if page_data.featured_page.key_stages %}
+        {% do card_meta.append({
+          'title': 'Age range',
+          'text': page_data.featured_page.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
+          'icon': 'person-chalkboard'
+        }) %}
+      {%- endif %}
+      {%- if page_data.featured_page.start_date or page_data.featured_page.end_date %}
+        {% do card_meta.append({
+          'title': 'Date',
+          'text': pretty_date_range(page_data.featured_page.start_date, page_data.featured_page.end_date) if page_data.featured_page.start_date or page_data.featured_page.end_date else 'All year',
+          'icon': 'calendar'
+        }) %}
+      {%- endif %}
+      {%- if page_data.featured_page.session_locations %}
+        {% do card_meta.append({
+          'title': 'Locations',
+          'text': 'Various locations' if (page_data.featured_page.session_locations | length) > 1 else ((page_data.featured_page.session_locations | map(attribute='venue_name') | first) or (page_data.featured_page.session_locations | map(attribute='location_type_display') | first)),
+          'icon': 'location-dot'
+        }) %}
+      {%- endif %}
+
+      {%- if card_meta %}
+        {% set card_content = dict(card_content, **{'meta': card_meta}) %}
+      {%- endif %}
+
       {{ tnaCard(card_content) }}
     </div>
     {%- endif %}
