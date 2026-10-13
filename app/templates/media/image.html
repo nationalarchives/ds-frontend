@@ -78,6 +78,23 @@
         }) }}
       </div>
 
+      {%- if image_data.alternative_format %}
+      {%- set alternative_format_titles = {
+        'transcript-with-tables': 'Download the transcript with tables'
+      } %}
+      <h2 class="tna-heading-l tna-!--hide-on-print">Alternative format</h2>
+      <div class="tna-button-group tna-!--hide-on-print">
+        {{ tnaButton({
+          'text': alternative_format_titles[image_data.alternative_format_heading] | default('file'),
+          'href': image_data.alternative_format,
+          'icon': 'download',
+          'attributes': {
+            'download': (image_data.title ~ '-' ~ image_data.alternative_format_heading) | slugify
+          }
+        }) }}
+      </div>
+      {%- endif %}
+
       <div class="tna-aside tna-aside--tight tna-background-accent-light">
         <h2 class="tna-heading-m">Technical details</h2>
         <dl class="tna-dl tna-!--margin-top-s">
