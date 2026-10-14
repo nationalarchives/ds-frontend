@@ -98,7 +98,11 @@ abbr {
 }
 
 .etna-background-accent-light-half {
-  background: linear-gradient(to bottom, var(--accent-background-light) 50%, transparent 50%);
+  background: linear-gradient(
+    to bottom,
+    var(--accent-background-light) 50%,
+    transparent 50%
+  );
 }
 
 :first-child[hidden] {
