@@ -98,21 +98,7 @@ abbr {
 }
 
 .etna-background-accent-light-half {
-  position: relative;
-
-  &::before {
-    content: "";
-
-    height: 50%;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: -1;
-
-    @include colour.accent-light;
-  }
+  background: linear-gradient(to bottom, var(--accent-background-light) 50%, transparent 50%);
 }
 
 :first-child[hidden] {
