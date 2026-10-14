@@ -63,21 +63,30 @@
         <meta itemprop="acquireLicensePage" content="https://www.nationalarchives.gov.uk/legal/copyright/image-reproduction/">
         {%- if not image_data.copyright %}
         {{ tnaButton({
-          'text': 'Download this image',
+          'text': 'Download image',
           'href': image_data.jpeg.full_url,
           'icon': 'download',
           'attributes': {
-            'download': image_data.title | slugify
+            'download': (image_data.title | slugify) ~ '.jpg'
+          }
+        }) }}
+        {%- endif %}
+        {%- if image_data.alternative_format_data %}
+        {{ tnaButton({
+          'text': 'Download ' ~ (image_data.alternative_format_data.heading | lower),
+          'href': image_data.alternative_format_data.full_url,
+          'plain': True,
+          'attributes': {
+            'download': ((image_data.title ~ '-' ~ image_data.alternative_format_data.heading) | slugify) ~ '.' ~ image_data.alternative_format_data.file_type
           }
         }) }}
         {%- endif %}
         {{ tnaButton({
           'text': 'Using this image',
           'href': 'https://www.nationalarchives.gov.uk/terms-and-conditions/copyright/#heading-image-reproduction-e6ae3856-756b-4c35-8b13-fe452e6afc6c',
-          'plain': not image_data.copyright
+          'plain': not image_data.copyright or image_data.alternative_format_data
         }) }}
       </div>
-
       <div class="tna-aside tna-aside--tight tna-background-accent-light">
         <h2 class="tna-heading-m">Technical details</h2>
         <dl class="tna-dl tna-!--margin-top-s">
