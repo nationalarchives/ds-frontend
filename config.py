@@ -106,8 +106,8 @@ class Production(Features):
         "/image/",
         "/information-management/",
         "/maintenance/",
-        "/merlin/",
         "/mi5-official-secrets/",
+        "/news/"
         "/people/",
         "/professional-guidance-and-services/",
         "/strategy-2025-2030/",
