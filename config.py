@@ -107,7 +107,7 @@ class Production(Features):
         "/information-management/",
         "/maintenance/",
         "/mi5-official-secrets/",
-        "/news/"
+        "/news/",
         "/people/",
         "/professional-guidance-and-services/",
         "/strategy-2025-2030/",
