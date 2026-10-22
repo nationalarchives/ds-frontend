@@ -1,5 +1,5 @@
 import math
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 
 from flask import current_app, render_template, request
 from pydash import objects
@@ -42,7 +42,7 @@ def blog_page(page_data, year=None, month=None, day=None):
                 f"Year {year} is not a positive integer for page {page_data['id']}"
             )
             return bad_request_error()
-        if year > datetime.now(tz=timezone.utc).year:
+        if year > datetime.now(tz=UTC).year:
             current_app.logger.warning(
                 f"Year {year} is in the future for page {page_data['id']}"
             )

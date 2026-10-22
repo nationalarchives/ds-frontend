@@ -1,6 +1,6 @@
 import json
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from urllib.parse import quote_plus, unquote, urlparse
 
 from markdownify import markdownify
@@ -114,17 +114,17 @@ def month_year(s):
     if not s:
         return s
     try:
-        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        date = datetime.strptime(s, "%Y-%m-%d").replace(tzinfo=UTC)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=timezone.utc)
+        date = datetime.strptime(s, "%Y-%m").replace(tzinfo=UTC)
         return date.strftime("%B %Y")
     except ValueError:
         pass
     try:
-        date = datetime.strptime(s, "%Y").replace(tzinfo=timezone.utc)
+        date = datetime.strptime(s, "%Y").replace(tzinfo=UTC)
         return date.strftime("%Y")
     except ValueError:
         pass
