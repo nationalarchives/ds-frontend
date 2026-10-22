@@ -13,16 +13,16 @@
       <dl class="tna-dl tna-dl--zebra">
         <dt>{{ page_data.blogs_index.title }} (all posts)</dt>
         <dd>
-          <a href="{{ page_data.blogs_index.url }}" aria-label="{{ page_data.blogs_index.title }}" title="{{ page_data.blogs_index.title }}">HTML</a> |
-          <a href="{{ url_for('feeds.rss_all_feed') }}" aria-label="RSS feed for all blogs" title="RSS feed for all blogs">RSS</a> |
-          <a href="{{ url_for('feeds.rss_all_feed', format='atom') }}" aria-label="Atom feed for all blogs" title="Atom feed for all blogs">Atom</a>
+          <a href="{{ page_data.blogs_index.url }}" aria-label="{{ page_data.blogs_index.title }} - HTML">HTML</a> |
+          <a href="{{ url_for('feeds.rss_all_feed') }}" aria-label="RSS feed for all blogs">RSS</a> |
+          <a href="{{ url_for('feeds.rss_all_feed', format='atom') }}" aria-label="Atom feed for all blogs">Atom</a>
         </dd>
         {%- for blog in page_data.blogs %}
         <dt>{{ blog.title }}</dt>
         <dd>
-          <a href="{{ blog.url }}" aria-label="{{ blog.title }}" title="{{ blog.title }}">HTML</a> |
-          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" aria-label="{{ blog.title }} RSS feed" title="{{ blog.title }} RSS feed">RSS</a> |
-          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" aria-label="{{ blog.title }} Atom feed" title="{{ blog.title }} Atom feed">Atom</a>
+          <a href="{{ blog.url }}" aria-label="{{ blog.title }} - HTML">HTML</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id) }}" aria-label="{{ blog.title }} RSS feed">RSS</a> |
+          <a href="{{ url_for('feeds.rss_feed', blog_id=blog.id, format='atom') }}" aria-label="{{ blog.title }} Atom feed">Atom</a>
         </dd>
         {%- endfor %}
       </dl>

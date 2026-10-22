@@ -40,7 +40,7 @@
 <div class="tna-background-accent-light">
   {{ global_alert_banners(global_alert.global_alert, global_alert.mourning_notice) }}
   <div class="tna-!--padding-top-m tna-!--padding-bottom-l">
-    <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search">
+    <form class="tna-container" method="get" action="{{ url_for('wagtail.search_explore_the_collection') }}" role="search" aria-label="Explore the collection search form">
       <div class="tna-column tna-column--width-3-4 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
         {{ tnaSearchField({
           'label': 'Search Explore the collection',
