@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from flask import current_app, render_template, request
 from markupsafe import escape
@@ -15,7 +15,7 @@ ERROR_PAGE_TITLES = {
     "page_archived": "Page no longer exists",
     "rate_limited": "Too many requests",
     "server": "There is a problem with the service",
-    "service_down": "Service unavailable",
+    "service_down": "Sorry, the service is unavailable",
 }
 
 
@@ -87,7 +87,7 @@ def page_not_found_error(internal_error=False):
         ), 404
 
     timestamp = result["timestamp"]
-    dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+    dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S").replace(tzinfo=UTC)
     last_archived_date = dt.strftime("%Y-%m-%d")
     last_archived_date_pretty = pretty_date(dt)
     last_archived_age = pretty_age(dt)
