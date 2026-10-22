@@ -15,7 +15,7 @@ ERROR_PAGE_TITLES = {
     "page_archived": "Page no longer exists",
     "rate_limited": "Too many requests",
     "server": "There is a problem with the service",
-    "service_down": "Service unavailable",
+    "service_down": "Sorry, the service is unavailable",
 }
 
 
