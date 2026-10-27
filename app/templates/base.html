@@ -6,9 +6,7 @@
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 
-{%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
-{# Explicitly set light mode until more pages support dark mode #}
-{%- set theme = 'light' -%}
+{%- set theme = request.cookies.get('theme') if request.cookies.get('theme') in ['light', 'dark'] else 'system' -%}
 {%- set themeAccent = themeAccent or 'green' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
@@ -114,7 +112,7 @@
 
 {% block footer %}
 {{ tnaFooter({
-  'themeSelector': False,
+  'themeSelector': True,
   'currentTheme': theme,
   'defaultContent': True,
   'classes': 'tna-!--margin-top-l'
