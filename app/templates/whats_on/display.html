@@ -57,7 +57,7 @@
   <section class="tna-background-tint">
     {%- set hero_intro %}
       {%- if page_data.subtitle %}
-        <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.subtitle | tna_html | safe }}</div>
+        <div class="tna-large-paragraph">{{ page_data.subtitle | tna_html | safe }}</div>
       {%- endif %}
       {%- if page_data.start_date or page_data.end_date or page_data.price %}
         <dl class="tna-dl-chips tna-dl-chips--plain">
