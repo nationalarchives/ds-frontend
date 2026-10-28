@@ -123,9 +123,7 @@ class ExternalRedirectTestCase(WagtailRoutesTestCase):
         redirect_request = next(
             r for r in m.request_history if "/redirects/find/" in r.url
         )
-        self.assertEqual(
-            redirect_request.qs["html_path"], ["/foobar?a=2&m=3&z=1"]
-        )
+        self.assertEqual(redirect_request.qs["html_path"], ["/foobar?a=2&m=3&z=1"])
 
     @requests_mock.Mocker()
     def test_not_found_when_webarchive_fails(self, m):
@@ -206,9 +204,7 @@ class MediaTestCase(WagtailRoutesTestCase):
         self.mock_webarchive(m)
         for api_status, expected in ((404, 404), (403, 403), (500, 502)):
             with self.subTest(api_status=api_status):
-                m.get(
-                    f"{self.api}/media/{self.uuid}/", json={}, status_code=api_status
-                )
+                m.get(f"{self.api}/media/{self.uuid}/", json={}, status_code=api_status)
                 rv = self.client.get(f"/video/{self.uuid}/")
                 self.assertEqual(rv.status_code, expected)
 
@@ -239,9 +235,7 @@ class ExploreTheCollectionSearchTestCase(WagtailRoutesTestCase):
     def test_invalid_page_number(self):
         for page in ("abc", "0", "-1"):
             with self.subTest(page=page):
-                rv = self.client.get(
-                    f"/explore-the-collection/search/?page={page}"
-                )
+                rv = self.client.get(f"/explore-the-collection/search/?page={page}")
                 self.assertEqual(rv.status_code, 400)
 
     @requests_mock.Mocker()
