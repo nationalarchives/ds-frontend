@@ -131,6 +131,7 @@ class ExternalRedirectTestCase(WagtailRoutesTestCase):
         self.mock_webarchive(m, 500)
         rv = self.client.get("/foobar/")
         self.assertEqual(rv.status_code, 404)
+        self.assertEqual(rv.headers["Cache-Control"], "no-store")
 
 
 class PreviewTestCase(WagtailRoutesTestCase):

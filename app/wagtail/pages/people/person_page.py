@@ -2,7 +2,6 @@ import math
 
 from flask import current_app, render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration_cloudfront
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -15,7 +14,6 @@ from app.lib.pagination import pagination
 from app.wagtail.api import authored_pages_paginated
 
 
-@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def person_page(page_data):
     articles_preview_list = 4
     articles_per_page = 12

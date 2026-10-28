@@ -4,7 +4,11 @@ from urllib.parse import quote, unquote, urlparse
 from flask import current_app, redirect, render_template, request, url_for
 from pydash import objects
 from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
-from tna_utilities.flask import cacheable_duration_cloudfront
+from tna_utilities.flask import (
+    cacheable_duration,
+    cacheable_duration_cloudfront,
+    do_not_cache,
+)
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -34,6 +38,7 @@ from .api import (
 
 
 @bp.route("/preview/")
+@do_not_cache()
 def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
@@ -58,6 +63,7 @@ def preview_page():
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
+@do_not_cache()
 def preview_protected_page(page_id):
     """
     Renders a preview of a Wagtail page that is password protected.
@@ -237,6 +243,7 @@ def try_external_redirect(path):
 
 
 @bp.route("/<any(video,audio):media_type>/<uuid:media_uuid>/")
+@cacheable_duration_cloudfront(3600, 86400, 60, 86400)
 def audio_video_page(media_type, media_uuid):
     """
     Renders a video details page.
@@ -266,6 +273,7 @@ def audio_video_page(media_type, media_uuid):
 
 
 @bp.route("/image/<uuid:image_uuid>/")
+@cacheable_duration_cloudfront(3600, 86400, 60, 86400)
 def image_page(image_uuid):
     """
     Renders an image details page.
@@ -287,7 +295,7 @@ def image_page(image_uuid):
 
 @bp.route("/og/", defaults={"page_path": ""})
 @bp.route("/og/<path:page_path>/")
-@cacheable_duration_cloudfront(3600, 86400, 60, 3600)
+@cacheable_duration(86400)
 def og_image(page_path):
     try:
         page_data = page_details_by_uri(unquote(f"/{page_path}/"))
