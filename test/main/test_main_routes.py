@@ -96,14 +96,18 @@ class MainBlueprintTestCase(unittest.TestCase):
             rv = c.get("/robots.txt")
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=14400")
+            self.assertEqual(
+                rv.headers["Cache-Control"], "public, no-cache, s-maxage=14400"
+            )
 
     def test_manifest(self):
         with self.client as c:
             rv = c.get("/manifest.json")
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=14400")
+            self.assertEqual(
+                rv.headers["Cache-Control"], "public, no-cache, s-maxage=14400"
+            )
 
     def test_set_cookies(self):
         with self.client as c:
