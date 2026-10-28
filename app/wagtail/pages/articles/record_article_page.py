@@ -1,10 +1,10 @@
 from flask import render_template
-from tna_utilities.flask import set_cache_control
+from tna_utilities.flask import cacheable_duration_cloudfront
 
 from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
 
 
-@set_cache_control("public, no-cache, s-maxage=3600")
+@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def record_article_page(page_data):
     topics = pages_to_index_grid_items(page_data["topics"])
     time_periods = pages_to_index_grid_items(page_data["time_periods"])

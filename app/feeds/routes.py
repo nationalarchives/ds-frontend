@@ -1,7 +1,7 @@
 from flask import current_app, make_response, render_template, request, url_for
 from pydash import objects
 from tna_utilities.api import ResourceNotFoundError
-from tna_utilities.flask import set_cache_control
+from tna_utilities.flask import cacheable_duration_cloudfront
 
 from app.error_pages.routes import bad_gateway_error, page_not_found_error
 from app.feeds import bp
@@ -13,7 +13,7 @@ from app.wagtail.api import (
 
 
 @bp.route("/blogs.xml")
-@set_cache_control("public, no-cache, s-maxage=14400")
+@cacheable_duration_cloudfront(3600, 14400, 60, 3600)
 def rss_all_feed():
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
@@ -38,7 +38,7 @@ def rss_all_feed():
 
 
 @bp.route("/blogs/<int:blog_id>.xml")
-@set_cache_control("public, no-cache, s-maxage=14400")
+@cacheable_duration_cloudfront(3600, 14400, 60, 3600)
 def rss_feed(blog_id):
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
