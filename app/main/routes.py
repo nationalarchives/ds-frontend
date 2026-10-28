@@ -7,7 +7,6 @@ from flask import (
     current_app,
     make_response,
     redirect,
-    render_template,
     request,
     send_from_directory,
 )
@@ -17,7 +16,6 @@ from werkzeug.exceptions import NotFound
 
 from app.error_pages.routes import page_not_found_error
 from app.main import bp
-from app.wagtail.api import global_alerts
 
 
 @bp.route("/healthcheck/live/")
@@ -30,12 +28,6 @@ def healthcheck():
 @do_not_cache()
 def healthcheck_version():
     return current_app.config["BUILD_VERSION"]
-
-
-@bp.route("/merlin/")
-@set_cache_control("public, no-cache, s-maxage=3600")
-def merlin():
-    return render_template("main/merlin.html", global_alert=global_alerts())
 
 
 @bp.route("/cookies/set/", methods=["POST"])
