@@ -4,7 +4,6 @@ from flask import make_response, render_template, request
 from pydash import objects
 
 
-# @cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def education_teaching_resource_page(page_data):
     alphabet = list("abcdefghijklmnopqrstuvwxyz")
     if "sources" in request.args:

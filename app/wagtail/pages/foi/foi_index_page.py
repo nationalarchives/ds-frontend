@@ -2,7 +2,6 @@ import math
 
 from flask import current_app, render_template, request
 from tna_utilities.datetime import group_by_year_and_month
-from tna_utilities.flask import cacheable_duration_cloudfront
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -15,7 +14,6 @@ from app.lib.pagination import pagination
 from app.wagtail.api import foi_requests
 
 
-@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def foi_index_page(page_data):
     children_per_page = 50
     page = 1

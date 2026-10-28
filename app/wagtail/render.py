@@ -1,5 +1,6 @@
 from flask import current_app, make_response
 from pydash import objects
+from tna_utilities.flask import cacheable_duration_cloudfront
 
 from app.error_pages.routes import bad_gateway_error, page_not_found_error
 
@@ -99,6 +100,7 @@ page_type_templates = {
 }
 
 
+@cacheable_duration_cloudfront(300, 86400, 60, 86400)
 def render_content_page(page_data):
     page_type = objects.get(page_data, "meta.type")
     if page_type:

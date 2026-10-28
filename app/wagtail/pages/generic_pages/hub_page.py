@@ -1,11 +1,9 @@
 from flask import current_app, render_template
-from tna_utilities.flask import cacheable_duration_cloudfront
 
 from app.error_pages.routes import bad_gateway_error, server_error
 from app.wagtail.api import page_children
 
 
-@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def hub_page(page_data):
     children = []
     if not page_data["links"]:

@@ -1,10 +1,8 @@
 from flask import render_template
-from tna_utilities.flask import cacheable_duration_cloudfront
 
 from app.wagtail.lib import pages_to_index_grid_items, pick_top_two
 
 
-@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def article_page_focused(page_data):
     topics = pages_to_index_grid_items(page_data["topics"])
     time_periods = pages_to_index_grid_items(page_data["time_periods"])

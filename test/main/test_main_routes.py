@@ -48,21 +48,21 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertIn("Policy: ", rv.text)
             self.assertIn("Expires: ", rv.text)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-cache")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
     def test_well_known_disclosure_policy(self):
         with self.client as c:
             rv = c.get("/.well-known/disclosure-policy.txt")
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-cache")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
     def test_well_known_thanks(self):
         with self.client as c:
             rv = c.get("/.well-known/thanks.txt")
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-cache")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
     def test_well_known_risky_paths(self):
         with self.client as c:
@@ -70,22 +70,22 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Contact: ", rv.text)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-cache")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
             rv = c.get("/.well-known/~/security.txt")
             self.assertEqual(rv.status_code, 404)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-store")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
             rv = c.get("/.well-known/../security.txt")
             self.assertEqual(rv.status_code, 404)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-store")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
             rv = c.get("/.well-known/~/.bashrc")
             self.assertEqual(rv.status_code, 404)
             self.assertIn("Cache-Control", rv.headers)
-            self.assertEqual(rv.headers["Cache-Control"], "no-store")
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
 
             rv = c.get("/.well-known//security.txt")
             self.assertEqual(rv.status_code, 308)
@@ -98,7 +98,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertIn("Cache-Control", rv.headers)
             self.assertEqual(
                 rv.headers["Cache-Control"],
-                "public, max-age=3600, s-maxage=14400, stale-while-revalidate=60, stale-if-error=3600",
+                "public, max-age=86400",
             )
 
     def test_manifest(self):
@@ -108,7 +108,7 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertIn("Cache-Control", rv.headers)
             self.assertEqual(
                 rv.headers["Cache-Control"],
-                "public, max-age=3600, s-maxage=14400, stale-while-revalidate=60, stale-if-error=3600",
+                "public, max-age=86400",
             )
 
     def test_set_cookies(self):

@@ -1,9 +1,7 @@
 from flask import render_template
 from tna_utilities.datetime import get_date_from_string
-from tna_utilities.flask import cacheable_duration_cloudfront
 
 
-@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def event_page(page_data):
     sessions_by_date_unsorted = {}
     for session in page_data.get("sessions", []):
