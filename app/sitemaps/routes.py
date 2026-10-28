@@ -9,7 +9,7 @@ from flask import (
     url_for,
 )
 from tna_utilities.datetime import get_date_from_string
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 
 from app.error_pages.routes import page_not_found_error
 from app.sitemaps import bp
@@ -17,7 +17,7 @@ from app.wagtail.api import all_pages_sitemap
 
 
 @bp.route("/sitemap.xml")
-@cacheable_duration(259200)
+@set_cache_control("public, no-cache, s-maxage=259200")
 def sitemap_index():
     sitemap_urls = []
     wagtail_pages = all_pages_sitemap(page=1, limit=1)
@@ -53,7 +53,7 @@ def sitemaps():
 
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
-@cacheable_duration(86400)
+@set_cache_control("public, no-cache, s-maxage=86400")
 def sitemap_dynamic(sitemap_page):
     exclude_urls = [
         "/maintenance/",

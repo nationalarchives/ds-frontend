@@ -4,7 +4,7 @@ from urllib.parse import quote, unquote, urlparse
 from flask import current_app, redirect, render_template, request, url_for
 from pydash import objects
 from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -287,7 +287,7 @@ def image_page(image_uuid):
 
 @bp.route("/og/", defaults={"page_path": ""})
 @bp.route("/og/<path:page_path>/")
-@cacheable_duration(86400)
+@set_cache_control("public, no-cache, s-maxage=86400")
 def og_image(page_path):
     try:
         page_data = page_details_by_uri(unquote(f"/{page_path}/"))

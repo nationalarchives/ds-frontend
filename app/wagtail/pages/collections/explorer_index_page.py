@@ -1,7 +1,7 @@
 from flask import render_template
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 
 
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def explorer_index_page(page_data):
     return render_template("explore_the_collection/index.html", page_data=page_data)

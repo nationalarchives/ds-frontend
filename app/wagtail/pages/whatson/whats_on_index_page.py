@@ -1,10 +1,10 @@
 from flask import render_template
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 
 from app.wagtail.api import page_children
 
 
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def whats_on_index_page(page_data):
     all_children = page_children(page_data["id"]).get("items", [])
     groups = {

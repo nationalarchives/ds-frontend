@@ -3,7 +3,7 @@ from urllib.parse import unquote
 
 from flask import current_app, render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -104,11 +104,11 @@ def education_listing_page(page_data, api_endpoint):
     )
 
 
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def education_sessions_listing_page(page_data):
     return education_listing_page(page_data, "education/sessions")
 
 
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def education_teaching_resources_listing_page(page_data):
     return education_listing_page(page_data, "education/resources")

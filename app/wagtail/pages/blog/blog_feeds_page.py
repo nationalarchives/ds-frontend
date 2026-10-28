@@ -1,8 +1,8 @@
 from flask import render_template
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 
 
-@cacheable_duration(14400)
+@set_cache_control("public, no-cache, s-maxage=14400")
 def blog_feeds_page(page_data):
     return render_template(
         "feeds/blog.html",

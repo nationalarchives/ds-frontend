@@ -1,11 +1,11 @@
 from flask import current_app, render_template
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 
 from app.wagtail.api import page_children
 
 
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def general_page(page_data):
     page_siblings = []
     if (
