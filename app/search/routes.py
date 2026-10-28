@@ -3,7 +3,7 @@ from urllib.parse import unquote
 
 from flask import render_template, request
 from pydash import objects
-from tna_utilities.flask import set_cache_control
+from tna_utilities.flask import cacheable_duration_cloudfront
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import bad_request_error, page_not_found_error
@@ -13,7 +13,7 @@ from app.wagtail.api import global_alerts, search
 
 
 @bp.route("/")
-@set_cache_control("public, no-cache, s-maxage=3600")
+@cacheable_duration_cloudfront(3600, 3600, 60, 3600)
 def index():
     children_per_page = 12
     page = 1

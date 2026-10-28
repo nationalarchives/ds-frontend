@@ -97,7 +97,8 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Cache-Control", rv.headers)
             self.assertEqual(
-                rv.headers["Cache-Control"], "public, no-cache, s-maxage=14400"
+                rv.headers["Cache-Control"],
+                "public, max-age=3600, s-maxage=14400, stale-while-revalidate=60, stale-if-error=3600",
             )
 
     def test_manifest(self):
@@ -106,7 +107,8 @@ class MainBlueprintTestCase(unittest.TestCase):
             self.assertEqual(rv.status_code, 200)
             self.assertIn("Cache-Control", rv.headers)
             self.assertEqual(
-                rv.headers["Cache-Control"], "public, no-cache, s-maxage=14400"
+                rv.headers["Cache-Control"],
+                "public, max-age=3600, s-maxage=14400, stale-while-revalidate=60, stale-if-error=3600",
             )
 
     def test_set_cookies(self):

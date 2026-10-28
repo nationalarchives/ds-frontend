@@ -11,7 +11,7 @@ from flask import (
     send_from_directory,
 )
 from tna_utilities import strtobool
-from tna_utilities.flask import do_not_cache, set_cache_control
+from tna_utilities.flask import cacheable_duration_cloudfront, do_not_cache
 from werkzeug.exceptions import NotFound
 
 from app.error_pages.routes import page_not_found_error
@@ -128,19 +128,19 @@ def set_cookies():
 
 
 @bp.route("/service-worker.min.js")
-@set_cache_control("public, no-cache, s-maxage=14400")
+@cacheable_duration_cloudfront(3600, 14400, 60, 3600)
 def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
 @bp.route("/manifest.json")
-@set_cache_control("public, no-cache, s-maxage=14400")
+@cacheable_duration_cloudfront(3600, 14400, 60, 3600)
 def manifest():
     return current_app.send_static_file("manifest.json")
 
 
 @bp.route("/robots.txt")
-@set_cache_control("public, no-cache, s-maxage=14400")
+@cacheable_duration_cloudfront(3600, 14400, 60, 3600)
 def robots():
     return current_app.send_static_file("robots.txt")
 
