@@ -1,9 +1,9 @@
 from flask import render_template
 from tna_utilities.datetime import get_date_from_string
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import set_cache_control
 
 
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def event_page(page_data):
     sessions_by_date_unsorted = {}
     for session in page_data.get("sessions", []):

@@ -12,7 +12,7 @@ from flask import (
     send_from_directory,
 )
 from tna_utilities import strtobool
-from tna_utilities.flask import cacheable_duration, do_not_cache
+from tna_utilities.flask import do_not_cache, set_cache_control
 from werkzeug.exceptions import NotFound
 
 from app.error_pages.routes import page_not_found_error
@@ -33,7 +33,7 @@ def healthcheck_version():
 
 
 @bp.route("/merlin/")
-@cacheable_duration(3600)
+@set_cache_control("public, no-cache, s-maxage=3600")
 def merlin():
     return render_template("main/merlin.html", global_alert=global_alerts())
 
@@ -136,19 +136,19 @@ def set_cookies():
 
 
 @bp.route("/service-worker.min.js")
-@cacheable_duration(14400)
+@set_cache_control("public, no-cache, s-maxage=14400")
 def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
 @bp.route("/manifest.json")
-@cacheable_duration(14400)
+@set_cache_control("public, no-cache, s-maxage=14400")
 def manifest():
     return current_app.send_static_file("manifest.json")
 
 
 @bp.route("/robots.txt")
-@cacheable_duration(14400)
+@set_cache_control("public, no-cache, s-maxage=14400")
 def robots():
     return current_app.send_static_file("robots.txt")
 
