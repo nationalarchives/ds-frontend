@@ -103,6 +103,24 @@ abbr {
     var(--accent-background-light) 50%,
     transparent 50%
   );
+
+  .tna-template--dark-theme & {
+    background: linear-gradient(
+      to bottom,
+      var(--accent-background) 50%,
+      transparent 50%
+    );
+  }
+
+  .tna-template--system-theme & {
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(
+        to bottom,
+        var(--accent-background) 50%,
+        transparent 50%
+      );
+    }
+  }
 }
 
 :first-child[hidden] {
