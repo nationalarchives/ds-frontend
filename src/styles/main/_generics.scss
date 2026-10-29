@@ -81,22 +81,6 @@ abbr {
   overflow-wrap: anywhere;
 }
 
-.tna-background-accent,
-.tna-background-accent-light {
-  + .tna-background-accent,
-  + .tna-background-accent-light {
-    .tna-template--dark-theme & {
-      @include colour.colour-border("keyline", 1px, dotted, top);
-    }
-
-    .tna-template--system-theme & {
-      @media (prefers-color-scheme: dark) {
-        @include colour.colour-border("keyline", 1px, dotted, top);
-      }
-    }
-  }
-}
-
 .etna-background-accent-light-half {
   background: linear-gradient(
     to bottom,
