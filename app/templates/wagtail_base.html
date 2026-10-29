@@ -2,6 +2,7 @@
 
 {%- from 'macros/meta.html' import meta -%}
 
+{%- set htmlLang = page_data.meta.language | default('en') -%}
 {%- set themeAccent = 'black' if page_data.mourning_notice else (themeAccent or 'green') -%}
 {%- set pageTitle = pageTitle or page_data.short_title or page_data.title -%}
 {%- set og_title_prefix = og_title_prefix or None -%}
