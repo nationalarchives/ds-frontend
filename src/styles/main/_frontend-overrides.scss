@@ -27,6 +27,12 @@ dd {
   }
 }
 
+.tna-footer {
+  &__theme-selector-button.tna-button {
+    @include typography.main-font-weight-bold;
+  }
+}
+
 // .tna-ol {
 //   &--footnotes {
 //     @include typography.font-size(16);

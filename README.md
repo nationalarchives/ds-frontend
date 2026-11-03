@@ -63,8 +63,6 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `REDIRECT_WAGTAIL_ALIAS_PAGES`         | If true, redirect aliased Wagtail pages to the URI of their "original" page                          | `True`                                               |
 | `SERVE_WAGTAIL_PAGE_REDIRECTIONS`      | If true, forward Wagtail page redirects to the user rather than proxying                             | `True`                                               |
 | `SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS`  | If true, forward Wagtail redirects to external links                                                 | `True`                                               |
-| `FEATURE_LOGO_ADORNMENTS_CSS`          | An optional CSS file to include for logo adornments                                                  | _none_                                               |
-| `FEATURE_LOGO_ADORNMENTS_JS`           | An optional JS file to include for logo adornments                                                   | _none_                                               |
 | `WEBARCHIVE_BASE_URL`                  | The base URL of the web archive viewer                                                               | `https://webarchive.nationalarchives.gov.uk/ukgwa/+` |
 | `WEBARCHIVE_CDXJ_API_URL`              | The base URL of the web archive CDXJ API                                                             | `https://webarchive.nationalarchives.gov.uk/ukgwa`   |
 | `WEBARCHIVE_CDXJ_API_PATH`             | The path of the web archive CDXJ API                                                                 | `cdx`                                                |

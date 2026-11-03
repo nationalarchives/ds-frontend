@@ -183,8 +183,6 @@ def create_app(config_class):
             },
             "feature": {
                 "PHASE_BANNER": app.config["FEATURE_PHASE_BANNER"],
-                "LOGO_ADORNMENTS_CSS": app.config["FEATURE_LOGO_ADORNMENTS_CSS"],
-                "LOGO_ADORNMENTS_JS": app.config["FEATURE_LOGO_ADORNMENTS_JS"],
             },
         }
 

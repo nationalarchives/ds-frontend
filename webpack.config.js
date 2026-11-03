@@ -13,7 +13,6 @@ module.exports = {
     exhibition: "./src/scripts/exhibition.js",
     footnotes: "./src/scripts/footnotes.js",
     media: "./src/scripts/media.js",
-    offline: "./src/scripts/offline.js",
     "record-article": "./src/scripts/record-article.js",
     sentry: "./src/scripts/sentry.js",
     "service-worker": "./src/scripts/service-worker.js",
