@@ -10,6 +10,24 @@
 1. Pass the path to the API in order to find the page (`/api/v2/pages/find/?html_path=/explore-the-collection/`)
 1. API redirects to page details (`/api/v2/pages/5/`)
 
+The `get_requested_accept` decorator passes the negotiated media type to `page`
+as the `preferred_content_type` keyword argument and adds `Vary: Accept` to the
+response. Place it below the Flask route decorators so Flask registers the wrapped
+function. The supported types are `text/html` (the default) and `text/markdown`;
+negotiation uses Werkzeug's `request.accept_mimetypes.best_match`. Equally
+preferred matches with the same specificity use the supported-type order (HTML
+first), and entries with invalid quality values are ignored.
+If the header is missing or neither type is acceptable, the argument is `None`
+and the page falls back to HTML,
+including when all supported types have `q=0`, rather than returning `406`.
+Markdown responses convert only the rendered `<main>` element, or the whole HTML
+document if `<main>` is absent. An empty `<main>` produces empty Markdown.
+Response status codes, cache headers, repeated headers and existing `Vary` values
+are preserved; content type and length reflect the Markdown body. Redirects and
+error responses, including errors returned by the renderer, remain unchanged
+apart from adding `Accept` to `Vary`. Only successful responses are converted;
+validators and digests for the original HTML body are removed after conversion.
+
 ### Serving page logic
 
 ```mermaid

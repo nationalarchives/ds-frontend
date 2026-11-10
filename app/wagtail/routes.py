@@ -1,7 +1,16 @@
 import math
 from urllib.parse import quote, unquote, urlparse
 
-from flask import current_app, redirect, render_template, request, url_for
+from bs4 import BeautifulSoup
+from flask import (
+    current_app,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+from markdownify import markdownify
 from pydash import objects
 from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
 from tna_utilities.flask import (
@@ -17,6 +26,7 @@ from app.error_pages.routes import (
     forbidden_error,
     page_not_found_error,
 )
+from app.lib.content_negotiation import get_requested_accept
 from app.lib.og_images import (
     generate_blank_og_image,
     generate_external_og_image,
@@ -140,7 +150,8 @@ def page_permalink(page_id):
 
 @bp.route("/", defaults={"path": "/"})
 @bp.route("/<path:path>/")
-def page(path):
+@get_requested_accept(["text/html", "text/markdown"])
+def page(path, preferred_content_type: str | None):
     """
     This function handles the majority of Wagtail page requests.
 
@@ -199,8 +210,32 @@ def page(path):
         rediect_url = objects.get(page_data, "meta.url")
         return redirect(quote(rediect_url), code=302)
 
-    # Render the page
-    return render_content_page(page_data)
+    # Render the page content
+    page_content = render_content_page(page_data)
+
+    # If the preferred content type is Markdown, convert the HTML page content to Markdown
+    if preferred_content_type == "text/markdown":
+        markdown_response = make_response(page_content)
+        if not 200 <= markdown_response.status_code < 300:
+            return markdown_response
+        document = BeautifulSoup(markdown_response.get_data(), "html.parser")
+        main = document.find("main")
+        markdown_response.set_data(
+            markdownify(str(main if main is not None else document)).strip()
+        )
+        markdown_response.mimetype = "text/markdown"
+        for header in (
+            "ETag",
+            "Content-MD5",
+            "Digest",
+            "Content-Digest",
+            "Repr-Digest",
+        ):
+            markdown_response.headers.pop(header, None)
+        return markdown_response
+
+    # Return the final page content
+    return page_content
 
 
 def try_external_redirect(path):
