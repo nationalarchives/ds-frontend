@@ -1,9 +1,8 @@
-import datetime
 import math
+from datetime import UTC, date, datetime
 
 from flask import current_app, render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import bad_request_error, page_not_found_error
@@ -11,8 +10,7 @@ from app.lib.pagination import pagination
 from app.wagtail.api import blog_posts_paginated
 
 
-@cacheable_duration(3600)
-def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
+def blog_index_page(page_data, year=None, month=None, day=None):
     children_per_page = 12
     page = 1
     if request.args.get("page"):
@@ -42,11 +40,11 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
                 f"Year {year} is not a positive integer for page {page_data['id']}"
             )
             return bad_request_error()
-        if year > datetime.datetime.now().year:
+        if year > datetime.now(tz=UTC).year:
             current_app.logger.warning(
                 f"Year {year} is in the future for page {page_data['id']}"
             )
-            return page_not_found_error()
+            return page_not_found_error(True)
     if not month:
         month = request.args.get("month", "")
         if month and (not month.isnumeric() or int(month) not in range(1, 13)):
@@ -56,9 +54,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
             return bad_request_error()
         month = int(month) if month else None
     try:
-        month_name = (
-            datetime.date(year or 2000, month, 1).strftime("%B") if month else ""
-        )
+        month_name = date(year or 2000, month, 1).strftime("%B") if month else ""
     except ValueError:
         return bad_request_error()
     blogs_data = page_data.get("top_blogs", [])
@@ -82,48 +78,46 @@ def blog_index_page(page_data, year=None, month=None, day=None):  # noqa: C901
         total_blog_posts / (children_per_page + 1 if page == 1 else children_per_page)
     )
     if total_blog_posts and page > pages:
-        return page_not_found_error()
+        return page_not_found_error(True)
     date_filters = [
         {
-            "label": "Any date",
+            "text": "Any date",
             "href": objects.get(page_data, "meta.url"),
-            "title": "Blog posts from any date",
-            "selected": not year,
+            "current": not year,
         }
     ]
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
     for year_count in reversed(blog_post_counts_data):
         year_qs = qs.new()
-        date_filters.append(
-            {
-                "label": f"All {year_count['year']} ({year_count['posts']})",
-                "href": year_qs.add_parameter("year", year_count["year"])
-                .remove_parameter("month")
-                .remove_parameter("page")
-                .get_query_string(),
-                "title": f"Blog posts from {year_count['year']}",
-                "selected": qs.is_value_in_parameter("year", year_count["year"])
-                and not month,
-            }
-        )
+        children = []
         if year and year == year_count["year"]:
             for month_count in reversed(year_count["months"]):
                 month_qs = qs.new()
-                each_month_name = datetime.date(year, month_count["month"], 1).strftime(
-                    "%B"
-                )
-                date_filters.append(
+                each_month_name = date(year, month_count["month"], 1).strftime("%B")
+                children.append(
                     {
-                        "label": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
+                        "text": f"{each_month_name} {year_count['year']} ({month_count['posts']})",
                         "href": month_qs.update_parameter("year", year_count["year"])
                         .update_parameter("month", month_count["month"])
                         .remove_parameter("page")
                         .get_query_string(),
-                        "title": f"Blog posts from {each_month_name} {year_count['year']}",
-                        "selected": qs.is_value_in_parameter("year", year_count["year"])
-                        and qs.is_value_in_parameter("month", month_count["month"]),
+                        "classes": "tna-sidebar__item-child--current"
+                        if qs.is_value_in_parameter("year", year_count["year"])
+                        and qs.is_value_in_parameter("month", month_count["month"])
+                        else "",
                     }
                 )
+        date_filters.append(
+            {
+                "text": f"All {year_count['year']} ({year_count['posts']})",
+                "href": year_qs.add_parameter("year", year_count["year"])
+                .remove_parameter("month")
+                .remove_parameter("page")
+                .get_query_string(),
+                "current": qs.is_value_in_parameter("year", year_count["year"]),
+                "children": children,
+            }
+        )
     return render_template(
         "blog/index.html",
         page_data=page_data,

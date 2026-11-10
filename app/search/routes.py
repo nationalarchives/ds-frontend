@@ -3,7 +3,6 @@ from urllib.parse import unquote
 
 from flask import render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import bad_request_error, page_not_found_error
@@ -13,7 +12,6 @@ from app.wagtail.api import global_alerts, search
 
 
 @bp.route("/")
-@cacheable_duration(3600)
 def index():
     children_per_page = 12
     page = 1
@@ -32,7 +30,7 @@ def index():
     pages = math.ceil(total_results / children_per_page)
 
     if page > pages > 0:
-        return page_not_found_error()
+        return page_not_found_error(True)
 
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
 

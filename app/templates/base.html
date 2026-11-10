@@ -1,4 +1,4 @@
-{%- extends 'layouts/base.html' -%}
+{%- extends "layouts/base.html" -%}
 
 {%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/button/macro.html' import tnaButton -%}
@@ -6,9 +6,7 @@
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 
-{%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
-{# Explicitly set light mode until more pages support dark mode #}
-{%- set theme = 'light' -%}
+{%- set theme = request.cookies.get('theme') if request.cookies.get('theme') in ['light', 'dark'] else 'system' -%}
 {%- set themeAccent = themeAccent or 'green' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
@@ -27,23 +25,22 @@
 {%- endif -%}
 
 {% block headIcons %}
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" sizes="48x48" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" sizes="any" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
     <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
-    <link rel="apple-touch-icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
-    <link rel="apple-touch-icon" sizes="96x96" href="{{ url_for('static', filename='assets/images/icon-96x96.png') }}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='assets/images/icon-120x120.png') }}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='assets/images/icon-144x144.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='assets/images/icon-152x152.png') }}">
-    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='assets/images/icon-167x167.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
-    <link rel="apple-touch-icon" sizes="192x192" href="{{ url_for('static', filename='assets/images/icon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="256x256" href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
-    <link rel="apple-touch-icon" sizes="512x512" href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
-    <link rel="apple-touch-icon" sizes="1024x1024" href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
+    
+    <script type="application/ld+json">{
+      "@context" : "https://schema.org",
+      "@type" : "WebSite",
+      "name" : "The National Archives",
+      "url" : "https://www.nationalarchives.gov.uk/"
+    }</script>
 {% endblock headIcons %}
 
 {% block head %}
+    <meta name="robots" content="noai, noimageai">
+
     <meta name="tna.request.host" content="{{ request.host }}">
     <meta name="tna.response.generated" content="{{ now_iso_8601() }}">
     <meta name="tna.response.status_code" content="{{ status_code | default('200') }}">
@@ -56,7 +53,6 @@
     <meta name="tna.source" content="{{ request.args.get('utm_source') }}">
     {% endif %}
     <meta name="tna_root:content_group" content="{{ content_group_meta or request.path.strip('/').split('/')[0] }}">
-    <meta name="robots" content="noai, noimageai">
 {% endblock head %}
 
 {% block stylesheets %}
@@ -79,7 +75,10 @@
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': app_config.COOKIE_PREFERENCES_URL,
-  'preferencesSetKey': app_config.COOKIE_PREFERENCES_SET_KEY
+  'preferencesSetKey': app_config.COOKIE_PREFERENCES_SET_KEY,
+  'attributes': {
+    'lang': 'en'
+  }
 }) | indent(6) }}
 {%- endif %}
 {% endblock cookies %}
@@ -91,7 +90,10 @@
     'phase': 'Beta',
     'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ (request.url | url_encode) ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
     'classes': 'tna-background-contrast'
-  } if feature.PHASE_BANNER and display_phase_banner() else None
+  } if feature.PHASE_BANNER and display_phase_banner() else None,
+  'attributes': {
+    'lang': 'en'
+  }
 }) | indent(6) }}
 {% endblock header %}
 
@@ -104,7 +106,10 @@
       <div class="tna-column tna-column--full tna-!--padding-vertical-s">
         {{ tnaBreadcrumbs({
           'items': breadcrumbs or page_data.meta.breadcrumbs,
-          'structuredData': True
+          'structuredData': True,
+          'attributes': {
+            'lang': 'en'
+          }
         }) }}
       </div>
     </div>
@@ -116,10 +121,13 @@
 
 {% block footer %}
 {{ tnaFooter({
-  'themeSelector': False,
+  'themeSelector': True,
   'currentTheme': theme,
   'defaultContent': True,
-  'classes': 'tna-!--margin-top-l'
+  'classes': 'tna-!--margin-top-l',
+  'attributes': {
+    'lang': 'en'
+  }
 }) | indent(4) }}
 {% endblock footer %}
 

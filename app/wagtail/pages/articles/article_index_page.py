@@ -2,7 +2,6 @@ import math
 
 from flask import current_app, render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -15,7 +14,6 @@ from app.lib.pagination import pagination
 from app.wagtail.api import page_children_paginated
 
 
-@cacheable_duration(3600)
 def article_index_page(page_data):
     children_per_page = 12
     page = 1
@@ -47,7 +45,7 @@ def article_index_page(page_data):
     pages = math.ceil(total_results / children_per_page)
 
     if page > pages > 0:
-        return page_not_found_error()
+        return page_not_found_error(True)
 
     qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
 

@@ -3,7 +3,6 @@ from urllib.parse import unquote
 
 from flask import current_app, render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -87,7 +86,7 @@ def education_listing_page(page_data, api_endpoint):
     pages = math.ceil(total_results / children_per_page) if total_results > 0 else 1
 
     if page > pages > 0:
-        return page_not_found_error()
+        return page_not_found_error(True)
 
     return render_template(
         "education/listing.html",
@@ -104,11 +103,9 @@ def education_listing_page(page_data, api_endpoint):
     )
 
 
-@cacheable_duration(3600)
 def education_sessions_listing_page(page_data):
     return education_listing_page(page_data, "education/sessions")
 
 
-@cacheable_duration(3600)
 def education_teaching_resources_listing_page(page_data):
     return education_listing_page(page_data, "education/resources")

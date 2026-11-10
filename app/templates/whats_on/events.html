@@ -45,7 +45,7 @@
           },
           {
             'title': 'Cost',
-            'text': pretty_price_range(page_data.featured_page.min_price, page_data.featured_page.max_price),
+            'text': pretty_price_range(page_data.featured_page.min_price or 0, page_data.featured_page.max_price or 0),
             'icon': 'ticket'
           }
         ],
@@ -114,7 +114,7 @@
         },
         {
           'title': 'Cost',
-          'text': pretty_price_range(event.min_price, event.max_price),
+          'text': pretty_price_range(event.min_price or 0, event.max_price or 0),
           'icon': 'ticket'
         }
       ],
@@ -182,7 +182,7 @@
         },
         {
           'title': 'Cost',
-          'text': pretty_price_range(exhibition.min_price, exhibition.max_price),
+          'text': pretty_price_range(exhibition.min_price or 0, exhibition.max_price or 0),
           'icon': 'ticket'
         }
       ],

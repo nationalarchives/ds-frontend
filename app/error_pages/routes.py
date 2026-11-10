@@ -1,8 +1,9 @@
-from datetime import datetime
+from datetime import UTC, datetime
+from urllib.parse import urlparse
 
 from flask import current_app, render_template, request
 from markupsafe import escape
-from tna_utilities.api import SimpleJsonApiClient
+from tna_utilities.api import ApiError, SimpleJsonApiClient
 from tna_utilities.datetime import pretty_age, pretty_date
 from tna_utilities.flask import do_not_cache
 
@@ -15,17 +16,33 @@ ERROR_PAGE_TITLES = {
     "page_archived": "Page no longer exists",
     "rate_limited": "Too many requests",
     "server": "There is a problem with the service",
-    "service_down": "Service unavailable",
+    "service_down": "Sorry, the service is unavailable",
 }
+
+
+def get_original_request_uri(request):
+    if "X-Original-Request-URI" in request.headers:
+        return request.headers["X-Original-Request-URI"]
+    return request.path
+
+
+def get_content_group_from_request(request):
+    original_request_uri = get_original_request_uri(request)
+    parsed_uri = urlparse(original_request_uri)
+    path = parsed_uri.path
+    content_group = path.strip("/").split("/")[0] if path else ""
+    return content_group
 
 
 @bp.route("/400/")
 @do_not_cache()
 def bad_request_error():
+
     return render_template(
         "errors/unknown_request.html",
         status_code=400,
         pageTitle=ERROR_PAGE_TITLES["unknown_request"],
+        content_group_meta=get_content_group_from_request(request),
     ), 400
 
 
@@ -36,6 +53,7 @@ def unauthorized_error():
         "errors/restricted.html",
         status_code=401,
         pageTitle=ERROR_PAGE_TITLES["restricted"],
+        content_group_meta=get_content_group_from_request(request),
     ), 401
 
 
@@ -46,14 +64,27 @@ def forbidden_error():
         "errors/restricted.html",
         status_code=403,
         pageTitle=ERROR_PAGE_TITLES["restricted"],
+        content_group_meta=get_content_group_from_request(request),
     ), 403
 
 
 @bp.route("/404/")
 @do_not_cache()
-def page_not_found_error():
+def page_not_found_error(internal_error=False):
+    if not internal_error:
+        return render_template(
+            "errors/page_not_found.html",
+            status_code=404,
+            pageTitle=ERROR_PAGE_TITLES["page_not_found"],
+            content_group_meta=get_content_group_from_request(request),
+        ), 404
+
     client = SimpleJsonApiClient(current_app.config["WEBARCHIVE_CDXJ_API_URL"])
     url = request.url
+    last_archived_date = None
+    last_archived_date_pretty = None
+    last_archived_age = None
+
     try:
         result = client.get(
             current_app.config["WEBARCHIVE_CDXJ_API_PATH"],
@@ -65,31 +96,34 @@ def page_not_found_error():
                 "sort": "reverse",
             },
         )
-        last_archived_date = None
-        last_archived_date_pretty = None
-        last_archived_age = None
-        if result and "timestamp" in result:
-            timestamp = result["timestamp"]
-            dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S")
-            last_archived_date = dt.strftime("%Y-%m-%d")
-            last_archived_date_pretty = pretty_date(dt)
-            last_archived_age = pretty_age(dt)
-        archived_page_url = f"{current_app.config['WEBARCHIVE_BASE_URL']}/{escape(url)}"
-        return render_template(
-            "errors/page_archived.html",
-            pageTitle=ERROR_PAGE_TITLES["page_archived"],
-            status_code=410,
-            archived_page_url=archived_page_url,
-            last_archived_date=last_archived_date,
-            last_archived_date_pretty=last_archived_date_pretty,
-            last_archived_age=last_archived_age,
-        ), 410
-    except Exception:
+    except ApiError:
+        result = None
+
+    if not result or "timestamp" not in result:
         return render_template(
             "errors/page_not_found.html",
             status_code=404,
             pageTitle=ERROR_PAGE_TITLES["page_not_found"],
+            content_group_meta=get_content_group_from_request(request),
         ), 404
+
+    timestamp = result["timestamp"]
+    dt = datetime.strptime(timestamp, "%Y%m%d%H%M%S").replace(tzinfo=UTC)
+    last_archived_date = dt.strftime("%Y-%m-%d")
+    last_archived_date_pretty = pretty_date(dt)
+    last_archived_age = pretty_age(dt)
+    archived_page_url = f"{current_app.config['WEBARCHIVE_BASE_URL']}/{escape(url)}"
+
+    return render_template(
+        "errors/page_archived.html",
+        pageTitle=ERROR_PAGE_TITLES["page_archived"],
+        status_code=410,
+        archived_page_url=archived_page_url,
+        last_archived_date=last_archived_date,
+        last_archived_date_pretty=last_archived_date_pretty,
+        last_archived_age=last_archived_age,
+        content_group_meta=get_content_group_from_request(request),
+    ), 410
 
 
 @bp.route("/405/")
@@ -99,6 +133,7 @@ def method_not_allowed_error():
         "errors/unknown_request.html",
         status_code=405,
         pageTitle=ERROR_PAGE_TITLES["unknown_request"],
+        content_group_meta=get_content_group_from_request(request),
     ), 405
 
 
@@ -109,6 +144,7 @@ def not_acceptable_error():
         "errors/unknown_request.html",
         status_code=406,
         pageTitle=ERROR_PAGE_TITLES["unknown_request"],
+        content_group_meta=get_content_group_from_request(request),
     ), 406
 
 
@@ -119,13 +155,14 @@ def proxy_authentication_required_error():
         "errors/restricted.html",
         status_code=407,
         pageTitle=ERROR_PAGE_TITLES["restricted"],
+        content_group_meta=get_content_group_from_request(request),
     ), 407
 
 
 @bp.route("/410/")
 @do_not_cache()
 def gone_error():
-    return page_not_found_error()
+    return page_not_found_error(True)
 
 
 @bp.route("/414/")
@@ -135,6 +172,7 @@ def uri_too_long_error():
         "errors/unknown_request.html",
         status_code=414,
         pageTitle=ERROR_PAGE_TITLES["unknown_request"],
+        content_group_meta=get_content_group_from_request(request),
     ), 414
 
 
@@ -145,6 +183,7 @@ def too_many_requests_error():
         "errors/rate_limited.html",
         status_code=429,
         pageTitle=ERROR_PAGE_TITLES["rate_limited"],
+        content_group_meta=get_content_group_from_request(request),
     ), 429
 
 
@@ -152,7 +191,10 @@ def too_many_requests_error():
 @do_not_cache()
 def server_error():
     return render_template(
-        "errors/server.html", status_code=500, pageTitle=ERROR_PAGE_TITLES["server"]
+        "errors/server.html",
+        status_code=500,
+        pageTitle=ERROR_PAGE_TITLES["server"],
+        content_group_meta=get_content_group_from_request(request),
     ), 500
 
 
@@ -160,7 +202,10 @@ def server_error():
 @do_not_cache()
 def bad_gateway_error():
     return render_template(
-        "errors/server.html", status_code=502, pageTitle=ERROR_PAGE_TITLES["server"]
+        "errors/server.html",
+        status_code=502,
+        pageTitle=ERROR_PAGE_TITLES["server"],
+        content_group_meta=get_content_group_from_request(request),
     ), 502
 
 
@@ -171,6 +216,7 @@ def service_unavailable_error():
         "errors/service-down.html",
         status_code=503,
         pageTitle=ERROR_PAGE_TITLES["service_down"],
+        content_group_meta=get_content_group_from_request(request),
     ), 503
 
 
@@ -178,5 +224,8 @@ def service_unavailable_error():
 @do_not_cache()
 def gateway_timeout_error():
     return render_template(
-        "errors/server.html", status_code=504, pageTitle=ERROR_PAGE_TITLES["server"]
+        "errors/server.html",
+        status_code=504,
+        pageTitle=ERROR_PAGE_TITLES["server"],
+        content_group_meta=get_content_group_from_request(request),
     ), 504

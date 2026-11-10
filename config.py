@@ -2,14 +2,13 @@ import json
 import os
 from typing import ClassVar
 
+from flask import current_app
 from pydash import objects
 from tna_utilities import strtobool
 
 
 class Features:
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
-    FEATURE_LOGO_ADORNMENTS_CSS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_CSS", "")
-    FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
 
 
 class Production(Features):
@@ -36,8 +35,7 @@ class Production(Features):
                 data, "packages.node_modules/@nationalarchives/frontend.version", ""
             )
     except Exception:
-        # Error reading the version of TNA Frontend
-        pass
+        current_app.logger.exception("Error reading the version of TNA Frontend")
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
 
@@ -106,8 +104,8 @@ class Production(Features):
         "/image/",
         "/information-management/",
         "/maintenance/",
-        "/merlin/",
         "/mi5-official-secrets/",
+        "/news/",
         "/people/",
         "/professional-guidance-and-services/",
         "/strategy-2025-2030/",
@@ -126,6 +124,20 @@ class Production(Features):
     WEBARCHIVE_CDXJ_API_PATH: str = os.environ.get(
         "WEBARCHIVE_CDXJ_API_PATH", "cdx"
     ).strip("/")
+
+    OG_DEFAULT_IMAGE: str = os.environ.get(
+        "OG_DEFAULT_IMAGE",
+        "https://www.nationalarchives.gov.uk/media/images/dz-grounds-of-the-n_JJQjRgA.976d85da.fill-900x600.format-webp.webpquality-70.bgcolor-fff.webp",
+    )
+    OG_CONTENT_BASE_URL: str = os.environ.get(
+        "OG_CONTENT_BASE_URL", "https://www.nationalarchives.gov.uk"
+    ).rstrip("/")
+    OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH: int = int(
+        os.environ.get("OG_EXTERNAL_CONTENT_MAX_TITLE_LENGTH", "60")
+    )
+    OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH: int = int(
+        os.environ.get("OG_EXTERNAL_CONTENT_MAX_BODY_LENGTH", "160")
+    )
 
     SIDEBAR_SCROLL_TOP_THRESHOLD: int = int(
         os.getenv("SIDEBAR_SCROLL_TOP_THRESHOLD", "16")

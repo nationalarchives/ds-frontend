@@ -27,9 +27,8 @@ services:
       - CSP_FRAME_SRC=*.youtube-nocookie.com,https://www.openstreetmap.org
       - CSP_FRAME_ANCESTORS=localhost:8000
       # - FEATURE_PHASE_BANNER=False
-      - FEATURE_LOGO_ADORNMENTS_CSS=https://localhost/enrichment/css/logo-adornments.css
-      - FEATURE_LOGO_ADORNMENTS_JS=https://localhost/enrichment/js/logo-adornments.js
       - GA4_ID=GTM-KX8ZWVZG
+      - OG_CONTENT_BASE_URL=https://host.docker.internal
     ports:
       - 65497:8080
     volumes:

@@ -7,17 +7,18 @@ from flask import (
     current_app,
     make_response,
     redirect,
-    render_template,
     request,
     send_from_directory,
 )
 from tna_utilities import strtobool
-from tna_utilities.flask import cacheable_duration, do_not_cache
+from tna_utilities.flask import (
+    cacheable_duration,
+    do_not_cache,
+)
 from werkzeug.exceptions import NotFound
 
 from app.error_pages.routes import page_not_found_error
 from app.main import bp
-from app.wagtail.api import global_alerts
 
 
 @bp.route("/healthcheck/live/")
@@ -30,12 +31,6 @@ def healthcheck():
 @do_not_cache()
 def healthcheck_version():
     return current_app.config["BUILD_VERSION"]
-
-
-@bp.route("/merlin/")
-@cacheable_duration(3600)
-def merlin():
-    return render_template("main/merlin.html", global_alert=global_alerts())
 
 
 @bp.route("/cookies/set/", methods=["POST"])
@@ -136,28 +131,29 @@ def set_cookies():
 
 
 @bp.route("/service-worker.min.js")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def service_worker():
     return current_app.send_static_file("service-worker.min.js")
 
 
 @bp.route("/manifest.json")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def manifest():
     return current_app.send_static_file("manifest.json")
 
 
 @bp.route("/robots.txt")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def robots():
     return current_app.send_static_file("robots.txt")
 
 
 @bp.route("/.well-known/<path:filename>")
+@cacheable_duration(86400)
 def well_known(filename):
     try:
         return send_from_directory(
             os.path.join(current_app.root_path, "static", ".well-known"), filename
         )
     except NotFound:
-        return page_not_found_error()
+        return page_not_found_error(True)

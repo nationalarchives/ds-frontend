@@ -14,6 +14,7 @@ class Gallery {
       ".etna-record-gallery__item",
     ).length;
 
+    /* eslint-disable-next-line no-magic-numbers */
     if (this.itemsCount > 1) {
       const id = `tna-record-article-gallery`;
 
@@ -77,5 +78,6 @@ class Gallery {
 
 const $gallery = document.querySelector(".etna-record-gallery");
 if ($gallery) {
+  /* eslint-disable-next-line no-new */
   new Gallery($gallery);
 }

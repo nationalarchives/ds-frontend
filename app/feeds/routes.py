@@ -13,7 +13,7 @@ from app.wagtail.api import (
 
 
 @bp.route("/blogs.xml")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def rss_all_feed():
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
@@ -38,19 +38,19 @@ def rss_all_feed():
 
 
 @bp.route("/blogs/<int:blog_id>.xml")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def rss_feed(blog_id):
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
         blog_data = page_details(blog_id)
         blog_posts = blog_posts_paginated(1, blog_id=blog_id, limit=items)
     except ResourceNotFoundError:
-        return page_not_found_error()
+        return page_not_found_error(True)
     except Exception:
         current_app.logger.exception(f"Failed to get blog data for page {blog_id}")
         return bad_gateway_error()
     if objects.get(blog_data, "meta.type") != "blog.BlogPage":
-        return page_not_found_error()
+        return page_not_found_error(True)
     xml = render_template(
         (
             "feeds/blog_atom_feed.xml"

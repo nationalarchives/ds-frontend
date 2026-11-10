@@ -54,7 +54,7 @@
               <h1 class="tna-hgroup__title" itemprop="name">{{ page_data.title }}</h1>
             </hgroup>
             {%- if page_data.intro %}
-            <div class="tna-large-paragraph tna-!--margin-top-s" itemprop="headline">
+            <div class="tna-large-paragraph" itemprop="headline">
               {{ page_data.intro | tna_html | safe }}
             </div>
             {%- endif %}
@@ -130,25 +130,21 @@
         </div>
       </div>
       {%- endif %}
-      <div class="tna-section">
-        <div class="tna-container tna-container--centred">
-          <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
-            {%- if page_data.custom_warning_text | striptags %}
-            {{ tnaWarning({
-              'headingLevel': 2,
-              'body': page_data.custom_warning_text | tna_html | safe,
-              'classes': 'tna-!--margin-bottom-m'
-            }) }}
-            {%- endif %}
-            {{ wagtail_streamfield(page_data.body, 2, None, 'sharedContent') }}
-          </div>
+      <div class="tna-section tna-container">
+        <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print" itemprop="articleBody">
+          {%- if page_data.custom_warning_text | striptags %}
+          {{ tnaWarning({
+            'headingLevel': 2,
+            'body': page_data.custom_warning_text | tna_html | safe,
+            'classes': 'tna-!--margin-bottom-m'
+          }) }}
+          {%- endif %}
+          {{ wagtail_streamfield(page_data.body, 2, None, 'sharedContent') }}
         </div>
       </div>
       {%- if page_data.authors | length or page_data.external_authors | length %}
-      <div class="tna-section">
-        <div class="tna-container tna-container--centred">
-          {{ authors_list(page_data.authors, page_data.external_authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print') }}
-        </div>
+      <div class="tna-section tna-container">
+        {{ authors_list(page_data.authors, page_data.external_authors, False, 'tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny etna-!--full-width-on-print') }}
       </div>
       {%- endif %}
     </article>
