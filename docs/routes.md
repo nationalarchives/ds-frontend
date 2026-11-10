@@ -28,6 +28,11 @@ error responses, including errors returned by the renderer, remain unchanged
 apart from adding `Accept` to `Vary`. Only successful responses are converted;
 validators and digests for the original HTML body are removed after conversion.
 
+Page renderers can use `@disallow_markdown`, as the cookies page does, to opt out
+of Markdown conversion. HTML is returned if the Accept header allows `text/html`
+(including wildcards), or if no Accept header is supplied. Otherwise the standard
+`406 Not Acceptable` page is returned, including when HTML has `q=0`.
+
 ### Serving page logic
 
 ```mermaid

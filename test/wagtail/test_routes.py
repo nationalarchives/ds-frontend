@@ -29,6 +29,64 @@ class WagtailRoutesTestCase(unittest.TestCase):
 
 
 class PageRouteTestCase(WagtailRoutesTestCase):
+    def test_cookies_page_disallows_markdown(self):
+        html = "<main><p>Cookie preferences</p></main>"
+        cases = (
+            ({}, 200),
+            ({"Accept": "text/html"}, 200),
+            ({"Accept": "text/markdown, text/html;q=0.5"}, 200),
+            ({"Accept": "text/markdown, text/*;q=0.5"}, 200),
+            ({"Accept": "text/markdown, */*;q=0.5"}, 200),
+            ({"Accept": "text/markdown"}, 406),
+            ({"Accept": "text/markdown, text/html;q=0"}, 406),
+            ({"Accept": "*/*, text/html;q=0"}, 406),
+            ({"Accept": "application/json"}, 406),
+        )
+        for headers, status in cases:
+            with (
+                self.subTest(headers=headers),
+                patch(
+                    "app.wagtail.routes.page_details_by_uri",
+                    return_value={
+                        "id": 1,
+                        "meta": {"url": "/cookies/", "type": "cookies.CookiesPage"},
+                    },
+                ),
+                patch(
+                    "app.wagtail.pages.cookies.cookies_page.page_children",
+                    return_value={"items": [{"id": 2}]},
+                ) as children,
+                patch(
+                    "app.wagtail.pages.cookies.cookies_page.render_template",
+                    return_value=html,
+                ) as render,
+            ):
+                response = self.client.get("/cookies/", headers=headers)
+                self.assertEqual(response.status_code, status)
+                self.assertEqual(response.mimetype, "text/html")
+                self.assertIn("Accept", response.vary)
+                if status == 200:
+                    self.assertEqual(response.get_data(as_text=True), html)
+                    self.assertIn("Cookie", response.vary)
+                    children.assert_called_once()
+                    render.assert_called_once()
+                else:
+                    self.assertEqual(response.headers["Cache-Control"], "no-store")
+                    children.assert_not_called()
+                    render.assert_not_called()
+
+        with (
+            patch(
+                "app.wagtail.routes.page_details_by_uri",
+                return_value={"id": 3, "meta": {"url": "/other/"}},
+            ),
+            patch("app.wagtail.routes.render_content_page", return_value=html),
+        ):
+            response = self.client.get("/other/", headers={"Accept": "text/markdown"})
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.mimetype, "text/markdown")
+            self.assertEqual(response.get_data(as_text=True), "Cookie preferences")
+
     def test_registered_page_negotiates_accept(self):
         html = "<nav>Navigation</nav><main><p>rendered page</p></main>"
         cases = (

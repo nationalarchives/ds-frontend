@@ -4,6 +4,7 @@ from urllib.parse import quote, unquote, urlparse
 from bs4 import BeautifulSoup
 from flask import (
     current_app,
+    g,
     make_response,
     redirect,
     render_template,
@@ -214,7 +215,9 @@ def page(path, preferred_content_type: str | None):
     page_content = render_content_page(page_data)
 
     # If the preferred content type is Markdown, convert the HTML page content to Markdown
-    if preferred_content_type == "text/markdown":
+    if preferred_content_type == "text/markdown" and not g.get(
+        "markdown_disabled", False
+    ):
         markdown_response = make_response(page_content)
         if not 200 <= markdown_response.status_code < 300:
             return markdown_response
