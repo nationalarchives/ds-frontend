@@ -20,7 +20,7 @@
 {% block head %}
 {{ super() }}
     {% for author in page_data.authors %}
-    <meta property="article:author" content="{{ author.full_url }}">
+    <meta property="article:author" content="{{ author.url }}">
     {% endfor %}
     <link rel="canonical" href="{{ page_data.meta.url }}">
 {% endblock head %}

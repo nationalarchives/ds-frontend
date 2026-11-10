@@ -74,7 +74,7 @@
         {%- if image_data.alternative_format_data %}
         {{ tnaButton({
           'text': 'Download ' ~ (image_data.alternative_format_data.heading | lower),
-          'href': image_data.alternative_format_data.full_url,
+          'href': image_data.alternative_format_data.url,
           'plain': True,
           'attributes': {
             'download': ((image_data.title ~ '-' ~ image_data.alternative_format_data.heading) | slugify) ~ '.' ~ image_data.alternative_format_data.file_type

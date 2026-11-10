@@ -71,7 +71,7 @@ def sitemap_dynamic(sitemap_page):
     if sitemap_page > pages:
         return page_not_found_error(True)
     for page in wagtail_pages["items"]:
-        page_path = urlparse(page.get("full_url", "")).path
+        page_path = urlparse(page.get("url", "")).path
         if page_path.startswith(tuple(exclude_urls)):
             continue
         try:
@@ -83,7 +83,7 @@ def sitemap_dynamic(sitemap_page):
             )
             lastmodified_date = None
         url = {
-            "loc": page["full_url"],
+            "loc": page["url"],
             "lastmod": lastmodified_date,
         }
         dynamic_urls.append(url)
