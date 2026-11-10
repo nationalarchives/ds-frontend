@@ -15,6 +15,7 @@ from tna_utilities.datetime import (
     seconds_to_duration,
     seconds_to_iso_8601_duration,
 )
+from tna_utilities.number import pretty_file_size
 from tna_utilities.string import slugify, unslugify
 from tna_utilities.url import QueryStringTransformer
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -127,6 +128,7 @@ def create_app(config_class):
         strip_time_from_date,
         month_year,
         multiline_address_to_single_line,
+        pretty_file_size,
         pretty_price,
         seconds_to_iso_8601_duration,
         seconds_to_duration,

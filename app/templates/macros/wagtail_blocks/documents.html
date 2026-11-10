@@ -8,7 +8,7 @@
       'text': document.file.title,
       'href': document.file.url,
       'fileType': document.file.type | upper,
-      'fileSize': document.file.pretty_file_size,
+      'fileSize': document.file.file_size | pretty_file_size,
       'fileExtent': document.file.extent,
       'description': document.file.description,
       'icon': document.file.type | file_type_icon

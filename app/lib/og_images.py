@@ -241,10 +241,10 @@ def generate_og_image_from_page_data(page_data):
         page_data, "meta.teaser_text", ""
     )
     image = (
-        objects.get(page_data, "meta.search_image.dynamic_opengraph_jpeg.full_url")
-        or objects.get(page_data, "meta.search_image.jpeg.full_url")
-        or objects.get(page_data, "meta.teaser_image.jpeg.full_url")
-        or objects.get(page_data, "hero_image.small_jpeg.full_url", "")
+        objects.get(page_data, "meta.search_image.dynamic_opengraph_jpeg.url")
+        or objects.get(page_data, "meta.search_image.jpeg.url")
+        or objects.get(page_data, "meta.teaser_image.jpeg.url")
+        or objects.get(page_data, "hero_image.small_jpeg.url", "")
     ) or current_app.config["OG_DEFAULT_IMAGE"]
 
     return generate_og_image(supertitle, title, body, image)

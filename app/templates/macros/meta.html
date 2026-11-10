@@ -94,20 +94,20 @@
     {%- set other_page_images = [] %}
     {%- if page_data.meta.search_image %}
         {%- if page_data.meta.search_image['16x9_jpeg'] %}
-            {%- do other_page_images.append(page_data.meta.search_image['16x9_jpeg'].full_url) %}
+            {%- do other_page_images.append(page_data.meta.search_image['16x9_jpeg'].url) %}
         {%- endif %}
         {%- if page_data.meta.search_image['4x3_jpeg'] %}
-            {%- do other_page_images.append(page_data.meta.search_image['4x3_jpeg'].full_url) %}
+            {%- do other_page_images.append(page_data.meta.search_image['4x3_jpeg'].url) %}
         {%- endif %}
         {%- if page_data.meta.search_image.square_jpeg %}
-            {%- do other_page_images.append(page_data.meta.search_image.square_jpeg.full_url) %}
+            {%- do other_page_images.append(page_data.meta.search_image.square_jpeg.url) %}
         {%- endif %}
     {%- endif %}
     {%- if page_data.meta.teaser_image and page_data.meta.teaser_image.jpeg %}
-      {%- do other_page_images.append(page_data.meta.teaser_image.jpeg.full_url) %}
+      {%- do other_page_images.append(page_data.meta.teaser_image.jpeg.url) %}
     {%- endif %}
     {%- if page_data.hero_image and page_data.hero_image.small_jpeg %}
-      {%- do other_page_images.append(page_data.hero_image.small_jpeg.full_url) %}
+      {%- do other_page_images.append(page_data.hero_image.small_jpeg.url) %}
     {%- endif %}
 
     <script type="application/ld+json">{
@@ -117,7 +117,7 @@
       {%- if primary_image_of_page %},
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "{{ primary_image_of_page.full_url }}",
+        "url": "{{ primary_image_of_page.url }}",
         "width": {{ primary_image_of_page.width }},
         "height": {{ primary_image_of_page.height }}
       }{% endif %}

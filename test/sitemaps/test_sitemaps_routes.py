@@ -40,15 +40,15 @@ class SitemapsBlueprintTestCase(unittest.TestCase):
             "meta": {"total_count": 250},
             "items": [
                 {
-                    "full_url": f"{self.domain}/",
+                    "url": f"{self.domain}/",
                     "last_published_at": "2026-02-04T16:02:57.309445Z",
                 },
                 {
-                    "full_url": f"{self.domain}/explore-the-collection/",
+                    "url": f"{self.domain}/explore-the-collection/",
                     "last_published_at": "2025-07-29T11:55:39.069358Z",
                 },
                 {
-                    "full_url": f"{self.domain}/explore-the-collection/explore-by-topic/",
+                    "url": f"{self.domain}/explore-the-collection/explore-by-topic/",
                     "last_published_at": "2025-07-30T10:32:42.694208Z",
                 },
             ],

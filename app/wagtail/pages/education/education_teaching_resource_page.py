@@ -35,13 +35,11 @@ def education_teaching_resource_page(page_data):
                         "target": f"{source_name}.jpg",
                     }
                 )
-                if objects.get(
-                    media, "value.image.alternative_format_data.full_url", None
-                ):
+                if objects.get(media, "value.image.alternative_format_data.url", None):
                     sources.append(
                         {
                             "source": objects.get(
-                                media, "value.image.alternative_format_data.full_url"
+                                media, "value.image.alternative_format_data.url"
                             ),
                             "target": f"{source_name}-alt.{objects.get(media, 'value.image.alternative_format_data.file_type')}",
                         }

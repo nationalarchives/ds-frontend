@@ -36,9 +36,9 @@ In order of priority, the body text is taken from one of these values:
 
 In order of priority, the image is taken from one of these values:
 
-1. `meta.search_image.jpeg.full_url`
-1. `meta.teaser_image.jpeg.full_url`
-1. `hero_image.small_jpeg.full_url`
+1. `meta.search_image.jpeg.url`
+1. `meta.teaser_image.jpeg.url`
+1. `hero_image.small_jpeg.url`
 1. A default image (defined in the environment variable `OG_DEFAULT_IMAGE`)
 
 ## Pages from other services

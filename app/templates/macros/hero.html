@@ -13,35 +13,35 @@
     'supertitle': options.supertitle or page_data.type_label,
     'title': options.title or page_data.title,
     'body': caller() if caller else ((page_data.intro | tna_html | safe) or ''),
-    'imageSrc': hero_image.jpeg.full_url if not use_small_image else hero_image.small_jpeg.full_url,
+    'imageSrc': hero_image.jpeg.url if not use_small_image else hero_image.small_jpeg.url,
     'imageAlt': hero_image.description,
     'imageWidth': hero_image.jpeg.width if not use_small_image else hero_image.small_jpeg.width,
     'imageHeight': hero_image.jpeg.height if not use_small_image else hero_image.small_jpeg.height,
     'imageCaption': hero_image_caption,
     'imageSources': [
       {
-        'src': hero_image.small_webp.full_url,
+        'src': hero_image.small_webp.url,
         'width': hero_image.small_webp.width,
         'height': hero_image.small_webp.height,
         'type': 'image/webp'
       }
     ] if use_small_image else [
       {
-        'src': hero_image.small_webp.full_url,
+        'src': hero_image.small_webp.url,
         'width': hero_image.small_webp.width,
         'height': hero_image.small_webp.height,
         'type': 'image/webp',
         'media': '(max-width: 48em)'
       },
       {
-        'src': hero_image.small_jpeg.full_url,
+        'src': hero_image.small_jpeg.url,
         'width': hero_image.small_jpeg.width,
         'height': hero_image.small_jpeg.height,
         'type': 'image/jpeg',
         'media': '(max-width: 48em)'
       },
       {
-        'src': hero_image.webp.full_url,
+        'src': hero_image.webp.url,
         'width': hero_image.webp.width,
         'height': hero_image.webp.height,
         'type': 'image/webp'
