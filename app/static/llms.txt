@@ -1,0 +1,40 @@
+# The National Archives
+
+> The National Archives is the official archive and publisher for the UK Government, and for England and Wales. It is the guardian of over 1,000 years of national documents. The website provides access to research guidance, collection stories, visitor information, education resources, and professional guidance.
+
+## Research and records
+
+- [Help with your research](https://www.nationalarchives.gov.uk/help-with-your-research/): Start researching, find records, and get help using the catalogue.
+- [Discovery catalogue](https://discovery.nationalarchives.gov.uk/): Search The National Archives' collection catalogue.
+- [Research guides](https://www.nationalarchives.gov.uk/help-with-your-research/research-guides-keywords/): Browse subject guides to records and collections.
+- [Discovery help](https://www.nationalarchives.gov.uk/help-with-your-research/discovery-help/): Guidance on searching and using Discovery.
+
+## Explore the collection
+
+- [Explore the collection](https://www.nationalarchives.gov.uk/explore-the-collection/): Discover stories and highlights from the records.
+- [Explore by topic](https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-topic/): Browse collection highlights by subject.
+- [Explore by time period](https://www.nationalarchives.gov.uk/explore-the-collection/explore-by-time-period/): Browse collection highlights by historical period.
+- [Stories from the collection](https://www.nationalarchives.gov.uk/explore-the-collection/stories/): Read articles about people, events, and records.
+- [The Collection Blog](https://www.nationalarchives.gov.uk/explore-the-collection/the-collection-blog/): Read about the collection, archival work, and research.
+- [On the Record podcast](https://www.nationalarchives.gov.uk/explore-the-collection/on-the-record-podcast/): Hear stories uncovered in the records.
+
+## Visit and education
+
+- [Plan your visit](https://www.nationalarchives.gov.uk/visit/): Information about visiting The National Archives in Kew.
+- [Book to view original documents](https://www.nationalarchives.gov.uk/visit/researching-here/booking-a-visit-to-view-documents/): Find out how to book a reading-room visit.
+- [Education](https://www.nationalarchives.gov.uk/education/): Teaching resources and education programmes.
+- [Teaching resources](https://www.nationalarchives.gov.uk/education/teaching-resources/): Classroom resources based on original records.
+- [Education sessions](https://www.nationalarchives.gov.uk/education/education-sessions/): Online and in-person sessions for schools.
+
+## Professional guidance
+
+- [Information management](https://www.nationalarchives.gov.uk/information-management/): Guidance for managing information and records.
+- [Manage your information](https://www.nationalarchives.gov.uk/information-management/manage-information/): Advice and guidance on information and records management.
+- [Re-using public sector information](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/): Information about re-use, licensing, and copyright.
+- [Professional guidance and services](https://www.nationalarchives.gov.uk/professional-guidance-and-services/): Advice on information management, archives, and collections care.
+- [Archive sector](https://www.nationalarchives.gov.uk/professional-guidance-and-services/archive-sector/): Guidance and services for the archive sector.
+- [Research and academic collaboration](https://www.nationalarchives.gov.uk/professional-guidance-and-services/our-research-and-academic-collaboration/): Information about research collaboration.
+
+## About
+
+- [About us](https://www.nationalarchives.gov.uk/about-us/): Learn about The National Archives and its work.
