@@ -25,7 +25,7 @@ This contains reusable functionality that can be used throughout the site. Notab
 
 ### `app/main`
 
-The main routs for the site, including the healthcheck endpoint and static paths for `robots.txt` and `service-worker.min.js`.
+The main routs for the site, including the healthcheck endpoint and static paths for `robots.txt`, `service-worker.min.js` and `llms.txt`.
 
 ### `app/sitemaps`
 
