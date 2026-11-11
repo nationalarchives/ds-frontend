@@ -213,7 +213,7 @@ def bad_gateway_error():
 @do_not_cache()
 def service_unavailable_error():
     return render_template(
-        "errors/service-down.html",
+        "errors/service_down.html",
         status_code=503,
         pageTitle=ERROR_PAGE_TITLES["service_down"],
         content_group_meta=get_content_group_from_request(request),

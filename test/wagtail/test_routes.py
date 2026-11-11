@@ -93,7 +93,16 @@ class PageRouteTestCase(WagtailRoutesTestCase):
             ({}, "text/html", html),
             ({"Accept": "text/html"}, "text/html", html),
             ({"Accept": "*/*"}, "text/html", html),
-            ({"Accept": "application/json"}, "text/html", html),
+            (
+                {"Accept": "application/json"},
+                "406",
+                "The page you requested cannot be served",
+            ),
+            (
+                {"Accept": "invalid"},
+                "406",
+                "The page you requested cannot be served",
+            ),
             ({"Accept": "text/markdown, text/html"}, "text/html", html),
             (
                 {"Accept": "text/html;q=invalid, text/markdown;q=0.5"},
@@ -102,8 +111,8 @@ class PageRouteTestCase(WagtailRoutesTestCase):
             ),
             (
                 {"Accept": "text/html;q=0, text/markdown;q=0"},
-                "text/html",
-                html,
+                "406",
+                "The page you requested cannot be served",
             ),
             ({"Accept": "text/markdown"}, "text/markdown", "rendered page"),
             (
@@ -126,9 +135,14 @@ class PageRouteTestCase(WagtailRoutesTestCase):
                     ),
                 ):
                     response = self.client.get(path, headers=headers)
-                    self.assertEqual(response.status_code, 200)
-                    self.assertEqual(response.mimetype, mimetype)
-                    self.assertEqual(response.get_data(as_text=True), body)
+                    if mimetype == "406":
+                        self.assertEqual(response.status_code, 406)
+                        self.assertIn(body, response.get_data(as_text=True))
+                        self.assertEqual(response.headers["Cache-Control"], "no-store")
+                    else:
+                        self.assertEqual(response.status_code, 200)
+                        self.assertEqual(response.mimetype, mimetype)
+                        self.assertEqual(response.get_data(as_text=True), body)
                     self.assertIn("Accept", response.vary)
 
     def test_markdown_conversion_handles_strings_and_responses(self):

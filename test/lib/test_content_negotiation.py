@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from flask import Flask, Response
 
@@ -17,7 +18,6 @@ class RequestedAcceptTestCase(unittest.TestCase):
         cases = (
             ({}, None),
             ({"Accept": ""}, None),
-            ({"Accept": " , , "}, None),
             ({"Accept": "text/markdown"}, "text/markdown"),
             ({"Accept": "TEXT/MARKDOWN"}, "text/markdown"),
             ({"Accept": "text/html;q=0.5, text/markdown;q=0.9"}, "text/markdown"),
@@ -30,12 +30,7 @@ class RequestedAcceptTestCase(unittest.TestCase):
             ({"Accept": "text/html;q=0.1, */*;q=1"}, "text/markdown"),
             ({"Accept": "*/*, text/html;q=0"}, "text/markdown"),
             ({"Accept": "text/html;q=0, */*"}, "text/markdown"),
-            ({"Accept": "text/*;q=0, */*"}, None),
             ({"Accept": "text/*;q=0, text/html;q=0.5"}, "text/html"),
-            ({"Accept": "application/json"}, None),
-            ({"Accept": "image/*"}, None),
-            ({"Accept": "*/*;q=0"}, None),
-            ({"Accept": "text/html;q=0, text/markdown;q=0"}, None),
         )
         for headers, expected in cases:
             with (
@@ -53,6 +48,33 @@ class RequestedAcceptTestCase(unittest.TestCase):
                     self.assertIn("Accept", response.vary)
 
         self.assertEqual(page.__name__, "page")
+
+    def test_unacceptable_accept_header_returns_406(self):
+        @get_requested_accept(["text/html", "text/markdown"])
+        def page(*, preferred_content_type):
+            self.fail("Page renderer should not run for an unacceptable type")
+
+        headers = (
+            " , , ",
+            "application/json",
+            "image/*",
+            "*/*;q=0",
+            "text/html;q=0, text/markdown;q=0",
+        )
+        for header in headers:
+            with (
+                self.subTest(header=header),
+                self.app.test_request_context(headers={"Accept": header}),
+                patch(
+                    "app.lib.content_negotiation.not_acceptable_error",
+                    return_value=("Not acceptable", 406),
+                ),
+            ):
+                response = page()
+                self.assertEqual(response.status_code, 406)
+                self.assertEqual(response.get_data(as_text=True), "Not acceptable")
+                self.assertEqual(response.headers["Cache-Control"], "no-store")
+                self.assertIn("Accept", response.vary)
 
     def test_invalid_quality_entries_are_ignored(self):
         @get_requested_accept(["text/html", "text/markdown"])
@@ -128,16 +150,21 @@ class RequestedAcceptTestCase(unittest.TestCase):
                     [value.lower() for value in response.vary].count("accept"), 1
                 )
 
-    def test_empty_supported_types_passes_none(self):
+    def test_empty_supported_types_returns_406(self):
         @get_requested_accept([])
         def page(*, preferred_content_type):
-            self.assertIsNone(preferred_content_type)
-            return "page content"
+            self.fail("Page renderer should not run without a supported type")
 
-        with self.app.test_request_context(headers={"Accept": "text/html"}):
+        with (
+            self.app.test_request_context(headers={"Accept": "text/html"}),
+            patch(
+                "app.lib.content_negotiation.not_acceptable_error",
+                return_value=("Not acceptable", 406),
+            ),
+        ):
             response = page()
 
-        self.assertEqual(response.get_data(as_text=True), "page content")
+        self.assertEqual(response.status_code, 406)
         self.assertIn("Accept", response.vary)
 
     def test_preserves_function_metadata(self):
