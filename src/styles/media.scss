@@ -308,7 +308,7 @@ $videojs-track-height: 0.5em;
     @include colour.colour-background("contrast-button-background");
 
     .vjs-svg-icon {
-      @include colour.colour-font("base-font-dark");
+      @include colour.colour-font("contrast-button-text");
     }
   }
 
