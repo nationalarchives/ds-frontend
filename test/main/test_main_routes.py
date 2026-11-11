@@ -101,6 +101,13 @@ class MainBlueprintTestCase(unittest.TestCase):
                 "public, max-age=86400",
             )
 
+    def test_llms(self):
+        with self.client as c:
+            rv = c.get("/llms.txt")
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn("Cache-Control", rv.headers)
+            self.assertEqual(rv.headers["Cache-Control"], "public, max-age=86400")
+
     def test_manifest(self):
         with self.client as c:
             rv = c.get("/manifest.json")
