@@ -75,7 +75,7 @@ def preview_page():
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
 @do_not_cache()
-def preview_protected_page(page_id):
+def preview_protected_page(page_id: int):
     """
     Renders a preview of a Wagtail page that is password protected.
     """
@@ -124,7 +124,7 @@ def preview_protected_page(page_id):
 
 
 @bp.route("/page/<int:page_id>/")
-def page_permalink(page_id):
+def page_permalink(page_id: int):
     """
     Redirects to the Wagtail page by its ID, if it exists, acting as a permalink.
     """
@@ -152,7 +152,17 @@ def page_permalink(page_id):
 @bp.route("/", defaults={"path": "/"})
 @bp.route("/<path:path>/")
 @get_requested_accept(["text/html", "text/markdown"])
-def page(path, preferred_content_type: str | None):
+def page(path: str, preferred_content_type: str | None):
+    return html_markdown_page(path, preferred_content_type)
+
+
+@bp.route("/md/", defaults={"path": "/"})
+@bp.route("/md/<path:path>/")
+def markdown_page(path: str):
+    return html_markdown_page(path, preferred_content_type="text/markdown")
+
+
+def html_markdown_page(path: str, preferred_content_type: str | None):
     """
     This function handles the majority of Wagtail page requests.
 
@@ -224,7 +234,11 @@ def page(path, preferred_content_type: str | None):
         document = BeautifulSoup(markdown_response.get_data(), "html.parser")
         main = document.find("main")
         markdown_response.set_data(
-            markdownify(str(main if main is not None else document)).strip()
+            markdownify(
+                str(main if main is not None else document),
+                heading_style="ATX",
+                wrap=True,
+            ).strip()
         )
         markdown_response.mimetype = "text/markdown"
         for header in (
@@ -241,7 +255,7 @@ def page(path, preferred_content_type: str | None):
     return page_content
 
 
-def try_external_redirect(path):
+def try_external_redirect(path: str):
     """
     Renders a video details page.
     """
@@ -282,7 +296,7 @@ def try_external_redirect(path):
 
 @bp.route("/<any(video,audio):media_type>/<uuid:media_uuid>/")
 @cacheable_duration_cloudfront(3600, 86400, 60, 86400)
-def audio_video_page(media_type, media_uuid):
+def audio_video_page(media_type: str, media_uuid: str):
     """
     Renders a video details page.
     """
@@ -312,7 +326,7 @@ def audio_video_page(media_type, media_uuid):
 
 @bp.route("/image/<uuid:image_uuid>/")
 @cacheable_duration_cloudfront(3600, 86400, 60, 86400)
-def image_page(image_uuid):
+def image_page(image_uuid: str):
     """
     Renders an image details page.
     """
@@ -334,7 +348,7 @@ def image_page(image_uuid):
 @bp.route("/og/", defaults={"page_path": ""})
 @bp.route("/og/<path:page_path>/")
 @cacheable_duration(86400)
-def og_image(page_path):
+def og_image(page_path: str):
     try:
         page_data = page_details_by_uri(unquote(f"/{page_path}/"))
         return generate_og_image_from_page_data(page_data)
