@@ -3,6 +3,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import requests_mock
+from bs4 import BeautifulSoup
 from flask import Response
 
 from app import create_app
@@ -29,6 +30,40 @@ class WagtailRoutesTestCase(unittest.TestCase):
 
 
 class PageRouteTestCase(WagtailRoutesTestCase):
+    def test_markdown_alternate_link_respects_renderer(self):
+        cases = (
+            ("/cookies/", "cookies.CookiesPage", None),
+            ("/other/", "generic_pages.GeneralPage", "https://localhost/md/other/"),
+            ("/", "generic_pages.GeneralPage", "https://localhost/md/"),
+        )
+        for path, page_type, expected_href in cases:
+            page_data = {
+                "id": 1,
+                "title": "Test page",
+                "page_sidebar": "none",
+                "body": [],
+                "footnotes": [],
+                "meta": {"url": path, "page_path": path, "type": page_type},
+            }
+            with (
+                self.subTest(path=path),
+                patch("app.wagtail.routes.page_details_by_uri", return_value=page_data),
+                patch(
+                    "app.wagtail.pages.cookies.cookies_page.page_children",
+                    return_value={"items": [{"id": 2, "url": "/cookie-details/"}]},
+                ),
+            ):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 200)
+                link = BeautifulSoup(response.data, "html.parser").select_one(
+                    'link[rel="alternate"][type="text/markdown"]'
+                )
+                if expected_href is None:
+                    self.assertIsNone(link)
+                else:
+                    self.assertIsNotNone(link)
+                    self.assertEqual(link.get("href"), expected_href)
+
     def test_cookies_page_disallows_markdown(self):
         html = "<main><p>Cookie preferences</p></main>"
         cases = (
