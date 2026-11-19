@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @use "@nationalarchives/frontend/nationalarchives/variables/borders" as
   borderVars;
 @use "@nationalarchives/frontend/nationalarchives/variables/grid" as gridVars;
@@ -170,8 +172,8 @@ $forced-colours-border: 1px;
       top: spacing.space(1);
       bottom: 0;
       left: calc(
-        #{spacing.space($source-list-marker-size / 2)} -
-          #{$source-list-line-width / 2}
+        #{spacing.space(math.div($source-list-marker-size, 2))} -
+          #{math.div($source-list-line-width, 2)}
       );
 
       @include colour.contrast;
