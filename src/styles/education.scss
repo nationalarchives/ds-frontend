@@ -266,7 +266,10 @@ $forced-colours-border: 1px;
       right: calc(
         100% + spacing.space($source-list-marker-spacing) +
           #{spacing.space(
-            ($source-list-marker-size - $source-list-marker-size-small) / 2
+            math.div(
+              $source-list-marker-size - $source-list-marker-size-small,
+              2
+            )
           )} -
           $forced-colours-border
       );
