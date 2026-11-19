@@ -1,5 +1,5 @@
 User-agent: *
-Content-Signal: ai-train=no, search=yes, ai-input=no
+Content-Signal: ai-train=no, search=yes, ai-input=yes
 Crawl-delay: 10 seconds
 Disallow: /book-a-reading-room-visit/
 Disallow: /cabinetpaperssearch/

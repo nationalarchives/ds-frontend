@@ -4,10 +4,6 @@ import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
-// If ("serviceWorker" in navigator) {
-//   Navigator.serviceWorker.register("/service-worker.min.js");
-// }
-
 initAll();
 
 const cookies = new Cookies();

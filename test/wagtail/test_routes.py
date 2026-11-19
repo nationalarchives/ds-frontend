@@ -64,6 +64,25 @@ class PageRouteTestCase(WagtailRoutesTestCase):
                     self.assertIsNotNone(link)
                     self.assertEqual(link.get("href"), expected_href)
 
+    def test_html_page_includes_markdown_alternate_link_header(self):
+        with (
+            patch(
+                "app.wagtail.routes.page_details_by_uri",
+                return_value={"id": 1, "meta": {"url": "/foobar/"}},
+            ),
+            patch(
+                "app.wagtail.routes.render_content_page",
+                return_value="<main>Rendered page</main>",
+            ),
+        ):
+            response = self.client.get("/foobar/")
+
+        self.assertEqual(
+            response.headers["Link"],
+            "<https://localhost/md/foobar/>; rel=alternate; "
+            'type=text/markdown;title="Markdown version"',
+        )
+
     def test_cookies_page_disallows_markdown(self):
         html = "<main><p>Cookie preferences</p></main>"
         cases = (
