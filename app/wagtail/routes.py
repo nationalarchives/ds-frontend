@@ -253,12 +253,11 @@ def html_markdown_page(path: str, preferred_content_type: str | None):
             r"#heading-(.+)-[a-f0-9-]{36}", r"#\1", markdown_content
         )
         markdown_content = re.sub(r"(\n\s*){3,}", "\n\n", markdown_content)
-        markdown_content = re.sub(
-            rf"https://{request.host}/(?!md/|og/|media/)([^ \n]*)",
-            rf"https://{request.host}/md/\1",
-            markdown_content,
-        )
-
+        # markdown_content = re.sub(
+        #     rf"https://{request.host}/(?!md/|og/|media/)([^ \n]*)",
+        #     rf"https://{request.host}/md/\1",
+        #     markdown_content,
+        # )
         markdown_response.set_data(markdown_content)
         markdown_response.mimetype = "text/markdown"
         for header in (

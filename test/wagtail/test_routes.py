@@ -213,7 +213,7 @@ class PageRouteTestCase(WagtailRoutesTestCase):
                 self.assertEqual(response.content_length, len(response.data))
                 self.assertIn("Accept", response.vary)
 
-    def test_markdown_cleans_content_and_normalizes_links(self):
+    def test_markdown_cleans_content_and_normalises_links(self):
         html = (
             "<main>"
             '<div class="tna-!--hide-on-print">Print only</div>'
@@ -255,7 +255,7 @@ class PageRouteTestCase(WagtailRoutesTestCase):
             with self.subTest(hidden_content=hidden_content):
                 self.assertNotIn(hidden_content, markdown)
         self.assertIn("[Jump to section](#section-name)", markdown)
-        self.assertIn("[About](https://localhost/md/about/)", markdown)
+        self.assertIn("[About](https://localhost/about/)", markdown)
         self.assertIn("[Markdown](https://localhost/md/about/)", markdown)
         self.assertIn("[OG](https://localhost/og/image.png)", markdown)
         self.assertIn("[Media](https://localhost/media/file.pdf)", markdown)
