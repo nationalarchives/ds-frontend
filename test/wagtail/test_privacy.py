@@ -74,7 +74,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
                 rv.text,
             )
             self.assertIn(
-                '<span class="tna-!--visually-hidden">Error:</span> Enter a password',
+                '<span class="tna-visually-hidden">Error:</span> Enter a password',
                 rv.text,
             )
 
@@ -105,7 +105,7 @@ class WagtailPrivacyTestCase(unittest.TestCase):
                 rv.text,
             )
             self.assertIn(
-                '<span class="tna-!--visually-hidden">Error:</span> Incorrect password',
+                '<span class="tna-visually-hidden">Error:</span> Incorrect password',
                 rv.text,
             )
 
@@ -137,11 +137,11 @@ class WagtailPrivacyTestCase(unittest.TestCase):
                 rv.text,
             )
             self.assertNotIn(
-                '<span class="tna-!--visually-hidden">Error:</span> Enter a password',
+                '<span class="tna-visually-hidden">Error:</span> Enter a password',
                 rv.text,
             )
             self.assertNotIn(
-                '<span class="tna-!--visually-hidden">Error:</span> Incorrect password',
+                '<span class="tna-visually-hidden">Error:</span> Incorrect password',
                 rv.text,
             )
 

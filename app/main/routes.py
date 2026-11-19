@@ -130,28 +130,12 @@ def set_cookies():
     return response
 
 
-@bp.route("/service-worker.min.js")
-@cacheable_duration(86400)
-def service_worker():
-    return current_app.send_static_file("service-worker.min.js")
-
-
 @bp.route("/manifest.json")
-@cacheable_duration(86400)
-def manifest():
-    return current_app.send_static_file("manifest.json")
-
-
 @bp.route("/robots.txt")
-@cacheable_duration(86400)
-def robots():
-    return current_app.send_static_file("robots.txt")
-
-
 @bp.route("/llms.txt")
 @cacheable_duration(86400)
 def llms():
-    return current_app.send_static_file("llms.txt")
+    return current_app.send_static_file(request.path.lstrip("/"))
 
 
 @bp.route("/.well-known/<path:filename>")

@@ -25,7 +25,7 @@ This contains reusable functionality that can be used throughout the site. Notab
 
 ### `app/main`
 
-The main routs for the site, including the healthcheck endpoint and static paths for `robots.txt`, `service-worker.min.js` and `llms.txt`.
+The main routs for the site, including the healthcheck endpoint and static paths for `robots.txt` and `llms.txt`.
 
 ### `app/sitemaps`
 
@@ -93,6 +93,7 @@ JavaScript files get compiled to `app/static` and can be used in the templates w
 ```html
 {% block bodyEnd %} {{ super() }}
 <script
+  type="module"
   src="{{ url_for('static', filename='my-js-file.min.js', v=app_config.BUILD_VERSION) }}"
   defer
 ></script>
