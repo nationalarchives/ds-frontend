@@ -132,10 +132,11 @@ def set_cookies():
 
 @bp.route("/manifest.json")
 @bp.route("/robots.txt")
-@bp.route("/llms.txt")
+@bp.route("/llms.txt", endpoint="llms")
 @cacheable_duration(86400)
-def llms():
-    return current_app.send_static_file(request.path.lstrip("/"))
+def static_file():
+    filename = request.path.lstrip("/")
+    return current_app.send_static_file(filename)
 
 
 @bp.route("/.well-known/<path:filename>")
