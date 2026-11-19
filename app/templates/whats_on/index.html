@@ -63,12 +63,12 @@
           {
             'title': 'Cost',
             'text': (section.selected_page.featured_page.price | pretty_price | safe) if section.selected_page.featured_page.price else (pretty_price_range(section.selected_page.featured_page.min_price or 0, section.selected_page.featured_page.max_price or 0) | safe),
-            'icon': 'ticket'
+            'iconSvg': icon('ticket')
           },
           {
             'title': 'Date',
             'text': pretty_date_range(section.selected_page.featured_page.start_date, section.selected_page.featured_page.end_date),
-            'icon': 'calendar'
+            'iconSvg': icon('calendar')
           }
         ],
         'metaStacked': True,
@@ -113,12 +113,12 @@
           {
             'title': 'Cost',
             'text': (page.price | pretty_price | safe) if page.price else (pretty_price_range(page.min_price or 0, page.max_price or 0) | safe),
-            'icon': 'ticket'
+            'iconSvg': icon('ticket')
           },
           {
             'title': 'Date',
             'text': pretty_date_range(page.start_date, page.end_date),
-            'icon': 'calendar'
+            'iconSvg': icon('calendar')
           }
         ],
         'metaStacked': True,

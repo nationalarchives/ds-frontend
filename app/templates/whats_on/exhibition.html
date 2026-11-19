@@ -66,7 +66,7 @@
         <dt>Date</dt>
         <dd>
           <span class="tna-dl-chips__item">
-            <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+            {{ icon('calendar') | safe }}
             {{ 'All-year round' if page_data.all_year else pretty_date_range(page_data.start_date, page_data.end_date, omit_days=page_data.exclude_days) }}
           </span>
         </dd>
@@ -75,7 +75,7 @@
         <dt>Price</dt>
         <dd>
           <span class="tna-dl-chips__item">
-            <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+            {{ icon('ticket') | safe }}
             {{ page_data.price | pretty_price }}
           </span>
         </dd>
@@ -192,7 +192,7 @@
         <dl class="tna-dl tna-dl--stacked">
           {% if page_data.open_days %}
           <dt>
-            <i class="fa-solid fa-fw fa-calendar" aria-hidden="true"></i>
+            {{ icon_fw('calendar') | safe }}
             Date
           </dt>
           <dd class="tna-!--no-padding-bottom">{{ page_data.open_days }}</dd>
@@ -200,7 +200,7 @@
           {% endif %}
 
           <dt>
-            <i class="fa-solid fa-fw fa-ticket" aria-hidden="true"></i>
+            {{ icon_fw('ticket') | safe }}
             Price
           </dt>
           <dd class="tna-!--no-padding-bottom">
@@ -215,7 +215,7 @@
 
           {% if page_data.age_detail %}
           <dt>
-            <i class="fa-solid fa-fw fa-user" aria-hidden="true"></i>
+            {{ icon_fw('user') | safe }}
             Age
           </dt>
           <dd itemprop="typicalAgeRange">{{ page_data.age_detail }}</dd>
@@ -223,7 +223,7 @@
 
           {%- if page_data.location %}
           <dt>
-            <i class="fa-solid fa-fw fa-location-dot" aria-hidden="true"></i>
+            {{ icon_fw('location-dot') | safe }}
             Location
           </dt>
           {%- if page_data.location.online %}
@@ -255,7 +255,7 @@
           {%- endif %}
 
           <dt>
-            <i class="fa-solid fa-fw fa-universal-access" aria-hidden="true"></i>
+            {{ icon_fw('universal-access') | safe }}
             Accessibility
           </dt>
           <dd>See our <a href="https://www.nationalarchives.gov.uk/about/visit-us/information-for-disabled-visitors/">accessibility guide</a></dd>
@@ -283,7 +283,7 @@
           <meta itemprop="bestRating" content="5">
           <span class="tna-visually-hidden"><span itemprop="ratingValue">{{ review.value.stars }}</span> stars</span>
           {% for star in range(0, review.value.stars | int) %}
-          <i class="fa-solid fa-star" aria-hidden="true"></i>
+          {{ icon('star') | safe }}
           {% endfor %}
         </p>
         <div class="tna-heading-l tna-!--no-margin-top tna-exhibition-quote__body" itemprop="reviewBody">{{ review.value.quote | tna_html | safe }}</div>
@@ -606,8 +606,8 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='exhibition.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='exhibition.min.js', v=app_config.BUILD_VERSION) }}"></script>
     {%- if page_data.video %}
-    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}"></script>
     {%- endif %}
 {% endblock bodyEnd %}

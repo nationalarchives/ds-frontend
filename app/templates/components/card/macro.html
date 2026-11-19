@@ -90,7 +90,7 @@
       <dd>
         <span class="tna-dl-chips__item">
           {%- if item.icon %}
-          <i class="fa-solid fa-fw fa-{{ item.icon }}" aria-hidden="true"></i>
+          {{ icon_fw(item.icon) | safe }}
           {%- endif %}
           {{ item.text }}
         </span>

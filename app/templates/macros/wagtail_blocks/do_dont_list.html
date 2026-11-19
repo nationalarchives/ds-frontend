@@ -5,7 +5,7 @@
       <ul class="tna-ul etna-ul-ticks">
         {%- for item in block_value.do %}
         <li>
-          <i class="fa-solid fa-check" aria-hidden="true"></i>
+          {{ icon('check') | safe }}
           {{ item.text | tna_html | safe }}
         </li>
         {%- endfor %}
@@ -16,7 +16,7 @@
       <ul class="tna-ul etna-ul-crosses">
         {%- for item in block_value.dont %}
         <li>
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          {{ icon('xmark') | safe }}
           {{ item.text | tna_html | safe }}
         </li>
         {%- endfor %}

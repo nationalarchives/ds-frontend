@@ -36,17 +36,17 @@
           {
             'title': 'Date',
             'text': pretty_date_range(page_data.featured_page.start_date, page_data.featured_page.end_date),
-            'icon': 'calendar'
+            'iconSvg': icon('calendar')
           },
           {
             'title': 'Location',
             'text': page_data.featured_page.short_location,
-            'icon': 'location-dot'
+            'iconSvg': icon('location-dot')
           },
           {
             'title': 'Cost',
             'text': pretty_price_range(page_data.featured_page.min_price or 0, page_data.featured_page.max_price or 0),
-            'icon': 'ticket'
+            'iconSvg': icon('ticket')
           }
         ],
         'text': page_data.featured_page.teaser_text,
@@ -105,17 +105,17 @@
         {
           'title': 'Date',
           'text': pretty_date_range(event.start_date, event.end_date),
-          'icon': 'calendar'
+          'iconSvg': icon('calendar')
         },
         {
           'title': 'Location',
           'text': event.short_location,
-          'icon': 'location-dot'
+          'iconSvg': icon('location-dot')
         },
         {
           'title': 'Cost',
           'text': pretty_price_range(event.min_price or 0, event.max_price or 0),
-          'icon': 'ticket'
+          'iconSvg': icon('ticket')
         }
       ],
       'text': event.teaser_text,
@@ -173,17 +173,17 @@
         {
           'title': 'Date',
           'text': pretty_date_range(exhibition.start_date, exhibition.end_date),
-          'icon': 'calendar'
+          'iconSvg': icon('calendar')
         },
         {
           'title': 'Location',
           'text': exhibition.short_location,
-          'icon': 'location-dot'
+          'iconSvg': icon('location-dot')
         },
         {
           'title': 'Cost',
           'text': pretty_price_range(exhibition.min_price or 0, exhibition.max_price or 0),
-          'icon': 'ticket'
+          'iconSvg': icon('ticket')
         }
       ],
       'text': exhibition.teaser_text,

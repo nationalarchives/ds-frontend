@@ -93,6 +93,7 @@ JavaScript files get compiled to `app/static` and can be used in the templates w
 ```html
 {% block bodyEnd %} {{ super() }}
 <script
+  type="module"
   src="{{ url_for('static', filename='my-js-file.min.js', v=app_config.BUILD_VERSION) }}"
   defer
 ></script>

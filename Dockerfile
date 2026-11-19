@@ -15,13 +15,6 @@ COPY --chown=app . .
 # Install dependencies
 RUN tna-build
 
-# Copy in the static assets
-RUN mkdir /app/app/static/assets; \
-    cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets/* /app/app/static/assets;
-
-# Delete source files
-RUN rm -fR /app/src
-
 # Clean up build dependencies
 RUN tna-clean
 

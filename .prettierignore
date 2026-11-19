@@ -1,0 +1,7 @@
+**/*.html
+**/*.min.js
+**/*.css
+.ruff_cache
+.pytest_cache
+app/static/**/*
+node_modules/**/*

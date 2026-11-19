@@ -66,7 +66,7 @@
               {%- for chapter in block_value.media.chapters %}
               <li>
                 <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="{{ id }}" hidden>
-                  <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
+                  {{ icon('arrow-right-to-bracket') | safe }}
                   <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_duration }} - {{ chapter.heading }}</span>
                 </button>
                 <h{{ itemHeadingLevel + 1 }} class="tna-heading-s media-chapter-heading">

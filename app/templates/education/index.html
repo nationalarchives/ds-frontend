@@ -122,21 +122,21 @@
         {% do card_meta.append({
           'title': 'Age range',
           'text': page_data.featured_page.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
-          'icon': 'person-chalkboard'
+          'iconSvg': icon('person-chalkboard')
         }) %}
       {%- endif %}
       {%- if page_data.featured_page.start_date or page_data.featured_page.end_date %}
         {% do card_meta.append({
           'title': 'Date',
           'text': pretty_date_range(page_data.featured_page.start_date, page_data.featured_page.end_date) if page_data.featured_page.start_date or page_data.featured_page.end_date else 'All year',
-          'icon': 'calendar'
+          'iconSvg': icon('calendar')
         }) %}
       {%- endif %}
       {%- if page_data.featured_page.session_locations %}
         {% do card_meta.append({
           'title': 'Locations',
           'text': 'Various locations' if (page_data.featured_page.session_locations | length) > 1 else ((page_data.featured_page.session_locations | map(attribute='venue_name') | first) or (page_data.featured_page.session_locations | map(attribute='location_type_display') | first)),
-          'icon': 'location-dot'
+          'iconSvg': icon('location-dot')
         }) %}
       {%- endif %}
 

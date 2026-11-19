@@ -101,7 +101,7 @@
           {%- for chapter in media_data.chapters %}
           <li class="tna-!--margin-bottom-m">
             <button class="tna-button tna-button--small media-chapter" type="button" value="{{ chapter.time }}" aria-controls="audiovideo" hidden>
-              <i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i>
+              {{ icon('arrow-right-to-bracket') | safe }}
               <span><span class="tna-visually-hidden">Skip to </span>{{ chapter.time | seconds_to_duration }} - {{ chapter.heading }}</span>
             </button>
             <h3 class="tna-heading-m media-chapter-heading">
@@ -132,5 +132,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}"></script>
 {% endblock bodyEnd %}

@@ -69,7 +69,7 @@
               'text': item.text,
               'href': item.href,
               'title': item.title,
-              'icon': item.icon,
+              'iconSvg': icon(item.icon),
               'rightAlignIcon': item.rightAlignIcon,
               'classes': item.classes,
               'attributes': item.attributes
@@ -93,7 +93,7 @@
     <figcaption class="tna-hero__caption" lang="en">
       <details class="tna-hero__details">
         <summary class="tna-hero__details-summary tna-button tna-button--small tna-button--icon-only-mobile" aria-label="Additional information about this image">
-          <i class="fa-solid fa-circle-info tna-hero__details-summary-icon" aria-hidden="true"></i>
+          {{ icon('circle-info', 'tna-hero__details-summary-icon') | safe }}
           About this image
         </summary>
         <div class="tna-hero__information" itemprop="description">

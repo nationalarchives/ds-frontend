@@ -54,13 +54,13 @@
           {{ tnaButton({
             'text': 'List view' ~ (' (current)' if not request.args.view or request.args.view == 'list' else ''),
             'href': qs_update_parameter('view', 'list'),
-            'icon': 'list',
+            'iconSvg': icon('list'),
             'accent': not request.args.view or request.args.view == 'list'
           }) }}
           {{ tnaButton({
             'text': 'Grid view' ~ (' (current)' if request.args.view == 'grid' else ''),
             'href': qs_update_parameter('view', 'grid'),
-            'icon': 'grip',
+            'iconSvg': icon('grip'),
             'accent': request.args.view == 'grid'
           }) }}
         </div>
