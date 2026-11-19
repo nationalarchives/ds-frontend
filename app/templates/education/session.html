@@ -34,7 +34,7 @@
     </div>
     <dl class="tna-dl">
       <dt>
-        <i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>
+        {{ icon('person-chalkboard') | safe }}
         Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
       </dt>
       {%- for key_stage in page_data.key_stages %}
@@ -42,7 +42,7 @@
       {%- endfor %}
       
       <dt>
-        <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+        {{ icon('calendar') | safe }}
         Date
       </dt>
       <dd>
@@ -55,7 +55,7 @@
 
       {%- if page_data.session_locations | length %}
       <dt>
-        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        {{ icon('location-dot') | safe }}
         Location{{ 's' if page_data.session_locations | length > 1 else '' }}
       </dt>
       <dd>
@@ -76,7 +76,7 @@
     <div class="tna-education-top-details tna-background-tint">
       <div class="tna-education-top-details__content">
         <h3 class="tna-heading-s">
-          <i class="fa-solid fa-fw fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+          {{ icon_fw('hourglass', 'tna-education-top-details__icon') | safe }}
           Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
@@ -96,7 +96,7 @@
     <div class="tna-education-top-details tna-background-tint">
       <div class="tna-education-top-details__content">
         <h3 class="tna-heading-s">
-          <i class="fa-solid fa-fw fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+          {{ icon_fw('scroll', 'tna-education-top-details__icon') | safe }}
           Theme{{ 's' if page_data.themes | length > 1 else '' }}
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
@@ -118,7 +118,7 @@
       <h2 class="tna-heading-l">Key details</h2>
       <dl class="tna-dl tna-dl--stacked">
         <dt>
-          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          {{ icon('location-dot') | safe }}
           Location{{ 's' if page_data.session_locations | length > 1 else '' }}
         </dt>
         <dd>
@@ -149,7 +149,7 @@
         </dd>
 
         <dt>
-          <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+          {{ icon('calendar') | safe }}
           Date
         </dt>
         <dd>
@@ -161,7 +161,7 @@
         </dd>
 
         <dt>
-          <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+          {{ icon('ticket') | safe }}
           Price
         </dt>
         <dd>{{ (page_data.price or 0) | pretty_price }}{% if page_data.price_detail %} {{ page_data.price_detail }}{% endif %}</dd>
@@ -169,7 +169,7 @@
         {%- set locations_with_durations = page_data.session_locations | rejectattr('duration', 'none') | list %}
         {%- if locations_with_durations %}
         <dt>
-          <i class="fa-solid fa-clock" aria-hidden="true"></i>
+          {{ icon('clock') | safe }}
           Duration
         </dt>
         <dd>
@@ -188,7 +188,7 @@
         {%- endif %}
 
         <dt>
-          <i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>
+          {{ icon('person-chalkboard') | safe }}
           Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
         </dt>
         {%- for key_stage in page_data.key_stages %}
@@ -250,7 +250,7 @@
           {
             'title': 'Key stage',
             'text': session.key_stages | map(attribute='short_key_stage') | join(', '),
-            'icon': 'person-chalkboard'
+            'iconSvg': icon('person-chalkboard')
           }
         ],
         'text': session.teaser_text,

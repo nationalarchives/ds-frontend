@@ -5,18 +5,12 @@
 ```sh
 # Build and start the container
 docker compose up -d
-```
 
-### Add the static assets
+# Run tests
+docker compose exec app poetry run python -m pytest
 
-During the first time install, your `app/static/assets` directory will be empty.
-
-As you mount the project directory to the `/app` volume, the static assets from TNA Frontend installed inside the container will be "overwritten" by your empty directory.
-
-To add back in the static assets, run:
-
-```sh
-docker compose exec app cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets /app/app/static
+# Format and lint code
+docker compose exec app format
 ```
 
 ### Preview application
@@ -73,7 +67,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `SIDEBAR_SCROLL_TOP_THRESHOLD`         | The distance from the top of the window before the sidebar section highlight is highlighted          | `16`                                                 |
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)
-[^2] [Tell Flask it is Behind a Proxy](https://flask.palletsprojects.com/en/stable/deploying/proxy_fix/)
+[^2] [ProxyFix middleware](https://flask.palletsprojects.com/en/stable/deploying/proxy_fix/) - **Ensure all proxy headers are correctly set in the proxy**
 
 ## Running tests
 

@@ -65,7 +65,7 @@
         {{ tnaButton({
           'text': 'Download image',
           'href': image_data.jpeg.full_url,
-          'icon': 'download',
+          'iconSvg': icon('download'),
           'attributes': {
             'download': (image_data.title | slugify) ~ '.jpg'
           }

@@ -25,8 +25,8 @@
 {%- endif -%}
 
 {% block headIcons %}
-    <link rel="icon" sizes="48x48" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    <link rel="icon" sizes="any" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}">
+    <link rel="icon" sizes="any" href="{{ url_for('static', filename='assets/images/favicon.svg') }}" type="image/svg+xml">
     <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
     
@@ -63,7 +63,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='print.css', v=app_config.BUILD_VERSION) }}" media="print">
     <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css" media="screen,print">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
-    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
     {%- if feature.LOGO_ADORNMENTS_CSS %}
     <link rel="stylesheet" href="{{ feature.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_date() }}" media="screen">
@@ -133,11 +132,8 @@
 
 {% block bodyEnd %}
 {%- if app_config.SENTRY_JS_ID and cookie_preference('usage') %}
-    <script src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT_NAME }}" data-version="{{ app_config.BUILD_VERSION }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='sentry.min.js', v=app_config.BUILD_VERSION) }}" data-id="{{ app_config.SENTRY_JS_ID }}" data-samplerate="{{ app_config.SENTRY_SAMPLE_RATE }}" data-environment="{{ app_config.ENVIRONMENT_NAME }}" data-version="{{ app_config.BUILD_VERSION }}"></script>
 {%- endif %}
-    <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-    <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{%- if feature.LOGO_ADORNMENTS_JS %}
-    <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_date() }}"></script>
-{%- endif %}
+    <script type="module" src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}"></script>
+    <script type="module" src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}"></script>
 {% endblock bodyEnd %}

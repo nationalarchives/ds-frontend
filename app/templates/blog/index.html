@@ -109,26 +109,26 @@
         'text': 'RSS feed',
         'href': url_for('feeds.rss_all_feed'),
         'title': 'Subscribe to the RSS feed for this blog',
-        'icon': 'rss'
+        'iconSvg': icon('rss')
       }) }}
       {{ tnaButton({
         'text': 'Atom feed',
         'href': url_for('feeds.rss_all_feed', format='atom'),
         'title': 'Subscribe to the Atom feed for this blog',
-        'icon': 'atom'
+        'iconSvg': icon('atom')
       }) }}
     {%- elif page_data.meta.type == 'blog.BlogPage' and page_data.id %}
       {{ tnaButton({
         'text': 'RSS feed',
         'href': url_for('feeds.rss_feed', blog_id=page_data.id),
         'title': 'Subscribe to the RSS feed for this blog',
-        'icon': 'rss'
+        'iconSvg': icon('rss')
       }) }}
       {{ tnaButton({
         'text': 'Atom feed',
         'href': url_for('feeds.rss_feed', blog_id=page_data.id, format='atom'),
         'title': 'Subscribe to the Atom feed for this blog',
-        'icon': 'atom'
+        'iconSvg': icon('atom')
       }) }}
     {%- endif %}
   </div>

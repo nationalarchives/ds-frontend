@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import UTC, datetime
 from urllib.parse import unquote
 
@@ -41,3 +42,35 @@ def display_phase_banner():
         request.path.startswith(uri)
         for uri in current_app.config.get("SHOW_PHASE_BANNER_ON_URIS", [])
     ) or (current_app.config["SHOW_PHASE_BANNER_ON_HOMEPAGE"] and request.path == "/")
+
+
+def icon(name, classes="", type="solid", fixed_width=False):
+    svg_path = os.path.join(
+        current_app.root_path,
+        "static",
+        "assets",
+        "icons",
+        f"{type}-fw" if fixed_width else type,
+        f"{name}.svg",
+    )
+    if os.path.exists(svg_path):
+        with open(svg_path, "r") as f:
+            svg_content = f.read()
+            svg_content = svg_content.replace(
+                "<svg",
+                f'<svg height="24" aria-hidden="true" focusable="false" class="fa fa-{type}{" fa-fw" if fixed_width else ""} fa-{name} {classes}"',
+            )
+            return svg_content
+    return f"<!-- icon {name} not found -->"
+
+
+def icon_fw(name, classes=""):
+    return icon(name, classes=classes, fixed_width=True)
+
+
+def icon_brand(name, classes=""):
+    return icon(name, classes=classes, type="brands")
+
+
+def icon_brand_fw(name, classes=""):
+    return icon(name, classes=classes, type="brands", fixed_width=True)

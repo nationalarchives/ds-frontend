@@ -38,7 +38,7 @@
     {{ page_data.intro | tna_html | safe }}
     <dl class="tna-dl">
       <dt>
-        <i class="fa-solid fa-person-chalkboard" aria-hidden="true"></i>
+        {{ icon('person-chalkboard') | safe }}
         Age range{{ 's' if page_data.key_stages | length > 1 else '' }}
       </dt>
       {%- for key_stage in page_data.key_stages %}
@@ -54,7 +54,7 @@
     <div class="tna-education-top-details tna-background-tint">
       <div class="tna-education-top-details__content">
         <h3 class="tna-heading-s">
-          <i class="fa-solid fa-fw fa-hourglass tna-education-top-details__icon" aria-hidden="true"></i>
+          {{ icon_fw('hourglass', 'tna-education-top-details__icon') | safe }}
           Time period{{ 's' if page_data.time_periods | length > 1 else '' }}
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
@@ -74,7 +74,7 @@
     <div class="tna-education-top-details tna-background-tint">
       <div class="tna-education-top-details__content">
         <h3 class="tna-heading-s">
-          <i class="fa-solid fa-fw fa-scroll tna-education-top-details__icon" aria-hidden="true"></i>
+          {{ icon_fw('scroll', 'tna-education-top-details__icon') | safe }}
           Theme{{ 's' if page_data.themes | length > 1 else '' }}
         </h3>
         <ul class="tna-ul tna-!--margin-top-xs">
@@ -167,7 +167,7 @@
       {%- if page_data.enquiry_question %}
       <h2 id="enquiry-question" class="tna-heading-l tna-!--padding-top-s">Enquiry question</h2>
       <div class="tna-education-enquiry-question tna-!--margin-bottom-l">
-        <i class="fa-solid fa-circle-question" aria-hidden="true"></i>
+        {{ icon('circle-question') | safe }}
         <p>{{ page_data.enquiry_question }}</p>
       </div>
       {%- endif %}
@@ -302,7 +302,7 @@
           <div class="tna-button-group">
             {{ tnaButton({
               'text': 'Download all images and transcripts (ZIP)',
-              'icon': 'file-archive',
+              'iconSvg': icon('file-archive'),
               'buttonElement': True,
               'attributes': {
                 'id': 'download-sources',
@@ -324,7 +324,7 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='education.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='education.min.js', v=app_config.BUILD_VERSION) }}"></script>
+    <script type="module" src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}"></script>
 {% endblock bodyEnd %}
 

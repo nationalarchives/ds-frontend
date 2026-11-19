@@ -17,11 +17,14 @@ from tna_utilities.datetime import (
 )
 from tna_utilities.string import slugify, unslugify
 from tna_utilities.url import QueryStringTransformer
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 from app.lib.context_processor import (
     cookie_preference,
     display_phase_banner,
+    icon,
+    icon_brand,
+    icon_brand_fw,
+    icon_fw,
     now_iso_8601,
     now_iso_8601_date,
     now_rfc_822,
@@ -55,8 +58,11 @@ from app.lib.template_filters import (
 def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+
     proxy_depth = app.config["PROXY_DEPTH"]
     if proxy_depth:
+        from werkzeug.middleware.proxy_fix import ProxyFix
+
         app.wsgi_app = ProxyFix(
             app.wsgi_app,
             x_for=proxy_depth,
@@ -96,6 +102,7 @@ def create_app(config_class):
         app,
         content_security_policy=app.config["CONTENT_SECURITY_POLICY"],
         allow_google_content_security_policy=True,
+        allow_typekit_content_security_policy=True,
         force_https=app.config["FORCE_HTTPS"],
     )
 
@@ -109,6 +116,14 @@ def create_app(config_class):
         ]
     )
     app.jinja_env.add_extension("jinja2.ext.do")
+    app.jinja_env.globals.update(
+        {
+            "icon": icon,
+            "icon_fw": icon_fw,
+            "icon_brand": icon_brand,
+            "icon_brand_fw": icon_brand_fw,
+        }
+    )
 
     filter_functions = [
         domain_from_url,

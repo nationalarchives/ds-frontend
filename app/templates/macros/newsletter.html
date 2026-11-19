@@ -3,7 +3,7 @@
 <div class="tna-newsletter tna-!--hide-on-print" data-tna-analytics-section lang="en">
   <h{{ heading_level }} class="tna-visually-hidden">Newsletter</h{{ heading_level }}>
   <div class="tna-newsletter_inner">
-    <i class="fa-solid fa-envelope tna-newsletter__icon" aria-hidden="true"></i>
+    {{ icon('envelope', 'tna-newsletter__icon') | safe }}
     <div class="tna-newsletter__body">
       <p class="tna-heading-m">
         <a href="{{ url or 'https://pages.enews.nationalarchives.gov.uk/pages/subscribe' }}" data-tna-analytics-event="select_promotion" data-tna-analytics-creative-name="email_subscription">{{ title or 'Get the latest updates' }}</a>

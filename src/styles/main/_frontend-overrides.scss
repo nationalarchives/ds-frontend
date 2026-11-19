@@ -33,6 +33,21 @@ dd {
   }
 }
 
+svg.fa {
+  height: 1em;
+
+  overflow: visible;
+}
+
+.tna-dl {
+  & > dt {
+    .fa-solid,
+    .fa-brands {
+      top: calc((1lh - 1em) / 2);
+    }
+  }
+}
+
 // .tna-ol {
 //   &--footnotes {
 //     @include typography.font-size(16);

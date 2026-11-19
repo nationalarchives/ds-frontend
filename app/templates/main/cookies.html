@@ -111,5 +111,5 @@
 
 {% block bodyEnd %}
 {{ super() }}
-    <script src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='cookies.min.js', v=app_config.BUILD_VERSION) }}"></script>
 {% endblock bodyEnd %}

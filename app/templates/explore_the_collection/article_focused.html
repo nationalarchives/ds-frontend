@@ -150,9 +150,9 @@
 {% block bodyEnd %}
 {{ super() }}
     {%- if body_contains_media %}
-    <script src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='media.min.js', v=app_config.BUILD_VERSION) }}"></script>
     {%- endif %}
     {%- if body_contains_code_block %}
-    <script src="{{ url_for('static', filename='code.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='code.min.js', v=app_config.BUILD_VERSION) }}"></script>
     {%- endif %}
 {% endblock bodyEnd %}
