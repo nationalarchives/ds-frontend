@@ -260,6 +260,14 @@ def html_markdown_page(path: str, preferred_content_type: str | None):
         # )
         markdown_response.set_data(markdown_content)
         markdown_response.mimetype = "text/markdown"
+        for header in (
+            "ETag",
+            "Content-MD5",
+            "Digest",
+            "Content-Digest",
+            "Repr-Digest",
+        ):
+            markdown_response.headers.pop(header, None)
         return markdown_response
 
     # Prepare the HTML response with a link to the Markdown version of the page
