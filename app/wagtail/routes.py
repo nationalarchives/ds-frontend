@@ -260,18 +260,18 @@ def html_markdown_page(path: str, preferred_content_type: str | None):
         # )
         markdown_response.set_data(markdown_content)
         markdown_response.mimetype = "text/markdown"
-        for header in (
-            "ETag",
-            "Content-MD5",
-            "Digest",
-            "Content-Digest",
-            "Repr-Digest",
-        ):
-            markdown_response.headers.pop(header, None)
         return markdown_response
 
+    # Prepare the HTML response with a link to the Markdown version of the page
+    html_response = make_response(page_content)
+    html_response.headers.update(
+        {
+            "Link": f'<{url_for("wagtail.markdown_page", path=None if request.path == "/" else request.path.strip("/"), _external=True, _scheme="https")}>; rel=alternate; type=text/markdown;title="Markdown version"'
+        }
+    )
+
     # Return the final page content
-    return page_content
+    return html_response
 
 
 def try_external_redirect(path: str):
