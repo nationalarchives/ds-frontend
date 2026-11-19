@@ -213,6 +213,55 @@ class PageRouteTestCase(WagtailRoutesTestCase):
                 self.assertEqual(response.content_length, len(response.data))
                 self.assertIn("Accept", response.vary)
 
+    def test_markdown_cleans_content_and_normalises_links(self):
+        html = (
+            "<main>"
+            '<div class="tna-!--hide-on-print">Print only</div>'
+            '<div class="tna-cookie-banner">Cookies</div>'
+            '<div class="tna-footer">Footer</div>'
+            '<div class="tna-global-header">Header</div>'
+            '<div class="tna-skip-link">Skip link</div>'
+            "<p>"
+            '<a href="#heading-section-name-12345678-1234-1234-1234-123456789abc">'
+            "Jump to section</a> "
+            '<a href="https://localhost/about/">About</a> '
+            '<a href="https://localhost/md/about/">Markdown</a> '
+            '<a href="https://localhost/og/image.png">OG</a> '
+            '<a href="https://localhost/media/file.pdf">Media</a> '
+            '<a href="https://example.com/">External</a>'
+            "</p>"
+            "<p>First<br><br><br>Second</p>"
+            "</main>"
+        )
+        with (
+            patch(
+                "app.wagtail.routes.page_details_by_uri",
+                return_value={"id": 1, "meta": {"url": "/foobar/"}},
+            ),
+            patch("app.wagtail.routes.render_content_page", return_value=html),
+        ):
+            response = self.client.get("/foobar/", headers={"Accept": "text/markdown"})
+
+        markdown = response.get_data(as_text=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.mimetype, "text/markdown")
+        for hidden_content in (
+            "Print only",
+            "Cookies",
+            "Footer",
+            "Header",
+            "Skip link",
+        ):
+            with self.subTest(hidden_content=hidden_content):
+                self.assertNotIn(hidden_content, markdown)
+        self.assertIn("[Jump to section](#section-name)", markdown)
+        self.assertIn("[About](https://localhost/about/)", markdown)
+        self.assertIn("[Markdown](https://localhost/md/about/)", markdown)
+        self.assertIn("[OG](https://localhost/og/image.png)", markdown)
+        self.assertIn("[Media](https://localhost/media/file.pdf)", markdown)
+        self.assertIn("[External](https://example.com/)", markdown)
+        self.assertNotRegex(markdown, r"\n\s*\n\s*\n")
+
     def test_markdown_preserves_status_and_headers(self):
         original_response = Response(
             "<main><p>Content</p></main>",
