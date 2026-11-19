@@ -19,8 +19,7 @@ services:
       - COOKIE_DOMAIN=.localhost
       - CSP_IMG_SRC=localhost:8000,localhost:65529,*.google-analytics.com,*.gstatic.com,*.nationalarchives.gov.uk,i.ytimg.com,img.youtube.com,maps.googleapis.com
       - CSP_SCRIPT_SRC=*.youtube.com,localhost:65529
-      - CSP_STYLE_SRC=localhost:65529,p.typekit.net,use.typekit.net,'unsafe-inline'
-      - CSP_FONT_SRC=use.typekit.net
+      - CSP_STYLE_SRC=localhost:65529,'unsafe-inline'
       - CSP_CONNECT_SRC=localhost:65529,*.google-analytics.com,*.analytics.google.com,noembed.com,sentry.io
       - CSP_MEDIA_SRC=localhost:8000
       - CSP_WORKER_SRC=blob:,localhost:65497
