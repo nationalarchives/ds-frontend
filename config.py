@@ -37,7 +37,9 @@ class Production(Features):
     except Exception:
         current_app.logger.exception("Error reading the version of TNA Frontend")
 
-    SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
+    SECRET_KEY: str = os.environ.get("SECRET_KEY")
+    if not SECRET_KEY:
+        raise ValueError("SECRET_KEY environment variable is not set")
 
     DEBUG: bool = False
 
