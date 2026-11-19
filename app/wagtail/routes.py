@@ -1,4 +1,5 @@
 import math
+import re
 from urllib.parse import quote, unquote, urlparse
 
 from bs4 import BeautifulSoup
@@ -232,14 +233,33 @@ def html_markdown_page(path: str, preferred_content_type: str | None):
         if not 200 <= markdown_response.status_code < 300:
             return markdown_response
         document = BeautifulSoup(markdown_response.get_data(), "html.parser")
-        main = document.find("main")
-        markdown_response.set_data(
-            markdownify(
-                str(main if main is not None else document),
-                heading_style="ATX",
-                wrap=True,
-            ).strip()
+        content = document.find("main") or document
+        hide_classes = [
+            r"tna-\!--hide-on-print",
+            "tna-cookie-banner",
+            "tna-footer",
+            "tna-global-header",
+            "tna-skip-link",
+        ]
+        for hide_class in hide_classes:
+            for block in content.select(f".{hide_class}"):
+                block.decompose()
+        markdown_content = markdownify(
+            str(content),
+            heading_style="ATX",
+            wrap=True,
+        ).strip()
+        markdown_content = re.sub(
+            r"#heading-(.+)-[a-f0-9-]{36}", r"#\1", markdown_content
         )
+        markdown_content = re.sub(r"(\n\s*){3,}", "\n\n", markdown_content)
+        markdown_content = re.sub(
+            rf"https://{request.host}/(?!md/|og/|media/)([^ \n]*)",
+            rf"https://{request.host}/md/\1",
+            markdown_content,
+        )
+
+        markdown_response.set_data(markdown_content)
         markdown_response.mimetype = "text/markdown"
         for header in (
             "ETag",
