@@ -15,7 +15,6 @@ module.exports = {
     media: "./src/scripts/media.js",
     "record-article": "./src/scripts/record-article.js",
     sentry: "./src/scripts/sentry.js",
-    "service-worker": "./src/scripts/service-worker.js",
   },
   mode: "production",
   module: {
