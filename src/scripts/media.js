@@ -10,4 +10,4 @@ import "@videojs/html/audio/player";
 import "@videojs/html/audio/compat-skin";
 // import "@videojs/html/audio/scaffold-skin";
 
-import "@videojs/html/ui/poster";
+// import "@videojs/html/ui/poster";

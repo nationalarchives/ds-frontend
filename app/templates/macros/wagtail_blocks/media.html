@@ -48,7 +48,7 @@
       {%- endif %}
       <video-player class="tna-!--margin-top-s" role="region" aria-label="Video: {{ block_value.title }}">
         <video-neutral-skin style="--media-scale-unit: 1rem; --media-border-radius: 2px">
-          <video id="media-{{ id }}" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
+          <video id="media-{{ id }}" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}{% if block_value.thumbnail %} poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %}>
             <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
             {% if block_value.media.subtitles_file %}
             <track kind="captions" src="{{ block_value.media.subtitles_file }}" srclang="en" label="English" default>
@@ -58,11 +58,6 @@
             {% endif %}
             <p>Your browser doesn't support HTML5 video. <a href="{{ block_value.media.url }}">Download the video file</a>.</p>
           </video>
-          {% if block_value.thumbnail %}
-          <picture slot="poster">
-            <img src="{{ block_value.thumbnail.jpeg.full_url }}" alt="{{ block_value.thumbnail.description }}" />
-          </picture>
-          {% endif %}
         </video-neutral-skin>
       </video-player>
       

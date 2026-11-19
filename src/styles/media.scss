@@ -137,20 +137,6 @@ audio-player {
   display: block !important;
 }
 
-video-player {
-  picture[slot="poster"] {
-    img {
-      width: 100%;
-      height: 100%;
-
-      position: absolute;
-      inset: 0;
-      object-fit: cover;
-      object-position: center;
-    }
-  }
-}
-
 audio-player {
   audio {
     display: none;
