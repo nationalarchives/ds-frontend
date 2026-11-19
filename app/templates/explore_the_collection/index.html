@@ -17,7 +17,7 @@
 {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice, None, 'm') }}
 
 {%- set hero_intro %}
-  <div class="tna-large-paragraph tna-!--margin-top-s">{{ page_data.intro | safe }}</div>
+  <div class="tna-large-paragraph">{{ page_data.intro | safe }}</div>
 {%- endset %}
 {%- set hero_image_caption %}
   {{- (page_data.hero_image_caption | safe) if (page_data.hero_image_caption | striptags) else '' -}}

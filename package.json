@@ -8,7 +8,7 @@
     "dev": "npm run dev:css & npm run dev:js &"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "1.4.1",
+    "@nationalarchives/frontend": "1.6.3",
     "@sentry/browser": "^10.17.0",
     "@videojs/html": "^10.0.1",
     "@videojs/youtube-video": "^10.0.1",

@@ -99,9 +99,9 @@
   }
 
   &__title-description {
-    padding-bottom: spacing.space(0.25);
+    padding-bottom: spacing.space(0.5);
 
-    @include typography.detail-font(true);
+    @include typography.main-font-weight-medium;
   }
 
   &__date-label {

@@ -1,7 +1,7 @@
 {%- from 'components/search-field/macro.html' import tnaSearchField -%}
 
 {% macro discoverySearch() %}
-<form method="get" action="https://beta.nationalarchives.gov.uk/catalogue/search/" role="search">
+<form method="get" action="https://beta.nationalarchives.gov.uk/catalogue/search/" role="search" aria-label="Catalogue search form">
   <p><span class="tna-chip">New</span></p>
   {{ tnaSearchField({
     'label': 'We’re working on a new catalogue search, try it here',

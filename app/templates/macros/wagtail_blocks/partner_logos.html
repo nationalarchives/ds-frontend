@@ -1,5 +1,5 @@
 {% macro wagtailPartnerLogos(block_value, itemHeadingLevel) %}
-  <div class="etna-partner-logos">
+  <div class="etna-partner-logos" lang="en">
     <h{{ itemHeadingLevel }} class="etna-partner-logos__heading tna-heading-s">{{ block_value.lead_text or 'In partnership with' }}</h{{ itemHeadingLevel }}>
     <ul class="etna-partner-logos__items">
       {%- for partner in block_value.logos %}

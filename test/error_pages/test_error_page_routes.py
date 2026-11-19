@@ -111,7 +111,7 @@ class ErrorPagesBlueprintTestCase(unittest.TestCase):
         with self.client as c:
             rv = c.get("/error/503/")
             self.assertEqual(rv.status_code, 503)
-            self.assertIn("Service unavailable", rv.text)
+            self.assertIn("Sorry, the service is unavailable", rv.text)
             self.assertIn("Error code: <code>503</code>", rv.text)
             self.assertIn("Cache-Control", rv.headers)
             self.assertEqual(rv.headers["Cache-Control"], "no-store")

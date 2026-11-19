@@ -307,10 +307,10 @@
 //   &:hover .vjs-big-play-button {
 //     @include colour.colour-background("contrast-button-background");
 
-//     .vjs-svg-icon {
-//       @include colour.colour-font("base-font-dark");
-//     }
-//   }
+  //   .vjs-svg-icon {
+  //     @include colour.colour-font("contrast-button-text");
+  //   }
+  // }
 
 //   .vjs-control-bar {
 //     height: $videojs-control-bar-height;

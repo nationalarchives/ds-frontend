@@ -17,7 +17,6 @@ from tna_utilities.datetime import (
 )
 from tna_utilities.string import slugify, unslugify
 from tna_utilities.url import QueryStringTransformer
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 from app.lib.context_processor import (
     cookie_preference,
@@ -57,6 +56,8 @@ def create_app(config_class):
     app.config.from_object(config_class)
     proxy_depth = app.config["PROXY_DEPTH"]
     if proxy_depth:
+        from werkzeug.middleware.proxy_fix import ProxyFix
+
         app.wsgi_app = ProxyFix(
             app.wsgi_app,
             x_for=proxy_depth,
@@ -96,11 +97,13 @@ def create_app(config_class):
         app,
         content_security_policy=app.config["CONTENT_SECURITY_POLICY"],
         allow_google_content_security_policy=True,
+        allow_typekit_content_security_policy=True,
         force_https=app.config["FORCE_HTTPS"],
     )
 
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
+    app.jinja_env.autoescape = True
     app.jinja_env.loader = ChoiceLoader(
         [
             PackageLoader("app"),
@@ -182,8 +185,6 @@ def create_app(config_class):
             },
             "feature": {
                 "PHASE_BANNER": app.config["FEATURE_PHASE_BANNER"],
-                "LOGO_ADORNMENTS_CSS": app.config["FEATURE_LOGO_ADORNMENTS_CSS"],
-                "LOGO_ADORNMENTS_JS": app.config["FEATURE_LOGO_ADORNMENTS_JS"],
             },
         }
 

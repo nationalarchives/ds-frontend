@@ -13,9 +13,9 @@ from pydash import objects
 @dataclass
 class SegmentFont:
     image_font: ImageFont.FreeTypeFont
-    color: str
+    colour: str
     line_height: int
-    background_color: str = None
+    background_colour: str = None
     padding: int = 0
     margin_top: int = 0
 
@@ -23,7 +23,7 @@ class SegmentFont:
 OG_IMAGE_WIDTH = 1200
 OG_IMAGE_HEIGHT = 630
 OG_IMAGE_JPEG_QUALITY = 80
-OG_IMAGE_BACKGROUND_COLOR = "#dde5d5"
+OG_IMAGE_BACKGROUND_COLOUR = "#dde5d5"
 
 
 def generate_static_paths():
@@ -43,7 +43,7 @@ def generate_blank_og_image():
     )
 
     canvas = Image.new(
-        "RGB", (OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT), color=OG_IMAGE_BACKGROUND_COLOR
+        "RGB", (OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT), color=OG_IMAGE_BACKGROUND_COLOUR
     )
 
     logo = Image.open(logo_path).convert("RGBA")
@@ -272,7 +272,7 @@ def generate_og_image(supertitle, title, body, image):
     )
 
     canvas = Image.new(
-        "RGB", (OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT), color=OG_IMAGE_BACKGROUND_COLOR
+        "RGB", (OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT), color=OG_IMAGE_BACKGROUND_COLOUR
     )
     draw = ImageDraw.Draw(canvas)
 
@@ -286,7 +286,7 @@ def generate_og_image(supertitle, title, body, image):
         ),
         "www.nationalarchives.gov.uk",
         font=footer_font.image_font,
-        fill=footer_font.color,
+        fill=footer_font.colour,
     )
 
     if image:
@@ -341,21 +341,21 @@ def generate_og_image(supertitle, title, body, image):
             x = start_x
             y += font.line_height
 
-        has_background = font.background_color and word.strip()
+        has_background = font.background_colour and word.strip()
         if has_background:
             draw.rectangle(
                 [
                     (x, y),
                     (x + word_width, y + font.line_height),
                 ],
-                fill=font.background_color,
+                fill=font.background_colour,
             )
 
         draw.text(
             (x + font.padding if has_background else x, y),
             word,
             font=font.image_font,
-            fill=font.color,
+            fill=font.colour,
         )
 
         if is_last_word:

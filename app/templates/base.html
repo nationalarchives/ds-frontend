@@ -6,9 +6,7 @@
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 
-{%- set theme = 'light' if request.cookies.get('theme') == 'light' else 'dark' if request.cookies.get('theme') == 'light' else 'system' -%}
-{# Explicitly set light mode until more pages support dark mode #}
-{%- set theme = 'light' -%}
+{%- set theme = request.cookies.get('theme') if request.cookies.get('theme') in ['light', 'dark'] else 'system' -%}
 {%- set themeAccent = themeAccent or 'green' -%}
 {%- set htmlAttributes = {
   'data-ga4id': app_config.GA4_ID or '',
@@ -27,8 +25,8 @@
 {%- endif -%}
 
 {% block headIcons %}
-    <link rel="icon" sizes="48x48" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    <link rel="icon" sizes="any" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" sizes="48x48" href="{{ url_for('static', filename='assets/images/favicon.ico') }}">
+    <link rel="icon" sizes="any" href="{{ url_for('static', filename='assets/images/favicon.svg') }}" type="image/svg+xml">
     <link rel="mask-icon" href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}" color="{{ themeColor | default('#010101') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
     
@@ -77,7 +75,10 @@
 {{ tnaCookieBanner({
   'serviceName': 'The National Archives',
   'cookiesUrl': app_config.COOKIE_PREFERENCES_URL,
-  'preferencesSetKey': app_config.COOKIE_PREFERENCES_SET_KEY
+  'preferencesSetKey': app_config.COOKIE_PREFERENCES_SET_KEY,
+  'attributes': {
+    'lang': 'en'
+  }
 }) | indent(6) }}
 {%- endif %}
 {% endblock cookies %}
@@ -89,7 +90,10 @@
     'phase': 'Beta',
     'message': 'This is a new service. Help us improve it and <a href="https://www.smartsurvey.co.uk/s/DN07V0/?area=header&source=' ~ (request.url | url_encode) ~ '" target="_blank" rel="noreferrer nofollow noopener">give your feedback (opens in new tab)</a>.',
     'classes': 'tna-background-contrast'
-  } if feature.PHASE_BANNER and display_phase_banner() else None
+  } if feature.PHASE_BANNER and display_phase_banner() else None,
+  'attributes': {
+    'lang': 'en'
+  }
 }) | indent(6) }}
 {% endblock header %}
 
@@ -102,7 +106,10 @@
       <div class="tna-column tna-column--full tna-!--padding-vertical-s">
         {{ tnaBreadcrumbs({
           'items': breadcrumbs or page_data.meta.breadcrumbs,
-          'structuredData': True
+          'structuredData': True,
+          'attributes': {
+            'lang': 'en'
+          }
         }) }}
       </div>
     </div>
@@ -114,10 +121,13 @@
 
 {% block footer %}
 {{ tnaFooter({
-  'themeSelector': False,
+  'themeSelector': True,
   'currentTheme': theme,
   'defaultContent': True,
-  'classes': 'tna-!--margin-top-l'
+  'classes': 'tna-!--margin-top-l',
+  'attributes': {
+    'lang': 'en'
+  }
 }) | indent(4) }}
 {% endblock footer %}
 

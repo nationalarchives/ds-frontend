@@ -4,10 +4,6 @@ import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 
-// If ("serviceWorker" in navigator) {
-//   Navigator.serviceWorker.register("/service-worker.min.js");
-// }
-
 initAll();
 
 const cookies = new Cookies();
@@ -57,37 +53,49 @@ const initNotifications = () => {
     });
 };
 
+const setTheme = (theme) => {
+  if (theme === "light") {
+    document.documentElement.classList.remove(
+      "tna-template--dark-theme",
+      "tna-template--system-theme",
+    );
+  } else if (theme === "dark") {
+    document.documentElement.classList.remove("tna-template--system-theme");
+    document.documentElement.classList.add(`tna-template--dark-theme`);
+  } else {
+    document.documentElement.classList.remove("tna-template--dark-theme");
+    document.documentElement.classList.add(`tna-template--system-theme`);
+  }
+};
+
+const updateThemeFromCookie = () => {
+  if (cookies.exists("theme")) {
+    setTheme(cookies.get("theme"));
+  } else {
+    setTheme("system");
+  }
+};
+
 if (cookies.preference("settings")) {
   initNotifications();
+  updateThemeFromCookie();
 } else {
   cookies.once("changePreference", (policies) => {
     if (policies.settings) {
       initNotifications();
+      updateThemeFromCookie();
     }
   });
 }
 
-// document
-//   .querySelectorAll('a[href^="mailto:"] + .etna-email__button')
-//   .forEach(($emailButton) => {
-//     const originalEmailButtonHTML = $emailButton.innerHTML;
-//     $emailButton.removeAttribute("hidden");
-//     $emailButton.addEventListener("click", async () => {
-//       try {
-//         await navigator.clipboard.writeText(
-//           $emailButton.previousElementSibling
-//             .getAttribute("href")
-//             .replace(/^mailto:/, ""),
-//         );
-//       } catch (err) {
-//         console.error("Failed to copy: ", err);
-//       }
-//       $emailButton.innerHTML = "Copied";
-//     });
-//     $emailButton.addEventListener("blur", () => {
-//       $emailButton.innerHTML = originalEmailButtonHTML;
-//     });
-//   });
+cookies.on("changePreference", (data) => {
+  if (Object.hasOwn(data, "settings")) {
+    if (data.settings !== true) {
+      cookies.delete("theme");
+      cookies.delete("dismissed_notifications");
+    }
+  }
+});
 
 window.matchMedia("print").addEventListener("change", (evt) => {
   if (evt.matches) {

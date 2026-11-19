@@ -1,10 +1,25 @@
 import math
+import re
 from urllib.parse import quote, unquote, urlparse
 
-from flask import current_app, redirect, render_template, request, url_for
+from bs4 import BeautifulSoup
+from flask import (
+    current_app,
+    g,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+from markdownify import markdownify
 from pydash import objects
 from tna_utilities.api import ResourceForbiddenError, ResourceNotFoundError
-from tna_utilities.flask import cacheable_duration
+from tna_utilities.flask import (
+    cacheable_duration,
+    cacheable_duration_cloudfront,
+    do_not_cache,
+)
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import (
@@ -13,6 +28,7 @@ from app.error_pages.routes import (
     forbidden_error,
     page_not_found_error,
 )
+from app.lib.content_negotiation import get_requested_accept
 from app.lib.og_images import (
     generate_blank_og_image,
     generate_external_og_image,
@@ -34,6 +50,7 @@ from .api import (
 
 
 @bp.route("/preview/")
+@do_not_cache()
 def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
@@ -58,7 +75,8 @@ def preview_page():
 
 
 @bp.route("/preview/<int:page_id>/", methods=["GET", "POST"])
-def preview_protected_page(page_id):
+@do_not_cache()
+def preview_protected_page(page_id: int):
     """
     Renders a preview of a Wagtail page that is password protected.
     """
@@ -107,7 +125,7 @@ def preview_protected_page(page_id):
 
 
 @bp.route("/page/<int:page_id>/")
-def page_permalink(page_id):
+def page_permalink(page_id: int):
     """
     Redirects to the Wagtail page by its ID, if it exists, acting as a permalink.
     """
@@ -134,7 +152,18 @@ def page_permalink(page_id):
 
 @bp.route("/", defaults={"path": "/"})
 @bp.route("/<path:path>/")
-def page(path):
+@get_requested_accept(["text/html", "text/markdown"])
+def page(path: str, preferred_content_type: str | None):
+    return html_markdown_page(path, preferred_content_type)
+
+
+@bp.route("/md/", defaults={"path": "/"})
+@bp.route("/md/<path:path>/")
+def markdown_page(path: str):
+    return html_markdown_page(path, preferred_content_type="text/markdown")
+
+
+def html_markdown_page(path: str, preferred_content_type: str | None):
     """
     This function handles the majority of Wagtail page requests.
 
@@ -193,11 +222,67 @@ def page(path):
         rediect_url = objects.get(page_data, "meta.url")
         return redirect(quote(rediect_url), code=302)
 
-    # Render the page
-    return render_content_page(page_data)
+    # Render the page content
+    page_content = render_content_page(page_data)
+
+    # If the preferred content type is Markdown, convert the HTML page content to Markdown
+    if preferred_content_type == "text/markdown" and not g.get(
+        "markdown_disabled", False
+    ):
+        markdown_response = make_response(page_content)
+        if not 200 <= markdown_response.status_code < 300:
+            return markdown_response
+        document = BeautifulSoup(markdown_response.get_data(), "html.parser")
+        content = document.find("main") or document
+        hide_classes = [
+            r"tna-\!--hide-on-print",
+            "tna-cookie-banner",
+            "tna-footer",
+            "tna-global-header",
+            "tna-skip-link",
+        ]
+        for hide_class in hide_classes:
+            for block in content.select(f".{hide_class}"):
+                block.decompose()
+        markdown_content = markdownify(
+            str(content),
+            heading_style="ATX",
+            wrap=True,
+        ).strip()
+        markdown_content = re.sub(
+            r"#heading-(.+)-[a-f0-9-]{36}", r"#\1", markdown_content
+        )
+        markdown_content = re.sub(r"(\n\s*){3,}", "\n\n", markdown_content)
+        # markdown_content = re.sub(
+        #     rf"https://{request.host}/(?!md/|og/|media/)([^ \n]*)",
+        #     rf"https://{request.host}/md/\1",
+        #     markdown_content,
+        # )
+        markdown_response.set_data(markdown_content)
+        markdown_response.mimetype = "text/markdown"
+        for header in (
+            "ETag",
+            "Content-MD5",
+            "Digest",
+            "Content-Digest",
+            "Repr-Digest",
+        ):
+            markdown_response.headers.pop(header, None)
+        return markdown_response
+
+    # Prepare the HTML response with a link to the Markdown version of the page
+    html_response = make_response(page_content)
+    html_response.headers.update(
+        {
+            "Link": f'<{url_for("wagtail.markdown_page", path=None if request.path == "/" else request.path.strip("/"), _external=True, _scheme="https")}>; rel=alternate; type=text/markdown;title="Markdown version"'
+        }
+    )
+
+    # Return the final page content
+    return html_response
 
 
-def try_external_redirect(path):
+def try_external_redirect(path: str):
     """
     Renders a video details page.
     """
@@ -237,7 +322,8 @@ def try_external_redirect(path):
 
 
 @bp.route("/<any(video,audio):media_type>/<uuid:media_uuid>/")
-def audio_video_page(media_type, media_uuid):
+@cacheable_duration_cloudfront(3600, 86400, 60, 86400)
+def audio_video_page(media_type: str, media_uuid: str):
     """
     Renders a video details page.
     """
@@ -266,7 +352,8 @@ def audio_video_page(media_type, media_uuid):
 
 
 @bp.route("/image/<uuid:image_uuid>/")
-def image_page(image_uuid):
+@cacheable_duration_cloudfront(3600, 86400, 60, 86400)
+def image_page(image_uuid: str):
     """
     Renders an image details page.
     """
@@ -288,7 +375,7 @@ def image_page(image_uuid):
 @bp.route("/og/", defaults={"page_path": ""})
 @bp.route("/og/<path:page_path>/")
 @cacheable_duration(86400)
-def og_image(page_path):
+def og_image(page_path: str):
     try:
         page_data = page_details_by_uri(unquote(f"/{page_path}/"))
         return generate_og_image_from_page_data(page_data)

@@ -1,9 +1,8 @@
 import math
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 
 from flask import current_app, render_template, request
 from pydash import objects
-from tna_utilities.flask import cacheable_duration
 from tna_utilities.url import QueryStringTransformer
 
 from app.error_pages.routes import bad_request_error, page_not_found_error
@@ -11,7 +10,6 @@ from app.lib.pagination import pagination
 from app.wagtail.api import blog_posts_paginated
 
 
-@cacheable_duration(3600)
 def blog_index_page(page_data, year=None, month=None, day=None):
     children_per_page = 12
     page = 1
@@ -42,7 +40,7 @@ def blog_index_page(page_data, year=None, month=None, day=None):
                 f"Year {year} is not a positive integer for page {page_data['id']}"
             )
             return bad_request_error()
-        if year > datetime.now(tz=timezone.utc).year:
+        if year > datetime.now(tz=UTC).year:
             current_app.logger.warning(
                 f"Year {year} is in the future for page {page_data['id']}"
             )

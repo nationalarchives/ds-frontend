@@ -13,7 +13,7 @@ from app.wagtail.api import (
 
 
 @bp.route("/blogs.xml")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def rss_all_feed():
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:
@@ -38,7 +38,7 @@ def rss_all_feed():
 
 
 @bp.route("/blogs/<int:blog_id>.xml")
-@cacheable_duration(14400)
+@cacheable_duration(86400)
 def rss_feed(blog_id):
     items = current_app.config["ITEMS_PER_BLOG_FEED"]
     try:

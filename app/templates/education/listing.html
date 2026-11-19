@@ -50,55 +50,53 @@
   {%- set featured_item = page_data.featured_teaching_resource or page_data.featured_education_session %}
   {%- set show_featured_item = featured_item and not filtered_results %}
   {%- if show_featured_item %}
-  <div class="etna-background-accent-light-half">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        {% set card_content = {
-          'supertitle': 'Featured',
-          'title': featured_item.title,
-          'headingLevel': 2,
-          'headingSize': 'l',
-          'href': featured_item.url,
-          'meta': [
+  <div class="tna-container tna-!--margin-top-l">
+    <div class="tna-column tna-column--full">
+      {% set card_content = {
+        'supertitle': 'Featured',
+        'title': featured_item.title,
+        'headingLevel': 2,
+        'headingSize': 'l',
+        'href': featured_item.url,
+        'meta': [
+          {
+            'title': 'Age range',
+            'text': featured_item.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
+            'icon': 'person-chalkboard'
+          } if featured_item.key_stages else None,
+          {
+            'title': 'Date',
+            'text': pretty_date_range(featured_item.start_date, featured_item.end_date) if featured_item.start_date or featured_item.end_date else 'All year',
+            'icon': 'calendar'
+          } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
+          {
+            'title': 'Locations',
+            'text': 'Various locations' if (featured_item.session_locations | length) > 1 else ((featured_item.session_locations | map(attribute='venue_name') | first) or (featured_item.session_locations | map(attribute='location_type_display') | first)),
+            'icon': 'location-dot'
+          } if page_data.meta.type == 'education.EducationSessionsListingPage' and (featured_item.session_locations | length) > 0 else None
+        ] if featured_item.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (featured_item.start_date or featured_item.end_date or featured_item.session_locations)) else None,
+        'text': featured_item.teaser_override or featured_item.teaser_text,
+        'fullAreaClick': True,
+        'horizontal': True,
+        'style': 'accent'
+      } %}
+      {%- if featured_item.teaser_image %}
+        {% set card_content = dict(card_content, **{
+          'imageSrc': featured_item.teaser_image.jpeg.full_url,
+          'imageAlt': featured_item.teaser_image.description,
+          'imageWidth': featured_item.teaser_image.jpeg.width,
+          'imageHeight': featured_item.teaser_image.jpeg.height,
+          'imageSources': [
             {
-              'title': 'Age range',
-              'text': featured_item.key_stages | map(attribute='stage') | key_stage_ranges | join(', '),
-              'icon': 'person-chalkboard'
-            } if featured_item.key_stages else None,
-            {
-              'title': 'Date',
-              'text': pretty_date_range(featured_item.start_date, featured_item.end_date) if featured_item.start_date or featured_item.end_date else 'All year',
-              'icon': 'calendar'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' else None,
-            {
-              'title': 'Locations',
-              'text': 'Various locations' if (featured_item.session_locations | length) > 1 else ((featured_item.session_locations | map(attribute='venue_name') | first) or (featured_item.session_locations | map(attribute='location_type_display') | first)),
-              'icon': 'location-dot'
-            } if page_data.meta.type == 'education.EducationSessionsListingPage' and (featured_item.session_locations | length) > 0 else None
-          ] if featured_item.key_stages or (page_data.meta.type == 'education.EducationSessionsListingPage' and (featured_item.start_date or featured_item.end_date or featured_item.session_locations)) else None,
-          'text': featured_item.teaser_override or featured_item.teaser_text,
-          'fullAreaClick': True,
-          'horizontal': True,
-          'style': 'accent'
-        } %}
-        {%- if featured_item.teaser_image %}
-          {% set card_content = dict(card_content, **{
-            'imageSrc': featured_item.teaser_image.jpeg.full_url,
-            'imageAlt': featured_item.teaser_image.description,
-            'imageWidth': featured_item.teaser_image.jpeg.width,
-            'imageHeight': featured_item.teaser_image.jpeg.height,
-            'imageSources': [
-              {
-                'src': featured_item.teaser_image.webp.full_url,
-                'type': 'image/webp',
-                'width': featured_item.teaser_image.webp.width,
-                'height': featured_item.teaser_image.webp.height
-              }
-            ]
-          }) %}
-        {%- endif %}
-        {{ tnaCard(card_content) }}
-      </div>
+              'src': featured_item.teaser_image.webp.full_url,
+              'type': 'image/webp',
+              'width': featured_item.teaser_image.webp.width,
+              'height': featured_item.teaser_image.webp.height
+            }
+          ]
+        }) %}
+      {%- endif %}
+      {{ tnaCard(card_content) }}
     </div>
   </div>
   {%- endif %}
@@ -307,11 +305,11 @@
     <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
       {%- if page_data.meta.type == 'education.TeachingResourcesListingPage' %}
       <div class="tna-aside tna-background-accent-light tna-!--margin-bottom-s">
-        <h2 class="tna-heading-m">Looking for one of our older {{ pageTitle | lower }}?</h2>
+        <h2 class="tna-heading-m">Looking for one of our older {{ (page_data.short_title or page_data.title) | lower }}?</h2>
         <p>We are currently refreshing our teaching resources and regularly adding new and updated ones. If you cannot find what you are looking for here, all of our old resources are permanently available in the <a href="https://webarchive.nationalarchives.gov.uk/ukgwa/20260803040627/https://www.nationalarchives.gov.uk/education/">UK Government Web Archive</a>.</p>
       </div>
       {%- endif %}
-      {% call newsletter('Be the first to hear about new ' ~ (pageTitle | lower)) %}
+      {% call newsletter('Be the first to hear about new ' ~ ((page_data.short_title or page_data.title) | lower)) %}
         <p>Subscribe to our regular newsletter for education updates and early booking for online sessions.</p>
       {% endcall %}
     </div>

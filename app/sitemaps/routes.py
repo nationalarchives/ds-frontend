@@ -17,7 +17,7 @@ from app.wagtail.api import all_pages_sitemap
 
 
 @bp.route("/sitemap.xml")
-@cacheable_duration(259200)
+@cacheable_duration(86400)
 def sitemap_index():
     sitemap_urls = []
     wagtail_pages = all_pages_sitemap(page=1, limit=1)

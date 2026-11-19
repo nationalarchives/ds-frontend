@@ -9,8 +9,6 @@ from tna_utilities import strtobool
 
 class Features:
     FEATURE_PHASE_BANNER: bool = strtobool(os.getenv("FEATURE_PHASE_BANNER", "True"))
-    FEATURE_LOGO_ADORNMENTS_CSS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_CSS", "")
-    FEATURE_LOGO_ADORNMENTS_JS: str = os.getenv("FEATURE_LOGO_ADORNMENTS_JS", "")
 
 
 class Production(Features):
@@ -39,7 +37,9 @@ class Production(Features):
     except Exception:
         current_app.logger.exception("Error reading the version of TNA Frontend")
 
-    SECRET_KEY: str = os.environ.get("SECRET_KEY", "")
+    SECRET_KEY: str = os.environ.get("SECRET_KEY")
+    if not SECRET_KEY:
+        raise ValueError("SECRET_KEY environment variable is not set")
 
     DEBUG: bool = False
 
@@ -106,8 +106,8 @@ class Production(Features):
         "/image/",
         "/information-management/",
         "/maintenance/",
-        "/merlin/",
         "/mi5-official-secrets/",
+        "/news/",
         "/people/",
         "/professional-guidance-and-services/",
         "/strategy-2025-2030/",

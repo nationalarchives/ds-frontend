@@ -1,9 +1,11 @@
 from flask import current_app, render_template
 from tna_utilities.flask import vary_by_cookies
 
+from app.lib.content_negotiation import disallow_markdown
 from app.wagtail.api import page_children
 
 
+@disallow_markdown
 @vary_by_cookies()
 def cookies_page(page_data):
     details_page = None

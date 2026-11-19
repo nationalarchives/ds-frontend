@@ -125,4 +125,8 @@
       "image": {{ other_page_images | tojson }}{% endif %}
       
     }</script>
+{% if not g.get('markdown_disabled', false) %}
+    <link rel="alternate" type="text/markdown" href="{{ url_for('wagtail.markdown_page', path=((page_data.meta.page_path | trim('/')) or '/'), _external=True, _scheme='https') }}">
+{% endif %}
+    <link rel="describedby" href="{{ url_for('main.llms', _external=True, _scheme='https') }}">
 {%- endmacro %}

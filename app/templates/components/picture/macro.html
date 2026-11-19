@@ -28,7 +28,7 @@
     </picture>
     {%- if params.information %}
     {% set summary = params.caption | striptags | truncate(50) if params.caption else '' %}
-    <button type="button" class="tna-picture__toggle-transcript tna-button tna-button--small tna-button--solid-hover" aria-expanded="false"{% if summary %} aria-label="Toggle transcript for '{{ summary }}'"{% endif %} hidden>Open transcript</button>
+    <button type="button" class="tna-picture__toggle-transcript tna-button tna-button--small tna-button--solid-hover" aria-expanded="false"{% if summary %} aria-label="{{ params.informationLabelOpen }} for '{{ summary }}'"{% endif %} hidden>{{ params.informationLabelOpen }}</button>
     {%- endif %}
   </div>
 {%- if params.information -%}
