@@ -54,6 +54,7 @@ from app.lib.template_filters import (
 def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+
     proxy_depth = app.config["PROXY_DEPTH"]
     if proxy_depth:
         from werkzeug.middleware.proxy_fix import ProxyFix
@@ -111,6 +112,9 @@ def create_app(config_class):
         ]
     )
     app.jinja_env.add_extension("jinja2.ext.do")
+    # if app.config["DEBUG"]:
+    #     app.jinja_env.auto_reload = True
+    #     app.jinja_env.cache = None
 
     filter_functions = [
         domain_from_url,

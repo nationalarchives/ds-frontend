@@ -16,7 +16,7 @@ if (cookies) {
       $successMessage.focus();
       // document
       //   .querySelector('[data-module="tna-cookie-banner"]')
-      //   ?.setAttribute("hidden", true);
+      //   ?.setAttribute("hidden", "");
 
       // These set cookies for backwards compatibility with the old cookie banner
       /* eslint-disable-next-line no-warning-comments */
