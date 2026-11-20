@@ -159,9 +159,13 @@ def page(path: str, preferred_content_type: str | None):
 
 @bp.route("/md/", defaults={"path": "/"})
 @bp.route("/md/<path:path>/")
+def markdown_page(path: str):
+    return html_markdown_page(path, preferred_content_type="text/markdown")
+
+
 @bp.route("/index.md", defaults={"path": "/"})
 @bp.route("/<path:path>/index.md")
-def markdown_page(path: str):
+def markdown_page_index(path: str):
     return html_markdown_page(path, preferred_content_type="text/markdown")
 
 
