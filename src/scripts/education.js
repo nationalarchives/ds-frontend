@@ -231,7 +231,7 @@ if (
     $downloadButton.addEventListener("click", async () => {
       $downloadButton.blur();
       $downloadButton.setAttribute("disabled", "true");
-      $downloadError.setAttribute("hidden", "hidden");
+      $downloadError.setAttribute("hidden", "");
       $downloadButton.textContent = "Downloading...";
 
       const files = await fetch("?sources")
