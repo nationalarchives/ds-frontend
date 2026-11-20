@@ -159,6 +159,8 @@ def page(path: str, preferred_content_type: str | None):
 
 @bp.route("/md/", defaults={"path": "/"})
 @bp.route("/md/<path:path>/")
+@bp.route("/index.md", defaults={"path": "/"})
+@bp.route("/<path:path>/index.md")
 def markdown_page(path: str):
     return html_markdown_page(path, preferred_content_type="text/markdown")
 
@@ -274,7 +276,7 @@ def html_markdown_page(path: str, preferred_content_type: str | None):
     html_response = make_response(page_content)
     html_response.headers.update(
         {
-            "Link": f'<{url_for("wagtail.markdown_page", path=None if request.path == "/" else request.path.strip("/"), _external=True, _scheme="https")}>; rel=alternate; type=text/markdown;title="Markdown version"'
+            "Link": f'<{url_for("wagtail.markdown_page", path=None if request.path == "/" else request.path.strip("/"), _external=True, _scheme="https")}>; rel=alternate; type=text/markdown; title="Markdown version"'
         }
     )
 
