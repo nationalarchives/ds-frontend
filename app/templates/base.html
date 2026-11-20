@@ -65,9 +65,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}" media="screen,print">
     <link rel="stylesheet" href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}" media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
-    {%- if feature.LOGO_ADORNMENTS_CSS %}
-    <link rel="stylesheet" href="{{ feature.LOGO_ADORNMENTS_CSS }}?date={{ now_iso_8601_date() }}" media="screen">
-    {%- endif %}
 {% endblock stylesheets %}
 
 {% block cookies %}
@@ -137,7 +134,4 @@
 {%- endif %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
     <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}" defer></script>
-{%- if feature.LOGO_ADORNMENTS_JS %}
-    <script type="module" src="{{ feature.LOGO_ADORNMENTS_JS }}?date={{ now_iso_8601_date() }}"></script>
-{%- endif %}
 {% endblock bodyEnd %}
