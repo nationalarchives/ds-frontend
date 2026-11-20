@@ -25,7 +25,7 @@
         {%- endif %}
       </div>
       <audio-player class="tna-!--margin-top-s" role="region" aria-label="Audio: {{ block_value.title }}">
-        <audio-compat-skin style="--media-scale-unit: 1rem; --media-video-border-radius: 2px; --media-border-radius: 2px">
+        <audio-compat-skin style="--media-scale-unit: clamp(1rem, 0.779rem + 0.735vi, 1.25rem); --media-video-border-radius: 2px; --media-border-radius: 2px">
           <audio id="media-{{ id }}" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}>
             <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
             <p>Your browser doesn't support HTML5 audio. <a href="{{ block_value.media.full_url }}">Download the audio file</a>.</p>
@@ -47,7 +47,7 @@
       </div>
       {%- endif %}
       <video-player class="tna-!--margin-top-s" role="region" aria-label="Video: {{ block_value.title }}">
-        <video-neutral-skin style="--media-scale-unit: 1rem; --media-video-border-radius: 2px; --media-border-radius: 2px">
+        <video-neutral-skin style="--media-scale-unit: clamp(1rem, 0.779rem + 0.735vi, 1.25rem); --media-video-border-radius: 2px; --media-border-radius: 2px">
           <video id="media-{{ id }}" controls{%- if block_value.media.transcript %} aria-label="Transcript provided below"{%- endif %}{% if block_value.thumbnail %} poster="{{ block_value.thumbnail.jpeg.full_url }}"{% endif %}>
             <source src="{{ block_value.media.full_url }}" type="{{ block_value.media.mime }}">
             {% if block_value.media.subtitles_file %}
