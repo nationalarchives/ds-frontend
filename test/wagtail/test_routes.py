@@ -3,6 +3,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import requests_mock
+from bs4 import BeautifulSoup
 from flask import Response
 
 from app import create_app
@@ -29,6 +30,59 @@ class WagtailRoutesTestCase(unittest.TestCase):
 
 
 class PageRouteTestCase(WagtailRoutesTestCase):
+    def test_markdown_alternate_link_respects_renderer(self):
+        cases = (
+            ("/cookies/", "cookies.CookiesPage", None),
+            ("/other/", "generic_pages.GeneralPage", "https://localhost/md/other/"),
+            ("/", "generic_pages.GeneralPage", "https://localhost/md/"),
+        )
+        for path, page_type, expected_href in cases:
+            page_data = {
+                "id": 1,
+                "title": "Test page",
+                "page_sidebar": "none",
+                "body": [],
+                "footnotes": [],
+                "meta": {"url": path, "page_path": path, "type": page_type},
+            }
+            with (
+                self.subTest(path=path),
+                patch("app.wagtail.routes.page_details_by_uri", return_value=page_data),
+                patch(
+                    "app.wagtail.pages.cookies.cookies_page.page_children",
+                    return_value={"items": [{"id": 2, "url": "/cookie-details/"}]},
+                ),
+            ):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 200)
+                link = BeautifulSoup(response.data, "html.parser").select_one(
+                    'link[rel="alternate"][type="text/markdown"]'
+                )
+                if expected_href is None:
+                    self.assertIsNone(link)
+                else:
+                    self.assertIsNotNone(link)
+                    self.assertEqual(link.get("href"), expected_href)
+
+    def test_html_page_includes_markdown_alternate_link_header(self):
+        with (
+            patch(
+                "app.wagtail.routes.page_details_by_uri",
+                return_value={"id": 1, "meta": {"url": "/foobar/"}},
+            ),
+            patch(
+                "app.wagtail.routes.render_content_page",
+                return_value="<main>Rendered page</main>",
+            ),
+        ):
+            response = self.client.get("/foobar/")
+
+        self.assertEqual(
+            response.headers["Link"],
+            "<https://localhost/md/foobar/>; rel=alternate; "
+            'type=text/markdown;title="Markdown version"',
+        )
+
     def test_cookies_page_disallows_markdown(self):
         html = "<main><p>Cookie preferences</p></main>"
         cases = (
@@ -177,6 +231,55 @@ class PageRouteTestCase(WagtailRoutesTestCase):
                 )
                 self.assertEqual(response.content_length, len(response.data))
                 self.assertIn("Accept", response.vary)
+
+    def test_markdown_cleans_content_and_normalises_links(self):
+        html = (
+            "<main>"
+            '<div class="tna-!--hide-on-print">Print only</div>'
+            '<div class="tna-cookie-banner">Cookies</div>'
+            '<div class="tna-footer">Footer</div>'
+            '<div class="tna-global-header">Header</div>'
+            '<div class="tna-skip-link">Skip link</div>'
+            "<p>"
+            '<a href="#heading-section-name-12345678-1234-1234-1234-123456789abc">'
+            "Jump to section</a> "
+            '<a href="https://localhost/about/">About</a> '
+            '<a href="https://localhost/md/about/">Markdown</a> '
+            '<a href="https://localhost/og/image.png">OG</a> '
+            '<a href="https://localhost/media/file.pdf">Media</a> '
+            '<a href="https://example.com/">External</a>'
+            "</p>"
+            "<p>First<br><br><br>Second</p>"
+            "</main>"
+        )
+        with (
+            patch(
+                "app.wagtail.routes.page_details_by_uri",
+                return_value={"id": 1, "meta": {"url": "/foobar/"}},
+            ),
+            patch("app.wagtail.routes.render_content_page", return_value=html),
+        ):
+            response = self.client.get("/foobar/", headers={"Accept": "text/markdown"})
+
+        markdown = response.get_data(as_text=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.mimetype, "text/markdown")
+        for hidden_content in (
+            "Print only",
+            "Cookies",
+            "Footer",
+            "Header",
+            "Skip link",
+        ):
+            with self.subTest(hidden_content=hidden_content):
+                self.assertNotIn(hidden_content, markdown)
+        self.assertIn("[Jump to section](#section-name)", markdown)
+        self.assertIn("[About](https://localhost/about/)", markdown)
+        self.assertIn("[Markdown](https://localhost/md/about/)", markdown)
+        self.assertIn("[OG](https://localhost/og/image.png)", markdown)
+        self.assertIn("[Media](https://localhost/media/file.pdf)", markdown)
+        self.assertIn("[External](https://example.com/)", markdown)
+        self.assertNotRegex(markdown, r"\n\s*\n\s*\n")
 
     def test_markdown_preserves_status_and_headers(self):
         original_response = Response(
