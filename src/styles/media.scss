@@ -2,6 +2,7 @@
 
 @use "@nationalarchives/frontend/nationalarchives/variables/borders" as
   bordersVars;
+@use "@nationalarchives/frontend/nationalarchives/tools/borders";
 @use "@nationalarchives/frontend/nationalarchives/tools/colour";
 @use "@nationalarchives/frontend/nationalarchives/tools/media";
 @use "@nationalarchives/frontend/nationalarchives/tools/spacing";
@@ -137,10 +138,13 @@ audio-player {
   display: block !important;
 }
 
-audio-player {
-  audio {
-    display: none;
-  }
+video-neutral-skin,
+audio-compat-skin {
+  border-radius: var(
+    --media-border-radius,
+    --media-video-border-radius,
+    bordersVars.$rounded-border-radius
+  );
 }
 
 .youtube-embed {
