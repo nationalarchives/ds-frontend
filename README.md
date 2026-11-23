@@ -47,6 +47,9 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `COOKIE_PREFERENCES_URL`               | The URL for changing cookie preferences                                                              | `/cookies/`                                          |
 | `COOKIE_PREFERENCES_KEY`               | The cookie key specifying the cookie preferences                                                     | `cookie_preferences`                                 |
 | `COOKIE_PREFERENCES_SET_KEY`           | The cookie key specifying that the preferences have been set                                         | `cookie_preferences_set`                             |
+| `CSP_DEFAULT_SRC`                      | A comma separated list of CSP rules for `default-src`                                                | `'none'`                                             |
+| `CSP_BASE_URI`                         | A comma separated list of CSP rules for `base-uri`                                                   | `'none'`                                             |
+| `CSP_FORM_ACTION`                      | A comma separated list of CSP rules for `form-action`                                                | `'self'`                                             |
 | `CSP_IMG_SRC`                          | A comma separated list of CSP rules for `img-src`                                                    | `'self'`                                             |
 | `CSP_SCRIPT_SRC`                       | A comma separated list of CSP rules for `script-src`                                                 | `'self'`                                             |
 | `CSP_STYLE_SRC`                        | A comma separated list of CSP rules for `style-src`                                                  | `'self'`                                             |
