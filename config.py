@@ -65,6 +65,9 @@ class Production(Features):
     if CSP_REPORT_URI and BUILD_VERSION:
         CSP_REPORT_URI += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
     CONTENT_SECURITY_POLICY: ClassVar[dict] = {
+        "default-src": os.environ.get("CSP_DEFAULT_SRC", "").split(",") or "'none'",
+        "base-uri": os.environ.get("CSP_BASE_URI", "").split(",") or "'none'",
+        "form-action": os.environ.get("CSP_FORM_ACTION", "").split(",") or "'self'",
         "connect-src": os.environ.get("CSP_CONNECT_SRC", "").split(","),
         "font-src": os.environ.get("CSP_FONT_SRC", "").split(","),
         "frame-ancestors": os.environ.get("CSP_FRAME_ANCESTORS", "").split(","),
