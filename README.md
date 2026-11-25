@@ -32,7 +32,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `ENVIRONMENT_NAME`                     | The name of the environment (for reporting purposes)                                                 | `production`                                         |
 | `CONFIG`                               | The configuration to use                                                                             | `config.Production`                                  |
 | `DEBUG`                                | If true, allow debugging[^1]                                                                         | `False`                                              |
-| `PROXY_DEPTH`                          | The number of proxies to trust for `X-Forwarded-` headers[^2]                                        | `False`                                              |
+| `PROXY_DEPTH`                          | The number of proxies to trust for `X-Forwarded-` headers[^2]                                        | `0`                                                  |
 | `TRUSTED_HOSTS`                        | A comma separated list of trusted hosts                                                              | _none_                                               |
 | `SENTRY_DSN`                           | The Sentry DSN (project code)                                                                        | _none_                                               |
 | `SENTRY_JS_ID`                         | The ID of the Sentry client project to catch issues                                                  | _none_                                               |
