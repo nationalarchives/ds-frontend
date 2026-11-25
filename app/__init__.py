@@ -54,8 +54,8 @@ from app.lib.template_filters import (
 def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
-    proxy_depth = app.config["PROXY_DEPTH"]
-    if proxy_depth:
+
+    if proxy_depth := app.config["PROXY_DEPTH"]:
         from werkzeug.middleware.proxy_fix import ProxyFix
 
         app.wsgi_app = ProxyFix(
