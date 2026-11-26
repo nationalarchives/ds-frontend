@@ -80,7 +80,7 @@ class PageRouteTestCase(WagtailRoutesTestCase):
         self.assertEqual(
             response.headers["Link"],
             "<https://localhost/md/foobar/>; rel=alternate; "
-            'type=text/markdown; title="Markdown version"',
+            'type=text/markdown; title="Markdown version", <https://localhost/llms.txt>; rel="describedby"',
         )
 
     def test_cookies_page_disallows_markdown(self):
