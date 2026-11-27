@@ -133,7 +133,7 @@ The version of NodeJS that the container will use to build assets. Try to use th
 
 ## `config.py`
 
-A file containing configuration for `Production`, `Staging`, `Develop` and `Test`.
+A file containing configuration for `Production`, `Develop` and `Test`.
 
 Define default values in `Base` and overwrite them only in the configurations that need it.
 

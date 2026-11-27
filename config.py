@@ -149,16 +149,10 @@ class Production(Features):
     )
 
 
-class Staging(Production):
-    DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
-
-    SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "1"))
-
-
 class Develop(Production):
-    DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
+    DEBUG: bool = strtobool(os.getenv("DEBUG", "True"))
     EXPLAIN_TEMPLATE_LOADING: bool = strtobool(
-        os.getenv("EXPLAIN_TEMPLATE_LOADING", "False")
+        os.getenv("EXPLAIN_TEMPLATE_LOADING", "True")
     )
 
     SENTRY_SAMPLE_RATE = float(os.getenv("SENTRY_SAMPLE_RATE", "0"))
