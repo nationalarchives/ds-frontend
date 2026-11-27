@@ -1,16 +1,10 @@
 import { selectPlayback } from "@videojs/html";
 
 import "@videojs/html/video/player";
-// import "@videojs/html/video/skin";
 import "@videojs/html/video/neutral-skin";
-// import "@videojs/html/video/compat-skin";
-// import "@videojs/html/video/scaffold-skin";
 
 import "@videojs/html/audio/player";
-// import "@videojs/html/audio/skin";
-// import "@videojs/html/audio/neutral-skin";
 import "@videojs/html/audio/compat-skin";
-// import "@videojs/html/audio/scaffold-skin";
 
 const players = Array.from(
   document.querySelectorAll("video-player, audio-player"),
@@ -20,6 +14,13 @@ const players = Array.from(
     return player.store;
   },
 );
+
+document.querySelectorAll("video-neutral-skin").forEach((videoPlayerSkin) => {
+  videoPlayerSkin.shadowRoot
+    // ?.querySelectorAll("media-mute-button, media-cast-button")
+    ?.querySelectorAll("media-mute-button")
+    ?.forEach(($el) => $el.remove());
+});
 
 players.forEach((player) => {
   let wasPaused = true;

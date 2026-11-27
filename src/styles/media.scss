@@ -1,5 +1,6 @@
 @use "sass:math";
 
+@use "@nationalarchives/frontend/nationalarchives/variables/a11y" as a11yVars;
 @use "@nationalarchives/frontend/nationalarchives/variables/borders" as
   bordersVars;
 @use "@nationalarchives/frontend/nationalarchives/tools/borders";
@@ -145,6 +146,23 @@ audio-compat-skin {
     --media-video-border-radius,
     bordersVars.$rounded-border-radius
   );
+}
+
+video-neutral-skin {
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    box-shadow: none !important;
+  }
+}
+
+audio-compat-skin {
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    box-shadow: 0 0 0 a11yVars.$focus-outline-outer-width
+      colour.brand-colour("yellow") !important;
+  }
 }
 
 .youtube-embed {
