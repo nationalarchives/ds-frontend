@@ -36,7 +36,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `TRUSTED_HOSTS`                        | A comma separated list of trusted hosts                                                              | _none_                                               |
 | `SENTRY_DSN`                           | The Sentry DSN (project code)                                                                        | _none_                                               |
 | `SENTRY_JS_ID`                         | The ID of the Sentry client project to catch issues                                                  | _none_                                               |
-| `SENTRY_SAMPLE_RATE`                   | How often to sample traces and profiles (0-1.0)                                                      | production: `0.1`, staging: `1`, develop: `0`        |
+| `SENTRY_SAMPLE_RATE`                   | How often to sample traces and profiles (0-1.0)                                                      | production: `0.1`, develop: `0`                      |
 | `WAGTAIL_API_URL`                      | The base URL of the content API, including the `/api/v2` path                                        | _none_                                               |
 | `WAGTAIL_API_KEY`                      | A token used to access the Wagtail API                                                               | _none_                                               |
 | `WAGTAIL_SITE_HOSTNAME`                | The site hostname in Wagtail, the default site is used if none is specified                          | _none_                                               |
@@ -61,7 +61,7 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CSP_FRAME_ANCESTORS`                  | A domain from which to allow frame embedding (used in CMS previews)                                  | _none_                                               |
 | `CSP_REPORT_URL`                       | The URL to report CSP violations to                                                                  | _none_                                               |
 | `FORCE_HTTPS`                          | Redirect requests to HTTPS as part of the CSP                                                        | _none_                                               |
-| `PREFERRED_URL_SCHEME`                 | Set the default protocol for generating links                                                        | production/staging/develop: `https`, test: `http`    |
+| `PREFERRED_URL_SCHEME`                 | Set the default protocol for generating links                                                        | production/develop: `https`, test: `http`            |
 | `GA4_ID`                               | The Google Analytics 4 ID                                                                            | _none_                                               |
 | `REDIRECT_WAGTAIL_ALIAS_PAGES`         | If true, redirect aliased Wagtail pages to the URI of their "original" page                          | `True`                                               |
 | `SERVE_WAGTAIL_PAGE_REDIRECTIONS`      | If true, forward Wagtail page redirects to the user rather than proxying                             | `True`                                               |

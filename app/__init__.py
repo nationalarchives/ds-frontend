@@ -111,9 +111,6 @@ def create_app(config_class):
         ]
     )
     app.jinja_env.add_extension("jinja2.ext.do")
-    # if app.config["DEBUG"]:
-    #     app.jinja_env.auto_reload = True
-    #     app.jinja_env.cache = None
 
     filter_functions = [
         domain_from_url,
